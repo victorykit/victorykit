@@ -1,0 +1,18 @@
+id: 164da6d0-6c66-012f-a3f5-12313d2df0b0
+setup:
+  commands:
+  - bundle install --without development production
+  - bundle exec rake db:migrate
+test:
+  commands:
+  - bundle exec rake
+deploy:
+  branch: master
+  heroku:
+    staging:
+      name: fierce-day-7973
+    production:
+      name: fierce-day-7973
+      backup: true
+ruby_versions:
+- 1.9.3
