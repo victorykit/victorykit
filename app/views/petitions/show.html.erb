@@ -10,6 +10,13 @@
   <%= @petition.description %>
 </p>
 
+<%= form_for([@petition, Signature.new])  do | f |  %>
+  <%= f.label :name %>
+  <%= f.text_field :name %> 
+  <%= f.label :email %>
+  <%= f.text_field :email %>
+  <input type="submit" value="Sign!"/>
+<% end %>
 
 <%= link_to 'Edit', edit_petition_path(@petition) %> |
 <%= link_to 'Back', petitions_path %>
