@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120423204744) do
+ActiveRecord::Schema.define(:version => 20120423205223) do
 
   create_table "petitions", :force => true do |t|
     t.string   "title"
@@ -23,9 +23,12 @@ ActiveRecord::Schema.define(:version => 20120423204744) do
   create_table "signatures", :force => true do |t|
     t.string   "name"
     t.string   "email"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "petition_id"
+    t.string   "ip_address"
+    t.string   "user_agent"
+    t.string   "browser_name"
   end
 
   create_table "users", :force => true do |t|
