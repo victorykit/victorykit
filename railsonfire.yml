@@ -13,9 +13,11 @@ deploy:
       name: actwatchdog-staging
       #restore_production: true
       migrate: true
+      branch: master
     production:
       name: actwatchdog
       backup: true
       migrate: true
+      branch: master
 ruby_versions:
   - 1.9.3
