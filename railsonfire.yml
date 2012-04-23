@@ -18,4 +18,4 @@ deploy:
       backup: true
       migrate: true
 ruby_versions:
-- 1.9.3
+  - 1.9.3
