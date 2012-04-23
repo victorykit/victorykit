@@ -1,4 +1,6 @@
 Victorykit::Application.routes.draw do
+  resources :signatures
+
   resources :petitions
 
   # The priority is based upon order of creation:

@@ -1,0 +1,2 @@
+class SignaturesController < ApplicationController
+end
