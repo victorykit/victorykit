@@ -10,9 +10,9 @@ deploy:
   branch: master
   heroku:
     staging:
-      name: fierce-day-7973
+      name: actwatchdog-staging
     production:
-      name: fierce-day-7973
+      name: actwatchdog
       backup: true
 ruby_versions:
 - 1.9.3
