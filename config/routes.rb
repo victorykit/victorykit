@@ -1,9 +1,18 @@
 Victorykit::Application.routes.draw do
+  get "sessions/new"
+
+  resources :users
+  resources :sessions
+
   resources :petitions do
     resources :signatures
   end
 
-  
+  get 'signup', to: 'users#new', as: 'signup'
+  get 'login', to: 'sessions#new', as: 'login'
+  get 'logout', to: 'sessions#destroy', as: 'logout'
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
