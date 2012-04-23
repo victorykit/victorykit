@@ -15,3 +15,5 @@
 /tmp
 .rvmrc
 /.idea
+
+.DS_Store
