@@ -3,6 +3,6 @@ class SignaturesController < ApplicationController
     petition = Petition.find params[:petition_id]
     petition.signatures.push(Signature.new(params[:signature]))
     petition.save
-    render :text => "signed!"
+    render
   end
 end
