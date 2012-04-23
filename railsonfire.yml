@@ -11,11 +11,11 @@ deploy:
   heroku:
     staging:
       name: actwatchdog-staging
-      restore_production: true
+      #restore_production: true
       migrate: true
     production:
       name: actwatchdog
       backup: true
       migrate: true
 ruby_versions:
-- 1.9.3
+  - 1.9.3
