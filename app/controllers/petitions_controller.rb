@@ -41,6 +41,7 @@ class PetitionsController < ApplicationController
   # POST /petitions.json
   def create
     @petition = Petition.new(params[:petition])
+    @petition.user_id = current_user.id
 
     respond_to do |format|
       if @petition.save
@@ -66,18 +67,6 @@ class PetitionsController < ApplicationController
         format.html { render action: "edit" }
         format.json { render json: @petition.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /petitions/1
-  # DELETE /petitions/1.json
-  def destroy
-    @petition = Petition.find(params[:id])
-    @petition.destroy
-
-    respond_to do |format|
-      format.html { redirect_to petitions_url }
-      format.json { head :no_content }
     end
   end
 end
