@@ -12,9 +12,13 @@ require 'spec_helper'
 # end
 describe PetitionsHelper do
   describe "petition_to_open_graph" do
-    it "creates meta tag for title" do
-      petition = Petition.new(title:"whales")
-      helper.petition_to_open_graph(petition)['og:title'].should == "whales"
-    end
+    let(:petition) { Petition.create!(title:"whales", description: "Whales are awesome!!!!")}
+    subject {helper.petition_to_open_graph(petition)}
+    it { should include("og:type" => "cause")}
+    it { should include("og:title" => petition.title)}
+    it { should include("og:description" => petition.description)}
+    it { should include("og:url" => petition_url(petition))}
+    it { should include("og:image" => image_path("petition_fb.png"))}
+    it { should include("og:site_name" => "Victory Kit")}
   end
 end
