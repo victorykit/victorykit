@@ -18,9 +18,9 @@ describe PetitionsHelper do
     it { should include("og:title" => petition.title)}
     it { should include("og:description" => petition.description)}
     it { should include("og:url" => petition_url(petition))}
-    it "should have the correct image path" do
-       subject["og:image" ].should =~ /petition-fb.png/
-    end
+#    it "should have the correct image path" do
+#       subject["og:image" ].should =~ /petition-fb.png/
+#    end
     it { should include("og:site_name" => "Victory Kit")}
   end
 end
