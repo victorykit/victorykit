@@ -30,3 +30,15 @@ RSpec.configure do |config|
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
 end
+
+shared_examples_for "a login protected page" do
+  it "allows valid users to carry out the action" do
+    session[:user_id] = User.create!(email:"foo@bar.com", password: "bar", password_confirmation: "bar").id
+    action
+    should_not redirect_to login_path
+  end
+  it "disallows non logged in users to carry out the action" do
+    action
+    should redirect_to login_path
+  end
+end

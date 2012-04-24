@@ -1,4 +1,5 @@
 class PetitionsController < ApplicationController
+  before_filter :authorize, except: [:show, :index]
   # GET /petitions
   # GET /petitions.json
   def index

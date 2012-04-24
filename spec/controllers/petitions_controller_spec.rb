@@ -34,6 +34,8 @@ describe PetitionsController do
   end
 
   describe "GET new" do
+    let(:action){ get :new }
+    it_behaves_like "a login protected page"
     it "assigns a new petition as @petition" do
       get :new, {}, valid_session
       assigns(:petition).should be_a_new(Petition)
@@ -41,14 +43,20 @@ describe PetitionsController do
   end
 
   describe "GET edit" do
+    let(:petition){ petition = Petition.create! valid_attributes }
+    let(:action){ get :edit, {id: petition} }
+    it_behaves_like "a login protected page"
     it "assigns the requested petition as @petition" do
-      petition = Petition.create! valid_attributes
       get :edit, {:id => petition.to_param}, valid_session
       assigns(:petition).should eq(petition)
     end
   end
 
   describe "POST create" do
+    
+    let(:action){ post :create }
+    it_behaves_like "a login protected page"
+
     describe "with valid params" do
       before(:each) do
         @logged_in_user = User.create!(email: "bill@creator.com", password: "foo", password_confirmation: "foo")
@@ -79,31 +87,32 @@ describe PetitionsController do
   end
 
   describe "PUT update" do
+    let(:petition) { Petition.create! valid_attributes}
+    let(:action){ put :update, {:id => petition, petition: {:title => "new title"}} }
+    it_behaves_like "a login protected page"
     describe "with valid params" do
-      before :each do
-        @petition = Petition.create! valid_attributes        
-        put :update, {:id => @petition.to_param, :petition => {:title => "Changed title"}}, valid_session
+      before :each do        
+        put :update, {:id => petition.to_param, :petition => {:title => "Changed title"}}, valid_session
       end
       it "updates the requested petition" do
-        @petition.reload.title.should == "Changed title"
+        petition.reload.title.should == "Changed title"
       end
 
       it "assigns the requested petition as @petition" do
-        assigns(:petition).should eq(@petition)
+        assigns(:petition).should eq(petition)
       end
 
       it "redirects to the petition" do
-        response.should redirect_to(@petition)
+        response.should redirect_to(petition)
       end
     end
 
     describe "with invalid params" do
       before :each do
-        @petition = Petition.create! valid_attributes
-        put :update, {:id => @petition.to_param, :petition => {:title=>nil}}, valid_session
+        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_session
       end
       it "assigns the petition as @petition" do  
-        assigns(:petition).should eq(@petition)
+        assigns(:petition).should eq(petition)
       end
 
       it "re-renders the 'edit' template" do
