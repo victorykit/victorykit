@@ -45,4 +45,20 @@ describe SessionsController do
     end
   end
 
+  describe "DELETE 'destroy'" do
+    context "user logs out" do
+      before(:each) do
+        @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+        session[:user_id] = @user.id
+        delete "destroy", :id => @user.id
+      end
+      it "resets session" do
+        session[:user_id].should be_nil
+      end
+      it { should redirect_to root_path }
+      it "displays message logged out message to user" do
+          flash.now[:notice].should == "Logged out!" 
+      end
+    end
+  end
 end

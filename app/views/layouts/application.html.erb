@@ -37,7 +37,7 @@
 			  <% if current_user %><li>Logged in as <%= current_user.email %></li>
 			  <li><%= link_to "Log Out", logout_path %></li>
 			  <% else %>
-			  <li><%= link_to "Sign Up", signup_path %> or</li>
+			  <li><%= link_to "Sign Up", signup_path %></li>
 			  <li><%= link_to "Log In", login_path %></li>
 			  <% end %>
             </ul>
