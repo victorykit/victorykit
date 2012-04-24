@@ -11,5 +11,10 @@ require 'spec_helper'
 #   end
 # end
 describe PetitionsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "petition_to_open_graph" do
+    it "creates meta tag for title" do
+      petition = Petition.new(title:"whales")
+      helper.petition_to_open_graph(petition)['og:title'].should == "whales"
+    end
+  end
 end

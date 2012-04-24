@@ -20,3 +20,9 @@
 
 <%= link_to 'Edit', edit_petition_path(@petition) %> |
 <%= link_to 'Back', petitions_path %>
+
+<% content_for(:meta_tags) do %> 
+	<% petition_to_open_graph(@petition).each do |key, value|%>
+		<%= content_tag "meta", nil, property:key, content:value %>
+	<% end %>
+<% end %>
