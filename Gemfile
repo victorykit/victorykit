@@ -6,7 +6,6 @@ gem 'rails', '3.2.3'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg'
-gem 'newrelic_rpm'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -42,3 +41,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 group :test, :development do
   gem "rspec-rails", "~> 2.6"
 end
+
+gem 'newrelic_rpm'
+gem 'thin'
