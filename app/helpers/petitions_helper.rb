@@ -4,7 +4,7 @@ module PetitionsHelper
       'og:type' => 'cause', 
       'og:description' => petition.description,
       'og:url' => petition_url(petition),
-      'og:image' => image_path('petition_fb.png'),
+      'og:image' => image_path('petition-fb.png'),
       'og:site_name' => 'Victory Kit'
     }
   end
