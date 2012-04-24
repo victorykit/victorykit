@@ -28,6 +28,21 @@ describe SessionsController do
           flash.now[:error].should == "Invalid username or password" 
       end
     end
+    context "user attempts to login with wrong email" do
+      before(:each) do 
+         @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+         post :create, email: "jim@here.com", password:"opensesame"
+      end
+      it "renders the login page" do
+        response.should render_template :new
+      end
+      it "does not add user id to the session" do
+          session[:user_id].should be_nil
+      end
+      it "displays message to user" do
+          flash.now[:error].should == "Invalid username or password" 
+      end
+    end
   end
 
 end
