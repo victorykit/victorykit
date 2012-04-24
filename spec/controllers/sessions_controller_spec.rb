@@ -24,6 +24,9 @@ describe SessionsController do
       it "does not add user id to the session" do
           session[:user_id].should be_nil
       end
+      it "displays message to user" do
+          flash.now[:error].should == "Invalid username or password" 
+      end
     end
   end
 
