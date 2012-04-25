@@ -41,21 +41,22 @@ describe UsersController do
   describe "PUT update" do
     describe "with valid params" do
       let(:user){ create(:user) }
-      let(:action){ put :update, {:id => user.to_param, :user => {'these' => 'params'}} }
+      let(:action){ put :update, {:id => user.to_param} }
       it "updates the requested user" do
         User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
-        put :update, {:id => user.to_param, :user => {'these' => 'params'}}
+        put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
       end
 
       it "assigns the requested user as @user" do
-        put :update, {:id => user.to_param}
+        put :update, {:id => user.to_param}, valid_session
         assigns(:user).should eq(user)
       end
 
       it "redirects to the user" do
-        put :update, {:id => user.to_param}
+        put :update, {:id => user.to_param}, valid_session
         response.should redirect_to(user)
       end
+
     end
 
     describe "with invalid params" do
@@ -63,13 +64,13 @@ describe UsersController do
       let(:action){ put :update, {:id => user.to_param, :user => {}} }
       it "assigns the user as @user" do
         User.any_instance.stub(:save).and_return(false)
-        put :update, {:id => user.to_param, :user => {}}
+        put :update, {:id => user.to_param, :user => {}}, valid_session
         assigns(:user).should eq(user)
       end
 
       it "re-renders the 'edit' template" do
         User.any_instance.stub(:save).and_return(false)
-        put :update, {:id => user.to_param, :user => {}}
+        put :update, {:id => user.to_param, :user => {}}, valid_session
         response.should render_template("edit")
       end
     end
