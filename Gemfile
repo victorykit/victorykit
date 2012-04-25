@@ -39,6 +39,7 @@ group :test, :development do
   gem "rspec-rails", "~> 2.6"
   gem "factory_girl_rails", "~> 3.0"
   gem "faker", "~> 1.0"
+  gem "autotest"
 end
 
 gem 'newrelic_rpm'
