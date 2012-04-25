@@ -11,33 +11,33 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120425184002) do
+ActiveRecord::Schema.define(:version => 20120425184924) do
 
   create_table "petitions", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
+    t.string   "title",       :null => false
+    t.string   "description", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "owner_id"
   end
 
   create_table "signatures", :force => true do |t|
-    t.string   "name"
-    t.string   "email"
+    t.string   "name",         :null => false
+    t.string   "email",        :null => false
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
-    t.integer  "petition_id"
-    t.string   "ip_address"
-    t.string   "user_agent"
+    t.integer  "petition_id",  :null => false
+    t.string   "ip_address",   :null => false
+    t.string   "user_agent",   :null => false
     t.string   "browser_name"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "email"
-    t.string   "password_digest"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
-    t.boolean  "is_super_user"
+    t.string   "email",                              :null => false
+    t.string   "password_digest",                    :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.boolean  "is_super_user",   :default => false, :null => false
   end
 
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
