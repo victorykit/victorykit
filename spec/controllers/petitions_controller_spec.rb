@@ -13,13 +13,13 @@ describe PetitionsController do
   # in order to pass any filters (e.g. authentication) defined in
   # PetitionsController. Be sure to keep this updated too.
   def valid_session
-    user = User.create!(email: "bob@bob.com", password: "password", password_confirmation: "password")
+    user = create(:user)
     {:user_id => user.id}
   end
 
   describe "GET index" do
     it "assigns all petitions as @petitions" do
-      petition = Petition.create! valid_attributes
+      petition = create(:petition)
       get :index, {}, valid_session
       assigns(:petitions).should eq([petition])
     end
@@ -27,7 +27,7 @@ describe PetitionsController do
 
   describe "GET show" do
     it "assigns the requested petition as @petition" do
-      petition = Petition.create! valid_attributes
+      petition = create(:petition)
       get :show, {:id => petition.to_param}, valid_session
       assigns(:petition).should eq(petition)
     end
@@ -43,7 +43,7 @@ describe PetitionsController do
   end
 
   describe "GET edit" do
-    let(:petition){ petition = Petition.create! valid_attributes }
+    let(:petition){ create(:petition) }
     let(:action){ get :edit, {id: petition} }
     it_behaves_like "a login protected page"
     it "assigns the requested petition as @petition" do
@@ -59,7 +59,7 @@ describe PetitionsController do
 
     describe "with valid params" do
       before(:each) do
-        @logged_in_user = User.create!(email: "bill@creator.com", password: "foo", password_confirmation: "foo")
+        @logged_in_user = create(:user)
         post :create, {petition: valid_attributes}, {user_id: @logged_in_user.id}
       end
       describe "the newly created petition" do
@@ -87,7 +87,7 @@ describe PetitionsController do
   end
 
   describe "PUT update" do
-    let(:petition) { Petition.create! valid_attributes}
+    let(:petition) { create(:petition) }
     let(:action){ put :update, {:id => petition, petition: {:title => "new title"}} }
     it_behaves_like "a login protected page"
     describe "with valid params" do

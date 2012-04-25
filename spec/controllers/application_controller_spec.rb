@@ -4,7 +4,7 @@ describe ApplicationController do
   describe "Current User" do
     context "user is in session" do
       before(:each) do 
-         @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+         @user = create(:user)
          session[:user_id] = @user.id
       end
       its(:current_user) { should == @user }

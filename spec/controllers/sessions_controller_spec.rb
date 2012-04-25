@@ -5,7 +5,7 @@ describe SessionsController do
   describe "POST 'create'" do
     context "user logs in with valid credentials" do
       before(:each) do 
-         @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+         @user = create(:user, password:"opensesame", email: "bob@here.com")
          post :create, email: "bob@here.com", password:"opensesame"
       end
       it "adds the user id to the session" do
@@ -15,7 +15,7 @@ describe SessionsController do
     end
     context "user attempts to login with wrong password" do
       before(:each) do 
-         @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+         @user = create(:user, email: "bob@here.com", password: "supersecret")
          post :create, email: "bob@here.com", password:"closesesame"
       end
       it "renders the login page" do
@@ -30,7 +30,7 @@ describe SessionsController do
     end
     context "user attempts to login with wrong email" do
       before(:each) do 
-         @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+        @user = create(:user, email:"bob@ajob.com", password: "opensesame")
          post :create, email: "jim@here.com", password:"opensesame"
       end
       it "renders the login page" do
@@ -48,7 +48,7 @@ describe SessionsController do
   describe "DELETE 'destroy'" do
     context "user logs out" do
       before(:each) do
-        @user = User.create!(password:"opensesame", password_confirmation: "opensesame", email: "bob@here.com")
+        @user = create(:user)
         session[:user_id] = @user.id
         delete "destroy", :id => @user.id
       end

@@ -12,7 +12,7 @@ require 'spec_helper'
 # end
 describe PetitionsHelper do
   describe "petition_to_open_graph" do
-    let(:petition) { Petition.create!(title:"whales", description: "Whales are awesome!!!!")}
+    let(:petition) { create(:petition)}
     subject {helper.petition_to_open_graph(petition)}
     it { should include("og:type" => "cause")}
     it { should include("og:title" => petition.title)}
