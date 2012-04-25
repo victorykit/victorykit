@@ -9,16 +9,17 @@
   <b>Signed up on:</b>
   <%= @user.created_at %>
 </p>
+<% if current_user.is_super_user? %>
+	<p>
+	  <b>Admin:</b>
+	  <%= check_box_tag @user.is_admin, @user.is_admin, @user.is_admin, :disabled => true %></td>
+	</p>
 
-<p>
-  <b>Admin:</b>
-  <%= check_box_tag @user.is_admin, @user.is_admin, @user.is_admin, :disabled => true %></td>
-</p>
-
-<p>
-  <b>Super User:</b>
-  <%= check_box_tag @user.is_super_user, @user.is_super_user, @user.is_super_user, :disabled => true %></td>
-</p>
+	<p>
+	  <b>Super User:</b>
+	  <%= check_box_tag @user.is_super_user, @user.is_super_user, @user.is_super_user, :disabled => true %></td>
+	</p>
+<% end %>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |
 <%= link_to 'Back', users_path %>
