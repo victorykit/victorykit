@@ -11,6 +11,11 @@
 </p>
 
 <p>
+  <b>Admin:</b>
+  <%= check_box_tag @user.is_admin, @user.is_admin, @user.is_admin, :disabled => true %></td>
+</p>
+
+<p>
   <b>Super User:</b>
   <%= check_box_tag @user.is_super_user, @user.is_super_user, @user.is_super_user, :disabled => true %></td>
 </p>

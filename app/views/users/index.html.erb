@@ -4,6 +4,7 @@
   <tr>
     <th>Username</th>
     <th>Signed up on</th>
+	<th>Admin</th>
     <th>Super User</th>
     <th></th>
     <th></th>
@@ -14,6 +15,7 @@
   <tr>
     <td><%= user.email %></td>
     <td><%= user.created_at %></td>
+	<td><%= check_box_tag user.is_admin, user.is_admin, user.is_admin, :disabled => true %></td>
     <td><%= check_box_tag user.is_super_user, user.is_super_user, user.is_super_user, :disabled => true %></td>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>

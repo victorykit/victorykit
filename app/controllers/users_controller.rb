@@ -45,6 +45,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.is_super_user = false
+    @user.is_admin = false
     if @user.save
       redirect_to root_url, notice: "Thank you for signing up!"
     else

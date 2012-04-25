@@ -16,6 +16,10 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
+    <%= f.label "Admin" %>
+    <%= f.check_box :is_admin %>
+  </div>
+  <div class="field">
     <%= f.label "Super User" %>
     <%= check_box_tag :is_super_user, :is_super_user, :is_super_user, :disabled => true %>
   </div>
