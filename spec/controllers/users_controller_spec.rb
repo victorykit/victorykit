@@ -35,7 +35,7 @@ describe UsersController do
   
   describe "GET edit" do
     let(:user){ create(:user) }
-    let(:action){ get :show, {id: user.to_param} }
+    let(:action){ get :edit, {id: user.to_param} }
     it_behaves_like "a login protected page"
     it "assigns the requested user" do
       get :edit, {:id => user.to_param}, valid_session
