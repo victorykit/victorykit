@@ -33,7 +33,7 @@
           <div class="container nav-collapse">
             <ul class="nav">
               <li><%= link_to "Petitions", petitions_url  %></li>
-              <li><%= link_to "New User", new_user_path %></li>
+			  <li><%= link_to "Users", users_url  %></li>
 			  <% if current_user %><li><a href="#">Logged in as <%= current_user.email %></a></li>
 			  <li><%= link_to "Log Out", logout_path %></li>
 			  <% else %>
