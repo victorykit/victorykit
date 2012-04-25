@@ -1,7 +1,7 @@
 module PetitionsHelper
   
   def social_media_config
-    Rails.configuration.social_media_config
+    Rails.configuration.social_media
   end
   
   def petition_to_open_graph(petition)
