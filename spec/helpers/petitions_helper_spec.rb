@@ -11,9 +11,14 @@ require 'spec_helper'
 #   end
 # end
 describe PetitionsHelper do
-  describe "petition_to_open_graph" do
+  describe "petition_to_open_graph" do    
     let(:petition) { create(:petition)}
-    subject {helper.petition_to_open_graph(petition)}
+    let(:config) { { facebook: { site_name: "My Super Petitions", app_id: "12345" } } }
+    before(:each) do
+      helper.stub(:social_media_config).and_return config
+    end    
+    subject {
+      helper.petition_to_open_graph(petition)}
     it { should include("og:type" => "cause")}
     it { should include("og:title" => petition.title)}
     it { should include("og:description" => petition.description)}
@@ -21,6 +26,7 @@ describe PetitionsHelper do
 #    it "should have the correct image path" do
 #       subject["og:image" ].should =~ /petition-fb.png/
 #    end
-    it { should include("og:site_name" => "Victory Kit")}
+    it { should include("og:site_name" => "My Super Petitions")}
+    it { should include("fb:app_id" => "12345")}
   end
 end
