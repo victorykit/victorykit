@@ -11,7 +11,7 @@ FactoryGirl.define do
   factory :petition do
     title { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }
-    user
+    owner factory: :user
   end
   factory :signature do
     petition

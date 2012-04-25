@@ -19,7 +19,7 @@ class PetitionsController < ApplicationController
 
   def create
     @petition = Petition.new(params[:petition])
-    @petition.user_id = current_user.id
+    @petition.owner = current_user
 
     if @petition.save
       redirect_to @petition, notice: 'Petition was successfully created.'

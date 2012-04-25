@@ -66,7 +66,7 @@ describe PetitionsController do
         subject { assigns(:petition) }
         it { should be_persisted }
         it { should be_a(Petition) }
-        its(:user) { should == @logged_in_user}
+        its(:owner) { should == @logged_in_user}
       end
       its(:response) { response.should redirect_to(Petition.last) }
     end
