@@ -33,7 +33,7 @@ RSpec.configure do |config|
 end
 
 def valid_session
-  user = create(:user)
+  user = create(:super_user)
   {:user_id => user.id}
 end
 
@@ -42,6 +42,24 @@ shared_examples_for "a login protected page" do
     session[:user_id] = create(:user).id
     action
     should_not redirect_to login_path
+  end
+  it "disallows non logged in users to carry out the action" do
+    action
+    should redirect_to login_path
+  end
+end
+
+shared_examples_for "a super-user only resource page" do
+  it "allows super users to carry out the action" do
+    session[:user_id] = create(:super_user).id
+    action
+    response.status.should_not == 403
+    should_not redirect_to login_path
+  end
+  it "disallows non super users to carry out the action" do
+    session[:user_id] = create(:user).id
+    action
+    response.status.should == 403
   end
   it "disallows non logged in users to carry out the action" do
     action

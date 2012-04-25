@@ -12,7 +12,10 @@ class ApplicationController < ActionController::Base
   end
   
   def authorize_super_user
-    authorize
-    redirect_to login_path if !current_user.is_super_user?
+    if(current_user.nil?)
+      redirect_to login_path 
+    elsif(!current_user.is_super_user)
+      render :text => "Not allowed", :status => 403
+    end
   end
 end

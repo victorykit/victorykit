@@ -4,7 +4,7 @@ describe UsersController do
   
   describe "GET index" do
     let(:action){ get :index }
-    it_behaves_like "a login protected page"
+    it_behaves_like "a super-user only resource page"
     it "shows all users" do
       get :index, {}, valid_session
       assigns(:users).should eq([User.find(session[:user_id])])
@@ -14,7 +14,7 @@ describe UsersController do
   describe "GET show" do
     let(:user){ create(:user) }
     let(:action){ get :show, {id: user.to_param} }
-    it_behaves_like "a login protected page"
+    it_behaves_like "a super-user only resource page"
     it "shows the requested user" do
       get :show, {:id => user.to_param}, valid_session
       assigns(:user).should eq(user)
@@ -31,7 +31,7 @@ describe UsersController do
   describe "GET edit" do
     let(:user){ create(:user) }
     let(:action){ get :edit, {id: user.to_param} }
-    it_behaves_like "a login protected page"
+    it_behaves_like "a super-user only resource page"
     it "assigns the requested user" do
       get :edit, {:id => user.to_param}, valid_session
       assigns(:user).should eq(user)
