@@ -5,3 +5,12 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+5.times { FactoryGirl.create(:petition) }
+
+100.times do
+  all_petitions = Petition.all
+  FactoryGirl.create(:signature, petition: all_petitions.sample) 
+end
+
+FactoryGirl.create(:super_user, email:"admin@victorykit.com", password: "password") unless User.find_by_email "admin@victorykit.com"

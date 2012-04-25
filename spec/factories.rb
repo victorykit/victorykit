@@ -9,15 +9,15 @@ FactoryGirl.define do
     end
   end
   factory :petition do
-    title { Faker::Lorem.words(3) }
-    description { Faker::Lorem.paragraphs }
+    title { Faker::Lorem.sentence }
+    description { Faker::Lorem.paragraph }
     user
   end
   factory :signature do
     petition
     ip_address { Faker::Internet.ip_v4_address }
-    user_agent { Faker::Lorem.words(3) }
-    browser_name { Faker::Lorem.words(1) }
+    user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.163 Safari/535.19"
+    browser_name "Firefox"
     name { Faker::Name.name }
     email { Faker::Internet.email }  
   end
