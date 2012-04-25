@@ -45,41 +45,38 @@ describe UsersController do
   
   describe "PUT update" do
     describe "with valid params" do
+      let(:user){ create(:user) }
+      let(:action){ put :update, {:id => user.to_param, :user => {'these' => 'params'}} }
       it "updates the requested user" do
-        user = create(:user)
         User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}
       end
-=begin
+
       it "assigns the requested user as @user" do
-        user = create(:user)
         put :update, {:id => user.to_param}
         assigns(:user).should eq(user)
       end
 
       it "redirects to the user" do
-        user = create(:user, password:"opensesame")
         put :update, {:id => user.to_param}
         response.should redirect_to(user)
       end
-=end
     end
-=begin
+
     describe "with invalid params" do
+      let(:user){ create(:user) }
+      let(:action){ put :update, {:id => user.to_param, :user => {}} }
       it "assigns the user as @user" do
-        user = create(:user)
         User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}
         assigns(:user).should eq(user)
       end
 
       it "re-renders the 'edit' template" do
-        user = create(:user)
         User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}
         response.should render_template("edit")
       end
     end
-=end  
   end
 end
