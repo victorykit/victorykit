@@ -2,6 +2,7 @@ production: &default
   facebook:
     app_id: 335522893179500    
     site_name: Victory Kit
+    image: http://act.watchdog.net/images/petition-fb.png,
 
 test: *default
     
