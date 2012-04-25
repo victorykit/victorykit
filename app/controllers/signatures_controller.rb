@@ -5,5 +5,8 @@ class SignaturesController < ApplicationController
     signature.ip_address = request.remote_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
     petition.signatures.push(signature)
+    session[:signed_petitions] ||= []
+    session[:signed_petitions] << petition.id
+    redirect_to petition_url(petition)
   end
 end

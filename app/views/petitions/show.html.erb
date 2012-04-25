@@ -1,26 +1,28 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <b>Title:</b>
+<h1>
   <%= @petition.title %>
-</p>
+</h1>
 
 <p>
-  <b>Description:</b>
   <%= @petition.description %>
 </p>
-
-<%= form_for([@petition, Signature.new])  do | f |  %>
-  <%= f.label :name %>
-  <%= f.text_field :name %> 
-  <%= f.label :email %>
-  <%= f.text_field :email %>
-  <input type="submit" value="Sign!"/>
+<% if @user_has_signed %>
+<p>Thanks for signing -- please share on Facebook:</p>
+<%= facebook_like petition_url(params[:petition_id]) %>
+  <%= link_to_if current_user, 'Edit', edit_petition_path(@petition),
+  class: "btn btn-primary icon-edit icon-white" if current_user %> 
+  <%= link_to 'Back', petitions_path, class: "btn" %>
+<% else %>
+<div class="hero-unit">
+  <%= form_for([@petition, Signature.new])  do | f |  %>
+    <%= f.label :name %>
+    <%= f.text_field :name %> 
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    <input type="submit" value="Sign!" class="btn btn-primary btn-large"/>
+  <% end %>
+</div>
 <% end %>
-
-<%= link_to 'Edit', edit_petition_path(@petition) %> |
-<%= link_to 'Back', petitions_path %>
-
 <% content_for(:meta_tags) do %> 
 	<% petition_to_open_graph(@petition).each do |key, value|%>
 		<%= content_tag "meta", nil, property:key, content:value %>

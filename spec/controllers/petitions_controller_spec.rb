@@ -18,10 +18,21 @@ describe PetitionsController do
   end
 
   describe "GET show" do
-    it "assigns the requested petition as @petition" do
-      petition = create(:petition)
-      get :show, {:id => petition.to_param}, valid_session
-      assigns(:petition).should eq(petition)
+    let(:petition) { create(:petition) }
+    before :each do
+      get :show, {:id => petition.to_param}, user_session
+    end
+    context "the user has already signed the petition" do
+      let(:user_session) { {signed_petitions: [petition.id]} } 
+      it "sets a flag flag for the view" do
+        assigns(:user_has_signed).should be_true
+      end
+    end
+    context "the user has not already signed the petition" do
+      let (:user_session) { {} }
+      it "sets a flag flag for the view" do
+        assigns(:user_has_signed).should be_false
+      end
     end
   end
 
