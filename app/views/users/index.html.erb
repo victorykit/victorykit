@@ -14,7 +14,7 @@
   <tr>
     <td><%= user.email %></td>
     <td><%= user.created_at %></td>
-    <td><%= user.is_super_user %></td>
+    <td><%= check_box_tag user.is_super_user, user.is_super_user, user.is_super_user, :disabled => true %></td>
     <td><%= link_to 'Show', user %></td>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
   </tr>

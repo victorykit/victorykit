@@ -12,7 +12,7 @@
 
 <p>
   <b>Admin:</b>
-  <%= @user.is_super_user %>
+  <%= check_box_tag @user.is_super_user, @user.is_super_user, @user.is_super_user, :disabled => true %></td>
 </p>
 
 <%= link_to 'Edit', edit_user_path(@user) %> |

@@ -16,8 +16,8 @@
     <%= f.text_field :email %>
   </div>
   <div class="field">
-    <%= f.label "Admin" %><br />
-    <%= f.text_field :is_super_user %>
+    <%= f.label "Admin" %>
+    <%= f.check_box :is_super_user %>
   </div>
   <div class="actions">
     <%= f.submit %>
