@@ -8,14 +8,6 @@ describe PetitionsController do
   def valid_attributes
     {:title => "This is a petition", :description => "This is a great petition!"}
   end
-  
-  # This should return the minimal set of values that should be in the session
-  # in order to pass any filters (e.g. authentication) defined in
-  # PetitionsController. Be sure to keep this updated too.
-  def valid_session
-    user = create(:user)
-    {:user_id => user.id}
-  end
 
   describe "GET index" do
     it "assigns all petitions as @petitions" do

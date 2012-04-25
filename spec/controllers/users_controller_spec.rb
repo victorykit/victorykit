@@ -2,11 +2,6 @@ require 'spec_helper'
 
 describe UsersController do
   
-  def valid_session
-    user = create(:user)
-    {:user_id => user.id}
-  end
-  
   describe "GET index" do
     let(:action){ get :index }
     it_behaves_like "a login protected page"

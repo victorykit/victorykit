@@ -32,6 +32,11 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 end
 
+def valid_session
+  user = create(:user)
+  {:user_id => user.id}
+end
+
 shared_examples_for "a login protected page" do
   it "allows valid users to carry out the action" do
     session[:user_id] = create(:user).id
