@@ -2,18 +2,26 @@ require 'spec_helper'
 
 describe UsersController do
   
+  def valid_session
+    user = create(:user)
+    {:user_id => user.id}
+  end
+  
   describe "GET index" do
+    let(:action){ get :index }
+    it_behaves_like "a login protected page"
     it "shows all users" do
-      user = create(:user)
-      get :index
-      assigns(:users).should eq([user])
+      get :index, {}, valid_session
+      assigns(:users).should eq([User.find(session[:user_id])])
     end
   end
   
   describe "GET show" do
+    let(:user){ create(:user) }
+    let(:action){ get :show, {id: user.to_param} }
+    it_behaves_like "a login protected page"
     it "shows the requested user" do
-      user = create(:user)
-      get :show, {:id => user.to_param}
+      get :show, {:id => user.to_param}, valid_session
       assigns(:user).should eq(user)
     end
   end

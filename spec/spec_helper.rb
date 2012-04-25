@@ -34,7 +34,7 @@ end
 
 shared_examples_for "a login protected page" do
   it "allows valid users to carry out the action" do
-    session[:user_id] = User.create!(email:"foo@bar.com", password: "bar", password_confirmation: "bar").id
+    session[:user_id] = create(:user).id
     action
     should_not redirect_to login_path
   end
