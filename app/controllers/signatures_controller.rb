@@ -4,9 +4,14 @@ class SignaturesController < ApplicationController
     signature = Signature.new(params[:signature])
     signature.ip_address = request.remote_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
-    petition.signatures.push(signature)
-    session[:signed_petitions] ||= []
-    session[:signed_petitions] << petition.id
-    redirect_to petition_url(petition)
+    if(signature.valid?)
+      petition.signatures.push(signature)     
+      session[:signed_petitions] ||= []
+      session[:signed_petitions] << petition.id
+      redirect_to petition_url(petition)
+    else
+      @petition = petition
+      render :template => "petitions/show"
+    end
   end
 end

@@ -15,6 +15,7 @@
 <% else %>
 <div class="hero-unit">
   <%= form_for([@petition, Signature.new])  do | f |  %>
+    
     <%= f.label :name %>
     <%= f.text_field :name %> 
     <%= f.label :email %>
