@@ -20,4 +20,17 @@ module ApplicationHelper
       :scrolling => 'no', :frameborder => '0', :allowtransparency => true, :id => :facebook_like
   end
   
+  def google_analytics_tracker
+    analytics_id = Rails.configuration.social_media[:google][:analytics_id]
+    javascript_tag "var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '#{analytics_id}']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();"
+  end
+  
 end
