@@ -4,5 +4,6 @@ jQuery(function(){
 	var currentPetitionId = $('#petitionId').val();
 	if($.inArray(currentPetitionId, petitionIds) > -1) {
 		$('#thanks-for-signing-message').show();
+		$('#sign-up-form').hide();
 	}
 });
