@@ -6,24 +6,29 @@
 <p>
   <%= @petition.description %>
 </p>
-<% if @user_has_signed %>
-<p>Thanks for signing -- please share on Facebook:</p>
-<%= facebook_like petition_url(params[:petition_id]) %>
-  <%= link_to_if current_user, 'Edit', edit_petition_path(@petition),
-  class: "btn btn-primary icon-edit icon-white" if current_user %> 
-  <%= link_to 'Back', petitions_path, class: "btn" %>
-<% else %>
-<div class="hero-unit">
-  <%= form_for([@petition, @signature])  do | f |  %>
-    
-    <%= f.label :name %>
-    <%= f.text_field :name %> 
-    <%= f.label :email %>
-    <%= f.text_field :email %>
-    <input type="submit" value="Sign!" class="btn btn-primary btn-large"/>
-  <% end %>
+<%= hidden_field_tag 'petitionId', @petition.id %>
+<div id="sign-up-form">
+	<div class="hero-unit">
+	  <%= form_for([@petition, @signature])  do | f |  %>
+   
+	    <%= f.label :name %>
+	    <%= f.text_field :name %> 
+	    <%= f.label :email %>
+	    <%= f.text_field :email %>
+	    <input type="submit" value="Sign!" class="btn btn-primary btn-large"/>
+	  <% end %>
+	</div>
 </div>
-<% end %>
+
+<div id="thanks-for-signing-message" style="display:none">
+	<p>Thanks for signing -- please share on Facebook:</p>
+</div>
+
+<div id="sharing-stuff">
+	<%= facebook_like petition_url(params[:petition_id]) %>
+</div>
+
+<%= link_to_if current_user, 'Edit', edit_petition_path(@petition), class: "btn btn-primary icon-edit icon-white" if current_user %> 
 <% content_for(:meta_tags) do %> 
 	<% petition_to_open_graph(@petition).each do |key, value|%>
 		<%= content_tag "meta", nil, property:key, content:value %>
