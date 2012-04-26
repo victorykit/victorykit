@@ -1,0 +1,2 @@
+module Admin::PetitionsHelper
+end

@@ -1,0 +1,27 @@
+<h1>Listing petitions</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Hits</th>
+    <th>Signatures</th>
+    <th>Conversion</th>
+    <th>New members</th>
+    <th>Virality</th>
+    <th>Created</th>
+  </tr>
+
+<% @petitions.each do |petition| %>
+  <tr>
+    <td><%= petition.title %></td>
+    <td>"analytics"</td>
+    <td><%= petition.signatures.count %></td>
+    <td>"analytics"</td>
+    <td>"?"</td>
+    <td>"?"</td>
+    <td><%= petition.created_at %></td>
+  </tr>
+<% end %>
+
+</table>
+
