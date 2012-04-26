@@ -17,11 +17,8 @@ class PetitionsController < ApplicationController
   end
 
   def edit
-    if has_edit_permissions
-      @petition = Petition.find(params[:id])
-    else
-      render :text => "You are not authorized to view this page", :status => 403
-    end
+    return render_403 unless has_edit_permissions
+    @petition = Petition.find(params[:id])
   end
 
   def create
