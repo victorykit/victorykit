@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "VictoryKit" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : @title %></title>
     <%= csrf_meta_tags %>
 	<%= yield :meta_tags%>
 
