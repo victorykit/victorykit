@@ -33,6 +33,11 @@ RSpec.configure do |config|
 end
 
 def valid_session
+  user = create(:user)
+  {:user_id => user.id}
+end
+
+def valid_super_user_session
   user = create(:super_user)
   {:user_id => user.id}
 end

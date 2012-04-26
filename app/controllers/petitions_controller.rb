@@ -1,5 +1,6 @@
 class PetitionsController < ApplicationController
   before_filter :authorize, except: [:show, :index]
+  before_filter :authorize_super_user, only: [:edit, :update]
 
   def index
     @petitions = Petition.all

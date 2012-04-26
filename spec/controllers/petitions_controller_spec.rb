@@ -48,9 +48,9 @@ describe PetitionsController do
   describe "GET edit" do
     let(:petition){ create(:petition) }
     let(:action){ get :edit, {id: petition} }
-    it_behaves_like "a login protected page"
+    it_behaves_like "a super-user only resource page"
     it "assigns the requested petition as @petition" do
-      get :edit, {:id => petition.to_param}, valid_session
+      get :edit, {:id => petition.to_param}, valid_super_user_session
       assigns(:petition).should eq(petition)
     end
   end
@@ -92,10 +92,10 @@ describe PetitionsController do
   describe "PUT update" do
     let(:petition) { create(:petition) }
     let(:action){ put :update, {:id => petition, petition: {:title => "new title"}} }
-    it_behaves_like "a login protected page"
+    it_behaves_like "a super-user only resource page"
     describe "with valid params" do
       before :each do        
-        put :update, {:id => petition.to_param, :petition => {:title => "Changed title"}}, valid_session
+        put :update, {:id => petition.to_param, :petition => {:title => "Changed title"}}, valid_super_user_session
       end
       it "updates the requested petition" do
         petition.reload.title.should == "Changed title"
@@ -112,7 +112,7 @@ describe PetitionsController do
 
     describe "with invalid params" do
       before :each do
-        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_session
+        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_super_user_session
       end
       it "assigns the petition as @petition" do  
         assigns(:petition).should eq(petition)
