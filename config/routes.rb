@@ -1,9 +1,11 @@
 Victorykit::Application.routes.draw do
+  get "status/index"
+
   get "sessions/new"
 
   resources :users
   resources :sessions
-
+  resources :status, only: :index
   resources :petitions do
     resources :signatures
   end
