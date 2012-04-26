@@ -34,12 +34,16 @@ end
 
 def valid_session
   user = create(:user)
+  valid_session_for user
+end
+
+def valid_session_for user
   {:user_id => user.id}
 end
 
 def valid_super_user_session
   user = create(:super_user)
-  {:user_id => user.id}
+  valid_session_for user
 end
 
 shared_examples_for "a login protected page" do
@@ -52,6 +56,29 @@ shared_examples_for "a login protected page" do
     action
     should redirect_to login_path
   end
+end
+
+shared_examples_for "a user with edit permissions resource page" do
+  it "allows valid users to carry out the action" do
+    user = create(:user)
+    session[:user_id] = user.id
+    action
+    should_not redirect_to login_path
+  end
+  it "disallows users who did not create the petition to carry out the action" do
+    session[:user_id] = create(:user).id
+    action
+    response.status.should == 403
+  end
+  it "disallows non super users and non admins to carry out the action" do
+    session[:user_id] = create(:user).id
+    action
+    response.status.should == 403
+  end
+  it "disallows non logged in users to carry out the action" do
+     action
+     should redirect_to login_path
+   end
 end
 
 shared_examples_for "a super-user only resource page" do

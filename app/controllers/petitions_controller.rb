@@ -1,6 +1,5 @@
 class PetitionsController < ApplicationController
   before_filter :authorize, except: [:show, :index]
-  before_filter :authorize_super_user, only: [:edit, :update]
 
   def index
     @petitions = Petition.all
@@ -18,7 +17,11 @@ class PetitionsController < ApplicationController
   end
 
   def edit
-    @petition = Petition.find(params[:id])
+    if has_edit_permissions
+      @petition = Petition.find(params[:id])
+    else
+      render :text => "You are not authorized to view this page", :status => 403
+    end
   end
 
   def create
@@ -39,5 +42,10 @@ class PetitionsController < ApplicationController
     else
       render action: "edit"
     end
+  end
+  
+  def has_edit_permissions
+    @petition = Petition.find(params[:id])
+    @petition.owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
 end

@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     if(current_user.nil?)
       redirect_to login_path 
     elsif(!current_user.is_super_user && !current_user.is_admin)
-      render :text => "Not allowed", :status => 403
+      render :text => "You are not authorized to view this page", :status => 403
     end
   end
 end
