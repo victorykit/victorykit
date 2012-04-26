@@ -10,6 +10,7 @@ class PetitionsController < ApplicationController
     @petition = Petition.find(params[:id])
     signed_petitions = session[:signed_petitions] || []
     @user_has_signed = signed_petitions.include? @petition.id
+    @signature = Signature.new
   end
 
   def new

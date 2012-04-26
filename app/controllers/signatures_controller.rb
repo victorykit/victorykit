@@ -11,6 +11,7 @@ class SignaturesController < ApplicationController
       redirect_to petition_url(petition)
     else
       @petition = petition
+      @signature = signature
       render :template => "petitions/show"
     end
   end

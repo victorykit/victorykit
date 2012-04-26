@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe SignaturesController do
   let(:petition){ create(:petition) }
+
   describe "POST create" do
     context "the user supplies both a name and an email" do
       before(:each) do
@@ -30,6 +31,9 @@ describe SignaturesController do
       end
       it "should assign view data required by the petition show page" do
         assigns(:petition).should == petition
+        assigns(:signature).email.should be_nil
+        assigns(:signature).name.should be_nil
+        
       end
     end
   end

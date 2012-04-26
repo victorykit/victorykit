@@ -14,7 +14,7 @@
   <%= link_to 'Back', petitions_path, class: "btn" %>
 <% else %>
 <div class="hero-unit">
-  <%= form_for([@petition, Signature.new])  do | f |  %>
+  <%= form_for([@petition, @signature])  do | f |  %>
     
     <%= f.label :name %>
     <%= f.text_field :name %> 
