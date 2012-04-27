@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SignaturesController do
+describe SignaturesController, EmailGateway do
   let(:petition){ create(:petition) }
 
   describe "POST create" do
@@ -15,9 +15,10 @@ describe SignaturesController do
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
-      it {should redirect_to petition_url(petition)}
+      it {should send_email :from => "victory@victorykit.com" }
+      it {should redirect_to petition_url(petition)}  
     end
-    context "the user leaves a field blank" do
+      context "the user leaves a field blank" do
       before :each do
         sign_without_name_or_email
       end
@@ -41,7 +42,7 @@ describe SignaturesController do
         response.cookies["signed_petitions"].should eq petition.id.to_s
       end
     end
-    context "the user has signed another petitions" do
+    context "the user has already signed another petition" do
       before :each do
         request.cookies["signed_petitions"] = "some other id"
         sign_petition

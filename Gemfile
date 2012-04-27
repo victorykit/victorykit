@@ -45,4 +45,4 @@ end
 
 gem 'newrelic_rpm'
 gem 'unicorn'
-
+gem 'aws-ses'
