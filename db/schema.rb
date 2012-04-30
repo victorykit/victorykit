@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120425212929) do
+ActiveRecord::Schema.define(:version => 20120430153714) do
 
   create_table "petitions", :force => true do |t|
     t.text     "title",       :null => false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20120425212929) do
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
     t.boolean  "is_super_user",   :default => false, :null => false
-    t.boolean  "is_admin"
+    t.boolean  "is_admin",        :default => false, :null => false
   end
 
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"

@@ -20,6 +20,6 @@ test:
 
 production:
   adapter: postgresql
-  database: victorykit_production
+  database: victorykit_development
   pool: 5
   timeout: 5000
