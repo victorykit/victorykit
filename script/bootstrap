@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+if IO.popen("ruby --version").read.split[1] == "1.9.3p125"
+  puts "OK - ruby"
+else
+  puts "ERR - please install ruby 1.9.3.p125"
+end
+
+if IO.popen("echo info | redis-cli | grep redis_version").read.split(':')[1] == "2.4.11"
+  puts "OK - redis"
+else
+  puts "ERR - please install redis 2.4.11"
+end
+
+if IO.popen("rails --version").read.split[1] == "3.2.3"
+  puts "OK - rails"
+else
+  puts "ERR - please install Rails 3.2.3"
+end
