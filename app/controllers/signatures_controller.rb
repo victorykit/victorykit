@@ -10,8 +10,9 @@ class SignaturesController < ApplicationController
       signed_petitions = cookie.split "|"
       signed_petitions.push petition.id
       cookies[:signed_petitions] = signed_petitions.join "|"
-      EmailGateway.new.send "signups@victorykit.com", signature.email, "Thanks for signing #{petition.title}", "Please encourage your friends to sign it too!"
+      EmailGateway.send_email({from: "signups@victorykit.com", to: signature.email, subject: "Thanks for signing #{petition.title}", body: "Please encourage your friends to sign it too!"})
       redirect_to petition_url(petition)
+      
     else
       @petition = petition
       @signature = signature

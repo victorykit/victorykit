@@ -1,11 +1,12 @@
 require 'spec_helper'
 
-describe SignaturesController, EmailGateway do
+describe SignaturesController do
   let(:petition){ create(:petition) }
 
   describe "POST create" do
     context "the user supplies both a name and an email" do
       before(:each) do
+        EmailGateway.stub!(:send_email)
         sign_petition
       end
       describe "new signature" do
@@ -15,7 +16,7 @@ describe SignaturesController, EmailGateway do
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
-      it {should send_email :from => "victory@victorykit.com" }
+      it {EmailGateway.should have_received(:send_email)}
       it {should redirect_to petition_url(petition)}  
     end
       context "the user leaves a field blank" do
