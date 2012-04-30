@@ -50,3 +50,7 @@ gem 'unicorn'
 gem 'redis'
 gem 'distribution'
 gem 'aws-ses'
+
+gem 'garb'
+gem 'oauth2'
+
