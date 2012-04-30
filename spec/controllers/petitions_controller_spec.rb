@@ -119,7 +119,7 @@ describe PetitionsController do
 
     describe "with invalid params" do
       before :each do
-        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_session
+        put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_super_user_session
       end
       it "assigns the petition as @petition" do  
         assigns(:petition).should eq(petition)

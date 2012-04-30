@@ -14,7 +14,9 @@
     <td><%= petition.title %></td>
     <td><%= petition.description %></td>
     <td><%= link_to 'Show', petition %></td>
-    <td><%= link_to 'Edit', edit_petition_path(petition) %></td>
+    <% if !current_user.nil? && petition.has_edit_permissions(current_user) %>
+		<td><%= link_to 'Edit', edit_petition_path(petition) %></td>
+	<% end %>
   </tr>
 <% end %>
 </table>

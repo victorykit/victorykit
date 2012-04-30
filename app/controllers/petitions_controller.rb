@@ -17,8 +17,8 @@ class PetitionsController < ApplicationController
   end
 
   def edit
-    return render_403 unless has_edit_permissions
     @petition = Petition.find(params[:id])
+    return render_403 unless @petition.has_edit_permissions(current_user)
   end
 
   def create
@@ -34,15 +34,11 @@ class PetitionsController < ApplicationController
 
   def update
     @petition = Petition.find(params[:id])
+    return render_403 unless @petition.has_edit_permissions(current_user)
     if @petition.update_attributes(params[:petition])
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
       render action: "edit"
     end
-  end
-  
-  def has_edit_permissions
-    @petition = Petition.find(params[:id])
-    @petition.owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
 end
