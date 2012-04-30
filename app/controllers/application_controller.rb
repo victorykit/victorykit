@@ -1,4 +1,8 @@
+require 'whiplash'
 class ApplicationController < ActionController::Base
+  include Bandit
+  helper_method :win!, :spin!
+  
   protect_from_forgery
   before_filter :add_environment_to_title
   

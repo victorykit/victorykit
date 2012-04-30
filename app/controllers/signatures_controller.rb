@@ -10,6 +10,7 @@ class SignaturesController < ApplicationController
       signed_petitions = cookie.split "|"
       signed_petitions.push petition.id
       cookies[:signed_petitions] = signed_petitions.join "|"
+      win! :signature
       redirect_to petition_url(petition)
     else
       @petition = petition

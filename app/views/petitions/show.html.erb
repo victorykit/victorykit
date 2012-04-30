@@ -7,7 +7,7 @@
   <%= @petition.description %>
 </p>
 <%= hidden_field_tag 'petitionId', @petition.id %>
-<div id="sign-up-form">
+<div id="sign-up-form" style="float: <%=  spin! "Sign in box side", :signature, ['left', 'right'] =%>">
 	<div class="hero-unit">
 	  <%= form_for([@petition, @signature])  do | f |  %>
    
