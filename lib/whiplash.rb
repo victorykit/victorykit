@@ -1,10 +1,6 @@
 require 'distribution'
 require 'redis'
 
-def redis
-  $redis = Redis.new
-end
-
 class Float
   def to_1if0
     self.zero? ? 1 : self
@@ -33,21 +29,23 @@ module Bandit
   end  
 
   def spin!(test_name, goal, options=[true, false])
-    redis.sadd("test/goals/#{goal}", test_name)
+    return session[test_name] if session.key? test_name
+    
+    REDIS.sadd("test/goals/#{goal}", test_name)
     loptions = {}
     options.each { |o| loptions[o] = [
-      redis.zcard("test/#{test_name}/#{o}/spin"),
-      redis.zcard("test/#{test_name}/#{o}/win")
+      REDIS.zcard("test/#{test_name}/#{o}/spin"),
+      REDIS.zcard("test/#{test_name}/#{o}/win")
     ] }
     choice = best_guess(loptions)
-    redis.zadd("test/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce)
+    REDIS.zadd("test/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce)
     session[test_name] = choice
     choice
   end
 
   def win!(goal)
-    redis.smembers("test/goals/#{goal}").each do |t|
-      redis.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce)
+    REDIS.smembers("test/goals/#{goal}").each do |t|
+      REDIS.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce)
     end
   end
 end
