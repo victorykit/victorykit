@@ -13,5 +13,35 @@
 @import "twitter/bootstrap";
 @import "twitter/bootstrap/responsive";
 
-body { @extend .span12; margin-left: auto; margin-right: auto; }
+body { @extend .span12; margin-left: auto; margin-right: auto; background: #eee; }
 .navbar-inner { min-height: 40px; }
+
+.content { min-height: 500px; background: #fff; padding: 5px 10px; }
+.footer { text-align: center; background: #ddd; }
+.navbar {
+  @extend .clearfix;
+  margin: 0 -6px;
+  .navbar-inner {
+    margin-top: 29px;
+  }
+}
+.logininfo {
+  float: right;
+  padding: 5px 0;
+  * {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    &:first-child {
+      border-right: 1px solid purple;
+      padding-right: 10px;
+    }
+  }
+}
+a.logo {
+  float: left;
+  background: url('logo.png');
+  height: 70px;
+  width: 267px;
+  margin-right: 15px;
+}
