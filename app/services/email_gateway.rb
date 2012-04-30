@@ -1,6 +1,8 @@
 require 'aws/ses'
 
 class EmailGateway
+  def self.send_new_signature_email email
+  end
   def self.send_email email
     
     ses = AWS::SES::Base.new(:access_key_id => ENV["AWS_ACCESS_KEY_ID"], :secret_access_key => ENV["AWS_SECRET_ACCESS_KEY"])
