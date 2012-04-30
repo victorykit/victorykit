@@ -7,19 +7,27 @@ describe SignaturesController do
     context "the user supplies both a name and an email" do
       before(:each) do
         EmailGateway.stub!(:send_email)
-        sign_petition
       end
       describe "new signature" do
-        subject { petition.signatures[0]}
+        subject  do
+          sign_petition
+          petition.signatures[0]
+        end
         its(:name) { should == "Bob" }
         its(:email) { should == "bob@my.com" }
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
-      it {EmailGateway.should have_received(:send_email)}
-      it {should redirect_to petition_url(petition)}  
+      it "should send an email to the signatory" do
+        EmailGateway.should_receive(:send_email).with(hash_including(from: "signups@victorykit.com", to: "foo@bar.com"))
+        sign_petition name: "Bob", email: "foo@bar.com"
+      end
+      it "should redirect to the petition page" do
+        sign_petition
+        should redirect_to petition_url(petition)
+      end
     end
-      context "the user leaves a field blank" do
+    context "the user leaves a field blank" do
       before :each do
         sign_without_name_or_email
       end
@@ -53,8 +61,8 @@ describe SignaturesController do
       end
     end
     
-    def sign_petition
-      post :create, petition_id: petition.id, :signature => {:name => "Bob", :email => "bob@my.com"}
+    def sign_petition signature= {name: "Bob", email: "bob@my.com"}
+      post :create, petition_id: petition.id, :signature => signature
     end
     
     def sign_without_name_or_email
