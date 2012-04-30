@@ -32,6 +32,11 @@ GEM
     arel (3.0.2)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
+    aws-ses (0.4.4)
+      builder
+      mail (> 2.2.5)
+      mime-types
+      xml-simple
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
     coffee-rails (3.2.2)
@@ -148,12 +153,14 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    xml-simple (1.1.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   autotest
+  aws-ses
   bcrypt-ruby (~> 3.0.0)
   coffee-rails (~> 3.2.1)
   distribution

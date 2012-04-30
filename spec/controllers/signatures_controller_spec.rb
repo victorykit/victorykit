@@ -6,16 +6,26 @@ describe SignaturesController do
   describe "POST create" do
     context "the user supplies both a name and an email" do
       before(:each) do
-        sign_petition
+        EmailGateway.stub!(:send_email)
       end
       describe "new signature" do
-        subject { petition.signatures[0]}
+        subject  do
+          sign_petition
+          petition.signatures[0]
+        end
         its(:name) { should == "Bob" }
         its(:email) { should == "bob@my.com" }
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
-      it {should redirect_to petition_url(petition)}
+      it "should send an email to the signatory" do
+        EmailGateway.should_receive(:send_email).with(hash_including(from: "signups@victorykit.com", to: "foo@bar.com"))
+        sign_petition name: "Bob", email: "foo@bar.com"
+      end
+      it "should redirect to the petition page" do
+        sign_petition
+        should redirect_to petition_url(petition)
+      end
     end
     context "the user leaves a field blank" do
       before :each do
@@ -41,7 +51,7 @@ describe SignaturesController do
         response.cookies["signed_petitions"].should eq petition.id.to_s
       end
     end
-    context "the user has signed another petitions" do
+    context "the user has already signed another petition" do
       before :each do
         request.cookies["signed_petitions"] = "some other id"
         sign_petition
@@ -51,8 +61,8 @@ describe SignaturesController do
       end
     end
     
-    def sign_petition
-      post :create, petition_id: petition.id, :signature => {:name => "Bob", :email => "bob@my.com"}
+    def sign_petition signature= {name: "Bob", email: "bob@my.com"}
+      post :create, petition_id: petition.id, :signature => signature
     end
     
     def sign_without_name_or_email

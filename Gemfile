@@ -49,3 +49,4 @@ gem 'unicorn'
 # for whiplash
 gem 'redis'
 gem 'distribution'
+gem 'aws-ses'
