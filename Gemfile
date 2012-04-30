@@ -46,3 +46,6 @@ end
 gem 'newrelic_rpm'
 gem 'unicorn'
 
+# for whiplash
+gem 'redis'
+gem 'distribution'
