@@ -29,7 +29,9 @@ module Bandit
   end  
 
   def spin!(test_name, goal, options=[true, false])
-    return session[test_name] if session.key? test_name
+    if session.key?(test_name) && options.include?(session[test_name])
+      return session[test_name]
+    end
     
     REDIS.sadd("test/goals/#{goal}", test_name)
     loptions = {}
