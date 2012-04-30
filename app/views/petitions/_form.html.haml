@@ -1,0 +1,17 @@
+banana
+- if @petition.errors
+  #error_explanation
+  %h2
+    = pluralize(@petition.errors.count, 'error')
+    prohibited this petition from being a banana:
+    %ul
+      - @petition.errors.full_messages.each do |msg|
+        %li
+          = msg
+%form.well
+  %label Title
+  %input
+  %label Description
+  %input
+  .actions
+    %input{:type => "submit", :value => "Send", :class => "btn"}

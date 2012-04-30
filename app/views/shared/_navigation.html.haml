@@ -1,0 +1,16 @@
+= link_to('VictoryKit', '/')
+.logininfo
+  - if current_user
+    %div
+      Logged in as #{current_user.email}
+    = link_to('Log Out', logout_path)
+  - else
+    = link_to('Sign Up', signup_path)
+    = link_to('Log In', login_path)
+.navbar
+  .navbar-inner
+    .container
+      %ul.nav
+        %li= link_to('Petitions', petitions_url)
+        %li= link_to('Users', users_url)
+

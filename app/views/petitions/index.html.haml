@@ -1,0 +1,24 @@
+%h1
+  Listing petitions
+
+%table
+  %tr
+    %th
+      Title
+    %th
+      Description
+    %th
+    %th
+    %th
+
+- @petitions.each do |petition|
+  %tr
+    %td
+      #{petition.title}
+    %td
+      #{petition.description}
+    %td= link_to('Show', petition)
+    %td= link_to('Edit', edit_petition_path(petition))
+
+= link_to('New Petition', new_petition_path)
+
