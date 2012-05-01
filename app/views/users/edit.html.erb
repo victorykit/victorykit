@@ -1,0 +1,7 @@
+<h1>Update Password</h1>
+
+<%= simple_form_for current_user do |f| %>
+  <%= f.input :current_password %>
+  <%= f.input :new_password %>
+  <%= f.input :verify_password %>
+<% end %>
