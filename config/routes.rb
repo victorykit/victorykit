@@ -16,6 +16,7 @@ Victorykit::Application.routes.draw do
 
   namespace(:admin) do
     resources :petitions 
+    resources :users
   end
 
 
