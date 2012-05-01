@@ -5,9 +5,6 @@ describe SignaturesController do
 
   describe "POST create" do
     context "the user supplies both a name and an email" do
-      before(:each) do
-        EmailGateway.stub!(:send_new_signature_email)
-      end
       describe "new signature" do
         subject  do
           sign_petition
@@ -19,8 +16,12 @@ describe SignaturesController do
         its(:user_agent) { should == "Rails Testing" }
       end
       it "should send an email to the signatory" do
-        EmailGateway.should_receive(:send_new_signature_email).with(instance_of(Signature))
         sign_petition name: "Bob", email: "foo@bar.com"
+        ActionMailer::Base.deliveries.size.should == 1
+        email = ActionMailer::Base.deliveries.last
+        email[:from].to_s.should == 'signups@victorykit.com'
+        email[:to].to_s.should == 'foo@bar.com'
+        email[:subject].to_s.should == "Thanks for signing '#{petition.title}'!"
       end
       it "should redirect to the petition page" do
         sign_petition

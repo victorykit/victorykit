@@ -11,7 +11,7 @@ class SignaturesController < ApplicationController
       signed_petitions.push petition.id
       cookies[:signed_petitions] = signed_petitions.join "|"
       win! :signature
-      EmailGateway.send_new_signature_email signature
+      Notifications.signed_petition signature
       redirect_to petition_url(petition)
       
     else

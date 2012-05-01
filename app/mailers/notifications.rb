@@ -9,6 +9,6 @@ class Notifications < ActionMailer::Base
   def signed_petition signature
     @greeting = "Hi"
     
-    mail subject: "Thanks for signing '#{signature.petition.title}'!",   to: signature.email
+    mail(subject: "Thanks for signing '#{signature.petition.title}'!", to: signature.email).deliver
   end
 end
