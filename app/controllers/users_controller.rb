@@ -16,6 +16,15 @@ class UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
+    if @user && @user.authenticate(params[:user][:current_password]) && (params[:user][:new_password] == params[:user][:verify_password])
+      if @user.update_attributes(:password => params[:user][:new_password])
+        redirect_to edit_user_url, notice: 'Password was successfully updated.'
+      else
+        render action: "edit"
+      end
+    else
+      render action: "edit"
+    end
   end
   
 end
