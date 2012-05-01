@@ -8,6 +8,7 @@
     = javascript_include_tag :application
     %title= content_for?(:title) ? yield(:title) : @title
     = google_analytics_tracker
+    = csrf_meta_tags
   %body
     .container
       = render :partial =>  "shared/navigation"

@@ -21,9 +21,8 @@
 		<td><%= check_box_tag user.is_admin, user.is_admin, user.is_admin, :disabled => true %></td>
     	<td><%= check_box_tag user.is_super_user, user.is_super_user, user.is_super_user, :disabled => true %></td>
 	<% end %>
-    <td><%= link_to 'Show', user %></td>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-	<td><%= link_to 'Destroy', user, confirm: 'Are you sure?', method: :delete %></td>
+    <td><%= link_to 'Edit', edit_admin_user_path(user) %></td>
+	<td><%= link_to 'Destroy', admin_user_path(user), confirm: 'Are you sure?', method: :delete %></td>
   </tr>
 <% end %>
 </table>

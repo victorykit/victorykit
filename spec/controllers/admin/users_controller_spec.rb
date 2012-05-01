@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe UsersController do
+describe Admin::UsersController do
   
   describe "GET index" do
     let(:action){ get :index }
@@ -47,7 +47,7 @@ describe UsersController do
 
       it "redirects to the user" do
         put :update, {:id => user.to_param}, valid_super_user_session
-        response.should redirect_to(user)
+        response.should redirect_to(admin_users_url)
       end
 
     end
