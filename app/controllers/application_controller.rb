@@ -5,10 +5,15 @@ class ApplicationController < ActionController::Base
   
   protect_from_forgery
   before_filter :add_environment_to_title
-  
+  before_filter :set_host_for_urls
+
   def add_environment_to_title
     @title = "VictoryKit"
     @title << " - #{Rails.env}" unless Rails.env.production? 
+  end
+
+  def set_host_for_urls
+    ActionMailer::Base.default_url_options = { host: request.host_with_port }
   end
   
   private
