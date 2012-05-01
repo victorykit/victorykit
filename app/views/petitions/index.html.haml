@@ -1,23 +1,25 @@
 %h1
   Listing petitions
 
-%table
+%table.table.table-striped.table-condensed
   %tr
-    %th
+    %th.span3
       Title
-    %th
+    %th.span7
       Description
-    %th
-    %th
+    %th.span1
+    %th.span1
 
-- @petitions.each do |petition|
-  %tr
-    %td
-      #{petition.title}
-    %td
-      #{petition.description}
-    %td= link_to('Show', petition)
-    %td= link_to('Edit', edit_petition_path(petition))
+  - @petitions.each do |petition|
+    %tr
+      %td
+        #{petition.title}
+      %td
+        #{petition.description}
+      %td.calign
+        = link_to('Show', petition)
+      %td.calign
+        = link_to('Edit', edit_petition_path(petition))
 
-= link_to('New Petition', new_petition_path)
+= link_to('Start a New Petition', new_petition_path, :class => 'btn btn-primary')
 
