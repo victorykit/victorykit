@@ -15,6 +15,9 @@ describe SignaturesController do
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
+      before :each do
+        ActionMailer::Base.deliveries = []
+      end
       it "should send an email to the signatory" do
         sign_petition name: "Bob", email: "foo@bar.com"
         ActionMailer::Base.deliveries.size.should == 1
@@ -25,6 +28,7 @@ describe SignaturesController do
       end
       it "should redirect to the petition page" do
         sign_petition
+        
         should redirect_to petition_url(petition)
       end
     end
