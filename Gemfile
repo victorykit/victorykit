@@ -53,5 +53,5 @@ gem 'distribution'
 gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
 
 gem 'garb'
-gem 'oauth2'
+gem 'oauth'
 
