@@ -3,3 +3,6 @@
 
 en:
   hello: "Hello world"
+  notifications:
+    signed_petition:
+      subject: "Thankyou for signing %{title}"
