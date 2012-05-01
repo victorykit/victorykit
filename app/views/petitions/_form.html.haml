@@ -1,9 +1,8 @@
-banana
 - if @petition.errors
   #error_explanation
   %h2
     = pluralize(@petition.errors.count, 'error')
-    prohibited this petition from being a banana:
+    prohibited this petition from being created:
     %ul
       - @petition.errors.full_messages.each do |msg|
         %li

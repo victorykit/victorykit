@@ -58,5 +58,6 @@ form {
   input, textarea { @extend .span5; @extend .floatleft; }
   .control-group { clear: left; }
   input.btn { clear: both; }
+  .help-inline { margin-top: 5px; }
 }
 textarea { resize: none; height: 60px; overflow-y: auto; }

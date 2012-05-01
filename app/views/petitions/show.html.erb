@@ -7,15 +7,14 @@
   <%= @petition.description %>
 </p>
 <%= hidden_field_tag 'petitionId', @petition.id %>
-<div id="sign-up-form" style="float: <%=  spin! "Sign in box side", :signature, ['left', 'right'] =%>">
+<div id="sign-up-form" >
 	<div class="hero-unit">
-	  <%= form_for([@petition, @signature])  do | f |  %>
-   
-	    <%= f.label :name %>
-	    <%= f.text_field :name %> 
-	    <%= f.label :email %>
-	    <%= f.text_field :email %>
-	    <input type="submit" value="Sign!" class="btn btn-primary btn-large"/>
+	  <%= simple_form_for([@petition, @signature])  do | f |  %>
+
+      <%= f.input :name %>
+      <%= f.input :email %>
+      <%= f.button :submit, :class => 'btn btn-primary', :value => 'Sign!' %>
+
 	  <% end %>
 	</div>
 </div>
@@ -28,8 +27,8 @@
 	<%= facebook_like petition_url(params[:petition_id]) %>
 </div>
 
-<%= link_to_if current_user, 'Edit', edit_petition_path(@petition), class: "btn btn-primary icon-edit icon-white" if current_user %> 
-<% content_for(:meta_tags) do %> 
+<%= link_to_if current_user, 'Edit', edit_petition_path(@petition), class: "btn btn-primary icon-edit icon-white" if current_user %>
+<% content_for(:meta_tags) do %>
 	<% petition_to_open_graph(@petition).each do |key, value|%>
 		<%= content_tag "meta", nil, property:key, content:value %>
 	<% end %>

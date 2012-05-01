@@ -1,13 +1,10 @@
 <h1>Login</h1>
 
-<%= form_tag sessions_path do %>
-  <div class="field">
-    <%= label_tag :email %><br />
-    <%= text_field_tag :email, params[:email] %>
-  </div>
-  <div class="field">
-    <%= label_tag :password %><br />
-    <%= password_field_tag :password %>
-  </div>
-  <div class="actions"><%= submit_tag "Log In" %></div>
+<%= form_tag sessions_path do |f|%>
+  <%= simple_fields_for :new_session do |session_form| %>
+    <%= session_form.input :email %>
+    <%= session_form.input :password %>
+    <%= session_form.button :submit, :class => 'btn btn-primary', :value => 'Log In' %>
+  <% end %>
 <% end %>
+
