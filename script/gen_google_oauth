@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+require 'oauth'
+
+puts "OK, let's generate your Google Analytics credentials!"
+puts
+puts "1. Visit https://code.google.com/apis/console/"
+puts "2. Create a new project."
+puts "3. Click Services. Turn on the Analytics API."
+puts "4. Click API Access. Create an OAuth2 Client ID."
+puts "4a. Fill out the form, selecting web application."
+puts
+puts "OK, now you should see a Client ID and a Client Secret."
+puts
+print "Client ID: "
+user_id=gets.chomp
+print "Client Secret: "
+client_secret = gets.chomp
+
+con = OAuth::Consumer.new(user_id, client_secret,
+     {:site => 'https://www.google.com',
+     :request_token_path => '/accounts/OAuthGetRequestToken',
+     :access_token_path => '/accounts/OAuthGetAccessToken',
+     :authorize_path => '/accounts/OAuthAuthorizeToken'})
+
+rt = con.get_request_token({}, {:scope => 'https://www.google.com/analytics/feeds'})
+
+puts
+puts "Thanks! Now visit " + rt.authorize_url
+puts
+puts "OK, you should have been given a verification code."
+puts
+verification_code = gets.chomp
+
+at = rt.get_access_token(oauth_verifier: verification_code)
+
+puts
+puts "Yay! Here are your environment variables. Put them in your ~/.profile or heroku config:"
+puts
+puts "OAUTH_USER_ID=" + user_id
+puts "OAUTH_CLIENT_SECRET=" + client_secret
+puts "OAUTH_TOKEN=" + at.params[:oauth_token]
+puts "OAUTH_SECRET=" + at.params[:oauth_token_secret]
