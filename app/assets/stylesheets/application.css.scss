@@ -45,7 +45,7 @@ a.logo {
   width: 267px;
   margin-right: 15px;
 }
-
+h1 { margin-bottom: 10px; }
 table {
   border-bottom: 1px solid #DDDDDD;
   margin: 10px 0;
@@ -53,3 +53,10 @@ table {
 .floatleft { float: left; }
 .floatright { float: right; }
 .calign { text-align: center; }
+form {
+  label { @extend .span2; @extend .floatleft; margin: 5px 10px 0 0; text-align: right; }
+  input, textarea { @extend .span5; @extend .floatleft; }
+  .control-group { clear: left; }
+  input.btn { clear: both; }
+}
+textarea { resize: none; height: 60px; overflow-y: auto; }
