@@ -22,7 +22,6 @@ describe SignaturesController do
         sign_petition name: "Bob", email: "foo@bar.com"
         ActionMailer::Base.deliveries.size.should == 1
         email = ActionMailer::Base.deliveries.last
-        email[:from].to_s.should == 'signups@victorykit.com'
         email[:to].to_s.should == 'foo@bar.com'
         email[:subject].to_s.should == "Thanks for signing '#{petition.title}'!"
       end

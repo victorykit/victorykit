@@ -7,7 +7,7 @@ describe Notifications do
     it "renders the headers" do
       mail.subject.should eq("Thanks for signing '#{signature.petition.title}'!")
       mail.to.should eq([signature.email])
-      mail.from.should eq(["signups@victorykit.com"])
+      mail.from.should eq(["jensmith@thoughtworks.com"])
     end
 
     it "renders the body" do

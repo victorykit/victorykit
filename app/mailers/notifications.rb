@@ -1,5 +1,5 @@
 class Notifications < ActionMailer::Base
-  default from: "signups@victorykit.com"
+  default from: "jensmith@thoughtworks.com"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
