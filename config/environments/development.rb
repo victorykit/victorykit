@@ -36,4 +36,6 @@ Victorykit::Application.configure do
   config.assets.debug = true
   
   config.redis = {:uri => ""}
+  
+  config.action_mailer.delivery_method = :file
 end

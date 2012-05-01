@@ -36,4 +36,5 @@ Victorykit::Application.configure do
   config.active_support.deprecation = :stderr
   
   config.redis = {:uri => ""}
+  config.action_mailer.delivery_method = :file
 end
