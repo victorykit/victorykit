@@ -26,7 +26,8 @@ FactoryGirl.define do
     user_agent "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.163 Safari/535.19"
     browser_name "Firefox"
     name { Faker::Name.name }
-    email { Faker::Internet.email }  
+    email { Faker::Internet.email }
+    member
   end
   
 end

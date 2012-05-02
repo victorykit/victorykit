@@ -4,7 +4,8 @@ class SignaturesController < ApplicationController
     signature = Signature.new(params[:signature])
     signature.ip_address = request.remote_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
-    signature.created_member = Signature.find_by_email(signature.email).nil?
+    signature.member = Member.find_or_create_by_email(email: signature.email, name: signature.name)
+    signature.created_member = signature.member.id.nil?
     if signature.valid?
       petition.signatures.push signature
       session[:signature_name] = signature.name
