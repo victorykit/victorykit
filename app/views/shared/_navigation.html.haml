@@ -12,6 +12,8 @@
   .navbar-inner
     .container
       %ul.nav
-        %li= link_to('Petitions', petitions_url)
-        %li= link_to('Users', admin_users_url)
+        %li= link_to('Start a petition', new_petition_path)
+        %li= link_to('View all Petitions', petitions_url)
+        - if current_user && (current_user.is_super_user || current_user.is_admin)
+          %li= link_to('Users', admin_users_url)
 
