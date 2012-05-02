@@ -9,7 +9,7 @@ def schedule_email
 end
 
 def send_email
-  ScheduledEmail.new_petition(Petition.find_by_id(1), "mdsouza@thoughtworks.com")
+  ScheduledEmail.new_petition(Petition.random, Member.random.email)
 end
 
 schedule_email
