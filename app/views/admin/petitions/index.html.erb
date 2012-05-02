@@ -11,16 +11,15 @@
     <th>Created</th>
   </tr>
 
-<% analytics_all = AnalyticsGateway.get_report_results %>
 <% @petitions.each do |petition| %>
-  <% analytics = petition_analytics(analytics_all, petition) %>
+  <% analytics = @analytics[petition] %>
   <tr>
     <td><%= petition.title %></td>
     <td><%= analytics[:hits] %></td>
     <td><%= analytics[:signatures] %></td>
-    <td><%= analytics[:conversion] %></td>
+    <td><%= number_to_percentage(analytics[:conversion]*100, precision: 2) %></td>
     <td><%= analytics[:new_members] %></td>
-    <td><%= analytics[:virality] %></td>
+    <td><%= number_to_percentage(analytics[:virality]*100, precision: 2) %></td>
     <td><%= petition.created_at %></td>
   </tr>
 <% end %>

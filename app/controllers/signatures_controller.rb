@@ -4,6 +4,7 @@ class SignaturesController < ApplicationController
     signature = Signature.new(params[:signature])
     signature.ip_address = request.remote_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
+    signature.created_member = Signature.find_by_email(signature.email).nil?
     if signature.valid?
       petition.signatures.push signature
       cookie = cookies[:signed_petitions] || ""     

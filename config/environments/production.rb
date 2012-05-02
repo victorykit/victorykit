@@ -66,4 +66,8 @@ Victorykit::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
   config.redis = {:uri => ENV["REDISTOGO_URL"]}
   config.action_mailer.delivery_method = :ses
+  
+  config.action_mailer.default_url_options = {
+    :host => 'act.watchdog.net',
+  }
 end

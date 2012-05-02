@@ -1,13 +1,12 @@
 class Notifications < ActionMailer::Base
   default from: "jensmith@thoughtworks.com"
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
   #   en.notifications.signed_petition.subject
   #
   def signed_petition signature
-    @greeting = "Hi"
+    @petition_link = petition_url(signature.petition)
     
     mail(subject: "Thanks for signing '#{signature.petition.title}'!", to: signature.email).deliver
   end

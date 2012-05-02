@@ -1,6 +1,8 @@
-<h1>Editing user</h1>
+<h1>Update Password</h1>
 
-<%= render 'form' %>
-
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+<%= simple_form_for current_user do |f| %>
+  <%= f.input :current_password %>
+  <%= f.input :new_password %>
+  <%= f.input :verify_password %>
+  <%= f.button :submit, :class => 'btn btn-primary', :value => 'Update Password' %>
+<% end %>
