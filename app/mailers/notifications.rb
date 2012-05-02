@@ -7,6 +7,7 @@ class Notifications < ActionMailer::Base
   #
   def signed_petition signature
     @petition_link = petition_url(signature.petition)
+    @signature = signature
     
     mail(subject: "Thanks for signing '#{signature.petition.title}'!", to: signature.email).deliver
   end

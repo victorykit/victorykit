@@ -11,7 +11,7 @@ describe Notifications do
     end
 
     it "renders the body" do
-      mail.body.encoded.should include("Your support is appreciated. Please encourage your friends to sign by forwarding this link to them:")
+      mail.body.encoded.should include(signature.petition.title)
     end
   end
 
