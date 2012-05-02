@@ -1,26 +1,30 @@
 <h1>Petitions dashboard</h1>
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Hits</th>
-    <th>Signatures</th>
-    <th>Conversion</th>
-    <th>New members</th>
-    <th>Virality</th>
-    <th>Created</th>
-  </tr>
+<table id="petitions" class="display" data-source="<%= admin_petitions_url(format: "json") %>">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Hits</th>
+      <th>Signatures</th>
+      <th>Conversion</th>
+      <th>New members</th>
+      <th>Virality</th>
+      <th>Created</th>
+    </tr>
+  </thead>
 
-<% @petition_analytics.each do |analytic| %>
-  <tr>
-    <td><%= analytic.petition_title %></td>
-    <td><%= analytic.hit_count %></td>
-    <td><%= analytic.signature_count %></td>
-    <td><%= float_to_percentage(analytic.conversion_rate) %></td>
-    <td><%= analytic.new_member_count %></td>
-    <td><%= float_to_percentage(analytic.virality_rate) %></td>
-    <td><%= analytic.petition_created_at %></td>
-  </tr>
-<% end %>
+  <tbody>
+    <% @petition_analytics.each do |analytic| %>
+    <tr>
+      <td><%= analytic.petition_title %></td>
+      <td><%= analytic.hit_count %></td>
+      <td><%= analytic.signature_count %></td>
+      <td><%= float_to_percentage(analytic.conversion_rate) %></td>
+      <td><%= analytic.new_member_count %></td>
+      <td><%= float_to_percentage(analytic.virality_rate) %></td>
+      <td><%= analytic.petition_created_at %></td>
+    </tr>
+    <% end %>
+  </tbody>
 
 </table>

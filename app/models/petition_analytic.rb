@@ -7,7 +7,16 @@ class PetitionAnalytic
       PetitionAnalytic.new(p, analytics_report_data[petition_path])
     end    
   end
-    
+
+  def self.count
+    Petition.count
+  end
+  
+  def self.order(property, direction)
+    sorted = all.sort_by(&property.to_sym)
+    direction == :asc ? sorted : sorted.reverse
+  end
+          
   def initialize(petition, analytics_data)
     @analytics_data = analytics_data
     @petition = petition

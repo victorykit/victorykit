@@ -19,6 +19,9 @@ group :assets do
 
   gem 'uglifier', '>= 1.0.3'
   gem 'sass-twitter-bootstrap-rails', '~> 1.0'
+
+  gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
+  gem 'jquery-ui-rails'
 end
 
 gem "haml"
@@ -55,3 +58,5 @@ gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
 gem 'garb'
 gem 'oauth'
 gem 'rails_config'
+
+gem 'will_paginate'
