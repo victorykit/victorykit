@@ -15,7 +15,7 @@
       %td
         #{petition.title}
       %td
-        #{petition.description}
+        = simple_format(petition.description)
       %td.calign
         = link_to('Show', petition)
       %td.calign
