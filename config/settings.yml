@@ -1,2 +1,5 @@
 redis:
   uri: http://localhost:6379
+aws:
+  access_key_id: OVERRIDE_ME
+  secret_access_key: OVERRIDE_ME
