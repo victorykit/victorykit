@@ -7,10 +7,18 @@ FactoryGirl.define do
       is_super_user true
     end
   end
-  factory :petition do
+  factory :petition do |f|
     title { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }
     owner factory: :user
+    factory :petition_with_signatures do
+      ignore do
+        signature_count 10
+      end
+      after_create do |petition, evaluator|
+        FactoryGirl.create_list(:signature, evaluator.signature_count, petition: petition)
+      end
+    end 
   end
   factory :signature do
     petition
@@ -20,4 +28,5 @@ FactoryGirl.define do
     name { Faker::Name.name }
     email { Faker::Internet.email }  
   end
+  
 end

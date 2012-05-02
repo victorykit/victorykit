@@ -12,14 +12,13 @@
   </tr>
 
 <% @petitions.each do |petition| %>
-  <% analytics = @analytics[petition] %>
   <tr>
     <td><%= petition.title %></td>
-    <td><%= analytics[:hits] %></td>
-    <td><%= analytics[:signatures] %></td>
-    <td><%= number_to_percentage(analytics[:conversion]*100, precision: 2) %></td>
-    <td><%= analytics[:new_members] %></td>
-    <td><%= number_to_percentage(analytics[:virality]*100, precision: 2) %></td>
+    <td><%= petition.analytics.hit_count %></td>
+    <td><%= petition.analytics.signature_count %></td>
+    <td><%= float_to_percentage(petition.analytics.conversion_rate) %></td>
+    <td><%= petition.analytics.new_member_count %></td>
+    <td><%= float_to_percentage(petition.analytics.virality_rate) %></td>
     <td><%= petition.created_at %></td>
   </tr>
 <% end %>

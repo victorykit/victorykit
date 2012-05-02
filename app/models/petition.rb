@@ -7,4 +7,8 @@ class Petition < ActiveRecord::Base
   def has_edit_permissions(current_user)
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
+  
+  def analytics
+    PetitionAnalytics.new(self)
+  end
 end
