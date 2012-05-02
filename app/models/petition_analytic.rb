@@ -1,10 +1,10 @@
-class PetitionAnalytics
+class PetitionAnalytic
 
   def self.all
     analytics_report_data = AnalyticsGateway.get_report_results
     Petition.all.map do |p|    
       petition_path = Rails.application.routes.url_helpers.petition_path(p)
-      PetitionAnalytics.new(p, analytics_report_data[petition_path])
+      PetitionAnalytic.new(p, analytics_report_data[petition_path])
     end    
   end
     
@@ -13,8 +13,16 @@ class PetitionAnalytics
     @petition = petition
   end
   
-  def hit_count
-    @analytics_data.pageviews.to_i
+  def petition_title
+    @petition.title
+  end
+  
+  def petition_created_at
+    @petition.created_at
+  end
+  
+  def hit_count    
+    @analytics_data.nil? ? 0 : @analytics_data.pageviews.to_i
   end
 
   def signature_count
@@ -22,7 +30,7 @@ class PetitionAnalytics
   end
 
   def conversion_rate
-    signature_count.to_f / hit_count.to_f
+    divide_safe(signature_count.to_f, hit_count.to_f)
   end
   
   def new_member_count
@@ -30,7 +38,11 @@ class PetitionAnalytics
   end
   
   def virality_rate
-    new_member_count.to_f / signature_count.to_f
+    divide_safe(new_member_count.to_f, signature_count.to_f)
+  end
+  
+  def divide_safe(numerator, denominator)
+    denominator.nonzero? ? numerator / denominator : 0
   end
   
 end

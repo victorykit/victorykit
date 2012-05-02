@@ -1,5 +1,5 @@
 class Admin::PetitionsController < ApplicationController
   def index
-    @petition_analytics = PetitionAnalytics.all
+    @petition_analytics = PetitionAnalytic.all
   end
 end
