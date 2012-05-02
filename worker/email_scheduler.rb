@@ -12,6 +12,10 @@ def send_email
   member = Member.random
   petition = Petition.random
   ScheduledEmail.new_petition(petition, member.email)
+  log_email_sent(member, petition)
+end
+
+def log_email_sent(member, petition)
   sentEmail = SentEmail.new(email: member.email, member: member, petition: petition)
   sentEmail.save!
 end
