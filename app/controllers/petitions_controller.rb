@@ -10,6 +10,8 @@ class PetitionsController < ApplicationController
     signed_petitions = session[:signed_petitions] || []
     @user_has_signed = signed_petitions.include? @petition.id
     @signature = Signature.new
+    @signature.name = session[:signature_name]
+    @signature.email = session[:signature_email]
   end
 
   def new

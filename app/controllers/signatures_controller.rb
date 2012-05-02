@@ -7,6 +7,8 @@ class SignaturesController < ApplicationController
     signature.created_member = Signature.find_by_email(signature.email).nil?
     if signature.valid?
       petition.signatures.push signature
+      session[:signature_name] = signature.name
+      session[:signature_email] = signature.email
       cookie = cookies[:signed_petitions] || ""     
       signed_petitions = cookie.split "|"
       signed_petitions.push petition.id
