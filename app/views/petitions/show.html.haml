@@ -1,27 +1,31 @@
-%h1
-  = @petition.title
+.petition
+  %h1
+    = @petition.title
+  - if !current_user.nil? && @petition.has_edit_permissions(current_user)
+    = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
 
-%p
   = @petition.description
 
-= hidden_field_tag 'petitionId', @petition.id
-
 #sign-up-form
-  .hero-unit
-    = simple_form_for([@petition, @signature])  do |f|
-      = f.input :name
-      = f.input :email
+  .title
+    Sign this Petition!
+  = simple_form_for([@petition, @signature]) do |f|
+    = f.input :name
+    = f.input :email
+    .span3
       = f.button :submit, :class => 'btn btn-primary', :value => 'Sign!'
 
-#thanks-for-signing-message
-  Thanks for signing -- please share on Facebook:
+
+  #thanks-for-signing-message
+    Thanks for signing -- please share on Facebook:
 
 #sharing-stuff
   = facebook_like petition_url(params[:petition_id])
 
-= link_to_if current_user, 'Edit', edit_petition_path(@petition), class: "btn btn-primary icon-edit icon-white" if current_user
+
 
 - content_for(:meta_tags) do
   - petition_to_open_graph(@petition).each do |key, value|
     = content_tag "meta", nil, property:key, content:value
 
+= hidden_field_tag 'petitionId', @petition.id

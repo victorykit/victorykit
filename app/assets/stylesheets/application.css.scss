@@ -17,7 +17,7 @@ body { @extend .span12; margin-left: auto; margin-right: auto; background: #eee;
 .navbar-inner { min-height: 40px; }
 
 .content { min-height: 500px; background: #fff; padding: 5px 10px; }
-.footer { text-align: center; background: #ddd; }
+.footer { clear: both; text-align: center; background: #ddd; }
 .navbar {
   @extend .clearfix;
   margin: 0 -6px;
@@ -43,9 +43,9 @@ body { @extend .span12; margin-left: auto; margin-right: auto; background: #eee;
 a.logo {
   float: left;
   background: url('logo.png');
-  height: 70px;
-  width: 267px;
-  margin-right: 15px;
+  height: 40px;
+  width: 283px;
+  margin: 14px 15px 0 0;
 }
 h1 { margin-bottom: 10px; }
 table {
@@ -56,11 +56,33 @@ table {
 .floatright { float: right; }
 .calign { text-align: center; }
 form {
-  label { @extend .span2; @extend .floatleft; margin: 5px 10px 0 0; text-align: right; }
-  input, textarea { @extend .span5; @extend .floatleft; }
+  label { @extend .span1; @extend .floatleft; padding: 5px 10px 0 0; text-align: right; }
+  input, textarea { @extend .span2; @extend .floatleft; }
   .control-group { clear: left; }
   input.btn { clear: both; }
   .help-inline { margin-top: 5px; }
 }
 textarea { resize: none; height: 60px; overflow-y: auto; }
 #thanks-for-signing-message { display: none; }
+.home {
+  margin: 10% auto;
+  text-align: center;
+  .title {
+    font-size: 70px;
+    color: #666;
+  }
+  .btn {
+    clear: both;
+    font-size: 30px;
+    padding: 15px 20px;
+    margin-top: 50px;
+  }
+}
+.petition { @extend .span9; @extend .floatleft; margin-right: -10px;
+  .edit { @extend .floatright; margin: -40px 10px 0 0; }
+  .description { padding-right: 20px; clear: both; }
+}
+#sign-up-form { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px;
+  .btn { @extend .floatright; margin: 0 12px 10px 0; }
+  .title { font-size: 20px; font-weight: bold; color: #666; padding: 15px; }
+}
