@@ -15,7 +15,7 @@ class UsersController < ApplicationController
   end
   
   def update
-    @user = User.find(params[:id])
+    @user = current_user
     if @user && @user.authenticate(params[:user][:current_password]) 
       if params[:user][:new_password].empty? || params[:user][:verify_password].empty? 
         flash.now[:error] = "Please enter a new password and verify password"
