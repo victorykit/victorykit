@@ -9,7 +9,11 @@ def schedule_email
 end
 
 def send_email
-  ScheduledEmail.new_petition(Petition.random, Member.random.email)
+  member = Member.random
+  petition = Petition.random
+  ScheduledEmail.new_petition(petition, member.email)
+  sentEmail = SentEmail.new(email: member.email, member: member, petition: petition)
+  sentEmail.save!
 end
 
 schedule_email

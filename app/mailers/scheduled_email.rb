@@ -10,6 +10,5 @@ class ScheduledEmail < ActionMailer::Base
     @petition = petition
     
     mail(subject: "New Petition: '#{petition.title}'!", to: email).deliver
-    puts "Delivered!"
   end
 end
