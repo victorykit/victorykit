@@ -37,4 +37,8 @@ Victorykit::Application.configure do
   
   config.redis = {:uri => ""}
   config.action_mailer.delivery_method = :test
+  
+  config.action_mailer.default_url_options = {
+    :host => 'test',
+  }
 end
