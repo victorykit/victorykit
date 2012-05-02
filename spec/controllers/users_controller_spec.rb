@@ -28,7 +28,7 @@ describe UsersController do
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
       end
       
-      it "redirect to root url" do
+      it "render edit page" do
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
         response.should render_template("edit")
       end
