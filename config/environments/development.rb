@@ -34,9 +34,7 @@ Victorykit::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
-  
-  config.redis = {:uri => ""}
-  
+    
   config.action_mailer.delivery_method = :file
   config.action_mailer.default_url_options = {
     :host => '127.0.0.1',

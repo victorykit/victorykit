@@ -98,6 +98,8 @@ GEM
       activesupport (= 3.2.3)
       bundler (~> 1.0)
       railties (= 3.2.3)
+    rails_config (0.2.7)
+      activesupport (>= 3.0)
     railties (3.2.3)
       actionpack (= 3.2.3)
       activesupport (= 3.2.3)
@@ -171,6 +173,7 @@ DEPENDENCIES
   oauth
   pg
   rails (= 3.2.3)
+  rails_config
   redis
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.3)

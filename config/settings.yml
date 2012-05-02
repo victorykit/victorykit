@@ -1,0 +1,2 @@
+redis:
+  uri: http://localhost:6379

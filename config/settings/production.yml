@@ -1,0 +1,2 @@
+redis:
+    uri: <%= ENV["REDISTOGO_URL"] %>

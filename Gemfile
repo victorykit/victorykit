@@ -54,4 +54,4 @@ gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
 
 gem 'garb'
 gem 'oauth'
-
+gem 'rails_config'
