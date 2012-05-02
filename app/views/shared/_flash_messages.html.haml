@@ -1,0 +1,4 @@
+- flash.each do |type, message|
+  .alert{:class => "twitterized_type(#{type})"}
+  = link_to 'x', '#', :class => 'close', :'data-dismiss' => 'alert'
+  = message

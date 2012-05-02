@@ -1,0 +1,4 @@
+= simple_form_for(@petition, :html => {:class => 'form-horizontal' }) do |f|
+  = f.input :title, :as => :string
+  = f.input :description
+  = f.button :submit, :class => 'btn btn-primary'
