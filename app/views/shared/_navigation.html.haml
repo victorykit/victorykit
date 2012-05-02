@@ -3,7 +3,7 @@
   - if current_user
     %div
       Logged in as #{current_user.email}
-    = link_to('Update Password', edit_user_path(current_user))
+    = link_to('Change Password', edit_user_path(current_user))
     = link_to('Log Out', logout_path)
   - else
     = link_to('Sign Up', signup_path)

@@ -17,4 +17,21 @@ describe UsersController do
     end
   end
   
+  describe "PUT update" do
+    describe "with valid params" do
+      let(:user){ create(:user) }
+      before :each do
+        User.any_instance.stub(:update_attributes).and_return(true)
+      end
+      it "authenticates the user" do
+        User.any_instance.should_receive(:authenticate)
+        put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
+      end
+      
+      it "redirect to root url" do
+        put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
+        response.should render_template("edit")
+      end
+    end
+  end
 end
