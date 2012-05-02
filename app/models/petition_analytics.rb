@@ -1,8 +1,15 @@
 class PetitionAnalytics
-  include Rails.application.routes.url_helpers
 
-  def initialize(petition)
-    @analytics_data = AnalyticsGateway.get_report_results[petition_path(petition)]
+  def self.all
+    analytics_report_data = AnalyticsGateway.get_report_results
+    Petition.all.map do |p|    
+      petition_path = Rails.application.routes.url_helpers.petition_path(p)
+      PetitionAnalytics.new(p, analytics_report_data[petition_path])
+    end    
+  end
+    
+  def initialize(petition, analytics_data)
+    @analytics_data = analytics_data
     @petition = petition
   end
   

@@ -1,20 +1,19 @@
 class AnalyticsGateway
     
-  def self.get_report_results
-    if @data
-      return @data
-    end
-    
+  def self.get_report_results    
     authorize
+    #todo: if not authorize
+    
     analytics_id = Rails.configuration.social_media[:google][:analytics_id]
     profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
+    #todo: if not profile
     
     # sets up the query
     report = Garb::Report.new(profile)
     report.dimensions :pagePath
     report.metrics :pageViews    
     
-    # executes the query
+    # executes the query against the analytics service
     results = report.results
 
     @data = results.reduce({}) { |result, current| result.merge(current.page_path => current)}  
