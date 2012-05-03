@@ -34,9 +34,22 @@ verification_code = gets.chomp
 at = rt.get_access_token(oauth_verifier: verification_code)
 
 puts
-puts "Yay! Here are your environment variables. Put them in your ~/.profile or heroku config:"
-puts
+puts "Yay! Here are your oauth settings. Put them in config/settings.local.yml or heroku config:"
+puts "ENV variables"
 puts "OAUTH_USER_ID=" + user_id
 puts "OAUTH_CLIENT_SECRET=" + client_secret
 puts "OAUTH_TOKEN=" + at.params[:oauth_token]
 puts "OAUTH_SECRET=" + at.params[:oauth_token_secret]
+
+settings_yml= <<yml
+google_analytics:
+   oauth:
+     user_id: #{user_id}
+     client_secret: #{client_secret}
+     token: #{at.params[:oauth_token]}
+     secret: #{at.params[:oauth_token_secret]}
+yml
+
+puts "or create file config/settings.local.yml with the following content:"
+puts settings_yml
+

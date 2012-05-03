@@ -5,3 +5,6 @@ aws:
   secret_access_key: OVERRIDE_ME
 hasher:
   secret_key: OVERRIDE_ME
+google_analytics:
+   analytics_id: UA-31218452-1
+ 

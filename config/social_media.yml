@@ -3,8 +3,6 @@ production: &default
     app_id: 335522893179500    
     site_name: Victory Kit
     image: http://act.watchdog.net/images/petition-fb.png
-  google:
-    analytics_id: UA-31218452-1
       
 test: *default
     

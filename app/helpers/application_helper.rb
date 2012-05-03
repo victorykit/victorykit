@@ -21,7 +21,7 @@ module ApplicationHelper
   end
   
   def google_analytics_tracker
-    analytics_id = Rails.configuration.social_media[:google][:analytics_id]
+    analytics_id = Settings.google_analytics.analytics_id
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
       _gaq.push(['_trackPageview']);
