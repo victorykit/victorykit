@@ -1,15 +1,17 @@
+# see http://datatables.net/usage/server-side for details on how datatables work, params, etc
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, to: :@view
-  
+    
   def initialize(view)
     @view = view
   end
 
   def as_json(options = {})
+    count = PetitionAnalytic.count
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: PetitionAnalytic.count,
-      iTotalDisplayRecords: petitions.count,
+      iTotalRecords: count,
+      iTotalDisplayRecords: count,
       aaData: data
     }
   end
@@ -35,12 +37,8 @@ private
   end
 
   def fetch_petitions
-    petitions = PetitionAnalytic.order(sort_column, sort_direction)
-
-    #todo: paging
-    # petitions = petitions[page*per_page..(page+1)*per_page]
-
-    petitions
+    petitions = PetitionAnalytic.order(sort_column, sort_direction)    
+    petitions = Kaminari.paginate_array(petitions).page(page).per(per_page)
   end
 
   def page

@@ -59,4 +59,4 @@ gem 'garb'
 gem 'oauth'
 gem 'rails_config'
 
-gem 'will_paginate'
+gem 'kaminari'

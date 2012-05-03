@@ -1,7 +1,6 @@
 jQuery ->
   $('#petitions').dataTable
     sPaginationType: "full_numbers"
-    bPaginate: false
     bFilter: false
     bJQueryUI: true
     bProcessing: true
