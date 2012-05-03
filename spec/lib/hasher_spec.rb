@@ -11,5 +11,8 @@ describe Hasher do
     it "should return false for invalid hash" do
       Hasher.validate('fake_hashed_number').should be_false
     end
+    it "should return false for nil" do
+      Hasher.validate(nil).should be_false
+    end
   end
 end
