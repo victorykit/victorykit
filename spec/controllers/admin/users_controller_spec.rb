@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Admin::UsersController do
-  
+
   describe "GET index" do
     let(:action){ get :index }
     it_behaves_like "a super-user only resource page"
@@ -10,17 +10,7 @@ describe Admin::UsersController do
       assigns(:users).should eq([User.find(session[:user_id])])
     end
   end
-  
-  describe "GET show" do
-    let(:user){ create(:user) }
-    let(:action){ get :show, {id: user.to_param} }
-    it_behaves_like "a super-user only resource page"
-    it "shows the requested user" do
-      get :show, {:id => user.to_param}, valid_super_user_session
-      assigns(:user).should eq(user)
-    end
-  end
-  
+
   describe "GET edit" do
     let(:user){ create(:user) }
     let(:action){ get :edit, {id: user.to_param} }
@@ -30,7 +20,7 @@ describe Admin::UsersController do
       assigns(:user).should eq(user)
     end
   end
-  
+
   describe "PUT update" do
     describe "with valid params" do
       let(:user){ create(:user) }

@@ -1,0 +1,21 @@
+%h1 Listing users
+
+%table.table.table-striped.table-condensed
+  %tr
+    %th Username
+    %th Signed up on
+    - if current_user.is_super_user?
+      %th Admin
+      %th Super User
+    %th
+    %th
+
+  - @users.each do |user|
+    %tr
+      %td= user.email
+      %td= user.created_at
+      - if current_user.is_super_user?
+        %td= check_box_tag user.is_admin, user.is_admin, user.is_admin, :disabled => true
+        %td= check_box_tag user.is_super_user, user.is_super_user, user.is_super_user, :disabled => true
+      %td= link_to 'Edit', edit_admin_user_path(user)
+      %td= link_to 'Destroy', admin_user_path(user), confirm: 'Are you sure?', method: :delete

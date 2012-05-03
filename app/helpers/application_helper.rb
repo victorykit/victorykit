@@ -37,4 +37,7 @@ module ApplicationHelper
     number_to_percentage(f*100, precision: 2)
   end
   
+  def format_date_time(d)
+    d.strftime("%Y-%m-%d %H:%M")
+  end  
 end
