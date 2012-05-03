@@ -7,6 +7,10 @@ class Hasher
 
   def self.validate(hashed_data)
     number, hash = hashed_data.split(".")
-    generate(number) == hashed_data
+    if generate(number) == hashed_data
+      return number.to_i
+    else
+      return false
+    end
   end
 end

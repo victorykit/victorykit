@@ -1,3 +1,5 @@
+require 'hasher'
+
 class SignaturesController < ApplicationController
   def create
     petition = Petition.find(params[:petition_id])
@@ -8,9 +10,15 @@ class SignaturesController < ApplicationController
     signature.created_member = signature.member.id.nil?
     if signature.valid?
       petition.signatures.push signature
+      petition.save!
+      if h = Hasher.validate(params[:email_hash])
+        sent_email = SentEmail.find_by_id(h)
+        sent_email.signature_id ||= signature.id
+        sent_email.save!
+      end
       session[:signature_name] = signature.name
       session[:signature_email] = signature.email
-      cookie = cookies[:signed_petitions] || ""     
+      cookie = cookies[:signed_petitions] || ""
       signed_petitions = cookie.split "|"
       signed_petitions.push petition.id
       cookies[:signed_petitions] = signed_petitions.join "|"

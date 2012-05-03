@@ -6,7 +6,10 @@ describe Hasher do
     it "should validate a hash" do
       number = 100
       hashed_number = Hasher.generate(number)
-      Hasher.validate(hashed_number).should be_true
+      Hasher.validate(hashed_number).should == number
+    end
+    it "should return false for invalid hash" do
+      Hasher.validate('fake_hashed_number').should be_false
     end
   end
 end

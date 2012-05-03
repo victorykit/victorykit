@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120502213546) do
+ActiveRecord::Schema.define(:version => 20120503192313) do
 
   create_table "members", :force => true do |t|
     t.string   "name"
@@ -31,11 +31,12 @@ ActiveRecord::Schema.define(:version => 20120502213546) do
   end
 
   create_table "sent_emails", :force => true do |t|
-    t.string   "email",       :null => false
-    t.integer  "member_id",   :null => false
-    t.integer  "petition_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "email",        :null => false
+    t.integer  "member_id",    :null => false
+    t.integer  "petition_id",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "signature_id"
   end
 
   create_table "signatures", :force => true do |t|
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20120502213546) do
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
 
   add_foreign_key "sent_emails", "members", :name => "sent_emails_member_id_fk"
+  add_foreign_key "sent_emails", "signatures", :name => "sent_emails_signature_id_fk"
 
   add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
   add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
