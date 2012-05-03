@@ -9,8 +9,9 @@
       Description
     %th.span1
     %th.span1
-    %th.span2
-      Petition to Send
+    - if current_user && (current_user.is_super_user || current_user.is_admin)
+      %th.span2
+        Petition to Send
 
   - @petitions.each do |petition|
     %tr
