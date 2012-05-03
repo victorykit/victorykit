@@ -5,7 +5,7 @@ class AnalyticsGateway
       authorize
       #todo: if not authorize
     
-      analytics_id = Rails.configuration.social_media[:google][:analytics_id]
+      analytics_id = settings.analytics_id
       profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
       #todo: if not profile
     
@@ -22,18 +22,16 @@ class AnalyticsGateway
   end 
   
   def self.authorize
-    oauth_user_id = ENV["OAUTH_USER_ID"]
-    oauth_client_secret = ENV["OAUTH_CLIENT_SECRET"]
-    oauth_token = ENV["OAUTH_TOKEN"]
-    oauth_secret = ENV["OAUTH_SECRET"]
-
-    consumer = OAuth::Consumer.new(oauth_user_id, oauth_client_secret,
+    consumer = OAuth::Consumer.new(settings.oauth.user_id, settings.oauth.client_secret,
          {:site => 'https://www.google.com',
          :request_token_path => '/accounts/OAuthGetRequestToken',
          :access_token_path => '/accounts/OAuthGetAccessToken',
          :authorize_path => '/accounts/OAuthAuthorizeToken'})
     
-    Garb::Session.access_token = OAuth::AccessToken.new(consumer, oauth_token, oauth_secret)
+    Garb::Session.access_token = OAuth::AccessToken.new(consumer, settings.oauth.token, settings.oauth.secret)
   end
-  
+
+  def self.settings
+    Settings.google_analytics
+  end
 end

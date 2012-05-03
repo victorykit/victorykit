@@ -12,6 +12,8 @@
   = simple_form_for([@petition, @signature]) do |f|
     = f.input :name
     = f.input :email
+    - if @email_hash 
+      = hidden_field_tag :email_hash, @email_hash
     .span3
       = f.button :submit, :class => 'btn btn-primary', :value => 'Sign!'
 
