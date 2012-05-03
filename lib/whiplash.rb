@@ -28,7 +28,7 @@ module Bandit
     "#{mysession[:session_id]}_#{Random.rand}"
   end  
 
-  def spin!(test_name, goal, options=[true, false], mysession)
+  def spin!(test_name, goal, options=[true, false], mysession=nil)
     mysession ||= session
     if mysession.key?(test_name) && options.include?(mysession[test_name])
       return mysession[test_name]
@@ -46,11 +46,11 @@ module Bandit
     choice
   end
 
-  def win_on_option!(test_name, choice, mysession)
+  def win_on_option!(test_name, choice, mysession=nil)
     REDIS.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce(mysession))
   end
 
-  def win!(goal, mysession)
+  def win!(goal, mysession=nil)
     mysession ||= session
     REDIS.smembers("test/goals/#{goal}").each do |t|
       win_on_option!(t, session[t], mysession)
