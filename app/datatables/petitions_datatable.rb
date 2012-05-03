@@ -1,5 +1,5 @@
 class PetitionsDatatable
-  delegate :params, :h, :float_to_percentage, to: :@view
+  delegate :params, :h, :float_to_percentage, :format_date_time, to: :@view
   
   def initialize(view)
     @view = view
@@ -25,7 +25,7 @@ private
         h(float_to_percentage(petition.conversion_rate)),
         h(petition.new_member_count),
         h(float_to_percentage(petition.virality_rate)),
-        h(petition.petition_created_at),
+        h(format_date_time(petition.petition_created_at)),
       ]
     end
   end
@@ -37,11 +37,9 @@ private
   def fetch_petitions
     petitions = PetitionAnalytic.order(sort_column, sort_direction)
 
-#    petitions = petitions[page*per_page..(page+1)*per_page]
+    #todo: paging
+    # petitions = petitions[page*per_page..(page+1)*per_page]
 
-    # if params[:sSearch].present?
-    #   petitions = petitions.where("name like :search or category like :search", search: "%#{params[:sSearch]}%")
-    # end
     petitions
   end
 
@@ -54,7 +52,7 @@ private
   end
 
   def sort_column
-    columns = %w[petition_title hit_count signature_count conversion_rate new_member_count virality_rate petition_created_on]
+    columns = %w[petition_title hit_count signature_count conversion_rate new_member_count virality_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 
