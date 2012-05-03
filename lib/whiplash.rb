@@ -24,13 +24,14 @@ module Bandit
     best.sample
   end
 
-  def redis_nonce
-    "#{session[:session_id]}_#{Random.rand}"
+  def redis_nonce(mysession)
+    "#{mysession[:session_id]}_#{Random.rand}"
   end  
 
-  def spin!(test_name, goal, options=[true, false])
-    if session.key?(test_name) && options.include?(session[test_name])
-      return session[test_name]
+  def spin!(test_name, goal, options=[true, false], mysession)
+    mysession ||= session
+    if mysession.key?(test_name) && options.include?(mysession[test_name])
+      return mysession[test_name]
     end
     
     REDIS.sadd("test/goals/#{goal}", test_name)
@@ -40,14 +41,19 @@ module Bandit
       REDIS.zcard("test/#{test_name}/#{o}/win")
     ] }
     choice = best_guess(loptions)
-    REDIS.zadd("test/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce)
-    session[test_name] = choice
+    REDIS.zadd("test/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
+    mysession[test_name] = choice
     choice
   end
 
-  def win!(goal)
+  def win_on_option!(test_name, choice, mysession)
+    REDIS.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce(mysession))
+  end
+
+  def win!(goal, mysession)
+    mysession ||= session
     REDIS.smembers("test/goals/#{goal}").each do |t|
-      REDIS.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce)
+      win_on_option!(t, session[t], mysession)
     end
   end
 end
