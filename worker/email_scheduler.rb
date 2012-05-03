@@ -15,7 +15,7 @@ class EmailScheduler
   def self.send_email
     member = get_member_to_email
     if not member.nil?
-      petition_id = spin!("email_scheduler", :signups_off_email, options=Petition.all.map {|x| x.id.to_s}, {session_id: member.id}).to_i
+      petition_id = spin!("email_scheduler", :signups_off_email, options=Petition.find_all_by_to_send(true).map {|x| x.id.to_s}, {session_id: member.id}).to_i
       petition = Petition.find_by_id(petition_id)
       sent_email_id = log_sent_email(member, petition)
       ScheduledEmail.new_petition(petition, member.email, sent_email_id)

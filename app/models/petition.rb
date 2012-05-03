@@ -1,5 +1,5 @@
 class Petition < ActiveRecord::Base
-  attr_accessible :description, :title
+  attr_accessible :description, :title, :to_send
   has_many :signatures
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id

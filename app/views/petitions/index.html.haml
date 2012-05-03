@@ -9,6 +9,8 @@
       Description
     %th.span1
     %th.span1
+    %th.span2
+      Petition to Send
 
   - @petitions.each do |petition|
     %tr
@@ -20,6 +22,9 @@
         = link_to('Show', petition)
       %td.calign
         = link_to('Edit', edit_petition_path(petition))
+      - if current_user && (current_user.is_super_user || current_user.is_admin)
+        %td.calign 
+          =check_box_tag petition.to_send, petition.to_send, petition.to_send, :disabled => true
 
 = link_to('Start a New Petition', new_petition_path, :class => 'btn btn-primary')
 
