@@ -47,7 +47,7 @@ module Bandit
   end
 
   def win_on_option!(test_name, choice, mysession=nil)
-    REDIS.zadd("test/#{t}/#{session[t]}/win", Time.now.to_f, redis_nonce(mysession))
+    REDIS.zadd("test/#{test_name}/#{choice}/win", Time.now.to_f, redis_nonce(mysession))
   end
 
   def win!(goal, mysession=nil)

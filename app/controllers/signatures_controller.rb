@@ -15,6 +15,7 @@ class SignaturesController < ApplicationController
         sent_email = SentEmail.find_by_id(h)
         sent_email.signature_id ||= signature.id
         sent_email.save!
+        win_on_option!("email_scheduler", petition.id.to_s, {session_id: signature.member.id})
       end
       session[:signature_name] = signature.name
       session[:signature_email] = signature.email
