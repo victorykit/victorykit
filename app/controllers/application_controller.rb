@@ -28,7 +28,15 @@ class ApplicationController < ActionController::Base
       render_403
     end
   end
-  
+
+  def authorize_admin
+    if current_user.nil?
+      redirect_to login_path 
+    elsif !(current_user.is_admin)
+      render_403
+    end
+  end
+
   def render_403
     render :text => "You are not authorized to view this page", :status => 403
   end

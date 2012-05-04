@@ -1,6 +1,6 @@
 RSpec::Matchers.define :validate_presence_of do |field_name|
   match do |subject|
-    subject[field_name] = nil
+    subject.send(field_name.to_s+"=", nil)
     !subject.valid?
   end
 end

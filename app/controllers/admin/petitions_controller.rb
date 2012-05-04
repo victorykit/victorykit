@@ -1,4 +1,7 @@
 class Admin::PetitionsController < ApplicationController
+  before_filter :authorize
+  before_filter :authorize_admin
+
   def index
     @petition_analytics = PetitionAnalytic.all
     respond_to do |format|

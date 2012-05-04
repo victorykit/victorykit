@@ -6,6 +6,9 @@ FactoryGirl.define do
     factory :super_user do
       is_super_user true
     end
+    factory :admin_user do
+      is_admin true
+    end
   end
   factory :petition do |f|
     title { Faker::Lorem.sentence }
