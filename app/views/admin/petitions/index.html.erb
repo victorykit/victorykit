@@ -1,6 +1,12 @@
 <h1>Petitions dashboard</h1>
 
-<table id="petitions" class="bordered-table table-striped dataTable" data-source="<%= admin_petitions_url(format: "json") %>">
+Since <%= link_to_self_with_param :since, {:all => nil, :hour => 1.hour.ago, :day => 1.day.ago, :week => 1.week.ago, :month => 1.month.ago, :year => 1.year.ago }, " | " %>
+
+<table 
+	id="petitions" 
+	class="bordered-table table-striped dataTable" 
+	data-source="<%= admin_petitions_url(format: "json", since: params[:since]) %>">
+
   <thead>
     <tr>
       <th>Title</th>
@@ -14,17 +20,6 @@
   </thead>
 
   <tbody>
-    <% @petition_analytics.each do |analytic| %>
-    <tr>
-      <td><%= analytic.petition_title %></td>
-      <td><%= analytic.hit_count %></td>
-      <td><%= analytic.signature_count %></td>
-      <td><%= float_to_percentage(analytic.conversion_rate) %></td>
-      <td><%= analytic.new_member_count %></td>
-      <td><%= float_to_percentage(analytic.virality_rate) %></td>
-      <td><%= analytic.petition_created_at %></td>
-    </tr>
-    <% end %>
   </tbody>
 
 </table>

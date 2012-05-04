@@ -37,10 +37,15 @@ private
   end
 
   def fetch_petitions
-    petitions = PetitionAnalytic.order(sort_column, sort_direction)    
+    petitions = PetitionAnalytic.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
     petitions = Kaminari.paginate_array(petitions).page(page).per(per_page)
   end
 
+  def analytics_since
+    since = params[:since]
+    since.nil? ? nil : since.to_date
+  end
+  
   def page
     params[:iDisplayStart].to_i/per_page + 1
   end

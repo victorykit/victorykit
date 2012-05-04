@@ -1,7 +1,7 @@
 module Admin::PetitionsHelper
   
-  def float_to_percentage(f)
-    number_to_percentage(f*100, precision: 2)
+  def link_to_self_with_param option, option_items, delimiter
+    option_items.collect { |k,v| link_to k, url_for(params.merge(option => v))}.join(delimiter).html_safe
   end
   
 end

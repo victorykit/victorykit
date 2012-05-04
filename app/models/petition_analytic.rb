@@ -1,19 +1,23 @@
 class PetitionAnalytic
 
   def self.all
-    analytics_report_data = AnalyticsGateway.get_report_results
-    Petition.all.map do |p|    
+    all_since nil
+  end
+  
+  def self.all_since(time)
+    analytics_report_data = AnalyticsGateway.fetch_report_results(time)
+    Petition.all.map do |p|
       petition_path = Rails.application.routes.url_helpers.petition_path(p)
       PetitionAnalytic.new(p, analytics_report_data[petition_path])
-    end    
+    end
   end
 
   def self.count
     Petition.count
   end
   
-  def self.order(property, direction)
-    sorted = all.sort_by(&property.to_sym)
+  def self.all_since_and_ordered(time, property, direction)
+    sorted = all_since(time).sort_by(&property.to_sym)
     direction == :asc ? sorted : sorted.reverse
   end
           

@@ -1,7 +1,13 @@
 class AnalyticsGateway
+  #last hour, day, week, month, year, or all-time
     
-  def self.get_report_results
-    Rails.cache.fetch("analytics_gateway_report_results", :expires_in => 1.minute) do    
+  def self.fetch_report_results(since_time = nil)
+
+    cache_key = "analytics_gateway_report_results"
+    #keying by time to the minute effectively expires each minute
+    cache_key += "_#{since_time.strftime("%Y%m%d%H%M")}" unless since_time.nil? 
+
+    Rails.cache.fetch(cache_key, :expires_in => 1.second) do    
       authorize
       #todo: if not authorize
     
@@ -10,7 +16,7 @@ class AnalyticsGateway
       #todo: if not profile
     
       # sets up the query
-      report = Garb::Report.new(profile)
+      report = Garb::Report.new(profile, :start_date => 1.hour.ago, :end_date => Time.now)
       report.dimensions :pagePath
       report.metrics :pageViews    
     
@@ -22,6 +28,9 @@ class AnalyticsGateway
   end 
   
   def self.authorize
+    #todo move check to status page
+    raise "Cannot authorize: missing 'oauth' settings.  scripts/gen_google_auth" if settings.oauth.nil?
+    
     consumer = OAuth::Consumer.new(settings.oauth.user_id, settings.oauth.client_secret,
          {:site => 'https://www.google.com',
          :request_token_path => '/accounts/OAuthGetRequestToken',
