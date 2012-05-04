@@ -5,4 +5,3 @@
 require File.expand_path('../config/application', __FILE__)
 
 Victorykit::Application.load_tasks
-Rake::Task['check_ruby_version'].invoke
