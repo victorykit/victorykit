@@ -7,7 +7,7 @@ class AnalyticsGateway
     #keying by time to the minute effectively expires each minute
     cache_key += "_#{since_time.strftime("%Y%m%d%H%M")}" unless since_time.nil? 
 
-    Rails.cache.fetch(cache_key, :expires_in => 1.second) do    
+    Rails.cache.fetch(cache_key, :expires_in => 1.minute) do    
       authorize
       #todo: if not authorize
     
