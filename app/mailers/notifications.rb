@@ -1,5 +1,5 @@
 class Notifications < ActionMailer::Base
-  default from: "jensmith@thoughtworks.com"
+  default from: Settings.email.from_address
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #

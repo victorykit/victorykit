@@ -7,4 +7,5 @@ hasher:
   secret_key: OVERRIDE_ME
 google_analytics:
    analytics_id: UA-31218452-1
- 
+email:
+   from_address: info@watchdog.net
