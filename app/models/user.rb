@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   validates_presence_of :password_confirmation, on: :create
   validates :old_password, :old_password => true, :presence => true,  :on => :update, :if => :password_digest_changed?
   attr_accessible :email, :password, :old_password, :password_confirmation
-  attr_accessible :is_super_user, :is_admin, :as => :admin
+  attr_accessible :email,  :is_super_user, :is_admin, :as => :admin
   
   has_secure_password
   validates_uniqueness_of :email

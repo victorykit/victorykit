@@ -8,7 +8,18 @@ describe User do
       it { should validate_presence_of :password}
       it { should validate_presence_of :password_confirmation}
       it { should_not validate_presence_of :old_password}
-      it { should_not allow_mass_assignment_of [:is_super_user, :is_admin]}
+      it "should not allow mass assignment of user roles by default" do
+        expect {User.new({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
+      end
+    end
+    describe "update" do
+      subject { create(:user) }
+      it "should not allow mass assignment of user roles by default" do
+        expect {subject.update_attributes({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
+      end
+      it "should allow mass assignment of user roles to admins" do
+        subject.update_attributes({:is_super_user => true, :is_admin => true}, {:as => :admin} ).should be_true
+      end
     end
     describe "change_password" do
       let(:old_password) { "MY_OLD_SECRET_PASSWORD1"}

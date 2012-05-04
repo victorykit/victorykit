@@ -25,8 +25,13 @@ describe Admin::UsersController do
     describe "with valid params" do
       let(:user){ create(:user) }
       let(:action){ put :update, {:id => user.to_param} }
+
+      before :each do
+        User.any_instance.stub(:update_attributes).and_return(true)
+      end
+      
       it "updates the requested user" do
-        User.any_instance.should_receive(:update_attributes).with({'these' => 'params'})
+        User.any_instance.should_receive(:update_attributes).with({'these' => 'params'}, :as=>:admin)
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_super_user_session
       end
 
@@ -45,14 +50,15 @@ describe Admin::UsersController do
     describe "with invalid params" do
       let(:user){ create(:user) }
       let(:action){ put :update, {:id => user.to_param, :user => {}} }
+      before :each do
+        User.any_instance.stub(:update_attributes).and_return(false)
+      end
       it "assigns the user as @user" do
-        User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}, valid_super_user_session
         assigns(:user).should eq(user)
       end
 
       it "re-renders the 'edit' template" do
-        User.any_instance.stub(:save).and_return(false)
         put :update, {:id => user.to_param, :user => {}}, valid_super_user_session
         response.should render_template("edit")
       end

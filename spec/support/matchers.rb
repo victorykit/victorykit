@@ -9,3 +9,15 @@ RSpec::Matchers.define :model_with_properties do |expected_properties|
     "a string".should include("a") 
   end
 end
+RSpec::Matchers.define :allow_mass_assignment_of_by_default_role do | properties |
+  match do |subject|
+    expect {subject.update_attributes(Hash[properties.zip(properties)])}.to_not raise_error ActiveModel::MassAssignmentSecurity::Error
+  end
+end
+
+RSpec::Matchers.define :allow_mass_assignment_of_by_admin_role do | properties |
+  match do |subject|
+   subject.update_attributes( Hash[properties.zip(properties)], {:as => :admin} )
+expect {subject.update_attributes(Hash[properties.zip(properties)], {:as => :admin} )}.to_not raise_error ActiveModel::MassAssignmentSecurity::Error
+  end
+end
