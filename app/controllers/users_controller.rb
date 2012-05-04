@@ -16,19 +16,12 @@ class UsersController < ApplicationController
   
   def update
     @user = current_user
-    if @user && @user.authenticate(params[:user][:current_password]) 
-      if params[:user][:new_password].empty? || params[:user][:verify_password].empty? 
-        flash.now[:error] = "Please enter a new password and verify password"
-      elsif params[:user][:new_password] == params[:user][:verify_password]
-        @user.update_attributes(:password => params[:user][:new_password])
-        flash.now[:notice] = "Password was successfully updated"
-      else
-        flash.now[:error] = "New password does not match the verified password"
-      end
+    if(@user.update_attributes(params[:user]))
+      flash.notice = "Password was successfully updated"
+      redirect_to root_url
     else
-      flash.now[:error] = "Current password is incorrect"
+      render action: "edit"
     end
-    render action: "edit"
   end
   
 end

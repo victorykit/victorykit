@@ -18,19 +18,26 @@ describe UsersController do
   end
   
   describe "PUT update" do
+    let(:user){ create(:user) }
     describe "with valid params" do
-      let(:user){ create(:user) }
       before :each do
         User.any_instance.stub(:update_attributes).and_return(true)
       end
-      it "authenticates the user" do
-        User.any_instance.should_receive(:authenticate)
+      it "redirect to the root page" do
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
+        should redirect_to root_path
       end
-      
-      it "render edit page" do
-        put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
+    end
+    describe "with invalid params" do
+      before :each do
+        User.any_instance.stub(:update_attributes).and_return(false)
+        put :update, {id: user.to_param, user: {bad: "params"}}, valid_session
+      end
+      it "should render the edit page" do
         response.should render_template("edit")
+      end
+      it "should assign the user back to the page to show error messages" do
+        assigns(:user).should_not be_nil
       end
     end
   end
