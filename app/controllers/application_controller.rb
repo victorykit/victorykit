@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
   def authorize_admin
     if current_user.nil?
       redirect_to login_path 
-    elsif !(current_user.is_admin)
+    elsif !(current_user.is_admin || current_user.is_super_user)
       render_403
     end
   end
