@@ -8,6 +8,9 @@ class EmailScheduler
     max_emails_per_day = 10000
     mailer_process = MailerProcessTracker.find_by_id(1)
     while 1
+      #Lock table
+      #x = MailerProcessTracker.connection.execute("SELECT * FROM mailer_process_trackers WHERE mailer_process_trackers.id = 1").to_a 
+      #ActiveRecord::Base.connection.execute("LOCK TABLES users WRITE")
       if !mailer_process.nil? && !mailer_process.is_locked?
         begin
           update_mailer_process(mailer_process, true)

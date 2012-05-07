@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120507170244) do
+ActiveRecord::Schema.define(:version => 20120507205734) do
 
   create_table "mailer_process_trackers", :force => true do |t|
     t.boolean  "is_locked"
@@ -59,6 +59,14 @@ ActiveRecord::Schema.define(:version => 20120507170244) do
     t.integer  "member_id",      :null => false
   end
 
+  create_table "unsubscribes", :force => true do |t|
+    t.string   "email",      :null => false
+    t.integer  "cause"
+    t.integer  "member_id",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                              :null => false
     t.string   "password_digest",                    :null => false
@@ -75,5 +83,7 @@ ActiveRecord::Schema.define(:version => 20120507170244) do
 
   add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
   add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
+
+  add_foreign_key "unsubscribes", "members", :name => "unsubscribes_member_id_fk"
 
 end

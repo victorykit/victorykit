@@ -1,0 +1,5 @@
+%h1 Unsubscribe
+
+= simple_form_for(@unsubscribe, :html => {:class => 'form-horizontal' }) do |f|
+  = f.input :email, :as => :string
+  = f.button :submit, :class => 'btn btn-primary', :value => 'unsubscribe'
