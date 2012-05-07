@@ -2,4 +2,5 @@
 <% if @commit_hash %>
   <p>Deployed commit hash <%= @commit_hash %> </p>
 <% end %>
+<p>Redis uri <%= $redis_uri %> </p>
 <%= spin!("test_test", :test, ["John", "Paul", "George", "Ringo"]) %> 
