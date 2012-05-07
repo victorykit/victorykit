@@ -2,12 +2,22 @@ require 'scheduled_email'
 require 'whiplash'
 
 class EmailScheduler
-  include Bandit
+  extend Bandit
   
   def self.schedule_email
     max_emails_per_day = 10000
+    mailer_process = MailerProcessTracker.find_by_id(1)
     while 1
-      send_email
+      if !mailer_process.nil? && !mailer_process.is_locked?
+        begin
+          update_mailer_process(mailer_process, true)
+          send_email
+        rescue => error
+          puts "Error in sending mail #{error} #{error.backtrace.join}"
+        ensure
+          update_mailer_process(mailer_process, false)
+        end
+      end
       sleep(60*60*24/max_emails_per_day)
     end
   end
@@ -33,6 +43,11 @@ class EmailScheduler
     sentEmail = SentEmail.new(email: member.email, member: member, petition: petition)
     sentEmail.save!
     sentEmail.id
+  end
+  
+  def self.update_mailer_process(mailer_process, lock)
+    mailer_process.is_locked = lock
+    mailer_process.save!
   end
 end
 

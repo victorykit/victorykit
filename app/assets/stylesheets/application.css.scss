@@ -59,7 +59,7 @@ table {
 .floatright { float: right; }
 .calign { text-align: center; }
 form {
-  label { @extend .span1; @extend .floatleft; padding: 5px 10px 0 0; text-align: right; }
+  label { @extend .span1; @extend .floatleft; padding: 4px 10px 0 0; text-align: right; }
   input, textarea { @extend .span2; @extend .floatleft; }
   .control-group { clear: left; }
   input.btn { clear: both; }
@@ -117,4 +117,29 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
 .social_icons { float: left; margin-top: 6px;
   iframe { height: 30px; width: 275px; }
+}
+
+
+
+.signup_login {
+  @extend .span6;
+  &.login { width: 285px; }
+  @extend .well;
+  margin: 5% auto 0 auto;
+  min-height: 200px;
+  .btn { float: right; }
+  .signup {
+    @extend .span3;
+    border-right: 1px solid #888;
+    float: left;
+    padding: 0 10px;
+    .btn { margin-right: 20px; }
+  }
+  .login {
+    float: left;
+    width: 250px;
+    padding-left: 20px;
+    h1 { margin-bottom: 25px; }
+    .btn { margin-top: 31px; }
+  }
 }
