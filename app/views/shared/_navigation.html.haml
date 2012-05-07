@@ -13,7 +13,8 @@
     .container
       %ul.nav
         %li= link_to('Start a petition', new_petition_path)
-        %li= link_to('View all Petitions', petitions_url)
-        - if current_user && (current_user.is_super_user || current_user.is_admin)
+        %li= link_to('View all petitions', petitions_url)
+        - if can :edit_users
           %li= link_to('Users', admin_users_url)
-
+        - if can :edit_petitions
+          %li= link_to('Petition stats', admin_petitions_url)
