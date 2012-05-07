@@ -1,7 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-Victorykit::Application.config.session_store :redis_store, 
-  :redis_server => { :namespace => "victorykit_session" }
+Victorykit::Application.config.session_store :redis_store
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
