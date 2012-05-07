@@ -1,0 +1,29 @@
+- if @user.errors.any?
+  .alert.alert-error
+    Form is invalid
+    %ul
+      - @user.errors.full_messages.each do |message|
+        %li= message
+
+
+.signup_login
+  .signup
+    %h1
+      Sign Up
+      = simple_form_for @user do |f|
+        = f.input :email, :error => false
+        = f.input :password, :error => false
+        = f.input :password_confirmation, :error => false
+        = f.button :submit, :class => 'btn btn-primary', :value => 'Sign Up'
+
+  .login
+
+    %h1 Login
+
+    = form_tag sessions_path do |f|
+      = simple_fields_for :new_session do |session_form|
+        = session_form.input :email
+        = session_form.input :password
+        = session_form.button :submit, :class => 'btn btn-primary', :value => 'Log In'
+
+
