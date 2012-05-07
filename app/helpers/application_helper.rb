@@ -39,5 +39,9 @@ module ApplicationHelper
   
   def format_date_time(d)
     d.strftime("%Y-%m-%d %H:%M")
-  end  
+  end
+  
+  def can(permission)
+    current_user && (current_user.is_super_user || current_user.is_admin)
+  end
 end

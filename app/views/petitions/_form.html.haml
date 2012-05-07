@@ -1,5 +1,6 @@
 = simple_form_for(@petition, :html => {:class => 'form-horizontal' }) do |f|
   = f.input :title, :as => :string
   = f.input :description
-  = f.input :to_send
+  - if can :feature_petition
+    = f.input :to_send
   = f.button :submit, :class => 'btn btn-primary'

@@ -9,7 +9,7 @@
       Description
     %th.span1
     %th.span1
-    - if current_user && (current_user.is_super_user || current_user.is_admin)
+    - if can :feature_petition
       %th.span2
         Feature this Petition
 
@@ -23,7 +23,7 @@
         = link_to('Show', petition)
       %td.calign
         = link_to('Edit', edit_petition_path(petition))
-      - if current_user && (current_user.is_super_user || current_user.is_admin)
+      - if can :feature_petition
         %td.calign 
           =check_box_tag petition.to_send, petition.to_send, petition.to_send, :disabled => true
 
