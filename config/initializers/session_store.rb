@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-Victorykit::Application.config.session_store :redis_store, :servers => Settings.redis.uri
+Victorykit::Application.config.session_store :redis_store, :servers => Settings.redis.uri + "/0/rails_session"
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
