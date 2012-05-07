@@ -1,28 +1,42 @@
 .petition
+  .petition_image
   %h1
     = @petition.title
+  .social_icons
+    <a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+    = facebook_like petition_url(params[:petition_id])
+  .progress_bar
+    .numbers
+      330 of 1,000 supporters have signed
+    .progress
+      .bar
+  %hr
+  .description= simple_format(@petition.description)
+
+.petition_sidebar
   - if !current_user.nil? && @petition.has_edit_permissions(current_user)
     = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
 
-  = simple_format(@petition.description)
 
-#sign-up-form
-  .title
-    Sign this Petition!
-  = simple_form_for([@petition, @signature]) do |f|
-    = f.input :name
-    = f.input :email
-    - if @email_hash 
-      = hidden_field_tag :email_hash, @email_hash
-    .span3
-      = f.button :submit, :class => 'btn btn-primary', :value => 'Sign!'
+  - if current_user.nil? || !@petition.has_edit_permissions(current_user)
+    #sign-up-form
+      .title
+        Sign this Petition!
+      .through_site
+        = simple_form_for([@petition, @signature]) do |f|
+          = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
+          = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
+          - if @email_hash
+            = hidden_field_tag :email_hash, @email_hash
+          = f.button :submit, :class => 'btn btn-primary', :value => 'Sign!'
+      .through_fb
+        .text Sign in via
+        .button.btn.btn-primary Facebook!
 
 
-  #thanks-for-signing-message
-    Thanks for signing -- please share on Facebook:
 
-#sharing-stuff
-  = facebook_like petition_url(params[:petition_id])
+      #thanks-for-signing-message
+        Thanks for signing -- please share on Facebook:
 
 - content_for(:meta_tags) do
   - petition_to_open_graph(@petition).each do |key, value|

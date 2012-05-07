@@ -82,10 +82,40 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   }
 }
 .petition { @extend .span9; @extend .floatleft; margin-right: -10px;
+  .petition_image { height: 90px; width: 90px; margin-right: 5px; background: grey; float: left; }
   .edit { @extend .floatright; margin: -40px 10px 0 0; }
   .description { padding-right: 20px; clear: both; }
 }
 #sign-up-form { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px;
-  .btn { @extend .floatright; margin: 0 12px 10px 0; }
-  .title { font-size: 20px; font-weight: bold; color: #666; padding: 15px; }
+  .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; }
+  .through_site {
+    width: 150px; border-right: 1px solid #555; padding: 5px 10px;
+    input { width: 140px; &.btn { width: 148px; } }
+    float: left;
+    margin-bottom: 10px;
+  }
+  .through_fb {
+    float: right;
+    width: 81px;
+    padding: 0 9px;
+    .text { margin: 25px 0 5px; text-align: center; }
+  }
+}
+.progress_bar {
+  * {
+    float: right;
+  }
+  .progress {
+    width: 300px;
+    clear: right;
+    .bar {
+      width: 100px;
+      float: left;
+    }
+  }
+}
+hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
+.petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
+.social_icons { float: left; margin-top: 6px;
+  iframe { height: 30px; width: 275px; }
 }
