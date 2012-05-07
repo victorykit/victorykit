@@ -7,9 +7,12 @@
     = facebook_like petition_url(params[:petition_id])
   .progress_bar
     .numbers
-      330 of 1,000 supporters have signed
+      = @sigcount
+      of 
+      = counter_size(@sigcount)
+      supporters have signed
     .progress
-      .bar
+      .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
   %hr
   .description= simple_format(@petition.description)
 

@@ -14,5 +14,14 @@ module PetitionsHelper
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
     }
-  end  
+  end
+  
+  def counter_size(petition_count)
+    counters = [5, 10, 50, 100, 250, 500, 750, 1000, 2000, 5000, 7500, 10000, 15000, 20000, 100000, 1000000]
+    for i in counters
+      if petition_count < i
+        return i
+      end
+    end
+  end
 end

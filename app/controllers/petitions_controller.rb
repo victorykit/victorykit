@@ -7,6 +7,7 @@ class PetitionsController < ApplicationController
 
   def show
     @petition = Petition.find(params[:id])
+    @sigcount = @petition.signatures.count
     @email_hash = params[:n]
     signed_petitions = session[:signed_petitions] || []
     @user_has_signed = signed_petitions.include? @petition.id
