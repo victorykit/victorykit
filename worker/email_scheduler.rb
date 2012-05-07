@@ -2,7 +2,7 @@ require 'scheduled_email'
 require 'whiplash'
 
 class EmailScheduler
-  extend Bandit
+  include Bandit
   
   def self.schedule_email
     max_emails_per_day = 10000
@@ -26,7 +26,7 @@ class EmailScheduler
 
   def self.get_member_to_email
     q = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 month') WHERE sent_emails.member_id is null").to_a
-    q.empty? ? nil : Member.find_by_id(q.to_a.sample['id'])
+    q.empty? ? nil : Member.find_by_id(q.sample['id'])
   end
 
   def self.log_sent_email(member, petition)

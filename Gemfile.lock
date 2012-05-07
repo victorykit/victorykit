@@ -126,6 +126,22 @@ GEM
     rdoc (3.12)
       json (~> 1.4)
     redis (2.2.2)
+    redis-actionpack (3.2.3)
+      actionpack (~> 3.2.3)
+      redis-rack (~> 1.4.0)
+      redis-store (~> 1.1.0)
+    redis-activesupport (3.2.3)
+      activesupport (~> 3.2.3)
+      redis-store (~> 1.1.0)
+    redis-rack (1.4.1)
+      rack (= 1.4.1)
+      redis-store (~> 1.1.0)
+    redis-rails (3.2.3)
+      redis-actionpack (~> 3.2.3)
+      redis-activesupport (~> 3.2.3)
+      redis-store (~> 1.1.0)
+    redis-store (1.1.0)
+      redis (~> 2.2.0)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -192,6 +208,8 @@ DEPENDENCIES
   rails (= 3.2.3)
   rails_config
   redis
+  redis-rails
+  redis-store
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.3)
   sass-twitter-bootstrap-rails (~> 1.0)
