@@ -1,17 +1,17 @@
-= link_to('', '/', :class => 'logo')
-.logininfo
-  - if current_user
-    %div
-      Logged in as #{current_user.email}
-    = link_to('Change Password', edit_user_path(current_user))
-    = link_to('Log Out', logout_path)
-  - else
-    = link_to('Sign Up or Log In', signup_path)
-.navbar
-  .navbar-inner
+.topnav
+  .navigation
+    = link_to('', '/', :class => 'logo')
+    .logininfo
+      - if current_user
+        %div
+          Logged in as #{current_user.email}
+        = link_to('Change Password', edit_user_path(current_user))
+        = link_to('Log Out', logout_path)
+      - else
+        = link_to('Sign Up or Log In', signup_path)
     .container
-      %ul.nav
-        %li= link_to('Start a petition', new_petition_path)
+      %ul
+        %li= link_to('Start a petition', new_petition_path, :class => 'btn btn-primary')
         %li= link_to('View all petitions', petitions_url)
         - if can :edit_users
           %li= link_to('Users', admin_users_url)

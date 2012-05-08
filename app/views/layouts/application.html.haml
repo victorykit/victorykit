@@ -10,9 +10,9 @@
     = google_analytics_tracker
     = csrf_meta_tags
   %body
+    = render :partial =>  "shared/navigation"
     .container
-      = render :partial =>  "shared/navigation"
       .content
         = render :partial => 'shared/flash_messages'
         = yield
-      = render :partial =>  "shared/footer"
+    = render :partial =>  "shared/footer"
