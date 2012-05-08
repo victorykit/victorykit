@@ -11,4 +11,10 @@ class User < ActiveRecord::Base
   has_secure_password
   validates_uniqueness_of :email
   validates_presence_of :email
+  
+  after_validation :remove_password_digest_errors
+  
+  def remove_password_digest_errors
+    errors.delete :password_digest if errors.include? :password
+  end
 end

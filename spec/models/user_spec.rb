@@ -11,6 +11,11 @@ describe User do
       it "should not allow mass assignment of user roles by default" do
         expect {User.new({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
       end
+      it "should not validate password digest if password validation fails" do
+        u = User.new
+        u.save
+        u.errors.should_not include :password_digest
+      end
     end
     describe "update" do
       subject { create(:user) }
