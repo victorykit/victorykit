@@ -34,25 +34,25 @@ module Bandit
       return mysession[test_name]
     end
     
-    REDIS.sadd("test/goals/#{goal}", test_name)
+    REDIS.sadd("whiplash/goals/#{goal}", test_name)
     loptions = {}
     options.each { |o| loptions[o] = [
-      REDIS.zcard("test/#{test_name}/#{o}/spin"),
-      REDIS.zcard("test/#{test_name}/#{o}/win")
+      REDIS.zcard("whiplash/#{test_name}/#{o}/spin"),
+      REDIS.zcard("whiplash/#{test_name}/#{o}/win")
     ] }
     choice = best_guess(loptions)
-    REDIS.zadd("test/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
+    REDIS.zadd("whiplash/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
     mysession[test_name] = choice
     choice
   end
 
   def win_on_option!(test_name, choice, mysession=nil)
-    REDIS.zadd("test/#{test_name}/#{choice}/win", Time.now.to_f, redis_nonce(mysession))
+    REDIS.zadd("whiplash/#{test_name}/#{choice}/win", Time.now.to_f, redis_nonce(mysession))
   end
 
   def win!(goal, mysession=nil)
     mysession ||= session
-    REDIS.smembers("test/goals/#{goal}").each do |t|
+    REDIS.smembers("whiplash/goals/#{goal}").each do |t|
       win_on_option!(t, session[t], mysession)
     end
   end
