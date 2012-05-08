@@ -8,7 +8,7 @@ class UnsubscribesController < ApplicationController
     if !@unsubscribe.member.nil? && @unsubscribe.save
       redirect_to root_url, notice: 'You have successfully unsubscribed.'
     else
-      render action: "new"
+      redirect_to new_unsubscribe_url, notice: 'There was a problem when we tried to unsubscribe you.'
     end
   end
   
