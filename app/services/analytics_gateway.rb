@@ -16,7 +16,7 @@ class AnalyticsGateway
       #todo: if not profile
     
       # sets up the query
-      report = Garb::Report.new(profile, :start_date => 1.hour.ago, :end_date => Time.now)
+      report = Garb::Report.new(profile, :start_date => since_time, :end_date => Time.now)
       report.dimensions :pagePath
       report.metrics :pageViews    
     
