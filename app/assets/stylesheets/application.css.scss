@@ -231,7 +231,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     .signup {
       @extend .span2;
       float: left;
-      margin: 10px 5px;
+      margin: 10px 0;
       .btn { clear: left; margin-top: 15px; width: 102px; }
       .btn:first-child { margin-top: 0; }
       .btn:only-child { margin-top: 7px; }
