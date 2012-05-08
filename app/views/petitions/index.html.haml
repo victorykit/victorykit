@@ -16,7 +16,7 @@
   - @petitions.each do |petition|
     %tr
       %td
-        #{petition.title}
+        = link_to(petition.title, petition)
       %td
         = simple_format(petition.description)
       %td.calign
