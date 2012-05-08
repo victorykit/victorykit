@@ -10,22 +10,31 @@ describe UnsubscribesController do
     end
   end
 
-=begin
-  describe "POST create" do
-    
-    let(:action){ post :create }
-
+  describe "POST create" do   
     describe "with valid params" do
-      before(:each) do
-        post :create, {unsubscribe: valid_attributes}
+      before :each do
+        Unsubscribe.any_instance.stub(:save).and_return(true)
+        post :create, email: "blah@blah.com", cause: "unsubscribed", :member => {email: "blah@blah.com"}
       end
       describe "the newly created unsubscribe" do
-        subject { assigns(:unsubscribe) }
+        subject { assigns(:unsubscribe) } 
         it { should be_a(Unsubscribe) }
         its(:cause) { should == "unsubscribed"}
+      end      
+    end
+    
+    describe "with invalid params" do
+      before :each do
+        Unsubscribe.any_instance.stub(:save).and_return(false)
+        post :create, email: "blah@blah.com", cause: "unsubscribed", :member => {email: "blah@blah.com"}
       end
-      its(:response) { response.should redirect_to(root_url) }
+      it "assigns a newly created but unsaved unsubscribe as @unsubscribe" do
+        assigns(:unsubscribe).should be_a_new(Unsubscribe)
+      end
+      it "should redirect to new subscriber url" do
+        response.should redirect_to new_unsubscribe_url
+      end
     end
   end
-=end  
+  
 end
