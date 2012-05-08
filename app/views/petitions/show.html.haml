@@ -8,7 +8,7 @@
   .progress_bar
     .numbers
       = @sigcount
-      of 
+      of
       = counter_size(@sigcount)
       supporters have signed
     .progress
@@ -36,10 +36,11 @@
         .text Sign in via
         .button.btn.btn-primary Facebook!
 
+      .privacypolicy
+        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
-
-      #thanks-for-signing-message
-        Thanks for signing -- please share on Facebook:
+    #thanks-for-signing-message
+      Thanks for signing -- please share on Facebook:
 
 - content_for(:meta_tags) do
   - petition_to_open_graph(@petition).each do |key, value|

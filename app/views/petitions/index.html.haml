@@ -1,31 +1,20 @@
 %h1
   Listing petitions
 
-%table.table.table-striped.table-condensed
-  %tr
-    %th.span3
-      Title
-    %th.span7
-      Description
-    %th.span1
-    %th.span1
-    - if can :feature_petition
-      %th.span2
-        Feature this Petition
-
+.petitionlist
   - @petitions.each do |petition|
-    %tr
-      %td
-        = link_to(petition.title, petition)
-      %td
-        = simple_format(petition.description)
-      %td.calign
-        = link_to('Show', petition)
-      %td.calign
-        = link_to('Edit', edit_petition_path(petition))
-      - if can :feature_petition
-        %td.calign 
-          =check_box_tag petition.to_send, petition.to_send, petition.to_send, :disabled => true
+    .petition
+      .about_petition
+        = link_to(petition.title, petition, :class => 'title')
+        .description
+          = truncate(petition.description, :length => 180, :omission => '...')
+        - if can :feature_petition
+          .feature
+            Feature this Petition
+            =check_box_tag petition.to_send, petition.to_send, petition.to_send, :disabled => true
+      .signup
+        = link_to('Sign this Petition!', petition, :class => 'btn btn-primary')
+        - if !current_user.nil? && petition.has_edit_permissions(current_user)
+          = link_to('Edit this Petition', edit_petition_path(petition), :class => 'btn btn-primary')
 
-= link_to('Start a New Petition', new_petition_path, :class => 'btn btn-primary')
 

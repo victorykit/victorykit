@@ -18,7 +18,7 @@
 
 a:hover { text-decoration: none; }
 .container { margin: 0 auto; }
-.content {  min-height: 500px; background: #fff; padding: 5px 10px; }
+.content {  min-height: 600px; background: #fff; padding: 5px 10px; }
 .footer { clear: both; text-align: center; background: #ddd; }
 .topnav {
   background: #333;
@@ -77,6 +77,7 @@ table {
 .floatright { float: right; }
 .calign { text-align: center; }
 form {
+  margin-bottom: 40px;
   label { @extend .span1; @extend .floatleft; padding: 4px 10px 0 0; text-align: right; }
   input, textarea { @extend .span2; @extend .floatleft; }
   .control-group { clear: left; }
@@ -108,7 +109,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; }
   .through_site {
     width: 150px; border-right: 1px solid #555; padding: 5px 10px;
-    input { width: 140px; &.btn { width: 148px; } }
+    input { width: 140px; &.btn { width: 100%; } }
     float: left;
     margin-bottom: 10px;
   }
@@ -117,6 +118,18 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
     width: 81px;
     padding: 0 9px;
     .text { margin: 25px 0 5px; text-align: center; }
+  }
+  .privacypolicy {
+    width: 100%;
+    padding: 0 0 10px 0;
+  }
+  /* Until Facebook Login works, use this */
+  .through_fb { display: none; }
+  .through_site {
+    width: auto;
+    border-right: none;
+    input { width: 240px; }
+    .btn { float: right; }
   }
 }
 .progress_bar {
@@ -138,13 +151,16 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 }
 
 
-
-.signup_login {
+.center6{
   @extend .span6;
-  &.login { width: 285px; }
-  @extend .well;
-  margin: 5% auto 0 auto;
+  margin: 0 auto;
   min-height: 200px;
+}
+.signup_login {
+  @extend .center6;
+  &.login { width: 285px; }
+  margin-top: 5%;
+  @extend .well;
   .btn { float: right; }
   .signup {
     @extend .span3;
@@ -154,6 +170,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     .btn { margin-right: 20px; }
   }
   .login {
+    @extend .center6;
     float: left;
     width: 250px;
     padding-left: 20px;
@@ -161,3 +178,65 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     .btn { margin-top: 31px; }
   }
 }
+.privacypolicy {
+  @extend .span5;
+  margin: 10px auto 0;
+  color: #888;
+  font-size: 11px;
+  padding: 0 20px;
+  text-align: center;
+}
+.signuplink {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.petitionform {
+  @extend .center6;
+  @extend .well;
+  padding: 20px;
+  margin-top: 5%;
+  min-height: 275px;
+  h1 { margin: 0 0 20px 15px; }
+  form { max-width: 530px; }
+  label { @extend .span1; }
+  input, textarea { @extend .span4; }
+  textarea { min-height: 200px; }
+  .btn { @extend .span2; float: right; }
+}
+
+
+
+.petitionlist {
+  .petition {
+    @extend .span8;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    &:last-of-type { border-bottom: none; }
+    .about_petition {
+      @extend .span6;
+      padding-left: 20px;
+      float: left;
+      a.title {
+        font-size: 16px;
+        font-weight: bold;
+        color: navy;
+      }
+      .description {
+        color: #666;
+      }
+    }
+    .feature { margin-top: 10px; }
+    .signup {
+      @extend .span2;
+      float: left;
+      margin: 10px 5px;
+      .btn { clear: left; margin-top: 15px; width: 102px; }
+      .btn:first-child { margin-top: 0; }
+      .btn:only-child { margin-top: 7px; }
+    }
+  }
+}
+
+#petition_to_send { margin-left: -191px; }

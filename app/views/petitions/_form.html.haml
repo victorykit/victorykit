@@ -2,5 +2,5 @@
   = f.input :title, :as => :string
   = f.input :description
   - if can :feature_petition
-    = f.input :to_send
+    = f.input :to_send, :label => 'Feature this petition'
   = f.button :submit, :class => 'btn btn-primary'
