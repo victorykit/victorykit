@@ -1,0 +1,7 @@
+%h1 Site Status
+-if @commit_hash
+  %p
+    Deployed commit hash 
+    %code #{@commit_hash}.
+%p
+  You are session ID #{@session_id}.
