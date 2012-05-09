@@ -1,0 +1,16 @@
+%h1 Petitions dashboard
+
+%p
+  Since #{link_to_self_with_param :since, {'today' => Date.today,'yesterday' => 1.day.ago, 'a week ago' => 1.week.ago, 'a month ago' => 1.month.ago, 'a year ago' => 1.year.ago, 'forever' => nil}, " | "}
+
+%table#petitions.bordered-table.table-striped.dataTable{"data-source" => admin_petitions_url(format: "json", since: params[:since])}
+  %thead
+    %tr
+      %th Title
+      %th Hits
+      %th Signatures
+      %th Conversion
+      %th New members
+      %th Virality
+      %th Created
+  %tbody
