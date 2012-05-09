@@ -1,5 +1,6 @@
 <h1>Site Status</h1>
 <% if @commit_hash %>
-  <p>Deployed commit hash <%= @commit_hash %> </p>
+  <p>Deployed commit hash <code><%= @commit_hash %></code>.</p>
 <% end %>
-<%= spin!("test_test", :test, ["John", "Paul", "George", "Ringo"]) %> 
+
+<p>You are session ID <%=@session_id%>.</p>

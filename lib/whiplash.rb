@@ -25,6 +25,9 @@ module Bandit
   end
 
   def redis_nonce(mysession)
+    # force creation of a session_id
+    mysession[:tmp] = 1
+    mysession.delete(:tmp)
     "#{mysession[:session_id]}_#{Random.rand}"
   end  
 
