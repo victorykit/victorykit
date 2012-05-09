@@ -5,14 +5,15 @@
   .social_icons
     -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
     = facebook_like petition_url(params[:petition_id])
-  .progress_bar
-    .numbers
-      = @sigcount
-      of
-      = counter_size(@sigcount)
-      supporters have signed
-    .progress
-      .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+  - if spin! "show thermometer", :signup
+    .progress_bar
+      .numbers
+        = @sigcount
+        of
+        = counter_size(@sigcount)
+        supporters have signed
+      .progress
+        .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
   %hr
   .description= simple_format(@petition.description)
 
