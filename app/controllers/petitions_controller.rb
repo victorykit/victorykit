@@ -1,5 +1,5 @@
 class PetitionsController < ApplicationController
-  before_filter :authorize, except: [:show, :index]
+  before_filter :require_login, except: [:show, :index]
 
   def index
     @petitions = Petition.all
@@ -39,7 +39,7 @@ class PetitionsController < ApplicationController
   def update
     @petition = Petition.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
-    if @petition.update_attributes(params[:petition])
+    if @petition.update_attributes(params[:petition], as: role)
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
       render action: "edit"

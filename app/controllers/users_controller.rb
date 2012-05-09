@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :require_login, except: [:new, :create]
   
   def new
     @user = User.new
@@ -16,12 +17,11 @@ class UsersController < ApplicationController
   
   def update
     @user = current_user
-    if(@user.update_attributes(params[:user]))
+    if @user.update_attributes(params[:user])
       flash.notice = "Password was successfully updated"
       redirect_to root_url
     else
       render action: "edit"
     end
   end
-  
 end
