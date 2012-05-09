@@ -8,7 +8,7 @@ class ScheduledEmail < ActionMailer::Base
   #
   def new_petition(petition, email, sent_email_id)
     @petition_link = petition_url(petition) + "?n=" + Hasher.generate(sent_email_id)
-    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
+    @unsubscribe_link = new_unsubscribe_url()
     @petition = petition
     
     mail(subject: "New Petition: '#{petition.title}'!", to: email).deliver

@@ -8,15 +8,17 @@ class EmailScheduler
     max_emails_per_day = 10000
     
     while 1
-      mailer_process = MailerProcessTracker.find_by_id(1, :lock => true)
-      if !mailer_process.nil? && !mailer_process.is_locked?
-        begin
-          update_mailer_process(mailer_process, true)
-          send_email
-        rescue => error
-          puts "Error in sending mail #{error} #{error.backtrace.join}"
-        ensure
-          update_mailer_process(mailer_process, false)
+      MailerProcessTracker.transaction do
+        mailer_process = MailerProcessTracker.find_by_id(1, :lock => true)
+        if !mailer_process.nil? && !mailer_process.is_locked?
+          begin
+            update_mailer_process(mailer_process, true)
+            send_email
+          rescue => error
+            puts "Error in sending mail #{error} #{error.backtrace.join}"
+          ensure
+            update_mailer_process(mailer_process, false)
+          end
         end
       end
       sleep(60*60*24/max_emails_per_day)
@@ -31,7 +33,7 @@ class EmailScheduler
       sent_email_id = log_sent_email(member, petition)
       ScheduledEmail.new_petition(petition, member.email, sent_email_id)
     else
-      #puts "No more people to email."
+      puts "No more people to email."
     end
   end
 
