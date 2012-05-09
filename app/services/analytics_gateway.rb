@@ -1,11 +1,12 @@
 class AnalyticsGateway
-  #last hour, day, week, month, year, or all-time
-    
-  def self.fetch_report_results(since_time = nil)
-
+  DAWN_OF_TIME = Time.new(2012, 4, 26) #this is when we started with analytics
+  
+  #last day, week, month, year, or all-time  
+  def self.fetch_report_results(since_date = nil)
+    since_date ||= DAWN_OF_TIME
     cache_key = "analytics_gateway_report_results"
     #keying by time to the minute effectively expires each minute
-    cache_key += "_#{since_time.strftime("%Y%m%d%H%M")}" unless since_time.nil? 
+    cache_key += "_#{since_date.strftime("%Y%m%d")}"
 
     Rails.cache.fetch(cache_key, :expires_in => 1.minute) do    
       authorize
@@ -16,7 +17,7 @@ class AnalyticsGateway
       #todo: if not profile
     
       # sets up the query
-      report = Garb::Report.new(profile, :start_date => since_time || 1.month.ago, :end_date => Time.now)
+      report = Garb::Report.new(profile, :start_date => since_date, :end_date => Date.today)
       report.dimensions :pagePath
       report.metrics :pageViews    
     
