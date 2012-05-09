@@ -11,4 +11,8 @@ class Notifications < ActionMailer::Base
     
     mail(subject: "Thanks for signing '#{signature.petition.title}'!", to: signature.email).deliver
   end
+  
+  def unsubscribed unsubscription
+    mail(subject:"You've successfully unsubscribed", to: unsubscription.email).deliver
+  end
 end
