@@ -1,0 +1,8 @@
+%h1 Update Password
+
+=simple_form_for current_user do |f|
+  =f.input :old_password
+  =f.input :password
+  =f.input :password_confirmation
+  =f.button :submit, :class => 'btn btn-primary', :value => 'Update Password'
+
