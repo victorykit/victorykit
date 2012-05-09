@@ -20,6 +20,9 @@
 
 config/settings.local.yml
 config/settings/*.local.yml
+config/settings/development.yml
+config/settings/test.yml
 config/environments/*.local.yml
 
 /.sass-cache
+/dump.rdb
