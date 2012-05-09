@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120508174238) do
+ActiveRecord::Schema.define(:version => 20120509193400) do
 
   create_table "mailer_process_trackers", :force => true do |t|
     t.boolean  "is_locked"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(:version => 20120508174238) do
     t.integer  "member_id",  :null => false
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "ip_address"
+    t.string   "user_agent"
   end
 
   create_table "users", :force => true do |t|

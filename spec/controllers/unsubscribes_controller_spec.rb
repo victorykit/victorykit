@@ -20,6 +20,8 @@ describe UnsubscribesController do
         subject { assigns(:unsubscribe) } 
         it { should be_a(Unsubscribe) }
         its(:cause) { should == "unsubscribed"}
+        its(:ip_address) { should == "0.0.0.0"}
+        its(:user_agent) { should == "Rails Testing"}
       end      
     end
     
