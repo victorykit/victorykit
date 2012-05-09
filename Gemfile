@@ -62,3 +62,5 @@ gem 'rails_config'
 gem 'kaminari'
 gem 'redis-store'
 gem 'redis-rails'
+
+gem 'dkim'
