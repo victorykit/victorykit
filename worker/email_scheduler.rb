@@ -33,12 +33,12 @@ class EmailScheduler
       sent_email_id = log_sent_email(member, petition)
       ScheduledEmail.new_petition(petition, member.email, sent_email_id)
     else
-      puts "No more people to email."
+      #puts "No more people to email."
     end
   end
 
   def self.get_member_to_email
-    q = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 month') WHERE sent_emails.member_id is null").to_a
+    q = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 month') LEFT JOIN unsubscribes ON (members.id = unsubscribes.member_id) WHERE sent_emails.member_id is null AND unsubscribes.member_id is null").to_a
     q.empty? ? nil : Member.find_by_id(q.sample['id'])
   end
 

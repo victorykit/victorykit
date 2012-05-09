@@ -4,7 +4,7 @@ class ScheduledEmail < ActionMailer::Base
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.notifications.signed_petition.subject
+  #   en.scheduled_email.new_petition.subject
   #
   def new_petition(petition, email, sent_email_id)
     @petition_link = petition_url(petition) + "?n=" + Hasher.generate(sent_email_id)
