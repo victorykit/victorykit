@@ -4,9 +4,8 @@ aws:
   access_key_id: OVERRIDE_ME
   secret_access_key: OVERRIDE_ME
 hasher:
-  secret_key: victorize
+  secret_key: OVERRIDE_ME
 google_analytics:
-   analytics_id: UA-31572927-1
+  analytics_id: UA-31572927-1
 email:
-   from_address: info@watchdog.net
-
+  from_address: info@watchdog.net
