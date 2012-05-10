@@ -6,6 +6,7 @@ Victorykit::Application.routes.draw do
   resources :users
   resources :sessions
   resources :unsubscribes
+  resources :incoming_mails
   resources :status, only: :index
   resources :petitions do
     resources :signatures
