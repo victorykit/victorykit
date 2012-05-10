@@ -1,6 +1,6 @@
 # see http://datatables.net/usage/server-side for details on how datatables work, params, etc
 class PetitionsDatatable
-  delegate :params, :h, :float_to_percentage, :format_date_time, to: :@view
+  delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, to: :@view
     
   def initialize(view)
     @view = view
@@ -20,8 +20,9 @@ private
 
   def data
     petitions.map do |petition|
+      petition_record = Petition.find_by_title petition.petition_title
       [
-        h(petition.petition_title),
+        link_to(petition_record.title, petition_record),
         h(petition.hit_count),
         h(petition.signature_count),
         h(float_to_percentage(petition.conversion_rate)),
