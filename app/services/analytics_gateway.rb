@@ -2,7 +2,7 @@ class AnalyticsGateway
   DAWN_OF_TIME = Time.new(2012, 4, 26) #this is when we started with analytics
   
   #last day, week, month, year, or all-time  
-  def fetch_report_results(since_date = nil)
+  def self.fetch_report_results(since_date = nil)
     since_date ||= DAWN_OF_TIME
     cache_key = "analytics_gateway_report_results"
     #keying by time to the minute effectively expires each minute
@@ -28,7 +28,7 @@ class AnalyticsGateway
     end
   end 
   
-  def authorize
+  def self.authorize
     #todo move check to status page
     raise "Cannot authorize: missing 'oauth' settings.  scripts/gen_google_auth" if settings.oauth.nil?
     
@@ -41,7 +41,7 @@ class AnalyticsGateway
     Garb::Session.access_token = OAuth::AccessToken.new(consumer, settings.oauth.token, settings.oauth.secret)
   end
 
-  def settings
+  def self.settings
     Settings.google_analytics
   end
 end
