@@ -32,4 +32,7 @@ FactoryGirl.define do
     email { Faker::Internet.email }
     member
   end
+  factory :petition_analysis do
+    pageviews 200
+  end
 end

@@ -2,8 +2,9 @@
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, to: :@view
     
-  def initialize(view)
+  def initialize(view, analyzer)
     @view = view
+    @analyzer = analyzer
   end
 
   def as_json(options = {})
@@ -20,9 +21,8 @@ private
 
   def data
     petitions.map do |petition|
-      petition_record = Petition.find_by_title petition.petition_title
       [
-        link_to(petition_record.title, petition_record),
+        link_to(petition.petition_title, petition.petition_record),
         h(petition.hit_count),
         h(petition.signature_count),
         h(float_to_percentage(petition.conversion_rate)),
@@ -38,7 +38,7 @@ private
   end
 
   def fetch_petitions
-    petitions = PetitionAnalytic.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
+    petitions = @analyzer.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
     petitions = Kaminari.paginate_array(petitions).page(page).per(per_page)
   end
 
