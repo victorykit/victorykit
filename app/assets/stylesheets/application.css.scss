@@ -68,6 +68,7 @@ a.logo {
   width: 207px;
   margin: 1px 15px 0 0;
 }
+a.logo_dark { @extend a.logo; background: url('logo_dark.png'); }
 h1 { margin-bottom: 10px; }
 table {
   border-bottom: 1px solid #DDDDDD;
