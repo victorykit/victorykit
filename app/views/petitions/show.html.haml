@@ -38,7 +38,7 @@
             = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
             - if @email_hash
               = hidden_field_tag :email_hash, @email_hash
-            = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!'
+            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signup, ['Sign!', 'Sign Now!', 'Sign Up!'])})
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!
