@@ -1,4 +1,4 @@
-class PetitionAnalytic
+class PetitionStatistics
 
   def self.count
     Petition.count

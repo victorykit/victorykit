@@ -2,18 +2,19 @@
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, to: :@view
     
-  def initialize(view, analyzer)
+  def initialize(view, statistics_builder)
     @view = view
-    @analyzer = analyzer
+    @statistics_builder = statistics_builder
   end
 
   def as_json(options = {})
-    count = PetitionAnalytic.count
+    formatted_data = data
+    count = formatted_data.count
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: count,
       iTotalDisplayRecords: count,
-      aaData: data
+      aaData: formatted_data
     }
   end
 
@@ -38,7 +39,7 @@ private
   end
 
   def fetch_petitions
-    petitions = @analyzer.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
+    petitions = @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
     petitions = Kaminari.paginate_array(petitions).page(page).per(per_page)
   end
 
