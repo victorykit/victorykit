@@ -138,7 +138,6 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   @extend .rightcolwell;
   font-size: 14px;
   font-weight: bold;
-  padding: 10px;
   text-align: center;
   .thanks { font-size: 27px; margin: 15px 0 25px;}
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
@@ -163,7 +162,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
 }
 hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
-.social_icons { float: left; margin-top: 6px;
+.social_icons { float: left; margin-top: 16px;
   iframe { height: 30px; width: 275px; }
 }
 
@@ -258,3 +257,53 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 
 #petition_to_send { margin-left: -191px; }
 .bigcenteredmessage { font-size: 25px; margin: 15% 0 35%; text-align: center; }
+
+
+
+
+/* tests for petition show UI */
+
+/* petition left vs right */
+.petitionright {
+  .petition { float: right; }
+  .petition_sidebar {
+    margin-left: 0;
+    .rightcolwell, #sign-up-form, #thanks-for-signing-message {
+      margin-left: 0;
+    }
+  }
+}
+
+/* thermometer/status bar position */
+.therm2 {
+  .progress_bar {
+    .numbers, .progress { float: left; }
+    .progress { clear: left; }
+  }
+  .social_icons { float: right; }
+}
+.therm3 {
+  .progress { margin-top: -45px; }
+  .numbers { margin-top: -23px; }
+}
+.therm4 {
+  .progress { margin-top: -95px; }
+  .numbers { margin-top: -73px; clear: both; }
+  .social_icons { float: right; }
+}
+
+/* button color on sign petition */
+.buttoncolor2 { #sign-up-form .btn-primary { @extend .btn-info; } }
+.buttoncolor3 { #sign-up-form .btn-primary { @extend .btn-success; } }
+.buttoncolor4 { #sign-up-form .btn-primary { @extend .btn-warning; } }
+.buttoncolor5 { #sign-up-form .btn-primary { @extend .btn-danger; } }
+
+/* sign petition box color */
+.signupcolor2 { #sign-up-form { background: #bbb; .privacypolicy { color: #222; } } }
+.signupcolor3 { #sign-up-form { background: #999; .title, .privacypolicy { color: white; } } }
+.signupcolor4 { #sign-up-form { background: #666; .title, .privacypolicy { color: white; } } }
+.signupcolor5 { #sign-up-form { background: #333; .title, .privacypolicy { color: white; } } }
+.signupcolor6 { #sign-up-form { background: #000; .title, .privacypolicy { color: white; } } }
+
+/* normal vs. fixed positioning of sign petition box */
+.signupposition2 { #sign-up-form { position: fixed; } }

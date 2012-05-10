@@ -1,55 +1,61 @@
-.petition
-  -#.petition_image
-  %h1
-    = @petition.title
-  .social_icons
-    -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-    = facebook_like petition_url(params[:petition_id])
-  - if spin! "show thermometer", :signup
-    .progress_bar
-      .numbers
-        = @sigcount
-        of
-        = counter_size(@sigcount)
-        supporters have signed
-      .progress
-        .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-  %hr
-  .description= simple_format(@petition.description)
+- petitionside = spin! "petition side", :signup, ["petitionleft", "petitionright"]
+- thermposition = spin! "thermometer and social icon placement", :signup, ["therm1", "therm2", "therm3", "therm4"]
+- buttoncolor = spin! "change button color for sign petition", :signup, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
+- signpetitionboxcolor = spin! "change containing box color for sign petition", :signup, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
+- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signup, ["signupposition1", "signupposition2"]
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition]}
+  .petition
+    -#.petition_image
+    %h1
+      = @petition.title
+    .social_icons
+      -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+      = facebook_like petition_url(params[:petition_id])
+    - if spin! "show thermometer", :signup
+      .progress_bar
+        .numbers
+          = @sigcount
+          of
+          = counter_size(@sigcount)
+          supporters have signed
+        .progress
+          .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+    %hr
+    .description= simple_format(@petition.description)
 
-.petition_sidebar
-  - if !current_user.nil? && @petition.has_edit_permissions(current_user)
-    = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+  .petition_sidebar
+    - if !current_user.nil? && @petition.has_edit_permissions(current_user)
+      = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
 
 
-  - if current_user.nil? || !@petition.has_edit_permissions(current_user)
-    #sign-up-form
-      .title
-        Sign this Petition!
-      .through_site
-        = simple_form_for([@petition, @signature]) do |f|
-          = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
-          = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
-          - if @email_hash
-            = hidden_field_tag :email_hash, @email_hash
-          = f.button :submit, :class => 'btn btn-primary', :value => 'Sign!'
-      .through_fb
-        .text Sign in via
-        .button.btn.btn-primary Facebook!
+    - if current_user.nil? || !@petition.has_edit_permissions(current_user)
+      #sign-up-form
+        .title
+          Sign this Petition!
+        .through_site
+          = simple_form_for([@petition, @signature]) do |f|
+            = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
+            = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
+            - if @email_hash
+              = hidden_field_tag :email_hash, @email_hash
+            = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!'
+        .through_fb
+          .text Sign in via
+          .button.btn.btn-primary Facebook!
 
-      .privacypolicy
-        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+        .privacypolicy
+          We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
-    #thanks-for-signing-message
-      .thanks
-        Thanks for Signing!
-      .share
-        Spread the word, share on facebook!
-      .arrow
-      = facebook_like_small petition_url(params[:petition_id])
+      #thanks-for-signing-message
+        .thanks
+          Thanks for Signing!
+        .share
+          Spread the word, share on facebook!
+        .arrow
+        = facebook_like_small petition_url(params[:petition_id])
 
-- content_for(:meta_tags) do
-  - petition_to_open_graph(@petition).each do |key, value|
-    = content_tag "meta", nil, property:key, content:value
+  - content_for(:meta_tags) do
+    - petition_to_open_graph(@petition).each do |key, value|
+      = content_tag "meta", nil, property:key, content:value
 
-= hidden_field_tag 'petitionId', @petition.id
+  = hidden_field_tag 'petitionId', @petition.id
