@@ -105,7 +105,8 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .edit { @extend .floatright; margin: -40px 10px 0 0; }
   .description { padding-right: 20px; clear: both; }
 }
-#sign-up-form { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px;
+.rightcolwell { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px; }
+#sign-up-form { @extend .rightcolwell;
   .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; }
   .through_site {
     width: 150px; border-right: 1px solid #555; padding: 5px 10px;
@@ -130,6 +131,21 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
     border-right: none;
     input { width: 240px; }
     .btn { float: right; }
+  }
+}
+#thanks-for-signing-message {
+  @extend .rightcolwell;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 10px;
+  text-align: center;
+  .thanks { font-size: 27px; margin: 15px 0 25px;}
+  .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
+  /* facebook widget styling.  remove when we redo implementation */
+  iframe {
+    max-width: 140px;
+    height: 22px;
+    margin: 15px auto;
   }
 }
 .progress_bar {

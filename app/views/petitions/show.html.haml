@@ -41,7 +41,12 @@
         We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
     #thanks-for-signing-message
-      Thanks for signing -- please share on Facebook:
+      .thanks
+        Thanks for Signing!
+      .share
+        Spread the word, share on facebook!
+      .arrow
+      = facebook_like_small petition_url(params[:petition_id])
 
 - content_for(:meta_tags) do
   - petition_to_open_graph(@petition).each do |key, value|
