@@ -14,7 +14,7 @@ class BounceReceiver < ActionMailer::Base
     if (email_return_path)
       address, domain = email_return_path.to_s.split("@")
 
-      if h = Hasher.validate(address)
+      if h = Hasher.validate(address.gsub("bounce-", ""))
         sent_email = SentEmail.find_by_id(h)
         if(sent_email)
           unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
@@ -27,16 +27,15 @@ class BounceReceiver < ActionMailer::Base
 end
 
 =begin
-  #Test data
-  email = ActionMailer::Base.mail
-  email['from'] = 'info@watchdog.net'
-  email['return-path'] = '421.2EjDTn@watchdog.net'
-  email[:to]    = 'you@test.net'
-  email.subject = 'This is a test email'
-  email.body    = 'This is a body'
-  BounceReceiver.receive(email.to_s)
+#Test data
+email = ActionMailer::Base.mail
+email['from'] = 'info@watchdog.net'
+email['return-path'] = 'bounce-421.2EjDTn@watchdog.net'
+email[:to]    = 'you@test.net'
+email.subject = 'This is a test email'
+email.body    = 'This is a body'
+BounceReceiver.receive(email.to_s)
 =end
-
 
 
 
