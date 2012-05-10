@@ -1,34 +1,42 @@
 require 'hasher'
 
 class BounceReceiver < ActionMailer::Base
-
-  #receive(mail(subject: "Failure!", to: "411.3Yj9+p@watchdog.net", status: 'Failure'))
   
   def receive(email)
     begin 
-      puts "received email #{email}"
-      handle_delivery_failure(email) if (email.body =~ /Status: 5/)
+      handle_delivery_failure(email['return-path'])
     rescue => error
       puts "Error in receiving bounced mail #{error}"
     end  
   end
   
-  def handle_delivery_failure(email)
-    address = original_to(email)
-    puts "Got address #{address}"
-    if (address)
-      #log into Unsubscribes table 
+  def handle_delivery_failure(email_return_path)
+    if (email_return_path)
+      address, domain = email_return_path.to_s.split("@")
+
+      if h = Hasher.validate(address)
+        sent_email = SentEmail.find_by_id(h)
+        if(sent_email)
+          unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
+          unsubscribe.member = Member.find_by_email(sent_email.email) 
+          unsubscribe.save!
+        end
+      end
     end
   end
-
-  def original_to(email)
-    address, domain = email.to[0].split("@")
-    
-    if h = Hasher.validate(address)
-      sent_email = SentEmail.find_by_id(h)
-      address = sent_email.email
-    end
-
-    return(address)
-  end  
 end
+
+=begin
+  #Test data
+  email = ActionMailer::Base.mail
+  email['from'] = 'info@watchdog.net'
+  email['return-path'] = '421.2EjDTn@watchdog.net'
+  email[:to]    = 'you@test.net'
+  email.subject = 'This is a test email'
+  email.body    = 'This is a body'
+  BounceReceiver.receive(email.to_s)
+=end
+
+
+
+
