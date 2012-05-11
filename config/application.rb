@@ -17,7 +17,7 @@ module Victorykit
 
     # Custom directories with classes and modules you want to be autoloadable.
     # config.autoload_paths += %W(#{config.root}/extras)
-
+    
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
     # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
@@ -56,5 +56,8 @@ module Victorykit
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+    # so changes to .rb files in lib get picked up without restarting server
+    config.watchable_dirs['lib'] = [:rb]
   end
 end

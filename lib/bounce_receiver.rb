@@ -21,11 +21,12 @@ class BounceReceiver < ActionMailer::Base
           unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
           unsubscribe.member = Member.find_by_email(sent_email.email) 
           unsubscribe.save!
+          
           bounced_email = BouncedEmail.new(raw_content: email.to_s)
+          bounced_email.sent_email = sent_email
           bounced_email.save!
         end
       end
     end
   end
 end
-
