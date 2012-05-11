@@ -45,6 +45,7 @@ group :test, :development do
   gem "factory_girl_rails", "~> 3.0"
   gem "faker", "~> 1.0"
   gem "autotest"
+  gem "selenium-webdriver"
 end
 
 gem 'newrelic_rpm'
