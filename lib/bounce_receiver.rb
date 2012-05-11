@@ -3,7 +3,7 @@ require 'hasher'
 class BounceReceiver < ActionMailer::Base
   
   def receive(email)
-    begin 
+    begin
       handle_delivery_failure(email['return-path'])
     rescue => error
       puts "Error in receiving bounced mail #{error}"
@@ -25,17 +25,5 @@ class BounceReceiver < ActionMailer::Base
     end
   end
 end
-
-=begin
-#Test data
-email = ActionMailer::Base.mail
-email['from'] = 'info@watchdog.net'
-email['return-path'] = 'bounce-421.2EjDTn@watchdog.net'
-email[:to]    = 'you@test.net'
-email.subject = 'This is a test email'
-email.body    = 'This is a body'
-BounceReceiver.receive(email.to_s)
-=end
-
 
 
