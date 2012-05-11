@@ -222,7 +222,6 @@ DEPENDENCIES
   pg
   rails (= 3.2.3)
   rails_config
-  rake
   redis
   redis-rails
   redis-store
