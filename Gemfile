@@ -41,6 +41,8 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 #
 group :test, :development do
+  gem 'rake'
+  gem 'rspec'
   gem "rspec-rails", "~> 2.6"
   gem "factory_girl_rails", "~> 3.0"
   gem "faker", "~> 1.0"

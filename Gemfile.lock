@@ -222,9 +222,11 @@ DEPENDENCIES
   pg
   rails (= 3.2.3)
   rails_config
+  rake
   redis
   redis-rails
   redis-store
+  rspec
   rspec-rails (~> 2.6)
   sass-rails (~> 3.2.3)
   sass-twitter-bootstrap-rails (~> 1.0)
