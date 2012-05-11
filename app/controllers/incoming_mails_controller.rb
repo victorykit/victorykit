@@ -7,6 +7,7 @@ class IncomingMailsController < ApplicationController
     def create
       message = Mail.new(params[:message])
       to_email = params[:to]
+      #message['return-path'] = to_email # used for testing only
       if (to_email and to_email.to_s.start_with? 'bounce-')
         BounceReceiver.receive(message.to_s)
       end

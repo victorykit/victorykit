@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120509193400) do
+ActiveRecord::Schema.define(:version => 20120511185131) do
+
+  create_table "bounced_emails", :force => true do |t|
+    t.text     "raw_content"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "mailer_process_trackers", :force => true do |t|
     t.boolean  "is_locked"
