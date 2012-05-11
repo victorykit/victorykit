@@ -12,7 +12,7 @@ class PetitionStatisticsBuilder
     analytics_report_data = AnalyticsGateway.fetch_report_results(date)
     Petition.all.map do |p|
       petition_path = Rails.application.routes.url_helpers.petition_path(p)
-      PetitionStatistics.new(p, analytics_report_data[petition_path])
+      PetitionStatistics.new(p, analytics_report_data[petition_path], date)
     end
   end
 end

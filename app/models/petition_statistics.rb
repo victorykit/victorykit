@@ -4,9 +4,10 @@ class PetitionStatistics
     Petition.count
   end
           
-  def initialize(petition, analytics_data)
+  def initialize(petition, analytics_data, since_date)
     @analytics_data = analytics_data
     @petition = petition
+    @since_date = since_date
   end
   
   def petition_title
@@ -26,7 +27,7 @@ class PetitionStatistics
   end
 
   def signature_count
-    @petition.signatures.count
+    @petition.signatures.count(conditions: ["created_at >= ?", @since_date])
   end
 
   def conversion_rate
