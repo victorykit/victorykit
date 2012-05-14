@@ -1,5 +1,5 @@
 class PetitionsController < ApplicationController
-  before_filter :require_login, except: [:show, :index]
+  before_filter :require_login, except: [:show]
 
   def index
     @petitions = Petition.all
