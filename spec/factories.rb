@@ -45,4 +45,9 @@ FactoryGirl.define do
   factory :petition_analysis do
     pageviews 200
   end
+  factory :sent_email do
+    petition
+    member
+    email {Faker::Name.name}
+  end
 end
