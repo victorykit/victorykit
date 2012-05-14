@@ -6,6 +6,8 @@ setup:
 test:
   commands:
   - bundle exec rake
+  - bundle exec rails s -d
+  - bundle exec rake spec:smoke
 deploy:
   branch: master
   heroku:
