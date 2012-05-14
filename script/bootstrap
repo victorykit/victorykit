@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
 
-def confirm lib_name, required_version
-  output = `#{lib_name} --version`.split(' ')
-  version = output.length > 1 ? output[1].strip : ""
+def confirm lib_name, required_version, version_placement=-1
+  output = `#{lib_name} --version`.split("\n")[0].split(' ')
+  version = output.length > 1 ? output[version_placement].strip : ""
   if version == required_version
     puts "OK - #{lib_name} #{version}"
     true
@@ -12,9 +12,8 @@ def confirm lib_name, required_version
   end
 end
 
-confirm "ruby", "1.9.3p125"
+confirm "ruby", "1.9.3p125", 1
 confirm "redis-cli", "2.4.11"
-confirm "rails", "3.2.3"
 
 if (confirm "psql", "9.1.3")
   if `echo "select 1" | psql -At postgres`.strip == "1"
