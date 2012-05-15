@@ -1,7 +1,13 @@
-New petition to sign "<%=@petition.title%>"! Please encourage your friends to sign by forwarding this link to them:
+[Demand Progress has teamed up with Watchdog.net, a new site that lets you
+create a petition on any topic. Here's a Watchdog.net petition we think you 
+might be interested in. Concerns? Reply and let us know.]
+
+Dear <%=@member.name%>,
+
+<%=word_wrap(@petition.description)%>
 
 <%=@petition_link%>
 
-<%=@petition.description%>
-
-If you would like to stop receiving emails from us, please click on the link below to unsubscribe: <%=@unsubscribe_link%>
+-------------------------------------------------------------------------------
+To stop receiving emails from us, just click on the link below to unsubscribe:
+<%=@unsubscribe_link%>
