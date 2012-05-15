@@ -15,7 +15,7 @@ class UnsubscribePoller
         lock_update_token(update_token, true)
         unsubscribe_requests = import_unsubscribe_requests(update_token.updated_at)
         unsubscribe_members(unsubscribe_requests)
-        update_token.updated_at = unsubscribe_requests.max { |x,y| x.created_at <=> y.created_at }
+        update_token.updated_at = unsubscribe_requests.max { |x,y| x.created_at <=> y.created_at }.created_at
       rescue => error
         puts "Error in retrieving and unsubscribing users #{error} #{error.backtrace.join}"
       ensure
@@ -34,13 +34,13 @@ class UnsubscribePoller
   
   def self.unsubscribe_members(unsubscribe_requests)
     unsubscribe_requests.each do |request|
-      email = request.email
-      member = Member.find_by_email(email)
-      if !member.nil?
-        unsubscribe = Unsubscribe.new(email: email, cause: "unsubscribed", member: member)
-        unsubscribe.save!
-      end
+      member = Member.find_by_email(request.email)
+      unsubscribe_member(member) unless member.nil?
     end
+  end
+  
+  def self.unsubscribe_member(member)
+    Unsubscribe.create(email: member.email, cause: "unsubscribed", member: member)
   end
   
   def self.lock_update_token(update_token, lock)

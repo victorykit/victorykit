@@ -5,8 +5,8 @@ class DemandProgressGateway
     results = sql.execute("select email, core_action.created_at from core_action join core_unsubscribeaction on (core_action.id = core_unsubscribeaction.action_ptr_id) join core_user on (core_user.id = core_action.user_id) where core_action.created_at > '" + last_updated.to_s + "' order by created_at desc")
     
     #todo: something like this in stub
-    # results = [ {"email"=>"a@b", "created_at"=>1.day.ago}, {"email"=>"c@b", "created_at"=>Time.now} ]
-    # results.map { |x| UnsubscribeRequest.new(email: x["email"], created_at: x["created_at"])}
+    #results = [ {"email"=>"foo1@bar.com", "created_at"=>1.day.ago}, {"email"=>"dodo@email.com", "created_at"=>2.days.ago} ]
+    results.map { |x| UnsubscribeRequest.new(x["email"], x["created_at"])}
   end
   
   class UnsubscribeRequest
