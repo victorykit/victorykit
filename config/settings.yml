@@ -8,4 +8,4 @@ hasher:
 google_analytics:
   analytics_id: UA-31572927-1
 email:
-  from_address: info@watchdog.net
+  from_address: Watchdog.net <info@watchdog.net>
