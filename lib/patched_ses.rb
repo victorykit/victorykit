@@ -4,6 +4,6 @@ class PatchedSES < AWS::SES::Base
       args[:source] = mail[:source]
       mail[:source] = nil
     end
-    AWS::SES::Base.deliver!(mail, args)
+    AWS::SES::Base.instance_method(:deliver!).bind(self).call(mail, args)
   end
 end
