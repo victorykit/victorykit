@@ -1,13 +1,13 @@
 .signup_login.login
   .login
-    %h1 Login
+    %h1 Log in
 
     = form_tag sessions_path do |f|
       = simple_fields_for :new_session do |session_form|
         = session_form.input :email
         = session_form.input :password
-        = session_form.button :submit, :class => 'btn btn-primary', :value => 'Log In'
+        = session_form.button :submit, :class => 'btn btn-primary', :value => 'Log in'
 
 .signuplink
   Not yet a member?
-  = link_to('Sign Up Here!', signup_path)
+  = link_to('Sign up!', signup_path)
