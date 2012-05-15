@@ -9,8 +9,6 @@ class Petition < ActiveRecord::Base
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
   
-  
-  
   def self.find_interesting_petitions_for(member)
     Petition.find_all_by_to_send(true) -
       Signature.find_all_by_member_id(member).map{|s| s.petition} - 

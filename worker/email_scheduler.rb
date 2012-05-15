@@ -26,20 +26,13 @@ class EmailScheduler
   end
 
   def self.send_email
-    member = get_member_to_email
+    member = Member.random_and_not_recently_contacted
     if not member.nil?
       petition_id = spin!("email_scheduler", :signups_off_email, options=Petition.find_interesting_petitions_for(member).map {|x| x.id.to_s}, {session_id: member.id}).to_i
       petition = Petition.find_by_id(petition_id)
       sent_email_id = log_sent_email(member, petition)
       ScheduledEmail.new_petition(petition, member.email, sent_email_id)
-    else
-      #puts "No more people to email."
     end
-  end
-  
-  def self.get_member_to_email
-    q = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 month') LEFT JOIN unsubscribes ON (members.id = unsubscribes.member_id) WHERE sent_emails.member_id is null AND unsubscribes.member_id is null").to_a
-    q.empty? ? nil : Member.find_by_id(q.sample['id'])
   end
 
   def self.log_sent_email(member, petition)
