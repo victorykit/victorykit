@@ -6,13 +6,21 @@ class ScheduledEmail < ActionMailer::Base
   #
   #   en.scheduled_email.new_petition.subject
   #
-  def new_petition(petition, email, sent_email_id)
+  def new_petition(petition, member)
+    
+    sent_email_id = log_sent_email(member, petition)
     sent_email_hash = Hasher.generate(sent_email_id)
     @petition_link = petition_url(petition) + "?n=" + sent_email_hash
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
     @petition = petition
     return_path = "bounce-" + sent_email_hash + "@appmail.watchdog.net"
     
-    mail(return_path: return_path, subject: "New Petition: '#{petition.title}'!", to: email).deliver
+    mail(return_path: return_path, subject: "New Petition: '#{petition.title}'!", to: member.email).deliver
+  end
+    
+  def log_sent_email(member, petition)
+    sentEmail = SentEmail.new(email: member.email, member: member, petition: petition)
+    sentEmail.save!
+    sentEmail.id
   end
 end
