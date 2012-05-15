@@ -2,7 +2,7 @@ class MailerProcessTracker < ActiveRecord::Base
   attr_accessible :is_locked
   
   def self.in_transaction
-    mailer_process = find_by_id(1, :lock => true)
+    mailer_process = first(:lock => true)
     if !mailer_process.nil? && !mailer_process.is_locked?
       begin
         update_mailer_process(mailer_process, true)
