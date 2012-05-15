@@ -19,7 +19,7 @@ describe ScheduledEmail do
     end
     
     it "uses the member's email address" do
-      mail.to.should eq [member.email]
+      mail.to.should match /<#{member.email}>$/
     end
         
     it "includes the email hash in the body" do
