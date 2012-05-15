@@ -11,20 +11,12 @@
     %h1
       Sign Up
       = simple_form_for @user do |f|
-        = f.input :email, :error => false
+        = f.input :email
         = f.input :password, :error => false
         = f.input :password_confirmation, :error => false
         = f.button :submit, :class => 'btn btn-primary', :value => 'Sign Up'
 
-  .login
-
-    %h1 Login
-
-    = form_tag sessions_path do |f|
-      = simple_fields_for :new_session do |session_form|
-        = session_form.input :email
-        = session_form.input :password
-        = session_form.button :submit, :class => 'btn btn-primary', :value => 'Log In'
+  = render :partial => 'shared/login_form'
 
 .privacypolicy
   We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.

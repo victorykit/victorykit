@@ -16,7 +16,7 @@
 /tmp
 .rvmrc
 /.idea
-
+*.swp
 .DS_Store
 
 config/settings.local.yml
