@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_filter :add_environment_to_title
 
   def add_environment_to_title
-    @title = "VictoryKit"
+    @title = "Watchdog.net"
     @title << " - #{Rails.env}" unless Rails.env.production? 
   end
   

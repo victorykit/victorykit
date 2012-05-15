@@ -1,3 +1,5 @@
+- content_for :title, @petition.title
+
 - petitionside = spin! "petition side", :signup, ["petitionleft", "petitionright"]
 - thermposition = spin! "thermometer and social icon placement", :signup, ["therm1", "therm2", "therm3", "therm4"]
 - buttoncolor = spin! "change button color for sign petition", :signup, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
@@ -31,7 +33,7 @@
     - if current_user.nil? || !@petition.has_edit_permissions(current_user)
       #sign-up-form
         .title
-          Sign this Petition!
+          Sign this petition!
         .through_site
           = simple_form_for([@petition, @signature]) do |f|
             = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
@@ -48,9 +50,9 @@
 
       #thanks-for-signing-message
         .thanks
-          Thanks for Signing!
+          Thanks for signing!
         .share
-          Spread the word, share on facebook!
+          Spread the word, share on Facebook!
         .arrow
         = facebook_like_small petition_url(params[:petition_id])
 
