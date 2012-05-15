@@ -7,7 +7,7 @@ describe "front page" do
   
   it "should not blow up" do
     welcome = $driver.find_element(:class =>'title')
-    welcome.text.should == 'Start a new petition'
+    welcome.text.should == 'Win your campaign for change'
   end
   
   it "should ask users to log in before creating a petition" do
