@@ -4,7 +4,7 @@ require 'petition_emailer'
 class EmailScheduler
 
   def self.schedule_email
-    max_emails_per_day = 10000
+    max_emails_per_day = 1000
     while 1
       MailerProcessTracker.in_transaction do
         PetitionEmailer.send
