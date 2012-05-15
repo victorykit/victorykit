@@ -1,10 +1,10 @@
 - content_for :title, @petition.title
 
-- petitionside = spin! "petition side", :signup, ["petitionleft", "petitionright"]
-- thermposition = spin! "thermometer and social icon placement", :signup, ["therm1", "therm2", "therm3", "therm4"]
-- buttoncolor = spin! "change button color for sign petition", :signup, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
-- signpetitionboxcolor = spin! "change containing box color for sign petition", :signup, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
-- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signup, ["signupposition1", "signupposition2"]
+- petitionside = spin! "petition side", :signature, ["petitionleft", "petitionright"]
+- thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2", "therm3", "therm4"]
+- buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
+- signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
+- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signupposition1", "signupposition2"]
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition]}
   .petition
     -#.petition_image
@@ -13,7 +13,7 @@
     .social_icons
       -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
       = facebook_like petition_url(params[:petition_id])
-    - if spin! "show thermometer", :signup
+    - if spin! "show thermometer", :signature
       .progress_bar
         .numbers
           = @sigcount
@@ -41,7 +41,7 @@
               = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
               - if @email_hash
                 = hidden_field_tag :email_hash, @email_hash
-              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signup, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!

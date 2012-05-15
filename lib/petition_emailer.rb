@@ -9,7 +9,7 @@ class PetitionEmailer
     if not member.nil?
       interesting_petitions = Petition.find_interesting_petitions_for(member)
       if interesting_petitions.any?
-        petition_id = spin!("email_scheduler", :signups_off_email, options=interesting_petitions.map {|x| x.id.to_s}, {session_id: member.id}).to_i
+        petition_id = spin!("email_scheduler", :signatures_off_email, options=interesting_petitions.map {|x| x.id.to_s}, {session_id: member.id}).to_i
         petition = Petition.find_by_id(petition_id)
         ScheduledEmail.new_petition(petition, member)
       end

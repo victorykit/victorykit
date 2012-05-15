@@ -56,7 +56,7 @@ module Bandit
   def win!(goal, mysession=nil)
     mysession ||= session
     REDIS.smembers("whiplash/goals/#{goal}").each do |t|
-      win_on_option!(t, session[t], mysession)
+      win_on_option!(t, mysession[t], mysession)
     end
   end
 end
