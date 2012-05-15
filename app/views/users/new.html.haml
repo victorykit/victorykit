@@ -10,7 +10,8 @@
   .signup
     %h1
       Sign Up
-      = simple_form_for @user do |f|
+    = form_tag @user do |form|
+      = simple_fields_for :user do |f|
         = f.input :email
         = f.input :password, :error => false
         = f.input :password_confirmation, :error => false
