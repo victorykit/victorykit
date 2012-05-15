@@ -35,12 +35,13 @@
         .title
           Sign this petition!
         .through_site
-          = simple_form_for([@petition, @signature]) do |f|
-            = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
-            = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
-            - if @email_hash
-              = hidden_field_tag :email_hash, @email_hash
-            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signup, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+          = form_tag [@petition, @signature] do |form|
+            = simple_fields_for :signature, @signature do |f|
+              = f.input :name, :label => false, :input_html => { :placeholder => 'name' }
+              = f.input :email, :label => false, :input_html => { :placeholder => 'email' }
+              - if @email_hash
+                = hidden_field_tag :email_hash, @email_hash
+              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signup, ['Sign!', 'Sign Now!', 'Sign Up!'])})
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!
