@@ -10,10 +10,10 @@ end
 module Bandit
   def arm_guess(observations, victories)
     mean = victories.to_f/observations.to_f.to_1if0
-    stddev = victories * (1-mean)**2
-    stddev += ((observations - victories) * (0-mean))**2
+    stddev = victories * ((1-mean)**2)
+    stddev += ((observations - victories) * ((0-mean))**2)
     stddev = Math.sqrt(stddev * 1.0/((observations.to_f-1).to_1if0))
-    stddev = (stddev||1)/Math.sqrt(observations.to_f.to_1if0)
+    stddev = stddev.to_1if0/Math.sqrt(observations.to_f.to_1if0)
     Distribution::Normal.rng(mean, stddev).call
   end
 
