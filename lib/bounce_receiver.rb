@@ -22,8 +22,7 @@ class BounceReceiver < ActionMailer::Base
           unsubscribe.member = Member.find_by_email(sent_email.email) 
           unsubscribe.save!
           
-          bounced_email = BouncedEmail.new(raw_content: email.to_s)
-          bounced_email.sent_email = sent_email
+          bounced_email = BouncedEmail.new(raw_content: email.to_s, sent_email: sent_email)
           bounced_email.save!
         end
       end

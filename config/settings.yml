@@ -9,3 +9,6 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: info@watchdog.net
+demandprogress_db:
+  uri: mysql://root:victorize@localhost/demandprogress  
+  
