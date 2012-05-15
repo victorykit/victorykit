@@ -15,7 +15,7 @@ class BounceReceiver < ActionMailer::Base
     if (return_path)
       address, domain = return_path.to_s.split("@")
 
-      if h = Hasher.validate(address.gsub("bounce-", ""))
+      if h = Hasher.validate(address.gsub("bounce+", ""))
         sent_email = SentEmail.find_by_id(h)
         if(sent_email)
           unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
