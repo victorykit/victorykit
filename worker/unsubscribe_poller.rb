@@ -2,29 +2,39 @@ class UnsubscribePoller
   
   def self.unsubscribe_users
     LastUpdatedUnsubscribe.transaction do
-      unsubscribe_poller = LastUpdatedUnsubscribe.find_by_id(1, :lock => true)
-      if !unsubscribe_poller.nil? && !unsubscribe_poller.is_locked?
-        begin
-          lock_unsubscribe_poller(unsubscribe_poller, true)
-          emails_to_unsubscribe = get_members_to_unsubscribe(unsubscribe_poller.updated_at)
-          unsubscribe_members(emails_to_unsubscribe)
-        rescue => error
-          puts "Error in retrieving and unsubscribing users #{error} #{error.backtrace.join}"
-        ensure
-          lock_unsubscribe_poller(unsubscribe_poller, false)
-        end
+
+      update_token = LastUpdatedUnsubscribe.find_by_id(1, :lock => true)
+      update_token = bootstrap(update_token)
+        
+      if update_token.is_locked
+        Rails.logger.info "Skipping update of unsubscribe users: LastUpdateUnsubscribe is locked."
+        return
+      end
+      
+      begin
+        lock_update_token(update_token, true)
+        unsubscribe_requests = import_unsubscribe_requests(update_token.updated_at)
+        unsubscribe_members(unsubscribe_requests)
+        update_token.updated_at = unsubscribe_requests.max { |x,y| x.created_at <=> y.created_at }
+      rescue => error
+        puts "Error in retrieving and unsubscribing users #{error} #{error.backtrace.join}"
+      ensure
+        lock_update_token(update_token, false)
       end
     end
   end
-  
-  def self.get_members_to_unsubscribe(last_updated)
-    #sql = ActiveRecord::Base.establish_connection("mysql://dp_aaron@demandprogress.client-db.actionkit.com/ak_dprogress")
-    #emails, created_at = sql.execute("select email, core_action.created_at from core_action join core_unsubscribeaction on (core_action.id = core_unsubscribeaction.action_ptr_id) join core_user on (core_user.id = core_action.user_id) where core_action.created_at > '" + last_updated.to_s + "' order by created_at desc")
-    emails = []
+
+  def self.bootstrap(update_token)
+    update_token.nil? ? LastUpdatedUnsubscribe.new(id: 1, updated_at: Time.at(0)) : update_token
+  end
+      
+  def self.import_unsubscribe_requests(last_updated)
+    DemandProgressGateway.fetch_unsubscribers_since(last_updated)
   end
   
-  def self.unsubscribe_members(emails)
-    emails.each do |email|
+  def self.unsubscribe_members(unsubscribe_requests)
+    unsubscribe_requests.each do |request|
+      email = request.email
       member = Member.find_by_email(email)
       if !member.nil?
         unsubscribe = Unsubscribe.new(email: email, cause: "unsubscribed", member: member)
@@ -33,9 +43,9 @@ class UnsubscribePoller
     end
   end
   
-  def self.lock_unsubscribe_poller(unsubscribe_poller, lock)
-    unsubscribe_poller.is_locked = lock
-    unsubscribe_poller.save!
+  def self.lock_update_token(update_token, lock)
+    update_token.is_locked = lock
+    update_token.save!
   end
 end
 

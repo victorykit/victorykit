@@ -3,11 +3,16 @@ redis:
 aws:
    access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
    secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+hasher:
+   secret_key: <%= ENV["HASHER_SECRET_KEY"] %>
 google_analytics:
    oauth:
      user_id: <%= ENV["OAUTH_USER_ID"] %>
      client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
      token: <%= ENV["OAUTH_TOKEN"] %>
      secret: <%= ENV["OAUTH_SECRET"] %>
-hasher:
-    secret_key: <%= ENV["HASHER_SECRET_KEY"] %>
+demand_progress:
+  db_uri: <%= ENV["AK_IMPORT_DB_URI"] %>
+    
+    
+    
