@@ -6,6 +6,7 @@ describe Petition do
     it { should validate_presence_of :title }
     it { should validate_presence_of :description }
     it { should validate_presence_of :owner_id }
+    its(:title) { should_not start_or_end_with_whitespace }
   end
   
   it "should find all emailable petitions not yet known to a member" do
