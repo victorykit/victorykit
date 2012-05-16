@@ -6,7 +6,7 @@ class IncomingMailsController < ApplicationController
 
     def create
       message = Mail.new(params[:message])
-      to_address = params[:to]
+      to_address = params[:to].to_s.gsub(/[<>]/, '')
       if (to_address and to_address.to_s.start_with? 'bounce')
         Rails.logger.info "Received incoming mail correctly"
         BounceReceiver.receive_bounced_email(message.to_s, to_address.to_s)
