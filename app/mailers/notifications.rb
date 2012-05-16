@@ -10,7 +10,7 @@ class Notifications < ActionMailer::Base
     @signature = signature
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
     
-    mail(subject: "Thanks for signing '#{signature.petition.title}'!", to: signature.email).deliver
+    mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
   end
   
   def unsubscribed unsubscription
