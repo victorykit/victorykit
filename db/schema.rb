@@ -11,19 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120516214315) do
+ActiveRecord::Schema.define(:version => 20120516223026) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "sent_email_id", :null => false
-  end
-
-  create_table "core_actions", :force => true do |t|
-    t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
   end
 
   create_table "last_updated_unsubscribes", :force => true do |t|
