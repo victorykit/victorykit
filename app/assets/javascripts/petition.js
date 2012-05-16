@@ -6,5 +6,5 @@ jQuery(function(){
         $('#thanks-for-signing-message').show();
         $('#sign-up-form').hide();
     }
-    $('#petition_description').wysihtml5();
+    //$('#petition_description').wysihtml5();
 });
