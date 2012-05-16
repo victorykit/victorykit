@@ -1,4 +1,5 @@
-.topnav
+- petitionlink = spin! "start a petition as link vs. button in top nav", :signup, ["petition_button", "petition_link"]
+.topnav{class: [petitionlink]}
   .navigation
     = link_to('', '/', :class => 'logo')
     .logininfo
@@ -11,7 +12,7 @@
         = link_to('Sign Up or Log In', signup_path)
     .container
       %ul
-        %li= link_to('Start a petition', new_petition_path, :class => 'btn btn-primary')
+        %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
         - if can :list_petitions
           %li= link_to('View all petitions', petitions_url)
         - if can :edit_users
