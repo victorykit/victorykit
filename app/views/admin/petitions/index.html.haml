@@ -3,6 +3,8 @@
 %p
   Since #{link_to_self_with_param :since, {'today' => Date.today,'yesterday' => 1.day.ago, 'a week ago' => 1.week.ago, 'a month ago' => 1.month.ago, 'a year ago' => 1.year.ago, 'forever' => nil}, " | "}
 
+<button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
+
 %table#petitions.bordered-table.table-striped.dataTable{"data-source" => admin_petitions_url(format: "json", since: params[:since])}
   %thead
     %tr
