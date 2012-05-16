@@ -23,7 +23,7 @@ class PetitionStatistics
   end
   
   def hit_count    
-    @analytics_data.nil? ? 0 : @analytics_data.pageviews.to_i
+    @analytics_data.nil? ? 0 : @analytics_data.unique_pageviews.to_i
   end
 
   def signature_count

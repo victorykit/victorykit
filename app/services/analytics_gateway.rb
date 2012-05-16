@@ -15,12 +15,14 @@ class AnalyticsGateway
       # sets up the query
       report = Garb::Report.new(profile, :start_date => since_date, :end_date => Date.today)
       report.dimensions :pagePath
-      report.metrics :pageViews    
+      report.metrics :uniquePageviews    
     
       # executes the query against the analytics service
       results = report.results
 
-      @data = results.reduce({}) { |result, current| result.merge(current.page_path => current)}  
+      @data = results.reduce({}) do |result, current| 
+        result.merge(current.page_path => current)
+      end  
     end
   end 
   
