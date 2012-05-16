@@ -67,3 +67,4 @@ gem 'redis-rails'
 
 gem 'dkim'
 gem 'rspec'
+gem 'sanitize'
