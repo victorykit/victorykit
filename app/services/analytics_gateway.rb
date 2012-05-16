@@ -1,4 +1,11 @@
 class AnalyticsGateway 
+
+  class Petitions
+    extend Garb::Model
+    metrics :uniquePageviews
+    dimensions :pagePath
+  end
+
   def self.fetch_report_results(since_date = nil)
     cache_key = "analytics_gateway_report_results"
     #keying by time to the minute effectively expires each minute
@@ -12,13 +19,7 @@ class AnalyticsGateway
       profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
       #todo: if not profile
     
-      # sets up the query
-      report = Garb::Report.new(profile, :start_date => since_date, :end_date => Date.today)
-      report.dimensions :pagePath
-      report.metrics :uniquePageviews    
-    
-      # executes the query against the analytics service
-      results = report.results
+      results = profile.petitions(start_date: since_date, end_date: Date.today)
 
       @data = results.reduce({}) do |result, current| 
         result.merge(current.page_path => current)
