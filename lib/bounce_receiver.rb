@@ -16,13 +16,15 @@ class BounceReceiver < ActionMailer::Base
 
       if h = Hasher.validate(address.gsub("bounce+", ""))
         sent_email = SentEmail.find_by_id(h)
-        if(sent_email)
-          unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
-          unsubscribe.member = Member.find_by_email(sent_email.email) 
-          unsubscribe.save!
-          
+        if sent_email
           bounced_email = BouncedEmail.new(raw_content: email.to_s, sent_email: sent_email)
           bounced_email.save!
+
+          unsubscribe = Unsubscribe.new(email: sent_email.email, cause: "bounced")
+          unsubscribe.member = Member.find_by_email(sent_email.email) 
+          if unsubscribe.member
+            unsubscribe.save!
+          end
         end
       end
     end
