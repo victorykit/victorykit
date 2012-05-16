@@ -8,7 +8,7 @@ module PetitionsHelper
     { 
       'og:title' => petition.title, 
       'og:type' => 'cause', 
-      'og:description' => petition.description[0..300],
+      'og:description' => petition.description.squish[0..300],
       'og:url' => petition_url(petition),
       'og:image' => social_media_config[:facebook][:image],
       'og:site_name' => social_media_config[:facebook][:site_name],

@@ -151,6 +151,7 @@ GEM
       redis-store (~> 1.1.0)
     redis-store (1.1.0)
       redis (~> 2.2.0)
+    rinku (1.5.1)
     rspec (2.10.0)
       rspec-core (~> 2.10.0)
       rspec-expectations (~> 2.10.0)
@@ -230,6 +231,7 @@ DEPENDENCIES
   redis
   redis-rails
   redis-store
+  rinku
   rspec
   rspec-rails (~> 2.6)
   sanitize

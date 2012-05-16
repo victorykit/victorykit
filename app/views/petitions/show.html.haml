@@ -23,7 +23,7 @@
         .progress
           .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
     %hr
-    .description= Sanitize.clean(simple_format(@petition.description), Sanitize::Config::BASIC).html_safe
+    .description= Sanitize.clean(auto_link(simple_format(@petition.description)), Sanitize::Config::BASIC).html_safe
 
   .petition_sidebar
     - if !current_user.nil? && @petition.has_edit_permissions(current_user)

@@ -1,3 +1,4 @@
+require 'rails_rinku'
 module ApplicationHelper
   def twitterized_type(type)
     case type
