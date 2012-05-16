@@ -24,7 +24,7 @@ describe SignaturesController do
         ActionMailer::Base.deliveries.size.should == 1
         email = ActionMailer::Base.deliveries.last
         email[:to].to_s.should == signature_fields[:email]
-        email[:subject].to_s.should == "Thanks for signing '#{petition.title}'!"
+        email[:subject].to_s.should match /#{petition.title}/
       end
       it "should redirect to the petition page" do
         sign_petition
