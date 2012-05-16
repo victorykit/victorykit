@@ -9,7 +9,9 @@ class IncomingMailsController < ApplicationController
       to_address = params[:to]
       if (to_address and to_address.to_s.start_with? 'bounce')
         BounceReceiver.receive_bounced_email(message.to_s, to_address.to_s)
+        render :text => 'success', :status => 200
+      else
+        render :text => "Message failed #{message} from incorrect to address: #{to_address}", :status => 404
       end
-      render :text => 'success', :status => 200 # a status of 404 would reject the mail
     end
 end
