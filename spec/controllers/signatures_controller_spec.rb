@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe SignaturesController do
   let(:petition){ create(:petition) }
+  let(:signature_fields) { {name: "Bob", email: "bob@my.com"} }
 
   describe "POST create" do
     context "the user supplies both a name and an email" do
@@ -10,8 +11,8 @@ describe SignaturesController do
           sign_petition
           petition.signatures[0]
         end
-        its(:name) { should == "Bob" }
-        its(:email) { should == "bob@my.com" }
+        its(:name) { should == signature_fields[:name] }
+        its(:email) { should == signature_fields[:email] }
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Rails Testing" }
       end
@@ -19,10 +20,10 @@ describe SignaturesController do
         ActionMailer::Base.deliveries = []
       end
       it "should send an email to the signatory" do
-        sign_petition name: "Bob", email: "foo@bar.com"
+        sign_petition
         ActionMailer::Base.deliveries.size.should == 1
         email = ActionMailer::Base.deliveries.last
-        email[:to].to_s.should == 'foo@bar.com'
+        email[:to].to_s.should == signature_fields[:email]
         email[:subject].to_s.should == "Thanks for signing '#{petition.title}'!"
       end
       it "should redirect to the petition page" do
@@ -54,6 +55,13 @@ describe SignaturesController do
       it "should create a cookie to store signed petitions" do
         response.cookies["signed_petitions"].should eq petition.id.to_s
       end
+      it "should create a member record" do
+        Member.exists?(:email => signature_fields[:email]).should be_true
+      end
+      it "should indicate that this was the first petition signed by this member" do
+        signature = Signature.find_by_email signature_fields[:email]
+        signature.created_member.should be_true
+      end
     end
     context "the user has already signed another petition" do
       before :each do
@@ -65,8 +73,8 @@ describe SignaturesController do
       end
     end
     
-    def sign_petition signature= {name: "Bob", email: "bob@my.com"}
-      post :create, petition_id: petition.id, :signature => signature
+    def sign_petition
+      post :create, petition_id: petition.id, :signature => signature_fields
     end
     
     def sign_without_name_or_email
