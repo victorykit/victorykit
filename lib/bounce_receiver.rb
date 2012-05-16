@@ -2,18 +2,17 @@ require 'hasher'
 
 class BounceReceiver < ActionMailer::Base
   
-  def receive(email)
+  def receive_bounced_email(email, to_address)
     begin
-      handle_delivery_failure(email)
+      handle_delivery_failure(email, to_address)
     rescue => error
       puts "Error in receiving bounced mail #{error}"
     end  
   end
   
-  def handle_delivery_failure(email)
-    return_path = email['return-path']
-    if (return_path)
-      address, domain = return_path.to_s.split("@")
+  def handle_delivery_failure(email, to_address)
+    if (to_address)
+      address, domain = to_address.to_s.split("@")
 
       if h = Hasher.validate(address.gsub("bounce+", ""))
         sent_email = SentEmail.find_by_id(h)
