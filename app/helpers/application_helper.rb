@@ -17,13 +17,13 @@ module ApplicationHelper
 
   def facebook_like(url)
     content_tag :iframe, nil, :src =>
-      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=standard&action=like&show_faces=true&width=150&height=80&font=arial&colorscheme=light",
+      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=standard&action=like&show_faces=false&width=150&height=80&font=arial&colorscheme=light",
       :scrolling => 'no', :frameborder => '0', :allowtransparency => true, :id => :facebook_like
   end
 
   def facebook_like_small(url)
     content_tag :iframe, nil, :src =>
-      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=button_count&action=recommend&show_faces=true&width=100&height=80&font=arial&colorscheme=light",
+      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=button_count&action=recommend&show_faces=false&width=100&height=80&font=arial&colorscheme=light",
       :scrolling => 'no', :frameborder => '0', :allowtransparency => true, :id => :facebook_like
   end
   def google_analytics_tracker
