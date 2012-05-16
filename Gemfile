@@ -19,8 +19,7 @@ group :assets do
   # gem 'therubyracer', :platform => :ruby
 
   gem 'uglifier', '>= 1.0.3'
-  gem 'sass-twitter-bootstrap-rails', '~> 1.0'
-
+  gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails'
 end
@@ -28,6 +27,7 @@ end
 gem "haml"
 gem 'jquery-rails'
 gem 'simple_form'
+gem 'bootstrap-wysihtml5-rails'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
