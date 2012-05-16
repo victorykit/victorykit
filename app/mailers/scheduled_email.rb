@@ -14,7 +14,7 @@ class ScheduledEmail < ActionMailer::Base
     @petition = petition
     @member = member
     return_path = "bounce+" + sent_email_hash + "@appmail.watchdog.net"
-    
+    headers["List-Unsubscribe"] = "<#{@unsubscribe_link}>"
     mail(return_path: return_path, subject: petition.title, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
     

@@ -14,7 +14,7 @@ describe ScheduledEmail do
     let(:petition){ create(:petition)}
     let!(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
-    it "includes the petition title in sthe subject" do
+    it "includes the petition title in the subject" do
       mail.subject.should match /#{petition.title}/
     end
     
@@ -25,6 +25,10 @@ describe ScheduledEmail do
     it "includes the email hash in the body" do
       email_hash = Hasher.generate(sent_email.id)
       mail.body.encoded.should include(email_hash)
+    end
+    
+    it "adds an unsubscribe header" do
+      mail["List-Unsubscribe"].value.should eq "<http://test/unsubscribes/new>"
     end
   end
 end
