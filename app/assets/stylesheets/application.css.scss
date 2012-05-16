@@ -307,3 +307,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 
 /* normal vs. fixed positioning of sign petition box */
 .signupposition2 { #sign-up-form { position: fixed; } }
+
+/* dataTable */
+.dataTable th, .dataTable td { border: 1px solid #eee; }
+.dataTable { border-top: 1px solid #eee }
