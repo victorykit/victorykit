@@ -26,7 +26,7 @@ class PetitionsController < ApplicationController
   end
 
   def create
-    @petition = Petition.new(params[:petition])
+    @petition = Petition.new(params[:petition], as: role)
     @petition.owner = current_user
 
     if @petition.save
