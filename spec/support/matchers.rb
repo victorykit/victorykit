@@ -21,3 +21,9 @@ RSpec::Matchers.define :allow_mass_assignment_of_by_admin_role do | properties |
 expect {subject.update_attributes(Hash[properties.zip(properties)], {:as => :admin} )}.to_not raise_error ActiveModel::MassAssignmentSecurity::Error
   end
 end
+
+RSpec::Matchers.define :start_or_end_with_whitespace do |expected|
+  match do |actual|
+    actual.size != actual.strip.size
+  end
+end
