@@ -6,7 +6,7 @@ describe PetitionsDatatable do
   let(:analyzer){ double "petitions_analyzer" }
   
   it "converts analytics for each petition to JSON" do
-    context.stub(:params).and_return({:since => Date.today, :sEcho => "1"})
+    context.stub(:params).and_return({:since => Date.today, :sEcho => "1", :iDisplayLength => "1"})
     
     analyzer.stub(:all_since_and_ordered) {petitions.map {|p| analytics_for(p)}}
     analyzer.all_since_and_ordered.each do |stat|

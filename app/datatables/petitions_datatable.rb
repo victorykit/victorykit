@@ -8,8 +8,8 @@ class PetitionsDatatable
   end
 
   def as_json(options = {})
-    formatted_data = data
-    count = formatted_data.count
+    formatted_data = Kaminari.paginate_array(data).page(page).per(per_page)
+    count = petitions.count
     {
       sEcho: params[:sEcho].to_i,
       iTotalRecords: count,
@@ -35,12 +35,7 @@ private
   end
 
   def petitions
-    @petitions ||= fetch_petitions
-  end
-
-  def fetch_petitions
-    petitions = @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction)    
-    petitions = Kaminari.paginate_array(petitions).page(page).per(per_page)
+    @petitions ||= @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction) 
   end
 
   def analytics_since
