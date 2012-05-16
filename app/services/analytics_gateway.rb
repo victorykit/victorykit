@@ -1,9 +1,5 @@
-class AnalyticsGateway
-  DAWN_OF_TIME = Time.new(2012, 4, 26) #this is when we started with analytics
-  
-  #last day, week, month, year, or all-time  
+class AnalyticsGateway 
   def self.fetch_report_results(since_date = nil)
-    since_date ||= DAWN_OF_TIME
     cache_key = "analytics_gateway_report_results"
     #keying by time to the minute effectively expires each minute
     cache_key += "_#{since_date.strftime("%Y%m%d")}"

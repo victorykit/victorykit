@@ -33,5 +33,4 @@ describe PetitionStatistics do
     its(:signature_count) { should ==  10 }
     its(:conversion_rate) { should ==  0.1 }
   end
-  
 end
