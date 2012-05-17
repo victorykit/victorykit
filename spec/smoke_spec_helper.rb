@@ -7,6 +7,6 @@ RSpec.configure do |config|
     $driver = Selenium::WebDriver.for :chrome
   end
   config.after(:suite) do
-    $driver.quit
+    $driver.quit unless $driver.nil?
   end
 end
