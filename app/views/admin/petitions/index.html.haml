@@ -19,3 +19,10 @@
       %th Viral
       %th Created
   %tbody
+
+%p
+  Redis space used:
+  = float_to_percentage @redis_used
+  - if @redis_used > 0.85
+    %b{style: "color: red"}
+      SPACE RUNNING LOW!!

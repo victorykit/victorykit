@@ -3,7 +3,9 @@ class Admin::PetitionsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html      
+      format.html {
+        @redis_used = REDIS.info["used_memory"].to_f / 104857600
+      }
       format.json { render json: PetitionsDatatable.new(view_context, PetitionStatisticsBuilder.new) }
     end
   end
