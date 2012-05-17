@@ -29,7 +29,7 @@ class AnalyticsGateway
   
   def self.authorize
     #todo move check to status page
-    raise "Cannot authorize: missing 'oauth' settings.  scripts/gen_google_auth" if settings.oauth.nil?
+    raise "Cannot authorize: missing 'oauth' settings. Run ./script/gen_google_oauth" if settings.oauth.nil?
     
     consumer = OAuth::Consumer.new(settings.oauth.user_id, settings.oauth.client_secret,
          {:site => 'https://www.google.com',

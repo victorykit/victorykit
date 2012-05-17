@@ -2,6 +2,7 @@ class Petition < ActiveRecord::Base
   attr_accessible :description, :title
   attr_accessible :description, :title, :to_send, :as => :admin
   has_many :signatures
+  has_many :sent_emails
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
   before_validation :strip_whitespace

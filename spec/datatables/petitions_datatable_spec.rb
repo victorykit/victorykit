@@ -10,16 +10,22 @@ describe PetitionsDatatable do
     
     analyzer.stub(:all_since_and_ordered) {petitions.map {|p| analytics_for(p)}}
     analyzer.all_since_and_ordered.each do |stat|
+      def hstub(x)
+        context.stub(:h).with(x).and_return(x)
+        context.stub(:float_to_percentage).with(x).and_return(x)
+        context.stub(:format_date_time).with(x).and_return(x)
+      end
       context.stub(:link_to).with(stat.petition_title, stat.petition_record).and_return("link to #{stat.petition_title}")
-      context.stub(:h).with(stat.hit_count).and_return(stat.hit_count)
-      context.stub(:h).with(stat.signature_count).and_return(stat.signature_count)
-      context.stub(:float_to_percentage).with(stat.conversion_rate).and_return(stat.conversion_rate)
-      context.stub(:h).with(stat.conversion_rate).and_return(stat.conversion_rate)
-      context.stub(:h).with(stat.new_member_count).and_return(stat.new_member_count)
-      context.stub(:float_to_percentage).with(stat.virality_rate).and_return(stat.virality_rate)
-      context.stub(:h).with(stat.virality_rate).and_return(stat.virality_rate)
-      context.stub(:format_date_time).with(stat.petition_created_at).and_return(stat.petition_created_at)
-      context.stub(:h).with(stat.petition_created_at).and_return(stat.petition_created_at)
+      hstub(stat.hit_count)
+      hstub(stat.signature_count)
+      hstub(stat.conversion_rate)
+      hstub(stat.signature_count)
+      hstub(stat.email_count)
+      hstub(stat.email_signature_count)
+      hstub(stat.email_conversion_rate)
+      hstub(stat.new_member_count)
+      hstub(stat.virality_rate)
+      hstub(stat.petition_created_at)
     end
     
     json = PetitionsDatatable.new(context, analyzer).as_json
@@ -33,6 +39,9 @@ describe PetitionsDatatable do
       :petition_title => petition.title,
       :signature_count => 1,
       :conversion_rate => 100,
+      :email_count => 10,
+      :email_signature_count => 1,
+      :email_conversion_rate => 10,
       :virality_rate => 1,
       :new_member_count => 1,
       :petition_created_at => Date.today,

@@ -27,6 +27,9 @@ private
         h(petition.hit_count),
         h(petition.signature_count),
         h(float_to_percentage(petition.conversion_rate)),
+        h(petition.email_count),
+        h(petition.email_signature_count),
+        h(float_to_percentage(petition.email_conversion_rate)),
         h(petition.new_member_count),
         h(float_to_percentage(petition.virality_rate)),
         h(format_date_time(petition.petition_created_at)),
@@ -52,7 +55,7 @@ private
   end
 
   def sort_column
-    columns = %w[petition_title hit_count signature_count conversion_rate new_member_count virality_rate petition_created_at]
+    columns = %w[petition_title hit_count signature_count conversion_rate email_count email_signature_count email_conversion_rate new_member_count virality_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 

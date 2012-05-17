@@ -35,7 +35,7 @@ class PetitionStatistics
   end
   
   def new_member_count
-    @petition.signatures.count(conditions: "created_member is true")          
+    @petition.signatures.count(conditions: ["created_member is true and created_at >= ?", @since_date])          
   end
   
   def virality_rate
@@ -46,4 +46,15 @@ class PetitionStatistics
     denominator.nonzero? ? numerator / denominator : 0
   end
   
+  def email_count
+    @petition.sent_emails.count(conditions: ["created_at >= ?", @since_date])
+  end
+
+  def email_signature_count
+    @petition.sent_emails.count(conditions: ["signature_id is not null and created_at >= ?", @since_date])
+  end
+
+  def email_conversion_rate
+    divide_safe(email_count.to_f, email_signature_count.to_f)
+  end  
 end
