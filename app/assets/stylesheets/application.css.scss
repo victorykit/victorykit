@@ -61,7 +61,6 @@ a:hover { text-decoration: none; }
   }
 }
 .nav { margin-bottom: 0; }
-
 a.logo {
   float: left;
   background: url('logo.png');
@@ -71,6 +70,12 @@ a.logo {
 }
 a.logo_dark { @extend a.logo; background: url('logo_dark.png'); }
 h1 { margin-bottom: 10px; }
+.highlight_text {
+  font-size: larger;
+  font-weight: bold;
+  display: inline;
+  &.break { display: block; }
+}
 table {
   border-bottom: 1px solid #DDDDDD;
   margin: 10px 0;
@@ -150,9 +155,8 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   }
 }
 .progress_bar {
-  * {
-    float: right;
-  }
+  float: right;
+  text-align: right;
   .progress {
     width: 300px;
     clear: right;
@@ -165,6 +169,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
 .social_icons { float: left; margin-top: 16px;
   iframe { height: 30px; width: 275px; }
+  &.tallerprogress { margin-top: 33px; }
 }
 
 
@@ -286,18 +291,10 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 /* thermometer/status bar position */
 .therm2 {
   .progress_bar {
-    .numbers, .progress { float: left; }
+    float: left;
+    .numbers, .progress { float: left; text-align: left; }
     .progress { clear: left; }
   }
-  .social_icons { float: right; }
-}
-.therm3 {
-  .progress { margin-top: -45px; }
-  .numbers { margin-top: -23px; }
-}
-.therm4 {
-  .progress { margin-top: -95px; }
-  .numbers { margin-top: -73px; clear: both; }
   .social_icons { float: right; }
 }
 

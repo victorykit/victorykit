@@ -1,27 +1,59 @@
 - content_for :title, @petition.title
 
-- petitionside = spin! "petition side", :signup, ["petitionleft", "petitionright"]
-- thermposition = spin! "thermometer and social icon placement", :signup, ["therm1", "therm2"]
-- buttoncolor = spin! "change button color for sign petition", :signup, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
-- signpetitionboxcolor = spin! "change containing box color for sign petition", :signup, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
-- thermometercolor = spin! "change thermometer color", :signup, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
-- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signup, ["signupposition1", "signupposition2"]
-- signuplabels = spin! "change positioning and visibility of labels on sign petition form", :signup, ["sign_up_labels_beside_inputs_no_asterisk", "sign_up_labels_beside_inputs_with_asterisk", "sign_up_labels_beside_inputs_with_asterisk_underlined", "sign_up_labels_above_inputs_no_asterisk", "sign_up_labels_above_inputs_with_asterisk", "sign_up_labels_above_inputs_with_asterisk_underlined", "sign_up_labels_hidden"]
+- petitionside = spin! "petition side", :signature, ["petitionleft", "petitionright"]
+- thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2"]
+- buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
+- signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
+- thermometercolor = spin! "change thermometer color", :signature, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
+- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signupposition1", "signupposition2"]
+- signuplabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["sign_up_labels_beside_inputs_no_asterisk", "sign_up_labels_beside_inputs_with_asterisk", "sign_up_labels_beside_inputs_with_asterisk_underlined", "sign_up_labels_above_inputs_no_asterisk", "sign_up_labels_above_inputs_with_asterisk", "sign_up_labels_above_inputs_with_asterisk_underlined", "sign_up_labels_hidden"]
+- progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_supportures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor]}
   .petition
     -#.petition_image
     %h1
       = @petition.title
-    .social_icons
-      -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-      = facebook_like petition_url(params[:petition_id])
+    - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
+      .social_icons
+        = facebook_like petition_url(params[:petition_id])
+    - else
+      .social_icons.tallerprogress
+        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+        = facebook_like petition_url(params[:petition_id])
     - if spin! "show thermometer", :signature
       .progress_bar
         .numbers
-          = @sigcount
-          of
-          = counter_size(@sigcount)
-          supporters have signed
+          - if progressmessaging == 'x_signatures_of_y'
+            .highlight_text
+              #{@sigcount} signatures
+            of #{counter_size(@sigcount)}
+          - elsif progressmessaging == 'x_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+          - elsif progressmessaging == 'x_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_y_to_go_of_z'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_supporters_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+
+          - elsif progressmessaging == 'x_supporters_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_supporters_help_us'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            sign now to help us reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_of_y_supporters'
+            #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
         .progress
           .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
     %hr
