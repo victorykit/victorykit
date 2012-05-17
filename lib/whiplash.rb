@@ -34,6 +34,13 @@ module Bandit
     return "#{mysession[:session_id]}_#{Random.rand}"
   end  
 
+  def measure!(test_name, options=[true, false], mysession=nil)
+    choice = options.sample
+    REDIS.zadd("whiplash/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
+    mysession[test_name] = choice
+    return choice
+  end
+
   def spin!(test_name, goal, options=[true, false], mysession=nil)
     mysession ||= session
     if mysession.key?(test_name) && options.include?(mysession[test_name])
