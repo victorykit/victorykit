@@ -29,7 +29,7 @@ class UnsubscribePoller
   end
       
   def self.import_unsubscribe_requests(last_updated)
-    CoreAction.fetch_unsubscribers_since(last_updated)
+    DemandProgressGateway.fetch_unsubscribers_since(last_updated)
   end
   
   def self.unsubscribe_members(unsubscribe_requests)
