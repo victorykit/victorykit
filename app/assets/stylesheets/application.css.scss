@@ -372,6 +372,13 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   .control-label { display: none; }
 }
 
+/* change thermometer colors */
+.redthermometer .progress { @extend .progress-danger; }
+.greenthermometer .progress { @extend .progress-success; }
+.orangethermometer .progress { @extend .progress-warning; }
+.tealthermometer .progress { @extend .progress-info; }
+
+
 
 /* start a petition appearing as a link vs a button */
 .topnav.petition_button .start_petition {
