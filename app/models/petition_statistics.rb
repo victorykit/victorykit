@@ -55,6 +55,6 @@ class PetitionStatistics
   end
 
   def email_conversion_rate
-    divide_safe(email_count.to_f, email_signature_count.to_f)
+    divide_safe(email_signature_count.to_f, email_count.to_f)
   end  
 end
