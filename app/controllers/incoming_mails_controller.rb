@@ -1,4 +1,4 @@
-require_dependency 'bounce_receiver'
+require_dependency 'email_processor'
 
 class IncomingMailsController < ApplicationController
   require 'mail'
@@ -7,9 +7,14 @@ class IncomingMailsController < ApplicationController
     def create
       message = Mail.new(params[:message])
       to_address = params[:to].to_s.gsub(/[<>]/, '')
+
       if (to_address and to_address.to_s.start_with? 'bounce')
-        Rails.logger.info "Received incoming mail correctly"
-        BounceReceiver.receive_bounced_email(message.to_s, to_address.to_s)
+        Rails.logger.info "Received bounced email"
+        EmailProcessor.handle_exceptional_email(message.to_s, to_address.to_s, 'bounced')
+        render :text => 'success', :status => 200
+      elsif (to_address and to_address.to_s.start_with? 'unsubscribe')
+        Rails.logger.info "Received unsubscribe email"
+        EmailProcessor.handle_exceptional_email(message.to_s, to_address.to_s, 'unsubscribe')
         render :text => 'success', :status => 200
       else
         Rails.logger.info "Message failed #{message} from incorrect to address: #{to_address}"

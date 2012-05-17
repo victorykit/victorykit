@@ -35,7 +35,8 @@ describe ScheduledEmail do
     end
     
     it "adds an unsubscribe header" do
-      mail["List-Unsubscribe"].value.should eq "<#{unsubscribe_link}>"
+      email_hash = Hasher.generate(sent_email.id)
+      mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
     end
   end
 end
