@@ -11,10 +11,12 @@ describe UnsubscribesController do
   end
 
   describe "POST create" do   
+    let(:member) {create :member}
+    
     describe "with valid params" do
       before :each do
         Unsubscribe.any_instance.stub(:save).and_return(true)
-        post :create, email: "blah@blah.com", cause: "unsubscribed", :member => {email: "blah@blah.com"}
+        post :create, email: member.email, cause: "unsubscribed", member: member
       end
       describe "the newly created unsubscribe" do
         subject { assigns(:unsubscribe) } 
@@ -28,7 +30,7 @@ describe UnsubscribesController do
     describe "with invalid params" do
       before :each do
         Unsubscribe.any_instance.stub(:save).and_return(false)
-        post :create, email: "blah@blah.com", cause: "unsubscribed", :member => {email: "blah@blah.com"}
+        post :create, email: member.email, cause: "unsubscribed", member: member
       end
       it "assigns a newly created but unsaved unsubscribe as @unsubscribe" do
         assigns(:unsubscribe).should be_a_new(Unsubscribe)
@@ -37,6 +39,17 @@ describe UnsubscribesController do
         response.should redirect_to new_unsubscribe_url
       end
     end
+    
+    describe "referred from an email" do
+      let(:sent_email) {create :sent_email, member: member}
+      
+      before :each do
+        post :create, email: member.email, cause: "unsubscribed", :member => member, :email_hash => Hasher.generate(sent_email.id)
+      end
+      it "associates the email with the unsubscribe" do
+        unsubscribe = Unsubscribe.find_by_member_id member
+        unsubscribe.sent_email.should == sent_email
+      end
+    end
   end
-  
 end
