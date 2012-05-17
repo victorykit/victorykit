@@ -3,20 +3,23 @@ require 'spec_helper'
 describe UnsubscribesController do
   
   describe "GET new" do
-    let(:action){ get :new }
     it "assigns a new unsubscribe as @unsubscribe" do
-      get :new, {}
+      get :new
       assigns(:unsubscribe).should be_a_new(Unsubscribe)
+    end
+    it "assigns the email hash, if available" do
+      get :new, n: "i'm a hash!"
+      assigns(:email_hash).should == "i'm a hash!"
     end
   end
 
   describe "POST create" do   
     let(:member) {create :member}
     
-    describe "with valid params" do
+    context "with valid params" do
       before :each do
         Unsubscribe.any_instance.stub(:save).and_return(true)
-        post :create, email: member.email, cause: "unsubscribed", member: member
+        post :create, unsubscribe: {email: member.email}
       end
       describe "the newly created unsubscribe" do
         subject { assigns(:unsubscribe) } 
@@ -27,10 +30,10 @@ describe UnsubscribesController do
       end      
     end
     
-    describe "with invalid params" do
+    context "with invalid params" do
       before :each do
         Unsubscribe.any_instance.stub(:save).and_return(false)
-        post :create, email: member.email, cause: "unsubscribed", member: member
+        post :create, unsubscribe: {email: member.email}
       end
       it "assigns a newly created but unsaved unsubscribe as @unsubscribe" do
         assigns(:unsubscribe).should be_a_new(Unsubscribe)
@@ -40,11 +43,11 @@ describe UnsubscribesController do
       end
     end
     
-    describe "referred from an email" do
+    context "referred from an email" do
       let(:sent_email) {create :sent_email, member: member}
       
       before :each do
-        post :create, email: member.email, cause: "unsubscribed", :member => member, :email_hash => Hasher.generate(sent_email.id)
+        post :create, unsubscribe: {email: member.email}, :email_hash => Hasher.generate(sent_email.id)
       end
       it "associates the email with the unsubscribe" do
         unsubscribe = Unsubscribe.find_by_member_id member
