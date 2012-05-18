@@ -9,3 +9,5 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: Watchdog.net <info@watchdog.net>
+demand_progress:
+  db_uri: OVERRIDE_ME
