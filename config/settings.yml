@@ -10,4 +10,4 @@ google_analytics:
 email:
   from_address: Watchdog.net <info@watchdog.net>
 demand_progress:
-  db_uri: OVERRIDE_ME
+  db_uri: <%= ENV["AK_IMPORT_DB_URI"] %>
