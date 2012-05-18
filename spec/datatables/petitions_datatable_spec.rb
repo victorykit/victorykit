@@ -3,18 +3,21 @@ require 'spec_helper'
 describe PetitionsDatatable do
   let(:petitions){ [1,2].map {|i|create(:petition, :title => i.to_s)}}
   let(:context){ double "view_context" }
-  let(:analyzer){ double "petitions_analyzer" }
+  let(:builder){ double "petitions_statistics_builder" }
   
   it "converts analytics for each petition to JSON" do
+    #this is horrible.  sorry.  it will get better.
+    def hstub(x)
+      context.stub(:h).with(x).and_return(x)
+      context.stub(:float_to_percentage).with(x).and_return(x)
+      context.stub(:format_date_time).with(x).and_return(x)
+    end
+    
     context.stub(:params).and_return({:since => Date.today, :sEcho => "1", :iDisplayLength => "1"})
     
-    analyzer.stub(:all_since_and_ordered) {petitions.map {|p| analytics_for(p)}}
-    analyzer.all_since_and_ordered.each do |stat|
-      def hstub(x)
-        context.stub(:h).with(x).and_return(x)
-        context.stub(:float_to_percentage).with(x).and_return(x)
-        context.stub(:format_date_time).with(x).and_return(x)
-      end
+    builder.stub(:all_since_and_ordered) {petitions.map {|p| analytics_for(p)}}
+    
+    builder.all_since_and_ordered.each do |stat|
       context.stub(:link_to).with(stat.petition_title, stat.petition_record).and_return("link to #{stat.petition_title}")
       hstub(stat.hit_count)
       hstub(stat.signature_count)
@@ -28,7 +31,18 @@ describe PetitionsDatatable do
       hstub(stat.petition_created_at)
     end
     
-    json = PetitionsDatatable.new(context, analyzer).as_json
+    #totals row
+    hstub 'All Petitions'
+    hstub 2
+    hstub 2
+    hstub ''
+    hstub 2
+    hstub 20
+    hstub 2
+    hstub ''
+    hstub ''
+        
+    json = PetitionsDatatable.new(context, builder).as_json
     json[:iTotalRecords].should == petitions.size
     #TODO (maybe) assert on JSON contents?  It gets ugly quick
   end

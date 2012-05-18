@@ -14,7 +14,7 @@ class PetitionsDatatable
       sEcho: params[:sEcho].to_i,
       iTotalRecords: count,
       iTotalDisplayRecords: count,
-      aaData: formatted_data
+      aaData: formatted_data + [totals]
     }
   end
 
@@ -35,6 +35,25 @@ private
         h(format_date_time(petition.petition_created_at)),
       ]
     end
+  end
+  
+  def totals
+    [
+      'All petitions',
+      h(sum(:hit_count)),
+      h(sum(:signature_count)),
+      h(float_to_percentage(sum(:signature_count).to_f / sum(:hit_count).to_f)),
+      h(sum(:email_count)),
+      h(sum(:email_signature_count)),
+      '', #TODO
+      h(sum(:new_member_count)),
+      '', #TODO
+      '' #TODO
+    ]
+  end
+  
+  def sum method
+    petitions.reduce(0){|sum, p| sum + p.send(method)}
   end
 
   def petitions
