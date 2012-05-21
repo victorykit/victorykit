@@ -147,12 +147,6 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   text-align: center;
   .thanks { font-size: 27px; margin: 15px 0 25px;}
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
-  /* facebook widget styling.  remove when we redo implementation */
-  iframe {
-    max-width: 140px;
-    height: 22px;
-    margin: 15px auto;
-  }
 }
 .progress_bar {
   float: right;

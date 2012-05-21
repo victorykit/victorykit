@@ -16,16 +16,13 @@ module ApplicationHelper
   end
 
   def facebook_like(url)
-    content_tag :iframe, nil, :src =>
-      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=standard&action=like&show_faces=false&width=150&height=80&font=arial&colorscheme=light",
-      :scrolling => 'no', :frameborder => '0', :allowtransparency => true, :id => :facebook_like
+    tag("div", :class => 'fb-like', :data => {:send => 'false', :action => 'like', 'show-faces' => 'false'})
   end
 
   def facebook_like_small(url)
-    content_tag :iframe, nil, :src =>
-      "http://www.facebook.com/plugins/like.php?href=#{CGI::escape(url)}&layout=button_count&action=recommend&show_faces=false&width=100&height=80&font=arial&colorscheme=light",
-      :scrolling => 'no', :frameborder => '0', :allowtransparency => true, :id => :facebook_like
+    tag("div", :class => 'fb-like', :data => {:send => 'false', :action => 'recommend', 'show-faces' => 'false', :width => '270'})
   end
+  
   def google_analytics_tracker
     analytics_id = Settings.google_analytics.analytics_id
     javascript_tag "var _gaq = _gaq || [];
@@ -36,7 +33,13 @@ module ApplicationHelper
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();"
+      })();
+      
+      if (FB && FB.Event && FB.Event.subscribe) {
+        FB.Event.subscribe('edge.create', function(targetUrl) {
+          _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+        });
+      }"
   end
 
   def float_to_percentage(f)
