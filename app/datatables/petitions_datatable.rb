@@ -38,7 +38,7 @@ private
   end
   
   def totals
-    totaller = PetitionStatisticTotals.new(petitions)
+    totaller = PetitionStatisticsTotals.new(petitions)
     [
       'All petitions',
       h(totaller.hit_count),

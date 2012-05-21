@@ -1,4 +1,4 @@
-class PetitionStatisticTotals
+class PetitionStatisticsTotals
   def initialize(stats)
     @stats = stats
   end
