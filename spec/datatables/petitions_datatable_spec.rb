@@ -35,12 +35,12 @@ describe PetitionsDatatable do
     hstub 'All Petitions'
     hstub 2
     hstub 2
-    hstub ''
+    hstub 1
     hstub 2
     hstub 20
     hstub 2
-    hstub ''
-    hstub ''
+    hstub 10
+    hstub 0.1
         
     json = PetitionsDatatable.new(context, builder).as_json
     json[:iTotalRecords].should == petitions.size

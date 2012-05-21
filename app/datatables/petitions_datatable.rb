@@ -42,18 +42,22 @@ private
       'All petitions',
       h(sum(:hit_count)),
       h(sum(:signature_count)),
-      h(float_to_percentage(sum(:signature_count).to_f / sum(:hit_count).to_f)),
+      h(float_to_percentage(divide_safe(sum(:signature_count).to_f , sum(:hit_count).to_f))),
       h(sum(:email_count)),
       h(sum(:email_signature_count)),
-      '', #TODO
+      h(float_to_percentage(divide_safe(sum(:email_signature_count).to_f, sum(:email_count).to_f))),
       h(sum(:new_member_count)),
-      '', #TODO
-      '' #TODO
+      h(float_to_percentage(divide_safe(sum(:new_member_count).to_f, sum(:signature_count).to_f))),
+      ''
     ]
   end
   
   def sum method
     petitions.reduce(0){|sum, p| sum + p.send(method)}
+  end
+  
+  def divide_safe(numerator, denominator)
+    denominator.nonzero? ? numerator / denominator : 0
   end
 
   def petitions
