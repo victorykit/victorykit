@@ -8,6 +8,9 @@
           Logged in as #{current_user.email}
         = link_to('Change Password', edit_user_path(current_user))
         = link_to('Log Out', logout_path)
+      - elsif controller_name == 'petitions' && action_name == 'show'
+        - if spin! "show login or sign up", :signature
+          = link_to('Sign Up or Log In', signup_path)
       - else
         = link_to('Sign Up or Log In', signup_path)
     .container
