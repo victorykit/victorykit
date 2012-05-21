@@ -15,14 +15,6 @@ module ApplicationHelper
     end
   end
 
-  def facebook_like(url)
-    tag("div", :class => 'fb-like', :data => {:send => 'false', :action => 'like', 'show-faces' => 'false'})
-  end
-
-  def facebook_like_small(url)
-    tag("div", :class => 'fb-like', :data => {:send => 'false', :action => 'recommend', 'show-faces' => 'false', :width => '270'})
-  end
-  
   def google_analytics_tracker
     analytics_id = Settings.google_analytics.analytics_id
     javascript_tag "var _gaq = _gaq || [];
