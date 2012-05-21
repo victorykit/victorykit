@@ -6,6 +6,7 @@ Victorykit::Application.routes.draw do
   resources :users
   resources :sessions
   resources :unsubscribes
+  resources :pixel_tracking
   resources :incoming_mails
   resources :status, only: :index
   resources :petitions do
@@ -21,9 +22,6 @@ Victorykit::Application.routes.draw do
     resources :users
   end
 
-  match "_schelduled_email.gif" => 'pixel_tracking#schelduled_email_opened'
-
-  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

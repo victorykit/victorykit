@@ -1,6 +1,6 @@
 class PixelTrackingController < ApplicationController
 
-  def schelduled_email_opened
-
+  def show
+    send_file Rails.root.join("public","tracking_pixel.gif"), type: 'image/gif', disposition: "inline" 
   end
 end
