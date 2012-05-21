@@ -14,7 +14,7 @@ class PetitionsDatatable
       sEcho: params[:sEcho].to_i,
       iTotalRecords: count,
       iTotalDisplayRecords: count,
-      aaData: formatted_data
+      aaData: formatted_data + [totals]
     }
   end
 
@@ -35,6 +35,22 @@ private
         h(format_date_time(petition.petition_created_at)),
       ]
     end
+  end
+  
+  def totals
+    totaller = PetitionStatisticsTotals.new(petitions)
+    [
+      'All petitions',
+      h(totaller.hit_count),
+      h(totaller.signature_count),
+      h(float_to_percentage(totaller.conversion_rate)),
+      h(totaller.email_count),
+      h(totaller.email_signature_count),
+      h(float_to_percentage(totaller.email_conversion_rate)),
+      h(totaller.new_member_count),
+      h(float_to_percentage(totaller.virality_rate)),
+      ''
+    ]
   end
 
   def petitions

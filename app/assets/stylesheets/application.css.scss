@@ -315,8 +315,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .signupposition2 { #sign-up-form { position: fixed; } }
 
 /* dataTable */
-.dataTable th, .dataTable td { border: 1px solid #eee; }
-.dataTable td { text-align: right } /* so numbers line up */
+.dataTable th, .dataTable td { border: 1px solid #eee; text-align: left;}
 .dataTable { border-top: 1px solid #eee }
 
 
