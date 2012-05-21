@@ -18,6 +18,7 @@
 /.idea
 *.swp
 .DS_Store
+tags
 
 config/settings.local.yml
 config/settings/*.local.yml

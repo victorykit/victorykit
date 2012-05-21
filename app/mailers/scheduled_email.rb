@@ -17,7 +17,8 @@ class ScheduledEmail < ActionMailer::Base
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
     mail(return_path: return_path, subject: petition.title, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
-    
+  
+  private  
   def log_sent_email(member, petition)
     sentEmail = SentEmail.new(email: member.email, member: member, petition: petition)
     sentEmail.save!

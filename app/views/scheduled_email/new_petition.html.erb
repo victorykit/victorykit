@@ -1,0 +1,16 @@
+<p>[Demand Progress has teamed up with Watchdog.net, a new site where you can
+start a petition on any topic. Here's one we think you might be interested in.]</p>
+
+<p>Dear <%=@member.name%>,</p>
+
+<p><%=word_wrap(@petition.description)%></p>
+
+<p>CLICK HERE TO SIGN:<br/>
+<%=@petition_link%></p>
+
+<p>Thanks,<br/>
+ -- The folks at Watchdog.net</p>
+
+<p>-------------------------------------------------------------------------------<br/>
+To stop receiving emails from us, just click on the link below to unsubscribe:<br/>
+<%=@unsubscribe_link%></p>
