@@ -38,26 +38,19 @@ private
   end
   
   def totals
+    totaller = PetitionStatisticTotals.new(petitions)
     [
       'All petitions',
-      h(sum(:hit_count)),
-      h(sum(:signature_count)),
-      h(float_to_percentage(divide_safe(sum(:signature_count).to_f , sum(:hit_count).to_f))),
-      h(sum(:email_count)),
-      h(sum(:email_signature_count)),
-      h(float_to_percentage(divide_safe(sum(:email_signature_count).to_f, sum(:email_count).to_f))),
-      h(sum(:new_member_count)),
-      h(float_to_percentage(divide_safe(sum(:new_member_count).to_f, sum(:signature_count).to_f))),
+      h(totaller.hit_count),
+      h(totaller.signature_count),
+      h(float_to_percentage(totaller.conversion_rate)),
+      h(totaller.email_count),
+      h(totaller.email_signature_count),
+      h(float_to_percentage(totaller.email_conversion_rate)),
+      h(totaller.new_member_count),
+      h(float_to_percentage(totaller.virality_rate)),
       ''
     ]
-  end
-  
-  def sum method
-    petitions.reduce(0){|sum, p| sum + p.send(method)}
-  end
-  
-  def divide_safe(numerator, denominator)
-    denominator.nonzero? ? numerator / denominator : 0
   end
 
   def petitions
