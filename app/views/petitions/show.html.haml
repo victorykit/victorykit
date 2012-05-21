@@ -7,7 +7,8 @@
 - signupposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signupposition1", "signupposition2"]
 - signuplabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["sign_up_labels_beside_inputs_no_asterisk", "sign_up_labels_beside_inputs_with_asterisk", "sign_up_labels_beside_inputs_with_asterisk_underlined", "sign_up_labels_above_inputs_no_asterisk", "sign_up_labels_above_inputs_with_asterisk", "sign_up_labels_above_inputs_with_asterisk_underlined", "sign_up_labels_hidden"]
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
-#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor]}
+- petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "thinpetition"]
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth]}
   .petition
     -#.petition_image
     %h1

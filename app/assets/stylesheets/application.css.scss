@@ -378,3 +378,15 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   margin-top: -6px;
   a { color: white; }
 }
+
+
+/* change width of petition */
+.thinpetition {
+  @extend .span11;
+  margin-left: auto;
+  margin-right: auto;
+  .petition {
+    @extend .span8;
+    margin: 0 10px;
+  }
+}
