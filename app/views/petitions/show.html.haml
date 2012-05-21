@@ -1,5 +1,4 @@
 - content_for :title, @petition.title
-
 - petitionside = spin! "petition side", :signature, ["petitionleft", "petitionright"]
 - thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2"]
 - buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
@@ -16,11 +15,11 @@
       = @petition.title
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
-        = facebook_like petition_url(params[:petition_id])
+        <div class='fb-like', data-send = 'false', data-action = 'like', data-show-faces = 'false'></div>
     - else
       .social_icons.tallerprogress
-        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-        = facebook_like petition_url(params[:petition_id])
+        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>   
+        <div class='fb-like', data-send = 'false', data-action = 'like', data-show-faces = 'false'></div>
     - if spin! "show thermometer", :signature
       .progress_bar
         .numbers
@@ -59,7 +58,6 @@
           .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
     %hr
     .description= Sanitize.clean(auto_link(simple_format(@petition.description)), Sanitize::Config::BASIC).html_safe
-
   .petition_sidebar
     - if !current_user.nil? && @petition.has_edit_permissions(current_user)
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
@@ -98,7 +96,7 @@
         .share
           Spread the word, share on Facebook!
         .arrow
-        = facebook_like_small petition_url(params[:petition_id])
+        <div class='fb-like', data-send = 'false', data-action = 'recommend', data-show-faces = 'false' data-width='270'></div>
 
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
