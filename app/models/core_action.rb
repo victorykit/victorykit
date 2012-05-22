@@ -1,5 +1,4 @@
 class CoreAction < DemandProgressGateway 
-=begin
   self.table_name = 'core_action'
   
   def self.fetch_unsubscribers_since(last_updated)  
@@ -12,5 +11,5 @@ class CoreAction < DemandProgressGateway
     
     @core_actions.map { |x| UnsubscribeRequest.new(x["email"], x["created_at"]) }
   end
-=end
+  
 end
