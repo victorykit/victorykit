@@ -14,4 +14,5 @@ demand_progress:
   username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
   password: <%= ENV["AK_IMPORT_DB_PWD"] %>
   database: <%= ENV["AK_IMPORT_DB"] %>
+  adapter: mysql2
   

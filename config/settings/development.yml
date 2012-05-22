@@ -1,0 +1,7 @@
+demand_progress:
+   adapter: postgresql
+   host: 
+   database: victorykit_development
+   username:
+   password:
+       
