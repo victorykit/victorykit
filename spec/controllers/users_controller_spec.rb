@@ -3,7 +3,6 @@ require 'spec_helper'
 describe UsersController do
   
   describe "GET new" do
-    puts "setting " + Settings.demand_progress.username.to_s
     it "assigns a new user" do
       get :new
       assigns(:user).should be_a_new(User)

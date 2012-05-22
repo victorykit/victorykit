@@ -11,8 +11,5 @@ google_analytics:
      client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
      token: <%= ENV["OAUTH_TOKEN"] %>
      secret: <%= ENV["OAUTH_SECRET"] %>
-demand_progress:
-  db_uri: <%= ENV["AK_IMPORT_DB_URI"] %>
-    
     
     
