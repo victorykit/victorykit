@@ -10,8 +10,4 @@ google_analytics:
 email:
   from_address: Watchdog.net <info@watchdog.net>
 demand_progress:
-  host: <%= ENV["AK_IMPORT_DB_HOST"] %>
-  username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
-  password: <%= ENV["AK_IMPORT_DB_PWD"] %>
-  database: <%= ENV["AK_IMPORT_DB"] %>
-  
+  db_uri: <%= ENV["AK_IMPORT_DB_URI"] %>
