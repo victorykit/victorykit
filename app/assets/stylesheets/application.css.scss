@@ -17,6 +17,7 @@
 @import "bootstrap";
 @import "responsive";
 
+.modal { display: none; }
 a:hover { text-decoration: none; }
 .container { margin: 0 auto; }
 .content {  min-height: 600px; background: #fff; padding: 5px 10px; }
@@ -140,8 +141,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
     .btn { float: right; }
   }
 }
-#thanks-for-signing-message {
-  @extend .rightcolwell;
+#thanks-for-signing-message, #thanksModal {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -149,6 +149,8 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
   .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  }
 }
+#thanks-for-signing-message { @extend .rightcolwell; }
+#thanksModal { @extend .span4; left: 57%; a { clear: both; font-weight: normal;  } .or { font-size: 10px; color: #666; margin: 5px; } .fb-like { margin: 5px 0 10px 20px; } }
 .progress_bar {
   float: right;
   text-align: right;
@@ -396,7 +398,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   .petition {
     @extend .span7;
     margin: 0 10px;
-    .social_icons { width: 200px; }
+    .social_icons { width: 280px; }
   }
 }
 
@@ -408,7 +410,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   #thanks-for-signing-message {
     background: #bbb;
     .thanks, .share { color: #222; }
-    .fb-like { background: rgba(255, 255, 255, .5); }
+    .fb-like { background: white; }
   }
 }
 .hex_999 { #thanks-for-signing-message { background: #999; .thanks, .share { color: white; } .fb-like { background: white; }} }
@@ -417,7 +419,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .hex_000 { #thanks-for-signing-message { background: #000; .thanks, .share { color: white; } .fb-like { background: white; }} }
 
 /* thank you arrow color */
-.redarrow #thanks-for-signing-message .arrow { background: url('red_arrow.png'); }
-.limearrow #thanks-for-signing-message .arrow { background: url('lime_arrow.png'); }
-.lightbluearrow #thanks-for-signing-message .arrow { background: url('light_blue_arrow.png'); }
-.orangearrow #thanks-for-signing-message .arrow { background: url('orange_arrow.png'); }
+.redarrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('red_arrow.png'); } } }
+.limearrow { #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('lime_arrow.png'); } } }
+.lightbluearrow{ #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('light_blue_arrow.png'); } } }
+.orangearrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('orange_arrow.png'); } } }
