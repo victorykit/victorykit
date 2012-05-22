@@ -98,11 +98,8 @@
         .share
           Spread the word, share on Facebook!
         .arrow
-<<<<<<< HEAD
-        = fb_like_small petition_url(params[:petition_id])
-=======
+
         <div class='fb-like', data-send = 'false', data-action = 'recommend', data-show-faces = 'false' data-width='255'></div>
->>>>>>> prepare tests for sharing, added more options for width tests
 
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
