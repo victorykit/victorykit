@@ -25,6 +25,7 @@ describe PixelTrackingController do
     end
 
     it "doesn`t crash if such sent email doesn`t exist" do
+      $stdout.stub(:write)
       get :show, :id => 12, :format => 'nTErYW'
     end
   end
