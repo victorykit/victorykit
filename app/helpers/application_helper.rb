@@ -14,7 +14,15 @@ module ApplicationHelper
         type.to_s
     end
   end
-
+  
+  def fb_like url
+    tag "fb:like", data: {url: url, send: false, show_faces: false, action: 'like'}
+  end
+  
+  def fb_like_small url
+    tag "fb:like", data: {url: url, send: false, show_faces: false, action: 'recommend', width: 270}
+  end
+  
   def google_analytics_tracker
     analytics_id = Settings.google_analytics.analytics_id
     javascript_tag "var _gaq = _gaq || [];
