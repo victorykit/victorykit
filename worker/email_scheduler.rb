@@ -1,15 +1,16 @@
 require 'scheduled_email'
 require 'petition_emailer'
 
-class EmailScheduler
+WEEK = 60*60*24*7
 
+class EmailScheduler
   def self.schedule_email
-    max_emails_per_day = 1000
+    max_emails_per_week = 20000
     while 1
       MailerProcessTracker.in_transaction do
         PetitionEmailer.send
       end
-      sleep(60*60*24/max_emails_per_day)
+      sleep(WEEK/max_emails_per_week)
     end
   end
 end
