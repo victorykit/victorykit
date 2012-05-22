@@ -17,6 +17,7 @@
 .rvmrc
 /.idea
 *.swp
+*.swo
 .DS_Store
 tags
 

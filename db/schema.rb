@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120517143836) do
+ActiveRecord::Schema.define(:version => 20120521213355) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -51,12 +51,13 @@ ActiveRecord::Schema.define(:version => 20120517143836) do
   end
 
   create_table "sent_emails", :force => true do |t|
-    t.string   "email",        :null => false
-    t.integer  "member_id",    :null => false
-    t.integer  "petition_id",  :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string   "email",                           :null => false
+    t.integer  "member_id",                       :null => false
+    t.integer  "petition_id",                     :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
     t.integer  "signature_id"
+    t.boolean  "was_opened",   :default => false
   end
 
   create_table "signatures", :force => true do |t|
