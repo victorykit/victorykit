@@ -65,4 +65,12 @@ class PetitionStatistics
   def email_conversion_rate
     divide_safe(email_signature_count.to_f, email_count.to_f)
   end  
+  
+  def likes
+    @analytics_data.nil? ? 0 : @analytics_data.likes.to_i
+  end
+  
+  def unlikes
+    @analytics_data.nil? ? 0 : @analytics_data.unlikes.to_i
+  end
 end

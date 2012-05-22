@@ -50,4 +50,12 @@ class PetitionStatisticsTotals
   def divide_safe(numerator, denominator)
     denominator.nonzero? ? numerator / denominator : 0
   end
+  
+  def likes
+    sum(:likes)
+  end
+  
+  def unlikes
+    sum(:unlikes)
+  end
 end

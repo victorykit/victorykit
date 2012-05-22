@@ -5,6 +5,12 @@ class AnalyticsGateway
     metrics :uniquePageviews
     dimensions :pagePath
   end
+  
+  class SocialEvents
+    extend Garb::Model
+    metrics :uniqueEvents
+    dimensions :eventCategory, :eventAction, :pagePath
+  end
 
   def self.fetch_report_results(since_date = nil)
     cache_key = "analytics_gateway_report_results"
@@ -19,11 +25,23 @@ class AnalyticsGateway
       profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
       #todo: if not profile
     
-      results = profile.petitions(start_date: since_date, end_date: Date.today)
+      petition_stats = profile.petitions(start_date: since_date, end_date: Date.today)
+      event_stats = profile.social_events(start_date: since_date, end_date: Date.today)
 
-      @data = results.reduce({}) do |result, current| 
+      event_data = event_stats.reduce({}) do |result, current| 
+        result.merge(current.page_path => current)
+      end
+      
+      petition_data = petition_stats.reduce({}) do |result, current| 
         result.merge(current.page_path => current)
       end  
+      
+      petition_data.each do |k, p|
+        e = event_data[k]
+        p.likes = (!e.nil? && e.event_action == "like") ? e.unique_events : 0
+        p.unlikes = (!e.nil? && e.event_action == "unlike") ? e.unique_events : 0
+      end
+      @data = petition_data
     end
   end 
   

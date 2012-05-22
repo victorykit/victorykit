@@ -46,6 +46,7 @@ describe PetitionsDatatable do
     hstub 0.1
         
     json = PetitionsDatatable.new(context, builder).as_json
+    puts json
     json[:iTotalRecords].should == petitions.size
     #TODO (maybe) assert on JSON contents?  It gets ugly quick
   end
