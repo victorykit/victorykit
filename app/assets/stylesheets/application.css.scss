@@ -147,6 +147,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   text-align: center;
   .thanks { font-size: 27px; margin: 15px 0 25px;}
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
+  .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  }
 }
 .progress_bar {
   float: right;
@@ -336,8 +337,6 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .sign_up_labels_beside_inputs_with_asterisk_underlined {
   @extend .sign_up_labels_beside_inputs;
 }
-
-
 .sign_up_labels_above_inputs #sign-up-form {
   .control-label {
     text-align: left;
@@ -381,7 +380,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 
 
 /* change width of petition */
-.thinpetition {
+.middlewidthpetition {
   @extend .span11;
   margin-left: auto;
   margin-right: auto;
@@ -390,3 +389,35 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     margin: 0 10px;
   }
 }
+.narrowwidthpetition {
+  @extend .span10;
+  margin-left: auto;
+  margin-right: auto;
+  .petition {
+    @extend .span7;
+    margin: 0 10px;
+    .social_icons { width: 200px; }
+  }
+}
+
+
+
+/* thank you box color */
+/* sign petition box color */
+.hex_bbb {
+  #thanks-for-signing-message {
+    background: #bbb;
+    .thanks, .share { color: #222; }
+    .fb-like { background: rgba(255, 255, 255, .5); }
+  }
+}
+.hex_999 { #thanks-for-signing-message { background: #999; .thanks, .share { color: white; } .fb-like { background: white; }} }
+.hex_666 { #thanks-for-signing-message { background: #666; .thanks, .share { color: white; } .fb-like { background: white; }} }
+.hex_333 { #thanks-for-signing-message { background: #333; .thanks, .share { color: white; } .fb-like { background: white; } } }
+.hex_000 { #thanks-for-signing-message { background: #000; .thanks, .share { color: white; } .fb-like { background: white; }} }
+
+/* thank you arrow color */
+.redarrow #thanks-for-signing-message .arrow { background: url('red_arrow.png'); }
+.limearrow #thanks-for-signing-message .arrow { background: url('lime_arrow.png'); }
+.lightbluearrow #thanks-for-signing-message .arrow { background: url('light_blue_arrow.png'); }
+.orangearrow #thanks-for-signing-message .arrow { background: url('orange_arrow.png'); }

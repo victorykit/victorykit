@@ -7,7 +7,9 @@
 - signupposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signupposition1", "signupposition2"]
 - signuplabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["sign_up_labels_beside_inputs_no_asterisk", "sign_up_labels_beside_inputs_with_asterisk", "sign_up_labels_beside_inputs_with_asterisk_underlined", "sign_up_labels_above_inputs_no_asterisk", "sign_up_labels_above_inputs_with_asterisk", "sign_up_labels_above_inputs_with_asterisk_underlined", "sign_up_labels_hidden"]
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
-- petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "thinpetition"]
+- petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthptition", "narrowwidthpetition"]
+- thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
+- thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth]}
   .petition
     -#.petition_image
@@ -18,8 +20,8 @@
         = fb_like petition_url(params[:petition_id])
     - else
       .social_icons.tallerprogress
-        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>  
-        = fb_like petition_url(params[:petition_id])
+        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+        <div class='fb-like', data-send = 'false', data-action = 'like', data-show-faces = 'false'></div>
     - if spin! "show thermometer", :signature
       .progress_bar
         .numbers
@@ -96,7 +98,11 @@
         .share
           Spread the word, share on Facebook!
         .arrow
+<<<<<<< HEAD
         = fb_like_small petition_url(params[:petition_id])
+=======
+        <div class='fb-like', data-send = 'false', data-action = 'recommend', data-show-faces = 'false' data-width='255'></div>
+>>>>>>> prepare tests for sharing, added more options for width tests
 
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
