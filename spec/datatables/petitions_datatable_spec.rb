@@ -24,6 +24,8 @@ describe PetitionsDatatable do
       hstub(stat.conversion_rate)
       hstub(stat.signature_count)
       hstub(stat.email_count)
+      hstub("#{stat.opened_emails_count} (#{stat.opened_emails_percentage})")
+      hstub(stat.opened_emails_percentage)
       hstub(stat.email_signature_count)
       hstub(stat.email_conversion_rate)
       hstub(stat.new_member_count)
@@ -38,6 +40,7 @@ describe PetitionsDatatable do
     hstub 1
     hstub 2
     hstub 20
+    hstub "12 (0.6)"
     hstub 2
     hstub 10
     hstub 0.1
@@ -54,6 +57,8 @@ describe PetitionsDatatable do
       :signature_count => 1,
       :conversion_rate => 100,
       :email_count => 10,
+      :opened_emails_count => 6,
+      :opened_emails_percentage => 0.6,
       :email_signature_count => 1,
       :email_conversion_rate => 10,
       :virality_rate => 1,

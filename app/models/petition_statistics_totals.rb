@@ -22,6 +22,14 @@ class PetitionStatisticsTotals
   def email_count
     sum(:email_count)
   end
+
+  def opened_emails_count
+    sum(:opened_emails_count)
+  end
+
+  def opened_emails_percentage
+    divide_safe(opened_emails_count.to_f, email_count.to_f)
+  end
   
   def email_signature_count
     sum(:email_signature_count)

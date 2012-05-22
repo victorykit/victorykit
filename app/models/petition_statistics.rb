@@ -50,6 +50,14 @@ class PetitionStatistics
     @petition.sent_emails.count(conditions: ["created_at >= ?", @since_date])
   end
 
+  def opened_emails_count
+    @petition.sent_emails.count(conditions: ["was_opened = true"])
+  end
+
+  def opened_emails_percentage
+    divide_safe(opened_emails_count.to_f, email_count.to_f)
+  end
+
   def email_signature_count
     @petition.sent_emails.count(conditions: ["signature_id is not null and created_at >= ?", @since_date])
   end
