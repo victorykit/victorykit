@@ -35,11 +35,16 @@ module ApplicationHelper
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
       
-      if (FB && FB.Event && FB.Event.subscribe) {
-        FB.Event.subscribe('edge.create', function(targetUrl) {
-          _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
-        });
-      }"
+      try {
+        if (FB && FB.Event && FB.Event.subscribe) {
+          FB.Event.subscribe('edge.create', function(targetUrl) {
+            _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+          });
+          FB.Event.subscribe('edge.remove', function(targetUrl){
+            _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+          });
+        }
+      } catch(e) {}"
   end
 
   def float_to_percentage(f)
