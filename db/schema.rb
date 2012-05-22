@@ -93,8 +93,6 @@ ActiveRecord::Schema.define(:version => 20120521213355) do
     t.boolean  "is_admin",        :default => false, :null => false
   end
 
-  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
-
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
 
   add_foreign_key "sent_emails", "members", :name => "sent_emails_member_id_fk"

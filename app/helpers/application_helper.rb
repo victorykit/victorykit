@@ -39,12 +39,19 @@ module ApplicationHelper
         if (FB && FB.Event && FB.Event.subscribe) {
           FB.Event.subscribe('edge.create', function(targetUrl) {
             _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+          
+            //Google don't export social event data yet, so we have to track social actions as events too
+            _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
           });
           FB.Event.subscribe('edge.remove', function(targetUrl){
             _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+
+            //Google don't export social event data yet, so we have to track social actions as events too
+            _gaq.push(['_trackEvent', 'facebook', 'unlike', targetUrl]);
           });
         }
-      } catch(e) {}"
+      } catch(e) {}
+    "
   end
 
   def float_to_percentage(f)
