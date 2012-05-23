@@ -1,5 +1,8 @@
+require 'hasher'
+
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
+  before_filter :track_visit, only: :show
 
   def index
     @petitions = Petition.all
@@ -45,4 +48,15 @@ class PetitionsController < ApplicationController
       render action: "edit"
     end
   end
+
+  def track_visit
+    if sent_email_id = Hasher.validate(params[:n])
+      begin
+        sent_email = SentEmail.find(sent_email_id)
+        sent_email.update_attributes(clicked_at: Time.now).save! unless sent_email.clicked_at
+      rescue => error
+        Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"
+      end
+    end
+  end 
 end

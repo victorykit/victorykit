@@ -131,4 +131,26 @@ describe PetitionsController do
     end
   end
 
+  describe "track_visit" do
+    let(:sent_email) { create :sent_email }
+    let(:petition) { create :petition }
+  
+    it "should update clicked_at with the current time if email hash and corresponding sent_email are present" do
+      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      (SentEmail.find(sent_email.id).clicked_at + 1.minute).should be > Time.now
+    end
+
+    it "should not do anything if the email hash is invalid" do
+      get :show, id: petition.id, n: "invalid"
+      (SentEmail.find(sent_email.id).clicked_at).should be nil
+      SentEmail.find(:all).size.should == 1
+    end
+
+    it "should not update clicked_at date if it`s not empty" do
+      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      first_time = SentEmail.find(sent_email.id).clicked_at
+      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      SentEmail.find(sent_email.id).clicked_at.should == first_time
+    end
+  end
 end
