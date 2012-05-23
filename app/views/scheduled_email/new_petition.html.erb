@@ -1,17 +1,16 @@
-<p>[Demand Progress has teamed up with Watchdog.net, a new site where you can
-start a petition on any topic. Here's one we think you might be interested in.]</p>
+<p><font color="#888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.</i></font></p>
 
 <p>Dear <%=@member.name%>,</p>
 
-<p><%=word_wrap(@petition.description)%></p>
+<%=auto_link(simple_format(@petition.description))%>
 
-<p>CLICK HERE TO SIGN:<br/>
-<%=@petition_link%></p>
+<p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
 
 <p>Thanks,<br/>
  -- The folks at Watchdog.net</p>
 
-<p>-------------------------------------------------------------------------------<br/>
-To stop receiving emails from us, just click on the link below to unsubscribe:<br/>
-<%=@unsubscribe_link%></p>
-<img src='<%=@tracking_url%>'/>
+
+<hr />
+<p><a href="<%=@unsubscribe_link%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
+
+<img src="<%=@tracking_url%>" />
