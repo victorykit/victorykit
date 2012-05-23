@@ -6,11 +6,11 @@ WEEK = 60*60*24*7
 class EmailScheduler
   def self.schedule_email
     max_emails_per_week = 20000
-    while 1
-      MailerProcessTracker.in_transaction do
+    MailerProcessTracker.in_transaction do
+      while 1
         PetitionEmailer.send
+        sleep(WEEK/max_emails_per_week)
       end
-      sleep(WEEK/max_emails_per_week)
     end
   end
 end
