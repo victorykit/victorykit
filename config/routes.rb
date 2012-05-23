@@ -12,6 +12,7 @@ Victorykit::Application.routes.draw do
   resources :petitions do
     resources :signatures
   end
+  resources :social_tracking
 
   get 'signup', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'

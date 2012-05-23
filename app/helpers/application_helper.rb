@@ -24,7 +24,9 @@ module ApplicationHelper
   end
   
   def google_analytics_tracker
+    #TODO: move this to a js file, or a partial?
     analytics_id = Settings.google_analytics.analytics_id
+    like_tracker_url = url_for(:action => 'new', :controller => 'social_tracking') 
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
       _gaq.push(['_trackPageview']);
@@ -39,14 +41,14 @@ module ApplicationHelper
         if (FB && FB.Event && FB.Event.subscribe) {
           FB.Event.subscribe('edge.create', function(targetUrl) {
             _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
-          
             //Google don't export social event data yet, so we have to track social actions as events too
             _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
+            $.ajax({
+              url: '#{like_tracker_url}'
+            });
           });
           FB.Event.subscribe('edge.remove', function(targetUrl){
             _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
-
-            //Google don't export social event data yet, so we have to track social actions as events too
             _gaq.push(['_trackEvent', 'facebook', 'unlike', targetUrl]);
           });
         }
