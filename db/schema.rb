@@ -20,13 +20,6 @@ ActiveRecord::Schema.define(:version => 20120523202636) do
     t.integer  "sent_email_id", :null => false
   end
 
-  create_table "core_action", :force => true do |t|
-    t.string   "email"
-    t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "last_updated_unsubscribes", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -100,8 +93,6 @@ ActiveRecord::Schema.define(:version => 20120523202636) do
     t.boolean  "is_super_user",   :default => false, :null => false
     t.boolean  "is_admin",        :default => false, :null => false
   end
-
-  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
 
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
 
