@@ -21,11 +21,15 @@ class PetitionStatistics
   def hit_count; @analytics_data.nil? ? 0 : @analytics_data.unique_pageviews.to_i end
   def new_member_count; p.signatures.count(conditions("created_member is true")) end
   
-  def open_rate; opened_emails_count/email_count.to_f end
-  def sign_rate; email_signature_count/email_count.to_f end
-  def like_rate; likes_count/email_count.to_f end
-  def hit_rate; hit_count/email_count.to_f end
-  def new_rate; new_member_count/email_count.to_f end
+  def divide_safe(numerator, denominator)
+    denominator.nonzero? ? numerator / denominator.to_f : 0
+  end
+
+  def open_rate; divide_safe(opened_emails_count, email_count) end
+  def sign_rate; divide_safe(email_signature_count, email_count) end
+  def like_rate; divide_safe(likes_count, email_count) end
+  def hit_rate; divide_safe(hit_count, email_count) end
+  def new_rate; divide_safe(new_member_count, email_count) end
 
   def petition_title; p.title end
   def petition_created_at; p.created_at end
