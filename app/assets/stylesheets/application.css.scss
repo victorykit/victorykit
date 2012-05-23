@@ -461,7 +461,6 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     td { text-align: right; }
     tr :first-child { @extend .span3; text-align: left; }
     tr :last-child { @extend .span2; }
-    .span5 { @extend .span6; }
   }
   .span5 { @extend .span6; margin-left: 10px; }
 }
