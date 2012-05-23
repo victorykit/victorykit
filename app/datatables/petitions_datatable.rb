@@ -1,4 +1,15 @@
 # see http://datatables.net/usage/server-side for details on how datatables work, params, etc
+=begin
+HOW TO EDIT THE DATATABLE
+
+1. Update index.html.haml
+2. Update PetitionsDataTable.data
+  a. This may require updating PetitionStatistics
+3. Update PetitionsDataTable.totals
+  b. This may require updating PetitionStatisticsTotals
+4. Update PetitionsDataTable.sort_column.columns
+=end
+
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, to: :@view
     
@@ -6,7 +17,11 @@ class PetitionsDatatable
     @view = view
     @statistics_builder = statistics_builder
   end
-
+  
+  def petitions
+    @petitions ||= @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction) 
+  end
+  
   def as_json(options = {})
     formatted_data = Kaminari.paginate_array(data).page(page).per(per_page)
     count = petitions.count
@@ -17,9 +32,7 @@ class PetitionsDatatable
       aaData: formatted_data + [totals]
     }
   end
-
-private
-
+  
   def data
     petitions.map do |petition|
       [
@@ -57,8 +70,9 @@ private
     ]
   end
 
-  def petitions
-    @petitions ||= @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction) 
+  def sort_column
+    columns = %w[petition_title hit_count signature_count conversion_rate email_count email_signature_count email_conversion_rate new_member_count virality_rate petition_created_at]
+    columns[params[:iSortCol_0].to_i]
   end
 
   def analytics_since
@@ -72,11 +86,6 @@ private
 
   def per_page
     params[:iDisplayLength].to_i > 0 ? params[:iDisplayLength].to_i : 10
-  end
-
-  def sort_column
-    columns = %w[petition_title hit_count signature_count conversion_rate email_count email_signature_count email_conversion_rate new_member_count virality_rate petition_created_at]
-    columns[params[:iSortCol_0].to_i]
   end
 
   def sort_direction
