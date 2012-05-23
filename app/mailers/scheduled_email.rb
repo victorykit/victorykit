@@ -11,7 +11,7 @@ class ScheduledEmail < ActionMailer::Base
     sent_email_hash = Hasher.generate(sent_email_id)
     @petition_link = petition_url(petition) + "?n=" + sent_email_hash
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + "?n=" + sent_email_hash
-    @tracking_url = pixel_tracking_url sent_email_hash
+    @tracking_url = new_pixel_tracking_url + "?n=" + sent_email_hash
     @petition = petition
     @member = member
     return_path = "bounce+" + sent_email_hash + "@appmail.watchdog.net"

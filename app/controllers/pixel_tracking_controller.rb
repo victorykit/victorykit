@@ -2,8 +2,8 @@ require 'hasher'
 
 class PixelTrackingController < ApplicationController
 
-  def show
-    if h = Hasher.validate("#{params[:id]}.#{params[:format]}") 
+  def new
+    if h = Hasher.validate(params[:n]) 
       begin
         SentEmail.update(h, :was_opened => true)
       rescue => error

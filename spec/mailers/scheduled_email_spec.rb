@@ -17,6 +17,7 @@ describe ScheduledEmail do
     let(:email_hash){Hasher.generate(sent_email.id)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{email_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{email_hash}"}
+    let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{email_hash}"}
     
     it "includes the petition title in the subject" do
       mail.subject.should include petition.title
@@ -32,6 +33,10 @@ describe ScheduledEmail do
         
     it "includes an unsubscribe link in the body" do
       mail.body.encoded.should include unsubscribe_link
+    end
+
+    it "includes pixel tracking image with correct url" do
+      mail.body.encoded.should include "<img src=\"#{pixel_tracking_link}\"/>"
     end
     
     it "adds an unsubscribe header" do
