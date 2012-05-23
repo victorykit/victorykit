@@ -15,6 +15,7 @@ class PetitionStatistics
   def email_count; p.sent_emails.count(conditions) end
   def opened_emails_count; p.sent_emails.count(conditions: ["was_opened = true"]) end
   #@@BUG should be only opened after @since_date
+  def signature_count; p.signatures.count(conditions) end
   def email_signature_count; p.sent_emails.count(conditions("signature_id is not null")) end
   def likes_count; @analytics_data.nil? ? 0 : @analytics_data.likes.to_i end
   def hit_count; @analytics_data.nil? ? 0 : @analytics_data.unique_pageviews.to_i end

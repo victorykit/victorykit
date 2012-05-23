@@ -9,9 +9,7 @@ describe PetitionStatistics do
     
     its(:hit_count) { should == 100 }
     its(:signature_count) { should ==  75 }
-    its(:conversion_rate) { should ==  0.75 }
     its(:new_member_count) { should ==  0 }
-    its(:virality_rate) { should ==  0.0 }
   end
 
   describe "when statistics are unavailable" do        
@@ -20,9 +18,7 @@ describe PetitionStatistics do
     
     its(:hit_count) { should == 0 }
     its(:signature_count) { should ==  75 }
-    its(:conversion_rate) { should ==  0.0 }
     its(:new_member_count) { should ==  0 }
-    its(:virality_rate) { should ==  0.0 }
   end
   
   describe "when a date is given" do
@@ -31,6 +27,5 @@ describe PetitionStatistics do
     subject { PetitionStatistics.new(petition, data, Date.today - 9) }
     
     its(:signature_count) { should ==  10 }
-    its(:conversion_rate) { should ==  0.1 }
   end
 end
