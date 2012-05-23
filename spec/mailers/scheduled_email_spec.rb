@@ -36,7 +36,7 @@ describe ScheduledEmail do
     end
 
     it "includes pixel tracking image with correct url" do
-      mail.body.encoded.should include "<img src=\"#{pixel_tracking_link}\"/>"
+      mail.body.encoded.should include "<img src=\"#{pixel_tracking_link}\" />"
     end
     
     it "adds an unsubscribe header" do
