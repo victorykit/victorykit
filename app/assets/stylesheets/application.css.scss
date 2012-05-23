@@ -150,7 +150,35 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  }
 }
 #thanks-for-signing-message { @extend .rightcolwell; }
-#thanksModal { @extend .span4; left: 57%; a { clear: both; font-weight: normal;  } .or { font-size: 10px; color: #666; margin: 5px; } .fb-like { margin: 5px 0 10px 20px; } }
+#thanksModal {
+  width: 700px;
+  height: 500px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  .modal-body {
+    background-clip: padding-box;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    min-height: 260px;
+    margin: 0 auto;
+  }
+  a {
+    clear: both;
+    font-weight: normal;
+  }
+  .or {
+    font-size: 10px;
+    color: #666;
+    margin: 5px; }
+  .fb-like {
+    margin: 5px 0 10px 20px;
+    top: -70px;
+  }
+}
 .progress_bar {
   float: right;
   text-align: right;
@@ -423,3 +451,17 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .limearrow { #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('lime_arrow.png'); } } }
 .lightbluearrow{ #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('light_blue_arrow.png'); } } }
 .orangearrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('orange_arrow.png'); } } }
+
+/* admin petition dashboard */
+#petitions_wrapper {
+  #petitions {
+    @extend .span12;
+    a { font-weight: normal; }
+    td, th { padding: 3px; }
+    td { text-align: right; }
+    tr :first-child { @extend .span3; text-align: left; }
+    tr :last-child { @extend .span2; }
+    .span5 { @extend .span6; }
+  }
+  .span5 { @extend .span6; margin-left: 10px; }
+}

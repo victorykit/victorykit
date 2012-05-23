@@ -122,11 +122,7 @@
           Spread the word, share on Facebook!
         .arrow
 
-        .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', 'data-width' => '255'}
+      .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', 'data-width' => '255'}
 
-        - if spin! "show vs. hide continue without sharing", :share
-          .or
-            OR
-          = link_to('continue without sharing', '#', :"data-dismiss" => 'modal')
 
 
