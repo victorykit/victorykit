@@ -35,7 +35,8 @@ class PetitionsDatatable
   
   def dpct(numerator, denominator, percentify=true)
     fn = lambda {|x| percentify ? float_to_percentage(x) : x.to_s[0..4]}
-    "<span title='#{numerator}'>" + fn.call(numerator/denominator.to_f) + "</span>"
+    n = denominator.nonzero? ? numerator / denominator.to_f : 0.0
+    "<span title='#{numerator}'>" + fn.call(n) + "</span>"
   end
   
   def data

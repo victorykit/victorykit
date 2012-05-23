@@ -22,7 +22,7 @@ class PetitionStatistics
   def new_member_count; p.signatures.count(conditions("created_member is true")) end
   
   def divide_safe(numerator, denominator)
-    denominator.nonzero? ? numerator / denominator.to_f : 0
+    denominator.nonzero? ? numerator / denominator.to_f : 0.0
   end
 
   def open_rate; divide_safe(opened_emails_count, email_count) end
