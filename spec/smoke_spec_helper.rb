@@ -25,14 +25,23 @@ end
 def wait timeout = 5
   Selenium::WebDriver::Wait.new(:timeout => timeout)
 end
+
+def login email, password
+  
+  $driver.navigate.to URI.join(HOST_URL, 'login').to_s
+    
+  type(email).into(:id => "new_session_email")
+  type(password).into(:id => "new_session_password")
+  click(:name => "commit")
+end
   
 class TextTyper
   def initialize text
     @text = text
   end
   
-  def into input_id
-    input = $driver.find_element(:id => input_id)
+  def into locator
+    input = $driver.find_element(locator)
     input.send_keys @text
   end
 end

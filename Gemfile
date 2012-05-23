@@ -48,6 +48,7 @@ group :test, :development do
   gem "faker", "~> 1.0"
   gem "autotest"
   gem "selenium-webdriver"
+  gem 'nokogiri'
 end
 
 gem 'simplecov', :require => false, :group => :test

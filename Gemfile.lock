@@ -235,6 +235,7 @@ DEPENDENCIES
   mysql
   mysql2
   newrelic_rpm
+  nokogiri
   oauth
   pg
   rails (= 3.2.3)
