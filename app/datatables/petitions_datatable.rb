@@ -6,8 +6,8 @@ HOW TO EDIT THE DATATABLE
 2. Update PetitionsDataTable.data
   a. This may require updating PetitionStatistics
 3. Update PetitionsDataTable.totals
-  b. This may require updating PetitionStatisticsTotals
 4. Update PetitionsDataTable.sort_column.columns
+  a. This may require updating PetitionStatistics
 =end
 
 class PetitionsDatatable
@@ -33,45 +33,42 @@ class PetitionsDatatable
     }
   end
   
+  def dpct(numerator, denominator, percentify=true)
+    fn = lambda {|x| percentify ? float_to_percentage(x) : x.to_s}
+    "<span title='#{numerator}'>" + fn.call(numerator/denominator.to_f) + "</span>"
+  end
+  
   def data
     petitions.map do |petition|
       [
-        link_to(petition.petition_title, petition.petition_record),
-        h(petition.hit_count),
-        h(petition.signature_count),
-        h(float_to_percentage(petition.conversion_rate)),
+        link_to(petition.p.title, petition.p),
         h(petition.email_count),
-        h("#{petition.opened_emails_count} (#{float_to_percentage(petition.opened_emails_percentage)})"),
-        h(petition.email_signature_count),
-        h(float_to_percentage(petition.email_conversion_rate)),
-        h(petition.new_member_count),
-        h(float_to_percentage(petition.virality_rate)),
-        h("#{petition.likes} (#{float_to_percentage(petition.likes_percentage)})"),
-        h(format_date_time(petition.petition_created_at)),
+        dpct(petition.opened_emails_count, petition.email_count),
+        dpct(petition.email_signature_count, petition.email_count),
+        dpct(petition.likes_count, petition.email_count),
+        dpct(petition.hit_count, petition.email_count, false),
+        dpct(petition.new_member_count, petition.email_count, false),
+        h(format_date_time(petition.p.created_at)),
       ]
     end
   end
   
   def totals
-    totaller = PetitionStatisticsTotals.new(petitions)
+    petition = PetitionStatisticsTotals.new(petitions)
     [
       'All petitions',
-      h(totaller.hit_count),
-      h(totaller.signature_count),
-      h(float_to_percentage(totaller.conversion_rate)),
-      h(totaller.email_count),
-      h("#{totaller.opened_emails_count} (#{float_to_percentage(totaller.opened_emails_percentage)})"),
-      h(totaller.email_signature_count),
-      h(float_to_percentage(totaller.email_conversion_rate)),
-      h(totaller.new_member_count),
-      h(float_to_percentage(totaller.virality_rate)),
-      h("#{totaller.likes} (#{float_to_percentage(totaller.likes_percentage)})"),
+      h(petition.email_count),
+      dpct(petition.opened_emails_count, petition.email_count),
+      dpct(petition.email_signature_count, petition.email_count),
+      dpct(petition.likes_count, petition.email_count),
+      dpct(petition.hit_count, petition.email_count, false),
+      dpct(petition.new_member_count, petition.email_count, false),
       '',
     ]
   end
 
   def sort_column
-    columns = %w[petition_title hit_count signature_count conversion_rate email_count email_signature_count email_conversion_rate new_member_count virality_rate petition_created_at]
+    columns = %w[petition_title email_count open_rate sign_rate like_rate hit_rate new_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 
