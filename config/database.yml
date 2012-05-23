@@ -26,7 +26,7 @@ production:
   timeout: 5000
       
 demand_progress_production:
-  adapter: mysql2  
+  adapter: mysql2
   host: <%= ENV["AK_IMPORT_DB_HOST"] %>
   username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
   password: <%= ENV["AK_IMPORT_DB_PWD"] %>
