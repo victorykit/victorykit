@@ -39,7 +39,6 @@ class AnalyticsGateway
       petition_data.each do |k, p|
         e = event_data[k]
         p.likes = (!e.nil? && e.event_action == "like") ? e.unique_events : 0
-        p.unlikes = (!e.nil? && e.event_action == "unlike") ? e.unique_events : 0
       end
       @data = petition_data
     end

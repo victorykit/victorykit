@@ -33,7 +33,7 @@ private
         h(float_to_percentage(petition.email_conversion_rate)),
         h(petition.new_member_count),
         h(float_to_percentage(petition.virality_rate)),
-        h(petition.likes),
+        h("#{petition.likes} (#{float_to_percentage(petition.likes_percentage)})"),
         h(format_date_time(petition.petition_created_at)),
       ]
     end
@@ -52,7 +52,7 @@ private
       h(float_to_percentage(totaller.email_conversion_rate)),
       h(totaller.new_member_count),
       h(float_to_percentage(totaller.virality_rate)),
-      h(totaller.likes),
+      h("#{totaller.likes} (#{float_to_percentage(totaller.likes_percentage)})"),
       '',
     ]
   end

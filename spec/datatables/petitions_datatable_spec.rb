@@ -20,7 +20,7 @@ describe PetitionsDatatable do
       stats.email_conversion_rate, 
       stats.virality_rate, 
       stats.new_member_count, 
-      stats.likes,
+      "#{stats.likes} (#{stats.likes_percentage})",
       stats.petition_created_at
     ]
     
@@ -41,6 +41,7 @@ describe PetitionsDatatable do
       :virality_rate => 1,
       :new_member_count => 1,
       :likes => 1,
+      :likes_percentage => 100,
       :petition_created_at => Date.today,
       :petition_record => petition)
   end

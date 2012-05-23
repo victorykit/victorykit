@@ -55,7 +55,7 @@ class PetitionStatisticsTotals
     sum(:likes)
   end
   
-  def unlikes
-    sum(:unlikes)
+  def likes_percentage
+    divide_safe(likes.to_f, hit_count.to_f)
   end
 end
