@@ -26,7 +26,7 @@ module ApplicationHelper
   def google_analytics_tracker
     #TODO: move this to a js file, or a partial?
     analytics_id = Settings.google_analytics.analytics_id
-    like_tracker_url = url_for(:action => 'new', :controller => 'social_tracking') 
+    like_tracker_url = url_for(:action => 'new', :controller => '/social_tracking') 
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
       _gaq.push(['_trackPageview']);
