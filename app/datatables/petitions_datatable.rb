@@ -49,6 +49,7 @@ class PetitionsDatatable
         dpct(petition.likes_count, petition.email_count),
         dpct(petition.hit_count, petition.email_count, false),
         dpct(petition.new_member_count, petition.email_count, false),
+        dpct(petition.unsubscribe_count, petition.email_count),
         h(format_date_time(petition.p.created_at)),
       ]
     end
@@ -64,12 +65,13 @@ class PetitionsDatatable
       dpct(petition.likes_count, petition.email_count),
       dpct(petition.hit_count, petition.email_count, false),
       dpct(petition.new_member_count, petition.email_count, false),
+      dpct(petition.unsubscribe_count, petition.email_count),
       '',
     ]
   end
 
   def sort_column
-    columns = %w[petition_title email_count open_rate sign_rate like_rate hit_rate new_rate petition_created_at]
+    columns = %w[petition_title email_count open_rate sign_rate like_rate hit_rate new_rate unsub_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 
