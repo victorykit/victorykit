@@ -2,7 +2,7 @@
 
 %p
   - today = Date.today
-  Since #{link_to_self_with_param :since, {'today' => today, 'yesterday' => today - 1.day, 'a week ago' => today - 1.week, 'a month ago' => today - 1.month, 'a year ago' => today - 1.year, 'forever' => nil}, " | "}
+  Activity since #{link_to_self_with_param :since, {'today' => today, 'yesterday' => today - 1.day, 'a week ago' => today - 1.week, 'a month ago' => today - 1.month, 'a year ago' => today - 1.year, 'forever' => nil}, " | "}
 
 <button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
 
