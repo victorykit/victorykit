@@ -50,6 +50,8 @@ group :test, :development do
   gem "selenium-webdriver"
 end
 
+gem 'simplecov', :require => false, :group => :test
+
 gem 'newrelic_rpm'
 gem 'unicorn'
 

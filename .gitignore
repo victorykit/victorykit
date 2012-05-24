@@ -33,3 +33,6 @@ config/environments/*.local.yml
 /dump.rdb
 
 chromedriver.log
+
+#test covereage from simplecov
+coverage
