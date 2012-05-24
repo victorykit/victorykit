@@ -14,6 +14,7 @@ class PetitionStatistics
   def p; @petition end
   def email_count; p.sent_emails.count(conditions) end
   def opened_emails_count; p.sent_emails.count(conditions: ["opened_at >= ?", @since_date.to_time]) end
+  def clicked_emails_count; p.sent_emails.count(conditions: ["clicked_at >= ?", @since_date.to_time]) end
   def signature_count; p.signatures.count(conditions) end
   def email_signature_count; p.sent_emails.count(conditions("signature_id is not null")) end
   def likes_count; @analytics_data.nil? ? 0 : @analytics_data.likes.to_i end
@@ -30,6 +31,7 @@ class PetitionStatistics
   end
 
   def open_rate; divide_safe(opened_emails_count, email_count) end
+  def clicked_rate; divide_safe(clicked_emails_count, email_count) end
   def sign_rate; divide_safe(email_signature_count, email_count) end
   def like_rate; divide_safe(likes_count, email_count) end
   def hit_rate; divide_safe(hit_count, email_count) end

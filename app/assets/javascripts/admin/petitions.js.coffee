@@ -24,4 +24,6 @@ jQuery ->
     , 
       asSorting: [ "desc", "asc" ]
     , 
+      asSorting: [ "desc", "asc" ]
+    , 
       asSorting: [ "desc", "asc" ]]

@@ -8,6 +8,7 @@ HOW TO EDIT THE DATATABLE
 3. Update PetitionsDataTable.totals
 4. Update PetitionsDataTable.sort_column.columns
   a. This may require updating PetitionStatistics
+5. Add/remove a sorting column from petitions.js.coffee if required
 =end
 
 class PetitionsDatatable
@@ -45,6 +46,7 @@ class PetitionsDatatable
         link_to(petition.p.title, petition.p),
         h(petition.email_count),
         dpct(petition.opened_emails_count, petition.email_count),
+        dpct(petition.clicked_emails_count, petition.email_count),
         dpct(petition.email_signature_count, petition.email_count),
         dpct(petition.likes_count, petition.email_count),
         dpct(petition.hit_count, petition.email_count, false),
@@ -61,6 +63,7 @@ class PetitionsDatatable
       'All petitions',
       h(petition.email_count),
       dpct(petition.opened_emails_count, petition.email_count),
+      dpct(petition.clicked_emails_count, petition.email_count),
       dpct(petition.email_signature_count, petition.email_count),
       dpct(petition.likes_count, petition.email_count),
       dpct(petition.hit_count, petition.email_count, false),
@@ -71,7 +74,7 @@ class PetitionsDatatable
   end
 
   def sort_column
-    columns = %w[petition_title email_count open_rate sign_rate like_rate hit_rate new_rate unsub_rate petition_created_at]
+    columns = %w[petition_title email_count open_rate clicked_rate sign_rate like_rate hit_rate new_rate unsub_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 
