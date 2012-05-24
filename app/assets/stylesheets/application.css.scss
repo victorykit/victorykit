@@ -110,7 +110,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
     margin-top: 50px;
   }
 }
-.petition { @extend .span9; @extend .floatleft; margin-right: -10px;
+.petition { @extend .span9; @extend .floatleft;
   .petition_image { height: 90px; width: 90px; margin-right: 5px; background: grey; float: left; }
   .edit { @extend .floatright; margin: -40px 10px 0 0; }
   .description { padding-right: 20px; clear: both; }
@@ -194,7 +194,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   }
 }
 hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
-.petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
+.petition_sidebar { @extend .span3; float: left; margin-top: 4px; }
 .social_icons { float: left; margin: 16px 0 5px;
   iframe { height: 30px; width: 275px; }
   &.tallerprogress { margin-top: 33px; }
