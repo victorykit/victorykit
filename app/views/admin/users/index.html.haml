@@ -15,7 +15,11 @@
       %td= user.email
       %td= user.created_at
       - if current_user.is_super_user?
-        %td= check_box_tag user.is_admin, user.is_admin, user.is_admin, :disabled => true
-        %td= check_box_tag user.is_super_user, user.is_super_user, user.is_super_user, :disabled => true
+        %td
+          - if user.is_admin
+            %i.icon-ok
+        %td
+          - if user.is_super_user
+            %i.icon-ok
       %td= link_to 'Edit', edit_admin_user_path(user)
       %td= link_to 'Destroy', admin_user_path(user), confirm: 'Are you sure?', method: :delete
