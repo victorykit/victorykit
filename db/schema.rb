@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120521213355) do
+ActiveRecord::Schema.define(:version => 20120523202636) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -51,13 +51,14 @@ ActiveRecord::Schema.define(:version => 20120521213355) do
   end
 
   create_table "sent_emails", :force => true do |t|
-    t.string   "email",                           :null => false
-    t.integer  "member_id",                       :null => false
-    t.integer  "petition_id",                     :null => false
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
+    t.string   "email",        :null => false
+    t.integer  "member_id",    :null => false
+    t.integer  "petition_id",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.boolean  "was_opened",   :default => false
+    t.datetime "opened_at"
+    t.datetime "clicked_at"
   end
 
   create_table "signatures", :force => true do |t|
@@ -92,6 +93,8 @@ ActiveRecord::Schema.define(:version => 20120521213355) do
     t.boolean  "is_super_user",   :default => false, :null => false
     t.boolean  "is_admin",        :default => false, :null => false
   end
+
+  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
 
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
 

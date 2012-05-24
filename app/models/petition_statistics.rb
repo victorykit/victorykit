@@ -13,7 +13,7 @@ class PetitionStatistics
   
   def p; @petition end
   def email_count; p.sent_emails.count(conditions) end
-  def opened_emails_count; p.sent_emails.count(conditions: ["was_opened = true"]) end
+  def opened_emails_count; puts p.sent_emails.first; p.sent_emails.count(conditions: ["opened_at >= '#{@since_date.to_time}'"]) end
   #@@BUG should be only opened after @since_date
   def signature_count; p.signatures.count(conditions) end
   def email_signature_count; p.sent_emails.count(conditions("signature_id is not null")) end
@@ -27,7 +27,7 @@ class PetitionStatistics
   end
   
   def divide_safe(numerator, denominator)
-    denominator.nonzero? ? numerator / denominator.to_f : 0.0
+    denominator.nonzero? ? numerator / denominator.to_f : 0.0    
   end
 
   def open_rate; divide_safe(opened_emails_count, email_count) end

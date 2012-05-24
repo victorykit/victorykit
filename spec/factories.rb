@@ -49,6 +49,5 @@ FactoryGirl.define do
     petition
     member
     email {Faker::Name.name}
-    was_opened false
   end
 end

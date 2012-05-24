@@ -19,11 +19,10 @@ class AnalyticsGateway
 
     Rails.cache.fetch(cache_key, :expires_in => 1.minute) do    
       authorize
-      #todo: if not authorize
     
       analytics_id = settings.analytics_id
       profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
-      #todo: if not profile
+      raise "No profile found for analytics id '#{analytics_id}'. Check settings in your Google Analytics account" if not profile
     
       petition_stats = profile.petitions(start_date: since_date, end_date: Date.today)
       event_stats = profile.social_events(start_date: since_date, end_date: Date.today)
@@ -45,7 +44,6 @@ class AnalyticsGateway
   end 
   
   def self.authorize
-    #todo move check to status page
     raise "Cannot authorize: missing 'oauth' settings. Run ./script/gen_google_oauth" if settings.oauth.nil?
     
     consumer = OAuth::Consumer.new(settings.oauth.user_id, settings.oauth.client_secret,
@@ -54,6 +52,7 @@ class AnalyticsGateway
          :access_token_path => '/accounts/OAuthGetAccessToken',
          :authorize_path => '/accounts/OAuthAuthorizeToken'})
     
+    #todo: raise error if auth fails
     Garb::Session.access_token = OAuth::AccessToken.new(consumer, settings.oauth.token, settings.oauth.secret)
   end
 

@@ -5,7 +5,8 @@ class PixelTrackingController < ApplicationController
   def new
     if h = Hasher.validate(params[:n]) 
       begin
-        SentEmail.update(h, :was_opened => true)
+        email = SentEmail.find_by_id(h)
+        email.update_attribute(:opened_at, Time.now) if not email.opened_at
       rescue => error
         puts "Exception while trying to mark a sent email as opened: #{error}"
       end
