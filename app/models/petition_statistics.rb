@@ -13,7 +13,7 @@ class PetitionStatistics
   
   def p; @petition end
   def email_count; p.sent_emails.count(conditions) end
-  def opened_emails_count; p.sent_emails.count(conditions: ["opened_at >= '?'", @since_date.to_time]) end
+  def opened_emails_count; p.sent_emails.count(conditions: ["opened_at >= ?", @since_date.to_time]) end
   def signature_count; p.signatures.count(conditions) end
   def email_signature_count; p.sent_emails.count(conditions("signature_id is not null")) end
   def likes_count; @analytics_data.nil? ? 0 : @analytics_data.likes.to_i end
