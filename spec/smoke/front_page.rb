@@ -2,7 +2,7 @@ require 'smoke_spec_helper.rb'
 
 describe "front page" do
   before :each do
-    $driver.navigate.to HOST_URL
+    go_to HOST_URL
   end
   
   it "should not blow up" do
@@ -11,6 +11,6 @@ describe "front page" do
   
   it "should ask users to log in before creating a petition" do
     click :class => 'btn-primary'
-    wait.until { $driver.find_element(:class => "email") }
+    wait.until { element :class => "email" }
   end
 end

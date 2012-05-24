@@ -14,7 +14,7 @@
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor ]}
   .petition
     -#.petition_image
-    %h1
+    %h1.petition_title
       = @petition.title
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons

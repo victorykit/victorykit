@@ -7,8 +7,8 @@ describe 'Petition page' do
   let(:petition) {create :petition}
 
   before :each do
-    uri = URI.join(HOST_URL, petition_path(petition)).to_s
-    $driver.navigate.to(uri)
+    log_out
+    go_to petition_path(petition)
   end
 
   it 'should allow users to sign' do
@@ -16,6 +16,6 @@ describe 'Petition page' do
     type('bob@bobs.com').into(:id => 'signature_email')
     click :id => 'sign_petition'
   
-    wait.until { $driver.find_element(:class => "thanks") }
+    wait.until { element :class => "thanks" }
   end
 end

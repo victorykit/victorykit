@@ -4,9 +4,8 @@ require 'nokogiri'
 describe "statistics dashboard" do
   pending "get environment variables into railsonfire" do
     before :each do    
-	  login "admin@victorykit.com", "password"
-	    
-	  $driver.navigate.to URI.join(HOST_URL, 'admin/petitions').to_s
+	  login_as_admin
+	  go_to 'admin/petitions'
 	end
 	  
 	it "shows stats for a petition" do

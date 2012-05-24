@@ -32,6 +32,10 @@ def wait timeout = 5
   Selenium::WebDriver::Wait.new(:timeout => timeout)
 end
 
+def login_as_admin
+  login "admin@victorykit.com", "password"
+end
+
 def login email, password
   
   $driver.navigate.to URI.join(HOST_URL, 'login').to_s
@@ -39,6 +43,15 @@ def login email, password
   type(email).into(:id => "new_session_email")
   type(password).into(:id => "new_session_password")
   click(:name => "commit")
+end
+
+def log_out
+  element(:link_text => "Log Out").click
+end
+
+def go_to resource
+  uri = URI.join(HOST_URL, resource).to_s
+  $driver.navigate.to(uri)
 end
   
 class TextTyper
