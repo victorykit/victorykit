@@ -25,10 +25,11 @@ describe PixelTrackingController do
        SentEmail.find_by_id(37).opened_at.should < Time.now + 1.minute
     end
 
+    #todo: ditto above -- resolve local/integration inconsistency with time comparisons
     it "doesn`t make any changes if email has already been opened" do
       get :new, :n => Hasher.generate(11)
       SentEmail.find(:all).size.should == 2
-      SentEmail.find_by_id(11).opened_at.should == Time.now - 1.day
+      SentEmail.find_by_id(11).opened_at.should < Time.now - 1.day + 1.minute
     end
 
     it "should not do anything if hash is invalid" do
