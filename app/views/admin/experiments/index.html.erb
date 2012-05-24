@@ -1,7 +1,0 @@
-<% @stats.each do |test| %>
-  <p><b><%=test[:name]%></b> (goal: <%=test[:goal]%>) <%=test[:trials]%> trials<br />
-	<% test[:arms].each do |arm| %>
-     &nbsp;&nbsp;&nbsp;&nbsp; <%=float_to_percentage(arm[:spins]/test[:trials].to_f)%> | <i><%=arm[:name]%></i> | <%=arm[:spins]%> | <%=arm[:wins]%> | <%=float_to_percentage(arm[:wins]/arm[:spins].to_f)%> <br />
-  <% end %> 
-  </p>
-<% end %>
