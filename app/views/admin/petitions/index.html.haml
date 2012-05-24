@@ -1,7 +1,8 @@
 %h1 Petitions dashboard
 
 %p
-  Since #{link_to_self_with_param :since, {'today' => Date.today,'yesterday' => 1.day.ago, 'a week ago' => 1.week.ago, 'a month ago' => 1.month.ago, 'a year ago' => 1.year.ago, 'forever' => nil}, " | "}
+  - today = Date.today
+  Since #{link_to_self_with_param :since, {'today' => today, 'yesterday' => today - 1.day, 'a week ago' => today - 1.week, 'a month ago' => today - 1.month, 'a year ago' => today - 1.year, 'forever' => nil}, " | "}
 
 <button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
 
