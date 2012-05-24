@@ -1,6 +1,5 @@
 Victorykit::Application.routes.draw do
   get "status/index"
-
   get "sessions/new"
 
   resources :users
@@ -21,6 +20,7 @@ Victorykit::Application.routes.draw do
   namespace(:admin) do
     resources :petitions 
     resources :users
+    resources :experiments
   end
 
   # The priority is based upon order of creation:
