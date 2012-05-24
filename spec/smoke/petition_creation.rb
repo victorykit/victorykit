@@ -1,6 +1,5 @@
+require 'smoke_spec_helper.rb'
 require 'uri'
-
-include Rails.application.routes.url_helpers
 
 describe 'Petition create page' do
 
