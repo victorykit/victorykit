@@ -7,7 +7,7 @@ describe 'Petition page' do
   let(:petition) {create :petition}
 
   before :each do
-    log_out
+    #log_out #need this when admin login is fixed
     go_to petition_path(petition)
   end
 
