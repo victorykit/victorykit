@@ -18,7 +18,7 @@ describe PetitionStatistics do
     
     its(:hit_count) { should == 0 }
     its(:signature_count) { should ==  75 }
-    its(:new_member_count) { should ==  0 }    
+    its(:new_member_count) { should ==  0 }
   end
   
   describe "when a date is given" do
