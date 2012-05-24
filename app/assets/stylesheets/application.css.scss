@@ -12,6 +12,7 @@
  *= require jquery.ui.theme
  *= require dataTables/jquery.dataTables.bootstrap
  *= require bootstrap-wysihtml5
+ *= require_tree .
 */
 
 @import "bootstrap";
@@ -183,6 +184,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   float: right;
   text-align: right;
   .progress {
+    margin-bottom: 5px;
     width: 300px;
     clear: right;
     .bar {
@@ -192,7 +194,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
 }
 hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .petition_sidebar { @extend .span3; margin-left: 10px; float: left; }
-.social_icons { float: left; margin-top: 16px;
+.social_icons { float: left; margin: 16px 0 5px;
   iframe { height: 30px; width: 275px; }
   &.tallerprogress { margin-top: 33px; }
 }
