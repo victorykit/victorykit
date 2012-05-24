@@ -467,3 +467,12 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   }
   .span5 { @extend .span6; margin-left: 10px; }
 }
+
+
+/* experiments */
+.experiment_table {
+  width: auto;
+  td { text-align: right; @extend .span1; }
+  td.name { text-align: left; width: auto;}
+}
+.experimentname { font-weight: bold; font-size: larger; margin-top: 20px; }
