@@ -149,7 +149,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   text-align: center;
   .thanks { font-size: 27px; margin: 15px 0 25px;}
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
-  .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  }
+  .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  &.all_centered { margin-left: 140px; } &.button_centered { margin-left: 164px; }}
 }
 #thanks-for-signing-message { @extend .rightcolwell; }
 #thanksModal {

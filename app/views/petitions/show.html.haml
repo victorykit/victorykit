@@ -10,6 +10,7 @@
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
+- modalrecommendbutton = spin! "different renderings for fb recommend on modal", :share, ["recommend_with_text", "recommend_with_box_all_centered", "recommend_with_box_button_centered"]
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor ]}
   .petition
     -#.petition_image
@@ -122,7 +123,10 @@
           Spread the word, share on Facebook!
         .arrow
 
-      .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', 'data-width' => '255'}
-
-
+      - if modalrecommendbutton == 'recommend_with_text'
+        .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255'}
+      - elsif modalrecommendbutton == 'recommend_with_box_all_centered'
+        .fb-like.all_centered{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'layout' => 'button_count'}
+      - elsif modalrecommendbutton == 'recommend_with_text_button_centered'
+        .fb-like.button_centered{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'layout' => 'button_count'}
 
