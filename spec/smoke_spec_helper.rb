@@ -1,7 +1,13 @@
 require "selenium-webdriver"
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+
+ENV["RAILS_ENV"] ||= 'test'
 HOST_URL = "http://localhost:3000"
 
 RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
+
   config.before(:suite) do
     $driver = Selenium::WebDriver.for :chrome
   end

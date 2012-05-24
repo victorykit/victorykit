@@ -2,11 +2,14 @@ require 'smoke_spec_helper.rb'
 require 'uri'
 
 describe 'Petition page' do
+  let(:petition) {create :petition}
+
   before :each do
-    uri = URI.join(HOST_URL, 'petitions/1').to_s
+    uri = URI.join(HOST_URL, "petitions/#{petition.id}").to_s
     $driver.navigate.to(uri)
     puts $driver.page_source
   end
+
   it 'should allow users to sign' do
     type('bob').into('signature_name')
     type('bob@bobs.com').into('signature_email')
