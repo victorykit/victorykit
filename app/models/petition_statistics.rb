@@ -1,8 +1,9 @@
 class PetitionStatistics
-  def initialize(petition, analytics_data, since_date)
+  def initialize(petition, analytics_data, since_date, local_stats)
     @analytics_data = analytics_data
     @petition = petition
     @since_date = since_date
+    @local_stats = local_stats
   end
 
   def conditions(x=nil)
@@ -12,18 +13,16 @@ class PetitionStatistics
   end
   
   def p; @petition end
-  def email_count; p.sent_emails.count(conditions) end
-  def opened_emails_count; p.sent_emails.count(conditions: ["opened_at >= ?", @since_date.to_time]) end
-  def clicked_emails_count; p.sent_emails.count(conditions: ["clicked_at >= ?", @since_date.to_time]) end
-  def signature_count; p.signatures.count(conditions) end
-  def email_signature_count; p.sent_emails.count(conditions("signature_id is not null")) end
+  def email_count; @local_stats[:sent_emails] end
+  def opened_emails_count; @local_stats[:opened_emails] end
+  def clicked_emails_count; @local_stats[:clicked_emails] end
+  def signature_count; @local_stats[:signatures] end
+  def email_signature_count; @local_stats[:signed_from_emails] end
   def likes_count; @analytics_data.nil? ? 0 : @analytics_data.likes.to_i end
   def hit_count; @analytics_data.nil? ? 0 : @analytics_data.unique_pageviews.to_i end
-  def new_member_count; p.signatures.count(conditions("created_member is true")) end
+  def new_member_count; @local_stats[:new_members] end
   def unsubscribe_count
-    Unsubscribe.joins(:sent_email).where(sent_emails: {petition_id: p.id}).count(
-      conditions: ["unsubscribes.created_at >= ?", @since_date]
-    )
+    @local_stats[:unsubscribes]
   end
   
   def divide_safe(numerator, denominator)
