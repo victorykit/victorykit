@@ -10,9 +10,13 @@ class Hasher
       return false
     end
     number, hash = URI.unescape(hashed_data).split(".")
+
     if generate(number) == hashed_data
       return number.to_i
     else
+      puts "generated #{generate(number)}"
+      puts "vs #{hashed_data}"
+      puts "with key #{Settings.hasher.secret_key}"
       return false
     end
   end
