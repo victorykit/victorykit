@@ -13,6 +13,6 @@
   - if current_user.is_super_user?
     = f.input :is_admin
   .field
-  - if current_user.is_super_user?
+  - if current_user.is_super_user? && current_user != @user
     = f.input :is_super_user
   = f.button :submit, :class => 'btn btn-primary', :value => 'Save'
