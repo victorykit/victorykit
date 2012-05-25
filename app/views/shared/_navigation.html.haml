@@ -19,6 +19,6 @@
         - if can :list_petitions
           %li= link_to('View all petitions', petitions_url)
         - if can :edit_users
-          %li= link_to('Users', admin_users_url)
+          %li= link_to('Manage users', admin_users_url)
         - if can :edit_petitions
-          %li= link_to('Petition stats', admin_petitions_url)
+          %li= link_to('Petitions dashboard', admin_petitions_url)

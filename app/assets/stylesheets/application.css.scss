@@ -31,7 +31,7 @@ a.btn:visited { color: white; }
     @extend .span12;
     margin: 0 auto;
     a {
-      color: #eee;
+      color: #ccc;
       &:hover {
         color: #fff;
       }
@@ -56,7 +56,8 @@ a.btn:visited { color: white; }
     margin-left: 10px;
     border-right: 1px solid #08c;
     padding-right: 10px;
-    color: #eee;
+    color: #ccc;
+    &:hover { color: #fff; }
     &:last-child {
       border-right: none;
       padding-right: 0;

@@ -1,6 +1,6 @@
-%h1 Listing users
+%h1 Manage users
 
-%table.table.table-striped.table-condensed
+%table.table.table-striped.table-condensed.sortable
   %tr
     %th Username
     %th Signed up on
@@ -15,11 +15,15 @@
       %td= user.email
       %td= user.created_at
       - if current_user.is_super_user?
-        %td
-          - if user.is_admin
+        - if user.is_admin
+          %td{:'sorttable_customkey' => '-1' }
             %i.icon-ok
-        %td
-          - if user.is_super_user
+        - else
+          %td
+        - if user.is_super_user
+          %td{:'sorttable_customkey' => '-1'}
             %i.icon-ok
+        - else
+          %td
       %td= link_to 'Edit', edit_admin_user_path(user)
-      %td= link_to 'Destroy', admin_user_path(user), confirm: 'Are you sure?', method: :delete
+      %td= link_to 'Delete', admin_user_path(user), confirm: 'Are you sure?', method: :delete
