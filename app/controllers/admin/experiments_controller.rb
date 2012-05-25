@@ -44,7 +44,20 @@ class Admin::ExperimentsController < ApplicationController
     mystats
   end
   
+  def sentemails_by_hour
+    spins = Hash.new(0)
+    wins = Hash.new(0)
+    SentEmail.all.each do |e|
+      # "#{e.created_at.wday} #{e.created_at.hour}"
+      q = e.created_at.hour
+      spins[q] += 1
+      wins[q] += 1 if e.signature_id
+    end
+    [spins, wins]
+  end
+  
   def index
     @stats = stats
+    @hourlydata = sentemails_by_hour
   end
 end

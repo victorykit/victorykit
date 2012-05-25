@@ -30,3 +30,20 @@
           %td
             .progress.progress-success
               .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
+
+%h2
+  Email response by hour
+
+#hourchart{style: "width:600px;height:300px"}
+%script{type: "text/javascript"}
+  $.plot($("#hourchart"), [[
+  - @hourlydata[0].keys.sort.each do |h|
+    [
+    =h
+    ,
+    =@hourlydata[1][h]/@hourlydata[0][h].to_f
+    ],
+  ]], {
+  series: {
+  lines: {show: true, fill: true},
+  points: {show: true, fill: true}}})

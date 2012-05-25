@@ -16,5 +16,5 @@
 //= require dataTables/jquery.dataTables.bootstrap
 //= require bootstrap
 //= require bootstrap-wysihtml5-all
+//= require jquery.flot
 //= require_tree .
-
