@@ -62,4 +62,8 @@ module ApplicationHelper
   def format_date_time(d)
     d.strftime("%Y-%m-%d %H:%M")
   end
+
+  def strip_tags_except_links(text)
+    sanitize(text, :tags => %w(a), :attributes => %w(href))
+  end
 end

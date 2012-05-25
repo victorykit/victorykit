@@ -2,7 +2,7 @@
 
 <p>Dear <%=@member.name%>,</p>
 
-<%=auto_link(simple_format(@petition.description))%>
+<%=sanitize(@petition.description)%>
 
 <p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
 

@@ -61,7 +61,7 @@
         .progress
           .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
     %hr
-    - petitiontext = auto_link(simple_format(@petition.description))
+    - petitiontext = sanitize(@petition.description)
     - if @petition.to_send != true
       - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC).html_safe
     .description= petitiontext

@@ -4,6 +4,6 @@
 
 <p><b><%=@signature.petition.title%></b></p>
 
-<%=auto_link(simple_format(@signature.petition.description))%>
+<%=sanitize(@signature.petition.description)%>
 
 <p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>

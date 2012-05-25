@@ -7,7 +7,7 @@
       .about_petition
         = link_to(petition.title, petition, :class => 'title')
         .description
-          = truncate(petition.description, :length => 180, :omission => '...')
+          = truncate(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
         - if can :feature_petition
           .feature
             Feature this Petition
