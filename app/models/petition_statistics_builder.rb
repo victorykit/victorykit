@@ -19,9 +19,7 @@ class PetitionStatisticsBuilder
     signed_emails = SentEmail.count(:conditions => ['created_at >= ? and signature_id is not null', date], :group => 'petition_id')
     signatures = Signature.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
     new_members = Signature.count(:conditions => ['created_at >= ? and created_member is true', date], :group => 'petition_id')
-    
-    #TODO: convert this sucker to an ActiveRecord query
-    unsubscribes = ActiveRecord::Base.connection.execute("SELECT petition_id, COUNT(*) FROM unsubscribes INNER JOIN sent_emails ON sent_emails.id = unsubscribes.sent_email_id WHERE (unsubscribes.created_at >= '#{date}') GROUP BY petition_id").inject({}) {|h, row| h[row["petition_id"].to_i] = row["count"].to_i; h}
+    unsubscribes = Unsubscribe.count(:conditions => ['unsubscribes.created_at >= ?', date], :joins => [:sent_email], :group => ['sent_emails.petition_id'])
 
     Petition.all.map do |p|
       local_stats = OpenStruct.new(
