@@ -3,21 +3,29 @@
 - @stats.each do |test|
   .experimentname
     = test[:name]
-  (goal: #{test[:goal]})
-  #{test[:trials]} trials
+  .experimentdetails
+    (goal: #{test[:goal]}) #{test[:trials]} trials
 
   %table.table.table-striped.table-condensed.experiment_table
     %tr
+      %th
       %th % Tried
-      %th Variable
+      %th.name Variable
       %th Spins
       %th Wins
       %th % Success
+      %th
 
     - test[:arms].each do |arm|
       %tr
+        %td
+          .progress.progress-info
+            .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
         %td= float_to_percentage(arm[:spins]/test[:trials].to_f)
         %td.name= arm[:name]
         %td= arm[:spins]
         %td= arm[:wins]
         %td= float_to_percentage(arm[:wins]/arm[:spins].to_f)
+        %td
+          .progress.progress-success
+            .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }

@@ -472,7 +472,11 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 /* experiments */
 .experiment_table {
   width: auto;
-  td { text-align: right; @extend .span1; }
-  td.name { text-align: left; width: auto;}
+  clear: both;
+  td, th { text-align: right; @extend .span1; color: #444; }
+  td.name, th.name { text-align: left; width: auto; color: black; }
+  .progress { margin: 5px; height: 5px; &.progress-info { .bar { float: right; } } }
 }
-.experimentname { font-weight: bold; font-size: larger; margin-top: 20px; }
+.experimentname, .experimentdetails { margin: 20px 0 10px; }
+.experimentname { font-weight: bold; font-size: larger; float: left; }
+.experimentdetails { color: #444; float: left; clear: right; margin-left: 7px; }
