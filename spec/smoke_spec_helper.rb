@@ -17,7 +17,7 @@ RSpec.configure do |config|
   config.after(:suite) do
     $driver.quit unless $driver.nil?
   end
-  config.after(:all) do
+  config.after(:each) do
     log_out
   end
 end

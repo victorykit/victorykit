@@ -18,9 +18,19 @@ class AnalyticsGateway
     cache_key += "_#{since_date.strftime("%Y%m%d")}"
 
     Rails.cache.fetch(cache_key, :expires_in => 1.minute) do    
+
+      s = "***** GA settings:" << "\n"
+      s << settings.analytics_id[0..4] << "\n"
+      s << settings.oauth.user_id[0..4] << "\n"
+      s << settings.oauth.client_secret[0..4] << "\n"
+      s << settings.oauth.token[0..4] << "\n"
+      s << settings.oauth.secret[0..4] << "\n"
+      raise s
+
       authorize
     
       analytics_id = settings.analytics_id
+
       profile = Garb::Management::Profile.all.detect { |profile| profile.web_property_id == analytics_id}
       raise "No profile found for analytics id '#{analytics_id}'. Check settings in your Google Analytics account" if not profile
     
