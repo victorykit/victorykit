@@ -116,6 +116,9 @@ body, .lined_background {
 body.black_background {
   background: url('black.png');
   color: #eee;
+  .home .title {
+    color: white;
+  }
   .topnav {
     @extend .span12;
     background: none;
