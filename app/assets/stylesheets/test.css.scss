@@ -119,7 +119,7 @@ body.black_background {
   .home .title {
     color: white;
   }
-  .signup_login h1, .login h1 { color: #333; }
+  table, .signup_login h1, .login h1 { color: #333; }
   .topnav {
     @extend .span12;
     background: none;
@@ -166,6 +166,15 @@ body.black_background {
   .footer {
     background: #111;
   }
+  .petitionlist .petition {
+    background: rgba(255,255,255,.8);
+    .feature { color: black; }
+    margin: 0px;
+    border-bottom: 1px solid #555;
+  }
+  table { background: white; }
+  label { color: white; }
+  div.dataTables_paginate { background: white; }
 }
 
 /*  white background  */
