@@ -7,7 +7,7 @@ jQuery(function(){
     $('#sign-up-form').hide();
     $('#thanksModal').modal('toggle');
   }
-  //$('#petition_description').wysihtml5();
+  $('#petition_description').wysihtml5();
 
 });
 

@@ -61,10 +61,10 @@
         .progress
           .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
     %hr
-    - petitiontext = sanitize(@petition.description)
+    - petitiontext = @petition.description
     - if @petition.to_send != true
-      - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC).html_safe
-    .description= petitiontext
+      - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
+    .description= petitiontext.html_safe
   .petition_sidebar
     .curvedarrow
     - if !current_user.nil? && @petition.has_edit_permissions(current_user)
