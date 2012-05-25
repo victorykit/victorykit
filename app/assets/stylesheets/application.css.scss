@@ -473,7 +473,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .experiment_table {
   width: auto;
   clear: both;
-  td, th { text-align: right; @extend .span1; color: #444; }
+  td, th { text-align: right; min-width: 70px; color: #444; }
   td.name, th.name { text-align: left; width: auto; color: black; }
   .progress { margin: 5px; height: 5px; &.progress-info { .bar { float: right; } } }
 }
