@@ -119,6 +119,7 @@ body.black_background {
   .home .title {
     color: white;
   }
+  .signup_login h1, .login h1 { color: #333; }
   .topnav {
     @extend .span12;
     background: none;
