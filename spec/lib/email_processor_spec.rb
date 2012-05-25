@@ -7,7 +7,7 @@ describe EmailProcessor do
   end
 
   it "should create a record in bounced_emails table" do
-    EmailProcessor.handle_exceptional_email("email_content", "bounce+1.RFW7rM@appmail.watchdog.net", "bounced")
+    EmailProcessor.handle_exceptional_email("email_content", "bounce+1.pODiZ5@appmail.watchdog.net", "bounced")
     bounced_mail_records = BouncedEmail.find(:all)
     bounced_mail_records.size.should == 1
     bounced_mail_records[0].raw_content.should == "email_content"
@@ -15,7 +15,7 @@ describe EmailProcessor do
   end
 
   it "should create a record in unsubscribes table if we have a member with such email" do
-    EmailProcessor.handle_exceptional_email("email_content", "unsubscribe+1.RFW7rM@appmail.watchdog.net", "unsubscribe")
+    EmailProcessor.handle_exceptional_email("email_content", "unsubscribe+1.pODiZ5@appmail.watchdog.net", "unsubscribe")
     unsubscribe_records = Unsubscribe.find(:all)
     unsubscribe_records.size.should == 1
     unsubscribe_records[0].email.should == 'user@domain.com'
