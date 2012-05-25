@@ -10,6 +10,14 @@ describe "statistics dashboard" do
 	  go_to 'admin/petitions'
 	  wait_for_ajax
 	  doc = Nokogiri::HTML($driver.page_source)
+	  puts doc
+
+puts "****************"
+
+	  go_to 'admin/petitions.json'
+	  json = Nokogiri::HTML($driver.page_source)
+	  puts json
+
 	  row_count = doc.xpath("count(//table/tbody/tr)")
 	  row_count.should > 0
 	end
