@@ -9,5 +9,8 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: Watchdog.net <info@watchdog.net>
-demand_progress:
-  db_uri: <%= ENV["AK_IMPORT_DB_URI"] %>
+dp_connection:
+  host: OVERRIDE_ME
+  username: OVERRIDE_ME
+  password: OVERRIDE_ME
+  database: OVERRIDE_ME
