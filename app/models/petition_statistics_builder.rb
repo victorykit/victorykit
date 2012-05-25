@@ -13,13 +13,15 @@ class PetitionStatisticsBuilder
     date ||= ANALYTICS_START_DATE
     analytics_report_data = AnalyticsGateway.fetch_report_results(date)
 
-    sent_emails = count_by_petition("SELECT petition_id, COUNT(*) FROM sent_emails WHERE (created_at >= '#{date}') and petition_id is not null GROUP BY petition_id")
-    opened_emails = count_by_petition("SELECT petition_id, COUNT(*) FROM sent_emails WHERE (opened_at >= '#{date}') and petition_id is not null GROUP BY petition_id")
-    clicked_emails = count_by_petition("SELECT petition_id, COUNT(*) FROM sent_emails WHERE (clicked_at >= '#{date}') and petition_id is not null GROUP BY petition_id")
-    signed_emails = count_by_petition("SELECT petition_id, COUNT(*) FROM sent_emails WHERE (created_at >= '#{date}') and petition_id is not null and signature_id is not NULL GROUP BY petition_id")
-    signatures = count_by_petition("SELECT petition_id, COUNT(*) FROM signatures WHERE petition_id is not null and (created_at >= '#{date}') GROUP BY petition_id")
-    new_members = count_by_petition("SELECT petition_id, COUNT(*) FROM signatures WHERE petition_id is not null and (created_at >= '#{date}') and created_member is true GROUP BY petition_id")
-    unsubscribes = count_by_petition("SELECT petition_id, COUNT(*) FROM unsubscribes INNER JOIN sent_emails ON sent_emails.id = unsubscribes.sent_email_id WHERE (unsubscribes.created_at >= '#{date}') GROUP BY petition_id")
+    sent_emails = SentEmail.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
+    opened_emails = SentEmail.count(:conditions => ['opened_at >= ?', date], :group => 'petition_id')
+    clicked_emails = SentEmail.count(:conditions => ['clicked_at >= ?', date], :group => 'petition_id')
+    signed_emails = SentEmail.count(:conditions => ['created_at >= ? and signature_id is not null', date], :group => 'petition_id')
+    signatures = Signature.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
+    new_members = Signature.count(:conditions => ['created_at >= ? and created_member is true', date], :group => 'petition_id')
+    
+    #TODO: convert this sucker to an ActiveRecord query
+    unsubscribes = ActiveRecord::Base.connection.execute("SELECT petition_id, COUNT(*) FROM unsubscribes INNER JOIN sent_emails ON sent_emails.id = unsubscribes.sent_email_id WHERE (unsubscribes.created_at >= '#{date}') GROUP BY petition_id").inject({}) {|h, row| h[row["petition_id"].to_i] = row["count"].to_i; h}
 
     Petition.all.map do |p|
       local_stats = OpenStruct.new(
@@ -35,9 +37,5 @@ class PetitionStatisticsBuilder
 
       PetitionStatistics.new(p, analytics_report_data[petition_path], local_stats)
     end
-  end
-
-  def count_by_petition sql
-    ActiveRecord::Base.connection.execute(sql).inject({}) {|h, row| h[row["petition_id"].to_i] = row["count"].to_i; h}
   end
 end
