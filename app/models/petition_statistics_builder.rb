@@ -22,18 +22,18 @@ class PetitionStatisticsBuilder
     unsubscribes = count_by_petition("SELECT petition_id, COUNT(*) FROM unsubscribes INNER JOIN sent_emails ON sent_emails.id = unsubscribes.sent_email_id WHERE (unsubscribes.created_at >= '#{date}') GROUP BY petition_id")
 
     Petition.all.map do |p|
-      local_stats = {
+      local_stats = OpenStruct.new(
         sent_emails: sent_emails[p.id] || 0, 
         opened_emails: opened_emails[p.id] || 0, 
         clicked_emails: clicked_emails[p.id] || 0, 
         signed_from_emails: signed_emails[p.id] || 0,
         signatures: signatures[p.id] || 0,
         new_members: new_members[p.id] || 0,
-        unsubscribes: unsubscribes[p.id] || 0}
+        unsubscribes: unsubscribes[p.id] || 0)
 
       petition_path = Rails.application.routes.url_helpers.petition_path(p)
 
-      PetitionStatistics.new(p, analytics_report_data[petition_path], date, local_stats)
+      PetitionStatistics.new(p, analytics_report_data[petition_path], local_stats)
     end
   end
 
