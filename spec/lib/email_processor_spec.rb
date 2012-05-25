@@ -8,6 +8,9 @@ describe EmailProcessor do
 
   it "should create a record in bounced_emails table" do
     puts Settings
+    puts "*****"
+    puts ENV.inspect
+
     EmailProcessor.handle_exceptional_email("email_content", "bounce+1.pODiZ5@appmail.watchdog.net", "bounced")
     bounced_mail_records = BouncedEmail.find(:all)
     bounced_mail_records.size.should == 1
