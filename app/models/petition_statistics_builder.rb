@@ -19,7 +19,11 @@ class PetitionStatisticsBuilder
     signed_emails = SentEmail.count(:conditions => ['created_at >= ? and signature_id is not null', date], :group => 'petition_id')
     signatures = Signature.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
     new_members = Signature.count(:conditions => ['created_at >= ? and created_member is true', date], :group => 'petition_id')
-    unsubscribes = Unsubscribe.count(:conditions => ['unsubscribes.created_at >= ?', date], :joins => [:sent_email], :group => ['sent_emails.petition_id'])
+
+    #TODO: figure out how to return petition_id as int from query
+    unsubscribes = Hash[
+      Unsubscribe.count(:conditions => ['unsubscribes.created_at >= ?', date], :joins => :sent_email, :group => 'sent_emails.petition_id')
+        .map{ |k, v| [k.to_i, v] }]
 
     Petition.all.map do |p|
       local_stats = OpenStruct.new(
@@ -30,10 +34,9 @@ class PetitionStatisticsBuilder
         signatures: signatures[p.id] || 0,
         new_members: new_members[p.id] || 0,
         unsubscribes: unsubscribes[p.id] || 0)
-
       petition_path = Rails.application.routes.url_helpers.petition_path(p)
-
-      PetitionStatistics.new(p, analytics_report_data[petition_path], local_stats)
+      google_stats = analytics_report_data[petition_path]
+      PetitionStatistics.new(p, google_stats, local_stats)
     end
   end
 end
