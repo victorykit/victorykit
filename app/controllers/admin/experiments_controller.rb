@@ -13,7 +13,7 @@ class Admin::ExperimentsController < ApplicationController
     
     tests.keys.each do |t|
       prefix = "whiplash/#{t}/"
-      suffix = "/spin"
+      suffix = "/spins"
       REDIS.keys(prefix + "*" + suffix).each do |o|
         tests[t][:options].append o[prefix.length..-suffix.length-1]
       end
