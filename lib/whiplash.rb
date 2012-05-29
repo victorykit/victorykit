@@ -12,9 +12,9 @@ end
 module Bandit
   def arm_guess(observations, victories)
     mean = victories.to_f/observations.to_f.to_1if0
-    stddev = victories * ((1-mean)**2)
+    stddev = victories * ((1-[1, mean].max)**2)
     stddev += [0, (observations - victories)].max * ((0-mean)**2)
-    stddev = Math.sqrt(stddev * 1.0/((observations.to_f-1).to_1if0))
+    stddev = Math.sqrt(stddev * (1.0/(([0.0, observations.to_f-1].max).to_1if0)))
     stddev = stddev.to_1if0/Math.sqrt(observations.to_f.to_1if0)
     out = [0, Distribution::Normal.rng(mean, stddev).call].max
     return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))

@@ -11,11 +11,13 @@ class SignaturesController < ApplicationController
     if signature.valid?
       petition.signatures.push signature
       petition.save!
+      if signature.created_member
+        win_on_option!("email_scheduler_nps", petition.id.to_s)
+      end
       if h = Hasher.validate(params[:email_hash])
         sent_email = SentEmail.find_by_id(h)
         sent_email.signature_id ||= signature.id
         sent_email.save!
-        win_on_option!("email_scheduler", petition.id.to_s, {session_id: signature.member.id})
       end
       session[:signature_name] = signature.name
       session[:signature_email] = signature.email
