@@ -31,10 +31,10 @@ describe User do
       let(:old_password) { "MY_OLD_SECRET_PASSWORD1"}
       subject { create(:user, password: old_password) }
       it { should validate_presence_of :email }
-      it "should not validate presence of password and confirmation if neither are set on update" do
+      it "should validate presence of password and confirmation if neither are set on update" do
         subject.password = nil
         subject.password_confirmation = nil
-        subject.should be_valid
+        subject.should_not be_valid
       end
       it "should validate the old password if the user is changing their password" do
         subject.password = "foo"
