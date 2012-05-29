@@ -30,6 +30,7 @@ class SignaturesController < ApplicationController
     else
       @petition = petition
       @signature = signature
+      @sigcount = @petition.signatures.count
       render :template => "petitions/show"
     end
   end

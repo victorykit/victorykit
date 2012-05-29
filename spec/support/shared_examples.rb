@@ -50,6 +50,14 @@ shared_examples_for "a user with edit permissions resource page" do
    end
 end
 
+shared_examples_for "email validator" do
+  it "should validate format of the email address" do
+    Signature.new(email: "asdsf", name: "Bob").valid?.should == false
+    Signature.new(email: "asdsf@localhost", name: "Bob").valid?.should == false
+    Signature.new(email: "asdsf@dfdf.net", name: "Bob").valid?.should == true
+  end
+end
+
 shared_examples_for "a super-user only resource page" do
   it "allows super users to carry out the action" do
     session[:user_id] = create(:super_user).id

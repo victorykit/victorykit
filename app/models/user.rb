@@ -9,8 +9,7 @@ class User < ActiveRecord::Base
   attr_accessible :email,  :is_super_user, :is_admin, :as => :admin
   
   has_secure_password
-  validates_uniqueness_of :email
-  validates_presence_of :email
+  validates :email, :presence => true, :uniqueness => true , :email => true
   
   after_validation :remove_password_digest_errors
   

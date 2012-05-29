@@ -8,6 +8,7 @@ describe User do
       it { should validate_presence_of :password}
       it { should validate_presence_of :password_confirmation}
       it { should_not validate_presence_of :old_password}
+      it_behaves_like "email validator"
       it "should not allow mass assignment of user roles by default" do
         expect {User.new({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
       end

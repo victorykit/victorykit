@@ -44,6 +44,7 @@ describe SignaturesController do
       end
       it "should assign view data required by the petition show page" do
         assigns(:petition).should == petition
+        assigns(:sigcount).should == petition.signatures.count
         assigns(:signature).email.should be_nil
         assigns(:signature).name.should be_nil
       end
