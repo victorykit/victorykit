@@ -126,6 +126,8 @@ body.black_background {
     margin: 4px auto;
     padding-bottom: 4px;
     border-bottom: 5px solid #666;
+    a, div { color: #eee; }
+    &a:hover { color: #fff; }
   }
   .content {
     background: none;
@@ -187,13 +189,23 @@ body.white_background {
     padding-bottom: 4px;
     border-bottom: 2px solid #aaa;
     a.logo { background: url('logo3.png'); }
-    a { color: #777; &:hover { color: #444; } }
+    a, div { color: #777; }
+    &a:hover { color: #444; }
   }
   .content {
     background: none;
   }
   hr {
     border-top: 1px solid #666;
+  }
+}
+
+
+/* modifications for basic bootstrap */
+body.bootstrap_ui {
+  .topnav {
+    a, div { color: #eee; }
+    &a:hover { color: #fff; }
   }
 }
 

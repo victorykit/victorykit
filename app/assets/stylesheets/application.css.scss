@@ -30,12 +30,6 @@ a.btn:visited { color: white; }
   .navigation {
     @extend .span12;
     margin: 0 auto;
-    a {
-      color: #ccc;
-      &:hover {
-        color: #fff;
-      }
-    }
   }
   ul {
     margin-bottom: 0;
@@ -56,8 +50,6 @@ a.btn:visited { color: white; }
     margin-left: 10px;
     border-right: 1px solid #08c;
     padding-right: 10px;
-    color: #ccc;
-    &:hover { color: #fff; }
     &:last-child {
       border-right: none;
       padding-right: 0;
