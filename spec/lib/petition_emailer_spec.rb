@@ -14,7 +14,7 @@ describe PetitionEmailer do
     PetitionEmailer.send
   end
   it "spins to find a petition" do
-    PetitionEmailer.should_receive(:spin!).with("email_scheduler", :signatures_off_email, [petition.id.to_s], {session_id: member.id}).and_return(petition.id.to_s)
+    PetitionEmailer.should_receive(:spin!).with("email_scheduler_nps", :signatures_off_email, [petition.id.to_s], {session_id: member.id}).and_return(petition.id.to_s)
     PetitionEmailer.send
   end
   it "aborts if no petitions found" do
