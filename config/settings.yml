@@ -1,17 +1,12 @@
 redis:
   uri: http://localhost:6379/
 aws:
-  access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
-  secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+  access_key_id: OVERRIDE_ME
+  secret_access_key: OVERRIDE_ME
 hasher:
-  secret_key: <%= ENV["HASHER_SECRET_KEY"] %>
+  secret_key: OVERRIDE_ME
 google_analytics:
   analytics_id: UA-31572927-1
-  oauth:
-    user_id: <%= ENV["OAUTH_USER_ID"] %>
-    client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
-    token: <%= ENV["OAUTH_TOKEN"] %>
-    secret: <%= ENV["OAUTH_SECRET"] %>
 email:
   from_address: Watchdog.net <info@watchdog.net>
 dp_connection:
