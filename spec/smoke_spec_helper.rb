@@ -98,4 +98,9 @@ class TextTyper
     input = element(locator)
     input.send_keys @text
   end
+
+  def into_wysihtml5(locator)
+    raise "only id locators are supported right now" if(!locator[:id])
+    $driver.execute_script("$('##{locator[:id]}').data('wysihtml5').editor.composer.setValue('#{@text}');")
+  end
 end
