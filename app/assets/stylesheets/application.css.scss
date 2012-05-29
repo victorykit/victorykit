@@ -221,6 +221,21 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     .btn { margin-top: 31px; }
   }
 }
+.change_password {
+  @extend .well;
+  @extend .span5;
+  min-height: 185px;
+  margin: 50px auto;
+  padding: 15px 35px 50px;
+  label { @extend .span2; }
+  .controls {
+    @extend .span3;
+    float: left;
+    input { width: 100%; }
+  }
+  .control-group, input.btn { float: right; }
+  input.btn { margin-right: -10px; }
+}
 .privacypolicy {
   @extend .span5;
   margin: 10px auto 0;

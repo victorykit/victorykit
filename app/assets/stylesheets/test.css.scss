@@ -119,7 +119,9 @@ body.black_background {
   .home .title {
     color: white;
   }
-  table, .signup_login h1, .login h1 { color: #333; }
+  .change_password, .change_password label, table, .signup_login h1, .signup_login label, .login h1 {
+    color: #333;
+  }
   .topnav {
     @extend .span12;
     background: none;
