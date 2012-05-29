@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120528202703) do
+ActiveRecord::Schema.define(:version => 20120529212035) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(:version => 20120528202703) do
     t.datetime "updated_at",                     :null => false
     t.integer  "owner_id"
     t.boolean  "to_send",     :default => false
+    t.string   "ip_address"
   end
 
   create_table "sent_emails", :force => true do |t|

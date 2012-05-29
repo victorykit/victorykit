@@ -31,6 +31,7 @@ class PetitionsController < ApplicationController
   def create
     @petition = Petition.new(params[:petition], as: role)
     @petition.owner = current_user
+    @petition.ip_address = request.remote_ip
 
     if @petition.save
       redirect_to @petition, notice: 'Petition was successfully created.'
