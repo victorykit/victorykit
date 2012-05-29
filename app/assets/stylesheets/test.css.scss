@@ -249,6 +249,16 @@ body.colorblock {
     margin-top: 9px;
   }
 }
+.arrow.petitionleft {
+  #sign-up-form .title {
+    text-align: left;
+  }
+  .curvedarrow {
+    float: right;
+    margin: 5px 0 0 237px;
+    background: url('foldarrow_right.png');
+  }
+}
 
 body.black.pure {
   background-image: none;
