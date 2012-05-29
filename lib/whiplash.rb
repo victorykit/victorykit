@@ -32,13 +32,24 @@ module Bandit
     mysession[:tmp] = 1
     mysession.delete(:tmp)
     return "#{mysession[:session_id]}_#{Random.rand}"
-  end  
-
-  def measure!(test_name, options=[true, false], mysession=nil)
-    choice = options.sample
-    REDIS.zadd("whiplash/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
+  end
+  
+  def spin_for_choice(test_name, choice, mysession=nil)
+    data = {type: "spin", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+    Rails.logger.info "WHIPLASH: #{data.to_json}"
+    REDIS.incr("whiplash/#{test_name}/#{choice}/spins")
     mysession[test_name] = choice
     return choice
+  end
+
+  def measure!(test_name, options=[true, false], mysession=nil)
+    mysession ||= session
+    if mysession.key?(test_name) && options.include?(mysession[test_name])
+      return mysession[test_name]
+    end
+    
+    choice = options.sample
+    return spin_for_choice(test_name, choice, mysession)
   end
 
   def spin!(test_name, goal, options=[true, false], mysession=nil)
@@ -50,17 +61,17 @@ module Bandit
     REDIS.sadd("whiplash/goals/#{goal}", test_name)
     loptions = {}
     options.each { |o| loptions[o] = [
-      REDIS.zcard("whiplash/#{test_name}/#{o}/spin"),
-      REDIS.zcard("whiplash/#{test_name}/#{o}/win")
+      REDIS.get("whiplash/#{test_name}/#{o}/spins").to_i,
+      REDIS.get("whiplash/#{test_name}/#{o}/wins").to_i
     ] }
     choice = best_guess(loptions)
-    REDIS.zadd("whiplash/#{test_name}/#{choice}/spin", Time.now.to_f, redis_nonce(mysession))
-    mysession[test_name] = choice
-    return choice
+    return spin_for_choice(test_name, choice, mysession)
   end
 
   def win_on_option!(test_name, choice, mysession=nil)
-    REDIS.zadd("whiplash/#{test_name}/#{choice}/win", Time.now.to_f, redis_nonce(mysession))
+    data = {type: "win", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+    Rails.logger.info "WHIPLASH: #{data.to_json}"
+    REDIS.incr("whiplash/#{test_name}/#{choice}/wins")
   end
 
   def win!(goal, mysession=nil)

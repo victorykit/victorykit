@@ -31,11 +31,11 @@ class Admin::ExperimentsController < ApplicationController
         goal: test_info[:goal]
       }
       test_info[:options].each do |opt_name|
-        spins = REDIS.zcard("whiplash/#{test_name}/#{opt_name}/spin")
+        spins = REDIS.get("whiplash/#{test_name}/#{opt_name}/spins").to_i
         test_stats[:arms].append({
           name: opt_name,
           spins: spins,
-          wins: REDIS.zcard("whiplash/#{test_name}/#{opt_name}/win"),
+          wins: REDIS.get("whiplash/#{test_name}/#{opt_name}/wins").to_i,
         })
         test_stats[:trials] += spins
       end
