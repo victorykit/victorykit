@@ -31,7 +31,8 @@ module Bandit
     # force creation of a session_id
     mysession[:tmp] = 1
     mysession.delete(:tmp)
-    return "#{mysession[:session_id]}_#{Random.rand}"
+    sessionid = mysession[:session_id] || request.session_options[:id]
+    return "#{sessionid}_#{Random.rand}"
   end
   
   def spin_for_choice(test_name, choice, mysession=nil)

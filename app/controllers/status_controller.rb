@@ -1,6 +1,8 @@
 class StatusController < ApplicationController
   def index
     @commit_hash = ENV['COMMIT_HASH']
-    @session_id = session[:session_id]
+    session[:tmp] = 1
+    session.delete(:tmp)
+    @session_id = request.session_options[:id]
   end
 end
