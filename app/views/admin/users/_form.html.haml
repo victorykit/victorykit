@@ -1,12 +1,13 @@
-= simple_form_for [:admin, @user] do |f|
-  - if @user.errors.any?
-    #error_explanation
+= form_tag admin_user_path, :method => :put do |form|
+  = simple_fields_for @user do |f|
+    - if @user.errors.any?
+      #error_explanation
 
-  = f.input :email
-  .field
-  - if current_user.is_super_user? && current_user != @user
-    = f.input :is_admin
-  .field
-  - if current_user.is_super_user? && current_user != @user
-    = f.input :is_super_user
-  = f.button :submit, :class => 'btn btn-primary', :value => 'Save'
+    = f.input :email
+    .field
+    - if current_user.is_super_user? && current_user != @user
+      = f.input :is_admin
+    .field
+    - if current_user.is_super_user? && current_user != @user
+      = f.input :is_super_user
+    = f.button :submit, :class => 'btn btn-primary', :value => 'Save'
