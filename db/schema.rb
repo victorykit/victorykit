@@ -11,13 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120529212035) do
+ActiveRecord::Schema.define(:version => 20120530185112) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "sent_email_id", :null => false
+  end
+
+  create_table "email_experiments", :force => true do |t|
+    t.integer  "sent_email_id"
+    t.string   "goal"
+    t.string   "key"
+    t.string   "choice"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "last_updated_unsubscribes", :force => true do |t|
@@ -94,18 +103,5 @@ ActiveRecord::Schema.define(:version => 20120529212035) do
     t.boolean  "is_super_user",   :default => false, :null => false
     t.boolean  "is_admin",        :default => false, :null => false
   end
-
-  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
-
-  add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
-
-  add_foreign_key "sent_emails", "members", :name => "sent_emails_member_id_fk"
-  add_foreign_key "sent_emails", "signatures", :name => "sent_emails_signature_id_fk"
-
-  add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
-  add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
-
-  add_foreign_key "unsubscribes", "members", :name => "unsubscribes_member_id_fk"
-  add_foreign_key "unsubscribes", "sent_emails", :name => "unsubscribes_sent_email_id_fk"
 
 end
