@@ -354,7 +354,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .signupcolor6 { #sign-up-form { background: #000; .title, .privacypolicy, .control-label { color: white; } } }
 
 /* normal vs. fixed positioning of sign petition box */
-.signupposition2 { #sign-up-form { position: fixed; } }
+.signupposition2 { #sign-up-form, .curvedarrow { position: fixed; } }
 
 /* dataTable */
 .dataTable th, .dataTable td { border: 1px solid #eee; text-align: left;}
