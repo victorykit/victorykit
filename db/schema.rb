@@ -58,8 +58,8 @@ ActiveRecord::Schema.define(:version => 20120529212035) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.datetime "clicked_at"
     t.datetime "opened_at"
+    t.datetime "clicked_at"
   end
 
   create_table "signatures", :force => true do |t|
