@@ -239,6 +239,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     float: left;
     input { width: 100%; }
   }
+  .help-inline { margin: -5px 0 10px 0; display: none;}
   .control-group, input.btn { float: right; }
   input.btn { margin-right: -10px; }
 }
@@ -278,6 +279,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     .btn { float: none; margin-left: 5px; }
     .btn-primary { float: right; }
   }
+  .checkbox input { width: auto; }
 }
 
 .petitionlist {
@@ -311,7 +313,6 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   }
 }
 
-#petition_to_send { margin-left: -191px; }
 .bigcenteredmessage { font-size: 25px; margin: 15% 0 35%; text-align: center; }
 
 
