@@ -17,4 +17,6 @@
 //= require bootstrap
 //= require bootstrap-wysihtml5-all
 //= require jquery.flot
+//= require jquery.mailcheck.js
+//= require petition.js
 //= require_tree .
