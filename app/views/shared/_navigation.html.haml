@@ -1,19 +1,8 @@
-- petitionlink = spin! "start a petition as link vs. button in top nav", :signup, ["petition_button", "petition_link"]
+- petitionlink = spin! "start a petition as link vs. button in top nav", :signature, ["petition_button", "petition_link"]
 .topnav{class: [petitionlink]}
   .navigation
     = link_to('', '/', :class => 'logo')
-    .logininfo
-      - if current_user
-        %div
-          Logged in as #{current_user.email}
-        = link_to('Change Password', edit_user_path(current_user))
-        = link_to('Log Out', logout_path)
-      - elsif controller_name == 'petitions' && action_name == 'show'
-        - if spin! "show login or sign up", :signature
-          = link_to('Sign Up or Log In', signup_path)
-      - else
-        = link_to('Sign Up or Log In', signup_path)
-    .container
+    .nav_links
       %ul
         %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
         - if can :list_petitions
@@ -22,3 +11,15 @@
           %li= link_to('Manage users', admin_users_url)
         - if can :edit_petitions
           %li= link_to('Petitions dashboard', admin_petitions_url)
+    .logininfo
+      - if current_user
+        %div
+          Logged in as #{current_user.email}
+        = link_to('Change Password', edit_user_path(current_user))
+        = link_to('Log Out', logout_path, :class => 'nodivider')
+      - elsif controller_name == 'petitions' && action_name == 'show'
+        - if spin! "show login or sign up", :signature
+          .nodivider= link_to('Sign Up or Log In', signup_path)
+      - else
+        = link_to('Sign Up or Log In', signup_path, :class => 'nodivider')
+

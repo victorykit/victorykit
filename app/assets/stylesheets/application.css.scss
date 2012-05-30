@@ -30,6 +30,9 @@ a.btn:visited { color: white; }
   .navigation {
     @extend .span12;
     margin: 0 auto;
+    .nav_links {
+      float: left;
+    }
   }
   ul {
     margin-bottom: 0;
@@ -50,7 +53,7 @@ a.btn:visited { color: white; }
     margin-left: 10px;
     border-right: 1px solid #08c;
     padding-right: 10px;
-    &:last-child {
+    &.nodivider, &.nodivider a {
       border-right: none;
       padding-right: 0;
     }
@@ -100,6 +103,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
     clear: both;
     font-size: 30px;
     padding: 15px 20px;
+    *padding: 5px 20px 20px;
     margin-top: 50px;
   }
 }
@@ -198,29 +202,30 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .center6{
   @extend .span6;
   margin: 0 auto;
-  min-height: 200px;
+  min-height: 210px;
 }
 .signup_login {
   @extend .center6;
-  &.login { width: 285px; }
+  @extend .span9;
+  &.login { @extend .span5; }
   margin-top: 5%;
   @extend .well;
+  label, .controls { @extend .span2; float: left; }
   .btn { float: right; }
-  .signup {
-    @extend .span3;
-    border-right: 1px solid #888;
+  .signup, .login {
     float: left;
-    padding: 0 10px;
-    .btn { margin-right: 20px; }
+    @extend .span4;
+  }
+  .signup {
+    border-right: 1px solid #888;
+    padding: 0 25px;
   }
   .login {
-    @extend .center6;
-    float: left;
-    width: 250px;
-    padding-left: 20px;
+    padding-left: 25px;
     h1 { margin-bottom: 25px; }
-    .btn { margin-top: 31px; }
+    .btn { margin-top: 25px; }
   }
+  .control-group, .btn { float: right; }
 }
 .change_password {
   @extend .well;
