@@ -87,11 +87,11 @@
               - else
                 - placeholder_email = {}
               = f.input :email, :input_html => placeholder_email
-
+              #hint{style: "clear: both"}
+              
               - if @email_hash
                 = hidden_field_tag :email_hash, @email_hash
               = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
-              #hint
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!
