@@ -114,17 +114,17 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
 }
 .rightcolwell { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px; }
 #sign-up-form { @extend .rightcolwell;
-  .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; }
+  .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; line-height: 30px; }
   .help-inline { margin: -5px 0 15px 0; }
   .through_site {
     width: 150px; border-right: 1px solid #555; padding: 5px 10px;
-    input { width: 140px; &.btn { width: 100%; } }
+    input { @extend .span2; &.btn { width: 100%; } }
     float: left;
     margin-bottom: 10px;
   }
   .through_fb {
     float: right;
-    width: 81px;
+    @extend .span2;
     padding: 0 9px;
     .text { margin: 25px 0 5px; text-align: center; }
   }
@@ -137,7 +137,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .through_site {
     width: auto;
     border-right: none;
-    input { width: 240px; }
+    input { width: 96%; }
     .btn { float: right; }
   }
 }
