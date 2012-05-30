@@ -11,11 +11,17 @@ end
 
 module Bandit
   def arm_guess(observations, victories)
+    nonvictories = [0, (observations - victories)].max
+    df = observations-1
+    df = 1 if df <= 0
+    df = df.to_f
     mean = victories.to_f/observations.to_f.to_1if0
-    stddev = victories * ((1-mean)**2)
-    stddev += [0, (observations - victories)].max * ((0-mean)**2)
-    stddev = Math.sqrt(stddev * (1.0/(([0.0, observations.to_f-1].max).to_1if0)))
-    stddev = stddev.to_1if0/Math.sqrt(observations.to_f.to_1if0)
+    
+    stddev = 0
+    stddev += victories    * ((1-mean)**2)
+    stddev += nonvictories * ((0-mean)**2)
+    stddev = 1.0/observations if stddev == 0
+    stddev = Math.sqrt(stddev/df)
     out = [0, Distribution::Normal.rng(mean, stddev).call].max
     return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))
   end
