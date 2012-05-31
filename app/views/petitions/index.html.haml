@@ -15,7 +15,8 @@
               %b This petition is featured.
             - if petition.to_send == false
               %i.icon-remove
-              This petition is not featured.  To feature it, click 'Edit'.
+              This petition is not featured.
+              = link_to('(Change)', edit_petition_path(petition))
       .signup
         = link_to('Sign this Petition!', petition, :class => 'btn btn-primary')
         - if !current_user.nil? && petition.has_edit_permissions(current_user)

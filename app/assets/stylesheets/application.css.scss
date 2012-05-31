@@ -305,6 +305,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
         color: navy;
       }
       .description {
+        word-wrap: break-word;
         color: #666;
       }
     }
