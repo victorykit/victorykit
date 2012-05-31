@@ -266,20 +266,21 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .petitionform {
   @extend .center6;
   @extend .well;
-  @extend .span9;
+  @extend .span10;
   padding: 20px;
   margin-top: 5%;
   min-height: 275px;
   h1 { margin: 0 0 20px 15px; }
   form { max-width: 830px; }
   label { @extend .span1; }
-  input, textarea { @extend .span7; }
+  input, textarea, .controls { @extend .span8; *width: 450px; }
   textarea { min-height: 200px; }
   .btn { @extend .span2; float: right; }
   .control-group {
     @extend .span8;
     .controls .btn { width: auto; }
   }
+  input.btn.btn-primary { width: 150px/9; }
   .modal {
     input { width: 520px; }
     .btn { float: none; margin-left: 5px; }

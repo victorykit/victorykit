@@ -10,9 +10,8 @@
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
-- arrowonsignpetition = spin! "show arrow on sign petition box", :share, ["arrow", "no_arrow"]
 - modalrecommendbutton = spin! "different renderings for fb recommend on modal", :share, ["recommend_with_text", "recommend_with_box_all_centered", "recommend_with_box_button_centered"]
-#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor, arrowonsignpetition ]}
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition
     -#.petition_image
     %h1.petition_title
@@ -88,7 +87,7 @@
                 - placeholder_email = {}
               = f.input :email, :input_html => placeholder_email
               #hint{style: "clear: both"}
-              
+
               - if @email_hash
                 = hidden_field_tag :email_hash, @email_hash
               = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
