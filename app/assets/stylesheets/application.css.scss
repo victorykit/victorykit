@@ -212,6 +212,8 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   @extend .well;
   label, .controls { @extend .span2; float: left; }
   .btn { float: right; }
+  label.control-label { width: 130px\9; }
+  .controls input { width: 150px\9; }
   .signup, .login {
     float: left;
     @extend .span4;
@@ -224,6 +226,10 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     padding-left: 25px;
     h1 { margin-bottom: 25px; }
     .btn { margin-top: 25px; }
+  }
+  .control-group {
+    clear: right;
+    @extend .span4;
   }
   .control-group, .btn { float: right; }
 }
