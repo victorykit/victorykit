@@ -119,8 +119,11 @@ body.black_background {
   .home .title {
     color: white;
   }
-  .change_password, .change_password label, table, .signup_login h1, .signup_login label, .login h1 {
+  form *, .petitionform form .current-font, .petitionform h1, form label,  .change_password, .change_password label, table, .signup_login h1, .signup_login label, .login h1 {
     color: #333;
+  }
+  form .btn-primary {
+    color: white;
   }
   .topnav {
     @extend .span12;

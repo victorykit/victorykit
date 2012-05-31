@@ -89,7 +89,7 @@
                 - placeholder_email = {}
               = f.input :email, :input_html => placeholder_email
               #hint{style: "clear: both"}
-              
+
               - if @email_hash
                 = hidden_field_tag :email_hash, @email_hash
               = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
@@ -119,8 +119,7 @@
   - if spin! "toggle showing vs. not showing modal", :share
     .modal#thanksModal
       .modal-body
-        - if spin! "hide and show closing 'x' in top right", :share
-          = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+        = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
         .thanks
           Thanks for signing!
         .share

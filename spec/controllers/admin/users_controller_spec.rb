@@ -63,5 +63,15 @@ describe Admin::UsersController do
         response.should render_template("edit")
       end
     end
+
+    describe "updating roles" do
+      let(:user){ create(:user) }
+      
+      it "skips validation" do
+        put :update, {:id => user.to_param, :user => {:is_admin => true}}, valid_super_user_session
+        user.reload
+        user.is_admin.should eq(true)
+      end
+    end
   end
 end

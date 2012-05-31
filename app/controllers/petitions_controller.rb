@@ -54,7 +54,7 @@ class PetitionsController < ApplicationController
     if sent_email_id = Hasher.validate(params[:n])
       begin
         sent_email = SentEmail.find(sent_email_id)
-        sent_email.update_attributes(clicked_at: Time.now).save! unless sent_email.clicked_at
+        sent_email.update_attributes(clicked_at: Time.now) unless sent_email.clicked_at
       rescue => error
         Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"
       end
