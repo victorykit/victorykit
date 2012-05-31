@@ -38,7 +38,17 @@ describe UnsubscribesController do
       it "assigns a newly created but unsaved unsubscribe as @unsubscribe" do
         assigns(:unsubscribe).should be_a_new(Unsubscribe)
       end
-      it "should redirect to new subscriber url" do
+      it "should redirect to new unsubscribe url" do
+        response.should redirect_to new_unsubscribe_url
+      end
+    end
+
+    context "when member not found" do
+      before :each do
+        Member.any_instance.stub(:find_by_email).and_return(nil)
+        post :create, unsubscribe: {}
+      end
+      it "should redirect to new unsubscribe url" do
         response.should redirect_to new_unsubscribe_url
       end
     end

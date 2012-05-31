@@ -10,11 +10,11 @@ class UnsubscribesController < ApplicationController
     if h = Hasher.validate(params[:email_hash])
       @unsubscribe.sent_email = SentEmail.find_by_id(h)
     end
-    if !@unsubscribe.member.nil? && @unsubscribe.save
+    if @unsubscribe.member && @unsubscribe.save
       Notifications.unsubscribed @unsubscribe
       redirect_to root_url, notice: 'You have successfully unsubscribed.'
     else
-      redirect_to new_unsubscribe_url, notice: 'There was a problem when we tried to unsubscribe you.'
+      redirect_to new_unsubscribe_url, notice: "Sorry, unsubscribe didn't work. Are you using the same email address you registered with?"
     end
   end
   
