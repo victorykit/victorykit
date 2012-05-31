@@ -1,14 +1,6 @@
 require "spec_helper"
 
 describe ScheduledEmail do
-  describe "new_petition" do
-    let(:member){ create(:member)}
-    let(:petition){ create(:petition)}
-    it "logs the email" do
-      ScheduledEmail.new_petition(petition, member)
-      SentEmail.find_by_member_id(member).petition.should eq petition
-    end
-  end
   describe "sending an email" do
     let(:member){ create(:member)}
     let(:petition){ create(:petition)}
@@ -19,6 +11,11 @@ describe ScheduledEmail do
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{email_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{email_hash}"}
     
+    it "logs the email" do
+      ScheduledEmail.new_petition(petition, member)
+      SentEmail.find_by_member_id(member).petition.should eq petition
+    end
+
     it "includes the petition title in the subject" do
       mail.subject.should include petition.title
     end
