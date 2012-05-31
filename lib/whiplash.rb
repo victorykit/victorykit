@@ -1,7 +1,7 @@
 require 'distribution'
 require 'redis'
 
-FAIRNESS_CONSTANT = 3
+FAIRNESS_CONSTANT = 100
 
 class Float
   def to_1if0
@@ -11,19 +11,10 @@ end
 
 module Bandit
   def arm_guess(observations, victories)
-    nonvictories = [0, (observations - victories)].max
-    df = observations-1
-    df = 1 if df <= 0
-    df = df.to_f
     mean = victories.to_f/observations.to_f.to_1if0
-    
-    stddev = 0
-    stddev += victories    * ((1-mean)**2)
-    stddev += nonvictories * ((0-mean)**2)
-    stddev = 1.0/observations if stddev == 0
-    stddev = Math.sqrt(stddev/df)
-    out = [0, Distribution::Normal.rng(mean, stddev).call].max
-    return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))
+    stddev = (mean * (1-mean))/observations.to_f.to_1if0
+    out = [0, Distribution::Normal.rng(mean, stddev*FAIRNESS_CONSTANT).call].max
+    return out
   end
 
   def best_guess(options)
