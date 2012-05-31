@@ -20,8 +20,9 @@
 
 .modal { display: none; }
 a:hover { text-decoration: none; }
-.container { margin: 0 auto; clear: both; }
+.container { margin: 0 auto; clear: both; padding-left: 10px; }
 .content {  min-height: 600px; background: #fff; padding: 5px 10px; }
+.content > div { @extend .row; margin-left: -20px; }
 .footer { clear: both; text-align: right; background: #ddd; color: #888; padding: .3em}
 a.btn:visited { color: white; }
 .topnav {
@@ -29,6 +30,7 @@ a.btn:visited { color: white; }
   height: 37px;
   .navigation {
     @extend .span12;
+    @extend .row;
     margin: 0 auto;
     .nav_links {
       float: left;
@@ -363,7 +365,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 .signupcolor6 { #sign-up-form { background: #000; .title, .privacypolicy, .control-label { color: white; } } }
 
 /* normal vs. fixed positioning of sign petition box */
-.signupposition2 { #sign-up-form, .curvedarrow { position: fixed; } }
+.signupposition2 { #sign-up-form { position: fixed; } }
 
 /* dataTable */
 .dataTable th, .dataTable td { border: 1px solid #eee; text-align: left;}

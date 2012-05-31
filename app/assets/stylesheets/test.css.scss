@@ -249,6 +249,8 @@ body.colorblock {
     margin: 5px 0 0 -15px;
     width: 58px;
     z-index: 10000;
+    position: relative;
+    left: -1px;
   }
   #sign-up-form .title {
     text-align: right;
@@ -263,6 +265,7 @@ body.colorblock {
     float: right;
     margin: 5px 0 0 228px;
     background: url('foldarrow_right.png');
+    left: 16px;
   }
 }
 
