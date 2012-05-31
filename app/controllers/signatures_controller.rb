@@ -17,10 +17,8 @@ class SignaturesController < ApplicationController
       if h = Hasher.validate(params[:email_hash])
         sent_email = SentEmail.find_by_id(h)
         sent_email.signature_id ||= signature.id
+        sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
         sent_email.save!
-
-        email_experiments = EmailExperiment.find_all_by_sent_email_id(h)
-        email_experiments.each {|e| win_on_option!(e.key, e.choice)}
       end
       session[:signature_name] = signature.name
       session[:signature_email] = signature.email

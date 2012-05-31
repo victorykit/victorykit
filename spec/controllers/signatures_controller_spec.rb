@@ -73,9 +73,23 @@ describe SignaturesController do
          response.cookies["signed_petitions"].split("|").should include(petition.id.to_s)
       end
     end
+    context "the user signed from an emailed link" do
+      it "should record wins for any email experiments" do
+        email = create :sent_email
+        experiment_a = create :email_experiment, sent_email: email, goal: :signatures_off_email, key: "test_key_1", choice: "a"
+        experiment_b = create :email_experiment, sent_email: email, goal: :signatures_off_email, key: "test_key_2", choice: "b"
+        email_hash = Hasher.generate(email.id)
+        
+        SignaturesController.any_instance.should_receive(:win_on_option!).once.with("email_scheduler_nps", petition.id.to_s)
+        SignaturesController.any_instance.should_receive(:win_on_option!).once.with(experiment_a.key, experiment_a.choice)
+        SignaturesController.any_instance.should_receive(:win_on_option!).once.with(experiment_b.key, experiment_b.choice)
+
+        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+      end
+    end
     
     def sign_petition
-      post :create, petition_id: petition.id, :signature => signature_fields
+      post :create, petition_id: petition.id, signature: signature_fields
     end
     
     def sign_without_name_or_email

@@ -25,7 +25,7 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def spin!(test_name, goal, options)
-    session = {:session_id => ''}
+    session = {:session_id => @sent_email.id.to_s}
     choice = super(test_name, goal, options, session)
     add_spin_data goal, test_name, choice
     return choice
