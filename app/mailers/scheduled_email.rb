@@ -2,7 +2,6 @@ require 'hasher'
 require 'whiplash'
 
 class ScheduledEmail < ActionMailer::Base
-  include Bandit
   default from: Settings.email.from_address
   helper_method :spin!
   # Subject can be set in your I18n file at config/locales/en.yml
@@ -25,21 +24,7 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def spin!(test_name, goal, options)
-    session = {:session_id => @sent_email.id.to_s}
-    choice = super(test_name, goal, options, session)
-    add_spin_data goal, test_name, choice
-    return choice
-  end
-
-  private 
-
-  def add_spin_data goal, test_name, choice
-    experiment = EmailExperiment.new
-    experiment.sent_email_id = @sent_email.id
-    experiment.goal = goal
-    experiment.key = test_name
-    experiment.choice = choice
-    experiment.save!
+    return EmailSpinner.new.do_spin! @sent_email, test_name, goal, options
   end
 
   private 
