@@ -11,17 +11,14 @@ class SignaturesController < ApplicationController
     if signature.valid?
       petition.signatures.push signature
       petition.save!
-      if signature.created_member
-        win_on_option!("email_scheduler_nps", petition.id.to_s)
-      end
-      if h = SentEmailHasher.validate(params[:email_hash])
-        sent_email = SentEmail.find_by_id(h)
-        sent_email.signature_id ||= signature.id
-        sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
-        sent_email.save!
-      end
+
+      nps_win signature
+      record_visitor(params[:email_hash], signature)
+      
       session[:signature_name] = signature.name
       session[:signature_email] = signature.email
+      session[:last_signature_id] = signature.id
+
       cookie = cookies[:signed_petitions] || ""
       signed_petitions = cookie.split "|"
       signed_petitions.push petition.id
@@ -39,6 +36,22 @@ class SignaturesController < ApplicationController
       @signature = signature
       @sigcount = @petition.signatures.count
       render :template => "petitions/show"
+    end
+  end
+
+  private
+  def record_visitor hash, signature
+    if h = SentEmailHasher.validate(hash)
+      sent_email = SentEmail.find_by_id(h)
+      sent_email.signature_id ||= signature.id
+      sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
+      sent_email.save!
+    end
+  end
+
+  def nps_win signature
+    if signature.created_member
+      win_on_option!("email_scheduler_nps", signature.petition.id.to_s)
     end
   end
 end

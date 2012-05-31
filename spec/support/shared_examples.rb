@@ -83,11 +83,16 @@ shared_examples_for "a hasher" do
     described_class.validate(hashed_number).should == number
   end
 
-  it "should return false for invalid hash" do
+  it "should return nil if trying to generate from nil or empty string" do
+    described_class.generate(nil).should be nil
+    described_class.generate("").should be nil
+  end
+
+  it "should return false after running validate for invalid hash" do
     described_class.validate('fake_hashed_number').should be_false
   end
 
-  it "should return false for nil" do
+  it "should return false after running validate for nil" do
     described_class.validate(nil).should be_false
   end
 end

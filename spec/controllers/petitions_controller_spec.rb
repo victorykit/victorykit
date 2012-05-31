@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'signature_hasher'
 
 describe PetitionsController do
 
@@ -19,27 +20,48 @@ describe PetitionsController do
 
   describe "GET show" do
     let(:petition) { create(:petition) }
-    let (:user_session) { {} }
-    
-    before :each do
-      get :show, {:id => petition.to_param}, user_session
+    it "should assign petition variable" do
+      get :show, {:id => petition.id}
+      assigns(:petition).should == petition
     end
-    
-    it "assigns an empty signature to the view" do
-      assigns(:signature).name.should be_nil
-      assigns(:signature).email.should be_nil
+
+    it "should assign sigcount variable" do
+      get :show, {:id => petition.id}
+      assigns(:sigcount).should == petition.signatures.count
+    end
+
+    it "should assign email_hash variable" do
+      get :show, {:id => petition.id, n: "some_hash"}
+      assigns(:email_hash).should == "some_hash"
     end
     
     context "the user has already signed the petition" do
-      let(:user_session) { {signed_petitions: [petition.id]} } 
-      it "tells the view that the user has already signed" do
-        assigns(:user_has_signed).should be_true
+      it "sets facebook ref hash to encoded signature id" do
+        controller.stub(session: {last_signature_id: petition.id})
+        get :show, {:id => petition.id}
+        assigns(:fb_tracking_hash).should == SignatureHasher.generate(petition.id)
       end
+
+      it "assigns a signature name and email to the view" do
+        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
+        get :show, {:id => petition.id}
+        assigns(:signature).name.should == "Bob"
+        assigns(:signature).email.should == "bob@bob.com"
+      end
+
     end
+
     context "the user has not already signed the petition" do
-      it "tells the view that the user has not signed yet" do
-        assigns(:user_has_signed).should be_false
+      it "sets facebook ref hash to email hash if it`s present" do
+        get :show, {:id => petition.id, :n => "some_hash"}
+        assigns(:fb_tracking_hash).should == "some_hash"
       end
+
+      it "sets facebook ref hash to nil if it is not present" do
+        get :show, {:id => petition.id}
+        assigns(:fb_tracking_hash).should be_nil
+      end
+
     end
   end
 

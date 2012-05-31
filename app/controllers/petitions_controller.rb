@@ -1,4 +1,5 @@
 require 'sent_email_hasher'
+require 'signature_hasher'
 
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
@@ -12,8 +13,7 @@ class PetitionsController < ApplicationController
     @petition = Petition.find(params[:id])
     @sigcount = @petition.signatures.count
     @email_hash = params[:n]
-    signed_petitions = session[:signed_petitions] || []
-    @user_has_signed = signed_petitions.include? @petition.id
+    @fb_tracking_hash = @email_hash || SignatureHasher.generate(session[:last_signature_id])
     @signature = Signature.new
     @signature.name = session[:signature_name]
     @signature.email = session[:signature_email]
