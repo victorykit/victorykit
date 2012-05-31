@@ -1,4 +1,4 @@
-task :push => [:pull, :spec] do
+task :push => [:pull, :spec, "spec:smoke"] do
   sh "git push"
 end
 
