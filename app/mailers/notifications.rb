@@ -10,7 +10,11 @@ class Notifications < ActionMailer::Base
     @signature = signature
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
     
-    mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
+    begin
+      mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
+    rescue AWS::SES::ResponseError
+      raise "There seems to be a problem with that email address.  Are you sure it's correct?"
+    end
   end
   
   def unsubscribed unsubscription

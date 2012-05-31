@@ -27,7 +27,11 @@ class SignaturesController < ApplicationController
       signed_petitions.push petition.id
       cookies[:signed_petitions] = signed_petitions.join "|"
       win! :signature
-      Notifications.signed_petition signature
+      begin
+        Notifications.signed_petition signature
+      rescue => ex
+        flash.notice = ex.message
+      end
       redirect_to petition_url(petition)
       
     else

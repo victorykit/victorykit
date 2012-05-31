@@ -26,6 +26,12 @@ describe SignaturesController do
         email[:to].to_s.should == signature_fields[:email]
         email[:subject].to_s.should match /#{petition.title}/
       end
+      it "should notify user of any errors" do
+        Notifications.any_instance.stub(:signed_petition).and_raise "bang!"
+        sign_petition
+        puts flash.inspect
+        flash.now[:notice].should == "bang!"
+      end
       it "should redirect to the petition page" do
         sign_petition
         
