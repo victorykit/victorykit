@@ -1,4 +1,4 @@
-require 'hasher'
+require 'sent_email_hasher'
 
 class SignaturesController < ApplicationController
   def create
@@ -14,7 +14,7 @@ class SignaturesController < ApplicationController
       if signature.created_member
         win_on_option!("email_scheduler_nps", petition.id.to_s)
       end
-      if h = Hasher.validate(params[:email_hash])
+      if h = SentEmailHasher.validate(params[:email_hash])
         sent_email = SentEmail.find_by_id(h)
         sent_email.signature_id ||= signature.id
         sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}

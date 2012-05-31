@@ -1,4 +1,4 @@
-require 'hasher'
+require 'sent_email_hasher'
 require 'whiplash'
 
 class ScheduledEmail < ActionMailer::Base
@@ -12,7 +12,7 @@ class ScheduledEmail < ActionMailer::Base
 
   def new_petition(petition, member)
     sent_email_id = log_sent_email(member, petition)
-    sent_email_hash = Hasher.generate(sent_email_id)
+    sent_email_hash = SentEmailHasher.generate(sent_email_id)
     @petition_link = petition_url(petition) + "?n=" + sent_email_hash
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + "?n=" + sent_email_hash
     @tracking_url = new_pixel_tracking_url + "?n=" + sent_email_hash

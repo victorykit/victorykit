@@ -1,9 +1,9 @@
-require 'hasher'
+require 'sent_email_hasher'
 
 class PixelTrackingController < ApplicationController
 
   def new
-    if h = Hasher.validate(params[:n]) 
+    if h = SentEmailHasher.validate(params[:n]) 
       begin
         email = SentEmail.find_by_id(h)
         email.update_attribute(:opened_at, Time.now) if not email.opened_at

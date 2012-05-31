@@ -21,13 +21,13 @@ describe PixelTrackingController do
     #Time.now      produces something like:  2012-05-23 22:22:00 -0600 
     #DateTime.now  produces something like:  Wed, 23 May 2012 22:22:08 -0600
     it "marks sent email as opened in the database" do
-       get :new, :n => Hasher.generate(37)
+       get :new, :n => SentEmailHasher.generate(37)
        SentEmail.find_by_id(37).opened_at.should < Time.now + 1.minute
     end
 
     #todo: ditto above -- resolve local/integration inconsistency with time comparisons
     it "doesn`t make any changes if email has already been opened" do
-      get :new, :n => Hasher.generate(11)
+      get :new, :n => SentEmailHasher.generate(11)
       SentEmail.find(:all).size.should == 2
       SentEmail.find_by_id(11).opened_at.should < Time.now - 1.day + 1.minute
     end
@@ -39,7 +39,7 @@ describe PixelTrackingController do
 
     it "doesn`t crash if such sent email doesn`t exist" do
       $stdout.stub(:write)
-      get :new, :n => Hasher.generate(12)
+      get :new, :n => SentEmailHasher.generate(12)
     end
   end
 

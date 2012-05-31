@@ -6,7 +6,7 @@ describe ScheduledEmail do
     let(:petition){ create(:petition)}
     let!(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
-    let(:email_hash){Hasher.generate(sent_email.id)}
+    let(:email_hash){SentEmailHasher.generate(sent_email.id)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{email_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{email_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{email_hash}"}
@@ -37,7 +37,7 @@ describe ScheduledEmail do
     end
     
     it "adds an unsubscribe header" do
-      email_hash = Hasher.generate(sent_email.id)
+      email_hash = SentEmailHasher.generate(sent_email.id)
       mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
     end
   end

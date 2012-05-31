@@ -7,7 +7,7 @@ class UnsubscribesController < ApplicationController
     @unsubscribe.ip_address = request.remote_ip
     @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"]
     
-    if h = Hasher.validate(params[:email_hash])
+    if h = SentEmailHasher.validate(params[:email_hash])
       @unsubscribe.sent_email = SentEmail.find_by_id(h)
     end
     if @unsubscribe.member && @unsubscribe.save

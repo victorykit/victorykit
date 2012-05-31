@@ -1,4 +1,4 @@
-require 'hasher'
+require 'sent_email_hasher'
 
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
@@ -51,7 +51,7 @@ class PetitionsController < ApplicationController
   end
 
   def track_visit
-    if sent_email_id = Hasher.validate(params[:n])
+    if sent_email_id = SentEmailHasher.validate(params[:n])
       begin
         sent_email = SentEmail.find(sent_email_id)
         sent_email.update_attributes(clicked_at: Time.now) unless sent_email.clicked_at

@@ -136,7 +136,7 @@ describe PetitionsController do
     let(:petition) { create :petition }
   
     it "should update clicked_at with the current time if email hash and corresponding sent_email are present" do
-      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      get :show, id: petition.id, n: SentEmailHasher.generate(sent_email.id)
       (SentEmail.find(sent_email.id).clicked_at + 1.minute).should be > Time.now
     end
 
@@ -147,9 +147,9 @@ describe PetitionsController do
     end
 
     it "should not update clicked_at date if it`s not empty" do
-      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      get :show, id: petition.id, n: SentEmailHasher.generate(sent_email.id)
       first_time = SentEmail.find(sent_email.id).clicked_at
-      get :show, id: petition.id, n: Hasher.generate(sent_email.id)
+      get :show, id: petition.id, n: SentEmailHasher.generate(sent_email.id)
       SentEmail.find(sent_email.id).clicked_at.should == first_time
     end
   end

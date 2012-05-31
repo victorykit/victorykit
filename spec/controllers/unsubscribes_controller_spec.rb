@@ -57,7 +57,7 @@ describe UnsubscribesController do
       let(:sent_email) {create :sent_email, member: member}
       
       before :each do
-        post :create, unsubscribe: {email: member.email}, :email_hash => Hasher.generate(sent_email.id)
+        post :create, unsubscribe: {email: member.email}, :email_hash => SentEmailHasher.generate(sent_email.id)
       end
       it "associates the email with the unsubscribe" do
         unsubscribe = Unsubscribe.find_by_member_id member

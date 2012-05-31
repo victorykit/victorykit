@@ -3,7 +3,7 @@ require 'spec_helper'
 describe EmailProcessor do
   let!(:sent_email) {create :sent_email}
   let!(:member) {create :member, email: sent_email.email}
-  let!(:email_hash) {Hasher.generate(sent_email.id)}
+  let!(:email_hash) {SentEmailHasher.generate(sent_email.id)}
 
   it "should create a record in bounced_emails table" do
     EmailProcessor.handle_exceptional_email("email_content", "bounce+#{email_hash}@appmail.watchdog.net", "bounced")

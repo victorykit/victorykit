@@ -75,3 +75,19 @@ shared_examples_for "a super-user only resource page" do
     should redirect_to login_path
   end
 end
+
+shared_examples_for "a hasher" do
+  it "should validate a hash" do
+    number = 100
+    hashed_number = described_class.generate(number)
+    described_class.validate(hashed_number).should == number
+  end
+
+  it "should return false for invalid hash" do
+    described_class.validate('fake_hashed_number').should be_false
+  end
+
+  it "should return false for nil" do
+    described_class.validate(nil).should be_false
+  end
+end
