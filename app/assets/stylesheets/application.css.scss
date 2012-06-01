@@ -138,7 +138,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .through_site {
     width: auto;
     border-right: none;
-    input { width: 96%; }
+    input { width: 96%; *width: 192px; }
     .btn { float: right; }
   }
 }
