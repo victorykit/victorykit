@@ -70,7 +70,6 @@
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
     - if current_user.nil? || !@petition.has_edit_permissions(current_user)
       #sign-up-form
-        .curvedarrow
         .title
           Sign this petition!
         .through_site
