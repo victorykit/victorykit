@@ -13,9 +13,12 @@ describe PetitionsController do
   describe "GET index" do
     it "assigns all petitions as @petitions" do
       petition = create(:petition)
-      get :index, {}, valid_session
+      get :index, {}, valid_admin_session
       assigns(:petitions).should eq([petition])
     end
+
+    let(:action){ get :index }
+    it_behaves_like "an admin only resource page"
   end
 
   describe "GET show" do

@@ -40,6 +40,11 @@ def valid_session
   valid_session_for user
 end
 
+def valid_admin_session
+  user = create(:admin_user)
+  valid_session_for user
+end
+
 def valid_session_for user
   {:user_id => user.id}
 end

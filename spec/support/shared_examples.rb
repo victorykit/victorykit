@@ -20,6 +20,7 @@ shared_examples_for "an admin only resource page" do
     session[:user_id] = create(:user).id
     action
     should_not redirect_to login_path
+    response.status.should == 403
   end
   it "disallows non logged in users to carry out the action" do
     action

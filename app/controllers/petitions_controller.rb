@@ -4,6 +4,7 @@ require 'signature_hasher'
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
   before_filter :track_visit, only: :show
+  before_filter :require_admin, only: :index
 
   def index
     @petitions = Petition.all
