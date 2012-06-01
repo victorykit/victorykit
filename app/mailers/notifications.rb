@@ -14,7 +14,9 @@ class Notifications < ActionMailer::Base
       mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
     rescue AWS::SES::ResponseError => e
       Rails.logger.warn e
-      raise "There seems to be a problem with that email address.  Are you sure it's correct?"
+      if(e.message.match /Address blacklisted/)
+        raise "There seems to be a problem with that email address.  Are you sure it's correct?"
+      end
     end
   end
   
