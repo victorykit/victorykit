@@ -16,8 +16,7 @@ class PetitionsController < ApplicationController
     @email_hash = params[:n]
     @fb_tracking_hash = @email_hash || SignatureHasher.generate(session[:last_signature_id])
     @signature = Signature.new
-    @signature.name = session[:signature_name]
-    @signature.email = session[:signature_email]
+    prepopulate_signature
   end
 
   def new
@@ -48,6 +47,19 @@ class PetitionsController < ApplicationController
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
       render action: "edit"
+    end
+  end
+
+  private
+
+  def prepopulate_signature
+    if email_id = Hasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
+    if sent_email
+      @signature.name =  sent_email.member.name
+      @signature.email = sent_email.member.email
+    else
+      @signature.name =  session[:signature_name]
+      @signature.email = session[:signature_email]
     end
   end
 
