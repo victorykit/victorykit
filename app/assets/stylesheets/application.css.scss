@@ -87,7 +87,7 @@ form {
   margin-bottom: 40px;
   label { @extend .span1; @extend .floatleft; padding: 4px 10px 0 0; text-align: right; }
   input, textarea { @extend .span2; @extend .floatleft; }
-  .control-group { clear: left; }
+  .control-group { clear: both; }
   input.btn { clear: both; }
   .help-inline { margin-top: 5px; }
 }
@@ -509,4 +509,15 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 
 .control-group {
   *clear: right;
+}
+
+.admin.topnav {
+  height: 82px;
+  .nav_links {
+    clear: both;
+    margin: 3px 0 0 -30px;
+  }
+  hr {
+    margin: 0;
+  }
 }

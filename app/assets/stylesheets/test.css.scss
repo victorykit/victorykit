@@ -207,6 +207,20 @@ body.white_background {
   hr {
     border-top: 1px solid #666;
   }
+  .admin.topnav {
+    height: 70px;
+    *height: 80px;
+    hr {
+      border-bottom: 2px solid #aaa;
+      border-top: none;
+      margin-left: -0.5%;
+      width: 101%;
+    }
+    .nav_links {
+      margin-top: 5px;
+      *margin-top: -5px;
+    }
+  }
 }
 
 
@@ -215,6 +229,17 @@ body.bootstrap_ui {
   .topnav {
     a, div { color: #eee; }
     &a:hover { color: #fff; }
+  }
+  .admin.topnav {
+    height: 82px;
+    *height: 90px;
+    hr {
+      border-bottom: 1px solid #777;
+      border-top: none;
+    }
+    .nav_links {
+      *margin-top: -4px;
+    }
   }
 }
 

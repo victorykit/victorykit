@@ -1,16 +1,11 @@
 - petitionlink = spin! "start a petition as link vs. button in top nav", :signature, ["petition_button", "petition_link"]
-.topnav{class: [petitionlink]}
+
+- if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
+  - class_toggle = 'admin'
+
+.topnav{class: [petitionlink, class_toggle]}
   .navigation
     = link_to('', '/', :class => 'logo')
-    .nav_links
-      %ul
-        %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-        - if can :list_petitions
-          %li= link_to('View all petitions', petitions_url)
-        - if can :edit_users
-          %li= link_to('Manage users', admin_users_url)
-        - if can :edit_petitions
-          %li= link_to('Petitions dashboard', admin_petitions_url)
     .logininfo
       - if current_user
         %div
@@ -22,4 +17,14 @@
           .nodivider= link_to('Sign Up or Log In', signup_path)
       - else
         = link_to('Sign Up or Log In', signup_path, :class => 'nodivider')
+    %hr
+    .nav_links
+      %ul
+        %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
+        - if can :list_petitions
+          %li= link_to('View all petitions', petitions_url)
+        - if can :edit_users
+          %li= link_to('Manage users', admin_users_url)
+        - if can :edit_petitions
+          %li= link_to('Petitions dashboard', admin_petitions_url)
 
