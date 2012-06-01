@@ -1,5 +1,4 @@
 $(document).ready(function() {
-	var domains = ['hotmail.com', 'gmail.com', 'aol.com', 'yahoo.com','msn.com','comcast.net','bellsouth.net','verizon.net','earthlink.net','cox.net','rediffmail.com','yahoo.ca','btinternet.com','charter.net','shaw.ca','ntlworld.com'];
 	var $email = $('#signature_email');
 	var $hint = $("#hint");
 
@@ -17,7 +16,6 @@ $(document).ready(function() {
 	function mailCheckSuggestions(event) {
 		$hint.css('display', 'none');
 	  	$email.mailcheck({
-	  	domains: domains,
 	    suggested: function(element, suggestion) {
 	    	event.go = true;
 	       	if(!$hint.html()) {
