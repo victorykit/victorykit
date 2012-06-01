@@ -40,5 +40,13 @@ jQuery(function(){
     $('#thanksModal').modal('toggle');
   }
   $('#petition_description').wysihtml5();
-
+  $('#petition_title').attr('tabIndex', '1');
+  $('iframe').attr('tabIndex', '2');
+  if ($('#petition_to_send').length) {
+    $('#petition_to_send').attr('tabIndex', '3');
+    $('#petition_submit').attr('tabIndex', '4');
+  }
+  else {
+    $('#petition_submit').attr('tabIndex', '3');
+  }
 });
