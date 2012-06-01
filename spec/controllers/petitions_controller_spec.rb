@@ -64,7 +64,20 @@ describe PetitionsController do
         get :show, {:id => petition.id}
         assigns(:fb_tracking_hash).should be_nil
       end
+    end
 
+    context "populate signature when email hash param is present" do
+      let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+      let(:sent_email) { create :sent_email, member: member }
+      it "should assign values from member" do
+        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
+        SentEmailHasher.stub(:validate).and_return(12)
+        SentEmail.stub(:find_by_id).with(12).and_return(sent_email)
+        get :show, {:id => petition.id}
+
+        assigns(:signature).name.should == "Sven"
+        assigns(:signature).email.should == "sven@svenland.se"
+      end
     end
   end
 
