@@ -4,16 +4,29 @@ require 'uri'
 include Rails.application.routes.url_helpers
 
 describe 'Petition page' do
-  pending "figure out how to forget that a member has signed" do
-    let(:petition) {create :petition}
-
-    it 'should allow users to sign' do
-      go_to petition_path(petition)
-      type('bob').into(:id => 'signature_name')
-      type('bob@bobs.com').into(:id => 'signature_email')
-      click :id => 'sign_petition'
-    
-      wait.until { element :class => "thanks" }
-    end
+  it 'should allow users to sign' do
+    petition = create_a_petition
+    go_to petition_path(petition)
+    type('bob').into(:id => 'signature_name')
+    type('bob@bobs.com').into(:id => 'signature_email')
+    click :id => 'sign_petition'
+  
+    wait.until { element :class => "thanks" }
   end
+end
+
+def create_a_petition
+  login_as_admin
+  go_to "petitions/new"
+
+  type('a snappy title').into(:id => 'petition_title')
+  type('a compelling description').into_wysihtml5(:id => 'petition_description')
+  click :name => 'commit'
+
+  wait.until { element :class => "petition" }
+
+  title = element(:class => "petition_title").text
+  log_out
+
+  Petition.find_by_title title
 end
