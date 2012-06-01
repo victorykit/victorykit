@@ -21,8 +21,7 @@
 .modal { display: none; }
 a:hover { text-decoration: none; }
 .container { margin: 0 auto; clear: both; padding-left: 10px; }
-.content {  min-height: 600px; background: #fff; padding: 5px 10px; }
-.content > div { @extend .row; margin-left: -20px; }
+.content {  min-height: 600px; background: #fff; padding: 5px 10px; @extend .row; margin-left: -20px; }
 .footer { clear: both; text-align: right; background: #ddd; color: #888; padding: .3em}
 a.btn:visited { color: white; }
 .topnav {
