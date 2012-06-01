@@ -211,6 +211,7 @@ body.white_background {
     height: 70px;
     *height: 80px;
     hr {
+      display: block;
       border-bottom: 2px solid #aaa;
       border-top: none;
       margin-left: -0.5%;
@@ -234,6 +235,7 @@ body.bootstrap_ui {
     height: 82px;
     *height: 90px;
     hr {
+      display: block;
       border-bottom: 1px solid #777;
       border-top: none;
     }
