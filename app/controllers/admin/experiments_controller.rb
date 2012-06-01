@@ -1,4 +1,5 @@
 class Admin::ExperimentsController < ApplicationController
+  newrelic_ignore
   before_filter :require_admin
   
   # @@FIX:
