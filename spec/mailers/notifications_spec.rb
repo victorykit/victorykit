@@ -13,5 +13,4 @@ describe Notifications do
       mail.body.encoded.should include(signature.petition.title)
     end
   end
-
 end

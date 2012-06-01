@@ -9,34 +9,30 @@ class SignaturesController < ApplicationController
     signature.member = Member.find_or_initialize_by_email(email: signature.email, name: signature.name)
     signature.created_member = signature.member.new_record?
     if signature.valid?
-      petition.signatures.push signature
-      petition.save!
-
-      nps_win signature
-      record_visitor(params[:email_hash], signature)
-      
-      session[:signature_name] = signature.name
-      session[:signature_email] = signature.email
-      session[:last_signature_id] = signature.id
-
-      cookie = cookies[:signed_petitions] || ""
-      signed_petitions = cookie.split "|"
-      signed_petitions.push petition.id
-      cookies[:signed_petitions] = signed_petitions.join "|"
-      win! :signature
       begin
+        petition.signatures.push signature
+
         Notifications.signed_petition signature
+        petition.save!
+
+        nps_win signature
+        record_visitor(params[:email_hash], signature)
+        
+        session[:signature_name] = signature.name
+        session[:signature_email] = signature.email
+        session[:last_signature_id] = signature.id
+
+        cookie = cookies[:signed_petitions] || ""
+        signed_petitions = cookie.split "|"
+        signed_petitions.push petition.id
+        cookies[:signed_petitions] = signed_petitions.join "|"
+        win! :signature
       rescue => ex
         flash.notice = ex.message
       end
-      redirect_to petition_url(petition)
-      
-    else
-      @petition = petition
-      @signature = signature
-      @sigcount = @petition.signatures.count
-      render :template => "petitions/show"
     end
+
+    redirect_to petition_url(petition)
   end
 
   private

@@ -27,12 +27,6 @@ describe SignaturesController do
         email[:subject].to_s.should match /#{petition.title}/
       end
 
-      it "should notify user of any errors" do
-        Notifications.any_instance.stub(:signed_petition).and_raise "bang!"
-        sign_petition
-        flash.now[:notice].should == "bang!"
-      end
-
       it "it should record the signature data to the session" do
         sign_petition
         session[:signature_name].should == signature_fields[:name]
@@ -42,8 +36,14 @@ describe SignaturesController do
 
       it "should redirect to the petition page" do
         sign_petition
-        
         should redirect_to petition_url(petition)
+      end
+    end
+    context "an error occurs when sending the confirmation email" do
+      it "should notify user of the error" do
+        Notifications.any_instance.stub(:signed_petition).and_raise "bang!"
+        sign_petition
+        flash.now[:notice].should == "bang!"
       end
     end
     context "the user leaves a field blank" do
@@ -53,14 +53,8 @@ describe SignaturesController do
       it "should not add to the signed_petitions cookie" do
         response.cookies["signed_petitions"].should_not include {petition.id.to_s}
       end
-      it "should re-render the petition show page" do
-        response.should render_template "petitions/show"
-      end
-      it "should assign view data required by the petition show page" do
-        assigns(:petition).should == petition
-        assigns(:sigcount).should == petition.signatures.count
-        assigns(:signature).email.should be_nil
-        assigns(:signature).name.should be_nil
+      it "should redirect to the petition show page" do
+        should redirect_to petition_url(petition)
       end
     end
     context "the user has not signed any petitions" do
@@ -90,13 +84,12 @@ describe SignaturesController do
     context "the user signed from an emailed link" do
       it "should record wins for any email experiments" do
         email = create :sent_email
-        experiment_a = create :email_experiment, sent_email: email, goal: :signatures_off_email, key: "test_key_1", choice: "a"
-        experiment_b = create :email_experiment, sent_email: email, goal: :signatures_off_email, key: "test_key_2", choice: "b"
         email_hash = SentEmailHasher.generate(email.id)
+        a = create :email_experiment, sent_email: email
+        b = create :email_experiment, sent_email: email
         
         SignaturesController.any_instance.should_receive(:win_on_option!).once.with("email_scheduler_nps", petition.id.to_s)
-        SignaturesController.any_instance.should_receive(:win_on_option!).once.with(experiment_a.key, experiment_a.choice)
-        SignaturesController.any_instance.should_receive(:win_on_option!).once.with(experiment_b.key, experiment_b.choice)
+        [a, b].each {|e| SignaturesController.any_instance.should_receive(:win_on_option!).once.with(e.key, e.choice)}
 
         post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
       end
