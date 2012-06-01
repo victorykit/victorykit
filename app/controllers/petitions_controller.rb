@@ -53,7 +53,7 @@ class PetitionsController < ApplicationController
   private
 
   def prepopulate_signature
-    if email_id = Hasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
+    if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
     if sent_email
       @signature.name =  sent_email.member.name
       @signature.email = sent_email.member.email
