@@ -12,7 +12,8 @@ module Bandit
       mean = victories.to_f/observations.to_f
       stddev = Math.sqrt([0, (mean * (1-mean))].max/observations.to_f)
     end
-    out = [0, Distribution::Normal.rng(mean, stddev*FAIRNESS_CONSTANT).call].max
+    out = [0, Distribution::Normal.rng(mean, stddev).call].max
+    out += FAIRNESS_CONSTANT/(observations.to_f+1)
     return out
   end
 
