@@ -377,6 +377,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     @extend .span1;
     text-align: right;
     float: left;
+    margin-left: -10px;
   }
   .through_site .controls, .through_site .controls input {
     @extend .span2;
