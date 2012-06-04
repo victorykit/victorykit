@@ -282,7 +282,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     @extend .span8;
     .controls .btn { width: auto; }
   }
-  input.btn.btn-primary { width: 150px/9; }
+  input.btn.btn-primary { width: 150px\9; }
   .modal {
     input { width: 520px; }
     .btn { float: none; margin-left: 5px; }
