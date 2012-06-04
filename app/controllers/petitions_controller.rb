@@ -21,7 +21,16 @@ class PetitionsController < ApplicationController
 
   def new
     @petition = Petition.new
+	  @form_view = choose_form_based_on_browser
   end
+
+  def choose_form_based_on_browser
+ 		if browser.ie? and !(browser.user_agent =~ /chromeframe/)
+       'ie_form'
+     else
+       'form'
+ 		end
+ 	end
 
   def edit
     @petition = Petition.find(params[:id])
@@ -72,5 +81,5 @@ class PetitionsController < ApplicationController
         Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"
       end
     end
-  end 
+  end
 end

@@ -88,6 +88,16 @@ describe PetitionsController do
       get :new, {}, valid_session
       assigns(:petition).should be_a_new(Petition)
     end
+	  it "tells IE users to upgrade their shit" do
+		  request.env['HTTP_USER_AGENT'] = "MSIE"
+		  get :new, {}, valid_session
+		  assigns(:form_view).should == 'ie_form'
+	  end
+    it "tolerates IE with chrome frame" do
+		  request.env['HTTP_USER_AGENT'] = "MSIE chromeframe"
+		  get :new, {}, valid_session
+		  assigns(:form_view).should == 'form'
+	  end
   end
 
   describe "GET edit" do

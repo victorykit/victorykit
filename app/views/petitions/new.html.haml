@@ -1,6 +1,3 @@
 .petitionform
 
-  - if !browser.ie?
-    = render 'form'
-  - if browser.ie?
-    = render 'ie'
+  = render @form_view
