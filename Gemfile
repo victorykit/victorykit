@@ -49,7 +49,6 @@ group :test, :development do
   gem "faker", "~> 1.0"
   gem "autotest"
   gem "selenium-webdriver"
-  gem 'nokogiri'
 end
 
 gem 'simplecov', :require => false, :group => :test
@@ -75,3 +74,5 @@ gem 'rspec'
 gem 'sanitize'
 gem 'rinku', :require => 'rails_rinku'
 gem "flot-rails"
+gem 'nokogiri'
+gem "truncate_html"

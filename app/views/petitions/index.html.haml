@@ -7,7 +7,7 @@
       .about_petition
         = link_to(petition.title, petition, :class => 'title')
         .description
-          = truncate(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
+          = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
         - if can :feature_petition
           .feature
             - if petition.to_send == true

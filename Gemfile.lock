@@ -204,6 +204,7 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
+    truncate_html (0.5.5)
     tzinfo (0.3.33)
     uglifier (1.2.4)
       execjs (>= 0.3.0)
@@ -256,5 +257,6 @@ DEPENDENCIES
   selenium-webdriver
   simple_form
   simplecov
+  truncate_html
   uglifier (>= 1.0.3)
   unicorn
