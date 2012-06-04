@@ -1,5 +1,6 @@
 .petitionform
-  %h1 New Petition
 
-  = render 'form'
-
+  - if !browser.ie?
+    = render 'form'
+  - if browser.ie?
+    = render 'ie'

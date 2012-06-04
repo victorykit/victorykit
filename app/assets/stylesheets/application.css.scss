@@ -272,7 +272,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   padding: 20px;
   margin-top: 5%;
   min-height: 275px;
-  h1 { margin: 0 0 20px 15px; }
+  h1, h3 { margin: 0 0 20px 15px; }
   form { max-width: 830px; }
   label { @extend .span1; }
   input, textarea, .controls { @extend .span8; *width: 450px; }
@@ -523,5 +523,56 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   }
   hr {
     margin: 0;
+  }
+}
+
+.square_thumbnails {
+  height: 80px;
+  width: 80px;
+}
+.ie_alternatives {
+  h1 {
+    float: left;
+    .black {
+      color: black;
+    }
+    .grey {
+      color: #888;
+      font-weight: normal;
+    }
+    .space {
+      clear: both;
+      margin-top: 10px;
+    }
+    *margin-bottom: 0;
+  }
+  h3 { clear: both; margin-top: 0; line-height: 20px; }
+  .option {
+    margin: 20px;
+    height: 80px;
+    clear: both;
+    div { float: left; }
+    .chromeframe, .chrome, .firefox {
+      @extend .square_thumbnails;
+      margin-right: 15px;
+    }
+    .chromeframe {
+      background: url('chromeframe.png');
+    }
+    .chrome {
+      background: url('chrome.png');
+    }
+    .firefox {
+      background: url('firefox.png');
+    }
+    .title {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: larger;
+    }
+    .description {
+      clear: left;
+      margin-top: 10px;
+    }
   }
 }

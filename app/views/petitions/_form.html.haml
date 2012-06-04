@@ -1,6 +1,9 @@
+%h1 Start a petition
+
 = simple_form_for(@petition, :html => {:class => 'form-horizontal' }) do |f|
   = f.input :title, :as => :string
   = f.input :description
   - if can :feature_petition
     = f.input :to_send, :label => 'Feature this petition'
   = f.button :submit, :class => 'btn btn-primary'
+

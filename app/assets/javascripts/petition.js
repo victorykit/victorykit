@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('.suggested_email').live("click",function() {
         $email.val($(this).html());
         $hint.css('display', 'none');
-        return false; 
+        return false;
     });
 
 	$('form').on("submit", function(event) {
@@ -19,7 +19,7 @@ $(document).ready(function() {
 	    suggested: function(element, suggestion) {
 	    	event.go = true;
 	       	if(!$hint.html()) {
-	        	var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?";              
+	        	var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?";
 	     	   	$hint.html(suggestion).fadeIn(150);
       			event.go = false;
 	      }
@@ -47,4 +47,15 @@ jQuery(function(){
   else {
     $('#petition_submit').attr('tabIndex', '3');
   }
+
+  $('#petition_title').attr('tabIndex', '1');
+  $('iframe').attr('tabIndex', '2');
+  if ($('#petition_to_send').length) {
+    $('#petition_to_send').attr('tabIndex', '3');
+    $('#petition_submit').attr('tabIndex', '4');
+  }
+  else {
+    $('#petition_submit').attr('tabIndex', '3');
+  }
+
 });

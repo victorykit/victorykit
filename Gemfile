@@ -29,6 +29,7 @@ gem "haml"
 gem 'jquery-rails'
 gem 'simple_form'
 gem 'bootstrap-wysihtml5-rails'
+gem "browser"
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
