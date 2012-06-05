@@ -45,20 +45,16 @@ class Admin::ExperimentsController < ApplicationController
     mystats
   end
   
-  def sentemails_by_hour
-    spins = Hash.new(0)
-    wins = Hash.new(0)
-    SentEmail.all.each do |e|
-      # "#{e.created_at.wday} #{e.created_at.hour}"
-      q = e.created_at.hour
-      spins[q] += 1
-      wins[q] += 1 if e.signature_id
-    end
+  def sent_emails_by_hour
+    sent_emails_by_hour = ActiveRecord::Base.connection.execute("select count(id) as sent, date_part('hour', created_at) as hour from sent_emails group by hour")
+    spins = sent_emails_by_hour.inject({}) {|h, r| h[r["hour"].to_i] = r["sent"].to_i; h}
+    signed_emails_by_hour = ActiveRecord::Base.connection.execute("select count(id) as signed, date_part('hour', created_at) as hour from sent_emails where signature_id is not null group by hour")
+    wins = signed_emails_by_hour.inject({}) {|h, r| h[r["hour"].to_i] = r["signed"].to_i; h}
     [spins, wins]
   end
-  
+
   def index
     @stats = stats
-    @hourlydata = sentemails_by_hour
+    @hourlydata = sent_emails_by_hour
   end
 end
