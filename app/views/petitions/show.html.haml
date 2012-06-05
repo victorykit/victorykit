@@ -12,6 +12,9 @@
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 - modalrecommendbutton = spin! "different renderings for fb recommend on modal", :share, ["recommend_with_text", "recommend_with_box_all_centered", "recommend_with_box_button_centered"]
+- signpetition_ask_vs_tell = spin! "ask vs tell to sign petition", :signature, ["ask"]
+:javascript
+  VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition
     -#.petition_image
@@ -69,6 +72,14 @@
     - if !current_user.nil? && @petition.has_edit_permissions(current_user)
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
     - if current_user.nil? || !@petition.has_edit_permissions(current_user)
+      #ask-to-sign
+        .title
+          Do you want to
+          %br
+          sign this petition?
+          %br
+          %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
+
       #sign-up-form
         .title
           Sign this petition!

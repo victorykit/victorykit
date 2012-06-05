@@ -20,3 +20,5 @@
 //= require jquery.mailcheck.js
 //= require petition.js
 //= require_tree .
+
+var VK = VK || {}

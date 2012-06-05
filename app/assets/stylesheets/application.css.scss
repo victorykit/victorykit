@@ -115,7 +115,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .description { padding-right: 20px; clear: both; }
 }
 .rightcolwell { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px; }
-#sign-up-form { @extend .rightcolwell;
+#sign-up-form, #ask-to-sign { @extend .rightcolwell;
   .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; line-height: 30px; }
   .help-inline { margin: -5px 0 15px 0; }
   .through_site {

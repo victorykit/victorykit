@@ -26,7 +26,21 @@ $(document).ready(function() {
 	    }
 	  });
 	}
+
+	layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
 });
+
+function layoutPetitionSidebarAs(ask_or_tell)
+{
+	if ('ask' === ask_or_tell) {
+		$('#sign-up-form').hide();
+		$('#ask-to-sign').show();
+	}
+	else {
+		$('#sign-up-form').show();
+		$('#ask-to-sign').hide();
+	};
+}
 
 jQuery(function(){
 	var cookie = $.cookie('signed_petitions') || '';
@@ -35,6 +49,7 @@ jQuery(function(){
 	if ($.inArray(currentPetitionId, petitionIds) > -1) {
     $('#thanks-for-signing-message').show();
     $('#sign-up-form').hide();
+    $('#ask-to-sign').hide();
     $('#thanksModal').modal('toggle');
   }
   $('#petition_description').wysihtml5();

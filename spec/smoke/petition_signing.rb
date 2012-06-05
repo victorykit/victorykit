@@ -7,6 +7,12 @@ describe 'Petition page' do
   it 'should allow users to sign' do
     petition = create_a_petition
     go_to petition_path(petition)
+
+    if (element :id => 'yes_i_want_to_sign')
+      click :id => 'yes_i_want_to_sign'
+      wait.until { element :id => 'signature_name' }
+    end
+
     type('bob').into(:id => 'signature_name')
     type('bob@bobs.com').into(:id => 'signature_email')
     click :id => 'sign_petition'
