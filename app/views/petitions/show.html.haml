@@ -2,10 +2,10 @@
 - petitionside = spin! "petition side", :signature, ["petitionleft", "petitionright"]
 - thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2"]
 - buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
-- signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signupcolor1", "signupcolor2", "signupcolor3", "signupcolor4", "signupcolor5", "signupcolor6"]
+- signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signaturecolor1", "signaturecolor2", "signaturecolor3", "signaturecolor4", "signaturecolor5", "signaturecolor6"]
 - thermometercolor = spin! "change thermometer color", :signature, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
-- signupposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signupposition1", "signupposition2"]
-- signuplabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["sign_up_labels_beside_inputs_no_asterisk", "sign_up_labels_beside_inputs_with_asterisk", "sign_up_labels_beside_inputs_with_asterisk_underlined", "sign_up_labels_above_inputs_no_asterisk", "sign_up_labels_above_inputs_with_asterisk", "sign_up_labels_above_inputs_with_asterisk_underlined", "sign_up_labels_hidden"]
+- signatureposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signatureposition1", "signatureposition2"]
+- signaturelabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["signature_labels_beside_inputs_no_asterisk", "signature_labels_beside_inputs_with_asterisk", "signature_labels_beside_inputs_with_asterisk_underlined", "signature_labels_above_inputs_no_asterisk", "signature_labels_above_inputs_with_asterisk", "signature_labels_above_inputs_with_asterisk_underlined", "signature_labels_hidden"]
 - signature_display_threshold_met = @sigcount >= spin!("signature display threshold", :signature, [0, 100])
 - if signature_display_threshold_met then progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"] end
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
@@ -15,7 +15,7 @@
 - signpetition_ask_vs_tell = spin! "ask vs tell to sign petition", :signature, ["ask"]
 :javascript
   VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
-#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signupposition, signuplabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition
     -#.petition_image
     %h1.petition_title
@@ -80,19 +80,19 @@
           %br
           %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
 
-      #sign-up-form
+      #signature-form
         .title
           Sign this petition!
         .through_site
           = form_tag [@petition, @signature] do |form|
             = simple_fields_for :signature, @signature do |f|
-              - if signuplabels == 'sign_up_labels_hidden'
+              - if signaturelabels == 'signature_labels_hidden'
                 - placeholder_name = { placeholder: 'name' }
               - else
                 - placeholder_name = {}
               = f.input :name, :hint => false, :input_html => placeholder_name
 
-              - if signuplabels == 'sign_up_labels_hidden'
+              - if signaturelabels == 'signature_labels_hidden'
                 - placeholder_email = { placeholder: 'email' }
               - else
                 - placeholder_email = {}

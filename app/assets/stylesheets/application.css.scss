@@ -115,7 +115,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .description { padding-right: 20px; clear: both; }
 }
 .rightcolwell { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px; }
-#sign-up-form, #ask-to-sign { @extend .rightcolwell;
+#signature-form, #ask-to-sign { @extend .rightcolwell;
   .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; line-height: 30px; }
   .help-inline { margin: -5px 0 15px 0; }
   .through_site {
@@ -312,7 +312,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
       }
     }
     .feature { margin-top: 10px; }
-    .signup {
+    .signature {
       @extend .span2;
       float: left;
       margin: 10px 0;
@@ -335,7 +335,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   .petition { float: right; }
   .petition_sidebar {
     margin-left: 0;
-    .rightcolwell, #sign-up-form, #thanks-for-signing-message {
+    .rightcolwell, #signature-form, #thanks-for-signing-message {
       margin-left: 0;
     }
   }
@@ -352,20 +352,20 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 }
 
 /* button color on sign petition */
-.buttoncolor2 { #sign-up-form .btn-primary { @extend .btn-info; } }
-.buttoncolor3 { #sign-up-form .btn-primary { @extend .btn-success; } }
-.buttoncolor4 { #sign-up-form .btn-primary { @extend .btn-warning; } }
-.buttoncolor5 { #sign-up-form .btn-primary { @extend .btn-danger; } }
+.buttoncolor2 { #signature-form .btn-primary { @extend .btn-info; } }
+.buttoncolor3 { #signature-form .btn-primary { @extend .btn-success; } }
+.buttoncolor4 { #signature-form .btn-primary { @extend .btn-warning; } }
+.buttoncolor5 { #signature-form .btn-primary { @extend .btn-danger; } }
 
 /* sign petition box color */
-.signupcolor2 { #sign-up-form { background: #bbb; .privacypolicy, .control-label { color: #222; } } }
-.signupcolor3 { #sign-up-form { background: #999; .title, .privacypolicy, .control-label { color: white; } } }
-.signupcolor4 { #sign-up-form { background: #666; .title, .privacypolicy, .control-label { color: white; } } }
-.signupcolor5 { #sign-up-form { background: #333; .title, .privacypolicy, .control-label  { color: white; } } }
-.signupcolor6 { #sign-up-form { background: #000; .title, .privacypolicy, .control-label { color: white; } } }
+.signaturecolor2 { #signature-form { background: #bbb; .privacypolicy, .control-label { color: #222; } } }
+.signaturecolor3 { #signature-form { background: #999; .title, .privacypolicy, .control-label { color: white; } } }
+.signaturecolor4 { #signature-form { background: #666; .title, .privacypolicy, .control-label { color: white; } } }
+.signaturecolor5 { #signature-form { background: #333; .title, .privacypolicy, .control-label  { color: white; } } }
+.signaturecolor6 { #signature-form { background: #000; .title, .privacypolicy, .control-label { color: white; } } }
 
 /* normal vs. fixed positioning of sign petition box */
-.signupposition2 { #sign-up-form { position: fixed; } }
+.signatureposition2 { #signature-form { position: fixed; } }
 
 /* dataTable */
 .dataTable th, .dataTable td { border: 1px solid #eee; text-align: left;}
@@ -373,7 +373,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
 
 
 /* label placement and asterisk visibility */
-.sign_up_labels_beside_inputs #sign-up-form {
+.signature_labels_beside_inputs #signature-form {
   .control-label {
     @extend .span1;
     text-align: right;
@@ -385,18 +385,18 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     float: left;
   }
 }
-.sign_up_labels_beside_inputs_no_asterisk {
-  @extend .sign_up_labels_beside_inputs;
+.signature_labels_beside_inputs_no_asterisk {
+  @extend .signature_labels_beside_inputs;
   .control-label abbr { display: none; }
 }
-.sign_up_labels_beside_inputs_with_asterisk {
-  @extend .sign_up_labels_beside_inputs;
+.signature_labels_beside_inputs_with_asterisk {
+  @extend .signature_labels_beside_inputs;
   .control-label abbr { border-bottom: none; }
 }
-.sign_up_labels_beside_inputs_with_asterisk_underlined {
-  @extend .sign_up_labels_beside_inputs;
+.signature_labels_beside_inputs_with_asterisk_underlined {
+  @extend .signature_labels_beside_inputs;
 }
-.sign_up_labels_above_inputs #sign-up-form {
+.signature_labels_above_inputs #signature-form {
   .control-label {
     text-align: left;
     float: left;
@@ -405,19 +405,19 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
     float: left;
   }
 }
-.sign_up_labels_above_inputs_no_asterisk {
-  @extend .sign_up_labels_above_inputs;
+.signature_labels_above_inputs_no_asterisk {
+  @extend .signature_labels_above_inputs;
   .control-label abbr { display: none; }
 }
-.sign_up_labels_above_inputs_with_asterisk {
-  @extend .sign_up_labels_above_inputs;
+.signature_labels_above_inputs_with_asterisk {
+  @extend .signature_labels_above_inputs;
   .control-label abbr { border-bottom: none; }
 }
-.sign_up_labels_above_inputs_with_asterisk_underlined {
-  @extend .sign_up_labels_above_inputs;
+.signature_labels_above_inputs_with_asterisk_underlined {
+  @extend .signature_labels_above_inputs;
 }
 
-.sign_up_labels_hidden {
+.signature_labels_hidden {
   .control-label { display: none; }
 }
 

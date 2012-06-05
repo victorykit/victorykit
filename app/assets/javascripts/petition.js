@@ -33,11 +33,11 @@ $(document).ready(function() {
 function layoutPetitionSidebarAs(ask_or_tell)
 {
 	if ('ask' === ask_or_tell) {
-		$('#sign-up-form').hide();
+		$('#signature-form').hide();
 		$('#ask-to-sign').show();
 	}
 	else {
-		$('#sign-up-form').show();
+		$('#signature-form').show();
 		$('#ask-to-sign').hide();
 	};
 }
@@ -48,7 +48,7 @@ jQuery(function(){
 	var currentPetitionId = $('#petitionId').val();
 	if ($.inArray(currentPetitionId, petitionIds) > -1) {
     $('#thanks-for-signing-message').show();
-    $('#sign-up-form').hide();
+    $('#signature-form').hide();
     $('#ask-to-sign').hide();
     $('#thanksModal').modal('toggle');
   }
