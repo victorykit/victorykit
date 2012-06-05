@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-env_vars = `heroku config pull -s`
+env_vars = `heroku config -s`
 keys = 'REDISTOGO_URL|AWS_ACCESS_KEY_ID|AWS_SECRET_ACCESS_KEY|HASHER_SECRET_KEY|OAUTH_USER_ID|OAUTH_CLIENT_SECRET|OAUTH_TOKEN|OAUTH_SECRET'
 matches = env_vars.split("\n").select { |v| v[/#{keys}/] }
 puts "Here are the env vars from heroku:"
