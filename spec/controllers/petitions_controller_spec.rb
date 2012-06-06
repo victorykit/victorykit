@@ -79,6 +79,21 @@ describe PetitionsController do
         assigns(:signature).email.should == "sven@svenland.se"
       end
     end
+
+    context "do not populate signature if petition already signed from the email" do
+      let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+      let(:signature) { create :signature }
+      let(:sent_email) { create :sent_email, member: member, signature_id: signature.id}
+      it "should assign values from member" do
+        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
+        SentEmailHasher.stub(:validate).and_return(12)
+        SentEmail.stub(:find_by_id).with(12).and_return(sent_email)
+        get :show, {:id => petition.id}
+
+        assigns(:signature).name.should == "Bob"
+        assigns(:signature).email.should == "bob@bob.com"
+      end
+    end
   end
 
   describe "GET new" do
