@@ -11,14 +11,20 @@ describe 'Petition page' do
     yes_please = element :id => 'yes_i_want_to_sign'
     if (yes_please && yes_please.displayed?)
       click :id => 'yes_i_want_to_sign'
-      wait.until { element :id => 'signature_name' }
+      wait.until { element :id => 'signature_email' }
     end
 
-    type('bob').into(:id => 'signature_name')
+    if(element_exists :id => 'signature_first_name')
+      type('bob').into(:id => 'signature_first_name')
+      type('loblaw').into(:id => 'signature_last_name')
+    else
+      type('bob').into(:id => 'signature_name')
+    end
+
     type('bob@bobs.com').into(:id => 'signature_email')
     click :id => 'sign_petition'
-  
-    wait.until { element :class => "thanks" }
+
+    wait.until { element :class => "thanks" }  
   end
 end
 
