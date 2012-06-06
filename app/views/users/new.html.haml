@@ -5,17 +5,15 @@
       - @user.errors.full_messages.each do |message|
         %li= message
 
-
 .signup_login
   .signup
     %h1
       Sign Up
-    = form_tag @user do |form|
-      = simple_fields_for :user do |f|
-        = f.input :email
-        = f.input :password, :error => false
-        = f.input :password_confirmation, :error => false
-        = f.button :submit, :class => 'btn btn-primary', :value => 'Sign Up'
+    = simple_form_for @user do |f|
+      = f.input :email
+      = f.input :password, :error => false
+      = f.input :password_confirmation, :error => false
+      = f.button :submit, :class => 'btn btn-primary', :value => 'Sign Up'
 
   = render :partial => 'shared/login_form'
 

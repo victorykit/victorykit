@@ -18,6 +18,9 @@
 @import "bootstrap";
 @import "responsive";
 
+form input { margin-left: 20px; }
+
+.simple_form { @extend .row; }
 .modal { display: none; }
 a:hover { text-decoration: none; }
 .container { margin: 0 auto; clear: both; padding-left: 10px; }
@@ -120,7 +123,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   .help-inline { margin: -5px 0 15px 0; }
   .through_site {
     width: 150px; border-right: 1px solid #555; padding: 5px 10px;
-    input { @extend .span2; &.btn { width: 100%; } }
+    input { @extend .span2; margin-left: 0; &.btn { width: 100%; } }
     float: left;
     margin-bottom: 10px;
   }
@@ -214,7 +217,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   @extend .well;
   label, .controls { @extend .span2; float: left; }
   .btn { float: right; }
-  label.control-label { width: 130px\9; }
+  label.control-label { width: 110px\9; }
   .controls input { width: 150px\9; }
   .signup, .login {
     float: left;
@@ -222,7 +225,8 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   }
   .signup {
     border-right: 1px solid #888;
-    padding: 0 25px;
+    padding: 0 35px 0 15px;
+    height: 215px;
   }
   .login {
     padding-left: 25px;
@@ -239,8 +243,9 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   @extend .span5;
   min-height: 185px;
   margin: 50px auto;
-  padding: 15px 35px 50px;
-  label { @extend .span2; width: 150px\9; }
+  padding: 15px 35px 30px;
+  form { margin-bottom: 0; }
+  label { @extend .span2; width: 130px\9; }
   .controls {
     @extend .span3;
     float: left;
@@ -260,6 +265,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   text-align: center;
 }
 .signuplink {
+  clear: both;
   text-align: center;
   margin-top: 10px;
   font-size: 15px;
@@ -276,6 +282,7 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   form { max-width: 830px; }
   label { @extend .span1; }
   input, textarea, .controls { @extend .span8; *width: 450px; }
+  #petition_title { margin-left: 0; }
   textarea { min-height: 200px; }
   .btn { @extend .span2; float: right; }
   .control-group {

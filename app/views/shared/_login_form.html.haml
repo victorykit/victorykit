@@ -1,6 +1,6 @@
 .login
   %h1 Log in
-  = form_tag sessions_path do |f|
+  = form_tag sessions_path, :class => 'simple_form' do |f|
     = simple_fields_for :new_session do |session_form|
       = session_form.input :email
       = session_form.input :password
