@@ -5,7 +5,7 @@ class Signature < ActiveRecord::Base
   validates_presence_of :name, :first_name, :last_name
   validates :email, :presence => true, :email => true
 
-  before_save :truncate_user_agent, :first_name, :last_name
+  before_save :truncate_user_agent
 
   def first_name 
     self.name.split(" ").first unless self.name.nil?
