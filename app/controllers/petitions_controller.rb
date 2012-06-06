@@ -34,6 +34,7 @@ class PetitionsController < ApplicationController
 
   def edit
     @petition = Petition.find(params[:id])
+    @form_view = choose_form_based_on_browser
     return render_403 unless @petition.has_edit_permissions(current_user)
   end
 
