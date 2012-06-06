@@ -28,6 +28,10 @@ $(document).ready(function() {
 	}
 
 	layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
+
+    $('#signature_email').change(function() {
+        this.value = this.value.replace(/ /g, '');
+    });
 });
 
 function layoutPetitionSidebarAs(ask_or_tell)
