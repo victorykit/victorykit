@@ -31,7 +31,7 @@ class SignaturesController < ApplicationController
         flash.notice = ex.message
       end
     end
-
+		flash[:user_just_signed] = true
     redirect_to petition_url(petition)
   end
 

@@ -16,6 +16,7 @@ class PetitionsController < ApplicationController
     @email_hash = params[:n]
     @fb_tracking_hash = @email_hash || SignatureHasher.generate(session[:last_signature_id])
     @signature = Signature.new
+    @user_just_signed = flash[:user_just_signed]
     prepopulate_signature
   end
 
