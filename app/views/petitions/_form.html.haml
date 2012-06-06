@@ -1,7 +1,5 @@
 %meta{'http-equiv' => 'X-UA-Compatible',  'content' => 'chrome=1'}
 
-%h1 Start a petition
-
 = simple_form_for(@petition, :html => {:class => 'form-horizontal' }) do |f|
   = f.input :title, :as => :string
   = f.input :description
