@@ -47,6 +47,7 @@ class PetitionsController < ApplicationController
     if @petition.save
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
+      @form_view = choose_form_based_on_browser
       render action: "new"
     end
   end
