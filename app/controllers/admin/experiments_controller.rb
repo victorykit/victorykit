@@ -46,10 +46,10 @@ class Admin::ExperimentsController < ApplicationController
   end
   
   def sent_emails_by_hour
-    sent_emails_by_hour = ActiveRecord::Base.connection.execute("select count(id) as sent, date_part('hour', created_at) as hour from sent_emails group by hour")
-    spins = sent_emails_by_hour.inject({}) {|h, r| h[r["hour"].to_i] = r["sent"].to_i; h}
-    signed_emails_by_hour = ActiveRecord::Base.connection.execute("select count(id) as signed, date_part('hour', created_at) as hour from sent_emails where signature_id is not null group by hour")
-    wins = signed_emails_by_hour.inject({}) {|h, r| h[r["hour"].to_i] = r["signed"].to_i; h}
+	  sent_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)")
+    spins = Hash[sent_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
+	  signed_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)", :conditions => ['signature_id is not null'])
+    wins = Hash[signed_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
     [spins, wins]
   end
 
