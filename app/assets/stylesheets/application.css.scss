@@ -22,6 +22,7 @@ form input { margin-left: 20px; }
 
 .simple_form { @extend .row; }
 .modal { display: none; }
+#testui .modal { left: 45%; }
 a:hover { text-decoration: none; }
 .container { margin: 0 auto; clear: both; padding-left: 10px; }
 .content {  min-height: 600px; background: #fff; padding: 5px 10px; @extend .row; margin-left: -20px; }
