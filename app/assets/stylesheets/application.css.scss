@@ -147,12 +147,13 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   }
 }
 #thanks-for-signing-message, #thanksModal {
+  width: 220px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
-  .thanks { font-size: 27px; margin: 15px 0 25px;}
+  .thanks { font-size: 27px; line-height: 30px; margin: 15px 0 25px;}
   .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
-  .fb-like { margin: 4px; padding: 4px 5px 4px 3px; width: 255px;  &.all_centered { margin-left: 140px; } &.button_centered { margin-left: 164px; }}
+  .fb-like { margin: 4px 4px 4px 60px; padding: 4px 5px 4px 3px; width: 255px;  &.all_centered { margin-left: 140px; } &.button_centered { margin-left: 164px; }}
 }
 #thanks-for-signing-message { @extend .rightcolwell; }
 #thanksModal {
@@ -477,13 +478,12 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   #thanks-for-signing-message {
     background: #bbb;
     .thanks, .share { color: #222; }
-    .fb-like { background: white; }
   }
 }
-.hex_999 { #thanks-for-signing-message { background: #999; .thanks, .share { color: white; } .fb-like { background: white; }} }
-.hex_666 { #thanks-for-signing-message { background: #666; .thanks, .share { color: white; } .fb-like { background: white; }} }
-.hex_333 { #thanks-for-signing-message { background: #333; .thanks, .share { color: white; } .fb-like { background: white; } } }
-.hex_000 { #thanks-for-signing-message { background: #000; .thanks, .share { color: white; } .fb-like { background: white; }} }
+.hex_999 { #thanks-for-signing-message { background: #999; .thanks, .share { color: white; } } }
+.hex_666 { #thanks-for-signing-message { background: #666; .thanks, .share { color: white; } } }
+.hex_333 { #thanks-for-signing-message { background: #333; .thanks, .share { color: white; }  } }
+.hex_000 { #thanks-for-signing-message { background: #000; .thanks, .share { color: white; } } }
 
 /* thank you arrow color */
 .redarrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('red_arrow.png'); } } }

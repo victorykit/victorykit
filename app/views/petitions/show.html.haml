@@ -116,7 +116,7 @@
           Spread the word, share on Facebook!
         .arrow
 
-        .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', 'data-width' => '255'}
+        .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'data-layout' => 'button_count' }
 
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
