@@ -199,7 +199,7 @@ textarea { resize: none; height: 60px; overflow-y: auto; }
   }
 }
 hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
-.petition_sidebar { @extend .span3; float: left; margin-top: 4px; }
+.petition_sidebar { @extend .span3; float: left; margin-top: 4px; .edit { margin: 0 0 20px 53px; }}
 .social_icons { float: left; margin: 16px 0 5px;
   iframe { height: 30px; width: 275px; }
   &.tallerprogress { margin-top: 33px; }

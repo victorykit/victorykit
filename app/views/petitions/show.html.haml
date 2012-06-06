@@ -71,52 +71,51 @@
   .petition_sidebar
     - if !current_user.nil? && @petition.has_edit_permissions(current_user)
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
-    - if current_user.nil? || !@petition.has_edit_permissions(current_user)
-      #ask-to-sign
-        .title
-          Do you want to
-          %br
-          sign this petition?
-          %br
-          %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
+    #ask-to-sign
+      .title
+        Do you want to
+        %br
+        sign this petition?
+        %br
+        %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
 
-      #signature-form
-        .title
-          Sign this petition!
-        .through_site
-          = form_tag [@petition, @signature] do |form|
-            = simple_fields_for :signature, @signature do |f|
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_name = { placeholder: 'name' }
-              - else
-                - placeholder_name = {}
-              = f.input :name, :hint => false, :input_html => placeholder_name
+    #signature-form
+      .title
+        Sign this petition!
+      .through_site
+        = form_tag [@petition, @signature] do |form|
+          = simple_fields_for :signature, @signature do |f|
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_name = { placeholder: 'name' }
+            - else
+              - placeholder_name = {}
+            = f.input :name, :hint => false, :input_html => placeholder_name
 
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_email = { placeholder: 'email' }
-              - else
-                - placeholder_email = {}
-              = f.input :email, :input_html => placeholder_email
-              #hint{style: "clear: both"}
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_email = { placeholder: 'email' }
+            - else
+              - placeholder_email = {}
+            = f.input :email, :input_html => placeholder_email
+            #hint{style: "clear: both"}
 
-              - if @email_hash
-                = hidden_field_tag :email_hash, @email_hash
-              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
-        .through_fb
-          .text Sign in via
-          .button.btn.btn-primary Facebook!
+            - if @email_hash
+              = hidden_field_tag :email_hash, @email_hash
+            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+      .through_fb
+        .text Sign in via
+        .button.btn.btn-primary Facebook!
 
-        .privacypolicy
-          We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+      .privacypolicy
+        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
-      #thanks-for-signing-message
-        .thanks
-          Thanks for signing!
-        .share
-          Spread the word, share on Facebook!
-        .arrow
+    #thanks-for-signing-message
+      .thanks
+        Thanks for signing!
+      .share
+        Spread the word, share on Facebook!
+      .arrow
 
-        .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'data-layout' => 'button_count' }
+      .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'data-layout' => 'button_count' }
 
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
