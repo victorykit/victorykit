@@ -21,6 +21,7 @@
 .DS_Store
 tags
 nohup.out
+public/assets
 
 config/settings.local.yml
 config/settings/*.local.yml
