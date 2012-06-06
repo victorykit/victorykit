@@ -7,7 +7,6 @@
     = stylesheet_link_tag :application
     = javascript_include_tag :application
     %title= content_for?(:title) ? yield(:title) : @title
-    = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
     = google_analytics_tracker
     = csrf_meta_tags
     = yield :meta_tags

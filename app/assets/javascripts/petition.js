@@ -47,6 +47,19 @@ function layoutPetitionSidebarAs(ask_or_tell)
 }
 
 jQuery(function(){
+  // prevent jQuery from appending cache busting string to the end of the FeatureLoader URL
+  var cache = jQuery.ajaxSettings.cache;
+  jQuery.ajaxSettings.cache = true;
+  // Load FeatureLoader asynchronously. Once loaded, we execute Facebook init
+
+  jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
+    FB.init({status: true, cookie: true, xfbml: true});
+  });
+  // just Restore jQuery caching setting
+  jQuery.ajaxSettings.cache = cache;
+});
+
+jQuery(function(){
 	var cookie = $.cookie('signed_petitions') || '';
 	var petitionIds = cookie.split("|");
 	var currentPetitionId = $('#petitionId').val();
