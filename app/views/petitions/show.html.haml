@@ -88,14 +88,18 @@
           = simple_fields_for :signature, @signature do |f|
             - if signaturelabels == 'signature_labels_hidden'
               - placeholder_name = { placeholder: 'name' }
+              - placeholder_first_name = { placeholder: 'first name' }
+              - placeholder_last_name = { placeholder: 'last name' }
             - else
               - placeholder_name = {}
+              - placeholder_first_name = {}
+              - placeholder_last_name = {}
             
             - if showfullname == "fullname"
               = f.input :name, :hint => false, :input_html => placeholder_name
             - else
-              = f.input :first_name, :hint => false, :input_html => placeholder_name
-              = f.input :last_name, :hint => false, :input_html => placeholder_name
+              = f.input :first_name, :hint => false, :input_html => placeholder_first_name
+              = f.input :last_name, :hint => false, :input_html => placeholder_last_name
 
             - if signaturelabels == 'signature_labels_hidden'
               - placeholder_email = { placeholder: 'email' }
