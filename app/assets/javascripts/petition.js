@@ -27,6 +27,7 @@ $(document).ready(function() {
 	  });
 	}
 
+  $('.tweet').hide();
 	layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
 
     $('#signature_email').change(function() {
@@ -66,6 +67,13 @@ jQuery(function(){
   });
   // just Restore jQuery caching setting
   jQuery.ajaxSettings.cache = cache;
+
+  jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
+    FB.Event.subscribe('edge.create', function(response) {
+       $('.fb-like').hide();
+       $('.tweet').show();
+    })
+  });
 
 	var cookie = $.cookie('signed_petitions') || '';
 	var petitionIds = cookie.split("|");
