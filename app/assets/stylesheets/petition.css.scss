@@ -1,0 +1,288 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
+
+@import "bootstrap";
+@import "responsive";
+
+
+#testui .modal { left: 45%; }
+
+.rightcolwell {
+  @extend .span3;
+  @extend .well;
+  float: left;
+  padding: 0;
+  margin-left: 8px;
+}
+#thanks-for-signing-message {
+  @extend .rightcolwell;
+  display: none;
+}
+.petition {
+  @extend .span9;
+  float: left;
+  .petition_image {
+    height: 90px;
+    width: 90px;
+    margin-right: 5px;
+    background: grey;
+    float: left;
+  }
+  .edit {
+    float: right;
+    margin: -40px 10px 0 0;
+  }
+  .description {
+    padding-right: 20px;
+    clear: both;
+  }
+}
+.progress_bar {
+  float: right;
+  text-align: right;
+  .progress {
+    margin-bottom: 5px;
+    width: 300px;
+    clear: right;
+    .bar {
+      float: left;
+    }
+  }
+}
+.social_icons {
+  float: left;
+  margin: 16px 0 5px;
+  iframe {
+    height: 30px;
+    width: 275px;
+  }
+  &.tallerprogress {
+    margin-top: 33px;
+  }
+}
+.center6{
+  @extend .span6;
+  margin: 0 auto;
+  min-height: 210px;
+}
+.petition_sidebar {
+  @extend .span3;
+  float: left;
+  margin-top: 4px;
+  .edit { margin: 0 0 20px 53px; }
+}
+#signature-form, #ask-to-sign {
+  @extend .rightcolwell;
+  .title {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    padding: 15px;
+    line-height: 30px;
+  }
+  .help-inline {
+    margin: -5px 0 15px 0;
+  }
+  .privacypolicy {
+    width: 100%;
+    padding: 0 0 10px 0;
+  }
+  .through_site {
+    width: 150px;
+    border-right: 1px solid #555;
+    padding: 5px 10px;
+    float: left;
+    margin-bottom: 10px;
+    input {
+      @extend .span2;
+      margin-left: 0;
+      &.btn { width: 100%; }
+    }
+  }
+  .through_fb {
+    float: right;
+    @extend .span2;
+    padding: 0 9px;
+    .text {
+      margin: 25px 0 5px;
+      text-align: center;
+    }
+  }  /* Until Facebook Login works, use this */
+  .through_fb { display: none; }
+  .through_site {
+    width: auto;
+    border-right: none;
+    input {
+      width: 96%;
+      *width: 192px;
+    }
+    .btn {
+      float: right;
+    }
+  }
+}
+#thanks-for-signing-message, #thanksModal {
+  width: 220px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  .thanks {
+    font-size: 27px;
+    line-height: 30px;
+    margin: 15px 0 25px;
+  }
+  .arrow {
+    background: url('arrow.png');
+    margin: 15px auto 5px;
+    height: 100px;
+    width: 100px;
+  }
+  .fb-like {
+    margin: 4px 4px 4px 60px;
+    padding: 4px 5px 4px 3px;
+    width: 255px;
+    &.all_centered { margin-left: 140px; }
+    &.button_centered { margin-left: 164px; }
+  }
+}
+#thanksModal {
+  width: 700px;
+  height: 500px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  .modal-body {
+    background-clip: padding-box;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    min-height: 260px;
+    margin: 0 auto;
+  }
+  a {
+    clear: both;
+    font-weight: normal;
+  }
+  .or {
+    font-size: 10px;
+    color: #666;
+    margin: 5px; }
+  .fb-like {
+    margin: 5px 0 10px 20px;
+    top: -70px;
+  }
+}
+.petitionform {
+  @extend .center6;
+  @extend .well;
+  @extend .span10;
+  padding: 20px;
+  margin-top: 5%;
+  min-height: 275px;
+  h1, h3 {
+    margin: 0 0 20px 15px;
+  }
+  form {
+    max-width: 830px;
+  }
+  label {
+    @extend .span1;
+  }
+  input, textarea, .controls {
+    @extend .span8;
+    *width: 450px;
+  }
+  #petition_title {
+    margin-left: 0;
+  }
+  textarea {
+    min-height: 200px;
+  }
+  .btn {
+    @extend .span2;
+    float: right;
+  }
+  .control-group {
+    @extend .span8;
+    .controls .btn { width: auto; }
+  }
+  input.btn.btn-primary { width: 150px\9; }
+  .modal {
+    input {
+      width: 520px;
+    }
+    .btn {
+      float: none;
+      margin-left: 5px;
+    }
+    .btn-primary {
+      float: right;
+    }
+  }
+  .checkbox input {
+    width: auto;
+  }
+}
+
+.petitionlist {
+  .petition {
+    @extend .span8;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    &:last-of-type {
+      border-bottom: none;
+    }
+    .about_petition {
+      @extend .span6;
+      padding-left: 20px;
+      float: left;
+      a.title {
+        font-size: 16px;
+        font-weight: bold;
+        color: navy;
+      }
+      .description {
+        word-wrap: break-word;
+        color: #666;
+      }
+    }
+    .feature {
+      margin-top: 10px;
+    }
+    .signature {
+      @extend .span2;
+      float: left;
+      margin: 10px 0;
+      .btn {
+        clear: left;
+        margin-top: 15px;
+        width: 102px;
+      }
+      .btn:first-child { margin-top: 0; }
+      .btn:only-child { margin-top: 7px; }
+    }
+  }
+}
+
+/* for ff on start a petition page */
+.current-font { color: #333; }
+
+
+.highlight_text {
+  font-size: larger;
+  font-weight: bold;
+  display: inline;
+  &.break { display: block; }
+}

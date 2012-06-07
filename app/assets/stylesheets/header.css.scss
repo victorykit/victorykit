@@ -1,0 +1,88 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
+
+@import "bootstrap";
+@import "responsive";
+
+.topnav {
+  background: #333;
+  height: 37px;
+  .navigation {
+    @extend .span12;
+    @extend .row;
+    margin: 0 auto;
+    .nav_links {
+      float: left;
+    }
+  }
+  hr {
+    display: none;
+  }
+  ul {
+    margin-bottom: 0;
+    li {
+      float: left;
+      display: inline;
+      margin: 10px;
+      .btn {
+        margin-top: -6px;
+      }
+    }
+  }
+}
+.logininfo {
+  float: right;
+  margin: 10px;
+  * {
+    display: inline;
+    float: left;
+    margin-left: 10px;
+    border-right: 1px solid #08c;
+    padding-right: 10px;
+    &.nodivider, &.nodivider a {
+      border-right: none;
+      padding-right: 0;
+    }
+  }
+}
+.nav {
+  margin-bottom: 0;
+}
+.admin.topnav {
+  height: 82px;
+  .nav_links {
+    clear: both;
+    margin: 3px 0 0 -30px;
+  }
+  hr {
+    margin: 0;
+  }
+}
+.topnav .navigation a.logo {
+  background: url('logo2.png');
+  height: 24px;
+  width: 221px;
+  margin: 6px;
+  float: left;
+}
+
+/* dataTable */
+.dataTable {
+  border-top: 1px solid #eee
+}
+.dataTable th, .dataTable td {
+  border: 1px solid #eee;
+  text-align: left;
+}
+
+/* for ff on start a petition page */
+.current-font { color: #333; }

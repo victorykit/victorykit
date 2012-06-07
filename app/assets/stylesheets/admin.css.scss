@@ -1,0 +1,92 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
+
+@import "bootstrap";
+@import "responsive";
+
+
+/* dataTable */
+.dataTable th, .dataTable td {
+  border: 1px solid #eee;
+  text-align: left;
+}
+.dataTable {
+  border-top: 1px solid #eee;
+}
+
+
+/* admin petition dashboard */
+#petitions_wrapper {
+  #petitions {
+    @extend .span12;
+    a {
+      font-weight: normal;
+    }
+    td, th {
+      padding: 3px;
+    }
+    td {
+      text-align: right;
+    }
+    tr :first-child {
+      @extend .span3;
+      text-align: left;
+      &:last-child {
+        @extend .span2;
+      }
+    }
+  }
+  .span5 {
+    @extend .span6;
+    margin-left: 10px;
+  }
+}
+
+
+/* experiments */
+.experiment_table {
+  width: auto;
+  clear: both;
+  td, th {
+    text-align: right;
+    min-width: 70px;
+    color: #444;
+    &.name {
+      text-align: left;
+      width: auto;
+      color: black;
+    }
+  }
+  .progress {
+    margin: 5px;
+    height: 5px;
+    &.progress-info {
+      .bar {
+        float: right;
+      }
+    }
+  }
+}
+.experimentname, .experimentdetails {
+  margin: 20px 0 10px;
+}
+.experimentname {
+  font-weight: bold;
+  font-size: larger;
+  float: left;
+}
+.experimentdetails {
+  color: #444;
+  float: left;
+  clear: right;
+  margin-left: 7px;
+}

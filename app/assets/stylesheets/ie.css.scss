@@ -1,0 +1,76 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
+
+@import "bootstrap";
+@import "responsive";
+
+
+.control-group {
+  *clear: right;
+}
+
+.square_thumbnails {
+  height: 80px;
+  width: 80px;
+}
+.ie_alternatives {
+  h1 {
+    float: left;
+    .black {
+      color: black;
+    }
+    .grey {
+      color: #888;
+      font-weight: normal;
+    }
+    .space {
+      clear: both;
+      margin-top: 10px;
+    }
+    *margin-bottom: 0;
+  }
+  h3 {
+    clear: both;
+    margin-top: 0;
+    line-height: 20px;
+  }
+  .option {
+    margin: 20px;
+    height: 80px;
+    clear: both;
+    div {
+      float: left;
+    }
+    .chromeframe, .chrome, .firefox {
+      @extend .square_thumbnails;
+      margin-right: 15px;
+    }
+    .chromeframe {
+      background: url('chromeframe.png');
+    }
+    .chrome {
+      background: url('chrome.png');
+    }
+    .firefox {
+      background: url('firefox.png');
+    }
+    .title {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: larger;
+    }
+    .description {
+      clear: left;
+      margin-top: 10px;
+    }
+  }
+}

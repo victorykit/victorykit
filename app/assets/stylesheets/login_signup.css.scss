@@ -1,0 +1,100 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
+
+@import "bootstrap";
+@import "responsive";
+
+.signup_login {
+  @extend .center6;
+  @extend .well;;
+  @extend .span9;
+  margin-top: 5%;
+  .control-group {
+    @extend .span4;
+    float: right;
+  }
+  &.login {
+    @extend .span5;
+  }
+  label, .controls {
+    @extend .span2;
+    float: left;
+  }
+  .btn {
+    float: right;
+  }
+  label.control-label {
+    width: 110px\9;
+  }
+  .controls input {
+    width: 150px\9;
+  }
+  .signup, .login {
+    float: left;
+    @extend .span4;
+  }
+  .signup {
+    border-right: 1px solid #888;
+    padding: 0 35px 0 15px;
+    height: 215px;
+  }
+  .login {
+    padding-left: 25px;
+    h1 {
+      margin-bottom: 25px;
+    }
+    .btn {
+      margin-top: 25px;
+    }
+  }
+}
+.change_password {
+  @extend .well;
+  @extend .span5;
+  min-height: 185px;
+  margin: 50px auto;
+  padding: 15px 35px 30px;
+  form {
+    margin-bottom: 0;
+  }
+  label {
+    @extend .span2;
+    width: 130px\9;
+  }
+  .controls {
+    @extend .span3;
+    float: left;
+    input {
+      width: 100%;
+    }
+  }
+  .help-inline {
+    margin: -5px 0 10px 0;
+    display: none;
+  }
+  .control-group, input.btn {
+    float: right;
+  }
+  input.btn {
+    margin-right: -10px;
+  }
+  .control-group {
+    *clear: right;
+    @extend .span5;
+  }
+}
+.signuplink {
+  clear: both;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 15px;
+}
