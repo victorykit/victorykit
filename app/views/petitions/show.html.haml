@@ -21,6 +21,7 @@
     -#.petition_image
     %h1.petition_title
       = @petition.title
+
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
         = fb_like petition_url(params[:petition_id])
@@ -126,7 +127,8 @@
       .arrow
 
       .fb-like{:'data-send' => 'false', :'data-action' => 'recommend', :'data-show-faces' => 'false', :'data-width' => '255', :'data-layout' => 'button_count' }
-
+      .tweet  
+        %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
       = content_tag "meta", nil, property:key, content:value

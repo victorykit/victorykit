@@ -2,7 +2,7 @@ class Signature < ActiveRecord::Base
   attr_accessible :email, :name, :first_name, :last_name
   belongs_to :petition
   belongs_to :member
-  validates_presence_of :name, :first_name, :last_name
+  validates_presence_of :name
   validates :email, :presence => true, :email => true
 
   before_save :truncate_user_agent

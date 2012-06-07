@@ -46,6 +46,15 @@ function layoutPetitionSidebarAs(ask_or_tell)
 	};
 }
 
+!function(d,s,id) {
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)) {
+    js=d.createElement(s);
+    js.id=id;js.src="//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js,fjs);}
+  }
+  (document,"script","twitter-wjs");
+
 jQuery(function(){
   // prevent jQuery from appending cache busting string to the end of the FeatureLoader URL
   var cache = jQuery.ajaxSettings.cache;
