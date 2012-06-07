@@ -216,7 +216,10 @@
   }
   .control-group {
     @extend .span8;
-    .controls .btn { width: auto; }
+    .controls {
+      .btn { width: auto; }
+      iframe { margin-left: 0 !important; }
+    }
   }
   input.btn.btn-primary { width: 150px\9; }
   .modal {
