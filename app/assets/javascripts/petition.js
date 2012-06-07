@@ -66,9 +66,7 @@ jQuery(function(){
   });
   // just Restore jQuery caching setting
   jQuery.ajaxSettings.cache = cache;
-});
 
-jQuery(function(){
 	var cookie = $.cookie('signed_petitions') || '';
 	var petitionIds = cookie.split("|");
 	var currentPetitionId = $('#petitionId').val();

@@ -18,246 +18,82 @@
 @import "bootstrap";
 @import "responsive";
 
-form input { margin-left: 20px; }
 
-.simple_form { @extend .row; }
-.modal { display: none; }
-#testui .modal { left: 45%; }
-a:hover { text-decoration: none; }
-.container { margin: 0 auto; clear: both; padding-left: 10px; }
-.content {  min-height: 600px; background: #fff; padding: 5px 10px; @extend .row; margin-left: -20px; }
-.footer { clear: both; text-align: right; background: #ddd; color: #888; padding: .3em}
-a.btn:visited { color: white; }
-.topnav {
-  background: #333;
-  height: 37px;
-  .navigation {
-    @extend .span12;
-    @extend .row;
-    margin: 0 auto;
-    .nav_links {
-      float: left;
-    }
-  }
-  hr { display: none; }
-  ul {
-    margin-bottom: 0;
-    li {
-      float: left;
-      display: inline;
-      margin: 10px;
-      .btn { margin-top: -6px; }
-    }
-  }
+.container {
+  margin: 0 auto;
+  clear: both;
+  padding-left: 10px;
 }
-.logininfo {
-  float: right;
-  margin: 10px;
-  * {
-    display: inline;
-    float: left;
-    margin-left: 10px;
-    border-right: 1px solid #08c;
-    padding-right: 10px;
-    &.nodivider, &.nodivider a {
-      border-right: none;
-      padding-right: 0;
-    }
-  }
+.content {
+  @extend .row;
+  min-height: 600px;
+  padding: 5px 10px;
+  margin-left: -20px;
 }
-.nav { margin-bottom: 0; }
-a.logo {
-  float: left;
-  background: url('logo.png');
-  height: 36px;
-  width: 207px;
-  margin: 1px 15px 0 0;
+.footer {
+  clear: both;
+  text-align: right;
+  background: #ddd;
+  color: #888;
+  padding: .3em;
 }
-a.logo_dark { @extend a.logo; background: url('logo_dark.png'); }
+
+
 h1 { margin-bottom: 10px; }
-.highlight_text {
-  font-size: larger;
-  font-weight: bold;
-  display: inline;
-  &.break { display: block; }
+
+a {
+  &:hover {
+    text-decoration: none;
+  }
+  &.btn:visited {
+    color: white;
+  }
 }
+
+hr {
+  border-top: 1px dotted #999999;
+  clear: both;
+  margin: 10px 0;
+  width: 100%;
+}
+
 table {
   border-bottom: 1px solid #DDDDDD;
   margin: 10px 0;
 }
-.floatleft { float: left; }
-.floatright { float: right; }
-.calign { text-align: center; }
+
+.simple_form {
+  @extend .row;
+}
 form {
   margin-bottom: 40px;
-  label { @extend .span1; @extend .floatleft; padding: 4px 10px 0 0; text-align: right; }
-  input, textarea { @extend .span2; @extend .floatleft; }
-  .control-group { clear: both; }
-  input.btn { clear: both; }
-  .help-inline { margin-top: 5px; }
-}
-textarea { resize: none; height: 60px; overflow-y: auto; }
-#thanks-for-signing-message { display: none; }
-.home {
-  margin: 10% auto;
-  text-align: center;
-  .title {
-    font-size: 60px;
-    color: #666;
-  }
-  .btn {
-    clear: both;
-    font-size: 30px;
-    padding: 15px 20px;
-    *padding: 5px 20px 20px;
-    margin-top: 50px;
-  }
-}
-.petition { @extend .span9; @extend .floatleft;
-  .petition_image { height: 90px; width: 90px; margin-right: 5px; background: grey; float: left; }
-  .edit { @extend .floatright; margin: -40px 10px 0 0; }
-  .description { padding-right: 20px; clear: both; }
-}
-.rightcolwell { @extend .span3; @extend .floatleft; @extend .well; padding: 0; margin-left: 8px; }
-#signature-form, #ask-to-sign { @extend .rightcolwell;
-  .title { font-size: 25px; text-align: center; font-weight: bold; color: #333; padding: 15px; line-height: 30px; }
-  .help-inline { margin: -5px 0 15px 0; }
-  .through_site {
-    width: 150px; border-right: 1px solid #555; padding: 5px 10px;
-    input { @extend .span2; margin-left: 0; &.btn { width: 100%; } }
-    float: left;
-    margin-bottom: 10px;
-  }
-  .through_fb {
-    float: right;
-    @extend .span2;
-    padding: 0 9px;
-    .text { margin: 25px 0 5px; text-align: center; }
-  }
-  .privacypolicy {
-    width: 100%;
-    padding: 0 0 10px 0;
-  }
-  /* Until Facebook Login works, use this */
-  .through_fb { display: none; }
-  .through_site {
-    width: auto;
-    border-right: none;
-    input { width: 96%; *width: 192px; }
-    .btn { float: right; }
-  }
-}
-#thanks-for-signing-message, #thanksModal {
-  width: 220px;
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  .thanks { font-size: 27px; line-height: 30px; margin: 15px 0 25px;}
-  .arrow { background: url('arrow.png'); margin: 15px auto 5px; height: 100px; width: 100px; }
-  .fb-like { margin: 4px 4px 4px 60px; padding: 4px 5px 4px 3px; width: 255px;  &.all_centered { margin-left: 140px; } &.button_centered { margin-left: 164px; }}
-}
-#thanks-for-signing-message { @extend .rightcolwell; }
-#thanksModal {
-  width: 700px;
-  height: 500px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  .modal-body {
-    background-clip: padding-box;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    width: 300px;
-    min-height: 260px;
-    margin: 0 auto;
-  }
-  a {
-    clear: both;
-    font-weight: normal;
-  }
-  .or {
-    font-size: 10px;
-    color: #666;
-    margin: 5px; }
-  .fb-like {
-    margin: 5px 0 10px 20px;
-    top: -70px;
-  }
-}
-.progress_bar {
-  float: right;
-  text-align: right;
-  .progress {
-    margin-bottom: 5px;
-    width: 300px;
-    clear: right;
-    .bar {
-      float: left;
-    }
-  }
-}
-hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
-.petition_sidebar { @extend .span3; float: left; margin-top: 4px; .edit { margin: 0 0 20px 53px; }}
-.social_icons { float: left; margin: 16px 0 5px;
-  iframe { height: 30px; width: 275px; }
-  &.tallerprogress { margin-top: 33px; }
-}
-
-
-.center6{
-  @extend .span6;
-  margin: 0 auto;
-  min-height: 210px;
-}
-.signup_login {
-  @extend .center6;
-  @extend .span9;
-  &.login { @extend .span5; }
-  margin-top: 5%;
-  @extend .well;
-  label, .controls { @extend .span2; float: left; }
-  .btn { float: right; }
-  label.control-label { width: 110px\9; }
-  .controls input { width: 150px\9; }
-  .signup, .login {
-    float: left;
-    @extend .span4;
-  }
-  .signup {
-    border-right: 1px solid #888;
-    padding: 0 35px 0 15px;
-    height: 215px;
-  }
-  .login {
-    padding-left: 25px;
-    h1 { margin-bottom: 25px; }
-    .btn { margin-top: 25px; }
-  }
   .control-group {
-    @extend .span4;
+    clear: both;
   }
-  .control-group, .btn { float: right; }
-}
-.change_password {
-  @extend .well;
-  @extend .span5;
-  min-height: 185px;
-  margin: 50px auto;
-  padding: 15px 35px 30px;
-  form { margin-bottom: 0; }
-  label { @extend .span2; width: 130px\9; }
-  .controls {
-    @extend .span3;
+  label {
+    @extend .span1;
     float: left;
-    input { width: 100%; }
+    padding: 4px 10px 0 0;
+    text-align: right;
   }
-  .help-inline { margin: -5px 0 10px 0; display: none;}
-  .control-group, input.btn { float: right; }
-  input.btn { margin-right: -10px; }
-  .control-group { *clear: right; @extend .span5; }
+  input, textarea {
+    @extend .span2;
+    float: left;
+    margin-left: 20px;
+  }
+  textarea {
+    resize: none;
+    height: 60px;
+    overflow-y: auto;
+  }
+  input.btn {
+    clear: both;
+  }
+  .help-inline {
+    margin-top: 5px;
+  }
 }
+
 .privacypolicy {
   @extend .span5;
   margin: 10px auto 0;
@@ -266,321 +102,5 @@ hr { border-top: 1px dotted #999999; clear: both; margin: 10px 0; width: 100%; }
   padding: 0 20px;
   text-align: center;
 }
-.signuplink {
-  clear: both;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 15px;
-}
-
-.petitionform {
-  @extend .center6;
-  @extend .well;
-  @extend .span10;
-  padding: 20px;
-  margin-top: 5%;
-  min-height: 275px;
-  h1, h3 { margin: 0 0 20px 15px; }
-  form { max-width: 830px; }
-  label { @extend .span1; }
-  input, textarea, .controls { @extend .span8; *width: 450px; }
-  #petition_title { margin-left: 0; }
-  textarea { min-height: 200px; }
-  .btn { @extend .span2; float: right; }
-  .control-group {
-    @extend .span8;
-    .controls .btn { width: auto; }
-  }
-  input.btn.btn-primary { width: 150px\9; }
-  .modal {
-    input { width: 520px; }
-    .btn { float: none; margin-left: 5px; }
-    .btn-primary { float: right; }
-  }
-  .checkbox input { width: auto; }
-}
-
-.petitionlist {
-  .petition {
-    @extend .span8;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-    &:last-of-type { border-bottom: none; }
-    .about_petition {
-      @extend .span6;
-      padding-left: 20px;
-      float: left;
-      a.title {
-        font-size: 16px;
-        font-weight: bold;
-        color: navy;
-      }
-      .description {
-        word-wrap: break-word;
-        color: #666;
-      }
-    }
-    .feature { margin-top: 10px; }
-    .signature {
-      @extend .span2;
-      float: left;
-      margin: 10px 0;
-      .btn { clear: left; margin-top: 15px; width: 102px; }
-      .btn:first-child { margin-top: 0; }
-      .btn:only-child { margin-top: 7px; }
-    }
-  }
-}
-
-.bigcenteredmessage { font-size: 25px; margin: 15% 0 35%; text-align: center; }
 
 
-
-
-/* tests for petition show UI */
-
-/* petition left vs right */
-.petitionright {
-  .petition { float: right; }
-  .petition_sidebar {
-    margin-left: 0;
-    .rightcolwell, #signature-form, #thanks-for-signing-message {
-      margin-left: 0;
-    }
-  }
-}
-
-/* thermometer/status bar position */
-.therm2 {
-  .progress_bar {
-    float: left;
-    .numbers, .progress { float: left; text-align: left; }
-    .progress { clear: left; }
-  }
-  .social_icons { float: right; }
-}
-
-/* button color on sign petition */
-.buttoncolor2 { #signature-form .btn-primary { @extend .btn-info; } }
-.buttoncolor3 { #signature-form .btn-primary { @extend .btn-success; } }
-.buttoncolor4 { #signature-form .btn-primary { @extend .btn-warning; } }
-.buttoncolor5 { #signature-form .btn-primary { @extend .btn-danger; } }
-
-/* sign petition box color */
-.signaturecolor2 { #signature-form { background: #bbb; .privacypolicy, .control-label { color: #222; } } }
-.signaturecolor3 { #signature-form { background: #999; .title, .privacypolicy, .control-label { color: white; } } }
-.signaturecolor4 { #signature-form { background: #666; .title, .privacypolicy, .control-label { color: white; } } }
-.signaturecolor5 { #signature-form { background: #333; .title, .privacypolicy, .control-label  { color: white; } } }
-.signaturecolor6 { #signature-form { background: #000; .title, .privacypolicy, .control-label { color: white; } } }
-
-/* normal vs. fixed positioning of sign petition box */
-.signatureposition2 { #signature-form { position: fixed; } }
-
-/* dataTable */
-.dataTable th, .dataTable td { border: 1px solid #eee; text-align: left;}
-.dataTable { border-top: 1px solid #eee }
-
-
-/* label placement and asterisk visibility */
-.signature_labels_beside_inputs #signature-form {
-  .control-label {
-    @extend .span1;
-    text-align: right;
-    float: left;
-    margin-left: -10px;
-  }
-  .through_site .controls, .through_site .controls input {
-    @extend .span2;
-    float: left;
-  }
-}
-.signature_labels_beside_inputs_no_asterisk {
-  @extend .signature_labels_beside_inputs;
-  .control-label abbr { display: none; }
-}
-.signature_labels_beside_inputs_with_asterisk {
-  @extend .signature_labels_beside_inputs;
-  .control-label abbr { border-bottom: none; }
-}
-.signature_labels_beside_inputs_with_asterisk_underlined {
-  @extend .signature_labels_beside_inputs;
-}
-.signature_labels_above_inputs #signature-form {
-  .control-label {
-    text-align: left;
-    float: left;
-  }
-  .through_site .controls, .through_site .controls input {
-    float: left;
-  }
-}
-.signature_labels_above_inputs_no_asterisk {
-  @extend .signature_labels_above_inputs;
-  .control-label abbr { display: none; }
-}
-.signature_labels_above_inputs_with_asterisk {
-  @extend .signature_labels_above_inputs;
-  .control-label abbr { border-bottom: none; }
-}
-.signature_labels_above_inputs_with_asterisk_underlined {
-  @extend .signature_labels_above_inputs;
-}
-
-.signature_labels_hidden {
-  .control-label { display: none; }
-}
-
-/* change thermometer colors */
-.redthermometer .progress { @extend .progress-danger; }
-.greenthermometer .progress { @extend .progress-success; }
-.orangethermometer .progress { @extend .progress-warning; }
-.tealthermometer .progress { @extend .progress-info; }
-
-
-
-/* start a petition appearing as a link vs a button */
-.topnav.petition_button .start_petition {
-  @extend .btn;
-  @extend .btn-primary;
-  margin-top: -6px;
-  a { color: white; }
-}
-
-/* for ff on start a petition page */
-.current-font { color: #333; }
-
-
-/* change width of petition */
-.middlewidthpetition {
-  @extend .span11;
-  margin-left: auto;
-  margin-right: auto;
-  .petition {
-    @extend .span8;
-    margin: 0 10px;
-  }
-}
-.narrowwidthpetition {
-  @extend .span10;
-  margin-left: auto;
-  margin-right: auto;
-  .petition {
-    @extend .span7;
-    margin: 0 10px;
-    .social_icons { width: 280px; }
-  }
-}
-
-
-
-/* thank you box color */
-/* sign petition box color */
-.hex_bbb {
-  #thanks-for-signing-message {
-    background: #bbb;
-    .thanks, .share { color: #222; }
-  }
-}
-.hex_999 { #thanks-for-signing-message { background: #999; .thanks, .share { color: white; } } }
-.hex_666 { #thanks-for-signing-message { background: #666; .thanks, .share { color: white; } } }
-.hex_333 { #thanks-for-signing-message { background: #333; .thanks, .share { color: white; }  } }
-.hex_000 { #thanks-for-signing-message { background: #000; .thanks, .share { color: white; } } }
-
-/* thank you arrow color */
-.redarrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('red_arrow.png'); } } }
-.limearrow { #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('lime_arrow.png'); } } }
-.lightbluearrow{ #thanksModal,  #thanks-for-signing-message {  .arrow { background: url('light_blue_arrow.png'); } } }
-.orangearrow { #thanksModal,  #thanks-for-signing-message { .arrow { background: url('orange_arrow.png'); } } }
-
-/* admin petition dashboard */
-#petitions_wrapper {
-  #petitions {
-    @extend .span12;
-    a { font-weight: normal; }
-    td, th { padding: 3px; }
-    td { text-align: right; }
-    tr :first-child { @extend .span3; text-align: left; }
-    tr :last-child { @extend .span2; }
-  }
-  .span5 { @extend .span6; margin-left: 10px; }
-}
-
-
-/* experiments */
-.experiment_table {
-  width: auto;
-  clear: both;
-  td, th { text-align: right; min-width: 70px; color: #444; }
-  td.name, th.name { text-align: left; width: auto; color: black; }
-  .progress { margin: 5px; height: 5px; &.progress-info { .bar { float: right; } } }
-}
-.experimentname, .experimentdetails { margin: 20px 0 10px; }
-.experimentname { font-weight: bold; font-size: larger; float: left; }
-.experimentdetails { color: #444; float: left; clear: right; margin-left: 7px; }
-
-
-.control-group {
-  *clear: right;
-}
-
-.admin.topnav {
-  height: 82px;
-  .nav_links {
-    clear: both;
-    margin: 3px 0 0 -30px;
-  }
-  hr {
-    margin: 0;
-  }
-}
-
-.square_thumbnails {
-  height: 80px;
-  width: 80px;
-}
-.ie_alternatives {
-  h1 {
-    float: left;
-    .black {
-      color: black;
-    }
-    .grey {
-      color: #888;
-      font-weight: normal;
-    }
-    .space {
-      clear: both;
-      margin-top: 10px;
-    }
-    *margin-bottom: 0;
-  }
-  h3 { clear: both; margin-top: 0; line-height: 20px; }
-  .option {
-    margin: 20px;
-    height: 80px;
-    clear: both;
-    div { float: left; }
-    .chromeframe, .chrome, .firefox {
-      @extend .square_thumbnails;
-      margin-right: 15px;
-    }
-    .chromeframe {
-      background: url('chromeframe.png');
-    }
-    .chrome {
-      background: url('chrome.png');
-    }
-    .firefox {
-      background: url('firefox.png');
-    }
-    .title {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: larger;
-    }
-    .description {
-      clear: left;
-      margin-top: 10px;
-    }
-  }
-}
