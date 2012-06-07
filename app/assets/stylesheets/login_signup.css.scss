@@ -13,6 +13,12 @@
 @import "bootstrap";
 @import "responsive";
 
+.center6{
+  @extend .span6;
+  margin: 0 auto;
+  min-height: 210px;
+}
+
 .signup_login {
   @extend .center6;
   @extend .well;;
