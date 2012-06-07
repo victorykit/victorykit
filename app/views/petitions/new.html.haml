@@ -1,5 +1,6 @@
 .petitionform
 
-  %h1 Start a petition
+  - if !browser.ie? || (browser.user_agent =~ /chromeframe/)
+    %h1 Start a petition
 
   = render @form_view
