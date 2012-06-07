@@ -82,7 +82,7 @@
         %br
         %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
 
-    -if show_delayed_modal_ask_to_sign || true
+    -if show_delayed_modal_ask_to_sign
       = hidden_field_tag 'ask-to-sign-modal-delay', 60000
       .modal#ask-to-sign-modal
         .modal-body
