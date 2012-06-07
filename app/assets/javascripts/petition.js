@@ -13,6 +13,10 @@ $(document).ready(function() {
 		return event.go;
     });
 
+  if (!isPetitionSigned()) $('#ask-to-sign-modal').delay($('#ask-to-sign-modal-delay').val()).fadeIn(500);
+
+  layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
+
 	function mailCheckSuggestions(event) {
 		$hint.css('display', 'none');
 	  	$email.mailcheck({
@@ -35,8 +39,7 @@ $(document).ready(function() {
     });
 });
 
-function layoutPetitionSidebarAs(ask_or_tell)
-{
+function layoutPetitionSidebarAs(ask_or_tell) {
 	if ('ask' === ask_or_tell) {
 		$('#signature-form').hide();
 		$('#ask-to-sign').show();
@@ -55,6 +58,22 @@ function layoutPetitionSidebarAs(ask_or_tell)
     fjs.parentNode.insertBefore(js,fjs);}
   }
   (document,"script","twitter-wjs");
+
+function  askToSignModalClickYes() {
+  layoutPetitionSidebarAs("tell");
+  $("#ask-to-sign-modal").hide();
+}
+
+function  askToSignModalClickNo() {
+  $("#ask-to-sign-modal").hide();
+}
+
+function isPetitionSigned(){
+  var cookie = $.cookie('signed_petitions') || '';
+  var petitionIds = cookie.split("|");
+  var currentPetitionId = $('#petitionId').val();
+  return ($.inArray(currentPetitionId, petitionIds) > -1);
+}
 
 jQuery(function(){
   // prevent jQuery from appending cache busting string to the end of the FeatureLoader URL
@@ -75,10 +94,7 @@ jQuery(function(){
     })
   });
 
-	var cookie = $.cookie('signed_petitions') || '';
-	var petitionIds = cookie.split("|");
-	var currentPetitionId = $('#petitionId').val();
-	if ($.inArray(currentPetitionId, petitionIds) > -1) {
+  if (isPetitionSigned()) {
     $('#thanks-for-signing-message').show();
     $('#signature-form').hide();
     $('#ask-to-sign').hide();
