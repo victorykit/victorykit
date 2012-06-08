@@ -9,8 +9,9 @@
   Your user agent: #{@user_agent}
 
 - if not Rails.env.production?
-  - session.each do |s|
-    %br
-      #{s[0]}
-      \=
-      #{s[1]}
+  %form{:name => "update-session", :id => "update-session", :action => "/status/1", :method => "put", :enctype => "text/plain"}
+    - session.each do |s|
+      #session-value
+        - s_key = s[0].gsub ' ', '_'
+        %label{:for => "#{s_key}", :style => "float:left;width:375px"} #{s[0]}:
+        %input{:type => "text", :name => "#{s_key}", :class => "text", :value => s[1].to_s, :style => "float:left"}
