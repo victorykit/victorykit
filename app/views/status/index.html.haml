@@ -7,3 +7,10 @@
   You are session ID #{@session_id}.
 %p
   Your user agent: #{@user_agent}
+
+- if not Rails.env.production?
+  - session.each do |s|
+    %br
+      #{s[0]}
+      \=
+      #{s[1]}
