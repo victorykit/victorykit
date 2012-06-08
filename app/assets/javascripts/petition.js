@@ -94,6 +94,8 @@ jQuery(function(){
     })
   });
 
+  $('#ask-to-sign-modal').hide();
+
   if (isPetitionSigned()) {
     $('#thanks-for-signing-message').show();
     $('#signature-form').hide();
