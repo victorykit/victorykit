@@ -1,39 +1,85 @@
 $(document).ready(function() {
-  var $email = $('#signature_email');
-  var $hint = $("#hint");
-
-  $('#ask-to-sign-modal').hide();
-  if (!isPetitionSigned()) $('#ask-to-sign-modal').delay($('#ask-to-sign-modal-delay').val()).fadeIn(500);
-  layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
-
-  new EmailSuggestions($email, $hint).initEmailSuggestions();
-
+  displayForBaseline();
+  isPetitionSigned() ? displayForPetitionSigned() : displayForPetitionNotSigned();
+  preventWhitespaceOn('#signature_email');
+  applyRichTextEditorTo('#petition_description');
+  new EmailSuggestions().init();
   initTwitter();
-
-  $('#signature_email').change(function() {
-    this.value = this.value.replace(/ /g, '');
-  });
-
-});
-
-jQuery(function(){
-
   initFacebook();
-
-  if (isPetitionSigned()) {
-    displayForPetitionSigned();
-  }
-
-  $('#petition_description').wysihtml5();
-  
   initTabIndexes();
 });
 
-function EmailSuggestions($email, $hint) {
-  
-  var self = this;
+function displayForBaseline() {
+  $('#ask-to-sign').hide();
+  $('#ask-to-sign-modal').hide();
+  $('.tweet').hide();
+}
 
-  this.initEmailSuggestions = function() {
+function isPetitionSigned(){
+  var cookie = $.cookie('signed_petitions') || '';
+  var petitionIds = cookie.split("|");
+  var currentPetitionId = $('#petitionId').val();
+  return ($.inArray(currentPetitionId, petitionIds) > -1);
+}
+
+function displayForPetitionSigned() {
+  $('#thanks-for-signing-message').show();
+  $('#signature-form').hide();
+  $('#ask-to-sign').hide();
+  $('#thanksModal').modal('toggle');
+}
+
+function displayForPetitionNotSigned() {
+  layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
+  $('#ask-to-sign-modal').delay($('#ask-to-sign-modal-delay').val()).fadeIn(500);
+}
+
+function layoutPetitionSidebarAs(ask_or_tell) {
+  if ('ask' === ask_or_tell) {
+    $('#signature-form').hide();
+    $('#ask-to-sign').show();
+  }
+  else {
+    $('#signature-form').show();
+    $('#ask-to-sign').hide();
+  };
+}
+
+function askToSignModalClickYes() {
+  layoutPetitionSidebarAs("tell");
+  $("#ask-to-sign-modal").hide();
+}
+
+function askToSignModalClickNo() {
+  $("#ask-to-sign-modal").hide();
+}
+
+function initTabIndexes() {
+  $('#petition_title').attr('tabIndex', '1');
+  $('iframe').attr('tabIndex', '2');
+  if ($('#petition_to_send').length) {
+    $('#petition_to_send').attr('tabIndex', '3');
+    $('#petition_submit').attr('tabIndex', '4');
+  }
+  else {
+    $('#petition_submit').attr('tabIndex', '3');
+  }
+}
+
+function applyRichTextEditorTo(item) {
+  $(item).wysihtml5();
+}
+
+function preventWhitespaceOn(input) {
+  $(input).change(function() { this.value = this.value.replace(/ /g, ''); });
+}
+
+function EmailSuggestions() {
+  var self = this;
+  var $email = $('#signature_email');
+  var $hint = $("#hint");
+
+  this.init = function() {
     $('.suggested_email').live("click",function() {
       $email.val($(this).html());
       $hint.css('display', 'none');
@@ -43,7 +89,7 @@ function EmailSuggestions($email, $hint) {
     $('form').on("submit", function(event) {
       self.mailCheckSuggestions(event);
       return event.go;
-    });    
+    });
   }
 
   this.mailCheckSuggestions = function(event) {
@@ -61,52 +107,12 @@ function EmailSuggestions($email, $hint) {
   }
 }
 
-function layoutPetitionSidebarAs(ask_or_tell) {
-  if ('ask' === ask_or_tell) {
-    $('#signature-form').hide();
-    $('#ask-to-sign').show();
-  }
-  else {
-    $('#signature-form').show();
-    $('#ask-to-sign').hide();
-  };
-}
-
-function initTwitter() {
-  $('.tweet').hide();
-
-  !function(d,s,id) {
-    var js,fjs=d.getElementsByTagName(s)[0];
-    if(!d.getElementById(id)) {
-      js=d.createElement(s);
-      js.id=id;js.src="//platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js,fjs);}
-    }
-    (document,"script","twitter-wjs");
-}
-
-function askToSignModalClickYes() {
-  layoutPetitionSidebarAs("tell");
-  $("#ask-to-sign-modal").hide();
-}
-
-function askToSignModalClickNo() {
-  $("#ask-to-sign-modal").hide();
-}
-
-function isPetitionSigned(){
-  var cookie = $.cookie('signed_petitions') || '';
-  var petitionIds = cookie.split("|");
-  var currentPetitionId = $('#petitionId').val();
-  return ($.inArray(currentPetitionId, petitionIds) > -1);
-}
-
 function initFacebook() {
   // prevent jQuery from appending cache busting string to the end of the FeatureLoader URL
   var cache = jQuery.ajaxSettings.cache;
   jQuery.ajaxSettings.cache = true;
-  // Load FeatureLoader asynchronously. Once loaded, we execute Facebook init
 
+  // Load FeatureLoader asynchronously. Once loaded, we execute Facebook init
   jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
     FB.init({status: true, cookie: true, xfbml: true});
   });
@@ -121,31 +127,13 @@ function initFacebook() {
   });  
 }
 
-function displayForPetitionSigned() {
-  $('#thanks-for-signing-message').show();
-  $('#signature-form').hide();
-  $('#ask-to-sign').hide();
-  $('#thanksModal').modal('toggle');
-}
-
-function initTabIndexes() {
-  $('#petition_title').attr('tabIndex', '1');
-  $('iframe').attr('tabIndex', '2');
-  if ($('#petition_to_send').length) {
-    $('#petition_to_send').attr('tabIndex', '3');
-    $('#petition_submit').attr('tabIndex', '4');
-  }
-  else {
-    $('#petition_submit').attr('tabIndex', '3');
-  }
-
-  $('#petition_title').attr('tabIndex', '1');
-  $('iframe').attr('tabIndex', '2');
-  if ($('#petition_to_send').length) {
-    $('#petition_to_send').attr('tabIndex', '3');
-    $('#petition_submit').attr('tabIndex', '4');
-  }
-  else {
-    $('#petition_submit').attr('tabIndex', '3');
-  }
+function initTwitter() {
+  !function(d,s,id) {
+    var js,fjs=d.getElementsByTagName(s)[0];
+    if(!d.getElementById(id)) {
+      js=d.createElement(s);
+      js.id=id;js.src="//platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js,fjs);}
+    }
+    (document,"script","twitter-wjs");
 }
