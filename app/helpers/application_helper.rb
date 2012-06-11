@@ -15,11 +15,13 @@ module ApplicationHelper
   end
   
   def fb_like url
-    tag "fb:like", data: {url: url, send: false, show_faces: false, action: 'like'}
+    tag "fb:like", {data: {href: url, send: false, show_faces: false, action: 'like', width: 255}}, false, true
   end
   
-  def fb_like_small url
-    tag "fb:like", data: {url: url, send: false, show_faces: false, action: 'recommend', width: 270}
+  def fb_recommend(url, classes = nil, is_button_count = false)
+    attributes = {href: url, send: false, show_faces: false, action: 'recommend', width: 255} 
+    attributes.merge!({layout: 'button_count'}) if is_button_count
+    tag "fb:like", {data: attributes, class: classes}, false, true
   end
   
   def google_analytics_tracker
