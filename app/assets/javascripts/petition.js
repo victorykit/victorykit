@@ -12,7 +12,7 @@ $(document).ready(function() {
 function displayForBaseline() {
   $('#ask-to-sign').hide();
   $('#ask-to-sign-modal').hide();
-  //$('.tweet').hide();
+  $('.tweet').hide();
 }
 
 function isPetitionSigned(){
@@ -119,12 +119,11 @@ function initFacebook() {
   // just Restore jQuery caching setting
   jQuery.ajaxSettings.cache = cache;
 
-  //jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
-    //FB.Event.subscribe('edge.create', function(response) {
-       //$('.fb-like').hide();
-       //$('.tweet').show();
-    //})
-  //});  
+  jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
+    FB.Event.subscribe('edge.create', function(response) {
+       $('.tweet').show();
+    })
+  });  
 }
 
 function initTwitter() {

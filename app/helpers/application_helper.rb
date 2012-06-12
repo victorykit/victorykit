@@ -14,12 +14,8 @@ module ApplicationHelper
     end
   end
   
-  def fb_like url, ref_hash
-    tag "fb:like", {data: {href: url, send: false, show_faces: false, action: 'like', width: 255, ref: ref_hash} }, false, true
-  end
-  
-  def fb_recommend(url, classes = nil, is_button_count = false)
-    attributes = {href: url, send: false, show_faces: false, action: 'recommend', width: 255} 
+  def fb_like(url, ref_hash, classes = nil, is_button_count = false)
+    attributes = {href: url, send: false, show_faces: false, action: 'like', width: 255, ref: ref_hash} 
     attributes.merge!({layout: 'button_count'}) if is_button_count
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
