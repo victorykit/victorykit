@@ -40,8 +40,10 @@ class Admin::ExperimentsController < ApplicationController
         })
         test_stats[:trials] += spins
       end
+      test_stats[:arms].sort! { |x,y| x[:name] <=> y[:name] }
       mystats.append test_stats unless test_name.starts_with? "email_scheduler"
     end
+    mystats.sort! { |x,y| x[:name] <=> y[:name] }
     mystats
   end
   
