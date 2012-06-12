@@ -19,6 +19,7 @@
 //= require jquery.flot
 //= require jquery.mailcheck.js
 //= require petition.js
+//= require global.js
 //= require_tree .
 
 var VK = VK || {}
