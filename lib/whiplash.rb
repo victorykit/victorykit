@@ -2,6 +2,17 @@ require 'distribution'
 require 'redis'
 
 FAIRNESS_CONSTANT = 3
+FAIRNESS_CONSTANT4 = 2
+
+def to1if0(n)
+  return n unless n == 0
+  return 1
+end
+
+class Array
+  def sum; inject( nil ) { |sum,x| sum ? sum+x : x }; end
+  def mean; sum / size; end
+end
 
 module Bandit
   def arm_guess(observations, victories)
@@ -16,8 +27,15 @@ module Bandit
     out += FAIRNESS_CONSTANT/(observations.to_f+1)
     return out
   end
-
+  
   def best_guess(options)
+    bestv = options.collect{ |o, v| v[1].to_f / to1if0(v[0]) }.max
+    options2 = {}
+    options.each{ |o, v| 
+      obs, vics = v
+      options2[o] = [obs, obs * ([vics.to_f/to1if0(obs)] + [bestv]*FAIRNESS_CONSTANT4).mean] }
+    options = options2
+    
     guesses = {}
     options.each { |o, v| guesses[o] = arm_guess(v[0], v[1]) }
     best = options.keys.select { |o| guesses[o] == guesses.values.max }
