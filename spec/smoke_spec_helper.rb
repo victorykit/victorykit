@@ -50,6 +50,18 @@ def wait timeout = 20
   Selenium::WebDriver::Wait.new(:timeout => timeout)
 end
 
+def as_admin
+	login_as_admin
+		yield
+	log_out
+end
+
+def as_user
+	login
+		yield
+	log_out
+end
+
 def login_as_admin
   login "admin@test.com", "password"
 end
@@ -87,6 +99,19 @@ def create_normal_user
   end
   u = User.new({email: "user@test.com", password: "password", password_confirmation: "password"})
   raise "failed to create user" unless u.save
+end
+
+def create_a_petition (title = 'a snappy title', description = 'a compelling description')
+	as_user do
+		go_to "petitions/new"
+
+		type(title).into(:id => 'petition_title')
+		type(description).into_wysihtml5(:id => 'petition_description')
+		click :name => 'commit'
+
+		wait.until { element :class => "petition" }
+	end
+	Petition.find_by_title title
 end
 
 class TextTyper
