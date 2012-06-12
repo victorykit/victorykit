@@ -15,4 +15,11 @@ describe Signature do
   		signature.user_agent.length.should == 255
   	end
   end
+
+  it "should allow only predefined types of references" do
+    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "facebook").valid?.should == true
+    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "email" ).valid?.should == true
+    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "twitter" ).valid?.should == true
+    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "wrong" ).valid?.should == false
+  end
 end

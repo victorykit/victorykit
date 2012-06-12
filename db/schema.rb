@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(:version => 20120612194642) do
     t.string   "browser_name"
     t.boolean  "created_member"
     t.integer  "member_id",      :null => false
+    t.integer  "referer_id"
+    t.string   "reference_type"
   end
 
   create_table "unsubscribes", :force => true do |t|
