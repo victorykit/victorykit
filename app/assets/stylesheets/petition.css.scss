@@ -237,6 +237,17 @@
       float: right;
     }
   }
+  .modal.bootstrap-wysihtml5-insert-link-modal, .modal.bootstrap-wysihtml5-insert-image-modal {
+    input {
+      width: 480px;
+    }
+    a.btn {
+      color: #333;
+    }
+    a.btn.btn-primary {
+      color: #fff;
+    }
+  }
   .checkbox input {
     width: auto;
   }
