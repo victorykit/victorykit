@@ -14,8 +14,8 @@ module ApplicationHelper
     end
   end
   
-  def fb_like url
-    tag "fb:like", {data: {href: url, send: false, show_faces: false, action: 'like', width: 255}}, false, true
+  def fb_like url, ref_hash
+    tag "fb:like", {data: {href: url, send: false, show_faces: false, action: 'like', width: 255, ref: ref_hash} }, false, true
   end
   
   def fb_recommend(url, classes = nil, is_button_count = false)

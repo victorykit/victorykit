@@ -25,11 +25,11 @@
 
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
-        = fb_like petition_url(params[:petition_id])
+        = fb_like petition_url(params[:petition_id]), @fb_tracking_hash
     - else
       .social_icons.tallerprogress
         -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-        = fb_like petition_url(params[:petition_id])
+        = fb_like petition_url(params[:petition_id]), @fb_tracking_hash
     - if signature_display_threshold_met && spin!("show thermometer", :signature)
       .progress_bar
         .numbers
