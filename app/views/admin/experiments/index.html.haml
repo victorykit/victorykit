@@ -1,10 +1,21 @@
 %h1 Experiments
 
+- i = 0
 - @stats.each do |test|
+  - i += 1
   .experimentname
     = test[:name]
   .experimentdetails
     (goal: #{test[:goal]}) #{test[:trials]} trials
+  .experimenttrash
+    .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
+      Trash
+  
+  .experimenttrashdata{id: "trashinfo#{i}"}
+    - test[:arms].each do |arm|
+      REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
+      REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
+  
 
   %table.table.table-striped.table-condensed.experiment_table.sortable
     %thead

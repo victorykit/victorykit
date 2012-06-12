@@ -90,3 +90,14 @@
   clear: right;
   margin-left: 7px;
 }
+
+.experimenttrash {
+  float: right;
+}
+
+.experimenttrashdata {
+  display: none;
+  clear: both;
+  white-space: pre;
+  font-family: monospace;
+}
