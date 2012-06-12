@@ -18,6 +18,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
     
   def require_login
+	  session['redirect_url'] = request.url
     redirect_to login_path if current_user.nil?
   end
     

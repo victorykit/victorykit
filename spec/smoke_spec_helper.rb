@@ -66,11 +66,15 @@ def login_as_admin
   login "admin@test.com", "password"
 end
 
-def login email = "user@test.com", password = "password"
-  $driver.navigate.to URI.join(HOST_URL, 'login').to_s
-  type(email).into(:id => "new_session_email")
-  type(password).into(:id => "new_session_password")
-  click(:name => "commit")
+def login(email = "user@test.com", password = "password")
+	go_to 'login'
+	login_here(email, password)
+end
+
+def login_here(email = "user@test.com", password = "password")
+	type(email).into(:id => "new_session_email")
+	type(password).into(:id => "new_session_password")
+	click(:name => "commit")
 end
 
 def log_out
@@ -79,9 +83,21 @@ def log_out
   end
 end
 
+def sign_up(email = Faker::Internet.email, password = "password")
+	element(:link_text => "Sign up!").click
+	type(email).into(:id => 'user_email')
+	type(password).into(:id => 'user_password')
+	type(password).into(:id => 'user_password_confirmation')
+	click(:id => 'sign-up-submit')
+end
+
 def go_to resource
   uri = URI.join(HOST_URL, resource).to_s
   $driver.navigate.to(uri)
+end
+
+def current_path
+	URI.split($driver.current_url)[5]
 end
 
 def create_admin_user
@@ -103,7 +119,7 @@ end
 
 def create_a_petition (title = 'a snappy title', description = 'a compelling description')
 	as_user do
-		go_to "petitions/new"
+		go_to new_petition_path
 
 		type(title).into(:id => 'petition_title')
 		type(description).into_wysihtml5(:id => 'petition_description')
