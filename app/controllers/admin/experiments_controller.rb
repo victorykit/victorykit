@@ -40,7 +40,7 @@ class Admin::ExperimentsController < ApplicationController
         })
         test_stats[:trials] += spins
       end
-      mystats.append test_stats
+      mystats.append test_stats unless test_name.starts_with? "email_scheduler"
     end
     mystats
   end
