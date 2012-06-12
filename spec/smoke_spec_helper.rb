@@ -1,6 +1,9 @@
 require "selenium-webdriver"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
+require "support/webdriver_helpers"
+
+include WebDriverHelpers
 
 ENV["RAILS_ENV"] ||= 'test'
 HOST_URL = "http://localhost:3000"
@@ -20,34 +23,6 @@ RSpec.configure do |config|
   config.after(:each) do
     log_out
   end
-end
-
-def wait_for_ajax
-  wait.until {$driver.execute_script "return jQuery.active == 0"}
-end
-  
-def click locator
-  element(locator).click
-end
-
-def type text
-  TextTyper.new text
-end
-
-def element locator
-  $driver.find_element(locator)
-end
-
-def element_exists locator
-  begin
-    element locator
-  rescue
-    false
-  end
-end
-
-def wait timeout = 20
-  Selenium::WebDriver::Wait.new(:timeout => timeout)
 end
 
 def as_admin
@@ -91,15 +66,6 @@ def sign_up(email = Faker::Internet.email, password = "password")
 	click(:id => 'sign-up-submit')
 end
 
-def go_to resource
-  uri = URI.join(HOST_URL, resource).to_s
-  $driver.navigate.to(uri)
-end
-
-def current_path
-	URI.split($driver.current_url)[5]
-end
-
 def create_admin_user
   if User.exists? email: "admin@test.com"
     return
@@ -128,20 +94,4 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
 		wait.until { element :class => "petition" }
 	end
 	Petition.find_by_title title
-end
-
-class TextTyper
-  def initialize text
-    @text = text
-  end
-  
-  def into locator
-    input = element(locator)
-    input.send_keys @text
-  end
-
-  def into_wysihtml5(locator)
-    raise "only id locators are supported right now" if(!locator[:id])
-    $driver.execute_script("$('##{locator[:id]}').data('wysihtml5').editor.composer.setValue('#{@text}');")
-  end
 end
