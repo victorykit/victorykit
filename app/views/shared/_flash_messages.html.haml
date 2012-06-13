@@ -1,5 +1,5 @@
 - flash.each do |type, message|
   - if [:alert, :error, :notice, :success].include? type
-    .alert{:class => "twitterized_type(#{type})"}
+    .alert{:class => twitterized_type(type)}
       = link_to 'x', '#', :class => 'close', :'data-dismiss' => 'alert'
       = message

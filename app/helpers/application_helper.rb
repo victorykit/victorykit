@@ -14,9 +14,10 @@ module ApplicationHelper
     end
   end
 
-  def fb_like(url, ref_hash, classes = nil, is_button_count = false)
+  def fb_like(url, ref_hash, classes = nil, is_button_count = false, is_in_modal = false)
     attributes = {href: url, send: false, show_faces: false, action: 'like', ref: ref_hash}
     attributes.merge!({layout: 'button_count'}) if is_button_count
+    attributes.merge!({width: '215'}) if is_in_modal
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
 
