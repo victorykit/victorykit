@@ -13,8 +13,7 @@
         = link_to('Change Password', edit_user_path(current_user))
         = link_to('Log Out', logout_path, :class => 'nodivider')
       - elsif controller_name == 'petitions' && action_name == 'show'
-        - if spin! "show login or sign up", :signature
-          .nodivider= link_to('Sign Up or Log In', signup_path)
+        .nodivider
       - else
         = link_to('Sign Up or Log In', signup_path, :class => 'nodivider')
     %hr
