@@ -150,7 +150,7 @@
         - if modalrecommendbutton == 'recommend_with_text'
           .tweet
             %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-          = fb_like petition_url(params[:id]), @fb_tracking_hash
+          = fb_like petition_url(params[:id]), @fb_tracking_hash, '', false, true
         - elsif modalrecommendbutton == 'recommend_with_box_all_centered'
           .tweet
             %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
