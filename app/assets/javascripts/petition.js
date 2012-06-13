@@ -1,5 +1,7 @@
 $(document).ready(function() {
-  isPetitionSigned() ? displayForPetitionSigned() : displayForPetitionNotSigned();
+  if (isPetitionSigned()) {
+    displayForPetitionSigned();
+  }
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
   if(!VK.signing_from_email)
@@ -19,13 +21,7 @@ function isPetitionSigned(){
 function displayForPetitionSigned() {
   $('#thanks-for-signing-message').show();
   $('#signature-form').hide();
-  $('#ask-to-sign').hide();
   $('#thanksModal').modal('toggle');
-}
-
-function displayForPetitionNotSigned() {
-  layoutPetitionSidebarAs(VK.signpetition_ask_vs_tell);
-  $('#ask-to-sign-modal').delay($('#ask-to-sign-modal-delay').val()).fadeIn(500);
 }
 
 function initTabIndexes() {

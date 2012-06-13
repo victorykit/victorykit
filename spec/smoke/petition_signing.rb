@@ -8,11 +8,7 @@ describe 'Petition page' do
     petition = create_a_petition
     go_to petition_path(petition)
 
-    yes_please = element :id => 'yes_i_want_to_sign'
-    if (yes_please && yes_please.displayed?)
-	    yes_please.click
-      wait.until { element :id => 'signature_email' }
-    end
+    wait.until { element :id => 'signature_email' }
 
     sign_petition
 
