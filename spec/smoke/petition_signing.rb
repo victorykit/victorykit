@@ -13,8 +13,10 @@ describe 'Petition page' do
     wait.until { element :class => "thanks" }
   end
   it 'should ensure user provides a name' do
-    sign_petition '', 'bob@bobs.com'
-    wait.until { element :class => 'help-inline'}  
+    if element_exists :id => 'signature_name'
+      sign_petition '', 'bob@bobs.com'
+      wait.until { element :class => 'help-inline'}
+    end
   end
 end
 
