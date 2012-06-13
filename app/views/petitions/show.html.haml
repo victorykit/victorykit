@@ -14,7 +14,6 @@
 - modalrecommendbutton = spin! "different renderings for fb recommend on modal", :share, ["recommend_with_text", "recommend_with_box_all_centered", "recommend_with_box_button_centered"]
 - signpetition_ask_vs_tell = spin! "ask vs tell to sign petition", :signature, ["ask", "tell"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
-- show_delayed_modal_ask_to_sign = spin! "show delayed modal ask to sign", :signature
 :javascript
   VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
@@ -81,18 +80,6 @@
         sign this petition?
         %br
         %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='layoutPetitionSidebarAs("tell")') Yes
-
-    -if show_delayed_modal_ask_to_sign
-      = hidden_field_tag 'ask-to-sign-modal-delay', 60000
-      .modal#ask-to-sign-modal
-        .modal-body
-          = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-          .title
-            Do you want to sign this petition?
-            %br
-            %a(id="yes_i_want_to_sign" title='Yes' href='javascript:void(0)' onclick='askToSignModalClickYes()') Yes
-            |
-            %a(id="yes_i_want_to_sign" title='No' href='javascript:void(0)' onclick='askToSignModalClickNo()') No
 
     #signature-form
       .title

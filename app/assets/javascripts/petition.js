@@ -45,15 +45,6 @@ function layoutPetitionSidebarAs(ask_or_tell) {
   };
 }
 
-function askToSignModalClickYes() {
-  layoutPetitionSidebarAs("tell");
-  $("#ask-to-sign-modal").hide();
-}
-
-function askToSignModalClickNo() {
-  $("#ask-to-sign-modal").hide();
-}
-
 function initTabIndexes() {
   $('#petition_title').attr('tabIndex', '1');
   $('iframe').attr('tabIndex', '2');
