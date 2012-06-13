@@ -4,15 +4,17 @@ require 'uri'
 include Rails.application.routes.url_helpers
 
 describe 'Petition page' do
-  it 'should allow users to sign' do
-    petition = create_a_petition
-    go_to petition_path(petition)
-
+  before :each do
+    go_to petition_path(create_a_petition)
     wait.until { element :id => 'signature_email' }
-
+  end
+  it 'should allow users to sign' do
     sign_petition
-
     wait.until { element :class => "thanks" }
+  end
+  it 'should ensure user provides a name' do
+    sign_petition '', 'bob@bobs.com'
+    wait.until { element :class => 'help-inline'}  
   end
 end
 
@@ -22,6 +24,7 @@ def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
 		type(first_name).into(:id => 'signature_first_name')
 		type(last_name).into(:id => 'signature_last_name')
 	else
+
 		type(name).into(:id => 'signature_name')
 	end
 	type(email).into(:id => 'signature_email')

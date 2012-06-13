@@ -32,8 +32,10 @@ class SignaturesController < ApplicationController
       rescue => ex
         flash.notice = ex.message
       end
+    else
+      flash[:invalid_signature] = signature
     end
-		flash[:user_just_signed] = true
+    flash[:user_just_signed] = true
     redirect_to petition_url(petition)
   end
 

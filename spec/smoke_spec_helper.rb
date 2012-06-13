@@ -93,5 +93,5 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
 
 		wait.until { element :class => "petition" }
 	end
-	Petition.find_by_title title
+	Petition.last #bit dodgy, but should be fine for now!
 end
