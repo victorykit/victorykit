@@ -28,17 +28,6 @@ function displayForPetitionNotSigned() {
   $('#ask-to-sign-modal').delay($('#ask-to-sign-modal-delay').val()).fadeIn(500);
 }
 
-function layoutPetitionSidebarAs(ask_or_tell) {
-  if ('ask' === ask_or_tell) {
-    $('#signature-form').hide();
-    $('#ask-to-sign').show();
-  }
-  else {
-    $('#signature-form').show();
-    $('#ask-to-sign').hide();
-  };
-}
-
 function initTabIndexes() {
   $('#petition_title').attr('tabIndex', '1');
   $('iframe').attr('tabIndex', '2');
