@@ -79,6 +79,10 @@ function EmailSuggestions() {
   this.mailCheckSuggestions = function(event) {
     $hint.css('display', 'none');
     $email.mailcheck({
+      //annoyingly, mailcheck doesn't let you add to their default list of domains, so we have to duplicate them all here.
+      domains: ["yahoo.com", "google.com", "hotmail.com", "gmail.com", "me.com", "aol.com", "mac.com",
+                "live.com", "comcast.net", "googlemail.com", "msn.com", "hotmail.co.uk", "yahoo.co.uk",
+                "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "q.com"],
       suggested: function(element, suggestion) {
         event.go = true;
         if(!$hint.html()) {
