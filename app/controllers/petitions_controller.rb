@@ -70,6 +70,7 @@ class PetitionsController < ApplicationController
     if sent_email && sent_email.signature_id.nil?
       @signature.name =  sent_email.member.name
       @signature.email = sent_email.member.email
+	    @signing_from_email = true
     else
       @signature.name =  session[:signature_name]
       @signature.email = session[:signature_email]

@@ -2,7 +2,8 @@ $(document).ready(function() {
   isPetitionSigned() ? displayForPetitionSigned() : displayForPetitionNotSigned();
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
-  new EmailSuggestions().init();
+  if(!VK.signing_from_email)
+    new EmailSuggestions().init();
   initTwitter();
   initFacebook();
   initTabIndexes();
