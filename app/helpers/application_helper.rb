@@ -13,17 +13,17 @@ module ApplicationHelper
         type.to_s
     end
   end
-  
+
   def fb_like(url, ref_hash, classes = nil, is_button_count = false)
-    attributes = {href: url, send: false, show_faces: false, action: 'like', width: 255, ref: ref_hash} 
+    attributes = {href: url, send: false, show_faces: false, action: 'like', ref: ref_hash}
     attributes.merge!({layout: 'button_count'}) if is_button_count
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
-  
+
   def google_analytics_tracker
     #TODO: move this to a js file, or a partial?
     analytics_id = Settings.google_analytics.analytics_id
-    like_tracker_url = url_for(:action => 'new', :controller => '/social_tracking') 
+    like_tracker_url = url_for(:action => 'new', :controller => '/social_tracking')
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
       _gaq.push(['_trackPageview']);
@@ -33,7 +33,7 @@ module ApplicationHelper
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
-      
+
       try {
         if (FB && FB.Event && FB.Event.subscribe) {
           FB.Event.subscribe('edge.create', function(targetUrl) {

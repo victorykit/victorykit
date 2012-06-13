@@ -148,11 +148,8 @@
     width: 100px;
   }
   fb\:like {
-    margin: 4px 4px 4px 76px;
+    margin: 4px 4px 4px 46px;
     padding: 4px 5px 4px 3px;
-    width: 255px;
-    &.all_centered { margin-left: 140px; }
-    &.button_centered { margin-left: 164px; }
   }
   .tweet {
     margin-left: 45px;
@@ -184,7 +181,6 @@
     margin: 5px; }
   fb\:like {
     margin: 5px 0 10px 20px;
-    top: -70px;
   }
 }
 .petitionform {

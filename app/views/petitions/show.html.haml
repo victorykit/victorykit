@@ -108,7 +108,7 @@
               - placeholder_name = {}
               - placeholder_first_name = {}
               - placeholder_last_name = {}
-            
+
             - if showfullname == "fullname"
               = f.input :name, :hint => false, :input_html => placeholder_name
             - else
@@ -139,7 +139,7 @@
         Spread the word, share on Facebook and Twitter!
       .arrow
 
-      .tweet  
+      .tweet
         %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
       = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
   - content_for(:meta_tags) do
@@ -158,15 +158,15 @@
           Spread the word, share on Facebook and Twitter!
         .arrow
 
-      - if modalrecommendbutton == 'recommend_with_text'
-        .tweet 
-          %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-        = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - elsif modalrecommendbutton == 'recommend_with_box_all_centered'
-        .tweet
-          %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-        = fb_like petition_url(params[:id]), @fb_tracking_hash, 'all_centered', true
-      - elsif modalrecommendbutton == 'recommend_with_box_button_centered'
-        .tweet
-          %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-        = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+        - if modalrecommendbutton == 'recommend_with_text'
+          .tweet
+            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+          = fb_like petition_url(params[:id]), @fb_tracking_hash
+        - elsif modalrecommendbutton == 'recommend_with_box_all_centered'
+          .tweet
+            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'all_centered', true
+        - elsif modalrecommendbutton == 'recommend_with_box_button_centered'
+          .tweet
+            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
