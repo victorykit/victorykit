@@ -167,6 +167,9 @@ body.bootstrap_ui {
 }
 .signature_labels_above_inputs_no_asterisk {
   @extend .signature_labels_above_inputs;
+  .control-group label {
+    width: 100%;
+  }
   .control-label abbr {
     display: none;
   }
