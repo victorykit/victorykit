@@ -2,7 +2,7 @@ class Signature < ActiveRecord::Base
   attr_accessible :email, :name, :first_name, :last_name, :reference_type, :referer_id
   belongs_to :petition
   belongs_to :member
-  validates_presence_of :name
+  validates_presence_of :name, :first_name, :last_name
   validates :email, :presence => true, :email => true
 
   module ReferenceType
