@@ -23,6 +23,9 @@
     %h1.petition_title
       = @petition.title
 
+    - if !current_user.nil? && @petition.has_edit_permissions(current_user)
+      = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
         = fb_like petition_url(params[:id]), @fb_tracking_hash
@@ -72,9 +75,6 @@
       - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
     .description= petitiontext.html_safe
   .petition_sidebar
-    - if !current_user.nil? && @petition.has_edit_permissions(current_user)
-      = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
-
     #signature-form
       .title
         Sign this petition!
