@@ -76,3 +76,4 @@ gem 'rinku', :require => 'rails_rinku'
 gem "flot-rails"
 gem 'nokogiri'
 gem "truncate_html"
+gem "airbrake"

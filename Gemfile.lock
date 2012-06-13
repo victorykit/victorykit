@@ -37,6 +37,9 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     addressable (2.2.8)
+    airbrake (3.1.1)
+      activesupport
+      builder
     anjlab-bootstrap-rails (2.0.3.2)
       railties (>= 3.0)
       sass
@@ -219,6 +222,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  airbrake
   anjlab-bootstrap-rails (>= 2.0)
   autotest
   aws-ses (~> 0.4.4)
