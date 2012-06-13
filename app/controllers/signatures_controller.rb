@@ -29,13 +29,13 @@ class SignaturesController < ApplicationController
         signed_petitions.push petition.id
         cookies[:signed_petitions] = signed_petitions.join "|"
         win! :signature
+        flash[:user_just_signed] = true
       rescue => ex
         flash.notice = ex.message
       end
     else
       flash[:invalid_signature] = signature
     end
-    flash[:user_just_signed] = true
     redirect_to petition_url(petition)
   end
 
