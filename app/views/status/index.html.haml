@@ -12,7 +12,9 @@
   %form{:name => "update-session", :id => "update-session", :action => "/status", :method => "put", :enctype => "text/plain"}
     - session.each do |s|
       #session-value
-        - s_key = s[0].gsub ' ', '__'
-        %label{:for => "#{s_key}", :style => "float:left;width:375px"} #{s[0]}:
-        %input{:type => "text", :name => "#{s_key}", :class => "text", :value => s[1].to_s, :style => "float:left"}
+        - key = s[0]
+        - key_spaceless = key.gsub ' ', '__'
+        - value = s[1].to_s
+        %label{:for => "#{key_spaceless}", :style => "float:left;width:375px"} #{key}:
+        %input{:type => "text", :name => "#{key_spaceless}", :class => "text", :value => value, :style => "float:left"}
     %input{:type => "submit", :value => "Update"}

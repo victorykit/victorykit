@@ -11,9 +11,22 @@ class StatusController < ApplicationController
     if @can_update_session
       params.each do |p|
         key = p[0].gsub('__', ' ')
-        if session[key] then session[key] = p[1] end
+        if session.has_key?(key) then
+          session[key] = convert_type(p[1], session[key].class)
+        end
       end
     end
+  end
+
+  def convert_type(value, clazz)
+    if clazz == FalseClass || clazz == TrueClass
+      return false if value == "false"
+      return true if value == "true"
+    end
+
+    return value.to_i if clazz == Fixnum
+    return value if clazz == String
+    raise "Conversion not yet specified for class: '#{clazz}'"
   end
 
   def can_update_session?
