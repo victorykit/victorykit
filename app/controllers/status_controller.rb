@@ -19,17 +19,21 @@ class StatusController < ApplicationController
   end
 
   def convert_type(value, clazz)
-    if clazz == FalseClass || clazz == TrueClass
-      return false if value == "false"
-      return true if value == "true"
-    end
-
-    return value.to_i if clazz == Fixnum
-    return value if clazz == String
-    raise "Conversion not yet specified for class: '#{clazz}'"
+    boolean_converter = ->(s){ s == "true" ? true : false}
+    type_converters = {
+      Fixnum => ->(s){s.to_i},
+      Float => ->(s){s.to_f},
+      Date => ->(s){s.to_date},
+      TrueClass => boolean_converter,
+      FalseClass => boolean_converter, String => ->(s){s}
+    }
+    tc = type_converters[clazz]
+    raise "Conversion not yet specified for class: '#{clazz}'" if not tc
+    tc[value]
   end
 
   def can_update_session?
     return (params['debug_token'] == ENV['VK_DEBUG_TOKEN'])
   end
+
 end
