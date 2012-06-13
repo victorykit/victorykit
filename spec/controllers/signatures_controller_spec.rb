@@ -82,9 +82,10 @@ describe SignaturesController do
       end
     end
     context "the user signed from an emailed link" do
+      let(:email) { create :sent_email}
+      let(:email_hash) { SentEmailHasher.generate(email.id) }
+
       it "should record wins for any email experiments" do
-        email = create :sent_email
-        email_hash = SentEmailHasher.generate(email.id)
         a = create :email_experiment, sent_email: email
         b = create :email_experiment, sent_email: email
         
@@ -92,6 +93,33 @@ describe SignaturesController do
         [a, b].each {|e| SignaturesController.any_instance.should_receive(:win_on_option!).once.with(e.key, e.choice)}
 
         post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+      end
+
+      it "should update sent email record with the signature_id value" do
+        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+        SentEmail.last.signature_id.should == Signature.last.id
+      end
+
+      it "should set referer and reference type for the signature" do
+        member = create :member, :name => signature_fields[:name], :email => signature_fields[:email]
+        email.member = member
+        email.save!
+        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+        Signature.last.reference_type.should == "email"
+        Signature.last.referer_id.should == member.id
+      end
+    end
+
+    context "the user signed from a facebook post" do
+      let(:member) { create :member, :name => signature_fields[:name], :email => signature_fields[:email]}
+      let(:ref_signature) {  create(:signature, :member_id => member.id) }
+      let(:fb_hash) { fb_hash = SignatureHasher.generate(ref_signature.id) }
+
+      it "should set referer and reference type for the signature" do
+        post :create, petition_id: petition.id, signature: signature_fields, fb_hash: fb_hash
+        puts Signature.all.inspect
+        Signature.last.reference_type.should == "facebook"
+        Signature.last.referer_id.should == member.id
       end
     end
     

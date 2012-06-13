@@ -1,4 +1,5 @@
 require 'sent_email_hasher'
+require 'signature_hasher'
 
 class SignaturesController < ApplicationController
   def create
@@ -16,7 +17,8 @@ class SignaturesController < ApplicationController
         petition.save!
 
         nps_win signature
-        record_visitor(params[:email_hash], signature)
+        record_email_reference(params[:email_hash], signature)
+        record_facebook_reference(params[:fb_hash], signature)
         
         session[:signature_name] = signature.name
         session[:signature_email] = signature.email
@@ -36,12 +38,26 @@ class SignaturesController < ApplicationController
   end
 
   private
-  def record_visitor hash, signature
+  def record_email_reference hash, signature
     if h = SentEmailHasher.validate(hash)
+      # update sent email table
       sent_email = SentEmail.find_by_id(h)
       sent_email.signature_id ||= signature.id
       sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
       sent_email.save!
+      # update reference in signature table
+      signature.reference_type = Signature::ReferenceType::EMAIL
+      signature.referer_id = sent_email.member_id
+      signature.save!
+    end
+  end
+
+  def record_facebook_reference hash, signature
+    if h = SignatureHasher.validate(hash)
+      referers_signature = Signature.find(h)
+      signature.reference_type = Signature::ReferenceType::FACEBOOK
+      signature.referer_id = referers_signature.member_id
+      signature.save!
     end
   end
 

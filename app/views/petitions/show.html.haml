@@ -124,6 +124,8 @@
 
             - if @email_hash
               = hidden_field_tag :email_hash, @email_hash
+            - if @fb_hash
+              = hidden_field_tag :fb_hash, @fb_hash
             = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
       .through_fb
         .text Sign in via

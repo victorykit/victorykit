@@ -37,6 +37,11 @@ describe PetitionsController do
       get :show, {:id => petition.id, n: "some_hash"}
       assigns(:email_hash).should == "some_hash"
     end
+
+    it "should assign fb_hash variable" do
+      get :show, {:id => petition.id, fb_ref: "some_fb_hash"}
+      assigns(:fb_hash).should == "some_fb_hash"
+    end
     
     context "the user has already signed the petition" do
       it "sets facebook ref hash to encoded signature id" do
@@ -55,12 +60,7 @@ describe PetitionsController do
     end
 
     context "the user has not already signed the petition" do
-      it "sets facebook ref hash to email hash if it`s present" do
-        get :show, {:id => petition.id, :n => "some_hash"}
-        assigns(:fb_tracking_hash).should == "some_hash"
-      end
-
-      it "sets facebook ref hash to nil if it is not present" do
+      it "sets facebook ref hash to nil" do
         get :show, {:id => petition.id}
         assigns(:fb_tracking_hash).should be_nil
       end
