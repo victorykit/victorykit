@@ -18,6 +18,7 @@ module ApplicationHelper
     attributes = {href: url, send: false, show_faces: false, action: 'like', ref: ref_hash}
     attributes.merge!({layout: 'button_count'}) if is_button_count
     attributes.merge!({width: '215'}) if is_in_modal
+    attributes.merge!({width: '270'}) if !is_in_modal
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
 

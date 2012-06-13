@@ -123,7 +123,7 @@
 
       .tweet
         %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-      = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
+      = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, false, true)
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
       = content_tag "meta", nil, property:key, content:value
