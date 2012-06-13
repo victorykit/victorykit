@@ -19,9 +19,8 @@
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
-  - tweakingbackground = spin! "changing background colors", :share, ["white_background", "bootstrap_ui"]
 
-  %body{class: [tweakingbackground]}
+  %body
     = render :partial =>  "shared/navigation"
     .container
       .content

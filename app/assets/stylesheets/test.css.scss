@@ -1,68 +1,6 @@
 @import "bootstrap";
 @import "responsive";
 
-/* Background Color Tests */
-
-/*  white background  */
-body.white_background {
-  background: url('white.png');
-  .topnav {
-    @extend .span12;
-    background: none;
-    margin: 4px auto;
-    padding-bottom: 4px;
-    a.logo { background: url('logo_grey.png'); }
-    a, div { color: #777; }
-    &a:hover { color: #444; }
-  }
-  .container {
-    border-top: 2px solid #aaa;
-  }
-  .content {
-    background: none;
-  }
-  hr {
-    border-top: 1px solid #666;
-  }
-  .admin.topnav {
-    height: 70px;
-    *height: 80px;
-    hr {
-      display: block;
-      border-bottom: 2px solid #aaa;
-      border-top: none;
-      margin-left: -0.5%;
-      width: 101%;
-    }
-    .nav_links {
-      margin-top: 5px;
-      *margin-top: -5px;
-    }
-  }
-}
-/* modifications for basic bootstrap */
-body.bootstrap_ui {
-  .topnav {
-    a, div { color: #eee; }
-    a:hover { color: #fff; }
-  }
-  .admin.topnav {
-    height: 82px;
-    *height: 90px;
-    hr {
-      display: block;
-      border-bottom: 1px solid #777;
-      border-top: none;
-    }
-    .nav_links {
-      *margin-top: -4px;
-    }
-  }
-}
-
-
-
-
 /* tests for petition show UI */
 
 /* petition left vs right */

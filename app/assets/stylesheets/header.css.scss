@@ -38,6 +38,8 @@
       }
     }
   }
+  a, div { color: #eee; }
+  a:hover { color: #fff; }
 }
 .logininfo {
   float: right;
@@ -57,22 +59,27 @@
 .nav {
   margin-bottom: 0;
 }
-.admin.topnav {
-  height: 82px;
-  .nav_links {
-    clear: both;
-    margin: 3px 0 0 -30px;
-  }
-  hr {
-    margin: 0;
-  }
-}
 .topnav .navigation a.logo {
   background: url('logo_white.png');
   height: 24px;
   width: 221px;
   margin: 6px;
   float: left;
+  }
+.admin.topnav {
+  height: 82px;
+  *height: 90px;
+  hr {
+    display: block;
+    border-bottom: 1px solid #777;
+    border-top: none;
+    margin: 0;
+  }
+  .nav_links {
+    *margin-top: -4px;
+    clear: both;
+    margin: 3px 0 0 -30px;
+  }
 }
 
 /* dataTable */
