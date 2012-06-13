@@ -8,10 +8,11 @@
 %p
   Your user agent: #{@user_agent}
 
-- if not Rails.env.production?
-  %form{:name => "update-session", :id => "update-session", :action => "/status/1", :method => "put", :enctype => "text/plain"}
+- if @can_update_session
+  %form{:name => "update-session", :id => "update-session", :action => "/status", :method => "put", :enctype => "text/plain"}
     - session.each do |s|
       #session-value
-        - s_key = s[0].gsub ' ', '_'
+        - s_key = s[0].gsub ' ', '__'
         %label{:for => "#{s_key}", :style => "float:left;width:375px"} #{s[0]}:
         %input{:type => "text", :name => "#{s_key}", :class => "text", :value => s[1].to_s, :style => "float:left"}
+    %input{:type => "submit", :value => "Update"}
