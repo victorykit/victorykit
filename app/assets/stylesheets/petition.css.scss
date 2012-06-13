@@ -108,6 +108,12 @@
       margin-left: 0;
       &.btn { width: 100%; }
     }
+    #hint {
+      margin-bottom:7px;
+      clear: both;
+      text-align: center;
+      display: none;
+    }
   }
   .through_fb {
     float: right;
@@ -301,6 +307,6 @@
 }
 
 
-#ask-to-sign , #ask-to-sign-modal {
+#tweet, #ask-to-sign , #ask-to-sign-modal {
   display: none;
 }

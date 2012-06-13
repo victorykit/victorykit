@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  displayForBaseline();
   isPetitionSigned() ? displayForPetitionSigned() : displayForPetitionNotSigned();
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
@@ -8,12 +7,6 @@ $(document).ready(function() {
   initFacebook();
   initTabIndexes();
 });
-
-function displayForBaseline() {
-  $('#ask-to-sign').hide();
-  $('#ask-to-sign-modal').hide();
-  $('.tweet').hide();
-}
 
 function isPetitionSigned(){
   var cookie = $.cookie('signed_petitions') || '';
@@ -114,7 +107,7 @@ function initFacebook() {
     FB.Event.subscribe('edge.create', function(response) {
        $('.tweet').show();
     })
-  });  
+  });
 }
 
 function initTwitter() {
