@@ -1,10 +1,10 @@
 %meta{'http-equiv' => 'X-UA-Compatible',  'content' => 'chrome=1'}
 
-= simple_form_for(@petition, :html => {:class => 'form-horizontal' }) do |f|
-  = f.input :title, :as => :string
-  = f.input :description
+= simple_form_for(@petition, html: {class: 'form-horizontal' }) do |f|
+  = f.input :title, as: :string, tabindex: 1
+  = f.input :description, tabindex: 2
   - if can :feature_petition
-    = f.input :to_send, :label => 'Feature this petition'
+    = f.input :to_send, label: 'Feature this petition', tabindex: 3
   .controls
-    = f.button :submit, :class => 'btn btn-primary'
+    = f.button :submit, class: 'btn btn-primary', tabindex: 4
 
