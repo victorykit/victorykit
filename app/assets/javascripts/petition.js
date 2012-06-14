@@ -7,7 +7,6 @@ $(document).ready(function() {
   if(!VK.signing_from_email)
     new EmailSuggestions().init();
   initTwitter();
-  initFacebook();
   initTabIndexes();
 });
 
@@ -79,25 +78,6 @@ function EmailSuggestions() {
       }
     });
   }
-}
-
-function initFacebook() {
-  // prevent jQuery from appending cache busting string to the end of the FeatureLoader URL
-  var cache = jQuery.ajaxSettings.cache;
-  jQuery.ajaxSettings.cache = true;
-
-  // Load FeatureLoader asynchronously. Once loaded, we execute Facebook init
-  jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
-    FB.init({status: true, cookie: true, xfbml: true});
-  });
-  // just Restore jQuery caching setting
-  jQuery.ajaxSettings.cache = cache;
-
-  jQuery.getScript('http://connect.facebook.net/en_US/all.js', function() {
-    FB.Event.subscribe('edge.create', function(response) {
-       $('.tweet').show();
-    })
-  });
 }
 
 function initTwitter() {

@@ -43,6 +43,7 @@ module ApplicationHelper
             $.ajax({
               url: '#{like_tracker_url}'
             });
+						$('.tweet').show();
           });
           FB.Event.subscribe('edge.remove', function(targetUrl){
             _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
