@@ -56,8 +56,8 @@ class Admin::ExperimentsController < ApplicationController
   end
   
   def signatures_by_hour
-    q = SentEmail.connection.execute("select date_part('hour', signatures.created_at) as d, count(*) as c from signatures join sent_emails on (sent_emails.signature_id = signatures.id) group by date_part('hour', signatures.created_at)").to_a
-    Hash[q.collect{|k|[k["d"].to_i, k["c"].to_i]}]
+    q = Signature.count(:group => "date_part('hour', signatures.created_at)", :joins => :sent_email)
+    Hash[q.map{|(k,v)| [k.to_i,v]}]
   end
   
   def index
