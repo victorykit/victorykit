@@ -23,10 +23,7 @@
   padding: 0;
   margin-left: 8px;
 }
-#thanks-for-signing-message {
-  @extend .rightcolwell;
-  display: none;
-}
+
 .petition {
   @extend .span9;
   float: left;
@@ -160,12 +157,16 @@
     height: 100px;
     width: 100px;
   }
-  fb\:like {
-    margin: 4px;
-    padding: 4px 5px 4px 3px;
-  }
   .tweet {
     margin-left: 45px;
+  }
+}
+#thanks-for-signing-message {
+  @extend .rightcolwell;
+  display: none;
+  fb\:like {
+    margin: 4px;
+    padding: 4px 10px 4px 58px;
   }
 }
 #thanksModal {
@@ -193,7 +194,7 @@
     color: #666;
     margin: 5px; }
   fb\:like {
-    margin: 5px 0 10px 38px;
+    margin: 5px 0 10px 50px;
   }
 }
 .petitionform {
@@ -261,7 +262,6 @@
     width: auto;
   }
 }
-
 .petitionlist {
   .petition {
     @extend .span8;

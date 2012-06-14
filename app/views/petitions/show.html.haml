@@ -11,7 +11,6 @@
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
-- modalrecommendbutton = spin! "different renderings for fb recommend on modal", :share, ["recommend_with_text", "recommend_with_box_all_centered", "recommend_with_box_button_centered"]
 - signpetition_ask_vs_tell = spin! "ask vs tell to sign petition", :signature, ["ask", "tell"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
 :javascript
@@ -123,7 +122,7 @@
 
       .tweet
         %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-      = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, false, true)
+      = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
       = content_tag "meta", nil, property:key, content:value
@@ -131,24 +130,15 @@
   = hidden_field_tag 'petitionId', @petition.id
 
   - if spin!("toggle showing vs. not showing modal", :share) && @user_just_signed
-    .modal#thanksModal
-      .modal-body
-        = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-        .thanks
-          Thanks for signing!
-        .share
-          Spread the word, share on Facebook and Twitter!
-        .arrow
-
-        - if modalrecommendbutton == 'recommend_with_text'
-          .tweet
-            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-          = fb_like petition_url(params[:id]), @fb_tracking_hash, '', false, true
-        - elsif modalrecommendbutton == 'recommend_with_box_all_centered'
-          .tweet
-            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'all_centered', true
-        - elsif modalrecommendbutton == 'recommend_with_box_button_centered'
-          .tweet
-            %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+    banana
+  .modal#thanksModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      .thanks
+        Thanks for signing!
+      .share
+        Spread the word, share on Facebook and Twitter!
+      .arrow
+      .tweet
+        %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+      = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
