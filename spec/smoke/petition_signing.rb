@@ -10,7 +10,8 @@ describe 'Petition page' do
   end
   it 'should allow users to sign' do
     sign_petition
-    wait.until { element :class => "thanks" }
+    wait.until { element :id => "thanks-for-signing-message" }
+    element_exists(:id => "signature-form").displayed?.should == false
   end
   it 'should ensure user provides a name' do
     if element_exists :id => 'signature_name'
@@ -21,13 +22,13 @@ describe 'Petition page' do
 end
 
 def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
-	if element_exists :id => 'signature_first_name'
-		first_name, last_name = name.split(' ')
-		type(first_name).into(:id => 'signature_first_name')
-		type(last_name).into(:id => 'signature_last_name')
-	else
-		type(name).into(:id => 'signature_name')
-	end
-	type(email).into(:id => 'signature_email')
-	click :id => 'sign_petition'
+  if element_exists :id => 'signature_first_name'
+    first_name, last_name = name.split(' ')
+    type(first_name).into(:id => 'signature_first_name')
+    type(last_name).into(:id => 'signature_last_name')
+  else
+    type(name).into(:id => 'signature_name')
+  end
+  type(email).into(:id => 'signature_email')
+  click :id => 'sign_petition'
 end

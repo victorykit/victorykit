@@ -23,7 +23,6 @@
   padding: 0;
   margin-left: 8px;
 }
-
 .petition {
   @extend .span9;
   float: left;
@@ -166,13 +165,13 @@
 }
 #thanks-for-signing-message {
   @extend .rightcolwell;
-  display: none;
   fb\:like {
     margin: 4px;
     padding: 4px 10px 4px 58px;
   }
 }
 #thanksModal {
+  display: none;
   width: 700px;
   height: 500px;
   background: none;

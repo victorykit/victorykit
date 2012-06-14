@@ -23,13 +23,10 @@ class SignaturesController < ApplicationController
         session[:signature_name] = signature.name
         session[:signature_email] = signature.email
         session[:last_signature_id] = signature.id
-
-        cookie = cookies[:signed_petitions] || ""
-        signed_petitions = cookie.split "|"
-        signed_petitions.push petition.id
-        cookies[:signed_petitions] = signed_petitions.join "|"
+        
+        update_cookies petition
+        flash[:just_signed] = true
         win! :signature
-        flash[:user_just_signed] = true
       rescue => ex
         flash.notice = ex.message
       end
@@ -61,6 +58,13 @@ class SignaturesController < ApplicationController
       signature.referer_id = referers_signature.member_id
       signature.save!
     end
+  end
+
+  def update_cookies petition
+    cookie = cookies[:signed_petitions] || ""
+    signed_petitions = cookie.split "|"
+    signed_petitions.push petition.id.to_s
+    cookies[:signed_petitions] = signed_petitions.join "|"
   end
 
   def nps_win signature

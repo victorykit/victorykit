@@ -16,7 +16,8 @@ class PetitionsController < ApplicationController
     @email_hash = params[:n]
     @fb_hash = params[:fb_ref]
     @fb_tracking_hash = SignatureHasher.generate(session[:last_signature_id])
-    @user_just_signed = flash[:user_just_signed]
+    @was_signed = is_petition_in_cookies @petition
+    @just_signed = flash[:just_signed]
     unless @signature = flash[:invalid_signature]    
       @signature = Signature.new
       prepopulate_signature
@@ -64,6 +65,12 @@ class PetitionsController < ApplicationController
       render action: "edit"
     end
   end
+  
+  def is_petition_in_cookies petition
+    cookie = cookies[:signed_petitions] || ""
+    signed_petitions = cookie.split "|"
+    signed_petitions.include? petition.id.to_s
+  end
 
   private
 
@@ -78,6 +85,7 @@ class PetitionsController < ApplicationController
       @signature.email = session[:signature_email]
     end
   end
+
 
   def track_visit
     if sent_email_id = SentEmailHasher.validate(params[:n])

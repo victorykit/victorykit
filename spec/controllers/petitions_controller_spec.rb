@@ -42,6 +42,20 @@ describe PetitionsController do
       get :show, {:id => petition.id, fb_ref: "some_fb_hash"}
       assigns(:fb_hash).should == "some_fb_hash"
     end
+
+    it "should set was_signed to false if cookies don`t contain this petition" do
+      controller.stub(:cookies => {signed_petitions: "1|2|3"})
+      create(:petition, :id => 10)
+      get :show, :id => 10
+      assigns(:was_signed).should == false
+    end
+
+    it "should set was_signed to true if cookies don`t contain this petition" do
+      controller.stub(:cookies => {signed_petitions: "1|2|3"})
+      create(:petition, :id => 1)
+      get :show, :id => 1
+      assigns(:was_signed).should == true
+    end
     
     context "the user has already signed the petition" do
       it "sets facebook ref hash to encoded signature id" do
