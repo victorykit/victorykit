@@ -45,14 +45,36 @@
 %h2
   Email response by hour
 
-#hourchart{style: "width:600px;height:300px"}
+%table
+  %tr
+    %th
+      Response rate to emails by hour sent
+    %th
+      Signatures on emails sent by hour signed
+  %tr
+    %td
+      #hourchart1{style: "width:600px;height:300px"}
+    %td
+      #hourchart2{style: "width:600px;height:300px"}
 %script{type: "text/javascript"}
-  $.plot($("#hourchart"), [[
-  - @hourlydata[0].keys.sort.each do |h|
+  $.plot($("#hourchart1"), [[
+  - @hourlydata1[0].keys.sort.each do |h|
     [
     =h
     ,
-    =@hourlydata[1][h]/@hourlydata[0][h].to_f
+    =@hourlydata1[1][h]/@hourlydata1[0][h].to_f
+    ],
+  ]], {
+  series: {
+  lines: {show: true, fill: true},
+  points: {show: true, fill: true}}})
+%script{type: "text/javascript"}
+  $.plot($("#hourchart2"), [[
+  - @hourlydata2.keys.sort.each do |h|
+    [
+    =h
+    ,
+    =@hourlydata2[h]
     ],
   ]], {
   series: {

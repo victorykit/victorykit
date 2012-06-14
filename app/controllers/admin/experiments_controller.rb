@@ -54,9 +54,15 @@ class Admin::ExperimentsController < ApplicationController
     wins = Hash[signed_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
     [spins, wins]
   end
-
+  
+  def signatures_by_hour
+    q = SentEmail.connection.execute("select date_part('hour', signatures.created_at) as d, count(*) as c from signatures join sent_emails on (sent_emails.signature_id = signatures.id) group by date_part('hour', signatures.created_at)").to_a
+    Hash[q.collect{|k|[k["d"].to_i, k["c"].to_i]}]
+  end
+  
   def index
     @stats = stats
-    @hourlydata = sent_emails_by_hour
+    @hourlydata1 = sent_emails_by_hour
+    @hourlydata2 = signatures_by_hour
   end
 end
