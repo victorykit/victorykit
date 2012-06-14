@@ -19,11 +19,11 @@
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition
     -#.petition_image
-    %h1.petition_title
-      = @petition.title
-
-    - if !current_user.nil? && @petition.has_edit_permissions(current_user)
+    - if @petition.has_edit_permissions(current_user)
+      %h1.petition_title.admin= @petition.title
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+    - else
+      %h1.petition_title= @petition.title
 
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons

@@ -6,17 +6,18 @@ class Petition < ActiveRecord::Base
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
   before_validation :strip_whitespace
-  
+
   def has_edit_permissions(current_user)
+    return false if current_user.nil?
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
-  
+
   def self.find_interesting_petitions_for(member)
     Petition.find_all_by_to_send(true) -
-      Signature.find_all_by_member_id(member).map{|s| s.petition} - 
-      SentEmail.find_all_by_member_id(member).map{|e| e.petition}    
+      Signature.find_all_by_member_id(member).map{|s| s.petition} -
+      SentEmail.find_all_by_member_id(member).map{|e| e.petition}
   end
-  
+
   def strip_whitespace
     self.title.strip! unless self.title.nil?
   end
