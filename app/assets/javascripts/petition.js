@@ -1,7 +1,6 @@
 $(document).ready(function() {
-  if (isPetitionSigned()) {
-    displayForPetitionSigned();
-  }
+  // will show it only if it`s in the DOM
+  $('#thanksModal').modal('toggle');
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
   if(!VK.signing_from_email)
@@ -9,19 +8,6 @@ $(document).ready(function() {
   initTwitter();
   initTabIndexes();
 });
-
-function isPetitionSigned(){
-  var cookie = $.cookie('signed_petitions') || '';
-  var petitionIds = cookie.split("|");
-  var currentPetitionId = $('#petitionId').val();
-  return ($.inArray(currentPetitionId, petitionIds) > -1);
-}
-
-function displayForPetitionSigned() {
-  $('#thanks-for-signing-message').show();
-  $('#signature-form').hide();
-  $('#thanksModal').modal('toggle');
-}
 
 function initTabIndexes() {
   $('#petition_title').attr('tabIndex', '1');
@@ -71,7 +57,8 @@ function EmailSuggestions() {
       suggested: function(element, suggestion) {
         event.go = true;
         if(!$hint.html()) {
-          var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?";
+          var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?" +
+              "<br/>Click the '" + $("#sign_petition").val() + "' button again if your address is correct";
           $hint.html(suggestion).fadeIn(150);
           event.go = false;
         }

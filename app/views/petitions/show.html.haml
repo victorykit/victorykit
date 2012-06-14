@@ -74,7 +74,7 @@
       - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
     .description= petitiontext.html_safe
   .petition_sidebar
-    #signature-form
+    #signature-form{:style => @was_signed ? 'display:none' : ''}
       .title
         Sign this petition!
       .through_site
@@ -113,7 +113,7 @@
       .privacypolicy
         We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
-    #thanks-for-signing-message
+    #thanks-for-signing-message{:style => @was_signed ? '' : 'display:none'}
       .thanks
         Thanks for signing!
       .share
@@ -129,7 +129,7 @@
 
   = hidden_field_tag 'petitionId', @petition.id
 
-  - if spin!("toggle showing vs. not showing modal", :share) && @user_just_signed
+  - if spin!("toggle showing vs. not showing modal", :share) && @just_signed
     .modal#thanksModal
       .modal-body
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
