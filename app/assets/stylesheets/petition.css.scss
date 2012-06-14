@@ -90,9 +90,7 @@
     padding: 15px;
     line-height: 30px;
   }
-  .help-inline {
-    margin: -5px 0 15px 0;
-  }
+
   .privacypolicy {
     width: 100%;
     padding: 0 0 10px 0;
@@ -108,11 +106,20 @@
       margin-left: 0;
       &.btn { width: 100%; }
     }
+    .help-inline {
+      @extend .alert;
+      @extend .alert-error;
+      padding: 5px 10px;
+      margin-top: 0;
+    }
     #hint {
       margin-bottom:7px;
       clear: both;
       text-align: center;
       display: none;
+    }
+    .control-label {
+      width: 100%;
     }
   }
   .through_fb {
