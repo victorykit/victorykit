@@ -130,15 +130,14 @@
   = hidden_field_tag 'petitionId', @petition.id
 
   - if spin!("toggle showing vs. not showing modal", :share) && @user_just_signed
-    banana
-  .modal#thanksModal
-    .modal-body
-      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-      .thanks
-        Thanks for signing!
-      .share
-        Spread the word, share on Facebook and Twitter!
-      .arrow
-      .tweet
-        %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-      = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+    .modal#thanksModal
+      .modal-body
+        = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+        .thanks
+          Thanks for signing!
+        .share
+          Spread the word, share on Facebook and Twitter!
+        .arrow
+        .tweet
+          %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+        = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true

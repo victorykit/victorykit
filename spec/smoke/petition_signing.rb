@@ -26,7 +26,6 @@ def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
 		type(first_name).into(:id => 'signature_first_name')
 		type(last_name).into(:id => 'signature_last_name')
 	else
-
 		type(name).into(:id => 'signature_name')
 	end
 	type(email).into(:id => 'signature_email')
