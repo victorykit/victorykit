@@ -171,6 +171,19 @@ describe PetitionsController do
         response.should render_template("new")
       end
     end
+
+    describe "with seeding signature experiment true" do
+      before(:each) do
+        @logged_in_user = create(:user)
+        controller.stub(:spin!).with("seed signatures with creator", :signature).and_return(true)
+        post :create, {petition: valid_attributes}, {user_id: @logged_in_user.id}
+      end
+      it "creates petition having first signature derived from user" do
+        signatures = assigns(:petition).signatures
+        signatures.count.should eq(1)
+        signatures.first.email.should eq(@logged_in_user.email)
+      end
+    end
   end
 
   describe "PUT update" do

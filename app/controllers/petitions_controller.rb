@@ -50,6 +50,7 @@ class PetitionsController < ApplicationController
     @petition.ip_address = connecting_ip
 
     if @petition.save
+      experiment_seeding_signature
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
       @form_view = choose_form_based_on_browser
@@ -111,4 +112,30 @@ class PetitionsController < ApplicationController
       end
     end
   end
+
+  #todo: This is largely copied from SignaturesController.create - refactor commonality if experiment wins
+  def experiment_seeding_signature
+    return if not spin! "seed signatures with petition creator", :signature
+
+    email = current_user.email
+    member = Member.find_by_email(email)
+    name = member.name unless not member
+    name = name.nil? ? email[/^[^@]+/] : name
+
+    signature = Signature.new(:name => name, :email => email)
+    signature.ip_address = request.remote_ip
+    signature.user_agent = request.env["HTTP_USER_AGENT"]
+    signature.member = Member.find_or_initialize_by_email(email: email, name: name)
+    signature.created_member = signature.member.new_record?
+
+    if signature.valid?
+      begin
+        @petition.signatures.push signature
+        petition.save!
+      rescue => ex
+        flash.notice = ex.message
+      end
+    end
+  end
+
 end
