@@ -10,9 +10,9 @@
     %h1
       Sign Up
     = simple_form_for @user do |f|
-      = f.input :email, :error => false
-      = f.input :password, :error => false, :required => true
-      = f.input :password_confirmation, :error => false, :required => true
+      = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
+      = f.input :password, :error => false, :required => true, :input_html => { :autocomplete => "off" }
+      = f.input :password_confirmation, :error => false, :required => true, :input_html => { :autocomplete => "off" }
       = f.button :submit, :class => 'btn btn-primary', :id => 'sign-up-submit', :value => 'Sign Up'
 
   = render :partial => 'shared/login_form'
