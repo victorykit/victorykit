@@ -7,9 +7,7 @@ describe "statistics dashboard" do
 			go_to 'admin/petitions'
 		  wait_for_ajax
 		  doc = Nokogiri::HTML($driver.page_source)
-
-		  row_count = doc.xpath("count(//table/tbody/tr)")
-		  row_count.should > 0
+		  doc.xpath("count(//table/tbody/tr)").should_not be_zero
 		end
 	end
 end

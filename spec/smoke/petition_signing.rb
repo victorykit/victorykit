@@ -10,14 +10,12 @@ describe 'Petition page' do
   end
   it 'should allow users to sign' do
     sign_petition
-    wait.until { element :id => "thanks-for-signing-message" }
-    element_exists(:id => "signature-form").displayed?.should == false
+    element(:id => "thanks-for-signing-message").should be_displayed
+    element(:id => "signature-form").should_not be_displayed
   end
   it 'should ensure user provides a name' do
-    if element_exists :id => 'signature_name'
-      sign_petition '', 'bob@bobs.com'
-      wait.until { element :class => 'help-inline'}
-    end
+    sign_petition '', 'bob@bobs.com'
+    element(:class => 'help-inline').text.should == "can't be blank"
   end
 end
 

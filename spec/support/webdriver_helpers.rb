@@ -16,6 +16,7 @@ module WebDriverHelpers
 	def element_exists locator
 	  begin
 	    element locator
+		  true
 	  rescue
 	    false
 	  end

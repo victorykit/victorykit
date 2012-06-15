@@ -11,6 +11,7 @@ describe "front page" do
   
   it "should ask users to log in before creating a petition" do
     click :class => 'btn-primary'
-    wait.until { element :class => "email" }
+    element(:id => "new_session_email").should be_displayed
+    element(:id => "new_session_password").should be_displayed
   end
 end
