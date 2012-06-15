@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'signature_hasher'
+require 'member_hasher'
 
 describe PetitionsController do
 
@@ -44,28 +44,30 @@ describe PetitionsController do
     end
 
     it "should set was_signed to false if cookies don`t contain this petition" do
-      controller.stub(:cookies => {signed_petitions: "1|2|3"})
-      create(:petition, :id => 10)
-      get :show, :id => 10
+      member = create(:member)
+      controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
+      get :show, :id => petition.id.to_s
       assigns(:was_signed).should == false
     end
 
     it "should set was_signed to true if cookies don`t contain this petition" do
-      controller.stub(:cookies => {signed_petitions: "1|2|3"})
-      create(:petition, :id => 1)
-      get :show, :id => 1
+      member = create(:member)
+      controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
+      create(:signature, :member_id => member.id, :petition_id => petition.id)
+      get :show, :id => petition.id.to_s
       assigns(:was_signed).should == true
     end
     
     context "the user has already signed the petition" do
       it "sets facebook ref hash to encoded signature id" do
-        controller.stub(session: {last_signature_id: petition.id})
+        controller.stub(cookies: {member_id: "hash"})
         get :show, {:id => petition.id}
-        assigns(:fb_tracking_hash).should == SignatureHasher.generate(petition.id)
+        assigns(:fb_tracking_hash).should == "hash"
       end
 
       it "assigns a signature name and email to the view" do
-        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
+        member = create(:member, :name => "Bob", :email => "bob@bob.com")
+        controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
         get :show, {:id => petition.id}
         assigns(:signature).name.should == "Bob"
         assigns(:signature).email.should == "bob@bob.com"
@@ -82,12 +84,11 @@ describe PetitionsController do
 
     context "populate signature when email hash param is present" do
       let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
       let(:sent_email) { create :sent_email, member: member }
       it "should assign values from member" do
-        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
-        SentEmailHasher.stub(:validate).and_return(12)
-        SentEmail.stub(:find_by_id).with(12).and_return(sent_email)
-        get :show, {:id => petition.id}
+        controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+        get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
 
         assigns(:signature).name.should == "Sven"
         assigns(:signature).email.should == "sven@svenland.se"
@@ -96,13 +97,12 @@ describe PetitionsController do
 
     context "do not populate signature if petition already signed from the email" do
       let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
       let(:signature) { create :signature }
       let(:sent_email) { create :sent_email, member: member, signature_id: signature.id}
       it "should assign values from member" do
-        controller.stub(session: {signature_name: "Bob", signature_email: "bob@bob.com"})
-        SentEmailHasher.stub(:validate).and_return(12)
-        SentEmail.stub(:find_by_id).with(12).and_return(sent_email)
-        get :show, {:id => petition.id}
+        controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+        get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
 
         assigns(:signature).name.should == "Bob"
         assigns(:signature).email.should == "bob@bob.com"

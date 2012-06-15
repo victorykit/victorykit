@@ -46,6 +46,7 @@ module WebDriverHelpers
 
 	  def into locator
 	    input = element(locator)
+            input.clear
 	    input.send_keys @text
 	  end
 

@@ -1,5 +1,5 @@
 require 'sent_email_hasher'
-require 'signature_hasher'
+require 'member_hasher'
 
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
@@ -15,8 +15,8 @@ class PetitionsController < ApplicationController
     @sigcount = @petition.signatures.count
     @email_hash = params[:n]
     @fb_hash = params[:fb_ref]
-    @fb_tracking_hash = SignatureHasher.generate(session[:last_signature_id])
-    @was_signed = is_petition_in_cookies @petition
+    @fb_tracking_hash = cookies[:member_id]
+    @was_signed = was_petition_signed @petition
     @just_signed = flash[:just_signed]
     unless @signature = flash[:invalid_signature]    
       @signature = Signature.new
@@ -26,16 +26,16 @@ class PetitionsController < ApplicationController
 
   def new
     @petition = Petition.new
-	  @form_view = choose_form_based_on_browser
+    @form_view = choose_form_based_on_browser
   end
 
   def choose_form_based_on_browser
- 		if browser.ie? and !(browser.user_agent =~ /chromeframe/)
-       'ie_form'
-     else
-       'form'
- 		end
- 	end
+    if browser.ie? and !(browser.user_agent =~ /chromeframe/)
+      'ie_form'
+    else
+      'form'
+    end
+  end
 
   def edit
     @petition = Petition.find(params[:id])
@@ -66,26 +66,39 @@ class PetitionsController < ApplicationController
     end
   end
   
-  def is_petition_in_cookies petition
-    cookie = cookies[:signed_petitions] || ""
-    signed_petitions = cookie.split "|"
-    signed_petitions.include? petition.id.to_s
-  end
-
   private
 
-  def prepopulate_signature
-    if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
-    if sent_email && sent_email.signature_id.nil?
-      @signature.name =  sent_email.member.name
-      @signature.email = sent_email.member.email
-	    @signing_from_email = true
+  def was_petition_signed petition
+    if member_id = MemberHasher.validate(cookies[:member_id])
+      Signature.count(:conditions => {:petition_id => petition.id, :member_id => member_id}) > 0
     else
-      @signature.name =  session[:signature_name]
-      @signature.email = session[:signature_email]
+      false
     end
   end
 
+
+  def prepopulate_signature
+    begin
+      if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
+      if sent_email && sent_email.signature_id.nil?
+        @signature.name =  sent_email.member.name
+        @signature.email = sent_email.member.email
+        @signing_from_email = true
+      else
+        populate_member_from_cookies
+      end
+    rescue => er
+      Rails.logger.error "Error while prepopulating member info: #{er} #{er.backtrace.join}"
+    end
+  end
+
+  def populate_member_from_cookies
+    if member_id = MemberHasher.validate(cookies[:member_id])
+      member = Member.find member_id
+      @signature.name = member.name
+      @signature.email = member.email
+    end
+  end
 
   def track_visit
     if sent_email_id = SentEmailHasher.validate(params[:n])

@@ -27,11 +27,9 @@ describe SignaturesController do
         email[:subject].to_s.should match /#{petition.title}/
       end
 
-      it "it should record the signature data to the session" do
+      it "it should record hashed member id to cookies" do
         sign_petition
-        session[:signature_name].should == signature_fields[:name]
-        session[:signature_email].should == signature_fields[:email]
-        session[:last_signature_id].should == Signature.find_by_email(signature_fields[:email]).id
+        cookies[:member_id].should == MemberHasher.generate(Signature.find_by_email(signature_fields[:email]).member_id)
       end
 
       it "should redirect to the petition page" do
@@ -50,8 +48,8 @@ describe SignaturesController do
       before :each do
         sign_without_name_or_email
       end
-      it "should not add to the signed_petitions cookie" do
-        response.cookies["signed_petitions"].should_not include {petition.id.to_s}
+      it "should not add to cookies" do
+        response.cookies["member_id"].should be_nil
       end
       it "should redirect to the petition show page" do
         should redirect_to petition_url(petition)
@@ -61,24 +59,12 @@ describe SignaturesController do
       before :each do
         sign_petition
       end
-      it "should create a cookie to store signed petitions" do
-        response.cookies["signed_petitions"].should eq petition.id.to_s
-      end
       it "should create a member record" do
         Member.exists?(:email => signature_fields[:email]).should be_true
       end
       it "should indicate that this was the first petition signed by this member" do
         signature = Signature.find_by_email signature_fields[:email]
         signature.created_member.should be_true
-      end
-    end
-    context "the user has already signed another petition" do
-      before :each do
-        request.cookies["signed_petitions"] = "some other id"
-        sign_petition
-      end
-      it "should add the signed petition ID into the cookie" do
-         response.cookies["signed_petitions"].split("|").should include(petition.id.to_s)
       end
     end
     context "the user signed from an emailed link" do
@@ -111,9 +97,8 @@ describe SignaturesController do
     end
 
     context "the user signed from a facebook post" do
-      let(:member) { create :member, :name => signature_fields[:name], :email => signature_fields[:email]}
-      let(:ref_signature) {  create(:signature, :member_id => member.id) }
-      let(:fb_hash) { fb_hash = SignatureHasher.generate(ref_signature.id) }
+      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:fb_hash) { fb_hash = MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
         post :create, petition_id: petition.id, signature: signature_fields, fb_hash: fb_hash

@@ -1,5 +1,5 @@
 require 'sent_email_hasher'
-require 'signature_hasher'
+require 'member_hasher'
 
 class SignaturesController < ApplicationController
   def create
@@ -12,7 +12,6 @@ class SignaturesController < ApplicationController
     if signature.valid?
       begin
         petition.signatures.push signature
-
         Notifications.signed_petition signature
         petition.save!
 
@@ -20,11 +19,8 @@ class SignaturesController < ApplicationController
         record_email_reference(params[:email_hash], signature)
         record_facebook_reference(params[:fb_hash], signature)
         
-        session[:signature_name] = signature.name
-        session[:signature_email] = signature.email
-        session[:last_signature_id] = signature.id
+        cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
         
-        update_cookies petition
         flash[:just_signed] = true
         win! :signature
       rescue => ex
@@ -39,32 +35,33 @@ class SignaturesController < ApplicationController
   private
   def record_email_reference hash, signature
     if h = SentEmailHasher.validate(hash)
-      # update sent email table
-      sent_email = SentEmail.find_by_id(h)
-      sent_email.signature_id ||= signature.id
-      sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
-      sent_email.save!
-      # update reference in signature table
-      signature.reference_type = Signature::ReferenceType::EMAIL
-      signature.referer_id = sent_email.member_id
-      signature.save!
+      begin
+        # update sent email table
+        sent_email = SentEmail.find_by_id(h)
+        sent_email.signature_id ||= signature.id
+        sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
+        sent_email.save!
+        # update reference in signature table
+        signature.reference_type = Signature::ReferenceType::EMAIL
+        signature.referer_id = sent_email.member_id
+        signature.save!
+      rescue => er
+        Rails.logger.error "Error in recording email reference: #{er} #{er.backtrace.join}"
+      end
     end
   end
 
   def record_facebook_reference hash, signature
-    if h = SignatureHasher.validate(hash)
-      referers_signature = Signature.find(h)
-      signature.reference_type = Signature::ReferenceType::FACEBOOK
-      signature.referer_id = referers_signature.member_id
-      signature.save!
+    if h = MemberHasher.validate(hash)
+      begin
+        referer = Member.find(h)
+        signature.reference_type = Signature::ReferenceType::FACEBOOK
+        signature.referer_id = referer.id
+        signature.save!
+      rescue => er
+        Rails.logger.error "Error in recording facebook reference: #{er} #{er.backtrace.join}"
+      end
     end
-  end
-
-  def update_cookies petition
-    cookie = cookies[:signed_petitions] || ""
-    signed_petitions = cookie.split "|"
-    signed_petitions.push petition.id.to_s
-    cookies[:signed_petitions] = signed_petitions.join "|"
   end
 
   def nps_win signature

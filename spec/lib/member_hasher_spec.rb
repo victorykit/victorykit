@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'signature_hasher'
+require 'member_hasher'
 
-describe SignatureHasher do
+describe MemberHasher do
   it_behaves_like "a hasher"
 end
