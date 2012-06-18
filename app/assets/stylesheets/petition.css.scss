@@ -172,8 +172,8 @@
 }
 #thanksModal {
   display: none;
-  width: 700px;
-  height: 500px;
+  width: 800px;
+  height: 600px;
   background: none;
   border: none;
   box-shadow: none;
@@ -186,6 +186,7 @@
     width: 300px;
     min-height: 260px;
     margin: 0 auto;
+    overflow: visible;
   }
   a {
     clear: both;
