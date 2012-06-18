@@ -6,5 +6,5 @@
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
   .controls
-    = f.button :submit, class: 'btn btn-primary', tabindex: 4
-
+    -# trick not to submit the form on enter
+    = f.button :submit, class: 'btn btn-primary', tabindex: 4, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
