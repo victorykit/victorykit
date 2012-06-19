@@ -49,7 +49,7 @@ end
 def login_here(email = "user@test.com", password = "password")
 	type(email).into(:id => "new_session_email")
 	type(password).into(:id => "new_session_password")
-	click(:name => "commit")
+	click(:id => "login-submit")
 end
 
 def log_out
@@ -59,7 +59,6 @@ def log_out
 end
 
 def sign_up(email = Faker::Internet.email, password = "password")
-	element(:link_text => "Sign up!").click
 	type(email).into(:id => 'user_email')
 	type(password).into(:id => 'user_password')
 	type(password).into(:id => 'user_password_confirmation')
