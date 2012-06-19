@@ -175,7 +175,7 @@ describe PetitionsController do
     describe "with seeding signature experiment true" do
       before(:each) do
         @logged_in_user = create(:user)
-        controller.stub(:spin!).with("seed signatures with creator", :signature).and_return(true)
+        controller.stub(:spin!).with("seed signatures with petition creator", :signature).and_return(true)
         post :create, {petition: valid_attributes}, {user_id: @logged_in_user.id}
       end
       it "creates petition having first signature derived from user" do
