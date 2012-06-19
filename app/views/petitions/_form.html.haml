@@ -5,6 +5,8 @@
   = f.input :description, tabindex: 2
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
+  = f.fields_for :petition_titles do |builder|
+    = render 'petition_title_fields', :f => builder
   .control-group.string
     = link_to_add_fields "Add Email Subject", f, :petition_titles, :class => "string control-label"
   .controls
