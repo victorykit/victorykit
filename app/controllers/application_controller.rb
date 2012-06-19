@@ -11,6 +11,10 @@ class ApplicationController < ActionController::Base
     @title << " - #{Rails.env}" unless Rails.env.production? 
   end
   
+  def connecting_ip
+    headers["CF-Connecting-IP"] || request.remote_ip
+  end
+  
   private
   def current_user
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]

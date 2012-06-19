@@ -4,7 +4,7 @@ class UnsubscribesController < ApplicationController
     @unsubscribe = Unsubscribe.new(params[:unsubscribe])
     @unsubscribe.cause = "unsubscribed"
     @unsubscribe.member = Member.find_by_email(@unsubscribe.email)
-    @unsubscribe.ip_address = request.remote_ip
+    @unsubscribe.ip_address = connecting_ip
     @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"]
     
     if h = SentEmailHasher.validate(params[:email_hash])

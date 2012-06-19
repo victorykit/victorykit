@@ -5,7 +5,7 @@ class SignaturesController < ApplicationController
   def create
     petition = Petition.find(params[:petition_id])
     signature = Signature.new(params[:signature])
-    signature.ip_address = request.remote_ip
+    signature.ip_address = connecting_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
     signature.member = Member.find_or_initialize_by_email(email: signature.email, name: signature.name)
     signature.created_member = signature.member.new_record?

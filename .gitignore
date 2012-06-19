@@ -22,6 +22,7 @@
 tags
 nohup.out
 public/assets
+system.gems
 
 config/settings.local.yml
 config/settings/*.local.yml
