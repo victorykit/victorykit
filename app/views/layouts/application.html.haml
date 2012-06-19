@@ -8,8 +8,6 @@
       %link{:href => "/assets/application_ie.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
     - else
       = stylesheet_link_tag :application
-    = javascript_include_tag :application
-    = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
     %title= content_for?(:title) ? yield(:title) : @title
     = google_analytics_tracker
     = csrf_meta_tags
@@ -27,3 +25,5 @@
         = render :partial => 'shared/flash_messages'
         = yield
     = render :partial =>  "shared/footer"
+    = javascript_include_tag :application
+    = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
