@@ -18,8 +18,8 @@ describe SessionsController do
          @user = create(:user, email: "bob@here.com", password: "supersecret")
          post :create, new_session: {email: "bob@here.com", password:"closesesame"}
       end
-      it "renders the login page" do
-        response.should render_template :new
+      it "redirects to the login page" do
+        response.should redirect_to login_path
       end
       it "does not add user id to the session" do
           session[:user_id].should be_nil
@@ -33,8 +33,8 @@ describe SessionsController do
         @user = create(:user, email:"bob@ajob.com", password: "opensesame")
          post :create, new_session: {email: "jim@here.com", password:"opensesame"}
       end
-      it "renders the login page" do
-        response.should render_template :new
+      it "redirects to the login page" do
+        response.should redirect_to login_path
       end
       it "does not add user id to the session" do
           session[:user_id].should be_nil
