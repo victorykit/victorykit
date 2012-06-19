@@ -1,0 +1,6 @@
+.control-group.string.fields
+  = f.label :title, "Email Subject", :class => "string control-label"
+  .controls
+    = f.text_field :title, :class => "string"
+    = f.hidden_field :title_type, :value => "email"
+    = link_to_remove_fields "remove", f

@@ -5,6 +5,8 @@
   = f.input :description, tabindex: 2
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
+  .control-group.string
+    = link_to_add_fields "Add Email Subject", f, :petition_titles, :class => "string control-label"
   .controls
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 4, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
