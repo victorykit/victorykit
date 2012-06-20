@@ -12,6 +12,9 @@ class ApplicationController < ActionController::Base
   end
   
   def connecting_ip
+    puts "+++++++++request.env+++++++++#{request.env["CF-Connecting-IP"]}+++++++++++++++++++++++++"
+    puts "++++all+++++request.env+++++++++#{request.env.inspect}+++++++++++++++++++++++++"
+    puts "+++++++remote_ip+++++++++++#{request.remote_ip}++++++++++++++++++++++++"
     request.env["CF-Connecting-IP"] || request.remote_ip
   end
   
