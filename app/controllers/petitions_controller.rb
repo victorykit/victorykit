@@ -17,9 +17,10 @@ class PetitionsController < ApplicationController
     @fb_hash = params[:fb_ref]
     @fb_tracking_hash = cookies[:member_id]
     @was_signed = was_petition_signed @petition
-    @just_signed = flash[:just_signed]
+
     unless @signature = flash[:invalid_signature]
 	    @signature_id = flash[:signature_id]
+	    @just_signed = !@signature_id.nil?
       @signature = Signature.new
       prepopulate_signature
     end
@@ -72,7 +73,7 @@ class PetitionsController < ApplicationController
 
   def was_petition_signed petition
     if member_id = MemberHasher.validate(cookies[:member_id])
-      Signature.count(:conditions => {:petition_id => petition.id, :member_id => member_id}) > 0
+      Signature.where(:petition_id => petition.id, :member_id => member_id).any?
     else
       false
     end

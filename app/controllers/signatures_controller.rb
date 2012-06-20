@@ -21,7 +21,6 @@ class SignaturesController < ApplicationController
         
         cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
         
-        flash[:just_signed] = true
         flash[:signature_id] = signature.id
         win! :signature
       rescue => ex
