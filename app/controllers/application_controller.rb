@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
   
   def connecting_ip
-    headers["CF-Connecting-IP"] || request.remote_ip
+    request.env["CF-Connecting-IP"] || request.remote_ip
   end
   
   private
