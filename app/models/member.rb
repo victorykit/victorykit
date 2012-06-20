@@ -1,5 +1,7 @@
 class Member < ActiveRecord::Base
   attr_accessible :name, :email
+  has_many :subscribes
+  has_many :unsubscribes
   validates :email, :presence => true, :uniqueness => true
   validates :name, :presence => true
 
