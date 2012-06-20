@@ -21,6 +21,8 @@ class Notifications < ActionMailer::Base
   end
   
   def unsubscribed unsubscription
+	  require 'uri'
+	  @signup_link = URI.join(root_url, login_path)
     mail(subject:"You've successfully unsubscribed", to: unsubscription.email).deliver
   end
 end

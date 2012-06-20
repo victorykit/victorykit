@@ -15,4 +15,13 @@ describe Notifications do
       mail.body.encoded.should include(unsubscribe_link)
     end
   end
+
+	describe "unsubscribed" do
+		let(:signup_link){"http://test/login"}
+		let(:unsubscribe){create(:unsubscribe)}
+		let(:mail) { Notifications.unsubscribed(unsubscribe) }
+		it "should include a link to sign up" do
+      mail.body.encoded.should include(signup_link)
+    end
+	end
 end
