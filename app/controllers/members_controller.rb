@@ -3,7 +3,7 @@ class MembersController < ApplicationController
     @member = Member.new
 	end
 	def create
-		@member = Member.find_or_initialize_by_name_and_email(params[:member][:name], params[:member][:email])
+		@member = Member.find_or_initialize_by_email(email: params[:member][:email], name: params[:member][:name])
 		if @member.save!
 			subscription = Subscribe.new
 	    subscription.member = @member
