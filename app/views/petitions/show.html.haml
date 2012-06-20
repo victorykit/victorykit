@@ -16,6 +16,7 @@
 :javascript
   VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
   VK.signing_from_email = '#{@signing_from_email}';
+= javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition
     -#.petition_image
@@ -141,3 +142,5 @@
         .tweet
           %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
         = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+
+= google_analytics_tracker @petition.id, @signature_id

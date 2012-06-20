@@ -9,7 +9,6 @@
     - else
       = stylesheet_link_tag :application
     %title= content_for?(:title) ? yield(:title) : @title
-    = google_analytics_tracker
     = csrf_meta_tags
     = yield :meta_tags
 
@@ -26,4 +25,3 @@
         = yield
     = render :partial =>  "shared/footer"
     = javascript_include_tag :application
-    = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"

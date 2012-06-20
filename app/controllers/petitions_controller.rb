@@ -18,7 +18,8 @@ class PetitionsController < ApplicationController
     @fb_tracking_hash = cookies[:member_id]
     @was_signed = was_petition_signed @petition
     @just_signed = flash[:just_signed]
-    unless @signature = flash[:invalid_signature]    
+    unless @signature = flash[:invalid_signature]
+	    @signature_id = flash[:signature_id]
       @signature = Signature.new
       prepopulate_signature
     end

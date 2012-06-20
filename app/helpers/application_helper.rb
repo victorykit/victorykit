@@ -20,10 +20,10 @@ module ApplicationHelper
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
 
-  def google_analytics_tracker
+  def google_analytics_tracker petition_id, signature_id
     #TODO: move this to a js file, or a partial?
     analytics_id = Settings.google_analytics.analytics_id
-    like_tracker_url = url_for(:action => 'new', :controller => '/social_tracking')
+    like_tracker_url = url_for(action: 'new', controller: '/social_tracking', params: {petition_id: petition_id, signature_id: signature_id})
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
       _gaq.push(['_trackPageview']);
