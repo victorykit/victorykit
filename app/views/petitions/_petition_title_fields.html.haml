@@ -2,5 +2,5 @@
   = f.label :section, "Email Subject", :class => "string control-label"
   .controls
     = f.text_field :title, :class => "string"
-    = f.hidden_field :title_type, :value => @title_type
+    = f.hidden_field :title_type, :value => title_type
     = link_to_remove_fields "remove", f
