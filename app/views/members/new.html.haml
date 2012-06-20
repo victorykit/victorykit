@@ -1,0 +1,19 @@
+- if @member.errors.any?
+  .alert.alert-error
+    Form is invalid
+    %ul
+      - @member.errors.full_messages.each do |message|
+        %li= message
+
+.member_signup
+  .signup
+    %h1
+      Sign up for regular emails about important new campaigns
+    = simple_form_for @member do |f|
+      = f.input :name, :error => false, :input_html => { :autocomplete => "off" }
+      = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
+      = f.button :submit, :class => 'btn btn-primary', :id => 'sign-up-submit', :value => 'Sign Up'
+
+.privacypolicy
+  We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+

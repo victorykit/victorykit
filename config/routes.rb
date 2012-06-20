@@ -3,6 +3,7 @@ Victorykit::Application.routes.draw do
   get "sessions/new"
 
   resources :users
+  resources :members
   resources :sessions
   resources :unsubscribes
   resources :pixel_tracking

@@ -21,7 +21,7 @@ describe ScheduledEmail do
     end
     
     it "uses the member's email address" do
-      mail.to.should match /<#{member.email}>$/
+      mail.to[0].should match /#{member.email}$/
     end
 
     it "includes the petition link in the body" do
