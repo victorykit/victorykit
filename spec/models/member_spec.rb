@@ -8,9 +8,9 @@ describe Member do
       
       Member.random_and_not_recently_contacted.should be nil
     end
-    it "should select members contacted more than a month ago" do
+    it "should select members contacted more than a week ago" do
       previously_contacted_member = create :member
-      create :sent_email, created_at: 60.days.ago, member: previously_contacted_member
+      create :sent_email, created_at: 8.days.ago, member: previously_contacted_member
 
       Member.random_and_not_recently_contacted.should eq previously_contacted_member
     end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120619190009) do
+ActiveRecord::Schema.define(:version => 20120620213532) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -106,6 +106,14 @@ ActiveRecord::Schema.define(:version => 20120619190009) do
 
   add_index "signatures", ["petition_id", "member_id"], :name => "index_signatures_on_petition_id_and_member_id"
 
+  create_table "subscribes", :force => true do |t|
+    t.integer  "member_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "subscribes", ["member_id"], :name => "index_subscribes_on_member_id"
+
   create_table "unsubscribes", :force => true do |t|
     t.string   "email",         :null => false
     t.string   "cause"
@@ -138,6 +146,8 @@ ActiveRecord::Schema.define(:version => 20120619190009) do
 
   add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
   add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
+
+  add_foreign_key "subscribes", "members", :name => "subscribes_member_id_fk"
 
   add_foreign_key "unsubscribes", "members", :name => "unsubscribes_member_id_fk"
   add_foreign_key "unsubscribes", "sent_emails", :name => "unsubscribes_sent_email_id_fk"

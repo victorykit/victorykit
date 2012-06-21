@@ -15,6 +15,8 @@ Victorykit::Application.routes.draw do
   resources :social_tracking
 
   get 'login', to: 'users#new', as: 'login'
+  get 'subscribe', to: 'members#new', as: 'subscribe'
+  get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
   namespace(:admin) do

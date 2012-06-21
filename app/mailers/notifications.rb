@@ -1,4 +1,6 @@
 class Notifications < ActionMailer::Base
+	require 'uri'
+
   default from: Settings.email.from_address
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,7 +10,7 @@ class Notifications < ActionMailer::Base
   def signed_petition signature
     @petition_link = petition_url(signature.petition)
     @signature = signature
-    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
+    @unsubscribe_link = URI.join(root_url, 'unsubscribe')
     
     begin
       mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
@@ -21,8 +23,7 @@ class Notifications < ActionMailer::Base
   end
   
   def unsubscribed unsubscription
-	  require 'uri'
-	  @signup_link = URI.join(root_url, login_path)
+	  @signup_link = URI.join(root_url, 'subscribe')
     mail(subject:"You've successfully unsubscribed", to: unsubscription.email).deliver
   end
 end
