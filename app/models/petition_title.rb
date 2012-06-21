@@ -8,6 +8,6 @@ class PetitionTitle < ActiveRecord::Base
     EMAIL = 'email'
   end
 
-  REFERENCE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, nil ]
+  TITLE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, nil ]
 
 end

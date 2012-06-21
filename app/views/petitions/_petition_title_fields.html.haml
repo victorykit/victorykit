@@ -1,6 +1,8 @@
 .control-group.string.fields
-  = f.label :section, "Email Subject", :class => "string control-label"
+  - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Heading"
+  - title_type ||= f.object.title_type
+  = f.label :title, label_name, :class => "string control-label"
   .controls
     = f.text_field :title, :class => "string"
-    = f.hidden_field :title_type, :value => "email"
+    = f.hidden_field :title_type, :value => title_type
     = link_to_remove_fields "remove", f

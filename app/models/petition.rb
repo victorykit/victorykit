@@ -1,6 +1,6 @@
 class Petition < ActiveRecord::Base
   attr_accessible :description, :title, :petition_titles_attributes
-  attr_accessible :description, :title, :to_send, :as => :admin
+  attr_accessible :description, :title, :petition_titles_attributes, :to_send, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
