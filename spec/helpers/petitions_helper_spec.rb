@@ -17,6 +17,7 @@ describe PetitionsHelper do
     let(:petition) { create(:petition)}
     let(:config) { { facebook: { site_name: "My Super Petitions", app_id: "12345", image: "foo.com/123.png" } } }
     before(:each) do
+      helper.stub(:spin!).and_return(nil)
       helper.stub(:social_media_config).and_return config
     end    
     subject {

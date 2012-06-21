@@ -1,5 +1,5 @@
 .control-group.string.fields
-  - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Heading"
+  - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Title"
   - title_type ||= f.object.title_type
   = f.label :title, label_name, :class => "string control-label"
   .controls
