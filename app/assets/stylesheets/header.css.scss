@@ -13,75 +13,42 @@
 @import "bootstrap";
 @import "responsive";
 
-.topnav {
-  background: #333;
-  height: 37px;
-  .navigation {
-    @extend .span12;
-    @extend .row;
-    margin: 0 auto;
-    .nav_links {
-      float: left;
-    }
-  }
-  hr {
-    display: none;
-  }
-  ul {
-    margin-bottom: 0;
-    li {
-      float: left;
-      display: inline;
-      margin: 10px;
-      .btn {
-        margin-top: -6px;
-      }
-    }
-  }
-  a, div { color: #eee; }
-  a:hover { color: #fff; }
-}
-.logininfo {
+ul.nav.user {
   float: right;
-  margin: 10px;
-  * {
-    display: inline;
-    float: left;
-    margin-left: 10px;
-    border-right: 1px solid #08c;
-    padding-right: 10px;
-    &.nodivider, &.nodivider a {
-      border-right: none;
-      padding-right: 0;
-    }
+}
+.admin.navbar .navbar-inner {
+  @media (max-width: 1150px) {
+    height: 6em;
   }
 }
-.nav {
-  margin-bottom: 0;
+.navbar .nav > li > div {
+  color: #999999;
+  float: none;
+  line-height: 19px;
+  padding: 9px 10px 11px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
-.topnav .navigation a.logo {
-  background: url('logo_white.png');
-  height: 24px;
-  width: 221px;
-  margin: 6px;
-  float: left;
-  }
-.admin.topnav {
-  height: 82px;
-  *height: 90px;
-  hr {
-    display: block;
-    border-bottom: 1px solid #777;
-    border-top: none;
-    margin: 0;
-  }
-  .nav_links {
-    *margin-top: -4px;
-    clear: both;
-    margin: 3px 0 0 -30px;
+.navbar .navbar-inner {
+  border-radius: 0;
+  .container {
+    margin: 0 auto;
   }
 }
 
+.navbar a.logo {
+  background: url('logo_white.png');
+  height: 4px;
+  width: 201px;
+  margin: 6px;
+  float: left;
+  @media (min-width: 979px) {
+    width: 181px;
+  }
+  @media (max-width: 320px) {
+    margin: 6px 0 6px -5px;
+  }
+}
 /* dataTable */
 .dataTable {
   border-top: 1px solid #eee

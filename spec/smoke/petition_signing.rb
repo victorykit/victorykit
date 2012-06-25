@@ -11,7 +11,7 @@ describe 'Petition page' do
   it 'should allow users to sign' do
     sign_petition
     element(:id => "thanks-for-signing-message").should be_displayed
-    element(:id => "signature-form").should_not be_displayed
+    element(:class => "signature-form").should_not be_displayed
   end
   it 'should ensure user provides a name' do
     sign_petition '', 'bob@bobs.com'

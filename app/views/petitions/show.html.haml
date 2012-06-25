@@ -18,13 +18,16 @@
   VK.signing_from_email = '#{@signing_from_email}';
 = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
-  .petition
+  .petition.span9
     -#.petition_image
     - if @petition.has_edit_permissions(current_user)
       %h1.petition_title.admin= @petition.title
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
     - else
       %h1.petition_title= @petition.title
+
+    .mobile_signup_button
+      = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
 
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
@@ -75,7 +78,7 @@
       - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
     .description= petitiontext.html_safe
   .petition_sidebar
-    #signature-form{:style => @was_signed ? 'display:none' : ''}
+    .signature-form{:style => @was_signed ? 'display:none' : ''}
       .title
         Sign this petition!
       .through_site
@@ -143,4 +146,40 @@
           %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
         = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
 
+  .modal.hide#sign_mobile.signature-form
+    .modal-body
+      = link_to('x' , '', :class => 'close', :'data-dismiss' => 'modal')
+      .title
+        Sign this petition!
+      .through_site
+        = form_tag [@petition, @signature] do |form|
+          = simple_fields_for :signature, @signature do |f|
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_name = { placeholder: 'name' }
+              - placeholder_first_name = { placeholder: 'first name' }
+              - placeholder_last_name = { placeholder: 'last name' }
+            - else
+              - placeholder_name = {}
+              - placeholder_first_name = {}
+              - placeholder_last_name = {}
+
+            - if showfullname == "fullname"
+              = f.input :name, :hint => false, :input_html => placeholder_name
+            - else
+              = f.input :first_name, :hint => false, :input_html => placeholder_first_name
+              = f.input :last_name, :hint => false, :input_html => placeholder_last_name
+
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_email = { placeholder: 'email' }
+            - else
+              - placeholder_email = {}
+            = f.input :email, :input_html => placeholder_email
+            #hint.alert.alert-error
+            - if @email_hash
+              = hidden_field_tag :email_hash, @email_hash
+            - if @fb_hash
+              = hidden_field_tag :fb_hash, @fb_hash
+            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+
 = google_analytics_tracker @petition.id, @signature_id
+

@@ -13,19 +13,28 @@
 @import "bootstrap";
 @import "responsive";
 
-.home {
-  margin: 10% auto;
+.home, .home .hero-unit {
+  width: 100%;
+  @extend .span12;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
   text-align: center;
-  .title {
-    font-size: 60px;
+  h1 {
+    @media (max-width: 480px) { font-size: 3em; }
+    font-weight: normal;
     color: #666;
   }
-  .btn {
-    clear: both;
-    font-size: 30px;
-    margin-top: 50px;
-    padding: 15px 20px;
-    *padding: 5px 20px 20px;
+  .btn.btn-primary.btn-large {
+    font-weight: normal;
+    margin: 1em 0;
+    font-size: 2.3em;
   }
 }
 
+.body_container {
+  min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -2em;
+}

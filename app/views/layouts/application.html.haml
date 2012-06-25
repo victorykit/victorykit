@@ -18,9 +18,9 @@
     <![endif]-->
 
   %body
-    = render :partial =>  "shared/navigation"
-    .container
-      .content
+    .body_container
+      = render :partial =>  "shared/navigation"
+      .container
         = render :partial => 'shared/flash_messages'
         = yield
     = render :partial =>  "shared/footer"

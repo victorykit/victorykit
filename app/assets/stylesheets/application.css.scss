@@ -18,24 +18,32 @@
 @import "bootstrap";
 @import "responsive";
 
-
-.container {
-  margin: 0 auto;
-  clear: both;
-  padding-left: 10px;
+html, body {
+  height:100%;
+  padding: 0;
 }
-.content {
-  @extend .row;
-  min-height: 600px;
-  padding: 5px 10px;
-  margin-left: -20px;
+
+.body_container {
+  height: 100%;
+  min-height: 100%;
+  margin: 0 auto -2em;
+}
+@media (max-width: 480px) {
+  .body_container > .container {
+    padding: 0 5px;
+  }
 }
 .footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
   clear: both;
   text-align: right;
   background: #ddd;
   color: #888;
-  padding: .3em;
+  .copyright {
+    padding: .3em .6em;
+  }
 }
 
 

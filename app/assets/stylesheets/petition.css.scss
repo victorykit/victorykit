@@ -14,7 +14,9 @@
 @import "responsive";
 
 
-#testui .modal { left: 45%; }
+@media (min-width: 481px) {
+  #testui .modal { left: 45%; }
+}
 
 .rightcolwell {
   @extend .span3;
@@ -41,7 +43,7 @@
     margin: -40px 0 0 0;
   }
   .description {
-    padding-right: 20px;
+    padding: 0 20px 40px 0;
     clear: both;
   }
 }
@@ -79,7 +81,7 @@
   margin-top: 4px;
   .edit { margin: 0 0 20px 53px; }
 }
-#signature-form, #ask-to-sign {
+.signature-form, #ask-to-sign {
   @extend .rightcolwell;
   .title {
     font-size: 25px;
@@ -317,4 +319,25 @@
 
 .tweet, #ask-to-sign , #ask-to-sign-modal {
   display: none;
+}
+
+@media (max-width: 760px) {
+  .petition_sidebar {
+    display: none;
+  }
+}
+@media (min-width: 760px) {
+  #sign_mobile, .mobile_signup_button {
+    display: none;
+  }
+}
+.modal#sign_mobile {
+  display: none;
+  padding: 0;
+  width: 300px;
+  margin-left: 0;
+}
+.mobile_signup_button {
+  width: 100%;
+  clear: both;
 }
