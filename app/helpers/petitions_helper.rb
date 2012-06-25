@@ -18,7 +18,7 @@ module PetitionsHelper
   
   def facebook_title(petition)
     facebook_titles = petition.petition_titles.find_all_by_title_type("facebook").map { |fb_title| fb_title.title }
-    facebook_title = spin! "petition #{petition.id} facebook title", :petition, facebook_titles
+    facebook_title = spin! "petition #{petition.id} facebook title", :petition, facebook_titles unless not facebook_titles
     facebook_title || petition.title
   end
 
