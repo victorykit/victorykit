@@ -7,7 +7,7 @@ class PetitionsController < ApplicationController
   before_filter :require_admin, only: :index
 
   def index
-    @petitions = Petition.all
+    @petitions = Petition.order 'created_at DESC'
   end
 
   def show
