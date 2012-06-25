@@ -22,7 +22,9 @@ class SignaturesController < ApplicationController
         cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
         
         flash[:signature_id] = signature.id
+
         win! :signature
+        email_subject_experiment_win petition
       rescue => ex
         flash.notice = ex.message
       end
@@ -32,7 +34,14 @@ class SignaturesController < ApplicationController
     redirect_to petition_url(petition)
   end
 
+  def email_subject_experiment_win petition
+    test_name = petition.alternate_title_test_name(PetitionTitle::TitleType::EMAIL)
+    email_subject = session[test_name]
+    if email_subject then win_on_option! test_name, email_subject.id end
+  end
+
   private
+
   def record_email_reference hash, signature
     if h = SentEmailHasher.validate(hash)
       begin

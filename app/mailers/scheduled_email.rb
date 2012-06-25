@@ -13,14 +13,23 @@ class ScheduledEmail < ActionMailer::Base
   def new_petition(petition, member)
     sent_email_id = log_sent_email(member, petition)
     sent_email_hash = SentEmailHasher.generate(sent_email_id)
-    @petition_link = petition_url(petition) + "?n=" + sent_email_hash
-    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + "?n=" + sent_email_hash
-    @tracking_url = new_pixel_tracking_url + "?n=" + sent_email_hash
+
+    email_subject = petition.email_subject
+    email_subject_text = email_subject.text
+    email_subject_hash = email_subject.tracking_hash
+
+    #todo: use url builder
+    link_request_params = "?n=" + sent_email_hash
+    link_request_params << "&s=" + email_subject_hash unless not email_subject_hash
+
+    @petition_link = petition_url(petition) + link_request_params
+    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + link_request_params
+    @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
     return_path = "bounce+" + sent_email_hash + "@appmail.watchdog.net"
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-    mail(return_path: return_path, subject: petition.title, to: "\"#{member.name}\" <#{member.email}>").deliver
+    mail(return_path: return_path, subject: email_subject_text, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
   def spin!(test_name, goal, options)

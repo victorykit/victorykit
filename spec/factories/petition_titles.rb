@@ -3,6 +3,6 @@
 FactoryGirl.define do
   factory :petition_title do
     title "MyText"
-    type "email"
+    title_type "email"
   end
 end

@@ -1,4 +1,8 @@
+require 'whiplash'
+
 class Petition < ActiveRecord::Base
+  include Bandit
+
   attr_accessible :description, :title, :petition_titles_attributes
   attr_accessible :description, :title, :petition_titles_attributes, :to_send, :as => :admin
   has_many :signatures
@@ -23,4 +27,26 @@ class Petition < ActiveRecord::Base
   def strip_whitespace
     self.title.strip! unless self.title.nil?
   end
+
+  def facebook_title
+    alternate_title PetitionTitle::TitleType::FACEBOOK
+  end
+
+  def email_subject
+    alternate_title PetitionTitle::TitleType::EMAIL
+  end
+
+  def alternate_title_test_name title_type
+    "petition #{id} #{title_type} title"
+  end
+
+  private
+
+  def alternate_title title_type
+    alt_titles = petition_titles.find_all_by_title_type(title_type)
+    test_name = alternate_title_test_name(title_type)
+    chosen = spin! test_name, :signature, alt_titles, {:session_id => id} unless not alt_titles
+    chosen || PetitionTitle.new(title: title, title_type: PetitionTitle::TitleType::DEFAULT)
+  end
+
 end

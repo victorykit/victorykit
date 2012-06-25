@@ -6,7 +6,7 @@ module PetitionsHelper
   
   def petition_to_open_graph(petition)
     { 
-      'og:title' => facebook_title(petition), 
+      'og:title' => petition.facebook_title.text,
       'og:type' => 'cause', 
       'og:description' => strip_tags_except_links(petition.description).squish[0..300],
       'og:url' => petition_url(petition),
@@ -14,12 +14,6 @@ module PetitionsHelper
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
     }
-  end
-  
-  def facebook_title(petition)
-    facebook_titles = petition.petition_titles.find_all_by_title_type("facebook").map { |fb_title| fb_title.title }
-    facebook_title = spin! "petition #{petition.id} facebook title", :petition, facebook_titles unless not facebook_titles
-    facebook_title || petition.title
   end
 
   def counter_size(petition_count)
