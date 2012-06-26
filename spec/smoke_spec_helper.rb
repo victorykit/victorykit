@@ -13,7 +13,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    $driver = Selenium::WebDriver.for :chrome, switches: %w[--start-maximised]
+    $driver = Selenium::WebDriver.for :chrome
     $driver.manage.window.resize_to 980, 735
     create_admin_user
     create_normal_user
