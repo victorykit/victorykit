@@ -63,7 +63,7 @@
     [
     =h
     ,
-    =@hourlydata1[1][h]/@hourlydata1[0][h].to_f
+    =(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f
     ],
   ]], {
   series: {
