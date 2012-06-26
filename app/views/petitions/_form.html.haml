@@ -6,10 +6,11 @@
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
   = f.fields_for :petition_titles do |builder|
-    = render 'petition_title_fields', {:f => builder}
+    = render 'petition_title_fields', {f: builder}
   .control-group.string
-    = link_to_add_fields "Add Email Subject", f, :petition_titles, {:class => "string control-label"}, {:title_type => "email", :label_name => "Email Subject"}
-    = link_to_add_fields "| Add Facebook Title", f, :petition_titles, {:class => "string control-label"}, {:title_type => "facebook", :label_name => "Facebook Title"}
+    - if can :feature_petition
+      = link_to_add_fields "Add Email Subject", f, :petition_titles, {class: "string control-label", tabindex: 4}, {title_type: "email", label_name: "Email Subject"}
+    = link_to_add_fields "Add Facebook Title", f, :petition_titles, {class: "string control-label", tabindex: 5}, {title_type: "facebook", label_name: "Facebook Title"}
   .controls
     -# trick not to submit the form on enter
-    = f.button :submit, class: 'btn btn-primary', tabindex: 4, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
+    = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
