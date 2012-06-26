@@ -13,8 +13,14 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before(:suite) do
-    $driver = Selenium::WebDriver.for :chrome
-    $driver.manage.window.resize_to 980, 735
+		#this seems to be the only Chromedriver resize method that works on both OSX locally, and in RailsOnFire
+	  profile = Selenium::WebDriver::Chrome::Profile.new
+	  profile['browser.window_placement.top'] = 0
+	  profile['browser.window_placement.left'] = 0
+	  profile['browser.window_placement.right'] = 980
+	  profile['browser.window_placement.bottom'] = 768
+    $driver = Selenium::WebDriver.for :chrome, profile: profile
+
     create_admin_user
     create_normal_user
   end
