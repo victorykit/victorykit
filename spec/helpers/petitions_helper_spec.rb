@@ -22,7 +22,7 @@ describe PetitionsHelper do
     end    
     subject {
       helper.petition_to_open_graph(petition)}
-    it { should include("og:type" => "cause")}
+    it { should include("og:type" => "watchdognet:petition")}
     it { should include("og:title" => petition.title)}
     it { should include("og:description" => strip_tags_except_links(petition.description))}
     it { should include("og:url" => petition_url(petition))}
