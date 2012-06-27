@@ -5,17 +5,19 @@
   = f.input :description, tabindex: 2
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
-  = f.fields_for :petition_titles do |builder|
-    = render 'petition_title_fields', {f: builder}
   - if can :feature_petition
     .control-group.string
       = link_to_add_fields "Add Email Subject", f, :petition_titles, {:class => "string control-label"}, {:title_type => "email", :label_name => "Email Subject"}
       .controls.description_text
         This will be used when sending out emails about your petition.
+    = f.fields_for :petition_titles do |builder|
+      = render 'petition_title_fields', {f: builder, title_type: "email"}
     .control-group.string
       = link_to_add_fields "Add Facebook Title", f, :petition_titles, {:class => "string control-label"}, {:title_type => "facebook", :label_name => "Facebook Title"}
       .controls.description_text
         This will show up on facebook pages when someone likes your petition.
+    = f.fields_for :petition_titles do |builder|
+      = render 'petition_title_fields', {f: builder, title_type: "facebook"}
   .controls
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
