@@ -32,19 +32,11 @@ class Petition < ActiveRecord::Base
     alternate_title PetitionTitle::TitleType::FACEBOOK
   end
 
-  def email_subject
-    alternate_title PetitionTitle::TitleType::EMAIL
-  end
-
-  def alternate_title_test_name title_type
-    "petition #{id} #{title_type} title"
-  end
-
   private
 
   def alternate_title title_type
     alt_titles = petition_titles.find_all_by_title_type(title_type)
-    test_name = alternate_title_test_name(title_type)
+    test_name = "petition #{id} #{title_type} title"
     chosen = spin! test_name, :signature, alt_titles, {:session_id => id} unless not alt_titles
     chosen || PetitionTitle.new(title: title, title_type: PetitionTitle::TitleType::DEFAULT)
   end

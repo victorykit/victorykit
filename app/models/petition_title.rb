@@ -4,10 +4,6 @@ class PetitionTitle < ActiveRecord::Base
 
   belongs_to :petition
 
-  def text
-    title
-  end
-
   module TitleType
     FACEBOOK = 'facebook'
     TWITTER = 'twitter'
@@ -17,15 +13,8 @@ class PetitionTitle < ActiveRecord::Base
 
   TITLE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, TitleType::DEFAULT, nil ]
 
-  def tracking_hash
-    #todo: SentEmailHasher cuz why?
-    is_default? ? nil : SentEmailHasher.generate(id)
-  end
-
-  private
-
-  def is_default?
-    return TitleType::DEFAULT == title_type
+  def text
+    title
   end
 
 end

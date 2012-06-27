@@ -41,4 +41,37 @@ describe ScheduledEmail do
       mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
     end
   end
+
+  describe "spinning for subject (default only)" do
+    let(:member){ create(:member)}
+    let(:petition){ create(:petition)}
+    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
+
+    it "picks the petition title by default" do
+      mail.subject.should eq petition.title
+    end
+  end
+
+  describe "spinning for subject (one subject)" do
+    let(:member){ create(:member)}
+    let(:petition){ create(:petition)}
+    let!(:title){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo"); p.petition_id = petition.id; p.save }
+    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
+
+    it "picks an email subject if there is one" do
+      mail.subject.should eq "foo"
+    end
+  end
+
+  describe "spinning for subject (two subjects)" do
+    let(:member){ create(:member)}
+    let(:petition){ create(:petition)}
+    let!(:title){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo"); p.petition_id = petition.id; p.save }
+    let!(:title2){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo2"); p.petition_id = petition.id; p.save }
+    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
+
+    it "picks an email subject if there is one" do
+        mail.subject.should be_in ["foo", "foo2"]
+    end
+  end
 end

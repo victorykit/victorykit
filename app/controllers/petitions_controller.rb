@@ -112,17 +112,6 @@ class PetitionsController < ApplicationController
         Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"
       end
     end
-
-    arm_email_subject_experiment
-  end
-
-  def arm_email_subject_experiment
-    if email_subject_id = SentEmailHasher.validate(params[:s])
-      email_subject = PetitionTitle.find_by_id email_subject_id
-      petition = email_subject.petition unless not email_subject
-      test_name = petition.alternate_title_test_name(PetitionTitle::TitleType::EMAIL)
-      session[test_name] = email_subject_id
-    end
   end
 
   #todo: This is largely copied from SignaturesController.create - refactor commonality if experiment wins

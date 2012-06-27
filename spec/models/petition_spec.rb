@@ -25,17 +25,4 @@ describe Petition do
     interesting_petitions.should eq [new_emailable_petition]
   end
 
-  it "should find email subject for petition" do
-    petition = create(:petition, title: "some regular title")
-    petition_title = create(:petition_title, title: "some email subject", petition_id: petition.id, title_type: PetitionTitle::TitleType::EMAIL)
-    petition_title = create(:petition_title, title: "some fb title", petition_id: petition.id, title_type: PetitionTitle::TitleType::FACEBOOK)
-    petition.email_subject.text.should eq "some email subject"
-    petition.facebook_title.text.should eq "some fb title"
-  end
-
-  it "should default alternate titles to title when no alternate titles" do
-    petition = create(:petition, title: "some regular title")
-    petition.email_subject.text.should eq "some regular title"
-    petition.facebook_title.text.should eq "some regular title"
-  end
 end

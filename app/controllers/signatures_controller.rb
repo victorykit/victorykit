@@ -24,7 +24,6 @@ class SignaturesController < ApplicationController
         flash[:signature_id] = signature.id
 
         win! :signature
-        email_subject_experiment_win petition
       rescue => ex
         flash.notice = ex.message
       end
@@ -32,12 +31,6 @@ class SignaturesController < ApplicationController
       flash[:invalid_signature] = signature
     end
     redirect_to petition_url(petition)
-  end
-
-  def email_subject_experiment_win petition
-    test_name = petition.alternate_title_test_name(PetitionTitle::TitleType::EMAIL)
-    email_subject = session[test_name]
-    if email_subject then win_on_option! test_name, email_subject.id end
   end
 
   private
