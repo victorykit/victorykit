@@ -43,7 +43,9 @@ function initFacebook() {
 
 function submitFacebookAction() {
   console.log("HERE!!!!");
-  FB.login();
+  FB.login(function(response) {
+    // handle the response
+  }, {scope: 'publish_actions'});
   console.log(FB.getLoginStatus());
   FB.api(
     '/me/watchdognet:sign',
