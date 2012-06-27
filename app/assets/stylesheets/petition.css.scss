@@ -349,3 +349,12 @@
   width: 30px;
   height: 30px;
 }
+
+@media (min-width: 280px) and (max-width: 780px) {
+  .social_icons, .progress_bar, .mobile_signup_button {
+    clear: both !important;
+    margin: 5px 0 !important;
+    float: left !important;
+    text-align: left !important;
+  }
+}
