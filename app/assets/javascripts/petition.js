@@ -1,13 +1,65 @@
 $(document).ready(function() {
+  initTwitter();
+  initFacebook();
+  initTabIndexes();
   // will show it only if it`s in the DOM
   $('#thanksModal').modal('toggle');
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
-  if(!VK.signing_from_email)
-    new EmailSuggestions().init();
-  initTwitter();
-  initTabIndexes();
+
+  $('form').on("submit", function(event) {
+    if(!VK.signing_from_email) {
+      var emailSuggestor = new EmailSuggestions();
+      emailSuggestor.init();
+      emailSuggestor.mailCheckSuggestions(event);
+    }
+    petition_id = $('.petition_id').text().trim();
+    if(!(event.go === false) && (petition_id === "6")) {
+      submitFacebookAction();
+      return false;
+    }
+    return event.go;
+  });
 });
+
+function initFacebook() {
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '335522893179500',
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+  };
+  // Load the SDK Asynchronously
+  (function(d){
+    var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+  }(document));
+}
+
+
+function submitFacebookAction() {
+  console.log("HERE!!!!");
+  FB.login();
+  console.log(FB.getLoginStatus());
+  FB.api(
+    '/me/watchdognet:sign',
+    'post',
+    {
+      petition: $('.petition_url').text()
+    },
+    function(response) {
+      if (!response || response.error) {
+        console.log('Error occured');
+        console.log(response.error);
+      } else {
+        console.log('Sign was successful! Action ID: ' + response.id);
+      }
+    });
+}
 
 function initTabIndexes() {
   $('#petition_title').attr('tabIndex', '1');
@@ -41,10 +93,6 @@ function EmailSuggestions() {
       return false;
     });
 
-    $('form').on("submit", function(event) {
-      self.mailCheckSuggestions(event);
-      return event.go;
-    });
   }
 
   this.mailCheckSuggestions = function(event) {

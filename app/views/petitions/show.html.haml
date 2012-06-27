@@ -16,10 +16,14 @@
 - content_for :javascripts do
   VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
   VK.signing_from_email = '#{@signing_from_email}';
-= javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
+.fb-root
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition.span9
     -#.petition_image
+    .petition_url.hidden
+      = petition_url(params[:id])
+    .petition_id.hidden
+      = params[:id]
     - if @petition.has_edit_permissions(current_user)
       %h1.petition_title.admin= @petition.title
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
