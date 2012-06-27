@@ -233,6 +233,7 @@
   .control-group {
     @extend .span8;
     .controls {
+      &.description_text { padding-top: 5px; }
       .btn { width: auto; }
       iframe { margin-left: 0 !important; }
     }
@@ -340,4 +341,11 @@
 .mobile_signup_button {
   width: 100%;
   clear: both;
+}
+.with_icon {
+  width: 90% !important;
+}
+.controls .icon-trash a {
+  width: 30px;
+  height: 30px;
 }

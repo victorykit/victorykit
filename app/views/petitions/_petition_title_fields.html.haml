@@ -1,8 +1,8 @@
 .control-group.string.fields
   - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Title"
   - title_type ||= f.object.title_type
-  = f.label :title, label_name, :class => "string control-label"
   .controls
-    = f.text_field :title, :class => "string"
+    = f.text_field :title, :class => "string with_icon"
     = f.hidden_field :title_type, :value => title_type
-    = link_to_remove_fields "remove", f
+    .btn.btn-primary{onclick: "remove_fields(this)"}
+      %i.icon-trash.icon-white= link_to_remove_fields "remove", f
