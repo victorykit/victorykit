@@ -95,9 +95,31 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
 
 		type(title).into(:id => 'petition_title')
 		type(description).into_wysihtml5(:id => 'petition_description')
+
 		click :name => 'commit'
 
 		wait.until { element :class => "petition" }
 	end
 	Petition.last #bit dodgy, but should be fine for now!
+end
+
+def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [])
+  as_admin do
+    go_to new_petition_path
+
+    type(title).into(:id => 'petition_title')
+    type(description).into_wysihtml5(:id => 'petition_description')
+
+    #Could be better...
+    email_subjects.each do |subject|
+      click :link_text => 'Add Email Subject'
+    end
+    subject_fields = $driver.find_elements xpath: "//input[contains(@id, 'petition_petition_titles_attributes') and @type = 'text']"
+    subject_fields.zip(email_subjects).each {|pair| pair[0].send_keys(pair[1])}
+
+    click :name => 'commit'
+
+    wait.until { element :class => "petition" }
+  end
+  Petition.last #bit dodgy, but should be fine for now!
 end

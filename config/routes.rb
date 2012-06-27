@@ -23,6 +23,7 @@ Victorykit::Application.routes.draw do
     resources :petitions 
     resources :users
     resources :experiments
+    resources :on_demand_email
   end
 
   # The priority is based upon order of creation:
