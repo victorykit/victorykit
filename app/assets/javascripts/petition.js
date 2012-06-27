@@ -2,6 +2,7 @@ $(document).ready(function() {
   initTwitter();
   initFacebook();
   initTabIndexes();
+  setupShareFacebookButton();
   // will show it only if it`s in the DOM
 
   if(screen.width > 480) {
@@ -16,11 +17,6 @@ $(document).ready(function() {
       var emailSuggestor = new EmailSuggestions();
       emailSuggestor.init();
       emailSuggestor.mailCheckSuggestions(event);
-    }
-    petition_id = $('.petition_id').text().trim();
-    if(!(event.go === false) && (petition_id === "6")) {
-      submitFacebookAction();
-      return false;
     }
     return event.go;
   });
@@ -66,27 +62,39 @@ function initFacebook() {
   }(document));
 }
 
+function setupShareFacebookButton() {
+  var shareButton = $('.fb_share.btn')
+  shareButton.click(function(event) {
+    shareButton.hide();
+    $('.tweet').show();
+    $('#thanks-for-signing-message .share').text("Spread the word, share on Twitter!");
+    submitFacebookAction();
+  });
+
+}
 
 function submitFacebookAction() {
   console.log("HERE!!!!");
   FB.login(function(response) {
-    // handle the response
-  }, {scope: 'publish_actions'});
-  console.log(FB.getLoginStatus());
-  FB.api(
-    '/me/watchdognet:sign',
-    'post',
-    {
-      petition: $('meta[property="og:url"]').attr("content")
-    },
-    function(response) {
-      if (!response || response.error) {
-        console.log('Error occured');
-        console.log(response.error);
-      } else {
-        console.log('Sign was successful! Action ID: ' + response.id);
-      }
-    });
+    if (response.authResponse) {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api(
+        '/me/watchdognet:sign',
+        'post',
+        {
+          petition: $('meta[property="og:url"]').attr("content")
+        },
+        function(response) {
+          if (!response || response.error) {
+            console.log('Error occured');
+            console.log(response.error);
+          } else {
+            console.log('Sign was successful! Action ID: ' + response.id);
+          }
+        });
+    } else {
+      console.log('User cancelled login or did not fully authorize.');
+    }}, {scope: 'publish_actions'});
 }
 
 function initTabIndexes() {
