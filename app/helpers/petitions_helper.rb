@@ -7,7 +7,7 @@ module PetitionsHelper
   def petition_to_open_graph(petition)
     { 
       'og:title' => petition.facebook_title.text,
-      'og:type' => 'cause', 
+      'og:type' => 'watchdognet:petition',
       'og:description' => strip_tags_except_links(petition.description).squish[0..300],
       'og:url' => petition_url(petition),
       'og:image' => social_media_config[:facebook][:image],

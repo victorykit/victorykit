@@ -25,7 +25,7 @@ $(document).ready(function() {
 function initFacebook() {
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '335522893179500',
+      appId      : $('meta[property="fb:app_id"]').attr("content"),
       status     : true, // check login status
       cookie     : true, // enable cookies to allow the server to access the session
       xfbml      : true  // parse XFBML
@@ -51,7 +51,7 @@ function submitFacebookAction() {
     '/me/watchdognet:sign',
     'post',
     {
-      petition: $('.petition_url').text()
+      petition: $('meta[property="og:url"]').attr("content")
     },
     function(response) {
       if (!response || response.error) {

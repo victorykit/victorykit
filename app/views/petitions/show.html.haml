@@ -20,8 +20,6 @@
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition.span9
     -#.petition_image
-    .petition_url.hidden
-      = petition_url(params[:id])
     .petition_id.hidden
       = params[:id]
     - if @petition.has_edit_permissions(current_user)
