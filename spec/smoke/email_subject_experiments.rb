@@ -29,6 +29,8 @@ describe "creating an email subject experiment" do
 end
 
 def send_petition_email petition_id, member_id
-	on_demand_email_path = URI.join(HOST_URL, "admin/on_demand_email/new?petition_id=#{petition_id}&member_id=#{member_id}").to_s
-	go_to on_demand_email_path
+	as_admin do
+		on_demand_email_path = URI.join(HOST_URL, "admin/on_demand_email/new?petition_id=#{petition_id}&member_id=#{member_id}").to_s
+		go_to on_demand_email_path
+	end
 end
