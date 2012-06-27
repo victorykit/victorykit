@@ -3,7 +3,11 @@ $(document).ready(function() {
   initFacebook();
   initTabIndexes();
   // will show it only if it`s in the DOM
-  $('#thanksModal').modal('toggle');
+
+  if(screen.width > 480) {
+    $('#thanksModal').modal('toggle');
+  }
+
   preventWhitespaceOn('#signature_email');
   applyRichTextEditorTo('#petition_description');
 
