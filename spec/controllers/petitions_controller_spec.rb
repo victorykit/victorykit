@@ -233,7 +233,7 @@ describe PetitionsController do
     it "should not do anything if the email hash is invalid" do
       get :show, id: petition.id, n: "invalid"
       (SentEmail.find(sent_email.id).clicked_at).should be nil
-      SentEmail.find(:all).size.should == 1
+      SentEmail.count.should == 1
     end
 
     it "should not update clicked_at date if it`s not empty" do

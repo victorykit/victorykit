@@ -50,6 +50,7 @@ end
 
 def login(email = "user@test.com", password = "password")
 	go_to 'login'
+	wait.until { element :id => 'new_session_email' }
 	login_here(email, password)
 end
 
@@ -122,4 +123,16 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
     wait.until { element :class => "petition" }
   end
   Petition.last #bit dodgy, but should be fine for now!
+end
+
+def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
+  if element_exists :id => 'signature_first_name'
+    first_name, last_name = name.split(' ')
+    type(first_name).into(:id => 'signature_first_name')
+    type(last_name).into(:id => 'signature_last_name')
+  else
+    type(name).into(:id => 'signature_name')
+  end
+  type(email).into(:id => 'signature_email')
+  click :id => 'sign_petition'
 end

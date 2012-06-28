@@ -1,26 +1,38 @@
 require 'smoke_spec_helper'
+require 'nokogiri'
 
 describe "creating an email subject experiment" do
-
   it "awards a win against the email subject when email recipient signs" do
   	petition = create_a_featured_petition "Multiple email subjects!", "Yes indeed", ["Subject A", "Subject B"]
 	  member = subscribe_member
 	  send_petition_email petition.id, member.id
 	  SentEmail.last.email.should == member.email
 	  as_admin do
-	    # visit /admin/experiments
 	    go_to 'admin/experiments'
-	    # make sure the number spins is 1 and wins is 0 for your subject
 			email_experiments = element(xpath: "//table[@id = 'petition #{petition.id} email title']")
 		  spins = email_experiments.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
 		  wins = email_experiments.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
 	    spins.should == 1
 		  wins.should == 0
 	  end
-	  
-	  # receive an email
-	  # make sure its subject is your subject
-	  # click on the link
+
+	  # egregious hackery...
+	  email_text = `tail -n 13 ./tmp/mails/#{member.email}`
+	  doc = Nokogiri::HTML(email_text)
+	  link_to_petition = doc.xpath("//a[text()='Please, click here to sign now!']/@href").to_s
+	  go_to link_to_petition
+	  wait.until { element :id => 'signature_email' }
+	  sign_petition
+
+	  as_admin do
+      go_to 'admin/experiments'
+      email_experiments = element(xpath: "//table[@id = 'petition #{petition.id} email title']")
+      spins = email_experiments.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
+      wins = email_experiments.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
+      spins.should == 1
+      wins.should == 1
+	  end
+
 	  # sign the petition
 	  # visit /admin/experiments
 	  # make sure the number spins is 1 and wins is 1 for your subject
