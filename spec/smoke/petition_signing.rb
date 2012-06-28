@@ -6,7 +6,6 @@ include Rails.application.routes.url_helpers
 describe 'Petition page' do
   before :each do
     go_to petition_path(create_a_petition)
-    wait.until { element :id => 'signature_email' }
   end
   it 'should allow users to sign' do
     sign_petition

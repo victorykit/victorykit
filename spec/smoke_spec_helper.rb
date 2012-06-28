@@ -90,18 +90,25 @@ def create_normal_user
   raise "failed to create user" unless u.save
 end
 
+def create_member name = 'A Member', email = 'amember@some.com'
+	go_to 'subscribe'
+	type(name).into(id: 'member_name')
+	type(email).into(id: 'member_email')
+	click id: 'sign-up-submit'
+	Member.last
+end
+
 def create_a_petition (title = 'a snappy title', description = 'a compelling description')
 	as_user do
 		go_to new_petition_path
 
 		type(title).into(:id => 'petition_title')
 		type(description).into_wysihtml5(:id => 'petition_description')
-
 		click :name => 'commit'
 
 		wait.until { element :class => "petition" }
 	end
-	Petition.last #bit dodgy, but should be fine for now!
+	Petition.last
 end
 
 def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [])
@@ -122,10 +129,12 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
 
     wait.until { element :class => "petition" }
   end
-  Petition.last #bit dodgy, but should be fine for now!
+  Petition.last
 end
 
 def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
+	wait.until { element :id => 'signature_email' }
+
   if element_exists :id => 'signature_first_name'
     first_name, last_name = name.split(' ')
     type(first_name).into(:id => 'signature_first_name')
