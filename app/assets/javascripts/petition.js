@@ -1,6 +1,6 @@
 $(document).ready(function() {
   initTwitter();
-  initFacebook();
+  loadFacebookApi();
   initTabIndexes();
   setupShareFacebookButton();
   // will show it only if it`s in the DOM
@@ -44,15 +44,7 @@ $(document).ready(function() {
 
 });
 
-function initFacebook() {
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : $('meta[property="fb:app_id"]').attr("content"),
-      status     : true, // check login status
-      cookie     : true, // enable cookies to allow the server to access the session
-      xfbml      : true  // parse XFBML
-    });
-  };
+function loadFacebookApi() {
   // Load the SDK Asynchronously
   (function(d){
     var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
@@ -74,7 +66,13 @@ function setupShareFacebookButton() {
 }
 
 function submitFacebookAction() {
-  console.log("HERE!!!!");
+  FB.init({
+    appId      : $('meta[property="fb:app_id"]').attr("content"),
+    status     : true, // check login status
+    cookie     : true, // enable cookies to allow the server to access the session
+    xfbml      : true  // parse XFBML
+  });
+
   FB.login(function(response) {
     if (response.authResponse) {
       console.log('Welcome!  Fetching your information.... ');

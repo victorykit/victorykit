@@ -11,10 +11,9 @@
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
-- signpetition_ask_vs_tell = spin! "ask vs tell to sign petition", :signature, ["ask", "tell"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
+-#- share_vs_like = spin! "share on Facebook using the app vs just like", :signature, ["fullname", "firstandlastname"]
 - content_for :javascripts do
-  VK.signpetition_ask_vs_tell = '#{signpetition_ask_vs_tell}';
   VK.signing_from_email = '#{@signing_from_email}';
 .fb-root
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
