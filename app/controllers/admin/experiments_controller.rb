@@ -48,9 +48,9 @@ class Admin::ExperimentsController < ApplicationController
   end
   
   def sent_emails_by_hour
-	  sent_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)")
+    sent_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)")
     spins = Hash[sent_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
-	  signed_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)", :conditions => ['signature_id is not null'])
+    signed_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)", :conditions => ['signature_id is not null'])
     wins = Hash[signed_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
     [spins, wins]
   end

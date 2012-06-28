@@ -3,6 +3,6 @@ class SentEmail < ActiveRecord::Base
   belongs_to :petition
   belongs_to :member
   has_many :email_experiments
-	has_one :unsubscribe
-	belongs_to :signature
+  has_one :unsubscribe
+  belongs_to :signature
 end

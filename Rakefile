@@ -9,5 +9,5 @@ Victorykit::Application.load_tasks
 task :default => 'spec:all'
 
 namespace :spec do
-	task :all => ['spec', 'spec:smoke']
+  task :all => ['spec', 'spec:smoke']
 end

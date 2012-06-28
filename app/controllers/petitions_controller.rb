@@ -19,8 +19,8 @@ class PetitionsController < ApplicationController
     @was_signed = was_petition_signed @petition
 
     unless @signature = flash[:invalid_signature]
-	    @signature_id = flash[:signature_id]
-	    @just_signed = !@signature_id.nil?
+      @signature_id = flash[:signature_id]
+      @just_signed = !@signature_id.nil?
       @signature = Signature.new
       prepopulate_signature
     end
