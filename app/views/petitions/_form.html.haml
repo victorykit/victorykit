@@ -6,7 +6,6 @@
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
   - if can :feature_petition
-
     .controls
       = link_to_add_fields "Customize Email Subject", f, :petition_titles, {:class => "string", :id => 'email_subject_link'}, {:title_type => "email", :label_name => "Email Subject"}, "#email_subjects"
 
