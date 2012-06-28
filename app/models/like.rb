@@ -1,4 +1,2 @@
-class Like < ActiveRecord::Base
-  belongs_to :member
-  belongs_to :petition
+class Like < FacebookAction
 end
