@@ -2,7 +2,7 @@ require "selenium-webdriver"
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require "support/webdriver_helpers"
-
+include Rails.application.routes.url_helpers
 include WebDriverHelpers
 
 ENV["RAILS_ENV"] ||= 'test'

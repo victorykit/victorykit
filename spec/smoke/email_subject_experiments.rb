@@ -4,7 +4,7 @@ describe "creating an email subject experiment" do
 
   it "awards a win against the email subject when email recipient signs" do
   	petition = create_a_featured_petition "Multiple email subjects!", "Yes indeed", ["Subject A", "Subject B"]
-	  member = Member.last
+	  member = subscribe_member
 	  send_petition_email petition.id, member.id
 	  SentEmail.last.email.should == member.email
 	  # visit /admin/experiments
@@ -33,4 +33,12 @@ def send_petition_email petition_id, member_id
 		on_demand_email_path = URI.join(HOST_URL, "admin/on_demand_email/new?petition_id=#{petition_id}&member_id=#{member_id}").to_s
 		go_to on_demand_email_path
 	end
+end
+
+def subscribe_member name = 'A Member', email = 'amember@some.com'
+	go_to 'subscribe'
+	type(name).into(id: 'member_name')
+	type(email).into(id: 'member_email')
+	click id: 'sign-up-submit'
+	Member.last
 end
