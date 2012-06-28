@@ -7,8 +7,17 @@ describe "creating an email subject experiment" do
 	  member = subscribe_member
 	  send_petition_email petition.id, member.id
 	  SentEmail.last.email.should == member.email
-	  # visit /admin/experiments
-	  # make sure the number spins is 1 and wins is 0 for your subject
+	  as_admin do
+	    # visit /admin/experiments
+	    go_to 'admin/experiments'
+	    # make sure the number spins is 1 and wins is 0 for your subject
+			email_experiments = element(xpath: "//table[@id = 'petition #{petition.id} email title']")
+		  spins = email_experiments.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
+		  wins = email_experiments.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
+	    spins.should == 1
+		  wins.should == 0
+	  end
+	  
 	  # receive an email
 	  # make sure its subject is your subject
 	  # click on the link
@@ -30,7 +39,7 @@ end
 
 def send_petition_email petition_id, member_id
 	as_admin do
-		on_demand_email_path = URI.join(HOST_URL, "admin/on_demand_email/new?petition_id=#{petition_id}&member_id=#{member_id}").to_s
+		on_demand_email_path = "admin/on_demand_email/new?petition_id=#{petition_id}&member_id=#{member_id}"
 		go_to on_demand_email_path
 	end
 end

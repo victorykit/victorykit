@@ -17,7 +17,7 @@ RSpec.configure do |config|
 	  profile = Selenium::WebDriver::Chrome::Profile.new
 	  profile['browser.window_placement.top'] = 0
 	  profile['browser.window_placement.left'] = 0
-	  profile['browser.window_placement.right'] = 980
+	  profile['browser.window_placement.right'] = 1024
 	  profile['browser.window_placement.bottom'] = 768
     $driver = Selenium::WebDriver.for :chrome, profile: profile
 
