@@ -1,6 +1,6 @@
 $(document).ready(function() {
   initTwitter();
-  loadFacebookApi();
+  //loadFacebookApi();
   initTabIndexes();
   setupShareFacebookButton();
   // will show it only if it`s in the DOM
