@@ -24,6 +24,18 @@ $(document).ready(function() {
     }
     return event.go;
   });
+
+  $('#email_subject_link').click(function() {
+    $('#email_subject').show();
+    $('#email_subject_link').hide();
+  });
+
+  $('#facebook_title_link').click(function() {
+    $('#facebook_title').show();
+    $('#facebook_title_link').hide();
+  });
+
+
 });
 
 function initFacebook() {

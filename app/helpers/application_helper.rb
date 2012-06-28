@@ -70,12 +70,12 @@ module ApplicationHelper
     f.hidden_field(:_destroy)
   end
 
-  def link_to_add_fields(name, f, association, html_options, locals)
+  def link_to_add_fields(name, f, association, html_options, locals, where)
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       locals = {:f => builder}.merge(locals)
       render(association.to_s.singularize + "_fields", locals)
     end
-    link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\")", html_options)
+    link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\", \"#{where}\")", html_options)
   end
 end

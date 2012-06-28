@@ -29,8 +29,8 @@ function remove_fields(link) {
   $(link).closest(".fields").hide();
 }
 
-function add_fields(link, association, content) {
+function add_fields(link, association, content, where_selector) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
-  $(link).parent().after(content.replace(regexp, new_id));
+  $(where_selector).before(content.replace(regexp, new_id));
 }

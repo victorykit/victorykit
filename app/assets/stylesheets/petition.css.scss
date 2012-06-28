@@ -350,6 +350,8 @@
   height: 30px;
 }
 
+#email_subject, #facebook_title { display: none; }
+
 @media (min-width: 280px) and (max-width: 780px) {
   .social_icons, .progress_bar, .mobile_signup_button {
     clear: both !important;
@@ -357,4 +359,8 @@
     float: left !important;
     text-align: left !important;
   }
+}
+
+.petitionform .btn.email_subject_add_link {
+  float: left;
 }
