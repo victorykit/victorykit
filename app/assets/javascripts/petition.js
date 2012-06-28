@@ -25,10 +25,20 @@ $(document).ready(function() {
     return event.go;
   });
 
+  if($('#email_subject').has('.additional_title').length) {
+    $('#email_subject').show();
+    $('#email_subject_link').hide();
+  }
+
   $('#email_subject_link').click(function() {
     $('#email_subject').show();
     $('#email_subject_link').hide();
   });
+
+  if($('#facebook_title').has('.additional_title').length) {
+    $('#facebook_title').show();
+    $('#facebook_title_link').hide();
+  }
 
   $('#facebook_title_link').click(function() {
     $('#facebook_title').show();

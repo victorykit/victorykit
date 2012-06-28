@@ -1,9 +1,8 @@
 - if (not f.object.title_type) || (f.object.title_type == title_type)
-  .control-group.string.fields
+  .additional_title
     - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Title"
     - title_type ||= f.object.title_type
-    .controls
-      = f.text_field :title, :class => "string with_icon"
-      = f.hidden_field :title_type, :value => title_type
-      .btn.btn-primary{onclick: "remove_fields(this)"}
-        %i.icon-trash.icon-white= link_to_remove_fields "remove", f
+    = f.text_field :title, :class => "string with_icon"
+    = f.hidden_field :title_type, :value => title_type
+    .btn.btn-primary{onclick: "remove_fields(this)"}
+      %i.icon-trash.icon-white= link_to_remove_fields "remove", f

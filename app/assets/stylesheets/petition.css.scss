@@ -229,6 +229,12 @@
   .btn {
     @extend .span2;
     float: right;
+    &.add_link {
+      float: left;
+    }
+  }
+  .additional_title {
+    height: 3em;
   }
   .control-group {
     @extend .span8;
@@ -350,7 +356,10 @@
   height: 30px;
 }
 
-#email_subject, #facebook_title { display: none; }
+#email_subject, #facebook_title {
+  display: none;
+  padding: 10px 0;
+}
 
 @media (min-width: 280px) and (max-width: 780px) {
   .social_icons, .progress_bar, .mobile_signup_button {
@@ -364,3 +373,5 @@
 .petitionform .btn.email_subject_add_link {
   float: left;
 }
+
+

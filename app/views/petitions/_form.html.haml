@@ -6,26 +6,33 @@
   - if can :feature_petition
     = f.input :to_send, label: 'Feature this petition', tabindex: 3
   - if can :feature_petition
+
     .controls
-      = link_to_add_fields "Customize Email Subject", f, :petition_titles, {:class => "string", :id => 'email_subject_link'}, {:title_type => "email", :label_name => "Email Subject"}, "#banana"
+      = link_to_add_fields "Customize Email Subject", f, :petition_titles, {:class => "string", :id => 'email_subject_link'}, {:title_type => "email", :label_name => "Email Subject"}, "#email_subjects"
+
     #email_subject
       .control-group.string
         .control-label Email Subject
-        .controls#banana
+        .controls#email_subjects
           = f.fields_for :petition_titles do |builder|
             = render 'petition_title_fields', {f: builder, title_type: "email"}
-          = link_to_add_fields "Add Email Subject", f, :petition_titles, {:class => "string btn btn-primary email_subject_add_link"}, {:title_type => "email", :label_name => "Email Subject"}, "#banana"
+        .controls
+          = link_to_add_fields "Add email subject", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "email", :label_name => "Email Subject"}, "#email_subjects"
+
+
 
     .controls
-      %a#facebook_title_link Customize facebook title.
+      = link_to_add_fields "Customize Facebook Title", f, :petition_titles, {:class => "string", :id => 'facebook_title_link'}, {:title_type => "facebook", :label_name => "Facebook Title"}, "#facebook_titles"
+
     #facebook_title
-      #apple
       .control-group.string
-        = link_to_add_fields "Add Facebook Title", f, :petition_titles, {:class => "string control-label"}, {:title_type => "facebook", :label_name => "Facebook Title"}, "#apple"
-        .controls.description_text
-          This will show up on facebook pages when someone likes your petition.
-      = f.fields_for :petition_titles do |builder|
-        = render 'petition_title_fields', {f: builder, title_type: "facebook"}
+        .control-label Facebook Title
+        .controls#facebook_titles
+          = f.fields_for :petition_titles do |builder|
+            = render 'petition_title_fields', {f: builder, title_type: "facebook"}
+        .controls
+          = link_to_add_fields "Add facebook title", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "facebook", :label_name => "Facebook Title"}, "#facebook_titles"
+
   .controls
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"

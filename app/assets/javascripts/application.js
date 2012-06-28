@@ -26,11 +26,11 @@ var VK = VK || {}
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
-  $(link).closest(".fields").hide();
+  $(link).closest(".additional_title").hide();
 }
 
 function add_fields(link, association, content, where_selector) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
-  $(where_selector).before(content.replace(regexp, new_id));
+  $(where_selector).append(content.replace(regexp, new_id));
 }
