@@ -9,11 +9,11 @@ describe Signature do
   end
 
   context "given a really long user agent" do
-  	it "truncates it to 255 characters" do
-  		signature = build(:signature, user_agent: "0" * 512)
-  		signature.save!
-  		signature.user_agent.length.should == 255
-  	end
+    it "truncates it to 255 characters" do
+      signature = build(:signature, user_agent: "0" * 512)
+      signature.save!
+      signature.user_agent.length.should == 255
+    end
   end
 
   it "should allow only predefined types of references" do
