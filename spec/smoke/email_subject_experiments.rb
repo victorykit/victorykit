@@ -1,7 +1,7 @@
 require 'smoke_spec_helper'
 require 'nokogiri'
 
-describe "creating an email subject experiment" do
+describe "creating an email subject experiment", if: false do
   it "awards a win against the email subject when email recipient signs" do
     petition = create_a_featured_petition "Multiple email subjects!", "Yes indeed", ["Subject A", "Subject B"]
     member = create_member
@@ -16,11 +16,11 @@ describe "creating an email subject experiment" do
     go_to petition_link
     sign_petition
 
-    experiment = email_experiment_results_for petition
-    experiment.spins.should == 1
-    experiment.wins.should == 1
-  end
-  
+		experiment = email_experiment_results_for petition
+		experiment.spins.should == 1
+		experiment.wins.should == 1
+	end
+
   #pending "editing subject should start a new test"
   # go back to editing your petition
   # change both of the subjects
@@ -42,9 +42,9 @@ def email_experiment_results_for petition
 end
 
 def send_petition_email petition, member
-  as_admin do
-    on_demand_email_path = "admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
-    go_to on_demand_email_path
-    return $driver.page_source
-  end
+	as_admin do
+		on_demand_email_path = "admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
+		go_to on_demand_email_path
+		return $driver.page_source
+	end
 end

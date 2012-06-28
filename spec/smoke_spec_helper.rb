@@ -49,9 +49,10 @@ def login_as_admin
 end
 
 def login(email = "user@test.com", password = "password")
-  go_to 'login'
-  wait.until { element :id => 'new_session_email' }
-  login_here(email, password)
+	go_to 'login'
+  wait_for_ajax
+	wait.until { element :id => 'new_session_email' }
+	login_here(email, password)
 end
 
 def login_here(email = "user@test.com", password = "password")
@@ -81,7 +82,7 @@ def create_admin_user
   u.is_admin = true
   raise "failed to create admin user" unless u.save
 end
-  
+
 def create_normal_user
   if User.exists? email: "user@test.com"
     return
@@ -118,10 +119,13 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
     type(title).into(:id => 'petition_title')
     type(description).into_wysihtml5(:id => 'petition_description')
 
-    #Could be better...
-    email_subjects.each do |subject|
-      click :link_text => 'Add Email Subject'
+    if email_subjects and email_subjects.any?
+      click :link_text => 'Customize Email Subject' unless not email_subjects
+      email_subjects[1..-1].each do |subject|
+        click :link_text => 'Add email subject'
+      end
     end
+
     subject_fields = $driver.find_elements xpath: "//input[contains(@id, 'petition_petition_titles_attributes') and @type = 'text']"
     subject_fields.zip(email_subjects).each {|pair| pair[0].send_keys(pair[1])}
 
