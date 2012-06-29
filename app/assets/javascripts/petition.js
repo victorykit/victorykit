@@ -28,6 +28,7 @@ $(document).ready(function() {
 
   $('#email_subject_link').click(function() {
     $('#email_subject').show();
+    $('#email_subject input').focus();
     $('#email_subject_link').hide();
   });
 
