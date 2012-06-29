@@ -1,9 +1,9 @@
 $(document).ready(function() {
   initTwitter();
-  //loadFacebookApi();
   initTabIndexes();
   setupShareFacebookButton();
-  // will show it only if it`s in the DOM
+  setupGoogleAnalytics();
+  setupSocialTracking();
 
   if(screen.width > 480) {
     $('#thanksModal').modal('toggle');
@@ -43,6 +43,49 @@ $(document).ready(function() {
 
 
 });
+
+function setupGoogleAnalytics() {
+  var analytics_id = $('.analytics_id').text();
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', analytics_id]);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+}
+
+
+function setupSocialTracking() {
+  var social_tracking_url = $('.social_tracking_url').text();
+  var signature_id = $('.signature_id').text();
+  var petition_id = $('.petition_id').text();
+  var params = {petition_id: petition_id};
+  if (signature_id != "") {
+    params = $.extend(params, {signature_id: signature_id});
+  }
+  try {
+    if (FB && FB.Event && FB.Event.subscribe) {
+      FB.Event.subscribe('edge.create', function(targetUrl) {
+        _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+        //Google doesn't export social event data yet, so we have to track social actions as events too
+        _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
+        $.ajax({
+          url: social_tracking_url,
+          data: params,
+        });
+        $('.tweet').show();
+      });
+      FB.Event.subscribe('edge.remove', function(targetUrl){
+        _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
+        _gaq.push(['_trackEvent', 'facebook', 'unlike', targetUrl]);
+      });
+    }
+  } catch(e) {}
+}
 
 function loadFacebookApi() {
   // Load the SDK Asynchronously

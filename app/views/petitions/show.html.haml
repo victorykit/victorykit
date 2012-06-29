@@ -19,9 +19,10 @@
 .fb-root
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition.span9
-    -#.petition_image
-    .petition_id.hidden
-      = params[:id]
+    .petition_id.hidden= @petition.id
+    .signature_id.hidden= @signature.id
+    .analytics_id.hidden= Settings.google_analytics.analytics_id
+    .social_tracking_url.hidden= new_social_tracking_url
     - if @petition.has_edit_permissions(current_user)
       %h1.petition_title.admin= @petition.title
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
@@ -183,6 +184,3 @@
             - if @fb_hash
               = hidden_field_tag :fb_hash, @fb_hash
             = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
-
-= google_analytics_tracker @petition.id, @signature_id
-

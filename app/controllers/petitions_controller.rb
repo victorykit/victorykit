@@ -16,13 +16,14 @@ class PetitionsController < ApplicationController
     @email_hash = params[:n]
     @fb_hash = params[:fb_ref]
     @fb_tracking_hash = cookies[:member_id]
-    @was_signed = was_petition_signed @petition
+    signature_id = get_signature_id @petition
+    @was_signed = signature_id.present?
 
     unless @signature = flash[:invalid_signature]
-      @signature_id = flash[:signature_id]
-      @just_signed = !@signature_id.nil?
+      @just_signed = flash[:signature_id].present?
       @signature = Signature.new
       prepopulate_signature
+      @signature.id = signature_id
     end
   end
 
@@ -71,11 +72,11 @@ class PetitionsController < ApplicationController
   
   private
 
-  def was_petition_signed petition
+  def get_signature_id petition
     if member_id = MemberHasher.validate(cookies[:member_id])
-      Signature.where(:petition_id => petition.id, :member_id => member_id).any?
+      Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
     else
-      false
+      nil
     end
   end
 

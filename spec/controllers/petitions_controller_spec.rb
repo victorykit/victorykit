@@ -50,7 +50,7 @@ describe PetitionsController do
       assigns(:was_signed).should == false
     end
 
-    it "should set was_signed to true if cookies don`t contain this petition" do
+    it "should set was_signed to true if cookies contain this petition" do
       member = create(:member)
       controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
       create(:signature, :member_id => member.id, :petition_id => petition.id)
@@ -59,6 +59,8 @@ describe PetitionsController do
     end
     
     context "the user has already signed the petition" do
+      let(:member) { create(:member, :name => "Bob", :email => "bob@bob.com") }
+
       it "sets facebook ref hash to encoded signature id" do
         controller.stub(cookies: {member_id: "hash"})
         get :show, {:id => petition.id}
@@ -66,13 +68,18 @@ describe PetitionsController do
       end
 
       it "assigns a signature name and email to the view" do
-        member = create(:member, :name => "Bob", :email => "bob@bob.com")
         controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
         get :show, {:id => petition.id}
         assigns(:signature).name.should == "Bob"
         assigns(:signature).email.should == "bob@bob.com"
       end
-
+      
+      it "should set the id for @signature" do
+        controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
+        signature = create(:signature, petition: petition, member: member)
+        get :show, {:id => petition.id}
+        assigns(:signature).id.should == signature.id
+      end
     end
 
     context "the user has not already signed the petition" do
