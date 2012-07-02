@@ -43,10 +43,7 @@ $(document).ready(function() {
 });
 
 function setupSocialTracking() {
-  var params = {petition_id: VK.petition_id};
-  if (VK.signature_id != "") {
-    params = $.extend(params, {signature_id: VK.signature_id});
-  }
+  
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
       FB.Event.subscribe('edge.create', function(targetUrl) {
@@ -55,7 +52,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
           url: VK.social_tracking_url,
-          data: params,
+          data: setUpParamsForSocialTracking('like'),
         });
         $('.tweet').show();
       });
@@ -65,6 +62,14 @@ function setupSocialTracking() {
       });
     }
   } catch(e) {}
+}
+
+function setUpParamsForSocialTracking(facebook_action) {
+  var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
+  if (VK.signature_id != "") {
+    params = $.extend(params, {signature_id: VK.signature_id});
+  }
+  return params;
 }
 
 function setupShareFacebookButton() {
