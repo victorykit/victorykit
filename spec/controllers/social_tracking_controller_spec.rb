@@ -22,9 +22,10 @@ describe SocialTrackingController do
     it "records a share on a petition" do
       petition = create(:petition)
       
-      get(:new, {petition_id: petition.id, facebook_action: 'share'})
+      get(:new, {petition_id: petition.id, facebook_action: 'share', action_id: '12345'})
       share = Share.last
       share.petition.should == petition
+      share.action_id.should == '12345'
       share.member.should be_nil
     end
     it "records a share by a member on a petition" do
@@ -34,6 +35,7 @@ describe SocialTrackingController do
       get(:new, {petition_id: petition.id, signature_id: signature.id, facebook_action: 'share'})
       share = Share.last
       share.petition.should == petition
+      share.action_id.should be_nil
       share.member.should == signature.member
     end
   end
