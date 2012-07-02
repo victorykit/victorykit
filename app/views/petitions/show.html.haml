@@ -124,7 +124,10 @@
       .thanks
         Thanks for signing!
       .share
-        Spread the word, share on Facebook!
+        - if spin! "include Facebook on share", :share
+          Spread the word, share on Facebook!
+        - else
+          Spread the word, share with your friends!
       .arrow
 
       .tweet
