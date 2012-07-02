@@ -2,11 +2,10 @@ require 'whiplash'
 
 describe "to1if0" do
   it "should preserve nonzero" do
-    to1if0(5).should == 5
-    to1if0(nil).should == nil
+    (5.0).to_1if0.should == 5.0
   end
   it "should convert zero to one" do
-    to1if0(0).should == 1
+    (0.0).to_1if0.should == 1
   end
 end
 
