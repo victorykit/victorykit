@@ -15,14 +15,13 @@
 -#- share_vs_like = spin! "share on Facebook using the app vs just like", :signature, ["fullname", "firstandlastname"]
 - content_for :javascripts do
   VK.signing_from_email = '#{@signing_from_email}';
+  VK.petition_id = '#{@petition.id}';
+  VK.signature_id = '#{@signature.id}';
+  VK.social_tracking_url = '#{new_social_tracking_url}';
 = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 .fb-root
 #testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition.span9
-    .petition_id.hidden= @petition.id
-    .signature_id.hidden= @signature.id
-    .analytics_id.hidden= Settings.google_analytics.analytics_id
-    .social_tracking_url.hidden= new_social_tracking_url
     - if @petition.has_edit_permissions(current_user)
       %h1.petition_title.admin= @petition.title
       = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"

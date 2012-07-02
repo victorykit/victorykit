@@ -43,12 +43,9 @@ $(document).ready(function() {
 });
 
 function setupSocialTracking() {
-  var social_tracking_url = $('.social_tracking_url').text();
-  var signature_id = $('.signature_id').text();
-  var petition_id = $('.petition_id').text();
-  var params = {petition_id: petition_id};
-  if (signature_id != "") {
-    params = $.extend(params, {signature_id: signature_id});
+  var params = {petition_id: VK.petition_id};
+  if (VK.signature_id != "") {
+    params = $.extend(params, {signature_id: VK.signature_id});
   }
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
@@ -57,7 +54,7 @@ function setupSocialTracking() {
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
-          url: social_tracking_url,
+          url: VK.social_tracking_url,
           data: params,
         });
         $('.tweet').show();
