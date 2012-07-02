@@ -2,7 +2,6 @@ $(document).ready(function() {
   initTwitter();
   initTabIndexes();
   setupShareFacebookButton();
-  setupGoogleAnalytics();
   setupSocialTracking();
 
   if(screen.width > 480) {
@@ -41,17 +40,7 @@ $(document).ready(function() {
     $('#facebook_title').show();
     $('#facebook_title_link').hide();
   });
-
-
 });
-
-function setupGoogleAnalytics() {
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-}
 
 function setupSocialTracking() {
   var social_tracking_url = $('.social_tracking_url').text();
