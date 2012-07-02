@@ -4,7 +4,6 @@
 - buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
 - signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signaturecolor1", "signaturecolor2", "signaturecolor3", "signaturecolor4", "signaturecolor5", "signaturecolor6"]
 - thermometercolor = spin! "change thermometer color", :signature, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
-- signatureposition = spin! "change normal vs fixed positioning for sign petition box", :signature, ["signatureposition1", "signatureposition2"]
 - signaturelabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["signature_labels_beside_inputs_no_asterisk", "signature_labels_beside_inputs_with_asterisk", "signature_labels_beside_inputs_with_asterisk_underlined", "signature_labels_above_inputs_no_asterisk", "signature_labels_above_inputs_with_asterisk", "signature_labels_above_inputs_with_asterisk_underlined", "signature_labels_hidden"]
 - signature_display_threshold_met = @sigcount >= spin!("signature display threshold", :signature, [0, 100])
 - if signature_display_threshold_met then progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"] end
@@ -20,7 +19,7 @@
   VK.social_tracking_url = '#{new_social_tracking_url}';
 = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 .fb-root
-#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signatureposition, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .petition.span9
     - if @petition.has_edit_permissions(current_user)
       %h1.petition_title.admin= @petition.title
