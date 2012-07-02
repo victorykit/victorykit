@@ -102,12 +102,14 @@ end
 def create_a_petition (title = 'a snappy title', description = 'a compelling description')
   as_user do
     go_to new_petition_path
-
+    
+    wait.until { element :id => 'petition_title' }
+    
     type(title).into(:id => 'petition_title')
     type(description).into_wysihtml5(:id => 'petition_description')
     click :name => 'commit'
 
-    wait.until { element :class => "petition" }
+    wait.until { element :class => 'petition' }
   end
   Petition.last
 end
