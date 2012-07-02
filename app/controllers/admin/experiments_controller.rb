@@ -60,9 +60,19 @@ class Admin::ExperimentsController < ApplicationController
     Hash[q.map{|(k,v)| [k.to_i,v]}]
   end
   
+  def nps_by_day
+    members = Hash[Member.count(group: 'date(created_at)').map{|(k,v)| [k.to_date, v.to_f]}]
+    sent = Hash[SentEmail.count(group: 'date(created_at)').map{|(k,v)| [k.to_date, v.to_f]}]
+    members.default, sent.default = 0, 1
+    
+    start = Date.new(2012, 05, 16)
+    (start..Date.today).collect {|x| members[x]/sent[x] }
+  end
+  
   def index
     @stats = stats
     @hourlydata1 = sent_emails_by_hour
     @hourlydata2 = signatures_by_hour
+    @npsdata = nps_by_day
   end
 end

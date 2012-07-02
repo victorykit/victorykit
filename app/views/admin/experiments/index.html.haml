@@ -56,27 +56,26 @@
       #hourchart1{style: "width:600px;height:300px"}
     %td
       #hourchart2{style: "width:600px;height:300px"}
+  %tr
+    %td{colspan: 2}
+      #npschart{style: "width:1200px;height:300px"}
 
 - content_for(:javascripts) do 
+  VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
+  
   $.plot($("#hourchart1"), [[
   - @hourlydata1[0].keys.sort.each do |h|
-    [
-    =h
-    ,
-    =(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f
-    ],
-  ]], {
-  series: {
-  lines: {show: true, fill: true},
-  points: {show: true, fill: true}}})
+    [#{h}, #{(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f}],
+  ]], VK.default_plot_style)
+  
   $.plot($("#hourchart2"), [[
   - @hourlydata2.keys.sort.each do |h|
-    [
-    =h
-    ,
-    =@hourlydata2[h]
-    ],
-  ]], {
-  series: {
-  lines: {show: true, fill: true},
-  points: {show: true, fill: true}}})
+    [#{h}, #{@hourlydata2[h]}],
+  ]], VK.default_plot_style)
+  
+  $.plot($("#npschart"), [[
+  - @npsdata.each_with_index do |h, i|
+    - if h < 1
+      [#{i}, #{h}],
+  ]], VK.default_plot_style)
+
