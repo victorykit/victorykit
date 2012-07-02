@@ -43,7 +43,6 @@ $(document).ready(function() {
 });
 
 function setupSocialTracking() {
-  
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
       FB.Event.subscribe('edge.create', function(targetUrl) {
@@ -52,7 +51,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
           url: VK.social_tracking_url,
-          data: setUpParamsForSocialTracking('like'),
+          data: setUpParamsForSocialTracking('like','')
         });
         $('.tweet').show();
       });
@@ -64,11 +63,15 @@ function setupSocialTracking() {
   } catch(e) {}
 }
 
-function setUpParamsForSocialTracking(facebook_action) {
+function setUpParamsForSocialTracking(facebook_action, action_id) {
   var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
   if (VK.signature_id != "") {
     params = $.extend(params, {signature_id: VK.signature_id});
   }
+  if(action_id != ""){
+    params = $.extend(params, {action_id: action_id}); 
+  }
+
   return params;
 }
 
@@ -80,7 +83,6 @@ function setupShareFacebookButton() {
     $('#thanks-for-signing-message .share').text("Spread the word, share on Twitter!");
     submitFacebookAction();
   });
-
 }
 
 function submitFacebookAction() {
@@ -105,6 +107,10 @@ function submitFacebookAction() {
             console.log('Error occured');
             console.log(response.error);
           } else {
+            $.ajax({
+            url: VK.social_tracking_url,
+            data: setUpParamsForSocialTracking('share', response.id)
+            });
             console.log('Sign was successful! Action ID: ' + response.id);
           }
         });

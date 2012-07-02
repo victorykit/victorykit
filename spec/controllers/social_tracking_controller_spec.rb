@@ -19,5 +19,22 @@ describe SocialTrackingController do
       like.petition.should == petition
       like.member.should == signature.member
     end
+    it "records a share on a petition" do
+      petition = create(:petition)
+      
+      get(:new, {petition_id: petition.id, facebook_action: 'share'})
+      share = Share.last
+      share.petition.should == petition
+      share.member.should be_nil
+    end
+    it "records a share by a member on a petition" do
+      petition = create(:petition)
+      signature = create(:signature)
+
+      get(:new, {petition_id: petition.id, signature_id: signature.id, facebook_action: 'share'})
+      share = Share.last
+      share.petition.should == petition
+      share.member.should == signature.member
+    end
   end
 end
