@@ -204,25 +204,160 @@
 }
 .petitionform {
   @extend .center6;
-  @extend .well;
-  @extend .span10;
-  padding: 20px;
-  margin-top: 5%;
-  min-height: 275px;
+  margin: 0 auto;
+  min-height: 210px;
+}
+.petition_sidebar {
+  @extend .span3;
+  float: left;
+  margin-top: 4px;
+  .edit { margin: 0 0 20px 53px; }
+}
+.signature-form, #ask-to-sign {
+  @extend .rightcolwell;
+  .title {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: #333;
+    padding: 15px;
+    line-height: 30px;
+  }
+
+  .privacypolicy {
+    width: 100%;
+    padding: 0 0 10px 0;
+  }
+  .through_site {
+    width: 150px;
+    border-right: 1px solid #555;
+    padding: 5px 10px;
+    float: left;
+    margin-bottom: 10px;
+    input {
+      @extend .span2;
+      margin-left: 0;
+      &.btn { width: 100%; }
+    }
+    .help-inline {
+      @extend .alert;
+      @extend .alert-error;
+      padding: 5px 10px;
+      margin-top: 0;
+    }
+    #hint {
+      margin-bottom:7px;
+      clear: both;
+      text-align: center;
+      display: none;
+    }
+    .control-label {
+      width: 100%;
+    }
+  }
+  .through_fb {
+    float: right;
+    @extend .span2;
+    padding: 0 9px;
+    .text {
+      margin: 25px 0 5px;
+      text-align: center;
+    }
+  }  /* Until Facebook Login works, use this */
+  .through_fb { display: none; }
+  .through_site {
+    width: auto;
+    border-right: none;
+    input {
+      width: 96%;
+      *width: 192px;
+    }
+    .btn {
+      float: right;
+    }
+  }
+}
+#thanks-for-signing-message, #thanksModal {
+  width: 220px;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  .thanks {
+    font-size: 27px;
+    line-height: 30px;
+    margin: 15px 0 25px;
+  }
+  .arrow {
+    background: url('arrow.png');
+    margin: 15px auto 5px;
+    height: 100px;
+    width: 100px;
+  }
+  .tweet {
+    margin-left: 45px;
+  }
+}
+#thanks-for-signing-message {
+  @extend .rightcolwell;
+  fb\:like {
+    margin: 4px;
+    padding: 4px 10px 4px 58px;
+  }
+}
+#thanksModal {
+  display: none;
+  width: 800px;
+  height: 600px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  .modal-body {
+    background-clip: padding-box;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    width: 300px;
+    min-height: 260px;
+    margin: 0 auto;
+    overflow: visible;
+  }
+  a {
+    clear: both;
+    font-weight: normal;
+  }
+  .or {
+    font-size: 10px;
+    color: #666;
+    margin: 5px; }
+  fb\:like {
+    margin: 5px 0 10px 50px;
+  }
+}
+  .petitionform {
+    margin-top: 5% auto;
+    min-height: 275px;
+    @extend .span10;
+    form {
+      max-width: 830px;
+    }
+    label {
+      @extend .span1;
+    }
+    input, textarea, .controls {
+      @extend .span8;
+      *width: 450px;
+      margin-left: 0;
+    }
+    .control-group {
+      @extend .span8;
+    }
+  }
+.petitionform {
   h1, h3 {
     margin: 0 0 20px 15px;
   }
-  form {
-    max-width: 830px;
-  }
-  label {
-    @extend .span1;
-  }
-  input, textarea, .controls {
-    @extend .span8;
-    *width: 450px;
-    margin-left: 0;
-  }
+
   textarea {
     min-height: 200px;
   }
@@ -237,7 +372,6 @@
     height: 3em;
   }
   .control-group {
-    @extend .span8;
     .controls {
       &.description_text { padding-top: 5px; }
       .btn { width: auto; }
@@ -368,12 +502,44 @@
     float: left !important;
     text-align: left !important;
   }
+  .petitionform {
+    width: 95%;
+    margin: 0 auto;
+    form { width: 100%; }
+    .control-group {
+      width: 99%;
+      label, .controls {
+        clear: both;
+        float: left;
+        margin-left: 0px;
+      }
+      label {
+        text-align: left;
+      }
+      .controls, iframe.wysihtml5-sandbox {
+        width: 100% !important;
+        input {
+          width: 100%;
+          margin: 0;
+        }
+      }
+      #petition_description-wysihtml5-toolbar {
+        width: 100%;
+      }
+    }
+    .controls.submit { margin-left: 0px; width: 100%; }
+  }
+}
+@media (min-width: 381px) and (max-width: 481px)  {
+  .petitionform { margin-left: 2%; }
+}
+@media (max-width: 321px) {
+  .petitionform { margin-left: 1%; }
 }
 
 .petitionform .btn.email_subject_add_link {
   float: left;
 }
-
 
 .fb_share.btn {
   margin-bottom: 10px;

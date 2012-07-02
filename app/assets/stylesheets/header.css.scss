@@ -60,3 +60,9 @@ ul.nav.user {
 
 /* for ff on start a petition page */
 .current-font { color: #333; }
+
+@media (min-width: 280px) and (max-width: 481px) {
+  .navbar {
+    margin-bottom: 7px !important;
+  }
+}

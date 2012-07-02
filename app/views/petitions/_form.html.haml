@@ -32,6 +32,6 @@
         .controls
           = link_to_add_fields "Add facebook title", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "facebook", :label_name => "Facebook Title"}, "#facebook_titles"
 
-  .controls
+  .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
