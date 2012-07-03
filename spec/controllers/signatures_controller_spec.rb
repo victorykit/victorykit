@@ -102,7 +102,7 @@ describe SignaturesController do
 
       it "should set referer and reference type for the signature" do
         post :create, petition_id: petition.id, signature: signature_fields, fb_hash: fb_hash
-        Signature.last.reference_type.should == "facebook"
+        Signature.last.reference_type.should == "facebook_like"
         Signature.last.referer_id.should == member.id
       end
     end
