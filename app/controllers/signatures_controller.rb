@@ -57,7 +57,7 @@ class SignaturesController < ApplicationController
     if h = MemberHasher.validate(hash)
       begin
         referer = Member.find(h)
-        signature.reference_type = Signature::ReferenceType::FACEBOOK
+        signature.reference_type = Signature::ReferenceType::FACEBOOK_LIKE
         signature.referer_id = referer.id
         signature.save!
       rescue => er

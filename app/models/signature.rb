@@ -8,11 +8,13 @@ class Signature < ActiveRecord::Base
 
   module ReferenceType
     FACEBOOK = 'facebook'
+    FACEBOOK_LIKE = 'facebook_like'
+    FACEBOOK_SHARE = 'facebook_share'
     TWITTER = 'twitter'
     EMAIL = 'email'
   end
 
-  REFERENCE_TYPES = [ ReferenceType::FACEBOOK, ReferenceType::TWITTER, ReferenceType::EMAIL, nil ]
+  REFERENCE_TYPES = [ ReferenceType::FACEBOOK, ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::TWITTER, ReferenceType::EMAIL, nil ]
 
   validates :reference_type, :inclusion => {:in => REFERENCE_TYPES, :message => "%{value} is not a valid reference_type"}
 

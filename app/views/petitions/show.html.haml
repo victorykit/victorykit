@@ -11,7 +11,7 @@
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
--#- share_vs_like = spin! "share on Facebook using the app vs just like", :signature, ["fullname", "firstandlastname"]
+-#- share_vs_like = spin! "share on Facebook using the app vs just like", :signature, ["facebooklike", "facebookshare"]
 - content_for :javascripts do
   VK.signing_from_email = '#{@signing_from_email}';
   VK.petition_id = '#{@petition.id}';
@@ -151,7 +151,10 @@
         .arrow
         .tweet
           %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
-        = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+        - if [5, 6, 7].include?(@petition.id)
+          .fb_share.btn.btn-primary Share on Facebook
+        - else
+          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
 
   .modal.hide#sign_mobile.signature-form
     .modal-body
