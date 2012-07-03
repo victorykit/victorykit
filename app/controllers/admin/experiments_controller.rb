@@ -47,16 +47,16 @@ class Admin::ExperimentsController < ApplicationController
     mystats
   end
   
-  def sent_emails_by_hour
-    sent_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)")
+  def sent_emails_by_part part
+    sent_emails_by_hour = SentEmail.count(:group => "date_part('#{part}', created_at)")
     spins = Hash[sent_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
-    signed_emails_by_hour = SentEmail.count(:group => "date_part('hour', created_at)", :conditions => ['signature_id is not null'])
+    signed_emails_by_hour = SentEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
     wins = Hash[signed_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
     [spins, wins]
   end
   
-  def signatures_by_hour
-    q = Signature.count(:group => "date_part('hour', signatures.created_at)", :joins => :sent_email)
+  def signatures_by_part part
+    q = Signature.count(:group => "date_part('#{part}', signatures.created_at)", :joins => :sent_email)
     Hash[q.map{|(k,v)| [k.to_i,v]}]
   end
   
@@ -71,8 +71,10 @@ class Admin::ExperimentsController < ApplicationController
   
   def index
     @stats = stats
-    @hourlydata1 = sent_emails_by_hour
-    @hourlydata2 = signatures_by_hour
+    @hourlydata1 = sent_emails_by_part 'hour'
+    @hourlydata2 = signatures_by_part 'hour'
+    @dowdata1 = sent_emails_by_part 'dow'
+    @dowdata2 = signatures_by_part 'dow'
     @npsdata = nps_by_day
   end
 end
