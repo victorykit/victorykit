@@ -37,7 +37,7 @@ class Petition < ActiveRecord::Base
   def alternate_title title_type
     alt_titles = petition_titles.find_all_by_title_type(title_type)
     test_name = "petition #{id} #{title_type} title"
-    chosen = spin! test_name, :signature, alt_titles, {:session_id => id} unless not alt_titles
+    chosen = spin! test_name, :signature, alt_titles, {:session_id => id} if alt_titles.any?
     chosen || PetitionTitle.new(title: title, title_type: PetitionTitle::TitleType::DEFAULT)
   end
 
