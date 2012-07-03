@@ -15,10 +15,11 @@ class SignaturesController < ApplicationController
         Notifications.signed_petition signature
         petition.save!
 
-        nps_win signature
         record_email_reference(params[:email_hash], signature)
-        record_facebook_reference(params[:fb_hash], signature)
-        
+        record_facebook_like_reference(params[:fb_hash], signature)
+        record_facebook_share_reference(params[:fb_action_id], signature)
+        nps_win signature
+
         cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
         
         flash[:signature_id] = signature.id
@@ -53,7 +54,7 @@ class SignaturesController < ApplicationController
     end
   end
 
-  def record_facebook_reference hash, signature
+  def record_facebook_like_reference hash, signature
     if h = MemberHasher.validate(hash)
       begin
         referer = Member.find(h)
@@ -61,7 +62,21 @@ class SignaturesController < ApplicationController
         signature.referer_id = referer.id
         signature.save!
       rescue => er
-        Rails.logger.error "Error in recording facebook reference: #{er} #{er.backtrace.join}"
+        Rails.logger.error "Error in recording facebook like reference: #{er} #{er.backtrace.join}"
+      end
+    end
+  end
+
+  def record_facebook_share_reference action_id, signature
+    if action_id.present?
+      begin
+        facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
+        referer = facebook_action.member
+        signature.reference_type = Signature::ReferenceType::FACEBOOK_SHARE
+        signature.referer_id = referer.id
+        signature.save!
+      rescue => er
+        Rails.logger.error "Error in recording facebook share reference: #{er} #{er.backtrace.join}"
       end
     end
   end
@@ -69,6 +84,7 @@ class SignaturesController < ApplicationController
   def nps_win signature
     if signature.created_member
       win_on_option!("email_scheduler_nps", signature.petition.id.to_s)
+      win_on_option!("facebook_nps", signature.reference_type) if signature.reference_type.present?
     end
   end
 end

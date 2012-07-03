@@ -15,6 +15,7 @@ class PetitionsController < ApplicationController
     @sigcount = @petition.signatures.count
     @email_hash = params[:n]
     @fb_hash = params[:fb_ref]
+    @fb_action_id = params[:fb_action_ids]
     @fb_tracking_hash = cookies[:member_id]
     signature_id = get_signature_id @petition
     @was_signed = signature_id.present?
