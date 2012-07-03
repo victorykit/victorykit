@@ -334,25 +334,30 @@
     margin: 5px 0 10px 50px;
   }
 }
-  .petitionform {
-    margin-top: 5% auto;
-    min-height: 275px;
-    @extend .span10;
-    form {
-      max-width: 830px;
-    }
-    label {
-      @extend .span1;
-    }
-    input, textarea, .controls {
-      @extend .span8;
-      *width: 450px;
-      margin-left: 0;
-    }
-    .control-group {
-      @extend .span8;
-    }
+.petitionform {
+  margin-top: 5% auto;
+  min-height: 275px;
+  @extend .span10;
+  form {
+    max-width: 830px;
   }
+  label {
+    @extend .span1;
+  }
+  input, textarea, .controls {
+    @media (min-width: 1200px) { width: 770px; }
+    @media (min-width: 980px) and (max-width: 1199px) { width: 620px; }
+    @media (min-width: 770px) and (max-width: 979px) { width: 100%; }
+    *width: 450px;
+    margin-left: 0;
+  }
+  .control-group {
+    @extend .span8;
+  }
+  .with_icon {
+    width: 90%;
+  }
+}
 .petitionform {
   h1, h3 {
     margin: 0 0 20px 15px;
@@ -482,9 +487,7 @@
   width: 100%;
   clear: both;
 }
-.with_icon {
-  width: 90% !important;
-}
+
 .controls .icon-trash a {
   width: 30px;
   height: 30px;
@@ -495,29 +498,32 @@
   padding: 10px 0;
 }
 
-@media (min-width: 280px) and (max-width: 780px) {
+@media (min-width: 280px) and (max-width: 790px) {
   .social_icons, .progress_bar, .mobile_signup_button {
     clear: both !important;
     margin: 5px 0 !important;
     float: left !important;
     text-align: left !important;
   }
+  .container h1 { margin-left: 0; }
   .petitionform {
     width: 95%;
     margin: 0 auto;
     form { width: 100%; }
     .control-group {
       width: 99%;
-      label, .controls {
+      label, .controls, .control-label {
         clear: both;
         float: left;
         margin-left: 0px;
-      }
-      label {
         text-align: left;
+        max-width: 100% ;
+      }
+      iframe.wysihtml5-sandbox {
+        width: 100% !important;
       }
       .controls, iframe.wysihtml5-sandbox {
-        width: 100% !important;
+        width: 100%;
         input {
           width: 100%;
           margin: 0;
@@ -527,14 +533,40 @@
         width: 100%;
       }
     }
+    .control-group.boolean {
+      .control-label, .controls, label.checkbox {
+        float: left;
+        clear: none;
+      }
+      .controls {
+        width: 20px;
+        label.checkbox {
+          padding: 0;
+          margin: 2px 0 0 0px;
+          width: 20px;
+        }
+      }
+    }
+    .controls { margin-left: 0 !important; }
+    .controls.toggle {
+      margin: 5px auto;
+    }
+    .control-group.string .control-label {
+      margin-bottom: 8px;
+    }
     .controls.submit { margin-left: 0px; width: 100%; }
   }
 }
-@media (min-width: 381px) and (max-width: 481px)  {
-  .petitionform { margin-left: 2%; }
+@media (min-width: 381px) and (max-width: 789px)  {
+  .petitionform { margin-left: 2%;
+    .additional_title input.with_icon { max-width: 89%; }
+    .control-group.boolean .controls label.checkbox { margin: 7px 0 0 -20px; }
+  }
 }
 @media (max-width: 321px) {
-  .petitionform { margin-left: 1%; }
+  .petitionform { margin-left: 1%;
+    .additional_title input.with_icon { max-width: 83%; }
+  }
 }
 
 .petitionform .btn.email_subject_add_link {
