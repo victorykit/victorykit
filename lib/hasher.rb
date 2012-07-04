@@ -2,14 +2,14 @@ require 'base64'
 
 class Hasher
   def self.generate_with_prefix(data, prefix)
-    URI.escape(data.to_s + '.' + Base64.encode64(OpenSSL::HMAC.digest('sha1', Settings.hasher.secret_key, prefix.to_s + data.to_s))[0..5]) if data.present?
+    data.to_s + '.' + Base64.urlsafe_encode64(OpenSSL::HMAC.digest('sha1', Settings.hasher.secret_key, prefix.to_s + data.to_s))[0..5] if data.present?
   end
 
   def self.validate_with_prefix(hashed_data, prefix)
     if hashed_data.nil?
       return false
     end
-    number, hash = URI.unescape(hashed_data).split(".")
+    number, hash = hashed_data.split(".")
 
     if generate_with_prefix(number, prefix) == hashed_data
       return number.to_i

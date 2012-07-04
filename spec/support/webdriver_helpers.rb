@@ -15,8 +15,8 @@ module WebDriverHelpers
 
   def element_exists locator
     begin
-      element locator
-      true
+      e = element locator
+      e.displayed?
     rescue
       false
     end

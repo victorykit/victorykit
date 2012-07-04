@@ -3,6 +3,7 @@ require "spec_helper"
 describe Notifications do
   describe "signed_petition" do
     let(:signature){ create(:signature)}
+    let(:referer){ MemberHasher.generate signature.member.id}
     let(:unsubscribe_link){"http://test/unsubscribe"}
     let(:mail) { Notifications.signed_petition(signature) }
     it "renders the headers" do
@@ -13,6 +14,11 @@ describe Notifications do
     it "renders the body" do
       mail.body.encoded.should include(signature.petition.title)
       mail.body.encoded.should include(unsubscribe_link)
+    end
+
+    let(:petition_link){"http://test/petitions/#{signature.petition.id}?r=#{referer}"}
+    it "includes a member-specific link to the petition" do
+      mail.body.encoded.should include(petition_link)
     end
   end
 

@@ -16,6 +16,7 @@ class SignaturesController < ApplicationController
         petition.save!
 
         record_email_reference(params[:email_hash], signature)
+        record_shared_link_reference(params[:referer_hash], signature)
         record_facebook_like_reference(params[:fb_hash], signature)
         record_facebook_share_reference(params[:fb_action_id], signature)
         nps_win signature
@@ -41,15 +42,27 @@ class SignaturesController < ApplicationController
       begin
         # update sent email table
         sent_email = SentEmail.find_by_id(h)
-        sent_email.signature_id ||= signature.id
+        sent_email.signature ||= signature
         sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
         sent_email.save!
         # update reference in signature table
         signature.reference_type = Signature::ReferenceType::EMAIL
-        signature.referer_id = sent_email.member_id
+        signature.referer = sent_email.member
         signature.save!
       rescue => er
         Rails.logger.error "Error in recording email reference: #{er} #{er.backtrace.join}"
+      end
+    end
+  end
+
+  def record_shared_link_reference hash, signature
+    if h = MemberHasher.validate(hash)
+      begin
+        signature.reference_type = Signature::ReferenceType::SHARED_LINK
+        signature.referer = Member.find(h)
+        signature.save!
+      rescue => er
+        Rails.logger.error "Error in recording shared link reference: #{er} #{er.backtrace.join}"
       end
     end
   end
@@ -59,7 +72,7 @@ class SignaturesController < ApplicationController
       begin
         referer = Member.find(h)
         signature.reference_type = Signature::ReferenceType::FACEBOOK_LIKE
-        signature.referer_id = referer.id
+        signature.referer = referer
         signature.save!
       rescue => er
         Rails.logger.error "Error in recording facebook like reference: #{er} #{er.backtrace.join}"
@@ -73,7 +86,7 @@ class SignaturesController < ApplicationController
         facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
         referer = facebook_action.member
         signature.reference_type = Signature::ReferenceType::FACEBOOK_SHARE
-        signature.referer_id = referer.id
+        signature.referer = referer
         signature.save!
       rescue => er
         Rails.logger.error "Error in recording facebook share reference: #{er} #{er.backtrace.join}"

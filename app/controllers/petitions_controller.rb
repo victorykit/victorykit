@@ -14,12 +14,12 @@ class PetitionsController < ApplicationController
     @petition = Petition.find(params[:id])
     @sigcount = @petition.signatures.count
     @email_hash = params[:n]
+    @referer_hash = params[:r]
     @fb_hash = params[:fb_ref]
     @fb_action_id = params[:fb_action_ids]
     @fb_tracking_hash = cookies[:member_id]
     signature_id = get_signature_id @petition
     @was_signed = signature_id.present?
-
     unless @signature = flash[:invalid_signature]
       @just_signed = flash[:signature_id].present?
       @signature = Signature.new

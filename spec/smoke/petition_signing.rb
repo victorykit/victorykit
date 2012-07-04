@@ -1,11 +1,13 @@
 require 'smoke_spec_helper.rb'
 require 'uri'
+require 'member_hasher'
 
 include Rails.application.routes.url_helpers
 
 describe 'Petition page' do
   before :each do
-    go_to petition_path(create_a_petition)
+    @petition = create_a_petition
+    go_to petition_path(@petition)
   end
   it 'should allow users to sign' do
     sign_petition
@@ -13,7 +15,21 @@ describe 'Petition page' do
     element(:class => "signature-form").should_not be_displayed
   end
   it 'should ensure user provides a name' do
-    sign_petition '', 'bob@bobs.com'
+    sign_petition '', 'no@yahoo.com'
     element(:class => 'help-inline').text.should == "can't be blank"
+  end
+  it 'should track the referer for a signature' do
+    referer = create_member
+    referer_hash = MemberHasher.generate(referer.id)
+
+    referred_link = petition_path(@petition) + "?r=#{referer_hash}"
+    go_to referred_link
+
+    name = Faker::Name.name
+    email = Faker::Internet.email
+    sign_petition name, email
+
+    signature = Signature.last
+    signature.referer.should == referer
   end
 end

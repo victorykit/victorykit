@@ -2,6 +2,7 @@ class Signature < ActiveRecord::Base
   attr_accessible :email, :name, :first_name, :last_name, :reference_type, :referer_id
   belongs_to :petition
   belongs_to :member
+  belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
   has_one :sent_email
   validates_presence_of :name, :first_name, :last_name
   validates :email, :presence => true, :email => true
@@ -11,9 +12,10 @@ class Signature < ActiveRecord::Base
     FACEBOOK_SHARE = 'facebook_share'
     TWITTER = 'twitter'
     EMAIL = 'email'
+    SHARED_LINK = 'shared_link'
   end
 
-  REFERENCE_TYPES = [ ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::TWITTER, ReferenceType::EMAIL, nil ]
+  REFERENCE_TYPES = [ ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::TWITTER, ReferenceType::EMAIL, ReferenceType::SHARED_LINK, nil ]
 
   validates :reference_type, :inclusion => {:in => REFERENCE_TYPES, :message => "%{value} is not a valid reference_type"}
 

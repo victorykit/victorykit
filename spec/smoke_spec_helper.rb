@@ -96,7 +96,7 @@ def create_member name = 'A Member', email = 'amember@some.com'
   type(name).into(id: 'member_name')
   type(email).into(id: 'member_email')
   click id: 'sign-up-submit'
-  Member.last
+  Member.find_by_email email
 end
 
 def create_a_petition (title = 'a snappy title', description = 'a compelling description')
@@ -111,7 +111,7 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
 
     wait.until { element :class => 'petition' }
   end
-  Petition.last
+  Petition.find(:last, order: 'created_at ASC')
 end
 
 def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [])
@@ -135,10 +135,10 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
 
     wait.until { element :class => "petition" }
   end
-  Petition.last
+  Petition.find(:last, order: 'created_at ASC')
 end
 
-def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
+def sign_petition (name = 'bob loblaw', email = "bob@yahoo.com")
   wait.until { element :id => 'signature_email' }
 
   if element_exists :id => 'signature_first_name'
@@ -150,4 +150,8 @@ def sign_petition (name = 'bob loblaw', email = 'bob@bobs.com')
   end
   type(email).into(:id => 'signature_email')
   click :id => 'sign_petition'
+
+  if element_exists id: 'suggested_email'
+    click :id => 'sign_petition'
+  end
 end
