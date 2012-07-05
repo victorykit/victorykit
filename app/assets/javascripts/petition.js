@@ -82,7 +82,6 @@ function setupShareFacebookButton() {
       event.preventDefault();
       return false;
     }
-    shareButton.attr("disabled", true);
     $('.tweet').show();
     $('#thanks-for-signing-message .share').text("Spread the word, share on Twitter!");
     submitFacebookAction();
@@ -115,6 +114,7 @@ function submitFacebookAction() {
             url: VK.social_tracking_url,
             data: setUpParamsForSocialTracking('share', response.id)
             });
+            $('.fb_share.btn').attr("disabled", true);
             console.log('Sign was successful! Action ID: ' + response.id);
           }
         });
