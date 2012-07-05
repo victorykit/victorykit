@@ -56,8 +56,7 @@ class PetitionsController < ApplicationController
       experiment_seeding_signature
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
-      @form_view = choose_form_based_on_browser
-      render action: "new"
+      refresh "new"
     end
   end
 
@@ -67,15 +66,21 @@ class PetitionsController < ApplicationController
     if @petition.update_attributes(params[:petition], as: role)
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
-      render action: "edit"
+      refresh "edit"
     end
   end
   
   private
 
+  def refresh action
+      flash[:error] = @petition.errors.full_messages.to_sentence
+      @form_view = choose_form_based_on_browser
+      render action: action
+  end
+
   def get_signature_id petition
     if member_id = MemberHasher.validate(cookies[:member_id])
-      Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
+      Signature.where(:petition_id => petition.id, :member_id => member_id).any?
     else
       nil
     end

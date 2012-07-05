@@ -6,3 +6,5 @@ en:
     attributes:
       user:
         password_digest: "Password"
+      petition:
+        petition_titles: "Alternate titles"
