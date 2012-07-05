@@ -2,6 +2,7 @@ require 'whiplash'
 
 class Petition < ActiveRecord::Base
   include Bandit
+  include ActiveModel::Validations
 
   attr_accessible :description, :title, :petition_titles_attributes
   attr_accessible :description, :title, :petition_titles_attributes, :to_send, :as => :admin
@@ -10,6 +11,7 @@ class Petition < ActiveRecord::Base
   has_many :petition_titles, :dependent => :destroy
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
+  validates_with PetitionTitlesValidator
   before_validation :strip_whitespace
   accepts_nested_attributes_for :petition_titles, :reject_if => lambda { |a| a[:title].blank? }, :allow_destroy => true
 
@@ -40,5 +42,4 @@ class Petition < ActiveRecord::Base
     chosen = spin! test_name, :signature, alt_titles, {:session_id => id} if alt_titles.any?
     chosen || PetitionTitle.new(title: title, title_type: PetitionTitle::TitleType::DEFAULT)
   end
-
 end

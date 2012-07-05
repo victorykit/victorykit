@@ -1,7 +1,6 @@
 class PetitionTitle < ActiveRecord::Base
   attr_accessible :title, :title_type
   attr_accessible :title, :title_type, :as => :admin
-
   belongs_to :petition
 
   module TitleType
@@ -11,7 +10,11 @@ class PetitionTitle < ActiveRecord::Base
     DEFAULT = 'default'
   end
 
-  TITLE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, TitleType::DEFAULT, nil ]
+  @TITLE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, TitleType::DEFAULT ]
+
+  def self.title_types
+    @TITLE_TYPES
+  end
 
   def text
     title
