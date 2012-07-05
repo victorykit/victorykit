@@ -1,6 +1,6 @@
 - if (not f.object.title_type) || (f.object.title_type == title_type)
   .additional_title
-    - label_name ||= f.object.title_type == "email" ? "Email Subject" : "Facebook Title"
+    - label_name ||= PetitionTitle.full_name(f.object.title_type)
     - title_type ||= f.object.title_type
     = f.text_field :title, :class => "string with_icon"
     = f.hidden_field :title_type, :value => title_type

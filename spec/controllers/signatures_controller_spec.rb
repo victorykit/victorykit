@@ -98,7 +98,7 @@ describe SignaturesController do
 
     context "the user signed from a facebook post" do
       let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_hash) { fb_hash = MemberHasher.generate(member.id) }
+      let(:fb_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
         sign_petition fb_hash: fb_hash
@@ -109,11 +109,22 @@ describe SignaturesController do
 
     context "the user signed from a shared link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:referer_hash) { referer_hash = MemberHasher.generate(member.id) }
+      let(:referer_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
         sign_petition referer_hash: referer_hash
         Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
+        Signature.last.referer.should == member
+      end
+    end
+
+    context "the user signed from a tweeted link" do
+      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:twitter_hash) { MemberHasher.generate(member.id) }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition twitter_hash: twitter_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::TWITTER
         Signature.last.referer.should == member
       end
     end

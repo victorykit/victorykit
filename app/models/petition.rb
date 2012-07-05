@@ -2,7 +2,6 @@ require 'whiplash'
 
 class Petition < ActiveRecord::Base
   include Bandit
-  include ActiveModel::Validations
 
   attr_accessible :description, :title, :petition_titles_attributes
   attr_accessible :description, :title, :petition_titles_attributes, :to_send, :as => :admin
