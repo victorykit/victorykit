@@ -48,6 +48,9 @@ class SignaturesController < ApplicationController
     if h = MemberHasher.validate(params[:fb_hash])
       signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::FACEBOOK_LIKE}
     end
+    if h = MemberHasher.validate(params[:twitter_hash])
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER}
+    end
     if params[:fb_action_id].present?
       facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
       signature.attributes = {referer: facebook_action.member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE}

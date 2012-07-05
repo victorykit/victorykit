@@ -115,6 +115,8 @@
               = hidden_field_tag :fb_action_id, @fb_action_id
             - if @referer_hash
               = hidden_field_tag :referer_hash, @referer_hash
+            - if @twitter_hash
+              = hidden_field_tag :twitter_hash, @twitter_hash
             = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
       .through_fb
         .text Sign in via
@@ -134,9 +136,11 @@
       .arrow
 
       .tweet
-        %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+        %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
       - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
         .fb_share.btn.btn-primary Share on Facebook
+        .fb_share_message 
+          Thanks for sharing on Facebook
       - else
         = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
   - content_for(:meta_tags) do
@@ -155,9 +159,11 @@
           Spread the word, share on Facebook and Twitter!
         .arrow
         .tweet
-          %a.twitter-share-button{:href => "https://twitter.com/share"} Tweet
+          %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
         - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
           .fb_share.btn.btn-primary Share on Facebook
+          .fb_share_message 
+            Thanks for sharing on Facebook
         - else
           = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
 
@@ -194,6 +200,10 @@
               = hidden_field_tag :email_hash, @email_hash
             - if @fb_hash
               = hidden_field_tag :fb_hash, @fb_hash
+            - if @fb_action_id
+              = hidden_field_tag :fb_action_id, @fb_action_id
             - if @referer_hash
               = hidden_field_tag :referer_hash, @referer_hash
+            - if @twitter_hash
+              = hidden_field_tag :twitter_hash, @twitter_hash
             = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})

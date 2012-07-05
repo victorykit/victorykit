@@ -4,16 +4,25 @@ class PetitionTitle < ActiveRecord::Base
   belongs_to :petition
 
   module TitleType
+    EMAIL = 'email'
     FACEBOOK = 'facebook'
     TWITTER = 'twitter'
-    EMAIL = 'email'
     DEFAULT = 'default'
   end
 
-  @TITLE_TYPES = [ TitleType::FACEBOOK, TitleType::TWITTER, TitleType::EMAIL, TitleType::DEFAULT ]
+  @TITLE_TYPE_NAMES = {
+    TitleType::EMAIL => "Email Subject",
+    TitleType::FACEBOOK => "Facebook Title",
+    TitleType::TWITTER => "Twitter Title", 
+    TitleType::DEFAULT => "Title"}
+  @TITLE_TYPES = @TITLE_TYPE_NAMES.keys
 
-  def self.title_types
+  def self.types
     @TITLE_TYPES
+  end
+
+  def self.full_name type
+    @TITLE_TYPE_NAMES[type]
   end
 
   def text
