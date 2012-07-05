@@ -53,7 +53,9 @@ function setupSocialTracking() {
           url: VK.social_tracking_url,
           data: setUpParamsForSocialTracking('like','')
         });
-        $('.tweet').show();
+        if(!$('.fb_share.btn').is(":visible")) {
+          $('.tweet').show();
+        }
       });
       FB.Event.subscribe('edge.remove', function(targetUrl){
         _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
