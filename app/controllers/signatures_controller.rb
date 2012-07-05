@@ -15,18 +15,15 @@ class SignaturesController < ApplicationController
         Notifications.signed_petition signature
         petition.save!
 
-        record_email_reference(params[:email_hash], signature)
-        record_shared_link_reference(params[:referer_hash], signature)
-        record_facebook_like_reference(params[:fb_hash], signature)
-        record_facebook_share_reference(params[:fb_action_id], signature)
+        track_referals signature, params
+        signature.save!
         nps_win signature
+        win! :signature
 
         cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
-        
         flash[:signature_id] = signature.id
-
-        win! :signature
       rescue => ex
+        Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
         flash.notice = ex.message
       end
     else
@@ -37,60 +34,23 @@ class SignaturesController < ApplicationController
 
   private
 
-  def record_email_reference hash, signature
-    if h = SentEmailHasher.validate(hash)
-      begin
-        # update sent email table
-        sent_email = SentEmail.find_by_id(h)
-        sent_email.signature ||= signature
-        sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
-        sent_email.save!
-        # update reference in signature table
-        signature.reference_type = Signature::ReferenceType::EMAIL
-        signature.referer = sent_email.member
-        signature.save!
-      rescue => er
-        Rails.logger.error "Error in recording email reference: #{er} #{er.backtrace.join}"
-      end
+  def track_referals signature, params
+    if h = SentEmailHasher.validate(params[:email_hash])
+      sent_email = SentEmail.find_by_id(h)
+      sent_email.signature ||= signature
+      sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
+      sent_email.save!
+      signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
     end
-  end
-
-  def record_shared_link_reference hash, signature
-    if h = MemberHasher.validate(hash)
-      begin
-        signature.reference_type = Signature::ReferenceType::SHARED_LINK
-        signature.referer = Member.find(h)
-        signature.save!
-      rescue => er
-        Rails.logger.error "Error in recording shared link reference: #{er} #{er.backtrace.join}"
-      end
+    if h = MemberHasher.validate(params[:referer_hash])
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::SHARED_LINK}
     end
-  end
-
-  def record_facebook_like_reference hash, signature
-    if h = MemberHasher.validate(hash)
-      begin
-        referer = Member.find(h)
-        signature.reference_type = Signature::ReferenceType::FACEBOOK_LIKE
-        signature.referer = referer
-        signature.save!
-      rescue => er
-        Rails.logger.error "Error in recording facebook like reference: #{er} #{er.backtrace.join}"
-      end
+    if h = MemberHasher.validate(params[:fb_hash])
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::FACEBOOK_LIKE}
     end
-  end
-
-  def record_facebook_share_reference action_id, signature
-    if action_id.present?
-      begin
-        facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
-        referer = facebook_action.member
-        signature.reference_type = Signature::ReferenceType::FACEBOOK_SHARE
-        signature.referer = referer
-        signature.save!
-      rescue => er
-        Rails.logger.error "Error in recording facebook share reference: #{er} #{er.backtrace.join}"
-      end
+    if params[:fb_action_id].present?
+      facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
+      signature.attributes = {referer: facebook_action.member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE}
     end
   end
 
