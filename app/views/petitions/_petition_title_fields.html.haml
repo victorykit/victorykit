@@ -1,7 +1,7 @@
 - if (not f.object.title_type) || (f.object.title_type == title_type)
   .additional_title
-    - label_name ||= PetitionTitle.full_name(f.object.title_type)
     - title_type ||= f.object.title_type
+    - label_name ||= PetitionTitle.full_name(title_type)
     = f.text_field :title, :class => "string with_icon"
     = f.hidden_field :title_type, :value => title_type
     .btn.btn-primary{onclick: "remove_fields(this)"}

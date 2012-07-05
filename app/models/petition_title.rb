@@ -24,9 +24,4 @@ class PetitionTitle < ActiveRecord::Base
   def self.full_name type
     @TITLE_TYPE_NAMES[type]
   end
-
-  def text
-    title
-  end
-
 end

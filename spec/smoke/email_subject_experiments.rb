@@ -19,17 +19,19 @@ describe "creating an email subject experiment", if: false do
 		experiment = email_experiment_results_for petition
 		experiment.spins.should == 1
 		experiment.wins.should == 1
-	end
+  end
 
-  #pending "editing subject should start a new test"
-  # go back to editing your petition
-  # change both of the subjects
-  # save
-  # send an email
-  # visit /admin/experiments
-  # make sure the number of spins is 1 and wins 1 for the old subject
-  # make sure the number of spins is 1 for a new subject
+  pending "editing subject should start a new test" do
+    # go back to editing your petition
+    # change both of the subjects
+    # save
+    # send an email
+    # visit /admin/experiments
+    # make sure the number of spins is 1 and wins 1 for the old subject
+    # make sure the number of spins is 1 for a new subject
+  end
 end
+
 
 def email_experiment_results_for petition
   as_admin do
