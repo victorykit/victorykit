@@ -467,6 +467,11 @@
   display: none;
 }
 
+.fb_share_message, #ask-to-sign , #ask-to-sign-modal {
+  display: none;
+  margin-bottom: 10px;
+}
+
 @media (max-width: 760px) {
   .petition_sidebar {
     display: none;
