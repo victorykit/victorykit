@@ -200,6 +200,8 @@
               = hidden_field_tag :email_hash, @email_hash
             - if @fb_hash
               = hidden_field_tag :fb_hash, @fb_hash
+            - if @fb_action_id
+              = hidden_field_tag :fb_action_id, @fb_action_id
             - if @referer_hash
               = hidden_field_tag :referer_hash, @referer_hash
             - if @twitter_hash
