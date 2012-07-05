@@ -43,6 +43,15 @@ describe PetitionsController do
       assigns(:fb_hash).should == "some_fb_hash"
     end
 
+    it "should assign tweetable_url after signing" do
+      member = create(:member)
+      member_id_hash = MemberHasher.generate(member.id)
+      controller.stub(:cookies => {member_id: member_id_hash})
+      create(:signature, :member_id => member.id, :petition_id => petition.id)
+      get :show, :id => petition.id.to_s
+      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?t=#{member_id_hash}"
+    end
+
     it "should set was_signed to false if cookies don`t contain this petition" do
       member = create(:member)
       controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
