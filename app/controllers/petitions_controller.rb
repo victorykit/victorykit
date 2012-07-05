@@ -80,7 +80,7 @@ class PetitionsController < ApplicationController
 
   def get_signature_id petition
     if member_id = MemberHasher.validate(cookies[:member_id])
-      Signature.where(:petition_id => petition.id, :member_id => member_id).any?
+      Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
     else
       nil
     end
