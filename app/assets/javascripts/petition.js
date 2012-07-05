@@ -78,12 +78,11 @@ function setUpParamsForSocialTracking(facebook_action, action_id) {
 }
 
 function setupShareFacebookButton() {
-  var shareButton = $('.fb_share.btn')
+  var shareButton = $('.fb_share.btn');
   shareButton.click(function(event) {
     shareButton.hide();
+    $('.fb_share_message').text("Connecting to Facebook...");
     $('.fb_share_message').show();
-    $('.tweet').show();
-    $('#thanks-for-signing-message .share').text("Spread the word, share on Twitter!");
     submitFacebookAction();
   });
 }
@@ -109,16 +108,21 @@ function submitFacebookAction() {
           if (!response || response.error) {
             console.log('Error occured');
             console.log(response.error);
+            $('.fb_share.btn').show();
+            $('.fb_share_message').text("Please try again.");
           } else {
             $.ajax({
             url: VK.social_tracking_url,
             data: setUpParamsForSocialTracking('share', response.id)
             });
-            $('.fb_share.btn').attr("disabled", true);
-            console.log('Sign was successful! Action ID: ' + response.id);
+            $('.fb_share_message').hide();
+            $('.tweet').show();
+            $('#thanks-for-signing-message .share').text("You shared on Facebook! How about Twitter?");
           }
         });
     } else {
+      $('.fb_share.btn').show();
+      $('.fb_share_message').hide();
       console.log('User cancelled login or did not fully authorize.');
     }}, {scope: 'publish_actions'});
 }
