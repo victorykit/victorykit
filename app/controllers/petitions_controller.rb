@@ -21,7 +21,7 @@ class PetitionsController < ApplicationController
     @fb_tracking_hash = cookies[:member_id]
     signature_id = get_signature_id @petition
     @was_signed = signature_id.present?
-    @tweetable_url = "http://#{request.host}:#{request.port}#{request.fullpath}?t=#{cookies[:member_id]}"
+    @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
     unless @signature = flash[:invalid_signature]
       @just_signed = flash[:signature_id].present?
       @signature = Signature.new
