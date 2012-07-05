@@ -55,6 +55,7 @@ class PetitionsController < ApplicationController
     @petition.ip_address = connecting_ip
 
     if @petition.save
+      log_empty_links
       experiment_seeding_signature
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
@@ -67,6 +68,8 @@ class PetitionsController < ApplicationController
     @petition = Petition.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
     if @petition.update_attributes(params[:petition], as: role)
+      log_empty_links
+
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
       render action: "edit"
@@ -74,6 +77,20 @@ class PetitionsController < ApplicationController
   end
   
   private
+
+  def log_empty_links
+    #this is an attempt to detect petitions created with empty links (no 'href' attribute) with the wysihtml5 editor
+    #remove when we've found the issue!
+    begin
+      doc = Nokogiri::HTML(@petition.description)
+      if doc.xpath("//a[not(@href)]").any?
+        Rails.logger.error "Petition #{@petition.id} contains an empty link"
+        Rails.logger.info @petition.description
+      end
+    rescue => ex
+      Rails.logger.warn "Failed to parse petition #{@petition.id}'s description (#{ex})"
+    end
+  end
 
   def get_signature_id petition
     if member_id = MemberHasher.validate(cookies[:member_id])
