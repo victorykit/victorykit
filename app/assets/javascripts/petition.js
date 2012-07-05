@@ -78,7 +78,11 @@ function setUpParamsForSocialTracking(facebook_action, action_id) {
 function setupShareFacebookButton() {
   var shareButton = $('.fb_share.btn')
   shareButton.click(function(event) {
-    shareButton.hide();
+    if(shareButton.attr("disabled") == "disabled") {
+      event.preventDefault();
+      return false;
+    }
+    shareButton.attr("disabled", true);
     $('.tweet').show();
     $('#thanks-for-signing-message .share').text("Spread the word, share on Twitter!");
     submitFacebookAction();
