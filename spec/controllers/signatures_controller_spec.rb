@@ -78,11 +78,11 @@ describe SignaturesController do
         SignaturesController.any_instance.should_receive(:win_on_option!).once.with("email_scheduler_nps", petition.id.to_s)
         [a, b].each {|e| SignaturesController.any_instance.should_receive(:win_on_option!).once.with(e.key, e.choice)}
 
-        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+        sign_petition email_hash: email_hash
       end
 
       it "should update sent email record with the signature_id value" do
-        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
+        sign_petition email_hash: email_hash
         SentEmail.last.signature_id.should == Signature.last.id
       end
 
@@ -90,8 +90,8 @@ describe SignaturesController do
         member = create :member, :name => signature_fields[:name], :email => signature_fields[:email]
         email.member = member
         email.save!
-        post :create, petition_id: petition.id, signature: signature_fields, email_hash: email_hash
-        Signature.last.reference_type.should == "email"
+        sign_petition email_hash: email_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::EMAIL
         Signature.last.referer.should == member
       end
     end
@@ -101,19 +101,29 @@ describe SignaturesController do
       let(:fb_hash) { fb_hash = MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
-        post :create, petition_id: petition.id, signature: signature_fields, fb_hash: fb_hash
-        Signature.last.reference_type.should == "facebook_like"
+        sign_petition fb_hash: fb_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_LIKE
+        Signature.last.referer.should == member
+      end
+    end
+
+    context "the user signed from a shared link" do
+      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:referer_hash) { referer_hash = MemberHasher.generate(member.id) }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition referer_hash: referer_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
         Signature.last.referer.should == member
       end
     end
     
-    def sign_petition
-      post :create, petition_id: petition.id, signature: signature_fields
+    def sign_petition params = {}
+      post :create, params.merge({petition_id: petition.id, signature: signature_fields})
     end
     
     def sign_without_name_or_email
       post :create, petition_id: petition.id
     end
-    
   end
 end
