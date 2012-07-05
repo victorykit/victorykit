@@ -15,10 +15,21 @@ You may already have a version of Postgres installed, in which case [you'll need
     $ brew update
     $ brew install postgresql
 
+To checkout the code:
+
+    $ git clone git@github.com:victorykit/victorykit.git
+
 To confirm you have the appropriate requirements:
 
+    $ cd victorykit
     $ ./script/bootstrap
 
 ## Usage
 
-To make sure the tests pass run `rake` and to start the local server run `rails server`. You can run the smoke tests with `rake spec:smoke`.
+Make sure the tests pass:
+
+    $ rake
+
+Start the local server:
+
+    $ rails server
