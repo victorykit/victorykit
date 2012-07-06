@@ -89,6 +89,7 @@ GEM
       crack (>= 0.1.6)
     haml (3.1.5)
     hike (1.2.1)
+    hirb (0.6.2)
     i18n (0.6.0)
     journey (1.0.3)
     jquery-rails (2.0.2)
@@ -238,6 +239,7 @@ DEPENDENCIES
   foreigner
   garb
   haml
+  hirb
   jquery-datatables-rails!
   jquery-rails
   jquery-ui-rails

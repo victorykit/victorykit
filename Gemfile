@@ -49,6 +49,7 @@ group :test, :development do
   gem "faker", "~> 1.0"
   gem "autotest"
   gem "selenium-webdriver"
+  gem "hirb"
 end
 
 gem 'simplecov', :require => false, :group => :test
