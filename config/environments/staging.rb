@@ -68,6 +68,6 @@ Victorykit::Application.configure do
   config.action_mailer.delivery_method = :ses
 
   config.action_mailer.default_url_options = {
-    :host => 'http://actwatchdog-staging.herokuapp.com/',
+    :host => 'actwatchdog-staging.watchdog.net',
   }
 end
