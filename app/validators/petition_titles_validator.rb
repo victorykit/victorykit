@@ -1,4 +1,5 @@
 class PetitionTitlesValidator < ActiveModel::Validator
+
   def validate(record)
     validate_unique_by_title_type(record)
   end
