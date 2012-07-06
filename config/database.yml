@@ -24,3 +24,9 @@ production:
   database: victorykit_development
   pool: 5
   timeout: 5000
+
+staging:
+  adapter: postgresql
+  database: victorykit_development
+  pool: 5
+  timeout: 5000

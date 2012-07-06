@@ -3,7 +3,9 @@ production: &default
     app_id: <%= ENV["FACEBOOK_APP_ID"] %>
     site_name: Victory Kit
     image: http://act.watchdog.net/images/petition-fb.png
-      
+
+staging: *default
+
 test: *default
     
 development: *default
