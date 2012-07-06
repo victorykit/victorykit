@@ -1,4 +1,6 @@
 Victorykit::Application.routes.draw do
+  get "privacy/index"
+
   get "status/index"
   get "sessions/new"
 
@@ -13,6 +15,7 @@ Victorykit::Application.routes.draw do
     resources :signatures
   end
   resources :social_tracking
+  resources :privacy
 
   get 'login', to: 'users#new', as: 'login'
   get 'subscribe', to: 'members#new', as: 'subscribe'
