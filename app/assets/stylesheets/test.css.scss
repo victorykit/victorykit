@@ -7,7 +7,6 @@
 .petitionright {
   .petition { float: right; }
   .petition_sidebar {
-    margin-left: 0;
     .rightcolwell, .signature-form, #thanks-for-signing-message {
       margin-left: 0;
     }
@@ -76,145 +75,386 @@
     float: left;
   }
 }
-  .signature_labels_beside_inputs_no_asterisk {
-    @extend .signature_labels_beside_inputs;
-    .control-label abbr {
-      display: none;
-    }
+.signature_labels_beside_inputs_no_asterisk {
+  @extend .signature_labels_beside_inputs;
+  .control-label abbr {
+    display: none;
   }
-  .signature_labels_beside_inputs_with_asterisk {
-    @extend .signature_labels_beside_inputs;
-    .control-label abbr {
-      border-bottom: none;
-    }
+}
+.signature_labels_beside_inputs_with_asterisk {
+  @extend .signature_labels_beside_inputs;
+  .control-label abbr {
+    border-bottom: none;
   }
-  .signature_labels_beside_inputs_with_asterisk_underlined {
-    @extend .signature_labels_beside_inputs;
-  }
+}
+.signature_labels_beside_inputs_with_asterisk_underlined {
+  @extend .signature_labels_beside_inputs;
+}
 
 
-  .signature_labels_above_inputs .signature-form {
-    .control-label {
-      text-align: left;
-      float: left;
+.signature_labels_above_inputs .signature-form {
+  .control-label {
+    text-align: left;
+    float: left;
+  }
+  .through_site .controls, .through_site .controls input {
+    float: left;
+  }
+}
+.signature_labels_above_inputs_no_asterisk {
+  @extend .signature_labels_above_inputs;
+  .control-group label {
+    width: 100%;
+  }
+  .control-label abbr {
+    display: none;
+  }
+}
+.signature_labels_above_inputs_with_asterisk {
+  @extend .signature_labels_above_inputs;
+  .control-label abbr {
+    border-bottom: none;
+  }
+}
+.signature_labels_above_inputs_with_asterisk_underlined {
+  @extend .signature_labels_above_inputs;
+}
+
+.signature_labels_hidden {
+  .control-label {
+    display: none;
+  }
+}
+
+
+/* change thermometer colors */
+.redthermometer .progress { @extend .progress-danger; }
+.greenthermometer .progress { @extend .progress-success; }
+.orangethermometer .progress { @extend .progress-warning; }
+.tealthermometer .progress { @extend .progress-info; }
+
+
+/* start a petition appearing as a link vs a button */
+.topnav.petition_button .start_petition {
+  @extend .btn;
+  @extend .btn-primary;
+  margin-top: -6px;
+  a {
+    color: white;
+  }
+}
+
+
+/* change width of petition */
+@media (min-width: 979px) and (max-width: 3000px) {
+  .middlewidthpetition {
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
+    .petition {
+      width: 645px;
+      margin: 0 10px;
     }
-    .through_site .controls, .through_site .controls input {
-      float: left;
+    .petition_sidebar {
+      width: 275px;
     }
   }
-  .signature_labels_above_inputs_no_asterisk {
-    @extend .signature_labels_above_inputs;
-    .control-group label {
-      width: 100%;
-    }
-    .control-label abbr {
-      display: none;
-    }
-  }
-  .signature_labels_above_inputs_with_asterisk {
-    @extend .signature_labels_above_inputs;
-    .control-label abbr {
-      border-bottom: none;
-    }
-  }
-  .signature_labels_above_inputs_with_asterisk_underlined {
-    @extend .signature_labels_above_inputs;
-  }
-
-  .signature_labels_hidden {
-    .control-label {
-      display: none;
-    }
-  }
-
-
-  /* change thermometer colors */
-  .redthermometer .progress { @extend .progress-danger; }
-  .greenthermometer .progress { @extend .progress-success; }
-  .orangethermometer .progress { @extend .progress-warning; }
-  .tealthermometer .progress { @extend .progress-info; }
-
-
-  /* start a petition appearing as a link vs a button */
-  .topnav.petition_button .start_petition {
-    @extend .btn;
-    @extend .btn-primary;
-    margin-top: -6px;
-    a {
-      color: white;
-    }
-  }
-
-
-  /* change width of petition */
-  @media (min-width: 979px) {
-    .middlewidthpetition {
-      @extend .span11;
-      margin-left: auto;
-      margin-right: auto;
-      .petition {
-        @extend .span8;
-        margin: 0 10px;
+  .narrowwidthpetition {
+    width: 850px;
+    margin-left: auto;
+    margin-right: auto;
+    .petition {
+      width: 575px;
+      .social_icons {
+        width: 280px;
       }
     }
-    .narrowwidthpetition {
-      @extend .span10;
-      background: orange;
-      margin-left: auto;
-      margin-right: auto;
-      .petition {
-        width: 70%;
-        margin: 0 10px;
-        .social_icons {
-          width: 280px;
+    .petition_sidebar {
+      width: 275px;
+    }
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 3000px) {
+  .narrowwidthpetition.petitionleft .petition {
+    margin-left: 145px;
+  }
+  .middlewidthpetition.petitionright {
+    .petition {
+      margin-right: 125px;
+    }
+    .petition_sidebar {
+      margin-left: 125px;
+    }
+  }
+  .narrowwidthpetition.petitionright {
+    .petition {
+      margin-right: 155px;
+    }
+    .petition_sidebar {
+      margin-left: 155px;
+    }
+  }
+}
+@media (min-width: 979px) and (max-width: 1199px) {
+  .narrowwidthpetition.petitionleft .petition {
+    margin-left: 7%;
+  }
+  .middlewidthpetition.petitionright {
+    .petition {
+
+    }
+    .petition_sidebar {
+    }
+  }
+}
+
+/* thank you box color */
+.hex_bbb #thanks-for-signing-message {
+  background: #bbb;
+  .thanks, .share { color: #222; }
+}
+.hex_999 #thanks-for-signing-message {
+  background: #999;
+  .thanks, .share { color: white; }
+}
+.hex_666 #thanks-for-signing-message {
+  background: #666;
+  .thanks, .share { color: white; }
+}
+.hex_333 #thanks-for-signing-message {
+  background: #333;
+  .thanks, .share { color: white; }
+}
+.hex_000 #thanks-for-signing-message {
+  background: #000;
+  .thanks, .share { color: white; }
+}
+
+
+/* thank you arrow color */
+.redarrow {
+  #thanksModal,  #thanks-for-signing-message {
+    .arrow { background: url('red_arrow.png'); }
+  }
+}
+.limearrow {
+  #thanksModal,  #thanks-for-signing-message {
+    .arrow { background: url('lime_arrow.png'); }
+  }
+}
+.lightbluearrow{
+  #thanksModal,  #thanks-for-signing-message {
+    .arrow { background: url('light_blue_arrow.png'); }
+  }
+}
+.orangearrow {
+  #thanksModal,  #thanks-for-signing-message {
+    .arrow { background: url('orange_arrow.png'); }
+  }
+}
+
+
+
+/* for default, to become its own class */
+body {
+  .row.navigation {
+    @extend .navbar-inner;
+    border-radius: 0;
+  }
+}
+
+body.bordered_with_block_logo {
+  @media (min-width: 1250px) and (max-width: 3000px) {
+    border-top: 25px solid #ccc;
+    border-bottom: none;
+    #left, #right {
+      background: #ccc;
+      position: fixed;
+    }
+    #left, #right {
+      top: 0; bottom: 0;
+      width: 25px;
+    }
+    #left { left: 0; }
+    #right { right: 0; }
+  }
+  @media (min-width: 250px) and (max-width: 767px) {
+    .body_container > .container {
+      margin-top: 10px;
+      &:before {
+        clear: both;
+      }
+    }
+  }
+  .btn.btn-primary {
+    border-radius: 0;
+    height: 100%;
+    background-color: #ffd708;
+    background-image: linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+    background-image: -o-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+    background-image: -moz-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+    background-image: -webkit-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+    background-image: -ms-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+    background-image: -webkit-gradient(
+      linear,
+      left bottom,
+      left top,
+      color-stop(0.16, rgb(255,200,34)),
+      color-stop(0.58, rgb(255,238,2))
+    );
+    background-repeat: repeat-x;
+    border: none;
+    color: black;
+    &:hover {
+      background-image: linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+      background-image: -o-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+      background-image: -moz-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+      background-image: -webkit-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+      background-image: -ms-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+
+      background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.06, rgb(230,202,64)),
+        color-stop(0.53, rgb(242,205,22))
+      );
+      height: 100%;
+      background: #e6ca40;
+      color: black;
+    }
+  }
+  border-top: 25px solid #ccc;
+  input, textarea, .btn, .btn-group .btn {
+    border-radius: 0;
+  }
+  .navigation {
+    box-shadow: none;
+    background: none;
+    height: 70px;
+    @media (min-width: 250px) and (max-width: 760px) {
+      height: 20px;
+    }
+    .row {
+      li { float: right; }
+      a {
+        font-family: league gothic, helvetica;
+        font-size: 2em;
+        font-weight: normal;
+        color: #3399cc;
+        text-transform: uppercase;
+      }
+      &.grey {
+          height: 60px;
+          background: #ccc;
+        }
+    }
+    .logo_box {
+      @media (min-width: 768px) and (max-width: 1199px) {
+        min-width: 255px;
+        margin: -25px 0 0 -5px;
+      }
+      background: #3399cc;
+      padding: 40px 0;
+      width: 100%;
+      height: 10px;
+      margin-top: -25px;
+      box-shadow: 0 0 7px 3px #aaa;
+      a.logo {
+        width: 100%;
+        text-align: center;
+        color: white;
+        font-size: 4em;
+        margin: 0;
+      }
+      @media (min-width: 250px) and (max-width: 767px) {
+        width: 210px;
+        height: 0;
+        padding: 30px 0;
+        a.logo {
+          font-size: 3em;
         }
       }
     }
-  }
-
-  /* thank you box color */
-  .hex_bbb #thanks-for-signing-message {
-    background: #bbb;
-    .thanks, .share, .fb_share_message { color: #222; }
-  }
-  .hex_999 #thanks-for-signing-message {
-    background: #999;
-    .thanks, .share, .fb_share_message { color: white; }
-  }
-  .hex_666 #thanks-for-signing-message {
-    background: #666;
-    .thanks, .share, .fb_share_message { color: white; }
-  }
-  .hex_333 #thanks-for-signing-message {
-    background: #333;
-    .thanks, .share, .fb_share_message { color: white; }
-  }
-  .hex_000 #thanks-for-signing-message {
-    background: #000;
-    .thanks, .share, .fb_share_message { color: white; }
-  }
-
-
-  /* thank you arrow color */
-  .redarrow {
-    #thanksModal,  #thanks-for-signing-message {
-      .arrow { background: url('red_arrow.png'); }
+    .mobile_nav {
+      margin-top: -59px;
     }
   }
-  .limearrow {
-    #thanksModal,  #thanks-for-signing-message {
-      .arrow { background: url('lime_arrow.png'); }
+  .petition {
+    margin-top: 18px;
+    @media (min-width: 250px) and (max-width: 767px) {
+      margin-top: 5px;
+    }
+    .progress_bar .progress {
+      border-radius: 0;
+      border: 1px solid #888;
+      margin-top: 3px;
     }
   }
-  .lightbluearrow{
-    #thanksModal,  #thanks-for-signing-message {
-      .arrow { background: url('light_blue_arrow.png'); }
+  .signature-form {
+    &.modal {
+      background: white;
+      border-radius: 0;
+      .title {
+        padding-top: 10px;
+      }
+    }
+    background: none;
+    box-shadow: none;
+    border: none;
+    color: black;
+    .title {
+      font-family: league gothic, helvetica;
+      color: black;
+      text-transform: uppercase;
+      font-weight: normal;
+      font-size: 3.2em;
+      padding: 50px 0 5px;
+      line-height: 1.2em;
+    }
+    .control-group {
+      height: 2.6em;
+      input {
+        border-radius: 0;
+        border: 1px solid black;
+        color: #777;
+      }
+      label {
+        color: black;
+      }
+    }
+    .btn.btn-primary {
+      text-transform: uppercase;
+      font-size: 2em;
+      font-weight: normal;
+      font-family: league gothic, helvetica;
+      height: 36px;
+    }
+    .privacypolicy {
+      color: black;
+      text-align: left;
     }
   }
-  .orangearrow {
-    #thanksModal,  #thanks-for-signing-message {
-      .arrow { background: url('orange_arrow.png'); }
+  .description {
+    font-size: 1.2em;
+    line-height: 1.3em;
+  }
+  hr { display: none; }
+  h1.petition_title {
+    letter-spacing: 1px;
+    font-family: league gothic, helvetica;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 4em;
+    line-height: 1em;
+    @media (min-width: 250px) and (max-width: 767px) {
+      font-size: 2.2em;
     }
+  }
+  .footer {
+    height: 25px;
+    background: #ccc;
   }
 
-
+}
