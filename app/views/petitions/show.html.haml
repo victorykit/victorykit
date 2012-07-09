@@ -137,7 +137,7 @@
 
       .tweet
         %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-      - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
+      - if share_vs_like == "facebook_share"
         .fb_share.btn.btn-primary Share on Facebook
         .fb_share_message
       - else
@@ -159,7 +159,7 @@
         .arrow
         .tweet
           %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-        - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
+        - if share_vs_like == "facebook_share"
           .fb_share.btn.btn-primary Share on Facebook
           .fb_share_message 
         - else
