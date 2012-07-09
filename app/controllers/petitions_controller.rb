@@ -13,12 +13,15 @@ class PetitionsController < ApplicationController
   def show
     @petition = Petition.find(params[:id])
     @sigcount = @petition.signatures.count
+
+    @referring_url = request.original_url
     @email_hash = params[:n]
     @referer_hash = params[:r]
     @twitter_hash = params[:t]
     @fb_hash = params[:fb_ref]
     @fb_action_id = params[:fb_action_ids]
     @fb_tracking_hash = cookies[:member_id]
+
     signature_id = get_signature_id @petition
     @was_signed = signature_id.present?
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120703162414) do
+ActiveRecord::Schema.define(:version => 20120706175120) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20120703162414) do
     t.integer  "member_id",      :null => false
     t.integer  "referer_id"
     t.string   "reference_type"
+    t.text     "referring_url"
   end
 
   add_index "signatures", ["petition_id", "member_id"], :name => "index_signatures_on_petition_id_and_member_id"
