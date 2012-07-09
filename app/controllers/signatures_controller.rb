@@ -42,18 +42,19 @@ class SignaturesController < ApplicationController
       sent_email.save!
       signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
     end
+    referring_url = params[:referring_url]
     if h = MemberHasher.validate(params[:referer_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::SHARED_LINK}
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::SHARED_LINK, referring_url: referring_url}
     end
     if h = MemberHasher.validate(params[:fb_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::FACEBOOK_LIKE}
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
     end
     if h = MemberHasher.validate(params[:twitter_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER}
+      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
     end
     if params[:fb_action_id].present?
       facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
-      signature.attributes = {referer: facebook_action.member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE}
+      signature.attributes = {referer: facebook_action.member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
     end
   end
 

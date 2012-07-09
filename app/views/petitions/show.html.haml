@@ -107,6 +107,8 @@
               - placeholder_email = {}
             = f.input :email, :input_html => placeholder_email
             #hint.alert.alert-error
+            - if @referring_url
+              = hidden_field_tag :referring_url, @referring_url
             - if @email_hash
               = hidden_field_tag :email_hash, @email_hash
             - if @fb_hash
@@ -194,6 +196,8 @@
               - placeholder_email = {}
             = f.input :email, :input_html => placeholder_email
             #hint.alert.alert-error
+            - if @referring_url
+              = hidden_field_tag :referring_url, @referring_url
             - if @email_hash
               = hidden_field_tag :email_hash, @email_hash
             - if @fb_hash

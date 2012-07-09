@@ -3,6 +3,7 @@ require 'spec_helper'
 describe SignaturesController do
   let(:petition){ create(:petition) }
   let(:signature_fields) { {name: "Bob", email: "bob@my.com"} }
+  let(:referring_url) { "http://petitionator.com/456?other_stuff=etc" }
 
   describe "POST create" do
     context "the user supplies both a name and an email" do
@@ -92,6 +93,7 @@ describe SignaturesController do
         email.save!
         sign_petition email_hash: email_hash
         Signature.last.reference_type.should == Signature::ReferenceType::EMAIL
+        Signature.last.referring_url.should be_nil
         Signature.last.referer.should == member
       end
     end
@@ -103,6 +105,7 @@ describe SignaturesController do
       it "should set referer and reference type for the signature" do
         sign_petition fb_hash: fb_hash
         Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_LIKE
+        Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
       end
     end
@@ -114,6 +117,7 @@ describe SignaturesController do
       it "should set referer and reference type for the signature" do
         sign_petition referer_hash: referer_hash
         Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
+        Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
       end
     end
@@ -124,13 +128,14 @@ describe SignaturesController do
 
       it "should set referer and reference type for the signature" do
         sign_petition twitter_hash: twitter_hash
+        Signature.last.referring_url.should == referring_url
         Signature.last.reference_type.should == Signature::ReferenceType::TWITTER
         Signature.last.referer.should == member
       end
     end
     
     def sign_petition params = {}
-      post :create, params.merge({petition_id: petition.id, signature: signature_fields})
+      post :create, params.merge({petition_id: petition.id, signature: signature_fields, referring_url: referring_url})
     end
     
     def sign_without_name_or_email
