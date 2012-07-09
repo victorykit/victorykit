@@ -21,6 +21,7 @@ class PetitionsController < ApplicationController
     @fb_hash = params[:fb_ref]
     @fb_action_id = params[:fb_action_ids]
     @fb_tracking_hash = cookies[:member_id]
+    @existing_fb_action_instance_id = Share.where(member_id: get_member_id, petition_id: params[:id]).first.try(:action_id)
 
     signature_id = get_signature_id @petition
     @was_signed = signature_id.present?
@@ -80,6 +81,10 @@ class PetitionsController < ApplicationController
   
   private
 
+  def get_member_id
+    MemberHasher.validate(cookies[:member_id])
+  end
+
   def refresh action
       flash[:error] = @petition.errors.full_messages.to_sentence
       @form_view = choose_form_based_on_browser
@@ -101,7 +106,7 @@ class PetitionsController < ApplicationController
   end
 
   def get_signature_id petition
-    if member_id = MemberHasher.validate(cookies[:member_id])
+    if member_id = get_member_id
       Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
     else
       nil
@@ -125,7 +130,7 @@ class PetitionsController < ApplicationController
   end
 
   def populate_member_from_cookies
-    if member_id = MemberHasher.validate(cookies[:member_id])
+    if member_id = get_member_id
       member = Member.find member_id
       @signature.name = member.name
       @signature.email = member.email
