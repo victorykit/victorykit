@@ -2,16 +2,14 @@ $(document).ready(function () {
   initTwitter();
   initTabIndexes();
   if (VK.is_facebook_sharing_enabled === "true") {
+    FB.init({
+      appId:$('meta[property="fb:app_id"]').attr("content"),
+      status:true, // check login status
+      cookie:true, // enable cookies to allow the server to access the session
+      xfbml:true  // parse XFBML
+    });
     FB.getLoginStatus(function (response) {
       if (response.status === 'connected') {
-
-        FB.init({
-          appId:$('meta[property="fb:app_id"]').attr("content"),
-          status:true, // check login status
-          cookie:true, // enable cookies to allow the server to access the session
-          xfbml:true  // parse XFBML
-        });
-
         if (VK.fb_action_instance_id !== "") {
           FB.api(VK.fb_action_instance_id, 'get', function (response) {
             /*
