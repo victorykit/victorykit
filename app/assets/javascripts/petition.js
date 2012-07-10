@@ -118,8 +118,6 @@ function submitFacebookAction() {
         },
         function (response) {
           if (!response || response.error) {
-            console.log('Error occured');
-            console.log(response.error);
             $('.fb_share_message').text("Please try again.");
           } else {
             $.ajax({
@@ -132,7 +130,6 @@ function submitFacebookAction() {
       );
     } else {
       $('.fb_share_message').hide();
-      console.log('User cancelled login or did not fully authorize.');
     }
   }, {scope:'publish_actions'});
 }
