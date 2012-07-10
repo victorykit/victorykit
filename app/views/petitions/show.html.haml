@@ -132,7 +132,7 @@
     #thanks-for-signing-message{:style => @was_signed ? '' : 'display:none'}
       .thanks
         Thanks for signing!
-      .share
+      .sharing-message
         - if spin! "include Facebook on share", :share
           Spread the word, share on Facebook!
         - else
@@ -158,7 +158,7 @@
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
         .thanks
           Thanks for signing!
-        .share
+        .sharing-message
           Spread the word, share on Facebook and Twitter!
         .arrow
         .tweet
