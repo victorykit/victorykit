@@ -5,6 +5,7 @@ INFRA_DIR = "#{HERE}/infra"
 
 Vagrant::Config.run do |config|
   config.vm.box = "heroku"
+  config.vm.url = "https://dl.dropbox.com/u/219714/vagrant-boxes/heroku.box"
 
   config.vm.define :dev do |config|
     config.vm.share_folder "rails_app", "/home/vagrant/workspace", "#{HERE}"
