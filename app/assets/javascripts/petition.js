@@ -2,6 +2,10 @@ $(document).ready(function () {
   initTwitter();
   initTabIndexes();
   if (VK.is_facebook_sharing_enabled === "true") {
+    FB.Event.subscribe('auth.statusChange', function(response) {
+        console.log('The status of the session is: ');
+        console.log(response);
+    });
     FB.init({
       appId:$('meta[property="fb:app_id"]').attr("content"),
       status:true, // check login status
