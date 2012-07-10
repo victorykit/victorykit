@@ -1,10 +1,44 @@
 $(document).ready(function() {
   initTwitter();
   initTabIndexes();
+  if (VK.is_facebook_sharing_enabled === "true") {
+    FB.init({
+      appId      : $('meta[property="fb:app_id"]').attr("content"),
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    FB.login(function (response) {
+      if (response.authResponse) {
+        if (VK.fb_action_instance_id !== "") {
+          FB.api(VK.fb_action_instance_id, 'get', function (response) {
+            /*
+             Object
+             application: Object
+             comments: Object
+             data: Object
+             end_time: "2012-07-09T21:41:00+0000"
+             from: Object
+             id: "130371697104116"
+             likes: Object
+             publish_time: "2012-07-09T21:41:00+0000"
+             start_time: "2012-07-09T21:41:00+0000"
+             type: "watchdognet:sign"
+             __proto__: Object
+             */
+            if (response.id === VK.fb_action_instance_id) {
+              inviteToShareOnTwitter();
+            }
+          });
+        }
+      }
+    });
+  }
   setupShareFacebookButton();
   setupSocialTracking();
 
-  if(screen.width > 480) {
+  if (screen.width > 480) {
     $('#thanksModal').modal('toggle');
   }
 
@@ -12,7 +46,7 @@ $(document).ready(function() {
   applyRichTextEditorTo('#petition_description');
 
   $('form').on("submit", function(event) {
-    if(!VK.signing_from_email) {
+    if (!VK.signing_from_email) {
       var emailSuggestor = new EmailSuggestions();
       emailSuggestor.init();
       emailSuggestor.mailCheckSuggestions(event);
@@ -20,7 +54,7 @@ $(document).ready(function() {
     return event.go;
   });
 
-  if($('#email_subject').has('.additional_title').length) {
+  if ($('#email_subject').has('.additional_title').length) {
     $('#email_subject').show();
     $('#email_subject_link').hide();
   }
@@ -31,12 +65,12 @@ $(document).ready(function() {
     $('#email_subject_link').hide();
   });
 
-  if($('#facebook_title').has('.additional_title').length) {
+  if ($('#facebook_title').has('.additional_title').length) {
     $('#facebook_title').show();
     $('#facebook_title_link').hide();
   }
 
-  $('#facebook_title_link').click(function() {
+  $('#facebook_title_link').click(function () {
     $('#facebook_title').show();
     $('#facebook_title_link').hide();
   });
@@ -53,16 +87,16 @@ function setupSocialTracking() {
           url: VK.social_tracking_url,
           data: setUpParamsForSocialTracking('like','')
         });
-        if(!$('.fb_share.btn').is(":visible")) {
+        if (!$('.fb_share.btn').is(":visible")) {
           $('.tweet').show();
         }
       });
-      FB.Event.subscribe('edge.remove', function(targetUrl){
+      FB.Event.subscribe('edge.remove', function(targetUrl) {
         _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
         _gaq.push(['_trackEvent', 'facebook', 'unlike', targetUrl]);
       });
     }
-  } catch(e) {}
+  } catch (e) {}
 }
 
 function setUpParamsForSocialTracking(facebook_action, action_id) {
@@ -104,7 +138,7 @@ function submitFacebookAction() {
         {
           petition: $('meta[property="og:url"]').attr("content")
         },
-        function(response) {
+        function (response) {
           if (!response || response.error) {
             console.log('Error occured');
             console.log(response.error);
@@ -112,19 +146,25 @@ function submitFacebookAction() {
             $('.fb_share_message').text("Please try again.");
           } else {
             $.ajax({
-            url: VK.social_tracking_url,
-            data: setUpParamsForSocialTracking('share', response.id)
+              url: VK.social_tracking_url,
+              data: setUpParamsForSocialTracking('share', response.id)
             });
-            $('.fb_share_message').hide();
-            $('.tweet').show();
-            $('#thanks-for-signing-message .share').text("You shared on Facebook! How about Twitter?");
+            inviteToShareOnTwitter();
           }
-        });
+        }
+      );
     } else {
       $('.fb_share.btn').show();
       $('.fb_share_message').hide();
       console.log('User cancelled login or did not fully authorize.');
-    }}, {scope: 'publish_actions'});
+    }
+  }, {scope: 'publish_actions'});
+}
+
+function inviteToShareOnTwitter() {
+  $('.fb_share_message').hide();
+  $('.tweet').show();
+  $('#thanks-for-signing-message .share').text("You shared on Facebook! How about Twitter?");
 }
 
 function initTabIndexes() {
@@ -158,10 +198,9 @@ function EmailSuggestions() {
       $hint.css('display', 'none');
       return false;
     });
+  };
 
-  }
-
-  this.mailCheckSuggestions = function(event) {
+  this.mailCheckSuggestions = function (event) {
     $hint.css('display', 'none');
     $email.mailcheck({
       //annoyingly, mailcheck doesn't let you add to their default list of domains, so we have to duplicate them all here.
@@ -170,7 +209,7 @@ function EmailSuggestions() {
                 "facebook.com", "verizon.net", "sbcglobal.net", "att.net", "gmx.com", "mail.com", "q.com"],
       suggested: function(element, suggestion) {
         event.go = true;
-        if(!$hint.html()) {
+        if (!$hint.html()) {
           var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?" +
               "<br/>Click the '" + $("#sign_petition").val() + "' button again if your address is correct";
           $hint.html(suggestion).fadeIn(150);
@@ -178,7 +217,7 @@ function EmailSuggestions() {
         }
       }
     });
-  }
+  };
 }
 
 function initTwitter() {
