@@ -1,0 +1,88 @@
+"
+" My .vimrc file
+"
+" Making an attempt clean and document my vimfile
+
+filetype off
+
+ set directory=/tmp
+
+" enable file type detection
+filetype on
+filetype plugin on 
+filetype indent on
+
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+set autoindent
+
+" allows modified buffers to be hidden
+set hidden
+
+" not sure why I wouldn't ever want syntax on
+syntax on
+set nu
+
+colorscheme desert
+
+" don't need to be vi compatible. We're not in the 60's anymore
+set nocompatible
+
+set nostartofline
+set scrolloff=6
+set listchars=trail:.
+
+" show invisible characters like tabstops
+set list
+
+set wildmode=list:longest "make tab completion complete with common chars
+
+set nobackup
+set nowritebackup
+
+" regex stuff. show the matches and search without case sensitivity
+set showmatch
+set ignorecase
+
+let mapleader=","
+
+" set custom file types I've configured
+autocmd BufNewFile,BufRead *.config  setf xml
+autocmd BufRead,BufNewFile *.md set wm=2 tw=80
+autocmd BufRead,BufNewFile *.markdown set wm=2 tw=80
+
+imap jk <esc>
+
+nmap j gj
+nmap k gk
+
+
+"----------------------------------------------------------
+" status line stuff 
+"----------------------------------------------------------
+
+set laststatus=2 
+if has("statusline") 
+  set statusline=%<%f\ %h%m%r%=%k[%{(&fenc\ ==\ \"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %-12.(%l,%c%V%)\ %P 
+endif 
+
+"""""""""""
+" Multi purpose tab key stolen from ghb
+""""""""""
+function! InsertTabWrapper()
+  let col = col('.') - 1
+  if !col || getline('.')[col - 1] !~ '\k'
+    return "\<tab>"
+  else
+    return "\<c-p>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+map <Left> :echo "no!"<cr>
+map <Right> :echo "no!"<cr>
+map <Down> :echo "no!"<cr>
+map <Up> :echo "no!"<cr>
