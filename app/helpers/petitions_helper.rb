@@ -5,8 +5,10 @@ module PetitionsHelper
   end
   
   def petition_to_open_graph(petition)
+    member_id = cookies[:member_id]
+    member = Member.find member_id unless not member_id
     { 
-      'og:title' => petition.facebook_title.title,
+      'og:title' => petition.spin_for_facebook_title(member),
       'og:type' => 'watchdognet:petition',
       'og:description' => strip_tags_except_links(petition.description).squish[0..300],
       'og:url' => petition_url(petition),

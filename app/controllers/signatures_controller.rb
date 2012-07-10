@@ -15,7 +15,7 @@ class SignaturesController < ApplicationController
         Notifications.signed_petition signature
         petition.save!
 
-        track_referals signature, params
+        track_referals petition, signature, params
         signature.save!
         nps_win signature
         win! :signature
@@ -34,7 +34,7 @@ class SignaturesController < ApplicationController
 
   private
 
-  def track_referals signature, params
+  def track_referals petition, signature, params
     if h = SentEmailHasher.validate(params[:email_hash])
       sent_email = SentEmail.find_by_id(h)
       sent_email.signature ||= signature
@@ -47,14 +47,20 @@ class SignaturesController < ApplicationController
       signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::SHARED_LINK, referring_url: referring_url}
     end
     if h = MemberHasher.validate(params[:fb_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
+      member = Member.find(h)
+      signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
+      experiment = SocialMediaExperiment.find_last_by_member_id_and_petition_id member.id, petition.id
+      win_on_option!(experiment.key, experiment.choice) if experiment
     end
     if h = MemberHasher.validate(params[:twitter_hash])
       signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
     end
     if params[:fb_action_id].present?
       facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
-      signature.attributes = {referer: facebook_action.member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
+      member = facebook_action.member
+      signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
+      experiment = SocialMediaExperiment.find_last_by_member_id_and_petition_id member.id, petition.id
+      win_on_option!(experiment.key, experiment.choice) if experiment
     end
   end
 

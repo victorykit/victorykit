@@ -33,8 +33,10 @@ class ScheduledEmail < ActionMailer::Base
   private 
 
   def spin_subject petition
-    options = PetitionTitle.find_all_by_petition_id_and_title_type(petition.id, PetitionTitle::TitleType::EMAIL)
-    choice = spin("petition #{petition.id} email title", :signature, options.map{|opt| opt.title}) if options.any?
+    title_type = PetitionTitle::TitleType::EMAIL
+    options = PetitionTitle.find_all_by_petition_id_and_title_type(petition.id, title_type)
+    test_name = "petition #{petition.id} #{title_type} title"
+    choice = spin(test_name, :signature, options.map{|opt| opt.title}) if options.any?
     choice || petition.title
   end
 
