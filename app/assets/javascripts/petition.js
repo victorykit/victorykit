@@ -1,43 +1,7 @@
 $(document).ready(function () {
   initTwitter();
   initTabIndexes();
-  if (VK.is_facebook_sharing_enabled === "true") {
-    FB.Event.subscribe('auth.statusChange', function(response) {
-        console.log('The status of the session is: ');
-        console.log(response);
-    });
-    FB.init({
-      appId:$('meta[property="fb:app_id"]').attr("content"),
-      status:true, // check login status
-      cookie:true, // enable cookies to allow the server to access the session
-      xfbml:true  // parse XFBML
-    });
-    FB.getLoginStatus(function (response) {
-      if (response.status === 'connected') {
-        if (VK.fb_action_instance_id !== "") {
-          FB.api(VK.fb_action_instance_id, 'get', function (response) {
-            /*
-             Object
-             application: Object
-             comments: Object
-             data: Object
-             end_time: "2012-07-09T21:41:00+0000"
-             from: Object
-             id: "130371697104116"
-             likes: Object
-             publish_time: "2012-07-09T21:41:00+0000"
-             start_time: "2012-07-09T21:41:00+0000"
-             type: "watchdognet:sign"
-             __proto__: Object
-             */
-            if (response.id === VK.fb_action_instance_id) {
-              inviteToShareOnTwitter();
-            }
-          });
-        }
-      }
-    });
-  }
+  initFacebookApp();
   setupShareFacebookButton();
   setupSocialTracking();
 
@@ -79,6 +43,27 @@ $(document).ready(function () {
   });
 });
 
+function initFacebookApp() {
+  if (VK.is_facebook_sharing_enabled === "true") {
+    FB.Event.subscribe('auth.statusChange', function(checkAuthStatus) {
+      if ((VK.fb_action_instance_id !== "") && (checkAuthStatus.status === "connected")) {
+        FB.api(VK.fb_action_instance_id, 'get', function (response) {
+          if (VK.fb_action_instance_id === response.id)  {
+            inviteToShareOnTwitter();
+          }
+        });
+      }
+    });
+
+    FB.init({
+      appId:$('meta[property="fb:app_id"]').attr("content"),
+      status:true, // check login status
+      cookie:true, // enable cookies to allow the server to access the session
+      xfbml:true  // parse XFBML
+    });
+  }
+}
+
 function setupSocialTracking() {
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
@@ -90,9 +75,7 @@ function setupSocialTracking() {
           url:VK.social_tracking_url,
           data:setUpParamsForSocialTracking('like', '')
         });
-        if (!$('.fb_share.btn').is(":visible")) {
-          $('.tweet').show();
-        }
+        $('.tweet').show();
       });
       FB.Event.subscribe('edge.remove', function (targetUrl) {
         _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
@@ -118,7 +101,6 @@ function setUpParamsForSocialTracking(facebook_action, action_id) {
 function setupShareFacebookButton() {
   var shareButton = $('.fb_share.btn');
   shareButton.click(function (event) {
-    shareButton.hide();
     $('.fb_share_message').text("Connecting to Facebook...");
     $('.fb_share_message').show();
     submitFacebookAction();
@@ -126,16 +108,8 @@ function setupShareFacebookButton() {
 }
 
 function submitFacebookAction() {
-  FB.init({
-    appId:$('meta[property="fb:app_id"]').attr("content"),
-    status:true, // check login status
-    cookie:true, // enable cookies to allow the server to access the session
-    xfbml:true  // parse XFBML
-  });
-
   FB.login(function (response) {
     if (response.authResponse) {
-      console.log('Welcome!  Fetching your information.... ');
       FB.api(
         '/me/watchdognet:sign',
         'post',
@@ -146,7 +120,6 @@ function submitFacebookAction() {
           if (!response || response.error) {
             console.log('Error occured');
             console.log(response.error);
-            $('.fb_share.btn').show();
             $('.fb_share_message').text("Please try again.");
           } else {
             $.ajax({
@@ -158,7 +131,6 @@ function submitFacebookAction() {
         }
       );
     } else {
-      $('.fb_share.btn').show();
       $('.fb_share_message').hide();
       console.log('User cancelled login or did not fully authorize.');
     }
