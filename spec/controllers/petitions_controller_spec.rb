@@ -106,18 +106,19 @@ describe PetitionsController do
       end
     end
 
-    context "email hash param is present" do
-      let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
-      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
-      let(:sent_email) { create :sent_email, member: member }
-      it "should prepopulate signature from member values" do
-        controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
-        get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
-
-        assigns(:signature).name.should == "Sven"
-        assigns(:signature).email.should == "sven@svenland.se"
-      end
-    end
+    #@@ also commenting this out to confirm
+    # context "email hash param is present" do
+    #   let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+    #   let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
+    #   let(:sent_email) { create :sent_email, member: member }
+    #   it "should prepopulate signature from member values" do
+    #     controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+    #     get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
+    #
+    #     assigns(:signature).name.should == "Sven"
+    #     assigns(:signature).email.should == "sven@svenland.se"
+    #   end
+    # end
 
     context 'referer hash param is present' do
       let(:member) { create :member }
