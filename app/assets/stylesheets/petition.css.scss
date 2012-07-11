@@ -113,7 +113,6 @@
     input {
       @extend .span2;
       margin-left: 0;
-      &.btn { width: 100%; }
     }
     .help-inline {
       @extend .alert;
@@ -143,10 +142,10 @@
   .through_fb { display: none; }
   .through_site {
     width: auto;
+    form { *width: 200px !important; }
     border-right: none;
     input {
       width: 96%;
-      *width: 192px;
     }
     .btn {
       float: right;
@@ -242,10 +241,11 @@
     padding: 5px 0;
     float: left;
     margin-bottom: 10px;
+    .control-group { *clear: both; *margin-right: 3px; }
     input {
       @extend .span2;
       margin-left: 0;
-      &.btn { width: 100%; }
+      &.btn { width: 100%; text-align: center; *clear: left; *width: 202px !important; }
     }
     .help-inline {
       @extend .alert;
@@ -491,11 +491,6 @@
   width: 300px;
   margin-left: 0;
 }
-.mobile_signup_button {
-  width: 100%;
-  clear: both;
-}
-
 .controls .icon-trash a {
   width: 30px;
   height: 30px;
@@ -586,3 +581,12 @@
 .fb_share.btn {
   margin-bottom: 10px;
 }
+
+.mobile_signup_button {
+  width: 100%;
+  clear: both;
+  display: none \9;
+  *display: none;
+}
+
+
