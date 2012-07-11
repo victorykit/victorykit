@@ -17,17 +17,12 @@
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
     <![endif]-->
     = configure_google_analytics
-
-  - ui_layouts = spin! "change layouts", :signature, ["bootstrap", "bordered_with_block_logo"]
-  %body{class: [ui_layouts]}
-    #left
-    #right
+  %body
     .body_container
       = render :partial =>  "shared/navigation"
       .container
-        .row
-          .span12.flash_message= render :partial => 'shared/flash_messages'
-          = yield
+        = render :partial => 'shared/flash_messages'
+        = yield
     = render :partial =>  "shared/footer"
     = javascript_include_tag :application
     %script{type: "text/javascript"}

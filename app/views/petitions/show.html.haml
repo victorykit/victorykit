@@ -22,131 +22,130 @@
   VK.is_facebook_sharing_enabled = '#{@was_signed && (share_vs_like == "facebook_share")}';
 = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 .fb-root
-#testui.span12{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
-  .row
-    .petition.span
-      - if @petition.has_edit_permissions(current_user)
-        %h1.petition_title.admin= @petition.title
-        = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
-      - else
-        %h1.petition_title= @petition.title
+#testui{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
+  .petition.span9
+    - if @petition.has_edit_permissions(current_user)
+      %h1.petition_title.admin= @petition.title
+      = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+    - else
+      %h1.petition_title= @petition.title
 
-      .mobile_signup_button
-        = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+    .mobile_signup_button
+      = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
 
-      - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
-        .social_icons
-          = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - else
-        .social_icons.tallerprogress
-          -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-          = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - if signature_display_threshold_met && spin!("show thermometer", :signature)
-        .progress_bar
-          .numbers
-            - if progressmessaging == 'x_signatures_of_y'
-              .highlight_text
-                #{@sigcount} signatures
-              of #{counter_size(@sigcount)}
-            - elsif progressmessaging == 'x_y_to_next_goal'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
-            - elsif progressmessaging == 'x_y_to_goal'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-            - elsif progressmessaging == 'x_y_to_go_of_z'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
-            - elsif progressmessaging == 'x_supporters_y_to_next_goal'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+    - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
+      .social_icons
+        = fb_like petition_url(params[:id]), @fb_tracking_hash
+    - else
+      .social_icons.tallerprogress
+        -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+        = fb_like petition_url(params[:id]), @fb_tracking_hash
+    - if signature_display_threshold_met && spin!("show thermometer", :signature)
+      .progress_bar
+        .numbers
+          - if progressmessaging == 'x_signatures_of_y'
+            .highlight_text
+              #{@sigcount} signatures
+            of #{counter_size(@sigcount)}
+          - elsif progressmessaging == 'x_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+          - elsif progressmessaging == 'x_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_y_to_go_of_z'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_supporters_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
 
-            - elsif progressmessaging == 'x_supporters_y_to_goal'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-            - elsif progressmessaging == 'x_supporters_help_us'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              sign now to help us reach our goal of #{counter_size(@sigcount)}!
-            - elsif progressmessaging == 'x_of_y_supporters'
-              #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
-          .progress
-            .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-      %hr
-      - petitiontext = @petition.description
-      - if @petition.to_send != true
-        - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
-      .description= petitiontext.html_safe
-    .petition_sidebar.span
-      .signature-form{:style => @was_signed ? 'display:none' : ''}
-        .title
-          Sign this petition!
-        .through_site
-          = form_tag [@petition, @signature] do |form|
-            = simple_fields_for :signature, @signature do |f|
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_name = { placeholder: 'name' }
-                - placeholder_first_name = { placeholder: 'first name' }
-                - placeholder_last_name = { placeholder: 'last name' }
-              - else
-                - placeholder_name = {}
-                - placeholder_first_name = {}
-                - placeholder_last_name = {}
+          - elsif progressmessaging == 'x_supporters_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_supporters_help_us'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            sign now to help us reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_of_y_supporters'
+            #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
+        .progress
+          .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+    %hr
+    - petitiontext = @petition.description
+    - if @petition.to_send != true
+      - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
+    .description= petitiontext.html_safe
+  .petition_sidebar
+    .signature-form{:style => @was_signed ? 'display:none' : ''}
+      .title
+        Sign this petition!
+      .through_site
+        = form_tag [@petition, @signature] do |form|
+          = simple_fields_for :signature, @signature do |f|
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_name = { placeholder: 'name' }
+              - placeholder_first_name = { placeholder: 'first name' }
+              - placeholder_last_name = { placeholder: 'last name' }
+            - else
+              - placeholder_name = {}
+              - placeholder_first_name = {}
+              - placeholder_last_name = {}
 
-              - if showfullname == "fullname"
-                = f.input :name, :hint => false, :input_html => placeholder_name
-              - else
-                = f.input :first_name, :hint => false, :input_html => placeholder_first_name
-                = f.input :last_name, :hint => false, :input_html => placeholder_last_name
+            - if showfullname == "fullname"
+              = f.input :name, :hint => false, :input_html => placeholder_name
+            - else
+              = f.input :first_name, :hint => false, :input_html => placeholder_first_name
+              = f.input :last_name, :hint => false, :input_html => placeholder_last_name
 
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_email = { placeholder: 'email' }
-              - else
-                - placeholder_email = {}
-              = f.input :email, :input_html => placeholder_email
-              #hint.alert.alert-error
-              - if @referring_url
-                = hidden_field_tag :referring_url, @referring_url
-              - if @email_hash
-                = hidden_field_tag :email_hash, @email_hash
-              - if @fb_hash
-                = hidden_field_tag :fb_hash, @fb_hash
-              - if @fb_action_id
-                = hidden_field_tag :fb_action_id, @fb_action_id
-              - if @referer_hash
-                = hidden_field_tag :referer_hash, @referer_hash
-              - if @twitter_hash
-                = hidden_field_tag :twitter_hash, @twitter_hash
-              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
-        .through_fb
-          .text Sign in via
-          .button.btn.btn-primary Facebook!
-        .privacypolicy
-          We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+            - if signaturelabels == 'signature_labels_hidden'
+              - placeholder_email = { placeholder: 'email' }
+            - else
+              - placeholder_email = {}
+            = f.input :email, :input_html => placeholder_email
+            #hint.alert.alert-error
+            - if @referring_url
+              = hidden_field_tag :referring_url, @referring_url
+            - if @email_hash
+              = hidden_field_tag :email_hash, @email_hash
+            - if @fb_hash
+              = hidden_field_tag :fb_hash, @fb_hash
+            - if @fb_action_id
+              = hidden_field_tag :fb_action_id, @fb_action_id
+            - if @referer_hash
+              = hidden_field_tag :referer_hash, @referer_hash
+            - if @twitter_hash
+              = hidden_field_tag :twitter_hash, @twitter_hash
+            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+      .through_fb
+        .text Sign in via
+        .button.btn.btn-primary Facebook!
 
-      #thanks-for-signing-message{:style => @was_signed ? '' : 'display:none'}
-        .thanks
-          Thanks for signing!
-        .sharing-message
-          - if spin! "include Facebook on share", :share
-            Spread the word, share on Facebook!
-          - else
-            Spread the word, share with your friends!
+      .privacypolicy
+        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
-        .arrow
-
-        .tweet
-          %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-        - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
-          .fb_share.btn.btn-primary Share on Facebook
-          .fb_share_message
+    #thanks-for-signing-message{:style => @was_signed ? '' : 'display:none'}
+      .thanks
+        Thanks for signing!
+      .sharing-message
+        - if spin! "include Facebook on share", :share
+          Spread the word, share on Facebook!
         - else
-          = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
+          Spread the word, share with your friends!
+      .arrow
+
+      .tweet
+        %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+      - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
+        .fb_share.btn.btn-primary Share on Facebook
+        .fb_share_message
+      - else
+        = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
       = content_tag "meta", nil, property:key, content:value
@@ -166,7 +165,7 @@
           %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
         - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
           .fb_share.btn.btn-primary Share on Facebook
-          .fb_share_message
+          .fb_share_message 
         - else
           = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
 

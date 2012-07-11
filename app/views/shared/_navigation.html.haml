@@ -3,16 +3,15 @@
 - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
   - class_toggle = 'admin'
 
-.row.navigation{class: [class_toggle]}
-  %div
-    .row
-      .span3
-        .logo_box
-          = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
-      .mobile_nav
-        .btn#nav_btn
-          %i.icon-plus
-      .span9
+.navbar{class: [class_toggle]}
+  .navbar-inner
+    .container
+      = link_to('', '/', :class => 'logo brand')
+      %button{:class => "btn btn-navbar", :'data-toggle' => "collapse", :'data-target' => ".nav-collapse"}
+        %span.icon-bar
+        %span.icon-bar
+        %span.icon-bar
+      .nav-collapse.collapse
         %ul.nav
           %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
           - if can :list_petitions
@@ -30,3 +29,8 @@
             .nodivider
           - else
             %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')
+
+
+
+
+
