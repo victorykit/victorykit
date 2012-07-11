@@ -1,7 +1,6 @@
 Victorykit::Application.routes.draw do
   get "privacy/index"
 
-  get "status/index"
   get "sessions/new"
 
   resources :users
@@ -11,7 +10,6 @@ Victorykit::Application.routes.draw do
   resources :unsubscribes
   resources :pixel_tracking
   resources :incoming_mails
-  resources :status, only: :index
   resources :petitions do
     resources :signatures
   end
