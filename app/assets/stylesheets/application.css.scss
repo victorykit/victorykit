@@ -13,45 +13,26 @@
  *= require dataTables/jquery.dataTables.bootstrap
  *= require bootstrap-wysihtml5
  *= require_tree .
- */
+*/
 
 @import "bootstrap";
 @import "responsive";
 
-@font-face {
-  font-family: 'league gothic';
-  src: url('../fonts/League_Gothic-webfont.eot');
-  src: url('../fonts/League_Gothic-webfont.eot?iefix') format('eot'),
-  url('../fonts/League_Gothic-webfont.woff') format('woff'),
-  url('../fonts/League_Gothic-webfont.ttf') format('truetype'),
-  url('../fonts/League_Gothic-webfont.svg#webfontZam02nTh') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
 html, body {
   height:100%;
   padding: 0;
-  margin: 0;
 }
 
 .body_container {
   height: 100%;
   min-height: 100%;
   margin: 0 auto -2em;
-  width: 100%;
 }
-
-.flash_message .alert {
-  margin: 10px 0;
-}
-
-@media (max-width: 759px) {
+@media (max-width: 480px) {
   .body_container > .container {
     padding: 0 5px;
   }
 }
-
 .footer {
   position: relative;
   bottom: 0;
@@ -92,7 +73,6 @@ table {
 .simple_form {
   @extend .row;
 }
-
 form {
   margin-bottom: 40px;
   .control-group {
@@ -122,8 +102,6 @@ form {
   }
 }
 
-input, textarea, .btn { border-radius: 0; }
-
 .privacypolicy {
   @extend .span5;
   margin: 10px auto 0;
@@ -133,56 +111,4 @@ input, textarea, .btn { border-radius: 0; }
   text-align: center;
 }
 
-.navigation {
-  .row {
-    li { float: right; }
-  }
-  @media (min-width: 250px) and (max-width: 767px) {
-    &.row {
-      padding: 0 !important;
-    }
-    height: 0;
-    width: 100%;
-    padding: 0;
-    .row {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-    }
-    .nav {
-      margin: 18px 0;
-      display: none;
-      .row {
-        width: 100%;
-      }
-      li {
-        border-bottom: #aaa 1px solid;
-        background: #ccc;
-        width: 100%;
-        margin: 0;
-        &:hover {
-          background: #aaa;
-        }
-        a {
-          margin-left: 10px;
-          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-          font-size: 14px;
-          text-transform: none;
-          color: #444;
-          text-shadow: none;
-          padding: 5px;
-          width: 100%;
-        }
-      }
-    }
-    .mobile_nav {
-      float: right;
-      margin: 8px 17px;
-    }
-    #nav_btn {
-      display: inline;
-      width: 100px;
-      margin-right: 10px;
-    }
-  }
-}
+

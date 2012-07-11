@@ -13,13 +13,6 @@
 @import "bootstrap";
 @import "responsive";
 
-.row.navigation > div {
-  @extend .span12;
-  @media (min-width: 250px) and (max-width: 767px) {
-    width: 100%;
-  }
-  margin: 0 auto;
-}
 ul.nav.user {
   float: right;
 }
@@ -28,40 +21,27 @@ ul.nav.user {
     height: 6em;
   }
 }
-.navigation {
-  li {
-    float: left;
-    margin-right: 10px;
-  }
-  #nav_btn {
-    display: none;
-  }
-  .nav {
-    a, div {
-      color: #999999;
-      float: none;
-      line-height: 19px;
-      padding: 9px 10px 11px;
-      text-decoration: none;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    }
-    a:hover {
-      background: none;
-      color: #efefef;
-    }
+.navbar .nav > li > div {
+  color: #999999;
+  float: none;
+  line-height: 19px;
+  padding: 9px 10px 11px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.navbar .navbar-inner {
+  border-radius: 0;
+  .container {
+    margin: 0 auto;
   }
 }
 
-.navigation .row a.logo {
-  //background: url('logo_white.png');
+.navbar a.logo {
+  background: url('logo_white.png');
   height: 4px;
   width: 201px;
   margin: 6px;
   float: left;
-  font-family: league gothic;
-  font-size: 3em;
-  color: white;
-  margin-top: 10px;
   @media (min-width: 979px) {
     width: 181px;
   }

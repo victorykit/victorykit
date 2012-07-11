@@ -18,18 +18,15 @@
   #testui .modal { left: 45%; }
 }
 
-@media (min-width: 768px) and (max-width: 980px) {
-  #testui {
-    margin: 0 15px;
-  }
+.rightcolwell {
+  @extend .span3;
+  @extend .well;
+  float: left;
+  padding: 0;
+  margin-left: 8px;
 }
-
 .petition {
-  @extend .span;
   @extend .span9;
-  @media (min-width: 768px) and (max-width: 980px) {
-    width: 429px;
-  }
   float: left;
   .petition_image {
     height: 90px;
@@ -79,24 +76,19 @@
   min-height: 210px;
 }
 .petition_sidebar {
-  @extend .span;
   @extend .span3;
   float: left;
-  @media (min-width: 760px) and (max-width: 980px) {
-    width: 275px;
-  }
   margin-top: 4px;
   .edit { margin: 0 0 20px 53px; }
 }
 .signature-form, #ask-to-sign {
   @extend .rightcolwell;
-  padding: 10px;
   .title {
     font-size: 25px;
     text-align: center;
     font-weight: bold;
     color: #333;
-    padding: 0 15px;
+    padding: 15px;
     line-height: 30px;
   }
 
@@ -107,7 +99,7 @@
   .through_site {
     width: 150px;
     border-right: 1px solid #555;
-    padding: 5px 0;
+    padding: 5px 10px;
     float: left;
     margin-bottom: 10px;
     input {
@@ -239,7 +231,7 @@
   .through_site {
     width: 150px;
     border-right: 1px solid #555;
-    padding: 5px 0;
+    padding: 5px 10px;
     float: left;
     margin-bottom: 10px;
     input {
@@ -475,9 +467,14 @@
   display: none;
 }
 
-@media (max-width: 759px) {
-  .petition_sidebar.span {
-    display: none !important;
+.fb_share_message, #ask-to-sign , #ask-to-sign-modal {
+  display: none;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 760px) {
+  .petition_sidebar {
+    display: none;
   }
 }
 @media (min-width: 760px) {
@@ -566,15 +563,13 @@
   }
 }
 @media (min-width: 381px) and (max-width: 789px)  {
-  .petitionform {
-    margin-left: 2%;
+  .petitionform { margin-left: 2%;
     .additional_title input.with_icon { max-width: 89%; }
     .control-group.boolean .controls label.checkbox { margin: 7px 0 0 -20px; }
   }
 }
 @media (max-width: 321px) {
-  .petitionform {
-    margin-left: 1%;
+  .petitionform { margin-left: 1%;
     .additional_title input.with_icon { max-width: 83%; }
   }
 }
