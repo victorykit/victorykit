@@ -7,6 +7,7 @@ Victorykit::Application.routes.draw do
   resources :users
   resources :members
   resources :sessions
+  resources :whiplash_sessions
   resources :unsubscribes
   resources :pixel_tracking
   resources :incoming_mails
