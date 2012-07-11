@@ -71,14 +71,9 @@
   }
   .through_site .controls, .through_site .controls input {
     @extend .span2;
-    *width: 120px;
-    width: 120px\9;
     @media (min-width: 280px) and (max-width: 1200px) { width: 98%; }
     float: left;
   }
-  .privacypolicy { margin: 10px\9; clear: both\9; }
-  .btn { margin-right: -10px\9; }
-  .control-group { *height: 3em; }
 }
 .signature_labels_beside_inputs_no_asterisk {
   @extend .signature_labels_beside_inputs;
@@ -126,9 +121,6 @@
 }
 
 .signature_labels_hidden {
-  .control-group {
-    *height: 4em;
-  }
   .control-label {
     display: none;
   }
@@ -186,9 +178,6 @@
 @media (min-width: 1200px) and (max-width: 3000px) {
   .narrowwidthpetition.petitionleft .petition {
     margin-left: 145px;
-  }
-  .middlewidthpetition.petitionleft .petition {
-    margin-left: 125px;
   }
   .middlewidthpetition.petitionright {
     .petition {
@@ -277,21 +266,19 @@ body {
 
 body.bordered_with_block_logo {
   @media (min-width: 1250px) and (max-width: 3000px) {
-    #top, #left, #right {
+    border-top: 25px solid #ccc;
+    border-bottom: none;
+    #left, #right {
       background: #ccc;
+      position: fixed;
     }
+    #left, #right {
+      top: 0; bottom: 0;
+      width: 25px;
+    }
+    #left { left: 0; }
+    #right { right: 0; }
   }
-  #top, #left, #right { background: #cccccc\9; }
-  #top, #left, #right { *background: #cccccc; }
-  #left, #right {
-    position: fixed;
-    top: 0; bottom: 0;
-    height: 100%;
-    width: 25px;
-  }
-  #top { left: 0; right: 0; width: 100%; height: 25px; z-index: -1; position: relative; }
-  #left { left: 0; }
-  #right { right: 0; }
   @media (min-width: 250px) and (max-width: 767px) {
     .body_container > .container {
       margin-top: 10px;
@@ -338,47 +325,41 @@ body.bordered_with_block_logo {
       color: black;
     }
   }
+  border-top: 25px solid #ccc;
   input, textarea, .btn, .btn-group .btn {
     border-radius: 0;
   }
   .navigation {
     box-shadow: none;
     background: none;
-    filter: none !important;
-    *background: white;
     height: 70px;
     @media (min-width: 250px) and (max-width: 760px) {
       height: 20px;
     }
     .row {
-      li { float: right; *margin-top: 70px; }
-      margin-top: 25px;
+      li { float: right; }
       a {
-        font-family: "LeagueGothicRegular", helvetica;
-        font-style: normal;
+        font-family: league gothic, helvetica;
         font-size: 2em;
         font-weight: normal;
         color: #3399cc;
         text-transform: uppercase;
       }
       &.grey {
-        height: 60px;
-        background: #ccc;
-      }
+          height: 60px;
+          background: #ccc;
+        }
     }
     .logo_box {
       @media (min-width: 768px) and (max-width: 1199px) {
         min-width: 255px;
-        margin: -50px 0 0 -5px;
+        margin: -25px 0 0 -5px;
       }
-      margin-top: -50px;
-      z-index: 1000;
       background: #3399cc;
       padding: 40px 0;
       width: 100%;
-      *width: 250px;
-      width: 250px\9;
       height: 10px;
+      margin-top: -25px;
       box-shadow: 0 0 7px 3px #aaa;
       a.logo {
         width: 100%;
@@ -386,7 +367,6 @@ body.bordered_with_block_logo {
         color: white;
         font-size: 4em;
         margin: 0;
-        *padding: 13px 2px 10px;
       }
       @media (min-width: 250px) and (max-width: 767px) {
         width: 210px;
@@ -425,7 +405,7 @@ body.bordered_with_block_logo {
     border: none;
     color: black;
     .title {
-      font-family: "LeagueGothicRegular", helvetica;
+      font-family: league gothic, helvetica;
       color: black;
       text-transform: uppercase;
       font-weight: normal;
@@ -435,8 +415,6 @@ body.bordered_with_block_logo {
     }
     .control-group {
       height: 2.6em;
-      *height: 4em;
-
       input {
         border-radius: 0;
         border: 1px solid black;
@@ -450,7 +428,7 @@ body.bordered_with_block_logo {
       text-transform: uppercase;
       font-size: 2em;
       font-weight: normal;
-      font-family: "LeagueGothicRegular", helvetica;
+      font-family: league gothic, helvetica;
       height: 36px;
     }
     .privacypolicy {
@@ -465,7 +443,7 @@ body.bordered_with_block_logo {
   hr { display: none; }
   h1.petition_title {
     letter-spacing: 1px;
-    font-family: "LeagueGothicRegular", helvetica;
+    font-family: league gothic, helvetica;
     font-weight: normal;
     text-transform: uppercase;
     font-size: 4em;
