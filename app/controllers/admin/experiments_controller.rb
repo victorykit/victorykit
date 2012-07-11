@@ -61,12 +61,25 @@ class Admin::ExperimentsController < ApplicationController
   end
   
   def nps_by_day
-    members = Hash[Member.count(group: 'date(created_at)').map{|(k,v)| [k.to_date, v.to_f]}]
-    sent = Hash[SentEmail.count(group: 'date(created_at)').map{|(k,v)| [k.to_date, v.to_f]}]
-    members.default, sent.default = 0, 1
+    sent = Hash[SentEmail.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
+    sent.default = 1
     
-    start = Date.new(2012, 05, 16)
-    (start..Date.today).collect {|x| members[x]/sent[x] }
+    chart_for_table = Proc.new do |table, conditions=nil|
+      prefs = {group: 'date(created_at)', conditions: conditions}
+      out = Hash[table.count(prefs).map {|(k,v)| [k.to_date, v.to_f]}]
+      out.default = 0
+      (Date.new(2012, 05, 16)..Date.today).collect {|x| out[x]/sent[x] }
+    end
+    
+    #chart_for_table.call SentEmail, 'opened_at is not null'
+    #chart_for_table.call SentEmail, 'clicked_at is not null'
+    #chart_for_table.call SentEmail, 'signature_id is not null'
+    #chart_for_table.call Signature, 'referer_id != member_id'
+    #chart_for_table.call Signature, "user_agent like '%MSIE%'"    
+    #chart_for_table.call Signature
+    #chart_for_table.call Signature, 'created_member is not true'
+    
+    chart_for_table.call Member
   end
   
   def index
