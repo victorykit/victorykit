@@ -8,6 +8,7 @@ bash 'install redis' do
     mkdir -p /opt/redis
     make PREFIX=/opt/redis install
   EOH
+  not_if 'test -f /etc/init.d/redis'
 end
 
 template '/etc/init.d/redis' do
