@@ -4,8 +4,8 @@ HERE = File.dirname(__FILE__)
 INFRA_DIR = "#{HERE}/infra"
 
 Vagrant::Config.run do |config|
-  config.vm.box = "heroku"
-  config.vm.url = "https://dl.dropbox.com/u/219714/vagrant-boxes/heroku.box"
+  config.vm.box     = "heroku"
+  config.vm.box_url = "https://dl.dropbox.com/u/219714/vagrant-boxes/heroku.box"
 
   config.vm.define :dev do |config|
     config.vm.share_folder "rails_app", "/home/vagrant/workspace", "#{HERE}"
@@ -20,7 +20,6 @@ Vagrant::Config.run do |config|
       chef.add_recipe "workstation::vim"
       chef.add_recipe "workstation::rubygems"
       chef.add_recipe "workstation::mysql"
-      chef.add_recipe "heroku_addons::postgresql"
       chef.add_recipe "heroku_addons::redis"
     end
   end
