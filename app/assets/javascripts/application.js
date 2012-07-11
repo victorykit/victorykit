@@ -22,7 +22,7 @@
 //= require global.js
 //= require_tree .
 
-var VK = VK || {}
+var VK = VK || {};
 
 function remove_fields(link) {
   $(link).prev("input[type=hidden]").val("1");
