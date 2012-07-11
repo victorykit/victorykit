@@ -4,7 +4,7 @@ VictoryKit is a free and open source platform to run campaigns for social change
 
 To checkout the code:
 
-    $ git clone git@github.com:scottmuc/victorykit.git
+    $ git clone git@github.com:victorykit/victorykit.git
 
 ## Vagrant Installation
 
