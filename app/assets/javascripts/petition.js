@@ -1,47 +1,9 @@
-$(document).ready(function () {
-  initTwitter();
-  initTabIndexes();
-  initFacebookApp();
-  setupShareFacebookButton();
-  setupSocialTracking();
-
-  if (screen.width > 480) {
-    $('#thanksModal').modal('toggle');
-  }
-
-  preventWhitespaceOn('#signature_email');
-  applyRichTextEditorTo('#petition_description');
-
-  $('form').on("submit", function (event) {
-    if (!VK.signing_from_email) {
-      var emailSuggestor = new EmailSuggestions();
-      emailSuggestor.init();
-      emailSuggestor.mailCheckSuggestions(event);
-    }
-    return event.go;
-  });
-
-  if ($('#email_subject').has('.additional_title').length) {
-    $('#email_subject').show();
-    $('#email_subject_link').hide();
-  }
-
-  $('#email_subject_link').click(function () {
-    $('#email_subject').show();
-    $('#email_subject input').focus();
-    $('#email_subject_link').hide();
-  });
-
-  if ($('#facebook_title').has('.additional_title').length) {
-    $('#facebook_title').show();
-    $('#facebook_title_link').hide();
-  }
-
-  $('#facebook_title_link').click(function () {
-    $('#facebook_title').show();
-    $('#facebook_title_link').hide();
-  });
-});
+function inviteToShareOnTwitter() {
+  $('.fb_share.btn').hide();
+  $('.fb_share_message').hide();
+  $('.tweet').show();
+  $('.sharing-message').text("You shared on Facebook! How about Twitter?");
+}
 
 function initFacebookApp() {
   if (VK.is_facebook_sharing_enabled === "true") {
@@ -64,6 +26,18 @@ function initFacebookApp() {
   }
 }
 
+function setUpParamsForSocialTracking(facebook_action, action_id) {
+  var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
+  if (VK.signature_id !== "") {
+    params = $.extend(params, {signature_id: VK.signature_id});
+  }
+  if (action_id !== "") {
+    params = $.extend(params, {action_id: action_id});
+  }
+
+  return params;
+}
+
 function setupSocialTracking() {
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
@@ -72,8 +46,8 @@ function setupSocialTracking() {
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
-          url:VK.social_tracking_url,
-          data:setUpParamsForSocialTracking('like', '')
+          url: VK.social_tracking_url,
+          data: setUpParamsForSocialTracking('like', '')
         });
         $('.tweet').show();
       });
@@ -86,16 +60,31 @@ function setupSocialTracking() {
   }
 }
 
-function setUpParamsForSocialTracking(facebook_action, action_id) {
-  var params = {petition_id:VK.petition_id, facebook_action:facebook_action};
-  if (VK.signature_id != "") {
-    params = $.extend(params, {signature_id:VK.signature_id});
-  }
-  if (action_id != "") {
-    params = $.extend(params, {action_id:action_id});
-  }
-
-  return params;
+function submitFacebookAction() {
+  FB.login(function (response) {
+    if (response.authResponse) {
+      FB.api(
+        '/me/watchdognet:sign',
+        'post',
+        {
+          petition: $('meta[property="og:url"]').attr("content")
+        },
+        function (response) {
+          if (!response || response.error) {
+            $('.fb_share_message').text("Please try again.");
+          } else {
+            $.ajax({
+              url: VK.social_tracking_url,
+              data: setUpParamsForSocialTracking('share', response.id)
+            });
+            inviteToShareOnTwitter();
+          }
+        }
+      );
+    } else {
+      $('.fb_share_message').hide();
+    }
+  }, {scope: 'publish_actions'});
 }
 
 function setupShareFacebookButton() {
@@ -105,40 +94,6 @@ function setupShareFacebookButton() {
     $('.fb_share_message').show();
     submitFacebookAction();
   });
-}
-
-function submitFacebookAction() {
-  FB.login(function (response) {
-    if (response.authResponse) {
-      FB.api(
-        '/me/watchdognet:sign',
-        'post',
-        {
-          petition:$('meta[property="og:url"]').attr("content")
-        },
-        function (response) {
-          if (!response || response.error) {
-            $('.fb_share_message').text("Please try again.");
-          } else {
-            $.ajax({
-              url:VK.social_tracking_url,
-              data:setUpParamsForSocialTracking('share', response.id)
-            });
-            inviteToShareOnTwitter();
-          }
-        }
-      );
-    } else {
-      $('.fb_share_message').hide();
-    }
-  }, {scope:'publish_actions'});
-}
-
-function inviteToShareOnTwitter() {
-  $('.fb_share.btn').hide();
-  $('.fb_share_message').hide();
-  $('.tweet').show();
-  $('.sharing-message').text("You shared on Facebook! How about Twitter?");
 }
 
 function initTabIndexes() {
@@ -186,9 +141,9 @@ function EmailSuggestions() {
       suggested:function (element, suggestion) {
         event.go = true;
         if (!$hint.html()) {
-          var suggestion = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?" +
+          var suggestionFragment = 'Did you mean <a href="#" id="suggested_email" class="suggested_email">' + suggestion.full + "</a>?" +
             "<br/>Click the '" + $("#sign_petition").val() + "' button again if your address is correct";
-          $hint.html(suggestion).fadeIn(150);
+          $hint.html(suggestionFragment).fadeIn(150);
           event.go = false;
         }
       }
@@ -197,14 +152,56 @@ function EmailSuggestions() {
 }
 
 function initTwitter() {
-  !function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (!d.getElementById(id)) {
-      js = d.createElement(s);
-      js.id = id;
-      js.src = "//platform.twitter.com/widgets.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }
+  var js, fjs = document.getElementsByTagName("script")[0];
+  if (!document.getElementById("twitter-wjs")) {
+    js = document.createElement("script");
+    js.id = "twitter-wjs";
+    js.src = "//platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
   }
-    (document, "script", "twitter-wjs");
 }
+
+$(document).ready(function () {
+  initTwitter();
+  initTabIndexes();
+  initFacebookApp();
+  setupShareFacebookButton();
+  setupSocialTracking();
+
+  if (screen.width > 480) {
+    $('#thanksModal').modal('toggle');
+  }
+
+  preventWhitespaceOn('#signature_email');
+  applyRichTextEditorTo('#petition_description');
+
+  $('form').on("submit", function (event) {
+    if (!VK.signing_from_email) {
+      var emailSuggestor = new EmailSuggestions();
+      emailSuggestor.init();
+      emailSuggestor.mailCheckSuggestions(event);
+    }
+    return event.go;
+  });
+
+  if ($('#email_subject').has('.additional_title').length) {
+    $('#email_subject').show();
+    $('#email_subject_link').hide();
+  }
+
+  $('#email_subject_link').click(function () {
+    $('#email_subject').show();
+    $('#email_subject input').focus();
+    $('#email_subject_link').hide();
+  });
+
+  if ($('#facebook_title').has('.additional_title').length) {
+    $('#facebook_title').show();
+    $('#facebook_title_link').hide();
+  }
+
+  $('#facebook_title_link').click(function () {
+    $('#facebook_title').show();
+    $('#facebook_title_link').hide();
+  });
+});

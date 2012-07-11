@@ -50,6 +50,7 @@ group :test, :development do
   gem "autotest"
   gem "selenium-webdriver"
   gem "hirb"
+  gem "jslint_on_rails"
 end
 
 gem 'simplecov', :require => false, :group => :test

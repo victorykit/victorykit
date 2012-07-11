@@ -98,6 +98,7 @@ GEM
     jquery-ui-rails (0.4.0)
       jquery-rails
       railties (>= 3.1.0)
+    jslint_on_rails (1.1.1)
     json (1.7.3)
     kaminari (0.13.0)
       actionpack (>= 3.0.0)
@@ -243,6 +244,7 @@ DEPENDENCIES
   jquery-datatables-rails!
   jquery-rails
   jquery-ui-rails
+  jslint_on_rails
   kaminari
   mysql
   mysql2
