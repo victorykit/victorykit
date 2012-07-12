@@ -80,7 +80,8 @@ var wysihtml5ParserRules = {
    *
    *    - add_class:        converts and deletes the given HTML4 attribute (align, clear, ...) via the given method to a css class
    *                        The following methods are implemented in wysihtml5.dom.parse:
-   *                          - align_text:  converts align attribute values (right/left/center/justify) to their corresponding css class "wysiwyg-text-align-*")
+   *                          - align_text:  converts align attribute values (right/left/center/justify) to their corresponding css
+   *                            class "wysiwyg-text-align-*")
    *                            <p align="center">foo</p> ... becomes ... <p> class="wysiwyg-text-align-center">foo</p>
    *                          - clear_br:    converts clear attribute values left/right/all/both to their corresponding css class "wysiwyg-clear-*"
    *                            <br clear="all"> ... becomes ... <br class="wysiwyg-clear-both">
@@ -98,7 +99,8 @@ var wysihtml5ParserRules = {
    *                            - url:            allows only valid urls (starting with http:// or https://)
    *                            - src:            allows something like "/foobar.jpg", "http://google.com", ...
    *                            - href:           allows something like "mailto:bert@foo.com", "http://google.com", "/foobar.jpg"
-   *                            - alt:            strips unwanted characters. if the attribute is not set, then it gets set (to ensure valid and compatible HTML)
+   *                            - alt:            strips unwanted characters. if the attribute is not set, then it gets set
+   *                              (to ensure valid and compatible HTML)
    *                            - numbers:  ensures that the attribute only contains numeric characters
    */
   "tags": {
