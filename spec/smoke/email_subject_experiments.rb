@@ -1,7 +1,7 @@
 require 'smoke_spec_helper'
 require 'nokogiri'
 
-describe "creating an email subject experiment", if: false do
+describe "creating an email subject experiment" do
   it "awards a win against the email subject when email recipient signs" do
     petition = create_a_featured_petition "Multiple email subjects!", "Yes indeed", ["Subject A", "Subject B"]
     member = create_member
