@@ -25,7 +25,7 @@
             %li
               %div Logged in as #{current_user.email}
             %li= link_to('Change Password', edit_user_path(current_user))
-            %li= link_to('Log Out', logout_path, :class => 'nodivider')
+            %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
           - elsif controller_name == 'petitions' && action_name == 'show'
             .nodivider
           - else
