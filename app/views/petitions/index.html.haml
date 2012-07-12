@@ -1,23 +1,24 @@
-%h1
-  View all petitions
+.span12
+  %h1
+    View all petitions
 
-.petitionlist
-  - @petitions.each do |petition|
-    .petition
-      .about_petition
-        = link_to(petition.title, petition, :class => 'title')
-        .description
-          = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
-        - if can :feature_petition
-          .feature
-            - if petition.to_send == true
-              %i.icon-ok
-              %b This petition is featured.
-            - if petition.to_send == false
-              %i.icon-remove
-              This petition is not featured.
-              = link_to('(Change)', edit_petition_path(petition))
-      .signature
-        = link_to('Sign this Petition!', petition, :class => 'btn btn-primary')
-        - if !current_user.nil? && petition.has_edit_permissions(current_user)
-          = link_to('Edit this Petition', edit_petition_path(petition), :class => 'btn btn-primary')
+  .petitionlist
+    - @petitions.each do |petition|
+      .petition
+        .about_petition
+          = link_to(petition.title, petition, :class => 'title')
+          .description
+            = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
+          - if can :feature_petition
+            .feature
+              - if petition.to_send == true
+                %i.icon-ok
+                %b This petition is featured.
+              - if petition.to_send == false
+                %i.icon-remove
+                This petition is not featured.
+                = link_to('(Change)', edit_petition_path(petition))
+        .signature
+          = link_to('Sign this Petition!', petition, :class => 'btn btn-primary')
+          - if !current_user.nil? && petition.has_edit_permissions(current_user)
+            = link_to('Edit this Petition', edit_petition_path(petition), :class => 'btn btn-primary')
