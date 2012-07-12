@@ -16,9 +16,9 @@ describe "creating an email subject experiment", if: false do
     go_to petition_link
     sign_petition
 
-		experiment = email_experiment_results_for petition
-		experiment.spins.should == 1
-		experiment.wins.should == 1
+    experiment = email_experiment_results_for petition
+    experiment.spins.should == 1
+    experiment.wins.should == 1
   end
 
   pending "editing subject should start a new test" do
@@ -44,9 +44,9 @@ def email_experiment_results_for petition
 end
 
 def send_petition_email petition, member
-	as_admin do
-		on_demand_email_path = "admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
-		go_to on_demand_email_path
-		return $driver.page_source
-	end
+  as_admin do
+    on_demand_email_path = "admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
+    go_to on_demand_email_path
+    return $driver.page_source
+  end
 end

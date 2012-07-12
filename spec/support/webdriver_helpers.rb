@@ -13,6 +13,10 @@ module WebDriverHelpers
     $driver.find_element(locator)
   end
 
+  def elements locator
+    $driver.find_elements(locator)
+  end
+
   def element_exists locator
     begin
       e = element locator
