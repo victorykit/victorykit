@@ -23,10 +23,8 @@
 ul.nav.user {
   float: right;
 }
-.admin.navbar .navbar-inner {
-  @media (max-width: 1150px) {
-    height: 6em;
-  }
+.admin.navigation.row {
+  height: 100%;
 }
 .navigation {
   li {

@@ -62,12 +62,14 @@ def login_here(email = "user@test.com", password = "password")
 end
 
 def log_out
-  if(element_exists :link_text => "Log Out")
-    element(:link_text => "Log Out").click
+  if element_exists :id => 'logout'
+    click(:id => "logout")
   end
+
 end
 
 def sign_up(email = Faker::Internet.email, password = "password")
+  wait.until { element :id => 'user_email' }
   type(email).into(:id => 'user_email')
   type(password).into(:id => 'user_password')
   type(password).into(:id => 'user_password_confirmation')
@@ -102,9 +104,9 @@ end
 def create_a_petition (title = 'a snappy title', description = 'a compelling description')
   as_user do
     go_to new_petition_path
-    
+
     wait.until { element :id => 'petition_title' }
-    
+
     type(title).into(:id => 'petition_title')
     type(description).into_wysihtml5(:id => 'petition_description')
     click :name => 'commit'
