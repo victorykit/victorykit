@@ -22,13 +22,16 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   
   def require_login
-    session['redirect_url'] = request.url
-    redirect_to login_path if current_user.nil?
+    if current_user.nil?
+      session['redirect_url'] = request.url
+      redirect_to login_path
+    end
   end
     
   def require_admin
-    if current_user.nil?
-      redirect_to login_path 
+    if current_user.nil? #@@ is there some way to DRY this with the function above?
+      session['redirect_url'] = request.url
+      redirect_to login_path
     elsif !(current_user.is_admin || current_user.is_super_user)
       render_403
     end
