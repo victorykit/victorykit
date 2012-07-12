@@ -116,7 +116,7 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
   Petition.find(:last, order: 'created_at ASC')
 end
 
-def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [])
+def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [], facebook_titles = [])
   as_admin do
     go_to new_petition_path
 
@@ -124,20 +124,34 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
     type(description).into_wysihtml5(:id => 'petition_description')
 
     if email_subjects and email_subjects.any?
-      click :link_text => 'Customize Email Subject' unless not email_subjects
+      click :link_text => 'Customize Email Subject'
       email_subjects[1..-1].each do |subject|
-        click :link_text => 'Add email subject'
+        click :link_text => 'Add Email Subject'
       end
     end
+    type_into_alt_title_fields "email_subjects", email_subjects
 
-    subject_fields = $driver.find_elements xpath: "//input[contains(@id, 'petition_petition_titles_attributes') and @type = 'text']"
-    subject_fields.zip(email_subjects).each {|pair| pair[0].send_keys(pair[1])}
+    if facebook_titles and facebook_titles.any?
+      click :link_text => 'Customize Facebook Title'
+      wait
+      facebook_titles[1..-1].each do |title|
+        click :link_text => 'Add Facebook Title'
+      end
+    end
+    type_into_alt_title_fields "facebook_titles", facebook_titles
 
     click :name => 'commit'
 
     wait.until { element :class => "petition" }
   end
   Petition.find(:last, order: 'created_at ASC')
+end
+
+def type_into_alt_title_fields title_type_div_id, alt_titles
+  # xpath2 supports regex matching, which would simplify this line, but it doesn't appear to work.
+  text_fields = elements(xpath: "//div[@id = '#{title_type_div_id}']//input[@type='text']").select{|x| x.attribute('id').ends_with? 'title'}
+  raise "expected #{alt_titles.count} title input fields under #{title_type_div_id} but found #{text_fields.count}" if alt_titles.count != text_fields.count
+  text_fields.zip(alt_titles).each {|pair| pair[0].send_keys(pair[1])}
 end
 
 def sign_petition (name = 'bob loblaw', email = "bob@yahoo.com")
@@ -156,4 +170,16 @@ def sign_petition (name = 'bob loblaw', email = "bob@yahoo.com")
   if element_exists id: 'suggested_email'
     click :id => 'sign_petition'
   end
+end
+
+def delete_member_cookie
+  $driver.manage.delete_cookie('member_id')
+end
+
+def current_member
+  cookie = $driver.manage.cookie_named('member_id')
+  raise "member_id cookie not found" if not cookie
+  member_id = MemberHasher.validate cookie[:value]
+  raise "member_id cookie value did not unhash" if not member_id
+  Member.find member_id
 end
