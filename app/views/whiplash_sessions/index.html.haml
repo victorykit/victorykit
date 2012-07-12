@@ -1,16 +1,17 @@
-%h1 Site Status
--if @commit_hash
+.span12
+  %h1 Site Status
+  -if @commit_hash
+    %p
+      Deployed commit hash
+      %code #{@commit_hash}.
   %p
-    Deployed commit hash 
-    %code #{@commit_hash}.
-%p
-  You are session ID: #{@session_id}.
-%p
-  Your user agent: #{@user_agent}
-- if @can_update_session
-  = form_tag(whiplash_sessions_path, :method => :post) do
-    = hidden_field_tag :debug_token, @debug_token
-    - @keys.each do |k|
-      = label_tag k, nil, {:style => "float:left;width:375px"}
-      = text_field_tag k, session[k], :style => "float:left"
-    = submit_tag "Update"
+    You are session ID: #{@session_id}.
+  %p
+    Your user agent: #{@user_agent}
+  - if @can_update_session
+    = form_tag(whiplash_sessions_path, :method => :post) do
+      = hidden_field_tag :debug_token, @debug_token
+      - @keys.each do |k|
+        = label_tag k, nil, {:style => "float:left;width:375px"}
+        = text_field_tag k, session[k], :style => "float:left"
+      = submit_tag "Update"
