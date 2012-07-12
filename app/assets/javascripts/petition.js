@@ -109,7 +109,7 @@ function initTabIndexes() {
 }
 
 function applyRichTextEditorTo(item) {
-  $(item).wysihtml5();
+  $(item).wysihtml5({"html": true, parserRules: wysihtml5ParserRules});
 }
 
 function preventWhitespaceOn(input) {

@@ -28,7 +28,7 @@ end
 gem "haml"
 gem 'jquery-rails'
 gem 'simple_form'
-gem 'bootstrap-wysihtml5-rails'
+gem 'bootstrap-wysihtml5-rails', github: "mkurutin/bootstrap-wysihtml5-rails"
 gem "browser"
 
 # To use ActiveModel has_secure_password
