@@ -26,12 +26,13 @@ describe "creating a facebook title experiment" do
 
   pending "editing subject should start a new test" do
     # go back to editing your petition
-    # change both of the subjects
+    # change both of the facebook titles
     # save
-    # send an email
-    # visit /admin/experiments
-    # make sure the number of spins is 1 and wins 1 for the old subject
-    # make sure the number of spins is 1 for a new subject
+    # create a new member
+    # visit and sign petition (as that new member)
+    # visit /admin/experiments (as admin)
+    # make sure the number of spins is 1 and wins 1 for the old title
+    # make sure the number of spins is 1 for a new title
   end
 end
 
