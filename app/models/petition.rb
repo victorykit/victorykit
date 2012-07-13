@@ -1,8 +1,4 @@
-require 'whiplash'
-require 'social_media_experiment'
-
 class Petition < ActiveRecord::Base
-  include Bandit
 
   attr_accessible :description, :title, :petition_titles_attributes
   attr_accessible :description, :title, :petition_titles_attributes, :to_send, :as => :admin
@@ -30,20 +26,9 @@ class Petition < ActiveRecord::Base
     self.title.strip! unless self.title.nil?
   end
 
-  def spin_for_facebook_title member
-    return title if not member
-    title_type = PetitionTitle::TitleType::FACEBOOK
-    options = PetitionTitle.find_all_by_petition_id_and_title_type(id, title_type)
-    test_name = "petition #{id} #{title_type} title"
-    choice = spin(member, test_name, :signature, options.map{|opt| opt.title}) if options.any?
-    choice || title
+  def experiments
+    @experiments ||= PetitionExperiments.new(self)
   end
-
-  private
-
-  def spin(member, test_name, goal, options)
-    return SocialMediaSpinner.new.do_spin! member, self, test_name, goal, options
-  end
-
 
 end
+

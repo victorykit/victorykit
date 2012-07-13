@@ -8,7 +8,7 @@ module PetitionsHelper
     member_id = cookies[:member_id]
     member = Member.find member_id unless not member_id
     { 
-      'og:title' => petition.spin_for_facebook_title(member),
+      'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
       'og:description' => strip_tags_except_links(petition.description).squish[0..300],
       'og:url' => petition_url(petition),
