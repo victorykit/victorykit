@@ -49,8 +49,8 @@ class SignaturesController < ApplicationController
     if h = MemberHasher.validate(params[:fb_hash])
       member = Member.find(h)
       signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
-      experiment = SocialMediaExperiment.find_last_by_member_id_and_petition_id member.id, petition.id
-      win_on_option!(experiment.key, experiment.choice) if experiment
+      trial = SocialMediaTrial.find_last_by_member_id_and_petition_id member.id, petition.id
+      win_on_option!(trial.key, trial.choice) if trial
     end
     if h = MemberHasher.validate(params[:twitter_hash])
       signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
@@ -59,8 +59,8 @@ class SignaturesController < ApplicationController
       facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
       member = facebook_action.member
       signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
-      experiment = SocialMediaExperiment.find_last_by_member_id_and_petition_id member.id, petition.id
-      win_on_option!(experiment.key, experiment.choice) if experiment
+      trial = SocialMediaTrial.find_last_by_member_id_and_petition_id member.id, petition.id
+      win_on_option!(trial.key, trial.choice) if trial
     end
   end
 

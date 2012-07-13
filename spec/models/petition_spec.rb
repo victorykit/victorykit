@@ -25,4 +25,8 @@ describe Petition do
     interesting_petitions.should eq [new_emailable_petition]
   end
 
+  it "should return its experiments" do
+    petition = create(:petition)
+    petition.experiments.should_not be_nil
+  end
 end

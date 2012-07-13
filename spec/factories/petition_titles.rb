@@ -2,7 +2,8 @@
 
 FactoryGirl.define do
   factory :petition_title do
-    title "MyText"
+    petition
+    title {Faker::Lorem.sentence}
     title_type "email"
   end
 end
