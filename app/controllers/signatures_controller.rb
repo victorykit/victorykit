@@ -41,26 +41,24 @@ class SignaturesController < ApplicationController
       sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
       sent_email.save!
       signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
-    end
-    referring_url = params[:referring_url]
-    if h = MemberHasher.validate(params[:referer_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::SHARED_LINK, referring_url: referring_url}
-    end
-    if h = MemberHasher.validate(params[:fb_hash])
-      member = Member.find(h)
-      signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
-      trial = SocialMediaTrial.find_last_by_member_id_and_petition_id member.id, petition.id
-      win_on_option!(trial.key, trial.choice) if trial
-    end
-    if h = MemberHasher.validate(params[:twitter_hash])
-      signature.attributes = {referer: Member.find(h), reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
-    end
-    if params[:fb_action_id].present?
-      facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
-      member = facebook_action.member
-      signature.attributes = {referer: member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
-      trial = SocialMediaTrial.find_last_by_member_id_and_petition_id member.id, petition.id
-      win_on_option!(trial.key, trial.choice) if trial
+    else
+      referring_url = params[:referring_url]
+      if h = MemberHasher.validate(params[:referer_hash])
+        referring_member = Member.find(h)
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::SHARED_LINK, referring_url: referring_url}
+      elsif h = MemberHasher.validate(params[:fb_hash])
+        referring_member = Member.find(h)
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
+        FacebookExperiments.for(petition, referring_member).win!
+      elsif params[:fb_action_id].present?
+        facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
+        referring_member = facebook_action.member
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
+        FacebookExperiments.for(petition, referring_member).win!
+      elsif h = MemberHasher.validate(params[:twitter_hash])
+        referring_member = Member.find(h)
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
+      end
     end
   end
 

@@ -40,4 +40,5 @@ class Signature < ActiveRecord::Base
   def truncate_user_agent
     self.user_agent = self.user_agent[0..254]
   end
+
 end
