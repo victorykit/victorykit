@@ -50,4 +50,11 @@ FactoryGirl.define do
     member
     email {Faker::Name.name}
   end
+  factory :social_media_trial do
+    petition
+    member
+    choice { Faker::Lorem.sentence }
+    goal { :signature }
+    key { Faker::Lorem.sentence }
+  end
 end
