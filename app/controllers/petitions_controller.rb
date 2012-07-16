@@ -167,7 +167,6 @@ class PetitionsController < ApplicationController
     if signature.valid?
       begin
         @petition.signatures.push signature
-        petition.save!
       rescue => ex
         flash.notice = ex.message
       end
