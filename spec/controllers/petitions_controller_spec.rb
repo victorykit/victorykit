@@ -220,6 +220,15 @@ describe PetitionsController do
         signatures.first.email.should eq(@logged_in_user.email)
       end
     end
+
+    describe "with an empty link" do
+      before :each do
+        post :create, {:petition => {description: "<a>nada</a>", title: "Title"}}, valid_session
+      end
+      it "alerts the user" do
+        flash[:error].should == "This petition contains an empty link - please check and correct if necessary"
+      end
+    end
   end
 
   describe "PUT update" do
