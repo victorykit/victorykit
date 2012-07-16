@@ -1,0 +1,13 @@
+[core]
+  excludesfile = ~/.gitignore
+  editor = vim
+[color]
+  ui = auto
+[alias]
+  s  = status
+  st = status
+  l  = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  ci = commit
+  co = checkout
+  aa = add --all
+  pullff = pull --ff-only

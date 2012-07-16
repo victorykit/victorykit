@@ -1,24 +1,25 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
-def confirm lib_name, required_version, version_placement=-1
-  output = `#{lib_name} --version`.split("\n")[0].split(' ')
-  version = output.length > 1 ? output[version_placement].strip : ""
-  if version == required_version
-    puts "OK - #{lib_name} #{version}"
-    true
-  else
-    puts "ERR - please install #{lib_name} #{required_version}"
-    false
-  end
-end
+CHEF_SOLO=`which chef-solo`
 
-confirm "ruby", "1.9.3p125", 1
-confirm "redis-cli", "2.4.11"
+set -e
 
-if (confirm "psql", "9.1.3")
-  if `echo "select 1" | psql -At postgres`.strip == "1"
-    puts "OK - postgres 9.1.3 up and running"
-  else
-    puts "ERR - postgres isn't running"
-  end
-end
+function main() {
+
+  if [ "$CHEF_SOLO" = "" ]; then
+    echo did not find chef-solo, installing...
+    install_chef
+  fi
+
+  run_host_cookbook
+}
+
+function install_chef() {
+  sudo gem install chef --no-ri --no-rdoc
+}
+
+function run_host_cookbook() {
+  sudo chef-solo -c infra/chef-config.rb -j infra/host-dna.json
+}
+
+main

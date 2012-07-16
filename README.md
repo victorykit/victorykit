@@ -1,6 +1,21 @@
 VictoryKit is a free and open source platform to run campaigns for social change.
 
-## Installation
+## Initial Setup
+
+To checkout the code:
+
+    $ git clone git@github.com:victorykit/victorykit.git
+
+## Vagrant Installation
+
+    $ script/bootstrap
+    $ vagrant up
+    $ vagrant ssh
+    $ cd workspace
+    $ rake # not 100% working yet
+    $ script/server
+
+## Max OSX Installation
 
 On a Mac, you'll want to install:
 
@@ -14,10 +29,6 @@ You may already have a version of Postgres installed, in which case [you'll need
     $ sudo mv /usr/include/pg* /tmp/postg
     $ brew update
     $ brew install postgresql
-
-To checkout the code:
-
-    $ git clone git@github.com:victorykit/victorykit.git
 
 To confirm you have the appropriate requirements:
 

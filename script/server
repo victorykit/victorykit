@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+bundle install
+rake db:setup
+rackup -D
