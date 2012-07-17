@@ -62,6 +62,7 @@ gem 'unicorn'
 gem 'redis'
 gem 'distribution'
 gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
+gem 'aws-sdk'
 
 gem 'garb'
 gem 'oauth'
