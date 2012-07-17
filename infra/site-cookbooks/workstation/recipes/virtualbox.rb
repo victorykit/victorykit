@@ -1,3 +1,4 @@
+include_recipe "dmg"
 
 dmg_package "VirtualBox" do
   source "http://download.virtualbox.org/virtualbox/4.1.2/VirtualBox-4.1.2-73507-OSX.dmg"

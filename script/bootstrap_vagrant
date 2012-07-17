@@ -1,0 +1,48 @@
+#!/bin/bash
+
+CHEF_SOLO=`which chef-solo`
+
+function main() {
+
+  if [ "$CHEF_SOLO" = "" ]; then
+    echo did not find chef-solo, installing...
+    install_chef
+  fi
+
+  run_host_cookbook
+  display_success_message
+}
+
+function display_success_message() {
+  echo
+  echo Vagrant installed! to get your VM up and running, execute the following
+  echo
+  echo  \$ vagrant up
+  echo
+}
+
+function update_rubygems_if_necessary() {
+  GEM_VERSION=`gem -v | grep 1.8`
+  if [ "$GEM_VERSION" = "" ]; then
+    echo rubygems is out of date, updating...
+    sudo gem update --system
+  fi
+}
+
+function install_chef() {
+  update_rubygems_if_necessary
+  sudo gem install chef --no-ri --no-rdoc
+}
+
+function ensure_var_chef() {
+  if [ ! -d /var/chef ]; then
+    sudo mkdir -p /var/chef/cache
+  fi
+}
+
+function run_host_cookbook() {
+  ensure_var_chef
+  sudo chef-solo -c infra/chef-config.rb -j infra/host-dna.json
+}
+
+main

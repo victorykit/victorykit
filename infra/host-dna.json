@@ -1,1 +1,1 @@
-{ "run_list": ["workstation::virtualbox", "workstation::vagrant"] }
+{ "run_list": [ "workstation::virtualbox", "workstation::vagrant"] }
