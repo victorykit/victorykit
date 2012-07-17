@@ -53,7 +53,7 @@ describe FacebookExperiments do
       trial2 = create(:social_media_trial, petition: @petition, member: @member, key: "petition #{@petition.id} facebook title")
       unrelated_trial = create(:social_media_trial, petition: @petition, member: @member, key: "something not facebooky")
 
-      exp = FacebookExperiments.for(@petition, @member)
+      exp = FacebookExperiments.new(@petition, @member)
       exp.should_receive(:win_on_option!).once.with(trial.key, trial.choice, {:session_id => @member.id.to_s})
       exp.should_receive(:win_on_option!).once.with(trial2.key, trial2.choice, {:session_id => @member.id.to_s})
       exp.should_not_receive(:win_on_option!).with(unrelated_trial.key, unrelated_trial.choice, {:session_id => @member.id.to_s})
