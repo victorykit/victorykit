@@ -97,6 +97,8 @@ class PetitionsController < ApplicationController
     begin
       doc = Nokogiri::HTML(@petition.description)
       if doc.xpath("//a[not(@href)]").any?
+        flash[:error] = "This petition contains an empty link - please check and correct if necessary"
+
         Rails.logger.error "Petition #{@petition.id} contains an empty link"
         Rails.logger.info @petition.description
       end
@@ -167,7 +169,6 @@ class PetitionsController < ApplicationController
     if signature.valid?
       begin
         @petition.signatures.push signature
-        petition.save!
       rescue => ex
         flash.notice = ex.message
       end

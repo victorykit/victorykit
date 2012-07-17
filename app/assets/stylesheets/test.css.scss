@@ -131,6 +131,9 @@
   }
   .control-label {
     display: none;
+    *display: visible;
+    display: visible\9;
+    text-align: left;
   }
 }
 
