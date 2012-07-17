@@ -49,12 +49,12 @@ class SignaturesController < ApplicationController
       elsif h = MemberHasher.validate(params[:fb_hash])
         referring_member = Member.find(h)
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
-        FacebookExperiments.for(petition, referring_member).win!
+        petition.experiments.facebook(referring_member).win!
       elsif params[:fb_action_id].present?
         facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
         referring_member = facebook_action.member
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
-        FacebookExperiments.for(petition, referring_member).win!
+        petition.experiments.facebook(referring_member).win!
       elsif h = MemberHasher.validate(params[:twitter_hash])
         referring_member = Member.find(h)
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}

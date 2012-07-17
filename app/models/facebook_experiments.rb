@@ -1,9 +1,5 @@
 class FacebookExperiments < SocialMediaExperiments
 
-  def self.for(petition, member)
-    FacebookExperiments.new(petition, member)
-  end
-
   def title
     default = @petition.title
     return default if not @member
