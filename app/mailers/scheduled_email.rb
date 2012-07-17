@@ -20,10 +20,9 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
-    return_path = "bounce+" + sent_email_hash + "@appmail.watchdog.net"
     subject = spin_subject petition
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-    mail(return_path: return_path, subject: subject, to: "\"#{member.name}\" <#{member.email}>").deliver
+    mail(subject: subject, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
   def spin(test_name, goal, options)
