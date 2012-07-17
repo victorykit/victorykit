@@ -5,6 +5,7 @@ Victorykit::Application.routes.draw do
 
   resources :users
   resources :members
+  resources :bounces
   resources :sessions
   resources :whiplash_sessions
   resources :unsubscribes
