@@ -1,0 +1,34 @@
+#!/bin/sh
+
+PATH=/opt/redis/bin:/sbin:/bin:/usr/sbin:/usr/bin
+NAME=redis
+
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+  start)
+        echo -n "Starting $DESC: "
+
+        start-stop-daemon --start --user redis -c redis:redis \
+            --startas /opt/redis/bin/redis-server -- /opt/redis/redis.conf
+
+        echo "$NAME."
+        ;;
+  stop)
+        echo -n "Stopping $DESC: "
+
+        start-stop-daemon --stop --exec /opt/redis/bin/redis-server -c redis:redis \
+            /opt/redis/bin/redis-server -- /opt/redis/redis.conf
+
+        echo "$NAME."
+        ;;
+  *)
+        N=/etc/init.d/$NAME
+        echo "Usage: $N {start|stop}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

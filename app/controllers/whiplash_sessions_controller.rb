@@ -1,11 +1,16 @@
 class WhiplashSessionsController < ApplicationController
   def index
     @keys = REDIS.keys('whiplash/*/*/spins').map {|key| key.sub('whiplash/','').sub(/\/.+/,'')}.uniq
-    @commit_hash = ENV['COMMIT_HASH']
-    @session_id = request.session_options[:id]
-    @user_agent = request.env['HTTP_USER_AGENT']
-    @can_update_session = can_update_session?
-    @debug_token = params[:debug_token]
+    respond_to do |format|
+      format.html {
+        @commit_hash = ENV['COMMIT_HASH']
+        @session_id = request.session_options[:id]
+        @user_agent = request.env['HTTP_USER_AGENT']
+        @can_update_session = can_update_session?
+        @debug_token = params[:debug_token] }
+      format.json {
+        render json: @keys }
+    end
   end
 
   def create
@@ -19,12 +24,8 @@ class WhiplashSessionsController < ApplicationController
 
   private
   def convert_type string
-    if(string == "true")
-      return true
-    end
-    if(string == "false")
-      return false
-    end
+    return true if(string == "true")
+    return false if(string == "false")
     Integer(string) if Integer(string) rescue string
   end
 

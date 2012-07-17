@@ -38,3 +38,6 @@ chromedriver.log
 
 #test covereage from simplecov
 coverage
+
+# do not share the .vagrant id
+.vagrant
