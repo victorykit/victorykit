@@ -14,5 +14,6 @@ include_recipe 'postgresql::apt_postgresql_ppa'
 include_recipe 'postgresql::server'
 
 service 'postgresql' do
-  action [:enable, :start]
+  action :start
+  provider Chef::Provider::Service::Init
 end

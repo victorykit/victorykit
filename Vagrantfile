@@ -10,12 +10,18 @@ Vagrant::Config.run do |config|
 
   config.vm.forward_port 5432, 5432 # postgres
   config.vm.forward_port 6379, 6379 # redis
+  config.vm.forward_port 3000, 3000 # rails s
 
   config.vm.provision :chef_solo do |chef|
+    config.vm.share_folder "workspace", "/home/vagrant/workspace", "#{HERE}"
+
     chef.cookbooks_path = ["#{INFRA_DIR}/site-cookbooks", "#{INFRA_DIR}/cookbooks"]
     chef.add_recipe("apt")
     chef.add_recipe("heroku_addons::postgresql")
     chef.add_recipe("heroku_addons::redis")
+    chef.add_recipe("workstation::rubygems")
+    chef.add_recipe("workstation::mysql")
+    chef.add_recipe("workstation::bash")
     chef.json = {
       :postgresql => {
         :version  => "9.1",

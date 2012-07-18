@@ -30,3 +30,13 @@ staging:
   database: victorykit_development
   pool: 5
   timeout: 5000
+
+vagrant:
+  adapter: postgresql
+  database: victorykit_vagrant
+  pool: 5
+  timeout: 5000
+  encoding: unicode
+  host: localhost
+  username: postgres
+  password: password
