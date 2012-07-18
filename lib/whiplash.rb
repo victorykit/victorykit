@@ -1,8 +1,8 @@
 require 'distribution'
 require 'redis'
 
-FAIRNESS_CONSTANT = 3
-FAIRNESS_CONSTANT4 = 2
+FAIRNESS_CONSTANT = 0
+FAIRNESS_CONSTANT4 = 0
 
 class Float
   def to_1if0
@@ -16,17 +16,13 @@ end
 
 module Bandit
   def arm_guess(observations, victories)
-    nonvictories = [0, (observations - victories)].max
-    df = observations-1
-    df = 1 if df <= 0
-    df = df.to_f
-    mean = victories.to_f/observations.to_f.to_1if0
-    
-    stddev = 0
-    stddev += victories    * ((1-mean)**2)
-    stddev += nonvictories * ((0-mean)**2)
-    stddev = 1.0/observations if stddev == 0
-    stddev = Math.sqrt(stddev/df)
+    if observations == 0
+      mean = 0
+      stddev = 1
+    else
+      mean = victories.to_f/observations.to_f
+      stddev = Math.sqrt([0, (mean * (1-mean))].max/observations.to_f)
+    end
     out = [0, Distribution::Normal.rng(mean, stddev).call].max
     return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))
   end
@@ -41,8 +37,18 @@ module Bandit
     
     guesses = {}
     options.each { |o, v| guesses[o] = arm_guess(v[0], v[1]) }
-    best = options.keys.select { |o| guesses[o] == guesses.values.max }
+    gmax = guesses.values.max
+    best = options.keys.select { |o| guesses[o] ==  gmax }
     return best.sample
+  end
+  
+  def data_for_options(test_name, options)
+    loptions = {}
+    options.each { |o| loptions[o] = [
+      REDIS.get("whiplash/#{test_name}/#{o}/spins").to_i,
+      REDIS.get("whiplash/#{test_name}/#{o}/wins").to_i
+    ] }
+    loptions
   end
 
   def redis_nonce(mysession)
@@ -78,12 +84,7 @@ module Bandit
     end
     
     REDIS.sadd("whiplash/goals/#{goal}", test_name)
-    loptions = {}
-    options.each { |o| loptions[o] = [
-      REDIS.get("whiplash/#{test_name}/#{o}/spins").to_i,
-      REDIS.get("whiplash/#{test_name}/#{o}/wins").to_i
-    ] }
-    choice = best_guess(loptions)
+    choice = best_guess(data_for_options(test_name, options))
     return spin_for_choice(test_name, choice, mysession)
   end
 
