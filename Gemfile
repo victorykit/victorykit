@@ -43,7 +43,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 #
-group :test, :development, :vagrant do
+group :test, :development do
   gem "rspec-rails", "~> 2.6"
   gem "factory_girl_rails", "~> 3.0"
   gem "faker", "~> 1.0"
