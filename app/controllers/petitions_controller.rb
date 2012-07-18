@@ -119,8 +119,7 @@ class PetitionsController < ApplicationController
   def prepopulate_signature
     begin
       if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
-      #@@commenting this out to confirm it's the cause of the NPS decline
-      if false # sent_email && sent_email.signature_id.nil?
+      if sent_email && sent_email.signature_id.nil?
         @signature.name =  sent_email.member.name
         @signature.email = sent_email.member.email
         @signing_from_email = true
