@@ -9,3 +9,5 @@ staging: *default
 test: *default
     
 development: *default
+
+vagrant: *default
