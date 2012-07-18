@@ -54,32 +54,16 @@ json
     context "when a bounce is received" do
       let(:data) {
 <<json
-{
-  "notificationType":"Bounce",
-  "bounce":{
-    "bounceType":"Permanent",
-    "reportingMTA":"dns; email.example.com",
-    "bouncedRecipients":[
-      {
-        "emailAddress":"username@example.com",
-        "status":"5.1.1",
-        "action":"failed",
-        "diagnosticCode":"smtp; 550 5.1.1 <username@example.com>... User"
-      }
-    ],
-      "bounceSubType":"General",
-      "timestamp":"2012-06-19T01:07:52.000Z",
-      "feedbackId":"00000138111222aa-33322211-cccc-cccc-cccc-ddddaaaa068a-000000"
-  },
-  "mail":{
-    "timestamp":"2012-06-19T01:05:45.000Z",
-    "source":"sender@example.com",
-    "messageId":"00000138111222aa-33322211-cccc-cccc-cccc-ddddaaaa0680-000000",
-    "destination":[
-      "username@example.com"
-    ]
-  }
-}
+{\n  \"Type\" : \"Notification\",
+\n  \"MessageId\" : \"2af9f02d-dd41-4874-96fc-f6deeff281d1\",
+\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:479537524374:ses-bounces-topic\",
+\n  \"Message\" : \"{\\\"notificationType\\\":\\\"Bounce\\\",\\\"bounce\\\":{\\\"bounceType\\\":\\\"Permanent\\\",\\\"reportingMTA\\\":\\\"dns; a194-82.smtp-out.amazonses.com\\\",\\\"bouncedRecipients\\\":[{\\\"emailAddress\\\":\\\"username@example.com\\\",\\\"status\\\":\\\"5.0.0\\\",\\\"action\\\":\\\"failed\\\",\\\"diagnosticCode\\\":\\\"smtp; 5.1.0 - Unknown address error 550-\\\\\\\"5.1.1 The email account that you tried to reach does not exist. Please try\\\\\\\\n5.1.1 double-checking the recipient's email address for typos or\\\\\\\\n5.1.1 unnecessary spaces. Learn more at\\\\\\\\n5.1.1 http://support.google.com/mail/bin/answer.py?answer=6596 s13si8621225qct.81\\\\\\\" (delivery attempts: 0)\\\"}],\\\"bounceSubType\\\":\\\"General\\\",\\\"timestamp\\\":\\\"2012-07-18T14:26:21.000Z\\\",\\\"feedbackId\\\":\\\"000001389a7c40ca-a7f1fba9-d0e4-11e1-b74d-0d11d9f219b5-000000\\\"},\\\"mail\\\":{\\\"timestamp\\\":\\\"2012-07-18T14:27:07.000Z\\\",\\\"source\\\":\\\"\\\\\\\"Watchdog.net\\\\\\\" <info@watchdog.net>\\\",\\\"messageId\\\":\\\"000001389a7c34ee-64c16414-0497-4a68-8595-48a0dacaae30-000000\\\",\\\"destination\\\":[\\\"shell.muchael@gmail.com\\\"]}}\",
+\n  \"Timestamp\" : \"2012-07-18T14:27:10.818Z\",
+\n  \"SignatureVersion\" : \"1\",
+\n  \"Signature\" : \"dEJYbH0lwhtWuGbnc1oiDXoiD8EL0tHEbrG2SMLUP8WZMNE43epYZqEDkDdNJCgosM5I82OFDlt3eLpI+dxamY0L/9m1UQkwuDBCCampB4ikmFCMieFaEgUagEyaebeq41vU7kBVOogkTjQVvRuVcOYVhTz3IO72oFAaxMcOqOg=\",
+\n  \"SigningCertURL\" : \"https://sns.us-east-1.amazonaws.com/SimpleNotificationService-f3ecfb7224c7233fe7bb5f59f96de52f.pem\",
+\n  \"UnsubscribeURL\" : \"https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:479537524374:ses-bounces-topic:3c4cbe74-5962-40f8-b753-16555a72e787\"
+\n}
 json
       }
 
@@ -93,32 +77,16 @@ json
     context "when a complaint with feedback is received" do
       let(:data) {
 <<json
-{
-  "notificationType":"Complaint",
-  "complaint":{
-     "userAgent":"Comcast Feedback Loop (V0.01)",
-     "complainedRecipients":[
-        {
-           "emailAddress":"username@example.com"
-        }
-     ],
-     "complaintFeedbackType":"abuse",
-     "arrivalDate":"2009-12-03T04:24:21.000-05:00",
-     "timestamp":"2012-05-25T14:59:38.623-07:00",
-     "feedbackId":"000001378603177f-18c07c78-fa81-4a58-9dd1-fedc3cb8f49a-000000"
-  },
-  "mail":{
-     "timestamp":"2012-05-25T14:59:38.623-07:00",
-     "messageId":"000001378603177f-7a5433e7-8edb-42ae-af10-f0181f34d6ee-000000",
-     "source":"email_1337983178623@amazon.com",
-     "destination":[
-        "recipient1@example.com",
-        "recipient2@example.com",
-        "recipient3@example.com",
-        "recipient4@example.com"
-     ]
-  }
-}
+{\n  \"Type\" : \"Notification\",
+\n  \"MessageId\" : \"2af9f02d-dd41-4874-96fc-f6deeff281d1\",
+\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:479537524374:ses-bounces-topic\",
+\n  \"Message\" : \"{\\\"notificationType\\\":\\\"Complaint\\\",\\n  \\\"complaint\\\":{\\n     \\\"userAgent\\\":\\\"Comcast Feedback Loop (V0.01)\\\",\\n     \\\"complainedRecipients\\\":[\\n        {\\n           \\\"emailAddress\\\":\\\"username@example.com\\\"\\n        }\\n     ],\\n     \\\"complaintFeedbackType\\\":\\\"abuse\\\",\\n     \\\"arrivalDate\\\":\\\"2009-12-03T04:24:21.000-05:00\\\",\\n     \\\"timestamp\\\":\\\"2012-05-25T14:59:38.623-07:00\\\",\\n     \\\"feedbackId\\\":\\\"000001378603177f-18c07c78-fa81-4a58-9dd1-fedc3cb8f49a-000000\\\"\\n  },\\n  \\\"mail\\\":{\\n     \\\"timestamp\\\":\\\"2012-05-25T14:59:38.623-07:00\\\",\\n     \\\"messageId\\\":\\\"000001378603177f-7a5433e7-8edb-42ae-af10-f0181f34d6ee-000000\\\",\\n     \\\"source\\\":\\\"email_1337983178623@amazon.com\\\",\\n     \\\"destination\\\":[\\n        \\\"recipient1@example.com\\\",\\n        \\\"recipient2@example.com\\\",\\n        \\\"recipient3@example.com\\\",\\n        \\\"recipient4@example.com\\\"\\n     ]\\n  }\\n}\",
+\n  \"Timestamp\" : \"2012-07-18T14:27:10.818Z\",
+\n  \"SignatureVersion\" : \"1\",
+\n  \"Signature\" : \"dEJYbH0lwhtWuGbnc1oiDXoiD8EL0tHEbrG2SMLUP8WZMNE43epYZqEDkDdNJCgosM5I82OFDlt3eLpI+dxamY0L/9m1UQkwuDBCCampB4ikmFCMieFaEgUagEyaebeq41vU7kBVOogkTjQVvRuVcOYVhTz3IO72oFAaxMcOqOg=\",
+\n  \"SigningCertURL\" : \"https://sns.us-east-1.amazonaws.com/SimpleNotificationService-f3ecfb7224c7233fe7bb5f59f96de52f.pem\",
+\n  \"UnsubscribeURL\" : \"https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:479537524374:ses-bounces-topic:3c4cbe74-5962-40f8-b753-16555a72e787\"
+\n}
 json
       }
 
@@ -127,32 +95,19 @@ json
       it "should unsubscribe the recipient" do
         unsubscribes_the_recipient_because_of "Complaint/abuse"
       end
+    end
 
       context "when a complaint without feedback is received" do
         let(:data) {
 <<json
-{
-  "notificationType":"Complaint",
-  "complaint":{
-     "complainedRecipients":[
-        {
-           "emailAddress":"username@example.com"
-        }
-     ],
-     "timestamp":"2012-05-25T14:59:38.613-07:00",
-     "feedbackId":"0000013786031775-fea503bc-7497-49e1-881b-a0379bb037d3-000000"
-  },
-  "mail":{
-     "timestamp":"2012-05-25T14:59:38.613-07:00",
-     "messageId":"0000013786031775-163e3910-53eb-4c8e-a04a-f29debf88a84-000000",
-     "source":"email_1337983178613@amazon.com",
-     "destination":[
-        "recipient1@example.com",
-        "recipient2@example.com",
-        "recipient3@example.com",
-        "recipient4@example.com"
-     ]
-  }
+{"Type" : "Notification",
+ "MessageId" : "2af9f02d-dd41-4874-96fc-f6deeff281d1",
+  "TopicArn" : "arn:aws:sns:us-east-1:479537524374:ses-bounces-topic",
+  "Message" : \"{\\n  \\\"notificationType\\\":\\\"Complaint\\\",\\n  \\\"complaint\\\":{\\\"complainedRecipients\\\":[\\n        {\\n           \\\"emailAddress\\\":\\\"username@example.com\\\"\\n        }\\n     ],\\n     \\\"timestamp\\\":\\\"2012-05-25T14:59:38.613-07:00\\\",\\n     \\\"feedbackId\\\":\\\"0000013786031775-fea503bc-7497-49e1-881b-a0379bb037d3-000000\\\"\\n  },\\n  \\\"mail\\\":{\\n     \\\"timestamp\\\":\\\"2012-05-25T14:59:38.613-07:00\\\",\\n     \\\"messageId\\\":\\\"0000013786031775-163e3910-53eb-4c8e-a04a-f29debf88a84-000000\\\",\\n     \\\"source\\\":\\\"email_1337983178613@amazon.com\\\",\\n     \\\"destination\\\":[\\n        \\\"recipient1@example.com\\\",\\n        \\\"recipient2@example.com\\\",\\n        \\\"recipient3@example.com\\\",\\n        \\\"recipient4@example.com\\\"\\n     ]\\n  }\\n}\", "Timestamp" : "2012-07-18T14:27:10.818Z",
+"SignatureVersion" : "1",
+"Signature" : "dEJYbH0lwhtWuGbnc1oiDXoiD8EL0tHEbrG2SMLUP8WZMNE43epYZqEDkDdNJCgosM5I82OFDlt3eLpI+dxamY0L/9m1UQkwuDBCCampB4ikmFCMieFaEgUagEyaebeq41vU7kBVOogkTjQVvRuVcOYVhTz3IO72oFAaxMcOqOg=",
+"SigningCertURL" : "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-f3ecfb7224c7233fe7bb5f59f96de52f.pem",
+"UnsubscribeURL" : "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:479537524374:ses-bounces-topic:3c4cbe74-5962-40f8-b753-16555a72e787"
 }
 json
         }
@@ -163,6 +118,5 @@ json
 
         it_behaves_like "bounce notification handler"
       end
-    end
   end
 end
