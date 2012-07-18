@@ -81,7 +81,7 @@ class Admin::ExperimentsController < ApplicationController
     
     chart_for_table.call Member
   end
-  
+    
   def index
     @stats = stats
     @hourlydata1 = sent_emails_by_part 'hour'
