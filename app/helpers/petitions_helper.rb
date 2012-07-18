@@ -5,7 +5,7 @@ module PetitionsHelper
   end
   
   def petition_to_open_graph(petition)
-    member_id = MemberHasher.validate(params[:fb_ref]) if params[:fb_ref].present?
+    member_id = params[:fb_ref].present? ? MemberHasher.validate(params[:fb_ref]) : cookies[:member_id]
     member = Member.find member_id unless not member_id
     { 
       'og:title' => petition.experiments.facebook(member).title,
