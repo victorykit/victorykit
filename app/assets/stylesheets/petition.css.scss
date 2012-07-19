@@ -24,32 +24,6 @@
   }
 }
 
-.petition {
-  @extend .span;
-  @extend .span9;
-  @media (min-width: 768px) and (max-width: 980px) {
-    width: 429px;
-  }
-  float: left;
-  .petition_image {
-    height: 90px;
-    width: 90px;
-    margin-right: 5px;
-    background: grey;
-    float: left;
-  }
-  h1.petition_title.admin {
-    width: 80%;
-  }
-  .edit {
-    float: right;
-    margin: -40px 0 0 0;
-  }
-  .description {
-    padding: 0 20px 40px 0;
-    clear: both;
-  }
-}
 .progress_bar {
   float: right;
   text-align: right;
@@ -78,82 +52,7 @@
   margin: 0 auto;
   min-height: 210px;
 }
-.petition_sidebar {
-  @extend .span;
-  @extend .span3;
-  float: left;
-  @media (min-width: 760px) and (max-width: 980px) {
-    width: 275px;
-  }
-  margin-top: 4px;
-  .edit { margin: 0 0 20px 53px; }
-}
-.signature-form, #ask-to-sign {
-  @extend .rightcolwell;
-  padding: 10px;
-  .title {
-    font-size: 25px;
-    text-align: center;
-    font-weight: bold;
-    color: #333;
-    padding: 0 15px;
-    line-height: 30px;
-  }
-
-  .privacypolicy {
-    width: 100%;
-    padding: 0 0 10px 0;
-  }
-  .through_site {
-    width: 150px;
-    border-right: 1px solid #555;
-    padding: 5px 0;
-    float: left;
-    margin-bottom: 10px;
-    input {
-      @extend .span2;
-      margin-left: 0;
-    }
-    .help-inline {
-      @extend .alert;
-      @extend .alert-error;
-      padding: 5px 10px;
-      margin-top: 0;
-    }
-    #hint {
-      margin-bottom:7px;
-      clear: both;
-      text-align: center;
-      display: none;
-    }
-    .control-label {
-      width: 100%;
-    }
-  }
-  .through_fb {
-    float: right;
-    @extend .span2;
-    padding: 0 9px;
-    .text {
-      margin: 25px 0 5px;
-      text-align: center;
-    }
-  }  /* Until Facebook Login works, use this */
-  .through_fb { display: none; }
-  .through_site {
-    width: auto;
-    form { *width: 200px !important; }
-    border-right: none;
-    input {
-      width: 96%;
-    }
-    .btn {
-      float: right;
-    }
-  }
-}
 #thanks-for-signing-message, #thanksModal {
-  width: 220px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -173,7 +72,6 @@
   }
 }
 #thanks-for-signing-message {
-  @extend .rightcolwell;
   fb\:like {
     margin: 4px;
     padding: 4px 10px 4px 58px;
@@ -209,19 +107,11 @@
     margin: 5px 0 10px 50px;
   }
 }
-.petitionform {
-  @extend .center6;
-  margin: 0 auto;
-  min-height: 210px;
-}
-.petition_sidebar {
-  @extend .span3;
-  float: left;
-  margin-top: 4px;
-  .edit { margin: 0 0 20px 53px; }
+
+#thanks-for-signing-message, #thanksModal, .signature-form, #ask-to-sign {
+  padding: 10px;
 }
 .signature-form, #ask-to-sign {
-  @extend .rightcolwell;
   .title {
     font-size: 25px;
     text-align: center;
@@ -276,8 +166,9 @@
   .through_site {
     width: auto;
     border-right: none;
-    input {
-      width: 96%;
+    .controls, input {
+      width: 100%;
+      padding: 5px 0;
       *width: 192px;
     }
     .btn {
@@ -421,7 +312,8 @@
 }
 .petitionlist {
   .petition {
-    @extend .span8;
+    width: 80%;
+    min-height: 80px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
     &:last-of-type {
@@ -463,8 +355,11 @@
 .current-font { color: #333; }
 
 
+.numbers {
+  font-size: 16px;
+  padding-bottom: 5px;
+}
 .highlight_text {
-  font-size: larger;
   font-weight: bold;
   display: inline;
   &.break { display: block; }
@@ -475,12 +370,12 @@
   display: none;
 }
 
-@media (max-width: 759px) {
-  .petition_sidebar.span {
+@media (min-width: 250px) and (max-width: 767px) {
+  .sidebar_test.secondary {
     display: none !important;
   }
 }
-@media (min-width: 760px) {
+@media (min-width: 768px) and (max-width: 30000px) {
   #sign_mobile, .mobile_signup_button {
     display: none;
   }
@@ -501,7 +396,7 @@
   padding: 10px 0;
 }
 
-@media (min-width: 280px) and (max-width: 790px) {
+@media (min-width: 280px) and (max-width: 767px) {
   .social_icons, .progress_bar, .mobile_signup_button {
     clear: both !important;
     margin: 5px 0 !important;
@@ -583,8 +478,6 @@
 }
 
 .mobile_signup_button {
-  width: 100%;
-  clear: both;
   display: none \9;
   *display: none;
 }

@@ -23,12 +23,10 @@
     #left
     #right
     #top
-    .body_container
+    #content
       = render :partial =>  "shared/navigation"
-      .container
-        .row
-          .span12.flash_message= render :partial => 'shared/flash_messages'
-          = yield
+      .flash_message= render :partial => 'shared/flash_messages'
+      = yield
     = render :partial =>  "shared/footer"
     = javascript_include_tag :application
     %script{type: "text/javascript"}

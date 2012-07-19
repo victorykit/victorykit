@@ -24,7 +24,7 @@
   background-color: transparent;
   text-align: center;
   h1 {
-    @media (max-width: 480px) { font-size: 3em; }
+    @media (max-width: 480px) { font-size: 2.3em; }
     font-weight: normal;
     color: #666;
   }
@@ -32,6 +32,9 @@
     font-weight: normal;
     margin: 1em 0;
     font-size: 2.3em;
+    @media (min-width: 250px) and (max-width: 767px) {
+      margin: .4em 0;
+    }
   }
 }
 

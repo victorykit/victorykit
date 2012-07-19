@@ -10,23 +10,8 @@
  *
 */
 
-@import "bootstrap";
-@import "responsive";
-
-.row.navigation > div {
-  @extend .span12;
-  @media (min-width: 250px) and (max-width: 767px) {
-    width: 100%;
-  }
-  margin: 0 auto;
-}
-ul.nav.user {
-  float: right;
-}
-.navigation.row {
-  height: 100%;
-}
 .navigation {
+  margin: 0 auto;
   li {
     float: left;
     margin-right: 10px;
@@ -34,7 +19,7 @@ ul.nav.user {
   #nav_btn {
     display: none;
   }
-  .nav {
+  .primary {
     a, div {
       color: #999999;
       float: none;
@@ -44,16 +29,13 @@ ul.nav.user {
       text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
     }
     a:hover {
-      background: none;
       color: #efefef;
+      background: none;
     }
   }
 }
 
-.navigation .row a.logo {
-  //background: url('logo_white.png');
-  height: 4px;
-  width: 201px;
+.navigation a.logo {
   margin: 6px;
   float: left;
   font-family: "LeagueGothicRegular";
@@ -79,8 +61,20 @@ ul.nav.user {
 /* for ff on start a petition page */
 .current-font { color: #333; }
 
-@media (min-width: 280px) and (max-width: 481px) {
-  .navbar {
-    margin-bottom: 7px !important;
+@media (min-width: 250px) and (max-width: 767px) {
+  #content .navigation {
+    .primary {
+      width: 100%;
+      .nav {
+        margin: 0 -20px;
+        padding: 0 10px;
+        li {
+          padding: 6px 0 4px;
+        }
+      }
+    }
+    .primary, .secondary {
+      margin-bottom: 7px;
+    }
   }
 }
