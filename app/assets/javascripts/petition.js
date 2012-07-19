@@ -161,12 +161,20 @@ function initTwitter() {
   }
 }
 
+function bindFacebookPopupButton() {
+  $('.fb_popup_btn').click(function() {
+    var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
+    window.open(sharer + location.href, 'sharer', 'width=626,height=436');
+  });
+}
+
 $(document).ready(function () {
   initTwitter();
   initTabIndexes();
   initFacebookApp();
   setupShareFacebookButton();
   setupSocialTracking();
+  bindFacebookPopupButton();
 
   if (screen.width > 480) {
     $('#thanksModal').modal('toggle');

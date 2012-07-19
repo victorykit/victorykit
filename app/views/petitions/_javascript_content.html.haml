@@ -1,0 +1,8 @@
+- content_for :javascripts do
+  VK.signing_from_email = '#{@signing_from_email}';
+  VK.petition_id = '#{@petition.id}';
+  VK.signature_id = '#{@signature.id}';
+  VK.social_tracking_url = '#{new_social_tracking_url}';
+  VK.fb_action_instance_id = '#{@existing_fb_action_instance_id}'
+  VK.is_facebook_sharing_enabled = '#{@was_signed && (fb_action_like_popup == "facebook_share")}';
+= javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
