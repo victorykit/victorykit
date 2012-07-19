@@ -20,18 +20,24 @@ class BouncesController < ApplicationController
   def process_dsn dsn
       notification_type = dsn["notificationType"]
       if notification_type == "Bounce"
+        record_dsn
         bounce_type = dsn["bounce"]["bounceType"]
         bounce_sub_type = dsn["bounce"]["bounceSubType"]
         email = dsn["bounce"]["bouncedRecipients"][0]["emailAddress"]
 
-        unsubscribe email, "#{notification_type}/#{bounce_type}/#{bounce_sub_type}"
+        unless bounce_type == "Transient"
+          unsubscribe email, "#{notification_type}/#{bounce_type}/#{bounce_sub_type}"
+        end
       elsif notification_type == "Complaint"
+        record_dsn
         complaint_type = dsn["complaint"]["complaintFeedbackType"]
         email = dsn["complaint"]["complainedRecipients"][0]["emailAddress"]
         cause = "#{notification_type}"
         cause << "/#{complaint_type}" if complaint_type
 
-        unsubscribe email, cause
+        unless complaint_type == "not-spam"
+          unsubscribe email, cause
+        end
       end
 
   end
@@ -43,7 +49,6 @@ class BouncesController < ApplicationController
   end
 
   def unsubscribe email, cause
-    record_dsn
     member = Member.find_by_email email
     if member
       unsubscribe = Unsubscribe.new
