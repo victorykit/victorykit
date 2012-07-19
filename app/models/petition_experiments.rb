@@ -7,4 +7,8 @@ class PetitionExperiments
     FacebookExperiments.new(@petition, member)
   end
 
+  def email(email)
+    EmailExperiments.new(@petition, email)
+  end
+
 end
