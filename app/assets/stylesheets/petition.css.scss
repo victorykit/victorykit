@@ -589,4 +589,25 @@
   *display: none;
 }
 
-
+.btn.fb_popup_btn {
+  height: 39px;
+  margin: 10px;
+  padding: 0;
+  border: 1px solid #3B5998 !important;
+  background: #3B5998;
+  &:hover {
+    background: #32539a;
+  }
+  div {
+    float: left;
+  }
+  .fb_icon {
+    background: url("fb-button-icon39.png");
+    height: 39px;
+    width: 39px;
+  }
+  .text {
+    padding:  10px;
+    font-size: 14px; 
+  }
+}

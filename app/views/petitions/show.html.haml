@@ -11,16 +11,11 @@
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
-- share_vs_like = spin! "facebook_nps", :signature, ["facebook_like", "facebook_share"]
+- fb_action_like_popup = spin! "facebook_nps", :signature, ["facebook_like"]
+-#add "facebook_share" and "facebook_popup" options to this experiment
 
-- content_for :javascripts do
-  VK.signing_from_email = '#{@signing_from_email}';
-  VK.petition_id = '#{@petition.id}';
-  VK.signature_id = '#{@signature.id}';
-  VK.social_tracking_url = '#{new_social_tracking_url}';
-  VK.fb_action_instance_id = '#{@existing_fb_action_instance_id}'
-  VK.is_facebook_sharing_enabled = '#{@was_signed && (share_vs_like == "facebook_share")}';
-= javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
+= render :partial => "javascript_content", :locals => {fb_action_like_popup: fb_action_like_popup}
+
 .fb-root
 #testui.span12{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .row
@@ -130,23 +125,8 @@
           We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
 
       #thanks-for-signing-message{:style => @was_signed ? '' : 'display:none'}
-        .thanks
-          Thanks for signing!
-        .sharing-message
-          - if spin! "include Facebook on share", :share
-            Spread the word, share on Facebook!
-          - else
-            Spread the word, share with your friends!
+        = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
 
-        .arrow
-
-        .tweet
-          %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-        - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
-          .fb_share.btn.btn-primary Share on Facebook
-          .fb_share_message
-        - else
-          = fb_like(petition_url(params[:id]), @fb_tracking_hash, nil, true)
   - content_for(:meta_tags) do
     - petition_to_open_graph(@petition).each do |key, value|
       = content_tag "meta", nil, property:key, content:value
@@ -157,19 +137,7 @@
     .modal#thanksModal
       .modal-body
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-        .thanks
-          Thanks for signing!
-        .sharing-message
-          Spread the word, share on Facebook and Twitter!
-        .arrow
-        .tweet
-          %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-        - if [5, 6, 7].include?(@petition.id) && share_vs_like == "facebook_share"
-          .fb_share.btn.btn-primary Share on Facebook
-          .fb_share_message
-        - else
-          = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
-
+        = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
   .modal.hide#sign_mobile.signature-form
     .modal-body
       = link_to('x' , '', :class => 'close', :'data-dismiss' => 'modal')
