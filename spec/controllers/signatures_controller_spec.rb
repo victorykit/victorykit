@@ -73,12 +73,7 @@ describe SignaturesController do
       let(:email_hash) { SentEmailHasher.generate(email.id) }
 
       it "should record wins for any email experiments" do
-        a = create :email_experiment, sent_email: email
-        b = create :email_experiment, sent_email: email
-        
-        SignaturesController.any_instance.should_receive(:win_on_option!).once.with("email_scheduler_nps", petition.id.to_s)
-        [a, b].each {|e| SignaturesController.any_instance.should_receive(:win_on_option!).once.with(e.key, e.choice)}
-
+        EmailExperiments.any_instance.should_receive(:win!)
         sign_petition email_hash: email_hash
       end
 

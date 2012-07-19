@@ -38,9 +38,9 @@ class SignaturesController < ApplicationController
     if h = SentEmailHasher.validate(params[:email_hash])
       sent_email = SentEmail.find_by_id(h)
       sent_email.signature ||= signature
-      sent_email.email_experiments.each {|e| win_on_option!(e.key, e.choice)}
       sent_email.save!
       signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
+      petition.experiments.email(sent_email).win!
     else
       referring_url = params[:referring_url]
       if h = MemberHasher.validate(params[:referer_hash])

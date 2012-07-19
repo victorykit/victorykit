@@ -1,29 +1,25 @@
 class SocialMediaExperiments
-  include Bandit 
+  include PersistedExperiments
   
   def initialize(petition, member)
     @petition = petition
     @member = member
   end
 
-  def win!
-    trials = SocialMediaTrial.find_all_by_petition_id_and_member_id_and_key(@petition.id, @member.id, test_names.values)
-    trials.each { |trial| win_on_option!(trial.key, trial.choice, trial_session) }
-  end
-
   private
 
-  def do_spin!(test_name, goal, options)
-    existing = SocialMediaTrial.find_by_member_id_and_petition_id_and_key @member.id, @petition.id, test_name
-    existing ? existing.choice : new_spin!(test_name, goal, options).choice
+  # persisted experiments templates
+
+  def current_trials
+    SocialMediaTrial.find_all_by_petition_id_and_member_id_and_key(@petition.id, @member.id, test_names.values)
   end
 
-  def new_spin!(test_name, goal, options)
-    choice = spin!(test_name, goal, options, trial_session)
-    trial = SocialMediaTrial.new(
-      member_id: @member.id, petition_id: @petition.id, goal: goal, key: test_name, choice: choice)
-    trial.save!
-    trial
+  def current_trial(test_name)
+    SocialMediaTrial.find_by_petition_id_and_member_id_and_key(@petition.id, @member.id, test_name)
+  end
+
+  def create_trial(goal, test_name, choice)
+    SocialMediaTrial.new(member_id: @member.id, petition_id: @petition.id, goal: goal, key: test_name, choice: choice)
   end
 
   def trial_session
