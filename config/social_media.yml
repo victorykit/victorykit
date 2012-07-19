@@ -10,4 +10,3 @@ test: *default
     
 development: *default
 
-vagrant: *default

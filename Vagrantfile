@@ -4,13 +4,23 @@ HERE = File.dirname(__FILE__)
 INFRA_DIR  = "#{HERE}/infra"
 
 Vagrant::Config.run do |config|
+  config.vm.customize [
+      "modifyvm", :id,
+      "--memory", "1024",
+      "--cpus", "2"
+    ]
+
   # This loads in a base box that is like a heroku cedar stack node
   config.vm.box     = "heroku"
   config.vm.box_url = "https://dl.dropbox.com/u/219714/vagrant-boxes/heroku.box"
 
   config.vm.forward_port 5432, 5432 # postgres
   config.vm.forward_port 6379, 6379 # redis
-  config.vm.forward_port 3000, 3000 # rails s
+  config.vm.forward_port 3000, 3001 # rails s
+
+  # using the brightbox bleeding edge 1.9.3
+  # http://blog.brightbox.co.uk/posts/next-generation-ruby-packages-for-ubuntu
+  config.vm.provision :shell, :path => "#{INFRA_DIR}/script/server_bootrap.sh"
 
   config.vm.provision :chef_solo do |chef|
     config.vm.share_folder "workspace", "/home/vagrant/workspace", "#{HERE}"
@@ -19,18 +29,13 @@ Vagrant::Config.run do |config|
     chef.add_recipe("apt")
     chef.add_recipe("heroku_addons::postgresql")
     chef.add_recipe("heroku_addons::redis")
-    chef.add_recipe("workstation::rubygems")
     chef.add_recipe("workstation::mysql")
     chef.add_recipe("workstation::bash")
     chef.json = {
       :postgresql => {
-        :version  => "9.1",
         :listen_addresses => "*",
-        :hba => [
-          { :method => "trust", :address => "0.0.0.0/0" },
-          { :method => "trust", :address => "::1/0" },
-        ],
-        :password => { :postgres => "password" }
+        :pg_hba => [ "host    all             all             0.0.0.1/0            trust",
+                     "host    all             all             ::1/0                trust"],
       }
     }
   end

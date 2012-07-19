@@ -4,16 +4,8 @@ VictoryKit is a free and open source platform to run campaigns for social change
 
 On a Mac, you'll want to install:
 
-    $ brew install redis
     $ brew install mysql
     $ brew install chromedriver
-
-You may already have a version of Postgres installed, in which case [you'll need to remove it](https://gist.github.com/2471603) with:
-
-    $ mkdir /tmp/postg
-    $ sudo mv /usr/include/pg* /tmp/postg
-    $ brew update
-    $ brew install postgresql
 
 To checkout the code:
 
@@ -33,3 +25,15 @@ Make sure the tests pass:
 Start the local server:
 
     $ rails server
+
+## Vagrant basics
+
+* `vagrant up` - this starts up the VM from any non-up state (PoweredOff,
+  Suspended)
+* `vagrant reload` - will reboot the VM. This is generally needed if you are
+  changing the Vagrantfile. This will reconfigure the network port-forwarding
+  VM/host file system shares.
+* `vagrant provision` - executes the provision steps (in our case, it runs chef)
+* `vagrant destroy` - completely removes the VM
+* `vagrant suspend` - pauses the VM
+* `vagrant ssh` - logs into the VM

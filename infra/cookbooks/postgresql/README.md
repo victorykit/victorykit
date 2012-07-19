@@ -1,358 +1,456 @@
-Description
-===========
-This is a fork of the Opscode PostgreSQL cookbook, which has been modified 
-extensively.
+# chef-postgresql
 
-* Adds support for PostgresQL 9.1 on Ubuntu 10.04 (Lucid) using a PPA. 
-* Adds a recipe to create PostgreSQL user accounts and databases (this 
-  particular addition couples this to the `database` cookbook)
+## Description
 
-Additionally, the server recipe supports configuration for Hot Standby with 
-Streaming replication (optionally synchronous). For more information, see the 
-*Attributes* and *Usage* sections below. **NOTE** that this **only** works 
-with PostgreSQL 1.9.
+Installs [PostgreSQL](http://www.postgresql.org), The world's most advanced open source database.
 
-*TODO*: while hot-standby is configured, there's nothing in postgresql that'll 
-do automated failover if the master dies.  Typically, that's accomplished by:
+This installs postgres 9.x from the [PostgreSQL backports for stable Ubuntu releases](https://launchpad.net/~pitti/+archive/postgresql).
 
-* touching a trigger file on the standby (it'll then act as a master)
-* using some form of IP failover so the Master's IP address is automatically
-  transferred to the standby
-* some STONITH mechanism for the old master, so it doesn't come back online
-
-None of the above are handled automatically in this cookbook.
+Currently supported versions:
 
-Requirements
-============
+* `9.0`
+* `9.1`
+* `9.2`
 
-## Platforms
+The default version is `9.1`.
 
-* Debian, Ubuntu
-* Red Hat/CentOS/Scientific (6.0+ required) - "EL6-family"
-* Fedora
-* SUSE
+## Requirements
 
-Tested on:
+### Supported Platforms
 
-* Ubuntu 10.04, 11.10, 12.04
-* Red Hat 6.1, Scientific 6.1
+The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error:
 
-## Cookboooks
+* Ubuntu
 
-Requires Opscode's `openssl` cookbook for secure password generation.
 
-Requires a C compiler and development headers in order to build the
-`pg` RubyGem to provide Ruby bindings so they're available in other
-cookbooks.
-
-Opscode's `build-essential` cookbook provides this functionality on
-Debian, Ubuntu, and EL6-family.
-
-While not required, Opscode's `database` cookbook contains resources
-and providers that can interact with a PostgreSQL database. This
-cookbook is a dependency of that one.
-
-Attributes
-==========
+## Recipes
 
-The following attributes are set based on the platform, see the
-`attributes/default.rb` file for default values.
+* `postgresql` - Set up the apt repository and install dependent packages
+* `postgresql::client` - Front-end programs for PostgreSQL 9.x
+* `postgresql::server` - Object-relational SQL database, version 9.x server
+* `postgresql::contrib` - Additional facilities for PostgreSQL
+* `postgresql::dbg` - Debug symbols for the server daemon
+* `postgresql::doc` - Documentation for the PostgreSQL database management system
+* `postgresql::libpq` - PostgreSQL C client library and header files for libpq5 (PostgreSQL library)
+* `postgresql::postgis` - Geographic objects support for PostgreSQL 9.x
 
-* `node['postgresql']['version']` - version of postgresql to manage
-* `node['postgresql']['dir']` - home directory of where postgresql
-  data and configuration lives.
 
-The following attributes are generated in
-`recipe[postgresql::server]`.
+## Usage
 
-* `node['postgresql']['password']['postgres']` - randomly generated
-  password by the `openssl` cookbook's library.
-* `node['postgresql']['ssl']` - whether to enable SSL (off for version
-  8.3, true for 8.4).
+This cookbook installs the postgresql components if not present, and pulls updates if they are installed on the system.
 
-The following attribute is used by the `setup` recipe:
-* `node['postgresql']['setup_items']` - a list of data bag items 
-  containing user/database information 
+Additionally this cookbook provides two definitions to create, alter and delete users as well as create and drop databases. Usage is as follows:
 
-There are also a number of other attributes defined that control 
-things such as host based access (`pg_hba.conf`) and hot standby.
-A few are listed below, but see `attributes/default.rb` for more
-information.
-* `node['postgresql']['hba']` - a list of `address`/`method` hashes
-  defining the ip address that will be able to connect to PostreSQL
 
-Streaming Replication
----------------------
-
-The following attributes can be modified to enable and configure streaming 
-replication and for a Master or Standby.
+```ruby
+# create a user
+pg_user "myuser" do
+  privileges :superuser => false, :createdb => false, :login => true
+  password "mypassword"
+end
 
-* `default[:postgresql][:listen_addresses]`
-* `default[:postgresql][:master]` - Whether a node is a master. Defaults to 
-  false. In this case, replication will not be configured, and the rest of the 
-  master settings will be ignored.
-* `default[:postgresql][:standby]` - Whether a node is a standby. Defaults to 
-  false. In this case, replication will not be configured, and the rest of the 
-  standby settings will be ignored.
+# drop a user
+pg_user "myuser" do
+  action :drop
+end
 
-### Master Server
+# create a database
+pg_database "mydb" do
+  owner "myuser"
+  encoding "utf8"
+  template "template0"
+end
 
-* `default[:postgresql][:wal_level]` - set to `hot_standby` to enable Hot standby.
-* `default[:postgresql][:max_wal_senders]`
-* `default[:postgresql][:wal_sender_delay]`
-* `default[:postgresql][:wal_keep_segments]`
-* `default[:postgresql][:vacuum_defer_cleanup_age]`
-* `default[:postgresql][:replication_timeout]`
-* `default[:postgresql][:synchronous_standby_names]` - If you want synchronous 
-  replication, this must be a string containing a comma-separated list of node 
-  names of the standby servers.
-* `default[:postgresql][:standby_ips]` - A list of IP addresses for standbys. 
-  These MUST be specified in a role.
-
-
-### Standby Servers
-
-* `default[:postgresql][:master_ip]` - This MUST Be specified in the role. It 
-  lets the standby know how to connect to the master.
-* `default[:postgresql][:hot_standby]` - set to `on` to enable hot standby.
-* `default[:postgresql][:max_standby_archive_delay]`
-* `default[:postgresql][:max_standby_streaming_delay]`
-* `default[:postgresql][:wal_receiver_status_interval]`
-* `default[:postgresql][:hot_standby_feedback]`
-
-Recipes
-=======
-
-`default`
----------
-
-This recipe just includes the `postgresql::client` recipe, which installs the
-postgresql client package and required dependencies.
-
-`apt_postgresql_ppa`
---------------------
-Adds sources for a PosgresSQL 9.1 package for _Ubuntu 10.04_. **NOTE** that this
-recipe should only be used in Ubuntu 10.04. Newer versions of Ubuntu include
-PostgreSQL 9.1 in their package repository.
-
-To use this, you'll need to specify the PostgreSQL `version` and `dir` 
-attributes. For example, add the folloing to your role:
-
-    override_attributes(
-      :postgresql => {
-        :version => "9.1",
-        :dir => "/etc/postgresql/9.1/main"  
-      }
-    ) 
-
-`client`
---------
-
-Installs postgresql client packages and development headers during the
-compile phase. Also installs the `pg` Ruby gem during the compile
-phase so it can be made available for the `database` cookbook's
-resources, providers and libraries.
-
-`server`
---------
-
-Includes the `server_debian` or `server_redhat` recipe to get the
-appropriate server packages installed and service managed. Also
-manages the configuration for the server:
-
-* generates a strong default password (via `openssl`) for `postgres`
-* sets the password for postgres
-* manages the `pg_hba.conf` file.
-
-`server_debian`
----------------
-
-Installs the postgresql server packages, manages the postgresql
-service and the postgresql.conf file.
-
-`server_redhat`
----------------
-
-Manages the postgres user and group (with UID/GID 26, per RHEL package
-conventions), installs the postgresql server packages, initializes the
-database and manages the postgresql service, and manages the
-postgresql.conf file.
-
-`setup`
--------
-Creates Roles (user account) and Databases from a data bag. Note that the 
-postgres user's password is automatically created by the `server` recipe and 
-can be referenced in `node['postgresql']['password']['postgres']`.
-
-Resources/Providers
-===================
-
-See the [database](http://community.opscode.com/cookbooks/database)
-for resources and providers that can be used for managing PostgreSQL
-users and databases.
-
-Usage
-=====
-
-On systems that need to connect to a PostgreSQL database, add to a run
-list `recipe[postgresql]` or `recipe[postgresql::client]`.
-
-This does install the `pg` RubyGem, which has native C extensions, so
-that the resources and providers can be used in the `database`
-cookbook, or elsewhere in the same Chef run. Use Opscode's
-`build-essential` cookbook to make sure the proper build tools are
-installed so the C extensions can be compiled.
-
-On systems that should be PostgreSQL servers, use
-`recipe[postgresql::server]` on a run list. This recipe does set a
-password and expect to use it. It performs a node.save when Chef is
-not running in `solo` mode. If you're using `chef-solo`, you'll need
-to set the attribute `node['postgresql']['password']['postgres']` in
-your node's `json_attribs` file or in a role.
-
-Streaming Replication/Hot Standby
----------------------------------
-To set this up, you'd need to:
-
-1. Bootstrap the Nodes (you've got know know their IP addresses!)
-2. Run the recipe to install a standard postgresql server on both machines.
-3. Log into the Standby machine and shut down postgresql.
-4. Set up Master/Standby Roles (see below) 
-        * Make sure both nodes have access to each others' PostgreSQL service by 
-          adding the appropriate values for the `node['postgresql']['hba']` attribute.
-5. Assign the roles to the appropriate Nodes
-6. Run `chef-client` on the Master. Wait for it to finish.
-7. Run chef-client on the Standby. It will fail. That's ok... proceed 
-8. Hand-configure the standby (It might be possible to script this for one 
-   run only, but just do it by hand for now)
-        * kill postgresql on the standby
-        * manually remove everything in `/var/lib/postgresql/9.1/main` except 
-          for `pg_xlog` and `recovery.conf`
-9. On the master: manually remove `/var/lib/postgresql/9.1/main/.initial_transfer_complete`,
-   then re-run `chef-client` (it will again copy the database data directory 
-   over to the standby via rsync, so you'll be prompted for a password unless 
-   you've got public keys in place... make sure this step works!)
-10. Restart postgresql on the master, then on the standby
-    * Run `ps -ef | grep sender` on the Master
-    * Run `ps -ef | grep receiver` on the Standby
-11. NOW, running `chef-client` on both nodes should work without any errors.
-
-### Master Role
-To configure a Master server, you would need to create a role that sets the 
-appropriate properties. For example, given that you have a node namded `db2` 
-with an ip address of `10.0.0.2`, you might create a role similar to the one 
-below:
-
-    name "pg_server_master"
-    description "A PostgreSQL Master"
-    run_list "recipe[postgresql::server]"
-
-    override_attributes(
-      :postgresql => {
-        :version => "9.1",
-        :dir => "/etc/postgresql/9.1/main",
-        :master => true,
-        :listen_addresses => "*",
-        :wal_level => "hot_standby",
-        :max_wal_senders => 5,
-        :standby_ips => [ "10.0.0.2", ],
-        :synchronous_standby_names => ["db2", ], # Omit this if you don't want synchronous replication
-        :hba => [
-            { :method => 'md5', :address => '127.0.0.1/32' },
-            { :method => 'md5', :address => '::1/128' },
-            { :method => 'md5', :address => '10.0.0.1' },
-            { :method => 'md5', :address => '10.0.0.2' },
-        ]
-      }
-    )
-
-### Standby Role
-To configure a Standby, you could create a similar role. Assuming the master 
-was available at an ip address of `10.0.0.1`:
-
-    name "pg_server_standby"
-    description "A PostgreSQL Standby"
-    run_list "recipe[postgresql::server]"
-
-    override_attributes(
-      :postgresql => {
-        :version => "9.1",
-        :dir => "/etc/postgresql/9.1/main",
-        :standby => true,
-        :hot_standby => "on",
-        :master_ip => "10.0.0.1",
-        :hba => [
-            { :method => 'md5', :address => '127.0.0.1/32' },
-            { :method => 'md5', :address => '::1/128' },
-            { :method => 'md5', :address => '10.0.0.1' },
-            { :method => 'md5', :address => '10.0.0.2' },
-        ]
-      }
-    )
-
-### User/Database Setup
-
-To configure users and databases, create a `postgresql` data bag, and add items
-that look similar to the following:
-
-    {
-        "id": "sample",
-        "users": [
-            {
-                "username":"sample_username",
-                "password":"sample_password"
-            }
-        ],
-        "databases": [
-            {
-                "name":"sampledb",
-                "owner":"sample_username", 
-                "template":"template0",
-                "encoding": "utf8"
-            }
-        ] 
-    }
-
-The, override the `node['postgresql']['setup_items']` in a role:
-
-    override_attributes(
-      :postgresql => {
-        :setup_items => ["sample", ]  # name of the data bags from which
-                                      # user/database info is read.
-      }
-    )
-
-
-Changes/Roadmap
-==============
-
-## TODO: include changes added to this repo
-
-## v0.99.2:
-
-* [COOK-916] - use < (with float) for version comparison.
-
-## v0.99.0:
-
-* Better support for Red Hat-family platforms
-* Integration with database cookbook
-* Make sure the postgres role is updated with a (secure) password
-
-License and Author
-==================
-
-Author:: Joshua Timberman (<joshua@opscode.com>)
-Author:: Lamont Granquist (<lamont@opscode.com>)
-Author:: Brad Montgomery (<bmontgomery@coroutine.com>)
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+# drop a database
+pg_database "mydb" do
+  action :drop
+end
+```
+
+
+## Attributes
+
+```ruby
+default["postgresql"]["version"]                         = "9.1"
+
+default["postgresql"]["environment_variables"]           = {}
+default["postgresql"]["pg_ctl_options"]                  = ""
+default["postgresql"]["pg_hba"]                          = []
+default["postgresql"]["pg_ident"]                        = []
+default["postgresql"]["start"]                           = "auto"  # auto, manual, disabled
+
+#------------------------------------------------------------------------------
+# FILE LOCATIONS
+#------------------------------------------------------------------------------
+default["postgresql"]["data_directory"]                  = "/var/lib/postgresql/#{node["postgresql"]["version"]}/main"
+default["postgresql"]["hba_file"]                        = "/etc/postgresql/#{node["postgresql"]["version"]}/main/pg_hba.conf"
+default["postgresql"]["ident_file"]                      = "/etc/postgresql/#{node["postgresql"]["version"]}/main/pg_ident.conf"
+default["postgresql"]["external_pid_file"]               = "/var/run/postgresql/#{node["postgresql"]["version"]}-main.pid"
+
+
+#------------------------------------------------------------------------------
+# CONNECTIONS AND AUTHENTICATION
+#------------------------------------------------------------------------------
+
+# connection settings
+default["postgresql"]["listen_addresses"]                = "localhost"
+default["postgresql"]["port"]                            = 5432
+default["postgresql"]["max_connections"]                 = 100
+default["postgresql"]["superuser_reserved_connections"]  = 3
+default["postgresql"]["unix_socket_directory"]           = "/var/run/postgresql"
+default["postgresql"]["unix_socket_group"]               = ""
+default["postgresql"]["unix_socket_permissions"]         = "0777"
+default["postgresql"]["bonjour"]                         = "off"
+default["postgresql"]["bonjour_name"]                    = ""
+
+# security and authentication
+default["postgresql"]["authentication_timeout"]          = "1min"
+default["postgresql"]["ssl"]                             = true
+default["postgresql"]["ssl_ciphers"]                     = "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH"
+default["postgresql"]["ssl_renegotiation_limit"]         = "512MB"
+default["postgresql"]["password_encryption"]             = "on"
+default["postgresql"]["db_user_namespace"]               = "off"
+
+# kerberos and gssapi
+default["postgresql"]["db_user_namespace"]               = "off"
+default["postgresql"]["krb_server_keyfile"]              = ""
+default["postgresql"]["krb_srvname"]                     = "postgres"
+default["postgresql"]["krb_caseins_users"]               = "off"
+
+# tcp keepalives
+default["postgresql"]["tcp_keepalives_idle"]             = 0
+default["postgresql"]["tcp_keepalives_interval"]         = 0
+default["postgresql"]["tcp_keepalives_count"]            = 0
+
+
+#------------------------------------------------------------------------------
+# RESOURCE USAGE (except WAL)
+#------------------------------------------------------------------------------
+
+# memory
+default["postgresql"]["shared_buffers"]                  = "24MB"
+default["postgresql"]["temp_buffers"]                    = "8MB"
+default["postgresql"]["max_prepared_transactions"]       = 0
+default["postgresql"]["work_mem"]                        = "1MB"
+default["postgresql"]["maintenance_work_mem"]            = "16MB"
+default["postgresql"]["max_stack_depth"]                 = "2MB"
+
+# kernel resource usage
+default["postgresql"]["max_files_per_process"]           = 1000
+default["postgresql"]["shared_preload_libraries"]        = ""
+
+# cost-based vacuum delay
+default["postgresql"]["vacuum_cost_delay"]               = "0ms"
+default["postgresql"]["vacuum_cost_page_hit"]            = 1
+default["postgresql"]["vacuum_cost_page_miss"]           = 10
+default["postgresql"]["vacuum_cost_page_dirty"]          = 20
+default["postgresql"]["vacuum_cost_limit"]               = 200
+
+# background writer
+default["postgresql"]["bgwriter_delay"]                  = "200ms"
+default["postgresql"]["bgwriter_lru_maxpages"]           = 100
+default["postgresql"]["bgwriter_lru_multiplier"]         = 2.0
+
+# asynchronous behavior
+default["postgresql"]["effective_io_concurrency"]        = 1
+
+
+#------------------------------------------------------------------------------
+# WRITE AHEAD LOG
+#------------------------------------------------------------------------------
+
+# settings
+default["postgresql"]["wal_level"]                       = "minimal"
+default["postgresql"]["fsync"]                           = "on"
+default["postgresql"]["synchronous_commit"]              = "on"
+default["postgresql"]["wal_sync_method"]                 = "fsync"
+default["postgresql"]["full_page_writes"]                = "on"
+default["postgresql"]["wal_buffers"]                     = -1
+default["postgresql"]["wal_writer_delay"]                = "200ms"
+default["postgresql"]["commit_delay"]                    = 0
+default["postgresql"]["commit_siblings"]                 = 5
+
+# checkpoints
+default["postgresql"]["checkpoint_segments"]             = 3
+default["postgresql"]["checkpoint_timeout"]              = "5min"
+default["postgresql"]["checkpoint_completion_target"]    = 0.5
+default["postgresql"]["checkpoint_warning"]              = "30s"
+
+# archiving
+default["postgresql"]["archive_mode"]                    = "off"
+default["postgresql"]["archive_command"]                 = ""
+default["postgresql"]["archive_timeout"]                 = 0
+
+
+#------------------------------------------------------------------------------
+# REPLICATION
+#------------------------------------------------------------------------------
+
+# master server
+default["postgresql"]["max_wal_senders"]                 = 0
+default["postgresql"]["wal_sender_delay"]                = "1s"
+default["postgresql"]["wal_keep_segments"]               = 0
+default["postgresql"]["vacuum_defer_cleanup_age"]        = 0
+default["postgresql"]["replication_timeout"]             = "60s"
+default["postgresql"]["synchronous_standby_names"]       = ""
+
+# standby servers
+default["postgresql"]["hot_standby"]                     = "off"
+default["postgresql"]["max_standby_archive_delay"]       = "30s"
+default["postgresql"]["max_standby_streaming_delay"]     = "30s"
+default["postgresql"]["wal_receiver_status_interval"]    = "10s"
+default["postgresql"]["hot_standby_feedback"]            = "off"
+
+
+#------------------------------------------------------------------------------
+# QUERY TUNING
+#------------------------------------------------------------------------------
+
+# planner method configuration
+default["postgresql"]["enable_bitmapscan"]               = "on"
+default["postgresql"]["enable_hashagg"]                  = "on"
+default["postgresql"]["enable_hashjoin"]                 = "on"
+default["postgresql"]["enable_indexscan"]                = "on"
+default["postgresql"]["enable_material"]                 = "on"
+default["postgresql"]["enable_mergejoin"]                = "on"
+default["postgresql"]["enable_nestloop"]                 = "on"
+default["postgresql"]["enable_seqscan"]                  = "on"
+default["postgresql"]["enable_sort"]                     = "on"
+default["postgresql"]["enable_tidscan"]                  = "on"
+
+# planner cost constants
+default["postgresql"]["seq_page_cost"]                   = 1.0
+default["postgresql"]["random_page_cost"]                = 4.0
+default["postgresql"]["cpu_tuple_cost"]                  = 0.01
+default["postgresql"]["cpu_index_tuple_cost"]            = 0.005
+default["postgresql"]["cpu_operator_cost"]               = 0.0025
+default["postgresql"]["effective_cache_size"]            = "128MB"
+
+# genetic query optimizer
+default["postgresql"]["geqo"]                            = "on"
+default["postgresql"]["geqo_threshold"]                  = 12
+default["postgresql"]["geqo_effort"]                     = 5
+default["postgresql"]["geqo_pool_size"]                  = 0
+default["postgresql"]["geqo_generations"]                = 0
+default["postgresql"]["geqo_selection_bias"]             = 2.0
+default["postgresql"]["geqo_seed"]                       = 0.0
+
+# other planner options
+default["postgresql"]["default_statistics_target"]       = 100
+default["postgresql"]["constraint_exclusion"]            = "partition"
+default["postgresql"]["cursor_tuple_fraction"]           = 0.1
+default["postgresql"]["from_collapse_limit"]             = 8
+default["postgresql"]["join_collapse_limit"]             = 8
+
+
+#------------------------------------------------------------------------------
+# ERROR REPORTING AND LOGGING
+#------------------------------------------------------------------------------
+
+# where to log
+default["postgresql"]["log_destination"]                 = "stderr"
+default["postgresql"]["logging_collector"]               = "off"
+default["postgresql"]["log_directory"]                   = "pg_log"
+default["postgresql"]["log_filename"]                    = "postgresql-%Y-%m-%d_%H%M%S.log"
+default["postgresql"]["log_file_mode"]                   = 0600
+default["postgresql"]["log_truncate_on_rotation"]        = "off"
+default["postgresql"]["log_rotation_age"]                = "1d"
+default["postgresql"]["log_rotation_size"]               = "10MB"
+
+# These are relevant when logging to syslog:
+default["postgresql"]["syslog_facility"]                 = "LOCAL0"
+default["postgresql"]["syslog_ident"]                    = "postgres"
+default["postgresql"]["silent_mode"]                     = "off"
+
+# when to log
+default["postgresql"]["client_min_messages"]             = "notice"
+default["postgresql"]["log_min_messages"]                = "warning"
+default["postgresql"]["log_min_error_statement"]         = "error"
+default["postgresql"]["log_min_duration_statement"]      = -1
+
+# what to log
+default["postgresql"]["debug_print_parse"]               = "off"
+default["postgresql"]["debug_print_rewritten"]           = "off"
+default["postgresql"]["debug_print_plan"]                = "off"
+default["postgresql"]["debug_pretty_print"]              = "on"
+default["postgresql"]["log_checkpoints"]                 = "off"
+default["postgresql"]["log_connections"]                 = "off"
+default["postgresql"]["log_disconnections"]              = "off"
+default["postgresql"]["log_duration"]                    = "off"
+default["postgresql"]["log_error_verbosity"]             = "default"
+default["postgresql"]["log_hostname"]                    = "off"
+default["postgresql"]["log_line_prefix"]                 = "%t "
+default["postgresql"]["log_lock_waits"]                  = "off"
+default["postgresql"]["log_statement"]                   = "none"
+default["postgresql"]["log_temp_files"]                  = -1
+default["postgresql"]["log_timezone"]                    = "(defaults to server environment setting)"
+
+
+#------------------------------------------------------------------------------
+# RUNTIME STATISTICS
+#------------------------------------------------------------------------------
+
+# query/index statistics collector
+default["postgresql"]["track_activities"]                = "on"
+default["postgresql"]["track_counts"]                    = "on"
+default["postgresql"]["track_functions"]                 = "none"
+default["postgresql"]["track_activity_query_size"]       = 1024
+default["postgresql"]["update_process_title"]            = "on"
+default["postgresql"]["stats_temp_directory"]            = 'pg_stat_tmp'
+
+# statistics monitoring
+default["postgresql"]["log_parser_stats"]                = "off"
+default["postgresql"]["log_planner_stats"]               = "off"
+default["postgresql"]["log_executor_stats"]              = "off"
+default["postgresql"]["log_statement_stats"]             = "off"
+
+
+#------------------------------------------------------------------------------
+# AUTOVACUUM PARAMETERS
+#------------------------------------------------------------------------------
+
+default["postgresql"]["autovacuum"]                      = "on"
+default["postgresql"]["log_autovacuum_min_duration"]     = -1
+default["postgresql"]["autovacuum_max_workers"]          = 3
+default["postgresql"]["autovacuum_naptime"]              = "1min"
+default["postgresql"]["autovacuum_vacuum_threshold"]     = 50
+default["postgresql"]["autovacuum_analyze_threshold"]    = 50
+default["postgresql"]["autovacuum_vacuum_scale_factor"]  = 0.2
+default["postgresql"]["autovacuum_analyze_scale_factor"] = 0.1
+default["postgresql"]["autovacuum_freeze_max_age"]       = 200000000
+default["postgresql"]["autovacuum_vacuum_cost_delay"]    = "20ms"
+default["postgresql"]["autovacuum_vacuum_cost_limit"]    = -1
+
+
+#------------------------------------------------------------------------------
+# CLIENT CONNECTION DEFAULTS
+#------------------------------------------------------------------------------
+
+# statement behavior
+default["postgresql"]["search_path"]                     = '"$user",public'
+default["postgresql"]["default_tablespace"]              = ""
+default["postgresql"]["temp_tablespaces"]                = ""
+default["postgresql"]["check_function_bodies"]           = "on"
+default["postgresql"]["default_transaction_isolation"]   = "read committed"
+default["postgresql"]["default_transaction_read_only"]   = "off"
+default["postgresql"]["default_transaction_deferrable"]  = "off"
+default["postgresql"]["session_replication_role"]        = "origin"
+default["postgresql"]["statement_timeout"]               = 0
+default["postgresql"]["vacuum_freeze_min_age"]           = 50000000
+default["postgresql"]["vacuum_freeze_table_age"]         = 150000000
+default["postgresql"]["bytea_output"]                    = "hex"
+default["postgresql"]["xmlbinary"]                       = "base64"
+default["postgresql"]["xmloption"]                       = "content"
+
+# locale and formatting
+default["postgresql"]["datestyle"]                       = "iso, mdy"
+default["postgresql"]["intervalstyle"]                   = "postgres"
+default["postgresql"]["timezone"]                        = "(defaults to server environment setting)"
+default["postgresql"]["timezone_abbreviations"]          = "Default"
+default["postgresql"]["extra_float_digits"]              = 0
+default["postgresql"]["client_encoding"]                 = "sql_ascii"
+
+# These settings are initialized by initdb, but they can be changed.
+default["postgresql"]["lc_messages"]                     = "en_US.UTF-8"
+default["postgresql"]["lc_monetary"]                     = "en_US.UTF-8"
+default["postgresql"]["lc_numeric"]                      = "en_US.UTF-8"
+default["postgresql"]["lc_time"]                         = "en_US.UTF-8"
+
+# default configuration for text search
+default["postgresql"]["default_text_search_config"]      = "pg_catalog.english"
+
+# other defaults
+default["postgresql"]["dynamic_library_path"]            = "$libdir"
+default["postgresql"]["local_preload_libraries"]         = ""
+
+
+#------------------------------------------------------------------------------
+# LOCK MANAGEMENT
+#------------------------------------------------------------------------------
+
+default["postgresql"]["deadlock_timeout"]                = "1s"
+default["postgresql"]["max_locks_per_transaction"]       = 64
+default["postgresql"]["max_pred_locks_per_transaction"]  = 64
+
+
+#------------------------------------------------------------------------------
+# VERSION/PLATFORM COMPATIBILITY
+#------------------------------------------------------------------------------
+
+# previous postgresql versions
+default["postgresql"]["array_nulls"]                     = "on"
+default["postgresql"]["backslash_quote"]                 = "safe_encoding"
+default["postgresql"]["default_with_oids"]               = "off"
+default["postgresql"]["escape_string_warning"]           = "on"
+default["postgresql"]["lo_compat_privileges"]            = "off"
+default["postgresql"]["quote_all_identifiers"]           = "off"
+default["postgresql"]["sql_inheritance"]                 = "on"
+default["postgresql"]["standard_conforming_strings"]     = "on"
+default["postgresql"]["synchronize_seqscans"]            = "on"
+
+# other platforms and clients
+default["postgresql"]["transform_null_equals"]           = "off"
+
+
+#------------------------------------------------------------------------------
+# ERROR HANDLING
+#------------------------------------------------------------------------------
+
+default["postgresql"]["exit_on_error"]                   = "off"
+default["postgresql"]["restart_after_crash"]             = "on"
+
+
+#------------------------------------------------------------------------------
+# CUSTOMIZED OPTIONS
+#------------------------------------------------------------------------------
+
+default["postgresql"]["custom_variable_classes"]         = ""
+```
+
+
+## TODO
+
+* Add support for replication setup
+* Add support for custom config files
+* Add installation and configuration for the following packages:
+
+```
+postgresql-{version}-debversion
+postgresql-{version}-ip4r
+postgresql-{version}-pljava-gcj
+postgresql-plperl-{version}
+postgresql-{version}-pllua
+postgresql-{version}-plproxy
+postgresql-plpython-{version}
+postgresql-{version}-plr
+postgresql-{version}-plsh
+postgresql-pltcl-{version}
+postgresql-server-dev-{version}
+```
+
+
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Added some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
+
+
+## Contributors
+
+Many thanks go to the following who have contributed to making this cookbook even better:
+
+* **[@flashingpumpkin](https://github.com/flashingpumpkin)**
+  * recipe bugfixes
+  * add `pg_user` and `pg_database` definitions
+
+
+## License
+
+**chef-postgresql**
+
+* Freely distributable and licensed under the [MIT license](http://phlipper.mit-license.org/2012/license.html).
+* Copyright (c) 2012 Phil Cohen (github@phlippers.net) [![endorse](http://api.coderwall.com/phlipper/endorsecount.png)](http://coderwall.com/phlipper)
+* http://phlippers.net/
