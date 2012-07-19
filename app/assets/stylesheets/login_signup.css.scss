@@ -13,54 +13,111 @@
 @import "bootstrap";
 @import "responsive";
 
-.center6{
-  @extend .span6;
-  margin: 0 auto;
-  min-height: 210px;
-}
-
 .signup_login {
-  @extend .center6;
-  @extend .well;;
-  @extend .span9;
-  margin-top: 5%;
-  .control-group {
-    @extend .span4;
-    float: right;
-  }
-  &.login {
-    @extend .span5;
-  }
-  label, .controls {
-    @extend .span2;
-    float: left;
-  }
-  .btn {
-    float: right;
-  }
-  label.control-label {
-    width: 110px\9;
-  }
-  .controls input {
-    width: 150px\9;
-  }
-  .signup, .login {
-    float: left;
-    @extend .span4;
-  }
-  .signup {
-    border-right: 1px solid #888;
-    padding: 0 35px 0 15px;
-    height: 215px;
-  }
-  .login {
-    padding-left: 25px;
-    h1 {
-      margin-bottom: 25px;
+  > div { clear: both; margin: 0 auto; }
+  .alert { margin-bottom: 5px; }
+  .signup_login_form {
+    padding: 10px;
+    min-height: 210px;
+    background: #eee;
+    @media (min-width: 768px) and (max-width: 30000px) {
+      margin-top: 5%;
+      width: 750px;
+      .signup, .login {
+        width: 350px;
+        padding: 12px;
+        float: left;
+        label.control-label {
+          width: 150px;
+          width: 110px\9;
+        }
+        .controls{
+          width: 180px;
+          width: 150px\9;
+          input { width: 170px; margin: 0;}
+        }
+      }
+      .signup {
+        border-right: 1px solid #888;
+      }
+    }
+    @media (min-width: 250px) and (max-width: 767px) {
+      width: 240px;
+      label {
+        text-align: left;
+      }
+      input, .controls {
+        clear: both;
+        width: 230px;
+        margin: 0 10px 0 0;
+      }
+      .btn {
+        width: 240px;
+        margin: 0;
+      }
+      .signup {
+        border-right: none;
+        height: 280px;
+        h1 {
+          margin: -10px;
+          padding: 12px 20px 10px;
+          width: 85px;
+        }
+        form {
+          margin-top: 13px;
+        }
+      }
+      .login {
+        h1 {
+          float: right;
+          margin: -16px -10px 3px 0;
+          padding: 10px 30px;
+        }
+        form {
+          margin-top: -303px;
+
+        }
+      }
+      .second_tab {
+        &.login {
+          h1 {
+            margin: -283px -10px 0 0;
+          }
+          form { margin-top: 0; }
+        }
+        h1 {
+          background: white;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+        form {
+          display: none;
+        }
+      }
+    }
+    .control-group {
+      float: right;
+    }
+    label, .controls {
+      float: left;
     }
     .btn {
-      margin-top: 25px;
+      float: right;
     }
+
+
+  }
+  .privacypolicy {
+    @media (min-width: 768px) and (max-width: 30000px) {
+      margin-top: 15px;
+      width: 500px;
+    }
+    @media (min-width: 250px) and (max-width: 767px) {
+      width: 240px;
+    }
+  padding: 10px 20px 30px;
+
   }
 }
 .change_password {
@@ -104,3 +161,14 @@
   margin-top: 10px;
   font-size: 15px;
 }
+
+.bootstrap .signup_login {
+  @media (min-width: 250px) and (max-width: 767px) {
+    h1 { font-size: 22px; }
+    .second_tab.login h1 {
+      margin: -280px -10px 0 0;
+      padding: 11px 30px;
+    }
+  }
+}
+

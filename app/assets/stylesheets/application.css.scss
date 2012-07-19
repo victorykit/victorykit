@@ -18,65 +18,72 @@
 @import "bootstrap";
 @import "responsive";
 
-@font-face {
-  font-family: 'LeagueGothicRegular';
-  src: url('League_Gothic-webfont.eot');
-  src: url('League_Gothic-webfont.eot?#iefix') format('embedded-opentype'),
-    url('League_Gothic-webfont.woff') format('woff'),
-    url('League_Gothic-webfont.ttf') format('truetype'),
-    url('League_Gothic-webfont.svg#LeagueGothicRegular') format('svg');
-  font-weight: normal;
-  font-style: normal;
-}
-
-
-
 html, body {
-  height:100%;
+  height: 100%;
   padding: 0;
   margin: 0;
 }
-
-.body_container {
-  height: 100%;
+#content {
   min-height: 100%;
   margin: 0 auto -2em;
-  width: 100%;
+  padding: 0 10px;
+  .page_content {
+    margin: 0 auto;
+    clear: both;
+  }
+  .secondary {
+    width: 24%;
+    float: left;
+  }
+  .primary {
+    width: 75%;
+    float: right;
+  }
+  .primary, .secondary {
+    margin-bottom: 20px;
+  }
+
+  @media (min-width: 1200px) {
+    max-width: 1200px;
+    .secondary { width: 25%; }
+    .primary { width: 71%; }
+  }
+  @media (min-width: 1000px) and (max-width: 1199px) {
+    max-width: 1199px;
+    .secondary { width: 27%; }
+    .primary { width: 69%; }
+  }
+  @media (min-width: 768px) and (max-width: 999px) {
+    max-width: 999px;
+    .secondary { width: 32%; }
+    .primary { width: 67%; }
+  }
 }
 
 .flash_message .alert {
   margin: 10px 0;
 }
 
-@media (max-width: 759px) {
-  .body_container > .container {
-    padding: 0 5px;
-  }
-}
-
 .footer {
   position: relative;
   bottom: 0;
   width: 100%;
+  margin-top: 12px;
   clear: both;
   text-align: right;
   background: #ddd;
   color: #888;
   .copyright {
-    padding: .3em .6em;
+    padding: 4px 25px;
+    font-size: 12px;
   }
 }
 
 
 h1 { margin-bottom: 10px; }
 
-a {
-  &:hover {
-    text-decoration: none;
-  }
-  &.btn:visited {
-    color: white;
-  }
+a:hover {
+  text-decoration: none;
 }
 
 hr {
@@ -91,29 +98,23 @@ table {
   margin: 10px 0;
 }
 
-.simple_form {
-  @extend .row;
-}
-
 form {
   margin-bottom: 40px;
   .control-group {
     clear: both;
   }
   label {
-    @extend .span1;
     float: left;
     padding: 4px 10px 0 0;
     text-align: right;
   }
   input, textarea {
-    @extend .span2;
     float: left;
     margin-left: 20px;
   }
   textarea {
     resize: none;
-    height: 60px;
+    min-height: 60px;
     overflow-y: auto;
   }
   input.btn {
@@ -127,12 +128,10 @@ form {
 input, textarea, .btn { border-radius: 0; }
 
 .privacypolicy {
-  @extend .span5;
   margin: 10px auto 0;
   color: #888;
   font-size: 11px;
   padding: 0 20px;
-  text-align: center;
 }
 
 .navigation {
@@ -140,17 +139,9 @@ input, textarea, .btn { border-radius: 0; }
     li { float: right; }
   }
   @media (min-width: 250px) and (max-width: 767px) {
-    &.row {
-      padding: 0 !important;
-    }
     height: 0;
     width: 100%;
     padding: 0;
-    .row {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-    }
     .nav {
       margin: 18px 0;
       display: none;
@@ -184,7 +175,6 @@ input, textarea, .btn { border-radius: 0; }
     #nav_btn {
       display: inline;
       width: 100px;
-      margin-right: 10px;
     }
   }
 }
