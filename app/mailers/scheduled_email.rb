@@ -20,7 +20,6 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
-    return_path = "bounce+" + sent_email_hash + "@appmail.watchdog.net"
     subject = petition.experiments.email(@sent_email).subject
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
     mail(subject: subject, to: "\"#{member.name}\" <#{member.email}>").deliver
