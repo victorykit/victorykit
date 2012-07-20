@@ -3,6 +3,7 @@ require 'redis'
 
 FAIRNESS_CONSTANT = 0
 FAIRNESS_CONSTANT4 = 0
+FC5 = 1.0
 
 class Float
   def to_1if0
@@ -21,7 +22,7 @@ module Bandit
       stddev = 1
     else
       mean = victories.to_f/observations.to_f
-      stddev = Math.sqrt([0, (mean * (1-mean))].max/observations.to_f)
+      stddev = Math.sqrt([FC5/observations, (mean * (1-mean))].max/observations.to_f)
     end
     out = [0, Distribution::Normal.rng(mean, stddev).call].max
     return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))
