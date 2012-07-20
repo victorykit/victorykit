@@ -244,9 +244,13 @@ body.bootstrap {
 }
 
 body.bordered_with_block_logo {
-  label, input, button, select, textarea {
+  label, button, {
     font-size: 18px;
     font-family: "LeagueGothicRegular", helvetica;
+  }
+  .controls.toggle {
+    margin-bottom: 6px;
+    a { font-size: 16px; }
   }
   font-size: 18px;
   @media (min-width: 1250px) and (max-width: 3000px) {
@@ -255,20 +259,35 @@ body.bordered_with_block_logo {
     }
   }
   #top, #left, #right { background: #cccccc\9; }
-  #top, #left, #right { *background: #cccccc; }
+  #top { *background: #cccccc; }
   #left, #right {
     position: fixed;
     top: 0; bottom: 0;
     height: 100%;
     width: 25px;
   }
-  #top { left: 0; right: 0; width: 100%; height: 25px; z-index: -1; position: relative; }
+  #left, #right { *width: 0; }
+  #top {
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 25px;
+    z-index: -1;
+    position: relative;
+    background: #ccc;
+  }
+  @media (min-width: 250px) and (max-width: 767px) {
+    #top {
+      height: 40px;
+    }
+  }
   #left { left: 0; }
   #right { right: 0; }
   #content {
     margin-top: 30px;
+    *padding: 0 10px;
     @media (min-width: 250px) and (max-width: 767px) {
-      margin-top: 0px;
+      margin-top: -15px;
       &:before {
         clear: both;
       }
@@ -322,6 +341,7 @@ body.bordered_with_block_logo {
         height: 20px;
       }
       .nav {
+        *margin-top: -10px;
         li { float: right; *margin-top: 70px; }
         li a, li div {
           font-family: "LeagueGothicRegular", helvetica;
@@ -345,6 +365,7 @@ body.bordered_with_block_logo {
         z-index: 1000;
         background: #3399cc;
         padding: 40px 0;
+        *padding: 60px 0 20px;
         width: 100%;
         *width: 250px;
         width: 250px\9;
@@ -354,7 +375,7 @@ body.bordered_with_block_logo {
           text-align: center;
           color: white;
           margin: 0;
-          *padding: 13px 2px 10px;
+          *line-height: 46px;
         }
         @media (min-width: 250px) and (max-width: 767px) {
           a.logo {
@@ -409,9 +430,16 @@ body.bordered_with_block_logo {
       font-size: 2em;
       font-weight: normal;
       font-family: "LeagueGothicRegular", helvetica;
+      line-height: 43px;
+      padding: 5px 0;
+    }
+    .privacypolicy {
+      padding-top: 7px;
+      clear: both;
     }
   }
   .description {
+    padding-top: 10px;
     clear: both;
     line-height: 1.3em;
   }
@@ -432,4 +460,8 @@ body.bordered_with_block_logo {
     background: #ccc;
   }
   .signup_login h1 { font-size: 2em; }
+  #content {
+    *margin-top: -20px;
+  }
 }
+
