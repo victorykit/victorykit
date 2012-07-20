@@ -25,6 +25,10 @@
 .ie_alternatives {
   h1 {
     float: left;
+    *padding-top: 10px;
+    font-family: helvetica, sans-serif !important;
+    font-size: 36px !important;
+    text-transform: none !important;
     .black {
       color: black;
     }
@@ -65,8 +69,9 @@
     }
     .title {
       margin-top: 15px;
+      line-height: 22px;
       font-weight: bold;
-      font-size: larger;
+      font-size: 17px;
     }
     .description {
       clear: left;

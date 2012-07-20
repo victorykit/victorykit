@@ -135,7 +135,7 @@
     input {
       @extend .span2;
       margin-left: 0;
-      &.btn { width: 100%; text-align: center; *clear: left; *width: 202px !important; }
+      &.btn { width: 100%; text-align: center; *clear: left; }
     }
     .help-inline {
       @extend .alert;
@@ -169,7 +169,6 @@
     .controls, input {
       width: 100%;
       padding: 5px 0;
-      *width: 192px;
     }
     .btn {
       float: right;
@@ -501,6 +500,21 @@
   }
   .text {
     padding:  10px;
-    font-size: 14px; 
+    font-size: 14px;
+  }
+}
+#content .sidebar_test.secondary {
+  *width: 250px;
+  form {
+    *width: 230px;
+    input {
+      *width: 230px;
+      *clear: both;
+    }
+    .btn.btn-primary {
+      *height: 40px;
+      *padding: 5px;
+      *offset: 0;
+    }
   }
 }

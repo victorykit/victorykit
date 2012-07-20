@@ -60,8 +60,11 @@ html, body {
   }
 }
 
-.flash_message .alert {
-  margin: 10px 0;
+.flash_message {
+  clear: both;
+  .alert {
+    margin: 10px 0;
+  }
 }
 
 .footer {
