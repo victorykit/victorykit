@@ -41,3 +41,6 @@ coverage
 
 # do not share the .vagrant id
 .vagrant
+
+# some ROF keys
+railsonfire-ssh-*

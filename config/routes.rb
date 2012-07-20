@@ -26,6 +26,7 @@ Victorykit::Application.routes.draw do
     resources :petitions 
     resources :users
     resources :experiments
+    resources :hottest
     resources :on_demand_email
   end
 
