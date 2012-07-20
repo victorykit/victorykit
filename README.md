@@ -30,6 +30,19 @@ This doesn't uninstall the services, but stops them from running.
 
     $ ./script/bootstrap_vagrant
 
+If you get a message like the following:
+
+    The VM failed to remain in the "running" state while attempting to boot.
+    This is normally caused by a misconfiguration or host system incompatibilities.
+    Please open the VirtualBox GUI and attempt to boot the virtual machine
+    manually to get a more informative error message.
+
+This means that /Applications doesn't have the write permissions. For some
+reason VirtualBox doesn't like it when that directory is world writable. The
+following should resolve that:
+
+    $ sudo chmod o-w /Applications
+
 ## Usage
 
 Make sure the tests pass:
