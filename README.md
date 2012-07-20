@@ -45,6 +45,11 @@ following should resolve that:
 
 ## Usage
 
+If this is the first time setting up the project, you will need to setup your
+datbase:
+
+    $ rake db:setup
+
 Make sure the tests pass:
 
     $ rake
