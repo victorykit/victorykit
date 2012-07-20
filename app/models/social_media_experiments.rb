@@ -10,16 +10,16 @@ class SocialMediaExperiments
 
   # persisted experiments templates
 
-  def current_trials
-    SocialMediaTrial.find_all_by_petition_id_and_member_id_and_key(@petition.id, @member.id, test_names.values)
+  def current_trials(goal)
+    SocialMediaTrial.find_all_by_petition_id_and_member_id_and_goal_and_key(@petition.id, @member.id, goal, test_names.values)
   end
 
-  def current_trial(test_name)
-    SocialMediaTrial.find_by_petition_id_and_member_id_and_key(@petition.id, @member.id, test_name)
+  def current_trial(goal, test_name)
+    SocialMediaTrial.find_by_petition_id_and_member_id_and_goal_and_key(@petition.id, @member.id, goal, test_name)
   end
 
   def create_trial(goal, test_name, choice)
-    SocialMediaTrial.new(member_id: @member.id, petition_id: @petition.id, goal: goal, key: test_name, choice: choice)
+    SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice)
   end
 
   def trial_session

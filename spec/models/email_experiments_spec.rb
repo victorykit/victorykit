@@ -43,17 +43,17 @@ describe EmailExperiments do
 
   context "win" do
     it "should win for all its trials" do
-      trial = create(:email_experiment, sent_email_id: @email.id, key: "petition #{@petition.id} email title")
-      #todo: you wouldn't actually have two title trials for the same email/petition... update once we have another email experiment
-      trial2 = create(:email_experiment, sent_email_id: @email.id, key: "petition #{@petition.id} email title")
-      another_email = create(:sent_email)
-      another_emails_trial = create(:email_experiment, sent_email_id: another_email.id, key: "petition #{@petition.id} email title")
+      test_name = "petition #{@petition.id} email title"
+      trial_a = create(:email_experiment, sent_email_id: @email.id, goal: :signature, key: test_name, choice: "walnuts")
+      trial_b = create(:email_experiment, sent_email_id: @email.id, goal: :something_else, key: test_name, choice: "pecans")
+      other_email = create(:sent_email)
+      trial_c = create(:email_experiment, sent_email_id: other_email.id, goal: :signature, key: test_name, choice: "whatever")
 
-      @experiments.should_receive(:win_on_option!).once.with(trial.key, trial.choice, {:session_id => @email.id.to_s})
-      @experiments.should_receive(:win_on_option!).once.with(trial2.key, trial2.choice, {:session_id => @email.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(another_emails_trial.key, another_emails_trial.choice, {:session_id => another_email.id.to_s})
+      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice, {:session_id => @email.id.to_s})
+      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice, {:session_id => @email.id.to_s})
+      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice, {:session_id => other_email.id.to_s})
 
-      @experiments.win!
+      @experiments.win! :signature
     end
   end
 

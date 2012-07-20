@@ -27,12 +27,12 @@ class EmailExperiments
 
   # persisted experiments templates
 
-  def current_trials
-    EmailExperiment.find_all_by_sent_email_id_and_key(@email.id, test_names.values)
+  def current_trials(goal)
+    EmailExperiment.find_all_by_sent_email_id_and_goal_and_key(@email.id, goal, test_names.values)
   end
 
-  def current_trial(test_name)
-    EmailExperiment.find_by_sent_email_id_and_key(@email.id, test_name)
+  def current_trial(goal, test_name)
+    EmailExperiment.find_by_sent_email_id_and_goal_and_key(@email.id, goal, test_name)
   end
 
   def create_trial(goal, test_name, choice)
