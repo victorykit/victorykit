@@ -49,15 +49,17 @@ describe FacebookExperiments do
 
   context "win" do
     it "should win for all its trials" do
-      trial = create(:social_media_trial, petition: @petition, member: @member, key: "petition #{@petition.id} facebook title")
-      trial2 = create(:social_media_trial, petition: @petition, member: @member, key: "petition #{@petition.id} facebook title")
-      unrelated_trial = create(:social_media_trial, petition: @petition, member: @member, key: "something not facebooky")
+      test_name = "petition #{@petition.id} facebook title"
+      trial_a = create(:social_media_trial, petition: @petition, member: @member, goal: :signature, key: test_name, choice: "things")
+      trial_b = create(:social_media_trial, petition: @petition, member: @member, goal: :something_else, key: test_name, choice: "stuff")
+      other_member = create(:member)
+      trial_c = create(:social_media_trial, petition: @petition, member: other_member, goal: :signature, key: test_name, choice: "etc")
 
-      @experiments.should_receive(:win_on_option!).once.with(trial.key, trial.choice, {:session_id => @member.id.to_s})
-      @experiments.should_receive(:win_on_option!).once.with(trial2.key, trial2.choice, {:session_id => @member.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(unrelated_trial.key, unrelated_trial.choice, {:session_id => @member.id.to_s})
+      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice, {:session_id => @member.id.to_s})
+      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice, {:session_id => @member.id.to_s})
+      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice, {:session_id => @member.id.to_s})
 
-      @experiments.win!
+      @experiments.win! :signature
     end
   end
 

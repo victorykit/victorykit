@@ -1,9 +1,8 @@
 require 'sent_email_hasher'
-require 'whiplash'
 
 class ScheduledEmail < ActionMailer::Base
   default from: Settings.email.from_address
-  helper_method :spin!
+
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
