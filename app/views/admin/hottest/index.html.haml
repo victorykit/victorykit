@@ -1,0 +1,33 @@
+.span12
+  %h1 Last 1000 Emails Sent
+
+  %p
+    %i
+      average NPS: 
+    = @avg
+  
+  %table{class: ['bordered-table', 'table-striped', 'dataTable']}
+    %tr
+      %th
+        \%
+      %th
+        Petition
+      %th
+        Sent
+      %th
+        New
+      %th
+        NPS
+    - @rows.each do |count, petition, data, nps|
+      %tr
+        %td
+          = count/10.0
+        %td
+          %a{href: petition_url(petition)}
+            = petition.title
+        %td
+          = data[0]
+        %td
+          = data[1]
+        %td
+          = nps
