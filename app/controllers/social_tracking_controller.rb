@@ -7,6 +7,7 @@ class SocialTrackingController < ApplicationController
     action_id = params[:action_id]
     register_facebook_like petition, member if facebook_action == 'like'
     register_facebook_share petition, member, action_id if facebook_action == 'share'
+    register_facebook_popup_opened petition, member if facebook_action == 'popup'
     render :text => ''
   end
 
@@ -23,6 +24,13 @@ class SocialTrackingController < ApplicationController
     share = Share.new
     share.petition = petition
     share.action_id = action_id if action_id.present?
+    share.member = member if member.present?
+    share.save!
+  end
+
+  def register_facebook_popup_opened petition, member
+    share = Popup.new
+    share.petition = petition
     share.member = member if member.present?
     share.save!
   end

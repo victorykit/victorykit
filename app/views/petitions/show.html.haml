@@ -47,21 +47,21 @@
               - placeholder_email = {}
             = f.input :email, :input_html => placeholder_email
             #hint.alert.alert-error
-              - if @referring_url
-                = hidden_field_tag :referring_url, @referring_url
-              - if @email_hash
-                = hidden_field_tag :email_hash, @email_hash
-              - if @fb_hash
-                = hidden_field_tag :fb_hash, @fb_hash
-              - if @fb_share_link_ref
-                = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
-              - if @fb_action_id
-                = hidden_field_tag :fb_action_id, @fb_action_id
-              - if @referer_hash
-                = hidden_field_tag :referer_hash, @referer_hash
-              - if @twitter_hash
-                = hidden_field_tag :twitter_hash, @twitter_hash
-              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+            - if @referring_url
+              = hidden_field_tag :referring_url, @referring_url
+            - if @email_hash
+              = hidden_field_tag :email_hash, @email_hash
+            - if @fb_hash
+              = hidden_field_tag :fb_hash, @fb_hash
+            - if @fb_share_link_ref
+              = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
+            - if @fb_action_id
+              = hidden_field_tag :fb_action_id, @fb_action_id
+            - if @referer_hash
+              = hidden_field_tag :referer_hash, @referer_hash
+            - if @twitter_hash
+              = hidden_field_tag :twitter_hash, @twitter_hash
+            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!
