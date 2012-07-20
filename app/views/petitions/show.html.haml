@@ -11,8 +11,8 @@
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
-- fb_action_like_popup = spin! "facebook_nps", :signature, ["facebook_like"]
--#add "facebook_share" and "facebook_popup" options to this experiment
+- fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
+-#add "facebook_share" option to this experiment
 
 = render :partial => "javascript_content", :locals => {fb_action_like_popup: fb_action_like_popup}
 
@@ -49,17 +49,19 @@
             #hint.alert.alert-error
               - if @referring_url
                 = hidden_field_tag :referring_url, @referring_url
-            - if @email_hash
-              = hidden_field_tag :email_hash, @email_hash
-            - if @fb_hash
-              = hidden_field_tag :fb_hash, @fb_hash
-            - if @fb_action_id
-              = hidden_field_tag :fb_action_id, @fb_action_id
-            - if @referer_hash
-              = hidden_field_tag :referer_hash, @referer_hash
-            - if @twitter_hash
-              = hidden_field_tag :twitter_hash, @twitter_hash
-            = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
+              - if @email_hash
+                = hidden_field_tag :email_hash, @email_hash
+              - if @fb_hash
+                = hidden_field_tag :fb_hash, @fb_hash
+              - if @fb_share_link_ref
+                = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
+              - if @fb_action_id
+                = hidden_field_tag :fb_action_id, @fb_action_id
+              - if @referer_hash
+                = hidden_field_tag :referer_hash, @referer_hash
+              - if @twitter_hash
+                = hidden_field_tag :twitter_hash, @twitter_hash
+              = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
         .through_fb
           .text Sign in via
           .button.btn.btn-primary Facebook!
@@ -175,6 +177,8 @@
               = hidden_field_tag :email_hash, @email_hash
             - if @fb_hash
               = hidden_field_tag :fb_hash, @fb_hash
+            - if @fb_share_link_ref
+              = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
             - if @fb_action_id
               = hidden_field_tag :fb_action_id, @fb_action_id
             - if @referer_hash

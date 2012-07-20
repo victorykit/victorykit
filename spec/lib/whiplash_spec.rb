@@ -1,4 +1,5 @@
 require 'whiplash'
+require 'spec_helper'
 
 describe "to1if0" do
   it "should preserve nonzero" do
