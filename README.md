@@ -16,6 +16,20 @@ To confirm you have the appropriate requirements:
     $ cd victorykit
     $ ./script/bootstrap
 
+To setup vagrant you'll first need to remove postgresql and redis from your
+local OSX machine first.
+
+    $ ls ~/Library/LaunchAgents
+
+You should see 2 of the files looking like they're related to postgresql and
+redis. For each file unload them with the following command:
+
+    $ launchctl unload ~/Library/LaunchAgents/<your plist file name>
+
+This doesn't uninstall the services, but stops them from running.
+
+    $ ./script/bootstrap_vagrant
+
 ## Usage
 
 Make sure the tests pass:
