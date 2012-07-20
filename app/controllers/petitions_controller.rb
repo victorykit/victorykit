@@ -19,6 +19,7 @@ class PetitionsController < ApplicationController
     @referer_hash = params[:r]
     @twitter_hash = params[:t]
     @fb_hash = params[:fb_ref]
+    @fb_share_link_ref = params[:share_ref]
     @fb_action_id = params[:fb_action_ids]
     @fb_tracking_hash = cookies[:member_id]
     @existing_fb_action_instance_id = Share.where(member_id: get_member_id, petition_id: params[:id]).first.try(:action_id)

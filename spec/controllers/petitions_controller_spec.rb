@@ -43,6 +43,11 @@ describe PetitionsController do
       assigns(:fb_hash).should == "some_fb_hash"
     end
 
+    it "should assign fb_share_link_ref variable" do
+      get :show, {:id => petition.id, share_ref: "some_fb_hash"}
+      assigns(:fb_share_link_ref).should == "some_fb_hash"
+    end
+
     it "should assign tweetable_url after signing" do
       member = create(:member)
       member_id_hash = MemberHasher.generate(member.id)

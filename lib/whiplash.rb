@@ -80,7 +80,8 @@ module Bandit
 
   def spin!(test_name, goal, options=[true, false], mysession=nil)
     mysession ||= session
-    if mysession.key?(test_name) && options.include?(mysession[test_name])
+    #manual_whiplash_mode allows to set new options using /whiplash_sessions page
+    if mysession.key?(test_name) && (options.include?(mysession[test_name]) || mysession.key?("manual_whiplash_mode"))
       return mysession[test_name]
     end
     

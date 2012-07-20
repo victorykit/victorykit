@@ -93,7 +93,7 @@ describe SignaturesController do
       end
     end
 
-    context "the user signed from a facebook post" do
+    context "the user signed from a facebook like post" do
       let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
       let(:fb_hash) { MemberHasher.generate(member.id) }
 
@@ -102,6 +102,48 @@ describe SignaturesController do
         Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_LIKE
         Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
+      end
+
+      it "should declare win on facebook_like option" do
+        controller.stub(:win_on_option!)
+        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_like")
+        sign_petition fb_hash: fb_hash
+      end
+    end
+
+    context "the user signed from a facebook shared link" do
+      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:fb_share_link_ref) { MemberHasher.generate(member.id) }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition fb_share_link_ref: fb_share_link_ref
+        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_POPUP
+        Signature.last.referring_url.should == referring_url
+        Signature.last.referer.should == member
+      end
+
+      it "should declare win on facebook_popup option" do
+        controller.stub(:win_on_option!)
+        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_popup")
+        sign_petition fb_share_link_ref: fb_share_link_ref
+      end
+    end
+
+     context "the user signed from a facebook posted action" do
+      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:fb_action) { create :share, :member => member, :action_id => "abcd1234" }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition fb_action_id: fb_action.action_id
+        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_SHARE
+        Signature.last.referring_url.should == referring_url
+        Signature.last.referer.should == member
+      end
+
+      it "should declare win on facebook_share option" do
+        controller.stub(:win_on_option!)
+        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_share")
+        sign_petition fb_action_id: fb_action.action_id
       end
     end
 

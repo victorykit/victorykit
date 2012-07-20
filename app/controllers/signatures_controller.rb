@@ -51,9 +51,13 @@ class SignaturesController < ApplicationController
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
         petition.experiments.facebook(referring_member).win!(:signature)
       elsif params[:fb_action_id].present?
-        facebook_action = FacebookAction.find_by_action_id(action_id.to_s)
+        facebook_action = Share.find_by_action_id(params[:fb_action_id].to_s)
         referring_member = facebook_action.member
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
+        petition.experiments.facebook(referring_member).win!(:signature)
+      elsif h = MemberHasher.validate(params[:fb_share_link_ref])
+        referring_member = Member.find(h)
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_POPUP, referring_url: referring_url}
         petition.experiments.facebook(referring_member).win!(:signature)
       elsif h = MemberHasher.validate(params[:twitter_hash])
         referring_member = Member.find(h)
@@ -65,7 +69,9 @@ class SignaturesController < ApplicationController
   def nps_win signature
     if signature.created_member
       win_on_option!("email_scheduler_nps", signature.petition.id.to_s)
-      win_on_option!("facebook_nps", signature.reference_type) if signature.reference_type.present?
+      if (signature.reference_type == Signature::ReferenceType::FACEBOOK_LIKE || signature.reference_type == Signature::ReferenceType::FACEBOOK_SHARE || signature.reference_type == Signature::ReferenceType::FACEBOOK_POPUP) 
+        win_on_option!("facebook sharing options", signature.reference_type)
+      end
     end
   end
 end

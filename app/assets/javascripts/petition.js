@@ -164,7 +164,7 @@ function initTwitter() {
 function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
-    window.open(sharer + location.href, 'sharer', 'width=626,height=436');
+    window.open(sharer + location.href + "?share_ref=" + VK.fb_tracking_hash, 'sharer', 'width=626,height=436');
   });
 }
 

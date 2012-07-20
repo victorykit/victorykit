@@ -18,6 +18,7 @@ class WhiplashSessionsController < ApplicationController
       params.each do |k, v|
         session[k] = convert_type(v)
       end
+      session["manual_whiplash_mode"] = true
     end
     redirect_to action: 'index', debug_token: params[:debug_token]
   end
