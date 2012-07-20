@@ -1,5 +1,6 @@
 function inviteToShareOnTwitter() {
   $('.fb_share.btn').hide();
+  $('.fb_popup_btn').hide();
   $('.fb_share_message').hide();
   $('.tweet').show();
   $('.sharing-message').text("You shared on Facebook! How about Twitter?");
@@ -49,7 +50,7 @@ function setupSocialTracking() {
           url: VK.social_tracking_url,
           data: setUpParamsForSocialTracking('like', '')
         });
-        $('.tweet').show();
+        inviteToShareOnTwitter();
       });
       FB.Event.subscribe('edge.remove', function (targetUrl) {
         _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
@@ -165,6 +166,11 @@ function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
     window.open(sharer + location.href + "?share_ref=" + VK.fb_tracking_hash, 'sharer', 'width=626,height=436');
+    $.ajax({
+      url: VK.social_tracking_url,
+      data: setUpParamsForSocialTracking('popup', '')
+    });
+    inviteToShareOnTwitter();
   });
 }
 
