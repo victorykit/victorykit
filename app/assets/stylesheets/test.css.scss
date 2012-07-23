@@ -244,6 +244,11 @@ body.bootstrap {
   .navigation {
     margin-top: -40px;
   }
+  @media (min-width: 250px) and (max-width: 767px) {
+    a.logo {
+      margin-top: 12px;
+    }
+  }
 }
 
 body.bordered_with_block_logo {
@@ -440,6 +445,13 @@ body.bordered_with_block_logo {
       padding-top: 7px;
       clear: both;
     }
+  }
+  .mobile_sign.btn {
+    font-family: "LeagueGothicRegular", helvetica;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 4px 8px;
+    text-transform: uppercase
   }
   .description {
     padding-top: 10px;
