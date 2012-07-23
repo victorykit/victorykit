@@ -11,7 +11,8 @@
 - thankyouboxcolor = spin! "different background for thank you box", :share, ["hex_f5f5f5", "hex_bbb", "hex_999", "hex_666", "hex_333", "hex_000"]
 - thankyouarrowcolor = spin! "different arrow colors in thank you box", :share, ["bluearrow", "redarrow", "limearrow", "lightbluearrow", "orangearrow"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
-- fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
+- if @was_signed
+  - fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
 -#add "facebook_share" option to this experiment
 
 = render :partial => "javascript_content", :locals => {fb_action_like_popup: fb_action_like_popup}
