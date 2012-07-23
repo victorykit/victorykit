@@ -126,7 +126,7 @@
 
   = hidden_field_tag 'petitionId', @petition.id
 
-  - if @just_signed && spin!("toggle showing vs. not showing modal", :share)
+  - if @just_signed
     .modal#thanksModal
       .modal-body
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
