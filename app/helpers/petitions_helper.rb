@@ -5,13 +5,12 @@ module PetitionsHelper
   end
   
   def petition_to_open_graph(petition)
-    member_id = MemberHasher.validate(params[:fb_ref])
+    member_id = MemberHasher.validate(params[:m])
     member = Member.find member_id unless not member_id
     { 
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
       'og:description' => strip_tags_except_links(petition.description).squish[0..300],
-      'og:url' => petition_url(petition),
       'og:image' => social_media_config[:facebook][:image],
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
