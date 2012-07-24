@@ -60,7 +60,7 @@
       #thanks-for-signing-message
         = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
       #sign-again
-        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();"}
+        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
           Does someone else want to sign? Click here. 
 
   .petition_test.primary.petition
