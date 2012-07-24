@@ -174,43 +174,36 @@ function bindFacebookPopupButton() {
   });
 }
 
-function drawJumpingArrow() {
-  $('.jumping_arrow').nudgenudge({
+function drawJumpingArrow(element, closer) {
+  $(element).nudgenudge({
     arrow: '/assets/' + $('#petition_page').attr('class').split(' ').filter(function(x){return x.indexOf('arrow')==x.length-5;})[0] + '.png',
     arrowWidth: 100,
     arrowHeight: 100,
     intensity: 'medium',  // the intensity of the nudge (low, medium, high)
     placement: 'left', // place on the left or the right of the target
-    closeEvent: { "el": '.arrow', "event": 'click' }, // selector and event which triggers arrow hiding
+    closeEvent: closer, // selector and event which triggers arrow hiding
     hideAfter: 0,  // hide after this many nudges, 0 = for the rest of eternity
     offsetX: 200, // adjust x position
     offsetY: -20 // adjust y position
   });
 }
 
-$(document).ready(function () {
-  initTwitter();
-  initTabIndexes();
-  initFacebookApp();
-  setupShareFacebookButton();
-  setupSocialTracking();
-  drawJumpingArrow();
-  if (screen.width > 480) {
+function drawModalAfterSigning() {
+  var drawModalArrow = function() { drawJumpingArrow('#thanksModal .jumping_arrow', {"el": "#thanksModal", "event": "hide"}); };
+  var drawMainArrow = function() { drawJumpingArrow('#thanks-for-signing-message .jumping_arrow', {"el": {}, "event": "hide"}); };
+ 
+  if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
+    drawModalArrow();
+    $('#thanksModal').on('hide', drawMainArrow);
+  } else {
+    drawMainArrow();
   }
-  bindFacebookPopupButton();
-  preventWhitespaceOn('#signature_email');
+}
+
+function initEditPetition() {
   applyRichTextEditorTo('#petition_description');
-
-  $('form').on("submit", function (event) {
-    if (!VK.signing_from_email) {
-      var emailSuggestor = new EmailSuggestions();
-      emailSuggestor.init();
-      emailSuggestor.mailCheckSuggestions(event);
-    }
-    return event.go;
-  });
-
+  initTabIndexes();
   if ($('#email_subject').has('.additional_title').length) {
     $('#email_subject').show();
     $('#email_subject_link').hide();
@@ -231,4 +224,27 @@ $(document).ready(function () {
     $('#facebook_title').show();
     $('#facebook_title_link').hide();
   });
-});
+}
+
+function initShowPetition() {
+  preventWhitespaceOn('#signature_email');
+  setupSocialTracking();
+
+  $('form').on("submit", function (event) {
+    if (!VK.signing_from_email) {
+      var emailSuggestor = new EmailSuggestions();
+      emailSuggestor.init();
+      emailSuggestor.mailCheckSuggestions(event);
+    }
+    return event.go;
+  });
+}
+
+function initSharePetition() {
+  initTwitter();
+  initFacebookApp();
+  setupSocialTracking();
+  setupShareFacebookButton();
+  bindFacebookPopupButton();
+  drawModalAfterSigning();
+}
