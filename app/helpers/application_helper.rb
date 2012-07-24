@@ -15,7 +15,8 @@ module ApplicationHelper
   end
 
   def fb_like(url, ref_hash, classes = nil, is_button_count = false)
-    attributes = {href: url, send: false, show_faces: false, action: 'like', ref: ref_hash, width: '270'}
+    url_with_member_id = cookies[:member_id].present? ? url + "?m=#{cookies[:member_id]}" : url
+    attributes = {href: url_with_member_id, send: false, show_faces: false, action: 'like', ref: ref_hash, width: '270'}
     attributes.merge!({layout: 'button_count', width: '100'}) if is_button_count
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
