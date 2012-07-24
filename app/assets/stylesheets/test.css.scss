@@ -216,22 +216,22 @@
 /* thank you arrow color */
 .redarrow {
   #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('red_arrow.png'); }
+    .arrow { background: url('redarrow.png'); }
   }
 }
 .limearrow {
   #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('lime_arrow.png'); }
+    .arrow { background: url('limearrow.png'); }
   }
 }
 .lightbluearrow{
   #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('light_blue_arrow.png'); }
+    .arrow { background: url('lightbluearrow.png'); }
   }
 }
 .orangearrow {
   #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('orange_arrow.png'); }
+    .arrow { background: url('orangearrow.png'); }
   }
 }
 
@@ -259,6 +259,12 @@ body.bordered_with_block_logo {
   .controls.toggle {
     margin-bottom: 6px;
     a { font-size: 16px; }
+  }
+  #thanks-for-signing-message {
+   .jumping_arrow {
+      margin-top: -10px;
+      margin-bottom: 30px;
+    }
   }
   font-size: 18px;
   @media (min-width: 1250px) and (max-width: 3000px) {

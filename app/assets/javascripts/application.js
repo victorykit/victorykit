@@ -18,6 +18,7 @@
 //= require bootstrap-wysihtml5-all
 //= require jquery.flot
 //= require jquery.mailcheck.js
+//= require nudgenudge.js
 //= require petition.js
 //= require global.js
 //= require_tree .
