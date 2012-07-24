@@ -52,25 +52,6 @@
   margin: 0 auto;
   min-height: 210px;
 }
-#thanks-for-signing-message, #thanksModal {
-  font-size: 14px;
-  font-weight: bold;
-  text-align: center;
-  .thanks {
-    font-size: 27px;
-    line-height: 30px;
-    margin: 15px 0 25px;
-  }
-  .arrow {
-    background: url('arrow.png');
-    margin: 15px auto 5px;
-    height: 100px;
-    width: 100px;
-  }
-  .tweet {
-    margin-left: 45px;
-  }
-}
 #thanks-for-signing-message {
   fb\:like {
     margin: 4px;
@@ -192,9 +173,15 @@
     margin: 15px 0 25px;
   }
   .arrow {
-    background: url('arrow.png');
+    background: url('bluearrow.png');
     margin: 15px auto 5px;
     height: 100px;
+    width: 100px;
+  }
+  .jumping_arrow {
+    margin: auto;
+    margin-top: 25px;
+    height: 130px;
     width: 100px;
   }
   .tweet {
