@@ -97,6 +97,7 @@
 #thanks-for-signing-message, #thanksModal, .signature-form, #ask-to-sign {
   padding: 10px;
 }
+.signature-form .btn-primary { @extend .btn-danger; }
 .signature-form, #ask-to-sign {
   .title {
     font-size: 25px;

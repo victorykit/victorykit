@@ -43,13 +43,6 @@
 }
 
 
-/* button color on sign petition */
-.buttoncolor2 .signature-form .btn-primary { @extend .btn-info; }
-.buttoncolor3 .signature-form .btn-primary { @extend .btn-success; }
-.buttoncolor4 .signature-form .btn-primary { @extend .btn-warning; }
-.buttoncolor5 .signature-form .btn-primary { @extend .btn-danger; }
-
-
 /* sign petition box color */
 .signaturecolor2 .sidebartest .signature-form {
   background: #bbb;
