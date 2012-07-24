@@ -7,16 +7,10 @@ describe "signing petitions" do
   end
   describe "showing the thermometer" do
     it "should be visible" do
-      force_result("show thermometer" => 'true')
       go_to petition_path(@petition)
       element_exists(class: "progress_bar").should be_true
     end
 
-    it "should not be visible" do
-      force_result("show thermometer" => 'false')
-      go_to petition_path(@petition)
-      element_exists(class: "progress_bar").should be_false
-    end
   end
 
   describe "signing the petition" do
