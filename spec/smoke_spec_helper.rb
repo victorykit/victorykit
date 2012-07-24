@@ -77,10 +77,7 @@ def force_result(params)
 end
 
 def set_default_experiment_results
-  force_result({
-    "signature display threshold" => 0,
-    "show thermometer" => 'true',
-    "seed signatures with petition creator" => "false"})
+  force_result({"seed signatures with petition creator" => "false"})
 
     #full (I think) list of experiments that affect layout:
     #
