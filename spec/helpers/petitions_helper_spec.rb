@@ -25,7 +25,6 @@ describe PetitionsHelper do
     it { should include("og:type" => "watchdognet:petition")}
     it { should include("og:title" => petition.title)}
     it { should include("og:description" => strip_tags_except_links(petition.description))}
-    it { should include("og:url" => petition_url(petition))}
     it { should include("og:image" => "foo.com/123.png")}
     it { should include("og:site_name" => "My Super Petitions")}
     it { should include("fb:app_id" => "12345")}
