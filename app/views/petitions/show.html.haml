@@ -1,7 +1,6 @@
 - content_for :title, @petition.title
 - petitionside = spin! "petition side", :signature, ["petitionleft", "petitionright"]
 - thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2"]
-- buttoncolor = spin! "change button color for sign petition", :signature, ["buttoncolor1", "buttoncolor2", "buttoncolor3", "buttoncolor4", "buttoncolor5"]
 - signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signaturecolor1", "signaturecolor2", "signaturecolor3", "signaturecolor4", "signaturecolor5", "signaturecolor6"]
 - thermometercolor = spin! "change thermometer color", :signature, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
 - signaturelabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["signature_labels_beside_inputs_no_asterisk", "signature_labels_beside_inputs_with_asterisk", "signature_labels_beside_inputs_with_asterisk_underlined", "signature_labels_above_inputs_no_asterisk", "signature_labels_above_inputs_with_asterisk", "signature_labels_above_inputs_with_asterisk_underlined", "signature_labels_hidden"]
@@ -19,7 +18,7 @@
 
 .fb-root
 
-#petition_page.page_content{class: [petitionside, thermposition, buttoncolor, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
+#petition_page.page_content{class: [petitionside, thermposition, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .sidebar_test.secondary
     - unless @was_signed
       .signature-form
