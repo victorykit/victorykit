@@ -35,3 +35,7 @@
   .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
+
+- content_for :javascripts do
+  $(document).ready(initEditPetition);
+

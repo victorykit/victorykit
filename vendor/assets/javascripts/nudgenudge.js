@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         // Access to jQuery and DOM versions of element
         base.$el = $(el);
         base.el = el;
+        base.closed = false;
 
         // Add a reverse reference to the DOM object
         base.$el.data("nudgenudge", base);
@@ -34,13 +35,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         base.addCloseEventHandlers = function(i){
         	$(options.closeEvent.el).bind(options.closeEvent.event, function(){
         		$('#nudgenudge_' + i).hide();
+        		base.closed = true;
         	});
         };
         base.removeArrow = function(i) {
         	$('#nudgenudge_' + i).remove();
         };
         base.addNudgeAnimation = function(){
-        
+        	if (base.closed === true) { return; }
         	
         	// get offset of element
         	var offset = $(base.el).offset();
