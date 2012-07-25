@@ -19,7 +19,7 @@ def confirm lib_name, required_version, version_placement=-1
   end
 end
 
-confirm "ruby", "= 1.9.3p125", 1
+confirm "ruby", ">= 1.9.2", 1
 confirm "redis-cli", ">= 2.4.11"
 
 if confirm "psql", ">= 9.1.3"
