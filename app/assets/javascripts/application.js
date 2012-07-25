@@ -21,6 +21,7 @@
 //= require nudgenudge.js
 //= require petition.js
 //= require global.js
+//= require petition_editor.js
 //= require_tree .
 
 var VK = VK || {};
