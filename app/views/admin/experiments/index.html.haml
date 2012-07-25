@@ -1,5 +1,15 @@
 .span12
   %h1 Experiments
+  %p
+    %i
+      currently showing:
+    - @options.each do |x|
+      - if @filter == x
+        %b
+          = x
+      - else
+        = link_to x, params.merge(f: x)
+      &nbsp;&nbsp;
 
   - i = 0
   - @stats.each do |test|

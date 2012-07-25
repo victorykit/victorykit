@@ -84,6 +84,18 @@ class Admin::ExperimentsController < ApplicationController
     
   def index
     @stats = stats
+    @filter = params[:f]
+    @options = ["experiments", "petitions", "both"]
+    
+    case @filter
+    when "petitions"
+      @stats = @stats.select{|x| x[:name].match /^petition \d+/}.reverse
+    when "both"
+    else
+      @filter = "experiments"
+      @stats = @stats.select{|x| !x[:name].match /^petition \d+/}
+    end
+    
     @hourlydata1 = sent_emails_by_part 'hour'
     @hourlydata2 = signatures_by_part 'hour'
     @dowdata1 = sent_emails_by_part 'dow'
