@@ -9,6 +9,10 @@ module PersistedExperiments
 
   def spin_or_default!(test_name, goal, options, default)
     return default if not options.any?
+    spin_or_retrieve_choice test_name, goal, options
+  end
+
+  def spin_or_retrieve_choice test_name, goal, options
     current = current_trial(goal, test_name)
     current ? current.choice : new_trial!(test_name, goal, options).choice
   end

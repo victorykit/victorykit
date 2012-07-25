@@ -1,5 +1,7 @@
 class EmailExperiments
   include PersistedExperiments
+  FROM_LINES = [Settings.email.from_address1, Settings.email.from_address2, Settings.email.from_address3,
+                Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6]
 
   def initialize(email)
     @email = email
@@ -8,6 +10,10 @@ class EmailExperiments
   def subject
     default = @email.petition.title
     spin_or_default!(test_names[:subject], :signature, title_options.map{|opt| opt.title}, default)
+  end
+
+  def sender
+    spin_or_retrieve_choice test_names[:sender], :signature, FROM_LINES
   end
 
   private
@@ -21,7 +27,7 @@ class EmailExperiments
   end
 
   def test_names
-    { :subject => "petition #{@email.petition.id} #{title_type} title" }
+    { :subject => "petition #{@email.petition.id} #{title_type} title", :sender => "different from lines for scheduled emails" }
   end
 
   # persisted experiments templates

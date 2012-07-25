@@ -1,8 +1,6 @@
 require 'sent_email_hasher'
 
 class ScheduledEmail < ActionMailer::Base
-  default from: Settings.email.from_address
-
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -19,9 +17,9 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
-    subject = petition.experiments.email(@sent_email).subject
+    email_experiment = EmailExperiments.new(@sent_email)
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-    mail(subject: subject, to: "\"#{member.name}\" <#{member.email}>").deliver
+    mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
   private 

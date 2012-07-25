@@ -41,6 +41,32 @@ describe EmailExperiments do
     end
   end
 
+  context "sender experiment" do
+    context "runining for the first time for this email" do
+      it "should spin" do
+        @experiments.should_receive(:spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address1, Settings.email.from_address2, Settings.email.from_address3,
+                Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6], anything()).and_return("choice")
+        @experiments.sender.should == "choice"
+      end
+      it "should create an EmailExperiment record" do
+        @experiments.stub(:spin!).and_return("choice")
+        @experiments.sender
+        experiment_record = EmailExperiment.last
+        experiment_record.key.should == "different from lines for scheduled emails"
+        experiment_record.choice.should == "choice"
+        experiment_record.goal.should == "signature"
+      end
+    end
+
+    context "runining not for the first time for this email" do
+      it "should not spin" do
+        create(:email_experiment, :key => "different from lines for scheduled emails", :choice => "choice", :goal => "signature", :sent_email => @email)
+        @experiments.should_not_receive(:spin!)
+        @experiments.sender.should == "choice"
+      end
+    end
+  end
+
   context "win" do
     it "should win for all its trials" do
       test_name = "petition #{@petition.id} email title"
