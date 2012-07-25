@@ -7,7 +7,7 @@ FC5 = 1.0
 
 class Float
   def to_1if0
-    self.zero? ? 1 : self
+    self.zero? ? 1.0 : self
   end
 end
 
