@@ -14,3 +14,4 @@
 end
 
 FactoryGirl.create(:super_user, email:"admin@victorykit.com", password: "password") unless User.find_by_email "admin@victorykit.com"
+MailerProcessTracker.create! :is_locked => false
