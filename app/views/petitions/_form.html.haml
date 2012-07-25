@@ -32,6 +32,19 @@
         .controls
           = link_to_add_fields "Add #{facebook_title_title}", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "facebook", :label_name => "#{facebook_title_title}"}, "#facebook_titles"
 
+    .controls.toggle
+      = link_to_add_fields "Customize Image", f, :petition_images, {:class => "string", :id => 'sharing_image_link'}, {:label_name => "Image"}, "#sharing_images"
+
+    #sharing_image
+      .control-group.string
+        .control-label Image
+        .controls#sharing_images
+          = f.fields_for :petition_images do |builder|
+            = render 'petition_image_fields', {f: builder}
+        .controls
+          = link_to_add_fields "Add Image", f, :petition_images, {:class => "string btn btn-primary add_link"}, {:label_name => 'Image'}, "#sharing_images"
+
+
   .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
