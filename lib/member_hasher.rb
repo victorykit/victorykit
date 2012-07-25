@@ -9,4 +9,5 @@ class MemberHasher < Hasher
   def self.validate hashed_data
     validate_with_prefix(hashed_data, "m")
   end
+
 end
