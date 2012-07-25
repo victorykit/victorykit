@@ -1,0 +1,5 @@
+.additional_title
+  - label_name = 'Image'
+  = f.text_field :url, :class => "string with_icon"
+  .btn.btn-primary{onclick: "remove_fields(this)"}
+    %i.icon-trash.icon-white= link_to_remove_fields "remove", f

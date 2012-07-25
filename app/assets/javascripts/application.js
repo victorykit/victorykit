@@ -26,7 +26,7 @@
 var VK = VK || {};
 
 function remove_fields(link) {
-  $(link).prev("input[type=hidden]").val("1");
+  $(link).find("input[type=hidden]").first().val("1");
   $(link).closest(".additional_title").hide();
 }
 
@@ -34,6 +34,6 @@ function add_fields(link, association, content, where_selector) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   $(where_selector).append(content.replace(regexp, new_id));
-  var full_id = "#petition_petition_titles_attributes_" + new_id + "_title";
+  var full_id = "#petition_#{association}_attributes_" + new_id + "_title";
   $(full_id).focus();
   }

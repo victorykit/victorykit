@@ -224,6 +224,16 @@ function initEditPetition() {
     $('#facebook_title').show();
     $('#facebook_title_link').hide();
   });
+
+  if ($('#sharing_image').has('.additional_title').length) {
+    $('#sharing_image').show();
+    $('#sharing_image_link').hide();
+  }
+
+  $('#sharing_image_link').click(function () {
+    $('#sharing_image').show();
+    $('#sharing_image_link').hide();
+  });
 }
 
 function initShowPetition() {

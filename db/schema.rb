@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717180041) do
+ActiveRecord::Schema.define(:version => 20120717220916) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -62,6 +62,13 @@ ActiveRecord::Schema.define(:version => 20120717180041) do
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
 
+  create_table "petition_images", :force => true do |t|
+    t.text     "url",         :null => false
+    t.integer  "petition_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "petition_titles", :force => true do |t|
     t.text     "title",       :null => false
     t.string   "title_type",  :null => false
@@ -87,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20120717180041) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.datetime "opened_at"
   end
 
   create_table "signatures", :force => true do |t|
@@ -148,6 +155,8 @@ ActiveRecord::Schema.define(:version => 20120717180041) do
   end
 
   add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
+
+  add_foreign_key "petition_images", "petitions", :name => "petition_images_petition_id_fk"
 
   add_foreign_key "petition_titles", "petitions", :name => "petition_titles_petition_id_fk"
 
