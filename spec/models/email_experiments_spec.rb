@@ -4,8 +4,8 @@ describe EmailExperiments do
   before :each do
     @default_title = "my petition title"
     @petition = create(:petition, title: @default_title)
-    @email = create(:sent_email)
-    @experiments = EmailExperiments.new(@petition, @email)
+    @email = create(:sent_email, petition: @petition)
+    @experiments = EmailExperiments.new(@email)
   end
 
   context "title" do

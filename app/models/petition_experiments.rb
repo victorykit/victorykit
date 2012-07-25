@@ -8,7 +8,7 @@ class PetitionExperiments
   end
 
   def email(email)
-    EmailExperiments.new(@petition, email)
+    EmailExperiments.new(email)
   end
 
 end
