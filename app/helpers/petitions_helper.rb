@@ -3,10 +3,13 @@ module PetitionsHelper
   def social_media_config
     Rails.configuration.social_media
   end
-  
-  def petition_to_open_graph(petition)
-    member_id = MemberHasher.validate(params[:m])
+
+  def find_member_by_id_hash(hash)
+    member_id = MemberHasher.validate(hash)
     member = Member.find member_id unless not member_id
+  end
+
+  def petition_to_open_graph(petition, member=nil)
     { 
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',

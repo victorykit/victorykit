@@ -121,7 +121,7 @@
 
 
   - content_for(:meta_tags) do
-    - petition_to_open_graph(@petition).each do |key, value|
+    - petition_to_open_graph(@petition, find_member_by_id_hash(@referring_member_hash)).each do |key, value|
       = content_tag "meta", nil, property:key, content:value
 
   = hidden_field_tag 'petitionId', @petition.id

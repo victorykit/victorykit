@@ -22,4 +22,5 @@ class Member < ActiveRecord::Base
     return false if subscribe_date.nil?
     return subscribe_date > unsubscribe_date
   end
+
 end

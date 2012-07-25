@@ -39,7 +39,7 @@ describe PetitionsController do
     end
 
     it "should assign fb_hash variable" do
-      get :show, {:id => petition.id, fb_ref: "some_fb_hash"}
+      get :show, {:id => petition.id, rmfb: "some_fb_hash"}
       assigns(:fb_hash).should == "some_fb_hash"
     end
 
