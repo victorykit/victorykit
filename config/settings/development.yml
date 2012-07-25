@@ -6,6 +6,7 @@ aws:
 hasher:
    secret_key: <%= ENV["HASHER_SECRET_KEY"] %>
 google_analytics:
+   analytics_id: <%= ENV["ANALYTICS_ID"] %>
    oauth:
      user_id: <%= ENV["OAUTH_USER_ID"] %>
      client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
