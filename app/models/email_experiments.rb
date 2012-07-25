@@ -1,20 +1,19 @@
 class EmailExperiments
   include PersistedExperiments
 
-  def initialize(petition, email)
-    @petition = petition
+  def initialize(email)
     @email = email
   end
 
   def subject
-    default = @petition.title
+    default = @email.petition.title
     spin_or_default!(test_names[:subject], :signature, title_options.map{|opt| opt.title}, default)
   end
 
   private
 
   def title_options
-    PetitionTitle.find_all_by_petition_id_and_title_type(@petition.id, title_type)
+    PetitionTitle.find_all_by_petition_id_and_title_type(@email.petition.id, title_type)
   end
 
   def title_type
@@ -22,7 +21,7 @@ class EmailExperiments
   end
 
   def test_names
-    { :subject => "petition #{@petition.id} #{title_type} title" }
+    { :subject => "petition #{@email.petition.id} #{title_type} title" }
   end
 
   # persisted experiments templates
