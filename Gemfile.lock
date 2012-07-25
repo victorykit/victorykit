@@ -94,6 +94,8 @@ GEM
       jquery-rails
     foreigner (1.1.6)
       activerecord (>= 3.0.0)
+    foreman (0.53.0)
+      thor (>= 0.13.6)
     garb (0.9.1)
       activesupport (>= 2.2.0)
       crack (>= 0.1.6)
@@ -253,6 +255,7 @@ DEPENDENCIES
   faker (~> 1.0)
   flot-rails
   foreigner
+  foreman
   garb
   haml
   hirb

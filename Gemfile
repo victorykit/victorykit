@@ -57,6 +57,7 @@ gem 'simplecov', :require => false, :group => :test
 
 gem 'newrelic_rpm'
 gem 'unicorn'
+gem 'foreman'
 
 # for whiplash
 gem 'redis'
