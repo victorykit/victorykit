@@ -44,7 +44,7 @@ describe EmailExperiments do
   context "sender experiment" do
     context "runining for the first time for this email" do
       it "should spin" do
-        @experiments.should_receive(:spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address1, Settings.email.from_address2, Settings.email.from_address3,
+        @experiments.should_receive(:spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
                 Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6], anything()).and_return("choice")
         @experiments.sender.should == "choice"
       end

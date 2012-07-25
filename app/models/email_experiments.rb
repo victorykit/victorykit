@@ -1,6 +1,6 @@
 class EmailExperiments
   include PersistedExperiments
-  FROM_LINES = [Settings.email.from_address1, Settings.email.from_address2, Settings.email.from_address3,
+  FROM_LINES = [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
                 Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6]
 
   def initialize(email)
