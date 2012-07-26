@@ -61,3 +61,21 @@ function initEditPetition() {
     $('#sharing_image_link').hide();
   });
 }
+
+function send_email_preview(form, url) {
+  var valuesToSubmit = form.serialize();
+    $.ajax({
+        url: url,
+        data: valuesToSubmit,
+        type: 'POST',
+        dataType: "JSON",
+        statusCode: {
+          200: function() {
+            alert("Email sent!");
+          },
+          500: function() {
+            alert("Failed to send email!");
+          }
+        }
+    });
+}

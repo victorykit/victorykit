@@ -22,6 +22,9 @@ Victorykit::Application.routes.draw do
   get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
+  post 'petitions/send_email_preview', to: 'petitions#send_email_preview', as: 'send_email_preview'
+  put 'petitions/:id/send_email_preview', to: 'petitions#send_email_preview', as: 'send_email_preview'
+
   namespace(:admin) do
     resources :petitions 
     resources :users
