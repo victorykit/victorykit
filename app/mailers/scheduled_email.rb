@@ -18,6 +18,7 @@ class ScheduledEmail < ActionMailer::Base
     @petition = petition
     @member = member
     email_experiment = EmailExperiments.new(@sent_email)
+    @image_url = EmailExperiments.new(@sent_email).image_url
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
     mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
