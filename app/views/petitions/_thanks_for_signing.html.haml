@@ -16,4 +16,4 @@
     .fb_icon
     .text Share on facebook
 - elsif fb_action_like_popup == "facebook_like"
-  = fb_like petition_url(params[:id]), @fb_tracking_hash, 'button_centered', true
+  = fb_like petition_url(params[:id]), @current_member_hash, 'button_centered', true

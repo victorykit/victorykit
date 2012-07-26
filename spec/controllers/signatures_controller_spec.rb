@@ -95,10 +95,10 @@ describe SignaturesController do
 
     context "the user signed from a facebook like post" do
       let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_hash) { MemberHasher.generate(member.id) }
+      let(:fb_like_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
-        sign_petition fb_hash: fb_hash
+        sign_petition fb_like_hash: fb_like_hash
         Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_LIKE
         Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
@@ -107,7 +107,7 @@ describe SignaturesController do
       it "should declare win on facebook_like option" do
         controller.stub(:win_on_option!)
         controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_like")
-        sign_petition fb_hash: fb_hash
+        sign_petition fb_like_hash: fb_like_hash
       end
     end
 
@@ -149,10 +149,10 @@ describe SignaturesController do
 
     context "the user signed from a shared link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:referer_hash) { MemberHasher.generate(member.id) }
+      let(:email_member_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
-        sign_petition referer_hash: referer_hash
+        sign_petition email_member_hash: email_member_hash
         Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
         Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member

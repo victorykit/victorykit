@@ -43,10 +43,10 @@ class SignaturesController < ApplicationController
       petition.experiments.email(sent_email).win!(:signature)
     else
       referring_url = params[:referring_url]
-      if h = MemberHasher.validate(params[:referer_hash])
+      if h = MemberHasher.validate(params[:email_member_hash])
         referring_member = Member.find(h)
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::SHARED_LINK, referring_url: referring_url}
-      elsif h = MemberHasher.validate(params[:fb_hash])
+      elsif h = MemberHasher.validate(params[:fb_like_hash])
         referring_member = Member.find(h)
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
         petition.experiments.facebook(referring_member).win!(:signature)
