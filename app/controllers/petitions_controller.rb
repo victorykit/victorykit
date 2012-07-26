@@ -124,12 +124,10 @@ class PetitionsController < ApplicationController
   def prepopulate_signature
     begin
       if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
-      if sent_email && sent_email.signature_id.nil?
+      if !populate_member_from_cookies && sent_email && sent_email.signature_id.nil?
         @signature.name =  sent_email.member.name
         @signature.email = sent_email.member.email
         @signing_from_email = true
-      else
-        populate_member_from_cookies
       end
     rescue => er
       Rails.logger.error "Error while prepopulating member info: #{er} #{er.backtrace.join}"

@@ -89,13 +89,6 @@ describe PetitionsController do
         assigns(:current_member_hash).should == "hash"
       end
 
-      it "assigns a signature name and email to the view" do
-        controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
-        get :show, {:id => petition.id}
-        assigns(:signature).name.should == "Bob"
-        assigns(:signature).email.should == "bob@bob.com"
-      end
-      
       it "should set the id for @signature" do
         controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
         signature = create(:signature, petition: petition, member: member)
@@ -103,7 +96,7 @@ describe PetitionsController do
         assigns(:signature).id.should == signature.id
       end
     end
-
+    
     context "the user has not already signed the petition" do
       it "sets facebook ref hash to nil" do
         get :show, {:id => petition.id}
@@ -136,17 +129,67 @@ describe PetitionsController do
       end
     end
 
-    context "do not populate signature if petition already signed from the email" do
-      let(:member) { create :member, name: "Sven", email: "sven@svenland.se" }
+    context "no member cookies" do
+      let(:member_sven) { create :member, name: "Sven", email: "sven@svenland.se" }
       let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
-      let(:signature) { create :signature }
-      let(:sent_email) { create :sent_email, member: member, signature_id: signature.id}
-      it "should assign values from member" do
-        controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
-        get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
 
-        assigns(:signature).name.should == "Bob"
-        assigns(:signature).email.should == "bob@bob.com"
+      context "email hash is present" do
+        context "the petition was already signed from this email" do
+          let(:signature) { create :signature }
+          let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
+          it "should not populate name and email from email_hash" do
+            get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
+
+            assigns(:signature).name.should be_nil
+            assigns(:signature).email.should be_nil
+          end
+        end
+        context "the petition was not signed from this email" do
+          let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
+          it "should assign name and email to the form from email hash" do
+            get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
+
+          assigns(:signature).name.should == "Sven"
+          assigns(:signature).email.should == "sven@svenland.se"
+        end
+      end
+      end
+    end
+
+    context "member cookies are present" do
+      let(:member_sven) { create :member, name: "Sven", email: "sven@svenland.se" }
+      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
+      context "no email hash" do
+        it "populates his name and email in the signature form from cookies" do
+          controller.stub(cookies: {:member_id => MemberHasher.generate(member_bob.id)})
+          get :show, {:id => petition.id}
+          assigns(:signature).name.should == "Bob"
+          assigns(:signature).email.should == "bob@bob.com"
+        end
+      end
+
+      context "email hash is present" do
+        context "the petition was signed from this email" do
+          let(:signature) { create :signature }
+          let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
+          it "should assign name and email to the form from member cookies" do
+            controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+            get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
+
+            assigns(:signature).name.should == "Bob"
+            assigns(:signature).email.should == "bob@bob.com"
+          end
+        end
+        context "the petition was not signed from this email" do
+          let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
+          it "should assign name and email to the form from cookies" do
+            controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+            get :show, {:id => petition.id, :n => SentEmailHasher.generate(sent_email.id)}
+
+            assigns(:signature).name.should == "Bob"
+            assigns(:signature).email.should == "bob@bob.com"
+          end
+        end
       end
     end
   end
@@ -181,7 +224,7 @@ describe PetitionsController do
   end
 
   describe "POST create" do
-    
+
     let(:action){ post :create }
     it_behaves_like "a login protected page"
 
@@ -274,7 +317,7 @@ describe PetitionsController do
   describe "track_visit" do
     let(:sent_email) { create :sent_email }
     let(:petition) { create :petition }
-  
+
     it "should update clicked_at with the current time if email hash and corresponding sent_email are present" do
       get :show, id: petition.id, n: SentEmailHasher.generate(sent_email.id)
       (SentEmail.find(sent_email.id).clicked_at + 1.minute).should be > Time.now
