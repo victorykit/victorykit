@@ -94,6 +94,7 @@
   }
 }
 
+
 #thanks-for-signing-message, #thanksModal, .signature-form, #ask-to-sign {
   padding: 10px;
 }
@@ -511,4 +512,24 @@
       *offset: 0;
     }
   }
+}
+.page_content .signature-form {
+  .control-label {
+    width: 25%;
+    padding: 0;
+    border-bottom: none;
+    margin-top: 10px;
+    @media (min-width: 280px) and (max-width: 1200px) { text-align: left; width: 100%;}
+    float: left;
+  }
+  .through_site .controls {
+    width: 72%;
+  }
+  .through_site .controls, .through_site .controls input {
+    float: right;
+    @media (min-width: 280px) and (max-width: 1200px) { clear: both; width: 100%; }
+  }
+  .privacypolicy { margin: 10px\9; clear: both\9; }
+  .btn { margin-right: -10px\9; }
+  .control-group { *height: 3em; }
 }

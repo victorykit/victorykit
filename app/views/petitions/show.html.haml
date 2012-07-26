@@ -3,7 +3,6 @@
 - thermposition = spin! "thermometer and social icon placement", :signature, ["therm1", "therm2"]
 - signpetitionboxcolor = spin! "change containing box color for sign petition", :signature, ["signaturecolor1", "signaturecolor2", "signaturecolor3", "signaturecolor4", "signaturecolor5", "signaturecolor6"]
 - thermometercolor = spin! "change thermometer color", :signature, ["redthermometer", "bluethermomete", "greenthermometer", "orangethermometer", "tealthermometer"]
-- signaturelabels = spin! "change positioning and visibility of labels on sign petition form", :signature, ["signature_labels_beside_inputs_no_asterisk", "signature_labels_beside_inputs_with_asterisk", "signature_labels_beside_inputs_with_asterisk_underlined", "signature_labels_above_inputs_no_asterisk", "signature_labels_above_inputs_with_asterisk", "signature_labels_above_inputs_with_asterisk_underlined", "signature_labels_hidden"]
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 - petitionwidth = spin! "testing different widths", :signature, ["fullwidthpetition", "middlewidthpetition", "narrowwidthpetition"]
 - showfullname = spin! "full name vs first and last name", :signature, ["fullname", "firstandlastname"]
@@ -17,7 +16,7 @@
 
 .fb-root
 
-#petition_page.page_content{class: [petitionside, thermposition, signpetitionboxcolor, signaturelabels, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
+#petition_page.page_content{class: [petitionside, thermposition, signpetitionboxcolor, thermometercolor, petitionwidth, thankyouboxcolor, thankyouarrowcolor]}
   .sidebar_test.secondary
     - unless @was_signed
       .signature-form
@@ -26,26 +25,13 @@
         .through_site
           = form_tag [@petition, @signature] do |form|
             = simple_fields_for :signature, @signature do |f|
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_name = { placeholder: 'name' }
-                - placeholder_first_name = { placeholder: 'first name' }
-                - placeholder_last_name = { placeholder: 'last name' }
-              - else
-                - placeholder_name = {}
-                - placeholder_first_name = {}
-                - placeholder_last_name = {}
-
               - if showfullname == "fullname"
-                = f.input :name, :hint => false, :input_html => placeholder_name
+                = f.input :name, :hint => false
               - else
-                = f.input :first_name, :hint => false, :input_html => placeholder_first_name
-                = f.input :last_name, :hint => false, :input_html => placeholder_last_name
+                = f.input :first_name, :hint => false
+                = f.input :last_name, :hint => false
 
-              - if signaturelabels == 'signature_labels_hidden'
-                - placeholder_email = { placeholder: 'email' }
-              - else
-                - placeholder_email = {}
-              = f.input :email, :input_html => placeholder_email
+              = f.input :email
               = render :partial => "hidden_params"
               #hint.alert.alert-error
               = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})
@@ -140,26 +126,13 @@
       .through_site
         = form_tag [@petition, @signature] do |form|
           = simple_fields_for :signature, @signature do |f|
-            - if signaturelabels == 'signature_labels_hidden'
-              - placeholder_name = { placeholder: 'name' }
-              - placeholder_first_name = { placeholder: 'first name' }
-              - placeholder_last_name = { placeholder: 'last name' }
-            - else
-              - placeholder_name = {}
-              - placeholder_first_name = {}
-              - placeholder_last_name = {}
-
             - if showfullname == "fullname"
-              = f.input :name, :hint => false, :input_html => placeholder_name
+              = f.input :name, :hint => false
             - else
-              = f.input :first_name, :hint => false, :input_html => placeholder_first_name
-              = f.input :last_name, :hint => false, :input_html => placeholder_last_name
+              = f.input :first_name, :hint => false
+              = f.input :last_name, :hint => false
 
-            - if signaturelabels == 'signature_labels_hidden'
-              - placeholder_email = { placeholder: 'email' }
-            - else
-              - placeholder_email = {}
-            = f.input :email, :input_html => placeholder_email
+            = f.input :email
             #hint.alert.alert-error
             = render :partial => "hidden_params"
             = f.button(:submit, { :id => 'sign_petition', :class => 'btn btn-primary', :value => spin!("sign button", :signature, ['Sign!', 'Sign Now!', 'Sign Up!'])})

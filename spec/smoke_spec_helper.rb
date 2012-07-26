@@ -85,7 +85,6 @@ def set_default_experiment_results
     #"thermometer and social icon placement" => "therm1",
     #"change containing box color for sign petition" => "signaturecolor1",
     #"change thermometer color" => "redthermometer",
-    #"change positioning and visibility of labels on sign petition form" => "signature_labels_beside_inputs_no_asterisk",
     #"test different messaging on progress bar" => "x_signatures_of_y",
     #"testing different widths" => "fullwidthpetition",
     #"different background for thank you box" => "hex_f5f5f5",
