@@ -12,7 +12,7 @@ describe BouncesController do
       Unsubscribe.last.member.should == member
     end
 
-    shared_examples_for "bounce notification handler" do
+    shared_examples_for "misformated notification handler" do
       it "should not try to unsubscribe a non-existent member" do
         request.env["RAW_POST_DATA"] = data
         post :create
@@ -71,7 +71,7 @@ json
         unsubscribes_the_recipient_because_of "Bounce/Permanent/General"
       end
 
-      it_behaves_like "bounce notification handler"
+      it_behaves_like "misformated notification handler"
     end
 
     context "when a transient bounce is received" do
@@ -93,7 +93,29 @@ json
         create :member, :email => "username@example.com"
       end
 
-      it_behaves_like "bounce notification handler"
+      it_behaves_like "misformated notification handler"
+    end
+
+    context "no recipients in the bounce message" do
+      let(:data) {
+<<json
+{\n  \"Type\" : \"Notification\",
+\n  \"MessageId\" : \"2af9f02d-dd41-4874-96fc-f6deeff281d1\",
+\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:479537524374:ses-bounces-topic\",
+\n  \"Message\" : \"{\\\"notificationType\\\":\\\"Bounce\\\",\\\"bounce\\\":{\\\"bounceType\\\":\\\"Undefined\\\",\\\"reportingMTA\\\":\\\"dns; a194-82.smtp-out.amazonses.com\\\",\\\"bouncedRecipients\\\":[],\\\"bounceSubType\\\":\\\"General\\\",\\\"timestamp\\\":\\\"2012-07-18T14:26:21.000Z\\\",\\\"feedbackId\\\":\\\"000001389a7c40ca-a7f1fba9-d0e4-11e1-b74d-0d11d9f219b5-000000\\\"},\\\"mail\\\":{\\\"timestamp\\\":\\\"2012-07-18T14:27:07.000Z\\\",\\\"source\\\":\\\"\\\\\\\"Watchdog.net\\\\\\\" <info@watchdog.net>\\\",\\\"messageId\\\":\\\"000001389a7c34ee-64c16414-0497-4a68-8595-48a0dacaae30-000000\\\",\\\"destination\\\":[\\\"shell.muchael@gmail.com\\\"]}}\",
+\n  \"Timestamp\" : \"2012-07-18T14:27:10.818Z\",
+\n  \"SignatureVersion\" : \"1\",
+\n  \"Signature\" : \"dEJYbH0lwhtWuGbnc1oiDXoiD8EL0tHEbrG2SMLUP8WZMNE43epYZqEDkDdNJCgosM5I82OFDlt3eLpI+dxamY0L/9m1UQkwuDBCCampB4ikmFCMieFaEgUagEyaebeq41vU7kBVOogkTjQVvRuVcOYVhTz3IO72oFAaxMcOqOg=\",
+\n  \"SigningCertURL\" : \"https://sns.us-east-1.amazonaws.com/SimpleNotificationService-f3ecfb7224c7233fe7bb5f59f96de52f.pem\",
+\n  \"UnsubscribeURL\" : \"https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:479537524374:ses-bounces-topic:3c4cbe74-5962-40f8-b753-16555a72e787\"
+\n}
+json
+      }
+      before do
+        create :member, :email => "username@example.com"
+      end
+
+      it_behaves_like "misformated notification handler" 
     end
 
     context "when a complaint with feedback is received" do
@@ -112,7 +134,7 @@ json
 json
       }
 
-      it_behaves_like "bounce notification handler"
+      it_behaves_like "misformated notification handler"
 
       it "should unsubscribe the recipient" do
         unsubscribes_the_recipient_because_of "Complaint/abuse"
@@ -139,7 +161,7 @@ json
         create :member, :email => "username@example.com"
       end
 
-      it_behaves_like "bounce notification handler"
+      it_behaves_like "misformated notification handler"
 
     end
 
@@ -162,7 +184,7 @@ json
           unsubscribes_the_recipient_because_of "Complaint"
         end
 
-        it_behaves_like "bounce notification handler"
+        it_behaves_like "misformated notification handler"
       end
   end
 end
