@@ -21,25 +21,40 @@ class BouncesController < ApplicationController
       notification_type = dsn["notificationType"]
       if notification_type == "Bounce"
         record_dsn
-        bounce_type = dsn["bounce"]["bounceType"]
-        bounce_sub_type = dsn["bounce"]["bounceSubType"]
-        email = dsn["bounce"]["bouncedRecipients"][0]["emailAddress"]
-
-        unless bounce_type == "Transient"
-          unsubscribe email, "#{notification_type}/#{bounce_type}/#{bounce_sub_type}"
+        begin
+          process_bounce dsn
+        rescue => error
+          Rails.logger.error "Exception while handling a bounce message: #{error}"
         end
       elsif notification_type == "Complaint"
         record_dsn
-        complaint_type = dsn["complaint"]["complaintFeedbackType"]
-        email = dsn["complaint"]["complainedRecipients"][0]["emailAddress"]
-        cause = "#{notification_type}"
-        cause << "/#{complaint_type}" if complaint_type
-
-        unless complaint_type == "not-spam"
-          unsubscribe email, cause
+        begin
+          process_complaint dsn
+        rescue => error
+          Rails.logger.error "Exception while handling a complaint message: #{error}"
         end
       end
 
+  end
+
+  def process_bounce bounce
+    bounce_type = bounce["bounce"]["bounceType"]
+    bounce_sub_type = bounce["bounce"]["bounceSubType"]
+    email = bounce["bounce"]["bouncedRecipients"][0]["emailAddress"]
+    unless bounce_type == "Transient"
+      unsubscribe email, "Bounce/#{bounce_type}/#{bounce_sub_type}"
+    end
+  end
+
+  def process_complaint complaint
+    complaint_type = complaint["complaint"]["complaintFeedbackType"]
+    email = complaint["complaint"]["complainedRecipients"][0]["emailAddress"]
+    cause = "Complaint"
+    cause << "/#{complaint_type}" if complaint_type
+
+    unless complaint_type == "not-spam"
+      unsubscribe email, cause
+    end
   end
 
   def record_dsn
