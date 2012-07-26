@@ -73,11 +73,11 @@
 
     - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
       .social_icons
-        = fb_like petition_url(params[:id]), @current_member_hash
+        = fb_like petition_url(params[:id]), @current_member_hash, nil, true
     - else
       .social_icons.tallerprogress
         -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-        = fb_like petition_url(params[:id]), @current_member_hash
+        = fb_like petition_url(params[:id]), @current_member_hash, nil, true
     .progress_bar
       .numbers
         - if progressmessaging == 'x_signatures_of_y'
