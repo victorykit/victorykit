@@ -43,11 +43,15 @@
             = render 'petition_image_fields', {f: builder}
         .controls
           = link_to_add_fields "Add Image", f, :petition_images, {:class => "string btn btn-primary add_link"}, {:label_name => 'Image'}, "#sharing_images"
+          %span.image-help-text
+            (Images will be resized to be 200 pixels wide)
 
 
   .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
+    = link_to "Email a preview to #{current_user.email}", "#", :id => "email_preview_link", :onclick => "send_email_preview($(this).closest('form'), '#{url_for(:action => 'send_email_preview', :controller => 'petitions')}');" 
+
 
 - content_for :javascripts do
   $(document).ready(initEditPetition);

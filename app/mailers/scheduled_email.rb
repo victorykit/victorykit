@@ -23,6 +23,16 @@ class ScheduledEmail < ActionMailer::Base
     mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
+  def send_preview(petition, member)
+    @petition = petition
+    @member = member
+    @petition_link = petition.persisted? ? petition_url(petition) : "PETITION LINK GOES HERE"
+    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
+    @tracking_url = new_pixel_tracking_url
+    @image_url = petition.petition_images.any? ? petition.petition_images.first.url : nil
+    mail(subject: petition.title, from: Settings.email.from_address, to: "\"#{member.name}\" <#{member.email}>", :template_name => 'new_petition').deliver
+  end
+
   private 
 
   def log_sent_email(member, petition)

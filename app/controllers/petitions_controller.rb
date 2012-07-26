@@ -83,7 +83,15 @@ class PetitionsController < ApplicationController
       refresh "edit"
     end
   end
-  
+
+  def send_email_preview
+    @petition = params[:id].present? ? Petition.find(params[:id]) : Petition.new
+    @petition.assign_attributes(params[:petition], as: role)
+    current_member = Member.find_by_email current_user.email
+    ScheduledEmail.send_preview @petition, current_member
+    render :text => 'success', :status => 200
+  end
+
   private
 
   def get_member_id
@@ -91,7 +99,7 @@ class PetitionsController < ApplicationController
   end
 
   def refresh action
-      flash[:error] = @petition.errors.full_messages.to_sentence
+      flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
       @form_view = choose_form_based_on_browser
       render action: action
   end

@@ -21,4 +21,28 @@ describe 'Petition create page' do
     current_path.should == new_petition_path
     log_out
   end
+  it "should email a preview of the petition to the current user's email address" do
+    as_admin do
+      `rm ./tmp/mails/admin@test.com`
+      go_to new_petition_path
+      send_email_preview
+      email = `cat ./tmp/mails/admin@test.com`
+      email.should_not == ""
+    end
+  end
+end
+
+def send_email_preview
+  click id: "email_preview_link"
+  alert = wait.until {alert_is_present}
+  alert.accept
+end
+
+def alert_is_present
+  begin
+    a = $driver.switch_to.alert
+    return a
+  rescue Exception => e
+    return nil
+  end
 end
