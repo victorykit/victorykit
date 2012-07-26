@@ -4,6 +4,7 @@ describe ScheduledEmail do
   describe "sending an email" do
     let(:member){ create(:member)}
     let(:petition){ create(:petition)}
+    let!(:petition_image) {create(:petition_image, petition: petition)}
     let!(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
     let(:email_hash){SentEmailHasher.generate(sent_email.id)}
@@ -22,6 +23,10 @@ describe ScheduledEmail do
     
     it "uses the member's email address" do
       mail.to[0].should match /#{member.email}$/
+    end
+    
+    it "includes an image if any exist" do
+      mail.body.encoded.should include "#{petition_image.url}"
     end
 
     it "includes the petition link in the body" do

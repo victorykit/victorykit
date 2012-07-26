@@ -4,9 +4,14 @@
 
 <p>Dear <%=@member.name%>,</p>
 
-<%=sanitize(@petition.description)%>
+<div>
+	<%if(@image_url.present?)%>
+		<img style="float:right;max-width:200px;margin-left:20px;" src="<%=@image_url%>"/>
+	<%end%>
+	<%=sanitize(@petition.description)%>
+</div>
 
-<p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
+<p style="clear:both;"><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
 
 <p>Thanks,<br/>
  -- The folks at Watchdog.net</p>

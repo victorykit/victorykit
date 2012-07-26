@@ -16,6 +16,10 @@ class EmailExperiments
     spin_or_retrieve_choice test_names[:sender], :signature, FROM_LINES
   end
 
+  def image_url
+    spin_or_default!(test_names[:image], :signature, image_options.map{|opt| opt.url}, nil)
+  end
+
   private
 
   def title_options
@@ -26,10 +30,17 @@ class EmailExperiments
     PetitionTitle::TitleType::EMAIL
   end
 
-  def test_names
-    { :subject => "petition #{@email.petition.id} #{title_type} title", :sender => "different from lines for scheduled emails" }
+  def image_options
+    @email.petition.petition_images
   end
 
+  def test_names
+  { :subject => "petition #{@email.petition.id} #{title_type} title", 
+    :sender => "different from lines for scheduled emails",
+    :image => "petition #{@email.petition.id} image" 
+  }
+  end
+  
   # persisted experiments templates
 
   def current_trials(goal)
