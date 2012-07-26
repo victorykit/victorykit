@@ -2,13 +2,13 @@
   = hidden_field_tag :referring_url, @referring_url
 - if @email_hash
   = hidden_field_tag :email_hash, @email_hash
-- if @fb_hash
-  = hidden_field_tag :fb_hash, @fb_hash
+- if @fb_like_hash
+  = hidden_field_tag :fb_like_hash, @fb_like_hash
 - if @fb_share_link_ref
   = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
 - if @fb_action_id
   = hidden_field_tag :fb_action_id, @fb_action_id
-- if @referer_hash
-  = hidden_field_tag :referer_hash, @referer_hash
+- if @email_member_hash
+  = hidden_field_tag :email_member_hash, @email_member_hash
 - if @twitter_hash
   = hidden_field_tag :twitter_hash, @twitter_hash

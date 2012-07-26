@@ -38,14 +38,14 @@ describe PetitionsController do
       assigns(:email_hash).should == "some_hash"
     end
 
-    it "should assign fb_hash variable" do
-      get :show, {:id => petition.id, f: "some_fb_hash"}
-      assigns(:fb_hash).should == "some_fb_hash"
+    it "should assign fb_like_hash variable" do
+      get :show, {:id => petition.id, f: "some_fb_like_hash"}
+      assigns(:fb_like_hash).should == "some_fb_like_hash"
     end
 
     it "should assign fb_share_link_ref variable" do
-      get :show, {:id => petition.id, share_ref: "some_fb_hash"}
-      assigns(:fb_share_link_ref).should == "some_fb_hash"
+      get :show, {:id => petition.id, share_ref: "some_fb_like_hash"}
+      assigns(:fb_share_link_ref).should == "some_fb_like_hash"
     end
 
     it "should assign tweetable_url after signing" do
@@ -86,7 +86,7 @@ describe PetitionsController do
       it "sets facebook ref hash to encoded signature id" do
         controller.stub(cookies: {member_id: "hash"})
         get :show, {:id => petition.id}
-        assigns(:fb_tracking_hash).should == "hash"
+        assigns(:current_member_hash).should == "hash"
       end
 
       it "assigns a signature name and email to the view" do
@@ -107,7 +107,7 @@ describe PetitionsController do
     context "the user has not already signed the petition" do
       it "sets facebook ref hash to nil" do
         get :show, {:id => petition.id}
-        assigns(:fb_tracking_hash).should be_nil
+        assigns(:current_member_hash).should be_nil
       end
     end
 
@@ -129,10 +129,10 @@ describe PetitionsController do
       let(:member) { create :member }
 
       it 'should make the refering member available to the view' do
-        referer_hash = MemberHasher.generate(member.id)
-        get :show, {:id => petition.id, :r => referer_hash }
+        email_member_hash = MemberHasher.generate(member.id)
+        get :show, {:id => petition.id, :r => email_member_hash }
 
-        assigns(:referer_hash).should == referer_hash
+        assigns(:email_member_hash).should == email_member_hash
       end
     end
 
