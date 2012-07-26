@@ -42,7 +42,7 @@ describe EmailExperiments do
   end
 
   context "sender experiment" do
-    context "runining for the first time for this email" do
+    context "running for the first time for this email" do
       it "should spin" do
         @experiments.should_receive(:spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
                 Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6], anything()).and_return("choice")
@@ -58,12 +58,23 @@ describe EmailExperiments do
       end
     end
 
-    context "runining not for the first time for this email" do
+    context "running not for the first time for this email" do
       it "should not spin" do
         create(:email_experiment, :key => "different from lines for scheduled emails", :choice => "choice", :goal => "signature", :sent_email => @email)
         @experiments.should_not_receive(:spin!)
         @experiments.sender.should == "choice"
       end
+    end
+  end
+
+  context "image" do
+    it "should return image url when images exist" do
+      image = create(:petition_image, petition_id: @petition.id)
+      @experiments.image_url.should eq image.url
+    end
+
+    it "should return nil when no images exist" do
+      @experiments.image_url.should be_nil
     end
   end
 
