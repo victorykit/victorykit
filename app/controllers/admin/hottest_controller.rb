@@ -12,8 +12,9 @@ class Admin::HottestController < ApplicationController
   
     sent_data = SentEmail.group(:petition_id).count
     new_data = Signature.where(created_member: true).group(:petition_id).count
-    sent_data.default, new_data.default = 0, 0
-    db_data = Hash[options.collect { |k| [k, [sent_data[k], new_data[k]]]}]
+    unsub_data = Unsubscribe.joins(:sent_email).group(:petition_id).count
+    sent_data.default, new_data.default, unsub_data.default = 0, 0, 0
+    db_data = Hash[options.collect { |k| [k, [sent_data[k], new_data[k], unsub_data[k.to_s]]]}]
   end
 
   def uniqc(l)
@@ -33,7 +34,7 @@ class Admin::HottestController < ApplicationController
     acc = 0
     rows = []
     uniqc(hotlist).each{ |x, c|
-      nps = db_data[x][1].to_f/db_data[x][0]
+      nps = (db_data[x][1].to_f - db_data[x][2])/db_data[x][0]
       acc += nps * c
       rows.append([c, Petition.find_by_id(x), db_data[x], nps])
     }
