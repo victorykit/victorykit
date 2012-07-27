@@ -2,7 +2,7 @@
   Thanks for signing!
 .sharing-message
   Spread the word, share with your friends!
-- if spin! "nudgenudge", :share
+- if (spin! "nudgenudge", :share) && !browser.mobile? && !browser.ie? && !browser.android?
   .jumping_arrow
 - else
   .arrow
