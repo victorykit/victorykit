@@ -23,12 +23,12 @@ describe 'Petition create page' do
   end
   it "should email a preview of the petition to the current user's email address" do
     as_admin do
+      create_member "admin name", "admin@test.com"
       `rm ./tmp/mails/admin@test.com`
       go_to new_petition_path
       send_email_preview
       email = `cat ./tmp/mails/admin@test.com`
-      
-      #email.should_not == ""
+      email.should_not == ""
     end
   end
 end
