@@ -20,6 +20,7 @@ end
 
 describe Bandit do
   include Bandit
+
   it "should guess floats" do
     arm_guess(0, 0).class.should == Float
     arm_guess(1, 0).class.should == Float
@@ -29,6 +30,10 @@ describe Bandit do
   
   it "should pick one of the options as the best" do
     best_guess({a: [10, 5], b: [100, 99]}).should be_in [:a, :b]
+  end
+
+  # can't test this because it's mocked out...
+  it "should not incr redis if only one option" do
   end
   
   # can't test this because it's mocked out...
