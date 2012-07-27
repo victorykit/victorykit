@@ -24,12 +24,18 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def send_preview(petition, member)
+    puts "sending email preview"
     @petition = petition
     @member = member
     @petition_link = petition.persisted? ? petition_url(petition) : "PETITION LINK GOES HERE"
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
     @tracking_url = new_pixel_tracking_url
     @image_url = petition.petition_images.any? ? petition.petition_images.first.url : nil
+    begin
+      puts "Emails saved to #{file_settings[:location]}"
+      puts `ls #{file_settings[:location]}`
+    rescue
+    end
     mail(subject: petition.title, from: Settings.email.from_address, to: "\"#{member.name}\" <#{member.email}>", :template_name => 'new_petition').deliver
   end
 
