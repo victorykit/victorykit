@@ -16,7 +16,7 @@ class SignaturesController < ApplicationController
         Notifications.signed_petition signature
         petition.save!
 
-        track_referals petition, signature, params
+        track_referrals petition, signature
         signature.save!
         nps_win signature
         win! :signature
@@ -35,35 +35,32 @@ class SignaturesController < ApplicationController
 
   private
 
-  def track_referals petition, signature, params
-    if h = SentEmailHasher.validate(params[:email_hash])
-      sent_email = SentEmail.find_by_id(h)
+  def track_referrals petition, signature
+    if sent_email = SentEmailHasher.member_for(params[:email_hash])
       sent_email.signature ||= signature
       sent_email.save!
       signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
       petition.experiments.email(sent_email).win!(:signature)
     else
-      referring_url = params[:referring_url]
-      if h = MemberHasher.validate(params[:forwarded_notification_hash])
-        referring_member = Member.find(h)
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FORWARDED_NOTIFICATION, referring_url: referring_url}
-      elsif h = MemberHasher.validate(params[:fb_like_hash])
-        referring_member = Member.find(h)
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_LIKE, referring_url: referring_url}
+      if record_referer signature, :forwarded_notification_hash, Signature::ReferenceType::FORWARDED_NOTIFICATION
+      elsif record_referer signature, :shared_link_hash, Signature::ReferenceType::SHARED_LINK
+      elsif referring_member = record_referer(signature, :fb_like_hash, Signature::ReferenceType::FACEBOOK_LIKE)
         petition.experiments.facebook(referring_member).win!(:signature)
       elsif params[:fb_action_id].present?
         facebook_action = Share.find_by_action_id(params[:fb_action_id].to_s)
         referring_member = facebook_action.member
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: referring_url}
+        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: params[:referring_url]}
         petition.experiments.facebook(referring_member).win!(:signature)
-      elsif h = MemberHasher.validate(params[:fb_share_link_ref])
-        referring_member = Member.find(h)
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_POPUP, referring_url: referring_url}
+      elsif referring_member = record_referer(signature, :fb_share_link_ref, Signature::ReferenceType::FACEBOOK_POPUP)
         petition.experiments.facebook(referring_member).win!(:signature)
-      elsif h = MemberHasher.validate(params[:twitter_hash])
-        referring_member = Member.find(h)
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::TWITTER, referring_url: referring_url}
-      end
+      else record_referer signature, :twitter_hash, Signature::ReferenceType::TWITTER end
+    end
+  end
+
+  def record_referer signature, param_name, reference_type
+    if referring_member = MemberHasher.member_for(params[param_name])
+      signature.attributes = {referer: referring_member, reference_type: reference_type, referring_url: params[:referring_url]}
+      referring_member
     end
   end
 
