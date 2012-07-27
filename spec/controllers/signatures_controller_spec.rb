@@ -28,7 +28,7 @@ describe SignaturesController do
         email[:subject].to_s.should match /#{petition.title}/
       end
 
-      it "it should record hashed member id to cookies" do
+      it "should record hashed member id to cookies" do
         sign_petition
         cookies[:member_id].should == MemberHasher.generate(Signature.find_by_email(signature_fields[:email]).member_id)
       end
@@ -148,13 +148,25 @@ describe SignaturesController do
       end
     end
 
-    context "the user signed from a shared link" do
+    context "the user signed from a forwarded notification" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
       let(:forwarded_notification_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
         sign_petition forwarded_notification_hash: forwarded_notification_hash
         Signature.last.reference_type.should == Signature::ReferenceType::FORWARDED_NOTIFICATION
+        Signature.last.referring_url.should == referring_url
+        Signature.last.referer.should == member
+      end
+    end
+
+    context "the user signed from a shared link" do
+      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:shared_link_hash) { MemberHasher.generate(member.id) }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition shared_link_hash: shared_link_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
         Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
       end
