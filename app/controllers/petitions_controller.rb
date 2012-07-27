@@ -89,7 +89,6 @@ class PetitionsController < ApplicationController
     @petition.assign_attributes(params[:petition], as: role)
     current_member = Member.find_by_email current_user.email
     ScheduledEmail.send_preview @petition, current_member
-    raise "argh"
     respond_to do |format|
       format.json  { render :json => ['success'].to_json }
     end
