@@ -57,7 +57,7 @@ browser:  true      # true if the standard browser globals should be predefined
 rhino:    false     # true if the Rhino environment globals should be predefined
 windows:  false     # true if Windows-specific globals should be predefined
 widget:   false     # true if the Yahoo Widgets globals should be predefined
-devel:    false      # true if functions like alert, confirm, console, prompt etc. are predefined
+devel:    true      # true if functions like alert, confirm, console, prompt etc. are predefined
 
 
 # ------------ jslint_on_rails custom lint options (switch to true to disable some annoying warnings) ------------
