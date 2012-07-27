@@ -72,10 +72,10 @@ function send_email_preview(form, url) {
         statusCode: {
           200: function() {
             alert("Email sent!");
-          },
-          500: function() {
-            alert("Failed to send email!");
           }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          alert(textStatus + "...Failed to send email because...\n" + jqXHR.responseText);
         }
     });
 }
