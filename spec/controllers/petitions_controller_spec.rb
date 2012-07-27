@@ -118,7 +118,7 @@ describe PetitionsController do
     #   end
     # end
 
-    context 'referer hash param is present' do
+    context 'forward notification hash param is present' do
       let(:member) { create :member }
 
       it 'should make the refering member available to the view' do
@@ -126,6 +126,17 @@ describe PetitionsController do
         get :show, {:id => petition.id, :r => forwarded_notification_hash }
 
         assigns(:forwarded_notification_hash).should == forwarded_notification_hash
+      end
+    end
+
+    context 'shared link hash param is present' do
+      let(:member) { create :member }
+
+      it 'should make the refering member available to the view' do
+        shared_link_hash = MemberHasher.generate(member.id)
+        get :show, {:id => petition.id, :l => shared_link_hash }
+
+        assigns(:shared_link_hash).should == shared_link_hash
       end
     end
 

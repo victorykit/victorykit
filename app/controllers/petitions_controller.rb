@@ -21,6 +21,7 @@ class PetitionsController < ApplicationController
     
     @email_hash = params[:n]
     @forwarded_notification_hash = params[:r]
+    @shared_link_hash = params[:l]
 
     @twitter_hash = params[:t]
     @fb_like_hash = params[:f]
