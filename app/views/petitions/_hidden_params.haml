@@ -10,5 +10,7 @@
   = hidden_field_tag :fb_action_id, @fb_action_id
 - if @forwarded_notification_hash
   = hidden_field_tag :forwarded_notification_hash, @forwarded_notification_hash
+- if @shared_link_hash
+  = hidden_field_tag :shared_link_hash, @shared_link_hash
 - if @twitter_hash
   = hidden_field_tag :twitter_hash, @twitter_hash
