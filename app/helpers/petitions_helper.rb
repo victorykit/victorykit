@@ -13,7 +13,7 @@ module PetitionsHelper
     { 
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
-      'og:description' => strip_tags_except_links(petition.description).squish[0..300],
+      'og:description' => strip_tags_except_links(petition.facebook_description_for_sharing).squish[0..300],
       'og:image' => social_media_config[:facebook][:image],
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
@@ -28,4 +28,13 @@ module PetitionsHelper
       end
     end
   end
+
+  def browser_really_ie?
+    browser.ie? && !(browser.user_agent =~ /chromeframe/)
+  end
+
+  def choose_form_based_on_browser
+    browser_really_ie? ? 'ie_form' : 'form'
+  end
+  
 end

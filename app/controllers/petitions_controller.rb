@@ -45,14 +45,6 @@ class PetitionsController < ApplicationController
     @form_view = choose_form_based_on_browser
   end
 
-  def choose_form_based_on_browser
-    if browser.ie? and !(browser.user_agent =~ /chromeframe/)
-      'ie_form'
-    else
-      'form'
-    end
-  end
-
   def edit
     @petition = Petition.find(params[:id])
     @form_view = choose_form_based_on_browser
@@ -102,9 +94,9 @@ class PetitionsController < ApplicationController
   end
 
   def refresh action
-      flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
-      @form_view = choose_form_based_on_browser
-      render action: action
+    flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
+    @form_view = choose_form_based_on_browser
+    render action: action
   end
 
   def log_empty_links
@@ -131,6 +123,13 @@ class PetitionsController < ApplicationController
     end
   end
 
+  def choose_form_based_on_browser
+    if browser.ie? and !(browser.user_agent =~ /chromeframe/)
+      'ie_form'
+    else
+      'form'
+    end
+  end
 
   def prepopulate_signature
     begin
