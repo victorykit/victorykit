@@ -64,11 +64,19 @@ class Admin::ExperimentsController < ApplicationController
     sent = Hash[SentEmail.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
     sent.default = 1
     
-    chart_for_table = Proc.new do |table, conditions=nil|
+    chart_for_table = Proc.new do |table, conditions=nil, subtract_unsubs=false|
       prefs = {group: 'date(created_at)', conditions: conditions}
       out = Hash[table.count(prefs).map {|(k,v)| [k.to_date, v.to_f]}]
       out.default = 0
-      (Date.new(2012, 05, 16)..Date.today).collect {|x| out[x]/sent[x] }
+      if subtract_unsubs
+        #NOTE: This does not include resubscribes, but there aren't many of those.
+        unsubs = Hash[Unsubscribe.count(prefs).map {|(k,v)| [k.to_date, v.to_f]}]
+      end
+      (Date.new(2012, 05, 16)..Date.today).collect do |x| 
+        n = out[x]
+        n -= unsubs[x] if subtract_unsubs
+        n/sent[x]
+      end
     end
     
     #chart_for_table.call SentEmail, 'opened_at is not null'
@@ -79,7 +87,7 @@ class Admin::ExperimentsController < ApplicationController
     #chart_for_table.call Signature
     #chart_for_table.call Signature, 'created_member is not true'
     
-    chart_for_table.call Member
+    chart_for_table.call Member, nil, true
   end
     
   def index
