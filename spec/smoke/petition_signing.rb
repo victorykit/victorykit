@@ -22,9 +22,9 @@ describe 'Petition page' do
   it 'should track the referer for a signature' do
     go_to petition_path(@petition)
     referer = create_member
-    email_member_hash = MemberHasher.generate(referer.id)
+    forwarded_notification_hash = MemberHasher.generate(referer.id)
 
-    referred_link = petition_path(@petition) + "?r=#{email_member_hash}"
+    referred_link = petition_path(@petition) + "?r=#{forwarded_notification_hash}"
     go_to referred_link
 
     name = Faker::Name.name

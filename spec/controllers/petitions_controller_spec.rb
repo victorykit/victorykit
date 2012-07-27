@@ -122,10 +122,10 @@ describe PetitionsController do
       let(:member) { create :member }
 
       it 'should make the refering member available to the view' do
-        email_member_hash = MemberHasher.generate(member.id)
-        get :show, {:id => petition.id, :r => email_member_hash }
+        forwarded_notification_hash = MemberHasher.generate(member.id)
+        get :show, {:id => petition.id, :r => forwarded_notification_hash }
 
-        assigns(:email_member_hash).should == email_member_hash
+        assigns(:forwarded_notification_hash).should == forwarded_notification_hash
       end
     end
 
