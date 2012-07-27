@@ -14,14 +14,13 @@ module PersistedExperiments
 
   def spin_or_retrieve_choice test_name, goal, options
     current = current_trial(goal, test_name)
-    current ? current.choice : new_trial!(test_name, goal, options).choice
+    current ? current.choice : spin_new!(test_name, goal, options, trial_session)
   end
 
-  def new_trial!(test_name, goal, options)
-    choice = spin!(test_name, goal, options, trial_session)
-    trial = create_trial(goal, test_name, choice)
-    trial.save!
-    trial
+  def spin_new!(test_name, goal, options, mysession)
+    choice = spin!(test_name, goal, options, mysession)
+    create_trial(goal, test_name, choice).save! unless options.count < 2
+    choice
   end
 
   # templates
