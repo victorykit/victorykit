@@ -149,7 +149,7 @@ function initTwitter() {
 function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
-    window.open(sharer + location.href + "?share_ref=" + VK.current_member_hash, 'sharer', 'width=626,height=436');
+    window.open(sharer + location.href.replace(/\?.+/,"") + "?share_ref=" + VK.current_member_hash, 'sharer', 'width=626,height=436');
     $.ajax({
       url: VK.social_tracking_url,
       data: setUpParamsForSocialTracking('popup', '')
