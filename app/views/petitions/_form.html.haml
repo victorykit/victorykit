@@ -33,6 +33,15 @@
           = link_to_add_fields "Add #{facebook_title_title}", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "facebook", :label_name => "#{facebook_title_title}"}, "#facebook_titles"
 
     .controls.toggle
+      // =link_to "Customize Facebook Description", "#", :id => "facebook_description_link"
+
+    #facebook_description
+      .control-group.string
+        .control-label Facebook Description
+        .controls#facebook_descriptions
+          = f.text_area :facebook_description
+
+    .controls.toggle
       = link_to_add_fields "Customize Image", f, :petition_images, {:class => "string", :id => 'sharing_image_link'}, {:label_name => "Image"}, "#sharing_images"
 
     #sharing_image

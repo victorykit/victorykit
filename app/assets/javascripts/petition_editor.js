@@ -51,6 +51,11 @@ function initEditPetition() {
     $('#facebook_title_link').hide();
   });
 
+  $('#facebook_description_link').click(function () {
+    $('#facebook_description').show();
+    $('#facebook_description_link').hide();
+  });
+
   if ($('#sharing_image').has('.additional_title').length) {
     $('#sharing_image').show();
     $('#sharing_image_link').hide();

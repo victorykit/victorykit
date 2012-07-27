@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120727144159) do
+ActiveRecord::Schema.define(:version => 20120727195543) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -78,13 +78,14 @@ ActiveRecord::Schema.define(:version => 20120727144159) do
   end
 
   create_table "petitions", :force => true do |t|
-    t.text     "title",                          :null => false
-    t.text     "description",                    :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.text     "title",                                   :null => false
+    t.text     "description",                             :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
     t.integer  "owner_id"
-    t.boolean  "to_send",     :default => false
+    t.boolean  "to_send",              :default => false
     t.string   "ip_address"
+    t.text     "facebook_description"
   end
 
   create_table "sent_emails", :force => true do |t|

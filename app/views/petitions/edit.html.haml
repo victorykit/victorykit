@@ -3,4 +3,4 @@
   - if !browser.ie? || (browser.user_agent =~ /chromeframe/)
     %h1 Edit petition
 
-  = render @form_view
+  = render choose_form_based_on_browser
