@@ -31,12 +31,17 @@ describe 'Petition create page' do
       email.should_not == ""
     end
   end
+  it "should not allow non-admins to see email previews" do
+    as_user do
+      go_to new_petition_path
+      element_exists(id: "email_preview_link").should_not be_true
+    end
+  end
 end
 
 def send_email_preview
   click id: "email_preview_link"
   alert = wait.until {alert_is_present}
-  puts alert.text
   alert.accept
 end
 
