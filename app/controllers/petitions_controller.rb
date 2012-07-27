@@ -20,7 +20,7 @@ class PetitionsController < ApplicationController
     @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref]
     
     @email_hash = params[:n]
-    @email_member_hash = params[:r]
+    @forwarded_notification_hash = params[:r]
 
     @twitter_hash = params[:t]
     @fb_like_hash = params[:f]

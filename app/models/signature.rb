@@ -14,9 +14,10 @@ class Signature < ActiveRecord::Base
     TWITTER = 'twitter'
     EMAIL = 'email'
     SHARED_LINK = 'shared_link'
+    FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
-  REFERENCE_TYPES = [ ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::FACEBOOK_POPUP, ReferenceType::TWITTER, ReferenceType::EMAIL, ReferenceType::SHARED_LINK, nil ]
+  REFERENCE_TYPES = [ ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::FACEBOOK_POPUP, ReferenceType::TWITTER, ReferenceType::EMAIL, ReferenceType::FORWARDED_NOTIFICATION, ReferenceType::SHARED_LINK, nil ]
 
   validates :reference_type, :inclusion => {:in => REFERENCE_TYPES, :message => "%{value} is not a valid reference_type"}
 

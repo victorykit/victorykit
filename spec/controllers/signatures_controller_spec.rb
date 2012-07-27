@@ -149,11 +149,11 @@ describe SignaturesController do
 
     context "the user signed from a shared link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:email_member_hash) { MemberHasher.generate(member.id) }
+      let(:forwarded_notification_hash) { MemberHasher.generate(member.id) }
 
       it "should set referer and reference type for the signature" do
-        sign_petition email_member_hash: email_member_hash
-        Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
+        sign_petition forwarded_notification_hash: forwarded_notification_hash
+        Signature.last.reference_type.should == Signature::ReferenceType::FORWARDED_NOTIFICATION
         Signature.last.referring_url.should == referring_url
         Signature.last.referer.should == member
       end

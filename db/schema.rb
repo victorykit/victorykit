@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717220916) do
+ActiveRecord::Schema.define(:version => 20120727144159) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -94,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20120717220916) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.datetime "clicked_at"
     t.datetime "opened_at"
+    t.datetime "clicked_at"
   end
 
   create_table "signatures", :force => true do |t|
