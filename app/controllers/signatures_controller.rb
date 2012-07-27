@@ -9,6 +9,7 @@ class SignaturesController < ApplicationController
     signature.user_agent = request.env["HTTP_USER_AGENT"]
     signature.member = Member.find_or_initialize_by_email(email: signature.email, name: signature.name)
     signature.created_member = signature.member.new_record?
+    member_hash = nil
     if signature.valid?
       begin
         petition.signatures.push signature
@@ -19,8 +20,8 @@ class SignaturesController < ApplicationController
         signature.save!
         nps_win signature
         win! :signature
-
-        cookies[:member_id] = {:value => MemberHasher.generate(signature.member_id), :expires => 100.years.from_now}
+        member_hash = MemberHasher.generate(signature.member_id)
+        cookies[:member_id] = {:value => member_hash, :expires => 100.years.from_now}
         flash[:signature_id] = signature.id
       rescue => ex
         Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
@@ -29,7 +30,7 @@ class SignaturesController < ApplicationController
     else
       flash[:invalid_signature] = signature
     end
-    redirect_to petition_url(petition)
+    redirect_to petition_url(petition, l: member_hash)
   end
 
   private

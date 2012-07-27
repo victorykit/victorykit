@@ -34,8 +34,9 @@ describe SignaturesController do
       end
 
       it "should redirect to the petition page" do
+        MemberHasher.stub!(:generate).and_return('some_member_hash')
         sign_petition
-        should redirect_to petition_url(petition)
+        should redirect_to petition_url(petition, l: 'some_member_hash')
       end
     end
     context "an error occurs when sending the confirmation email" do
