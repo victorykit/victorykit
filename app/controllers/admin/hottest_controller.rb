@@ -2,8 +2,8 @@ class Admin::HottestController < ApplicationController
   newrelic_ignore
   before_filter :require_admin
   
-  def get_db_data
-    options = Petition.find_all_by_to_send(true).map { |x| x.id }
+  def get_db_data(options)
+    options ||= Petition.find_all_by_to_send(true).map { |x| x.id }
     
     # for redis:
     #require "whiplash"
@@ -28,7 +28,7 @@ class Admin::HottestController < ApplicationController
   
   def index
     hotlist = hot_petitions
-    db_data = get_db_data
+    db_data = get_db_data hotlist
     
     acc = 0
     rows = []
