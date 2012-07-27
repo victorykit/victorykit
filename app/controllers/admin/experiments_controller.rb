@@ -71,6 +71,7 @@ class Admin::ExperimentsController < ApplicationController
       if subtract_unsubs
         #NOTE: This does not include resubscribes, but there aren't many of those.
         unsubs = Hash[Unsubscribe.count(prefs).map {|(k,v)| [k.to_date, v.to_f]}]
+        unsubs.default = 0
       end
       (Date.new(2012, 05, 16)..Date.today).collect do |x| 
         n = out[x]
