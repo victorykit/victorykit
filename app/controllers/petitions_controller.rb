@@ -18,7 +18,7 @@ class PetitionsController < ApplicationController
 
     @current_member_hash = cookies[:member_id]
     @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref]
-    
+
     @email_hash = params[:n]
     @forwarded_notification_hash = params[:r]
     @shared_link_hash = params[:l]
