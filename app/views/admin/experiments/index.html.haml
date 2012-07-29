@@ -89,6 +89,12 @@
     %tr
       %td{colspan: 2}
         #open-percentage{style: "width:1200px;height:300px"}
+    %tr
+      %th{colspan: 2}
+        Percentage of emails with the link clicked during a past week
+    %tr
+      %td{colspan: 2}
+        #clicked-percentage{style: "width:1200px;height:300px"}
 
   - content_for(:javascripts) do
     VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
@@ -126,3 +132,7 @@
       [#{i}, #{h}],
     ]], VK.default_plot_style)
 
+    $.plot($("#clicked-percentage"), [[
+    - @clicked_email_links_percentage.each_with_index do |h, i|
+      [#{i}, #{h}],
+    ]], VK.default_plot_style)
