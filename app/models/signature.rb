@@ -1,5 +1,5 @@
 class Signature < ActiveRecord::Base
-  attr_accessible :email, :name, :first_name, :last_name, :reference_type, :referer, :referring_url
+  attr_accessible :email, :name, :first_name, :last_name, :reference_type, :referer, :referring_url, :browser_name
   belongs_to :petition
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'

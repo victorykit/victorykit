@@ -97,13 +97,17 @@ class Admin::ExperimentsController < ApplicationController
   def index
     @stats = stats
     @filter = params[:f]
-    @options = ["experiments", "petitions", "both"]
+    @options = ["experiments", "petitions", "both", "browser statistics"]
     
     case @filter
     when "petitions"
       @stats = @stats.select{|x| x[:name].match /^petition \d+/}.reverse
     when "both"
-    else
+    when "browser statistics"
+      signature_count = Signature.count
+      results = Signature.count(:group => "browser_name", :order => "count_all desc")
+      @browser_stat = Hash[results.map {|k,v| [k, "%2.2f" % [v.to_f*100/signature_count]]}]
+    else "experiments"
       @filter = "experiments"
       @stats = @stats.select{|x| !x[:name].match /^petition \d+/}
     end

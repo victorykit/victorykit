@@ -11,129 +11,136 @@
         = link_to x, params.merge(f: x)
       &nbsp;&nbsp;
 
-  - i = 0
-  - @stats.each do |test|
-    - i += 1
-    .experiment-name
-      = test[:name]
-    .experiment-details
-      (goal: #{test[:goal]}) #{test[:trials]} trials
-    .experiment-trash
-      .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
-        Trash
+  - if @filter == "browser statistics"
+    - @browser_stat.each do |browser, percent|
+      %br
+        %b
+          = browser
+        = " #{percent} %"
+  - else
+    - i = 0
+    - @stats.each do |test|
+      - i += 1
+      .experiment-name
+        = test[:name]
+      .experiment-details
+        (goal: #{test[:goal]}) #{test[:trials]} trials
+      .experiment-trash
+        .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
+          Trash
 
-    .experiment-trash-data{id: "trashinfo#{i}"}
-      - test[:arms].each do |arm|
-        REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
-        REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
-      REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
-
-
-    %table.table.table-striped.table-condensed.experiment-table.sortable{id: "#{test[:name]}"}
-      %thead
-        %tr
-          %th
-          %th % Tried
-          %th.name Variable
-          %th Spins
-          %th Wins
-          %th % Success
-          %th
-      %tbody
+      .experiment-trash-data{id: "trashinfo#{i}"}
         - test[:arms].each do |arm|
+          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
+          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
+        REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
+
+
+      %table.table.table-striped.table-condensed.experiment-table.sortable{id: "#{test[:name]}"}
+        %thead
           %tr
-            %td
-              .progress.progress-info
-                .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
-            %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
-            %td.name= arm[:name]
-            %td.spins= arm[:spins]
-            %td.wins= arm[:wins]
-            %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
-            %td
-              .progress.progress-success
-                .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
+            %th
+            %th % Tried
+            %th.name Variable
+            %th Spins
+            %th Wins
+            %th % Success
+            %th
+        %tbody
+          - test[:arms].each do |arm|
+            %tr
+              %td
+                .progress.progress-info
+                  .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
+              %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
+              %td.name= arm[:name]
+              %td.spins= arm[:spins]
+              %td.wins= arm[:wins]
+              %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
+              %td
+                .progress.progress-success
+                  .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
 
-  %h2
-    Email response by hour
+    %h2
+      Email response by hour
 
-  %table
-    %tr
-      %th
-        Response rate to emails by hour sent
-      %th
-        Signatures on emails sent by hour signed
-    %tr
-      %td
-        #hourchart1{style: "width:600px;height:300px"}
-      %td
-        #hourchart2{style: "width:600px;height:300px"}
-    %tr
-      %th
-        Response rate to emails by day of week sent (Sunday = 0)
-      %th
-        Signatures on emails sent by day of week signed
-    %tr
-      %td
-        #dowchart1{style: "width:600px;height:300px"}
-      %td
-        #dowchart2{style: "width:600px;height:300px"}
-    %tr
-      %th{colspan: 2}
-        New members per email sent since the beginning
-    %tr
-      %td{colspan: 2}
-        #npschart{style: "width:1200px;height:300px"}
-    %tr
-      %th{colspan: 2}
-        Percentage of emails opened during a past week
-    %tr
-      %td{colspan: 2}
-        #open-percentage{style: "width:1200px;height:300px"}
-    %tr
-      %th{colspan: 2}
-        Percentage of emails with the link clicked during a past week
-    %tr
-      %td{colspan: 2}
-        #clicked-percentage{style: "width:1200px;height:300px"}
+    %table
+      %tr
+        %th
+          Response rate to emails by hour sent
+        %th
+          Signatures on emails sent by hour signed
+      %tr
+        %td
+          #hourchart1{style: "width:600px;height:300px"}
+        %td
+          #hourchart2{style: "width:600px;height:300px"}
+      %tr
+        %th
+          Response rate to emails by day of week sent (Sunday = 0)
+        %th
+          Signatures on emails sent by day of week signed
+      %tr
+        %td
+          #dowchart1{style: "width:600px;height:300px"}
+        %td
+          #dowchart2{style: "width:600px;height:300px"}
+      %tr
+        %th{colspan: 2}
+          New members per email sent since the beginning
+      %tr
+        %td{colspan: 2}
+          #npschart{style: "width:1200px;height:300px"}
+      -#%tr
+        -#%th{colspan: 2}
+          -#Percentage of emails opened during a past week
+      -#%tr
+        -#%td{colspan: 2}
+          -##open-percentage{style: "width:1200px;height:300px"}
+      -#%tr
+        -#%th{colspan: 2}
+          -#Percentage of emails with the link clicked during a past week
+      -#%tr
+        -#%td{colspan: 2}
+          #clicked-percentage{style: "width:1200px;height:300px"}
 
-  - content_for(:javascripts) do
-    VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
+    - content_for(:javascripts) do
+      VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
 
-    $.plot($("#hourchart1"), [[
-    - @hourlydata1[0].keys.sort.each do |h|
-      [#{h}, #{(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f}],
-    ]], VK.default_plot_style)
+      $.plot($("#hourchart1"), [[
+      - @hourlydata1[0].keys.sort.each do |h|
+        [#{h}, #{(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f}],
+      ]], VK.default_plot_style)
 
-    $.plot($("#hourchart2"), [[
-    - @hourlydata2.keys.sort.each do |h|
-      [#{h}, #{@hourlydata2[h]}],
-    ]], VK.default_plot_style)
+      $.plot($("#hourchart2"), [[
+      - @hourlydata2.keys.sort.each do |h|
+        [#{h}, #{@hourlydata2[h]}],
+      ]], VK.default_plot_style)
 
-    $.plot($("#dowchart1"), [[
-    - @dowdata1[0].keys.sort.each do |h|
-      [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
-    ]], VK.default_plot_style)
+      $.plot($("#dowchart1"), [[
+      - @dowdata1[0].keys.sort.each do |h|
+        [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
+      ]], VK.default_plot_style)
 
-    $.plot($("#dowchart2"), [[
-    - @dowdata2.keys.sort.each do |h|
-      [#{h}, #{@dowdata2[h]}],
-    ]], VK.default_plot_style)
+      $.plot($("#dowchart2"), [[
+      - @dowdata2.keys.sort.each do |h|
+        [#{h}, #{@dowdata2[h]}],
+      ]], VK.default_plot_style)
 
-    $.plot($("#npschart"), [[
-    - @npsdata.each_with_index do |h, i|
-      - if h < 1
-        [#{i}, #{h}],
-      -# else
-      -#  [#{i}, .1],
-    ]], VK.default_plot_style)
+      $.plot($("#npschart"), [[
+      - @npsdata.each_with_index do |h, i|
+        - if h < 1
+          [#{i}, #{h}],
+        -# else
+        -#  [#{i}, .1],
+      ]], VK.default_plot_style)
 
-    -#$.plot($("#open-percentage"), [[
-    -#- @opened_emails_percentage.each_with_index do |h, i|
-    -#  [#{i}, #{h}],
-    -#]], VK.default_plot_style)
-    -#
-    -#$.plot($("#clicked-percentage"), [[
-    -#- @clicked_email_links_percentage.each_with_index do |h, i|
-    -#  [#{i}, #{h}],
-    -#]], VK.default_plot_style)
+      -#$.plot($("#open-percentage"), [[
+      -#- @opened_emails_percentage.each_with_index do |h, i|
+      -#  [#{i}, #{h}],
+      -#]], VK.default_plot_style)
+      -#
+      -#$.plot($("#clicked-percentage"), [[
+      -#- @clicked_email_links_percentage.each_with_index do |h, i|
+      -#  [#{i}, #{h}],
+      -#]], VK.default_plot_style)
