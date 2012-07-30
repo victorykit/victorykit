@@ -36,13 +36,12 @@ describe 'Petition page' do
   end
 
   it "should allow signing a petition again after clicking 'does somene else' link" do
-    force_result("full name vs first and last name" => "fullname")
     set_default_experiment_results
     go_to petition_path(@petition)
 
     sign_petition
     click(:class => "close")
     click(:id => "sign-again-link")
-    element_exists(id: 'signature_name').should be_true
+    element_exists(:id => 'signature_first_name').should be_true
   end
 end

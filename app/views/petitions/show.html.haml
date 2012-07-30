@@ -1,6 +1,5 @@
 - content_for :title, @petition.title
-- signature_display_threshold_met = @sigcount >= spin!("signature display threshold", :signature, [0, 100])
-- if signature_display_threshold_met then progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"] end
+- progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 - if @was_signed
   - fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
 -#add "facebook_share" option to this experiment
@@ -34,7 +33,7 @@
       #thanks-for-signing-message
         = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
       #sign-again
-        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();"}
+        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
           Does someone else want to sign? Click here.
 
   .petition_test.primary
@@ -55,7 +54,7 @@
         .social_icons.tallerprogress
           -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
           = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - if signature_display_threshold_met && spin!("show thermometer", :signature)
+      - if spin!("show thermometer", :signature)
         .progress_bar
           .numbers
             - if progressmessaging == 'x_signatures_of_y'
