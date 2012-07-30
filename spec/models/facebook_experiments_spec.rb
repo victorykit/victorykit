@@ -52,6 +52,12 @@ describe FacebookExperiments do
       let(:default_image) { Rails.configuration.social_media[:facebook][:image] }
       subject { described_class.new(@petition, @member) }
       its(:image) {should == default_image}
+      end
+    describe 'an image is given' do
+      let(:image_url) { "some_image.png" }
+      let!(:petition_image) {create :petition_image, petition: @petition, url: image_url }
+      subject { described_class.new(@petition, @member) }
+      its(:image) {should == image_url}
     end
   end
 
