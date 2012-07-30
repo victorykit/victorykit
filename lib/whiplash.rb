@@ -99,6 +99,13 @@ module Bandit
     REDIS.incr("whiplash/#{test_name}/#{choice}/wins")
   end
 
+  def lose_on_option!(test_name, choice, mysession=nil)
+    mysession ||= session
+    data = {type: "lose", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+    Rails.logger.info "WHIPLASH: #{data.to_json}"
+    REDIS.decr("whiplash/#{test_name}/#{choice}/wins")
+  end
+
   def win!(goal, mysession=nil)
     mysession ||= session
     REDIS.smembers("whiplash/goals/#{goal}").each do |t|
