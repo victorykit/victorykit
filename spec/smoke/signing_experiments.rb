@@ -14,14 +14,6 @@ describe "signing petitions" do
   end
 
   describe "signing the petition" do
-    it "should show one field for entering a full name" do
-      force_result("full name vs first and last name" => "fullname")
-
-      go_to petition_path(@petition)
-      element_exists(id: 'signature_name').should be_true
-      element_exists(id: 'signature_first_name').should be_false
-      element_exists(id: 'signature_last_name').should be_false
-    end
     it "should show seperate fields for entering first and last names" do
       force_result("full name vs first and last name" => "firstandlastname")
 
@@ -32,6 +24,14 @@ describe "signing petitions" do
     end
   end
 
+    #full (I think) list of experiments that affect layout:
+    #
+    #"facebook sharing options" => "facebook_like",
+    #"signature display threshold" => 0,
+    #"show thermometer" => 'true',
+    #"seed signatures with petition creator" => "false",
+    #"toggle showing vs. not showing modal" => 'false',
+    #"change layouts" => "bootstrap",
 end
 
 

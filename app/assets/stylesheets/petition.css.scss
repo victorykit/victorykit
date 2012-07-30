@@ -24,6 +24,9 @@
   }
 }
 
+.petition {
+  padding: 0 40px;
+}
 .progress_bar {
   float: right;
   text-align: right;
@@ -61,7 +64,8 @@
 #sign-again {
   width: 220px;
   text-align: center;
-  padding: 10px;
+  margin: 10px auto;
+  font-weight: normal;
 }
 #thanksModal {
   display: none;
@@ -104,14 +108,14 @@
     font-size: 25px;
     text-align: center;
     font-weight: bold;
-    color: #333;
     padding: 15px;
     line-height: 30px;
   }
 
   .privacypolicy {
+    color: #ccc;
     width: 100%;
-    padding: 0 0 10px 0;
+    padding: 10px 0;
     clear: both;
   }
   .through_site {
@@ -121,8 +125,11 @@
     float: left;
     margin-bottom: 10px;
     .control-group { *clear: both; *margin-right: 3px; }
+    label {
+      text-align: left;
+      abbr { border-bottom: none; }
+    }
     input {
-      @extend .span2;
       margin-left: 0;
       &.btn { width: 100%; text-align: center; *clear: left; }
     }
@@ -165,7 +172,6 @@
   }
 }
 #thanks-for-signing-message, #thanksModal {
-  width: 220px;
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -175,14 +181,14 @@
     margin: 15px 0 25px;
   }
   .arrow {
-    background: url('bluearrow.png');
+    background: url('limearrow.png');
     margin: 15px auto 5px;
     height: 100px;
     width: 100px;
   }
   .jumping_arrow {
     margin: auto;
-    margin-top: 25px;
+    margin-top: 35px;
     height: 130px;
     width: 100px;
   }
@@ -502,6 +508,9 @@
   }
 }
 #content .sidebar_test.secondary {
+  background: black;
+  color: white;
+  position: fixed;
   *width: 250px;
   form {
     *width: 230px;
