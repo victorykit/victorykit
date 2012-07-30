@@ -14,7 +14,7 @@ module PetitionsHelper
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
       'og:description' => strip_tags_except_links(petition.facebook_description_for_sharing).squish[0..300],
-      'og:image' => social_media_config[:facebook][:image],
+      'og:image' => petition.experiments.facebook(member).image,
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
     }

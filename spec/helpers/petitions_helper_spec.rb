@@ -15,7 +15,7 @@ describe PetitionsHelper do
     include ApplicationHelper   
 
     let(:petition) { create(:petition)}
-    let(:config) { { facebook: { site_name: "My Super Petitions", app_id: 12345, image: "foo.com/123.png" } } }
+    let(:config) { { facebook: { site_name: "My Super Petitions", app_id: 12345 } } }
     before(:each) do
       helper.stub(:spin!).and_return(nil)
       helper.stub(:social_media_config).and_return config
@@ -25,7 +25,7 @@ describe PetitionsHelper do
     it { should include("og:type" => "watchdognet:petition")}
     it { should include("og:title" => petition.title)}
     it { should include("og:description" => strip_tags_except_links(petition.description))}
-    it { should include("og:image" => "foo.com/123.png")}
+    it { should include("og:image" => Rails.configuration.social_media[:facebook][:image])}
     it { should include("og:site_name" => "My Super Petitions")}
     it { should include("fb:app_id" => 12345)}
   end

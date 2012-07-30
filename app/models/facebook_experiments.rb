@@ -6,6 +6,10 @@ class FacebookExperiments < SocialMediaExperiments
     spin_or_default!(test_names[:title], :signature, title_options.map{|opt| opt.title}, default)
   end
 
+  def image
+    Rails.configuration.social_media[:facebook][:image]
+  end
+
   private
 
   def title_options

@@ -3,7 +3,7 @@ require 'nokogiri'
 
 describe "creating an email subject experiment" do
   it "awards a win against the email subject when email recipient signs" do
-    petition = create_a_featured_petition "Multiple email subjects!", "Yes indeed", ["Subject A", "Subject B"]
+    petition = create_a_featured_petition({title: "Multiple email subjects!", description: "Yes indeed", email_subjects: ["Subject A", "Subject B"]})
     member = create_member
     email = send_petition_email petition, member
 

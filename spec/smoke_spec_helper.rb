@@ -132,14 +132,16 @@ def create_member name = 'A Member', email = 'amember@some.com'
   Member.find_by_email email
 end
 
-def create_a_petition (title = 'a snappy title', description = 'a compelling description')
+def create_a_petition (attributes = {})
+  attributes = {title: 'a snappy title', description: 'a compelling description'}.merge(attributes)
   as_user do
     go_to new_petition_path
 
     wait.until { element :id => 'petition_title' }
 
-    type(title).into(:id => 'petition_title')
-    type(description).into_wysihtml5(:id => 'petition_description')
+    type(attributes[:title]).into(:id => 'petition_title')
+    type(attributes[:description]).into_wysihtml5(:id => 'petition_description')
+
     click :name => 'commit'
 
     wait.until { element :class => 'petition' }
@@ -147,12 +149,16 @@ def create_a_petition (title = 'a snappy title', description = 'a compelling des
   Petition.find(:last, order: 'created_at ASC')
 end
 
-def create_a_featured_petition (title = 'a featured petition', description = 'these can be emailed', email_subjects = [], facebook_titles = [])
+
+def create_a_featured_petition (attributes = {})
+  attributes = {title: 'a featured petition', description: 'these can be emailed', email_subjects: [], facebook_titles: [], image: nil}.merge(attributes)
   as_admin do
     go_to new_petition_path
 
-    type(title).into(:id => 'petition_title')
-    type(description).into_wysihtml5(:id => 'petition_description')
+    type(attributes[:title]).into(:id => 'petition_title')
+    type(attributes[:description]).into_wysihtml5(:id => 'petition_description')
+
+    email_subjects = attributes[:email_subjects]
 
     if email_subjects and email_subjects.any?
       click :link_text => 'Customize Email Subject'
@@ -161,6 +167,8 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
       end
     end
     type_into_alt_title_fields "email_subjects", email_subjects
+
+    facebook_titles = attributes[:facebook_titles]
 
     if facebook_titles and facebook_titles.any?
       click :link_text => 'Customize Facebook Title'
@@ -171,11 +179,20 @@ def create_a_featured_petition (title = 'a featured petition', description = 'th
     end
     type_into_alt_title_fields "facebook_titles", facebook_titles
 
+    if attributes[:image]
+      click id: 'sharing_image_link'
+      type_into_alt_image_field attributes[:image]
+    end
+
     click :name => 'commit'
 
     wait.until { element :class => "petition" }
   end
   Petition.find(:last, order: 'created_at ASC')
+end
+
+def type_into_alt_image_field(image)
+  type(image).into(css: 'div#sharing_images.controls div.additional_title input[type="text"]')
 end
 
 def type_into_alt_title_fields title_type_div_id, alt_titles
