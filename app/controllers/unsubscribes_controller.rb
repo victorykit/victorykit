@@ -11,6 +11,7 @@ class UnsubscribesController < ApplicationController
       @unsubscribe.sent_email = SentEmail.find_by_id(h)
     end
     if @unsubscribe.member && @unsubscribe.save
+      nps_lose @unsubscribe.sent_email.petition_id if @unsubscribe.sent_email.present?
       Notifications.unsubscribed @unsubscribe
       redirect_to root_url, notice: 'You have successfully unsubscribed.'
     else
@@ -21,6 +22,12 @@ class UnsubscribesController < ApplicationController
   def new
     @unsubscribe = Unsubscribe.new
     @email_hash = params[:n]
+  end
+
+  private
+
+  def nps_lose petition_id
+    lose_on_option!("email_scheduler_nps", petition_id)
   end
   
 end
