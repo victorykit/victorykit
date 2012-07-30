@@ -6,7 +6,7 @@ class SignaturesController < ApplicationController
     petition = Petition.find(params[:petition_id])
     signature = Signature.new(params[:signature])
     signature.ip_address = connecting_ip
-    signature.user_agent = request.env["HTTP_USER_AGENT"]
+    signature.user_agent = request.env["HTTP_USER_AGENT"][0...255]
     signature.browser_name = Browser.new(:ua => signature.user_agent).id.to_s
     signature.member = Member.find_or_initialize_by_email(email: signature.email, name: signature.name)
     signature.created_member = signature.member.new_record?
