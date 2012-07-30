@@ -26,6 +26,7 @@
       - test[:arms].each do |arm|
         REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
         REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
+      REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
 
 
     %table.table.table-striped.table-condensed.experiment-table.sortable{id: "#{test[:name]}"}
