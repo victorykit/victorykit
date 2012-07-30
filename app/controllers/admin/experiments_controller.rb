@@ -1,6 +1,4 @@
-require 'application_metrics'
 class Admin::ExperimentsController < ApplicationController
-  include ApplicationMetrics
   newrelic_ignore
   before_filter :require_admin
   
@@ -60,7 +58,6 @@ class Admin::ExperimentsController < ApplicationController
   def signatures_by_part part
     q = Signature.count(:group => "date_part('#{part}', signatures.created_at)", :joins => :sent_email)
     Hash[q.map{|(k,v)| [k.to_i,v]}]
-
   end
   
   def nps_by_day
@@ -113,6 +110,5 @@ class Admin::ExperimentsController < ApplicationController
     @dowdata1 = sent_emails_by_part 'dow'
     @dowdata2 = signatures_by_part 'dow'
     @npsdata = nps_by_day
-    @opened_emails_percentage = opened_emails_percentage
   end
 end
