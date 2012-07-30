@@ -54,42 +54,41 @@
         .social_icons.tallerprogress
           -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
           = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - if spin!("show thermometer", :signature)
-        .progress_bar
-          .numbers
-            - if progressmessaging == 'x_signatures_of_y'
-              .highlight_text
-                #{@sigcount} signatures
-              of #{counter_size(@sigcount)}
-            - elsif progressmessaging == 'x_y_to_next_goal'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
-            - elsif progressmessaging == 'x_y_to_goal'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-            - elsif progressmessaging == 'x_y_to_go_of_z'
-              .highlight_text.break
-                #{@sigcount} signatures
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
-            - elsif progressmessaging == 'x_supporters_y_to_next_goal'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+      .progress_bar
+        .numbers
+          - if progressmessaging == 'x_signatures_of_y'
+            .highlight_text
+              #{@sigcount} signatures
+            of #{counter_size(@sigcount)}
+          - elsif progressmessaging == 'x_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+          - elsif progressmessaging == 'x_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_y_to_go_of_z'
+            .highlight_text.break
+              #{@sigcount} signatures
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_supporters_y_to_next_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
 
-            - elsif progressmessaging == 'x_supporters_y_to_goal'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-            - elsif progressmessaging == 'x_supporters_help_us'
-              .highlight_text.break
-                #{@sigcount} supporters have signed
-              sign now to help us reach our goal of #{counter_size(@sigcount)}!
-            - elsif progressmessaging == 'x_of_y_supporters'
-              #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
-          .progress
-            .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+          - elsif progressmessaging == 'x_supporters_y_to_goal'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+          - elsif progressmessaging == 'x_supporters_help_us'
+            .highlight_text.break
+              #{@sigcount} supporters have signed
+            sign now to help us reach our goal of #{counter_size(@sigcount)}!
+          - elsif progressmessaging == 'x_of_y_supporters'
+            #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
+        .progress
+          .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
       %hr
       - petitiontext = @petition.description
       - if @petition.to_send != true
