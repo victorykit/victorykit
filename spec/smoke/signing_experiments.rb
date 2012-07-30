@@ -15,7 +15,6 @@ describe "signing petitions" do
 
   describe "signing the petition" do
     it "should show seperate fields for entering first and last names" do
-      force_result("full name vs first and last name" => "firstandlastname")
 
       go_to petition_path(@petition)
       element_exists(id: "signature_name").should be_false
