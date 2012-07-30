@@ -15,7 +15,8 @@ describe SignaturesController do
         its(:name) { should == signature_fields[:name] }
         its(:email) { should == signature_fields[:email] }
         its(:ip_address) { should == "0.0.0.0" }
-        its(:user_agent) { should == "Rails Testing" }
+        its(:user_agent) { should == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11" }
+        its(:browser_name) { should == "chrome" }
       end
       before :each do
         ActionMailer::Base.deliveries = []
@@ -185,6 +186,7 @@ describe SignaturesController do
     end
     
     def sign_petition params = {}
+      request.env["HTTP_USER_AGENT"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11"
       post :create, params.merge({petition_id: petition.id, signature: signature_fields, referring_url: referring_url})
     end
     
