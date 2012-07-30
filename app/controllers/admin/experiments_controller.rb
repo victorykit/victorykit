@@ -97,7 +97,7 @@ class Admin::ExperimentsController < ApplicationController
   def index
     @stats = stats
     @filter = params[:f]
-    @options = ["experiments", "petitions", "both", "browser statistics"]
+    @options = ["experiments", "petitions", "both", "metrics", "browser statistics"]
     
     case @filter
     when "petitions"
@@ -107,17 +107,18 @@ class Admin::ExperimentsController < ApplicationController
       signature_count = Signature.count
       results = Signature.count(:group => "browser_name", :order => "count_all desc")
       @browser_stat = Hash[results.map {|k,v| [k, "%2.2f" % [v.to_f*100/signature_count]]}]
+    when "metrics"
+      @hourlydata1 = sent_emails_by_part 'hour'
+      @hourlydata2 = signatures_by_part 'hour'
+      @dowdata1 = sent_emails_by_part 'dow'
+      @dowdata2 = signatures_by_part 'dow'
+      @npsdata = nps_by_day
+      #@opened_emails_percentage = opened_emails_percentage
+      #@clicked_email_links_percentage = clicked_email_links_percentage
     else "experiments"
       @filter = "experiments"
       @stats = @stats.select{|x| !x[:name].match /^petition \d+/}
     end
-    
-    @hourlydata1 = sent_emails_by_part 'hour'
-    @hourlydata2 = signatures_by_part 'hour'
-    @dowdata1 = sent_emails_by_part 'dow'
-    @dowdata2 = signatures_by_part 'dow'
-    @npsdata = nps_by_day
-    #@opened_emails_percentage = opened_emails_percentage
-    #@clicked_email_links_percentage = clicked_email_links_percentage
+
   end
 end
