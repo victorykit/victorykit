@@ -174,7 +174,7 @@ class PetitionsController < ApplicationController
 
     signature = Signature.new(:name => name, :email => email)
     signature.ip_address = request.remote_ip
-    signature.user_agent = request.env["HTTP_USER_AGENT"]
+    signature.user_agent = request.env["HTTP_USER_AGENT"][0...255]
     signature.browser_name = Browser.new(:ua => signature.user_agent).id.to_s
     signature.member = Member.find_or_initialize_by_email(email: email, name: name)
     signature.created_member = signature.member.new_record?

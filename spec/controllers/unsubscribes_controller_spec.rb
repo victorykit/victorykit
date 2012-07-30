@@ -19,6 +19,9 @@ describe UnsubscribesController do
     context "with valid params" do
       before :each do
         Unsubscribe.any_instance.stub(:save).and_return(true)
+        a = ""
+        256.times{a << "a"}
+        request.env["HTTP_USER_AGENT"] = a
         post :create, unsubscribe: {email: member.email}
       end
       describe "the newly created unsubscribe" do
@@ -26,7 +29,9 @@ describe UnsubscribesController do
         it { should be_a(Unsubscribe) }
         its(:cause) { should == "unsubscribed"}
         its(:ip_address) { should == "0.0.0.0"}
-        its(:user_agent) { should == "Rails Testing"}
+        a = ""
+        255.times{a << "a"}
+        its(:user_agent) { should == a}
       end      
     end
     
