@@ -114,6 +114,5 @@ class Admin::ExperimentsController < ApplicationController
     @dowdata2 = signatures_by_part 'dow'
     @npsdata = nps_by_day
     @opened_emails_percentage = opened_emails_percentage
-    @clicked_email_links_percentage = clicked_email_links_percentage
   end
 end
