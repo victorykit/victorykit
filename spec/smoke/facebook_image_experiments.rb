@@ -1,10 +1,11 @@
 require 'smoke_spec_helper'
-
+require 'member_hasher'
 describe 'petition facebook image in opengraph metadata' do
-  xit "should use the petition's image if available" do
-    image_path = "imagepath"
+  it "should use the petition's image if available" do
+    member = create_member
+    image_path = "http://wow.com/image.png"
     petition = create_a_featured_petition({image: image_path })
-    go_to petition_path(petition)
+    go_to petition_path(petition) + "?r=" + MemberHasher.generate(member.id)
     element(css: 'meta[property="og:image"]').attribute('content').should == image_path
   end
 

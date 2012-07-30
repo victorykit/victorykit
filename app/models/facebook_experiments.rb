@@ -7,7 +7,9 @@ class FacebookExperiments < SocialMediaExperiments
   end
 
   def image
-    Rails.configuration.social_media[:facebook][:image]
+    default = Rails.configuration.social_media[:facebook][:image]
+    return default if not @member
+    spin_or_default!(test_names[:image], :signature, @petition.petition_images.map{|opt| opt.url}, default)
   end
 
   private
@@ -21,7 +23,8 @@ class FacebookExperiments < SocialMediaExperiments
   end
 
   def test_names
-    { :title => "petition #{@petition.id} #{title_type} title" }
+    { :title => "petition #{@petition.id} #{title_type} title",
+      :image => "petition #{@petition.id} #{title_type} image" }
   end
 
 end
