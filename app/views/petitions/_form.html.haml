@@ -46,14 +46,14 @@
 
     #sharing_image
       .control-group.string
-        .control-label Image
+        .control-label Image Link
         .controls#sharing_images
           = f.fields_for :petition_images do |builder|
             = render 'petition_image_fields', {f: builder}
         .controls
           = link_to_add_fields "Add Image", f, :petition_images, {:class => "string btn btn-primary add_link"}, {:label_name => 'Image'}, "#sharing_images"
           %span.image-help-text
-            (Images will be resized to be 200 pixels wide)
+            (Please enter a link to the image. Images will be resized to be 200 pixels wide)
 
 
   .controls.submit
