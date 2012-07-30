@@ -15,62 +15,6 @@
   }
 }
 
-#petition_page.petitionleft {
-  .sidebar_test {
-    float: right;
-  }
-  .petition_test {
-    float: left;
-  }
-}
-
-
-/* thermometer/status bar position */
-.therm2 {
-  .progress_bar {
-    float: left;
-    .numbers, .progress {
-      float: left;
-      text-align: left;
-    }
-    .progress {
-      clear: left;
-    }
-  }
-  .social_icons {
-    float: right;
-  }
-}
-
-
-/* sign petition box color */
-.signaturecolor2 .sidebartest .signature-form {
-  background: #bbb;
-  .privacypolicy, .control-label { color: #222; }
-}
-.signaturecolor3 .sidebartest .signature-form {
-  background: #999;
-  .title, .privacypolicy, .control-label { color: white; }
-}
-.signaturecolor4 .sidebartest .signature-form {
-  background: #666;
-  .title, .privacypolicy, .control-label { color: white; }
-}
-.signaturecolor5 .sidebartest .signature-form {
-  background: #333;
-  .title, .privacypolicy, .control-label  { color: white; }
-}
-.signaturecolor6 .sidebartest .signature-form {
-  background: #000;
-.title, .privacypolicy, .control-label { color: white; } }
-
-
-/* change thermometer colors */
-.redthermometer .progress { @extend .progress-danger; }
-.greenthermometer .progress { @extend .progress-success; }
-.orangethermometer .progress { @extend .progress-warning; }
-.tealthermometer .progress { @extend .progress-info; }
-
 
 /* start a petition appearing as a link vs a button */
 .topnav.petition_button .start_petition {
@@ -79,66 +23,6 @@
   margin-top: -6px;
   a {
     color: white;
-  }
-}
-
-
-/* change width of petition */
-@media (min-width: 979px) and (max-width: 3000px) {
-  .middlewidthpetition {
-    width: 950px;
-  }
-  .narrowwidthpetition {
-    width: 850px;
-  }
-}
-
-
-/* thank you box color */
-.hex_f5f5f5 #thanks-for-signing-message {
-  background: #f5f5f5;
-}
-.hex_bbb #thanks-for-signing-message {
-  background: #bbb;
-  .thanks, .sharing-message { color: #222; }
-}
-.hex_999 #thanks-for-signing-message {
-  background: #999;
-  .thanks, .sharing-message { color: white; }
-}
-.hex_666 #thanks-for-signing-message {
-  background: #666;
-  .thanks, .sharing-message { color: white; }
-}
-.hex_333 #thanks-for-signing-message {
-  background: #333;
-  .thanks, .sharing-message { color: white; }
-}
-.hex_000 #thanks-for-signing-message {
-  background: #000;
-  .thanks, .sharing-message { color: white; }
-}
-
-
-/* thank you arrow color */
-.redarrow {
-  #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('redarrow.png'); }
-  }
-}
-.limearrow {
-  #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('limearrow.png'); }
-  }
-}
-.lightbluearrow{
-  #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('lightbluearrow.png'); }
-  }
-}
-.orangearrow {
-  #thanksModal,  #thanks-for-signing-message {
-    .arrow { background: url('orangearrow.png'); }
   }
 }
 
