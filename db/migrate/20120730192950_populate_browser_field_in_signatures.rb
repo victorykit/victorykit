@@ -3,7 +3,8 @@ class PopulateBrowserFieldInSignatures < ActiveRecord::Migration
     Signature.where("user_agent is not null").each do |signature|
       browser = Browser.new
       browser.ua = signature.user_agent
-      signature.update_attributes(:browser_name => browser.id.to_s)
+      signature.browser_name = browser.id.to_s
+      signature.save!(:validate => false)
     end
   end
 
