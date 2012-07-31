@@ -1,10 +1,11 @@
 %meta{'http-equiv' => 'X-UA-Compatible',  'content' => 'chrome=1'}
 
 = simple_form_for(@petition, html: {class: 'form-horizontal petition-form' }) do |f|
-  = f.input :title, as: :string, tabindex: 1
-  = f.input :description, tabindex: 2
+  = f.input :title, as: :string
+  = f.input :short_summary, as: :string
+  = f.input :description
   - if can :feature_petition
-    = f.input :to_send, label: 'Feature this petition', tabindex: 3
+    = f.input :to_send, label: 'Feature this petition'
   - if can :feature_petition
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
     .controls.toggle
@@ -58,7 +59,7 @@
 
   .controls.submit
     -# trick not to submit the form on enter
-    = f.button :submit, class: 'btn btn-primary', tabindex: 6, onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
+    = f.button :submit, class: 'btn btn-primary', id: "petition_submit", onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
     - if can :feature_petition
       = link_to "Email a preview to #{current_user.email}", "#", :id => "email_preview_link", :onclick => "send_email_preview($(this).closest('form'), '#{url_for(:action => 'send_email_preview', :controller => 'petitions')}');"
 
