@@ -11,7 +11,8 @@ class PetitionEmailer
       if interesting_petitions.any?
         petition_id = spin!("email_scheduler_nps", :signatures_off_email, options=interesting_petitions.map {|x| x.id.to_s}, {session_id: member.id}).to_i
         petition = Petition.find_by_id(petition_id)
-        ScheduledEmail.new_petition(petition, member)
+        is_summary_present = petition.short_summary.present? ? spin!("insert summary box to emails", :signature) : false
+        ScheduledEmail.new_petition(petition, member, is_summary_present)
       end
     end
   end
