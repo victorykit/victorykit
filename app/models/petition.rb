@@ -1,4 +1,5 @@
 class Petition < ActiveRecord::Base
+  include ActionView::Helpers::SanitizeHelper
 
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :to_send, :as => :admin
@@ -34,7 +35,8 @@ class Petition < ActiveRecord::Base
   end
 
   def facebook_description_for_sharing
-    facebook_description.present? ? facebook_description : description
+    description_for_sharing = facebook_description.present? ? facebook_description : description
+    strip_tags(description_for_sharing).squish[0..300]
   end
 
 end

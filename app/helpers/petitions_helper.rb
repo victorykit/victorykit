@@ -13,7 +13,7 @@ module PetitionsHelper
     { 
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
-      'og:description' => h(strip_tags_except_links(petition.facebook_description_for_sharing).squish[0..300]),
+      'og:description' => h(petition.facebook_description_for_sharing),
       'og:image' => petition.experiments.facebook(member).image,
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
@@ -36,5 +36,6 @@ module PetitionsHelper
   def choose_form_based_on_browser
     browser_really_ie? ? 'ie_form' : 'form'
   end
+
   
 end

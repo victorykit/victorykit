@@ -24,9 +24,24 @@ describe PetitionsHelper do
       helper.petition_to_open_graph(petition)}
     it { should include("og:type" => "watchdognet:petition")}
     it { should include("og:title" => petition.title)}
-    it { should include("og:description" => strip_tags_except_links(petition.description))}
+    it { should include("og:description" => strip_tags(petition.description))}
     it { should include("og:image" => Rails.configuration.social_media[:facebook][:image])}
     it { should include("og:site_name" => "My Super Petitions")}
     it { should include("fb:app_id" => 12345)}
   end
+
+  describe "choose_form_based_on_browser" do
+    attr_reader :browser
+
+    it "tells IE users to upgrade their shit" do
+      @browser = OpenStruct.new(:ie? => true, :user_agent => "MSIE")
+      choose_form_based_on_browser.should == 'ie_form'
+    end
+
+    it "tolerates IE with chrome frame" do
+      @browser = OpenStruct.new(:ie? => true, :user_agent => "MSIE chromeframe")
+      choose_form_based_on_browser.should == 'form'
+    end
+  end
+
 end

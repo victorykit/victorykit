@@ -42,12 +42,10 @@ class PetitionsController < ApplicationController
 
   def new
     @petition = Petition.new
-    @form_view = choose_form_based_on_browser
   end
 
   def edit
     @petition = Petition.find(params[:id])
-    @form_view = choose_form_based_on_browser
     return render_403 unless @petition.has_edit_permissions(current_user)
   end
 
@@ -94,7 +92,6 @@ class PetitionsController < ApplicationController
 
   def refresh action
     flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
-    @form_view = choose_form_based_on_browser
     render action: action
   end
 
@@ -119,14 +116,6 @@ class PetitionsController < ApplicationController
       Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
     else
       nil
-    end
-  end
-
-  def choose_form_based_on_browser
-    if browser.ie? and !(browser.user_agent =~ /chromeframe/)
-      'ie_form'
-    else
-      'form'
     end
   end
 

@@ -27,7 +27,9 @@ function add_fields(link, association, content, where_selector) {
   $(full_id).focus();
 }
 
-function initEditPetition() {
+function initEditPetition(root) {
+  root = $(root);
+
   applyRichTextEditorTo('#petition_description');
   initTabIndexes();
   if ($('#email_subject').has('.additional_title').length) {
@@ -51,9 +53,10 @@ function initEditPetition() {
     $('#facebook_title_link').hide();
   });
 
-  $('#facebook_description_link').click(function () {
+  $('#facebook_description_link').click(function (evt) {
     $('#facebook_description').show();
     $('#facebook_description_link').hide();
+    evt.preventDefault();
   });
 
   if ($('#sharing_image').has('.additional_title').length) {
@@ -84,3 +87,10 @@ function send_email_preview(form, url) {
         }
     });
 }
+
+$(document).ready(function() {
+  $(".petition-form").each(function() { 
+    initEditPetition(this);
+    $("#petition_facebook_description").counter({ goal: 300, count: 'down' });
+  });
+});
