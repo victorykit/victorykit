@@ -17,11 +17,12 @@
 //= require bootstrap
 //= require bootstrap-wysihtml5-all
 //= require jquery.flot
-//= require jquery.mailcheck.js
-//= require nudgenudge.js
-//= require petition.js
-//= require global.js
-//= require petition_editor.js
+//= require jquery.mailcheck
+//= require jquery.counter
+//= require nudgenudge
+//= require petition
+//= require global
+//= require petition_editor
 //= require_tree .
 
 var VK = VK || {};
