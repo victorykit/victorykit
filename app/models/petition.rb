@@ -1,8 +1,8 @@
 class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
 
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :to_send, :as => :admin
+  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary
+  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
@@ -10,6 +10,7 @@ class Petition < ActiveRecord::Base
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
   validates_length_of :facebook_description, :maximum => 300
+  validates_length_of :short_summary, :maximum => 255
   validates_with PetitionTitlesValidator
   before_validation :strip_whitespace
   accepts_nested_attributes_for :petition_titles, :reject_if => lambda { |a| a[:title].blank? }, :allow_destroy => true
