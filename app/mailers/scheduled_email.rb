@@ -17,6 +17,7 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
+    @hide_demand_progress_introduction = hide_demand_progress_introduction(petition, member)
     email_experiment = EmailExperiments.new(@sent_email)
     @image_url = EmailExperiments.new(@sent_email).image_url
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
@@ -39,5 +40,10 @@ class ScheduledEmail < ActionMailer::Base
     @sent_email = SentEmail.new(email: member.email, member: member, petition: petition)
     @sent_email.save!
     @sent_email.id
+  end
+
+  def hide_demand_progress_introduction(petition, member)
+    signature = Signature.find_by_email member.email
+    signature.present?
   end
 end
