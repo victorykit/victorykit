@@ -16,6 +16,7 @@ class ScheduledEmail < ActionMailer::Base
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + link_request_params
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
+    @is_summary_present = is_summary_present
     @member = member
     @hide_demand_progress_introduction = EmailExperiments.new(@sent_email).demand_progress_introduction
     email_experiment = EmailExperiments.new(@sent_email)
@@ -26,6 +27,7 @@ class ScheduledEmail < ActionMailer::Base
 
   def send_preview(petition, member)
     @petition = petition
+    @is_summary_present = petition.short_summary.present?
     @member = member
     @petition_link = petition.persisted? ? petition_url(petition) : "PETITION LINK GOES HERE"
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
