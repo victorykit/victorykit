@@ -78,6 +78,28 @@ describe EmailExperiments do
     end
   end
 
+  context "demand progress introduction" do 
+    it "should return false if no email has previously been opened, clicked or signed" do
+      @experiments.should_not_receive(:spin!)
+      @experiments.demand_progress_introduction.should be_false
+    end
+    it "should return true if member has previously signed and choice is to hide" do
+      create(:signature, :email => @email.email)
+      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "hide", :goal => "signature", :sent_email => @email)
+      @experiments.demand_progress_introduction.should be_true
+    end
+    it "should return true if member has previously opened email and choice is to hide" do
+      create(:sent_email, email: @email.email, opened_at: Time.now)
+      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "hide", :goal => "signature", :sent_email => @email)
+      @experiments.demand_progress_introduction.should be_true
+    end
+    it "should return false if member has previously clicked email and choice is to show" do
+      create(:sent_email, email: @email.email, clicked_at: Time.now)
+      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "show", :goal => "signature", :sent_email => @email)
+      @experiments.demand_progress_introduction.should be_false
+    end
+  end
+
   context "win" do
     it "should win for all its trials" do
       test_name = "petition #{@petition.id} email title"

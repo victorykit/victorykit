@@ -19,8 +19,13 @@ class EmailExperiments
     spin_or_default!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url}, nil)
   end
 
-  def dp_introduction_display
-    spin_or_retrieve_choice "hide demand progress introduction in email", :signature, display_options
+  def demand_progress_introduction
+    previously_signed = Signature.where("email = ?", @email.email).present?
+    previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", @email.email, nil, nil).present?
+    if previously_signed || previously_opened_or_clicked_email
+      display_introduction_experiment = spin_or_retrieve_choice "hide demand progress introduction in email", :signature, display_options
+    end
+    display_introduction_experiment.present? ? display_introduction_experiment == "hide" : false
   end
 
   private
