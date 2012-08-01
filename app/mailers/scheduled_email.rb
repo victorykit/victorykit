@@ -7,7 +7,7 @@ class ScheduledEmail < ActionMailer::Base
   #   en.scheduled_email.new_petition.subject
   #
 
-  def new_petition(petition, member, is_summary_present=false)
+  def new_petition(petition, member)
     sent_email_id = log_sent_email(member, petition)
     sent_email_hash = SentEmailHasher.generate(sent_email_id)
     link_request_params = "?n=" + sent_email_hash
@@ -16,12 +16,9 @@ class ScheduledEmail < ActionMailer::Base
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + link_request_params
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
-    @is_summary_present = is_summary_present
     @member = member
-    @hide_demand_progress_introduction = EmailExperiments.new(@sent_email).demand_progress_introduction
-    email_experiment = EmailExperiments.new(@sent_email)
-    @image_url = EmailExperiments.new(@sent_email).image_url
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
+    setup_experiments
     mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
@@ -37,6 +34,16 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   private 
+
+  def setup_experiments
+    @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
+    @image_url = email_experiment.image_url
+    @is_summary_present = @petition.short_summary.present? ? email_experiment.summary_box : false
+  end
+
+  def email_experiment
+    @email_experiment ||= EmailExperiments.new(@sent_email)
+  end
 
   def log_sent_email(member, petition)
     @sent_email = SentEmail.new(email: member.email, member: member, petition: petition)
