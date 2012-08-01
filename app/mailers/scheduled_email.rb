@@ -43,7 +43,11 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def hide_demand_progress_introduction(petition, member)
-    signature = Signature.find_by_email member.email
-    signature.present?
+    previously_signed = Signature.where("email = ?", member.email).present?
+    previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", member.email, nil, nil).present?
+    if previously_signed || previously_opened_or_clicked_email
+      dp_introduction_experiment = EmailExperiments.new(@sent_email).dp_introduction_display
+    end
+    dp_introduction_experiment.present? ? dp_introduction_experiment == "hide" : false
   end
 end

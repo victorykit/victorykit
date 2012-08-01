@@ -19,6 +19,10 @@ class EmailExperiments
     spin_or_default!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url}, nil)
   end
 
+  def dp_introduction_display
+    spin_or_retrieve_choice "hide demand progress introduction in email", :signature, display_options
+  end
+
   private
 
   def title_options
@@ -32,6 +36,10 @@ class EmailExperiments
 
   def image_url_options
     @email.petition.petition_images
+  end
+
+  def display_options
+    ["show", "hide"]
   end
   
   # persisted experiments templates
