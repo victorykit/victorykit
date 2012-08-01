@@ -26,6 +26,13 @@
 
 .petition {
   padding: 0 40px;
+  .header {
+    min-height: 140px;
+    margin-bottom: 8px;
+  }
+  .description {
+    line-height: 21px;
+  }
 }
 .progress_bar {
   float: right;
