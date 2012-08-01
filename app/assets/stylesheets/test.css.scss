@@ -31,6 +31,9 @@ body.bootstrap {
   #content {
     margin: -40px auto 65px;
   }
+  .petition .header {
+    border-bottom: 1px dotted #ccc;
+  }
   border-top: 40px solid black;
   .navigation {
     margin-top: -40px;
@@ -255,7 +258,6 @@ body.bordered_with_block_logo {
     clear: both;
     line-height: 1.3em;
   }
-  hr { display: none; }
   h1, .btn-large {
     letter-spacing: 1px;
     font-family: "LeagueGothicRegular", helvetica;
@@ -276,4 +278,66 @@ body.bordered_with_block_logo {
     *margin-top: -20px;
   }
 }
+@import url(http://fonts.googleapis.com/css?family=Kameron:400);
 
+
+body.block {
+  h1, a.logo, .signature-form .title, #sign_petition { font-family: 'kameron'; letter-spacing: 1px; font-weight: normal; }
+  background-color:#eee;
+  #content {
+    width: 1000px;
+    .primary, .secondary {
+      margin-bottom: 0;
+    }
+    .primary {
+      width: 700px;
+    }
+    .secondary {
+      width: 300px;
+    }
+  }
+  .signup_login_form { background: white; padding: 20px 35px; }
+  .petitionform { background: white; padding: 15px; }
+  a.logo { font-size: 35px; }
+  .navigation li { float: right; margin-right: 0; }
+  .navigation a.logo, .navigation .primary a {
+    text-transform: uppercase;
+    color: black;
+  }
+  #petition_page {
+    padding: 0;
+    .petition {
+      padding: 0;
+    }
+    .header {
+      margin-bottom: 0;
+      h1 {
+        padding: 25px 40px;
+        background: black;
+        color: white;
+        margin: 0;
+      }
+      .social {
+        background: #ccc;
+        padding: 10px 40px;
+        height: 49px;
+      }
+    }
+    .primary {
+      .content {
+        background: white;
+        padding: 10px 40px;
+      }
+    }
+    .secondary {
+      margin-top: 40px;
+      background: #c11b17;
+      .through_site {
+        padding: 0 10px;
+        .privacypolicy { color: #efefef; }
+        .control-label { width: 28%; }
+        .controls { width: 66%; }
+      }
+    }
+  }
+}

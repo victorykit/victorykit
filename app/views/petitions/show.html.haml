@@ -38,62 +38,64 @@
 
   .petition_test.primary
     .petition
-      - if @petition.has_edit_permissions(current_user)
-        %h1.petition_title.admin= @petition.title
-        = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
-      - else
-        %h1.petition_title= @petition.title
+      .header
+        - if @petition.has_edit_permissions(current_user)
+          %h1.petition_title.admin= @petition.title
+          = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+        - else
+          %h1.petition_title= @petition.title
 
-      .mobile_signup_button
-        = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+        .social
+          .mobile_signup_button
+            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
 
-      - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
-        .social_icons
-          = fb_like petition_url(params[:id]), @fb_tracking_hash
-      - else
-        .social_icons.tallerprogress
-          -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
-          = fb_like petition_url(params[:id]), @fb_tracking_hash
-      .progress_bar
-        .numbers
-          - if progressmessaging == 'x_signatures_of_y'
-            .highlight_text
-              #{@sigcount} signatures
-            of #{counter_size(@sigcount)}
-          - elsif progressmessaging == 'x_y_to_next_goal'
-            .highlight_text.break
-              #{@sigcount} signatures
-            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
-          - elsif progressmessaging == 'x_y_to_goal'
-            .highlight_text.break
-              #{@sigcount} signatures
-            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-          - elsif progressmessaging == 'x_y_to_go_of_z'
-            .highlight_text.break
-              #{@sigcount} signatures
-            only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
-          - elsif progressmessaging == 'x_supporters_y_to_next_goal'
-            .highlight_text.break
-              #{@sigcount} supporters have signed
-            only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+          - if progressmessaging == 'x_signatures_of_y' || progressmessaging == 'x_of_y_supporters'
+            .social_icons
+              = fb_like petition_url(params[:id]), @fb_tracking_hash
+          - else
+            .social_icons.tallerprogress
+              -#<a href="http://pinterest.com/pin/create/button/" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+              = fb_like petition_url(params[:id]), @fb_tracking_hash
+          .progress_bar
+            .numbers
+              - if progressmessaging == 'x_signatures_of_y'
+                .highlight_text
+                  #{@sigcount} signatures
+                of #{counter_size(@sigcount)}
+              - elsif progressmessaging == 'x_y_to_next_goal'
+                .highlight_text.break
+                  #{@sigcount} signatures
+                only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
+              - elsif progressmessaging == 'x_y_to_goal'
+                .highlight_text.break
+                  #{@sigcount} signatures
+                only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+              - elsif progressmessaging == 'x_y_to_go_of_z'
+                .highlight_text.break
+                  #{@sigcount} signatures
+                only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!
+              - elsif progressmessaging == 'x_supporters_y_to_next_goal'
+                .highlight_text.break
+                  #{@sigcount} supporters have signed
+                only #{counter_size(@sigcount)-@sigcount} more to reach our next goal!
 
-          - elsif progressmessaging == 'x_supporters_y_to_goal'
-            .highlight_text.break
-              #{@sigcount} supporters have signed
-            only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
-          - elsif progressmessaging == 'x_supporters_help_us'
-            .highlight_text.break
-              #{@sigcount} supporters have signed
-            sign now to help us reach our goal of #{counter_size(@sigcount)}!
-          - elsif progressmessaging == 'x_of_y_supporters'
-            #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
-        .progress
-          .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-      %hr
-      - petitiontext = @petition.description
-      - if @petition.to_send != true
-        - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
-      .description= petitiontext.html_safe
+              - elsif progressmessaging == 'x_supporters_y_to_goal'
+                .highlight_text.break
+                  #{@sigcount} supporters have signed
+                only #{counter_size(@sigcount)-@sigcount} more to reach our goal!
+              - elsif progressmessaging == 'x_supporters_help_us'
+                .highlight_text.break
+                  #{@sigcount} supporters have signed
+                sign now to help us reach our goal of #{counter_size(@sigcount)}!
+              - elsif progressmessaging == 'x_of_y_supporters'
+                #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
+            .progress
+              .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+      .content
+        - petitiontext = @petition.description
+        - if @petition.to_send != true
+          - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
+        .description= petitiontext.html_safe
 
 
   - content_for(:meta_tags) do
