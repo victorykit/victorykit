@@ -7,7 +7,7 @@ class ScheduledEmail < ActionMailer::Base
   #   en.scheduled_email.new_petition.subject
   #
 
-  def new_petition(petition, member)
+  def new_petition(petition, member, is_summary_present=false)
     sent_email_id = log_sent_email(member, petition)
     sent_email_hash = SentEmailHasher.generate(sent_email_id)
     link_request_params = "?n=" + sent_email_hash
