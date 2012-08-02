@@ -162,18 +162,29 @@ function bindFacebookPopupButton() {
 }
 
 function bindFacebookWidgetButton() {
-  $('.fb_widget_btn').click(function() {
+  $('.fb_widget_btn').click(performLogin)
+  
+  function performLogin() {
+    say('performLogin');
     FB.login(function (response) {
-      if (response.authResponse) {
-        console.log("success");
-      }
-    });
-    //new FacebookShareWidget($(".facebook-share-widget"),
-    //{
-    //base_path: "/widget",
-    //template:  {"link": window.location.toString() }
-    //});
-  });
+      (response.authResponse) && createFacebookWidget();
+    });  
+  }
+
+  function createFacebookWidget() {
+    say('createFacebookWidget');
+    var element = $('.facebook-share-widget');
+    var options = {
+      base_path: '/widget',
+      template:  { 'link': window.location.toString() }
+    };
+    new FacebookShareWidget(element, options);
+    say('everything went well');
+  }
+
+  function say(something) {
+    console.log('>>> FORM FACEBOOK WIDGET:', something);
+  }
 }
 
 function drawJumpingArrow(element, closer) {
