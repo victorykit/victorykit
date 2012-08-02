@@ -8,11 +8,12 @@ function inviteToShareOnTwitter() {
 
 function initFacebookApp() {
   if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget") {
+    var appId = $('meta[property="fb:app_id"]').attr('content');
     FB.init({
-      appId:$('meta[property="fb:app_id"]').attr("content"),
-      status:true, // check login status
-      cookie:true, // enable cookies to allow the server to access the session
-      xfbml:true  // parse XFBML
+      appId: appId,
+      status: true, // check login status
+      cookie: true, // enable cookies to allow the server to access the session
+      xfbml: true  // parse XFBML
     });
   }
 
@@ -150,40 +151,44 @@ function initTwitter() {
 
 function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
+    openPopup();
+    sendRequest();
+    inviteToShareOnTwitter();
+    $('.giantbox').hide();
+  });
+
+  function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
-    window.open(sharer + location.href.replace(/\?.*/,"") + "?share_ref=" + VK.current_member_hash, 'sharer', 'width=626,height=436');
+    var domain = location.href.replace(/\?.*/,"");
+    var memberHash = VK.current_member_hash;
+    var url = [sharer, domain, '?share_ref=', memberHash].join(''); 
+    window.open(url , 'sharer', 'width=626,height=436');
+  }
+
+  function sendRequest() {
     $.ajax({
       url: VK.social_tracking_url,
       data: setUpParamsForSocialTracking('popup', '')
     });
-    inviteToShareOnTwitter();
-    $('.giantbox').hide();
-  });
+  }
 }
 
 function bindFacebookWidgetButton() {
-  $('.fb_widget_btn').click(performLogin)
+  $('.fb_widget_btn').click(performLoginAndOpenWidget);
   
-  function performLogin() {
-    say('performLogin');
+  function performLoginAndOpenWidget() {
     FB.login(function (response) {
-      (response.authResponse) && createFacebookWidget();
-    });  
+      (response.authResponse) && (openWidget());  
+    });
   }
 
-  function createFacebookWidget() {
-    say('createFacebookWidget');
-    var element = $('.facebook-share-widget');
+  function openWidget() {
+    var element = $('.facebook-share-widget').removeClass('hidden');
     var options = {
       base_path: '/widget',
       template:  { 'link': window.location.toString() }
     };
     new FacebookShareWidget(element, options);
-    say('everything went well');
-  }
-
-  function say(something) {
-    console.log('>>> FORM FACEBOOK WIDGET:', something);
   }
 }
 
