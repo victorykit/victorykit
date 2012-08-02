@@ -12,7 +12,7 @@ class EmailExperiments
   end
 
   def summary_box
-     spin_or_retrieve_choice "insert summary box to emails", :signature, [true, false]
+     spin_or_retrieve_choice("insert summary box to emails", :signature, ["true", "false"])=="true" ? true : false
   end
 
   def sender
