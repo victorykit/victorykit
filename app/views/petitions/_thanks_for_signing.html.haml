@@ -22,14 +22,13 @@
     .fb_icon
     .text Share with your friends
 
-
--#.facebook-share-widget
-  -#.name-search
-    -#= image_tag "facebook_share_widget/facebook-logo.png"
-    -#%input.search-text{ placeholder: "Search" }
-  -#.message-pane
-    -#.message-wrapper
-      -#%textarea.message{ placeholder: "Message to your friend" }
-  -#%ul
-    -#%li
-      -#= image_tag 'facebook_share_widget/loader.gif'
+  .facebook-share-widget.hidden
+    .name-search
+      = image_tag "facebook_share_widget/facebook-logo.png"
+      %input.search-text{ placeholder: "Search" }
+    .message-pane
+      .message-wrapper
+        %textarea.message{ placeholder: "Message to your friend" }
+    %ul
+      %li
+        = image_tag 'facebook_share_widget/loader.gif'
