@@ -4,6 +4,7 @@ require 'redis'
 FAIRNESS_CONSTANT = 0
 FAIRNESS_CONSTANT4 = 0
 FC5 = 1.0
+FC6 = 3
 
 class Float
   def to_1if0
@@ -17,9 +18,9 @@ end
 
 module Bandit
   def arm_guess(observations, victories)
-    if observations == 0
-      mean = 0
-      stddev = 1
+    if observations == 0 or victories < FC6
+      mean = 0.5
+      stddev = 0.5
     else
       mean = victories.to_f/observations.to_f
       stddev = Math.sqrt([FC5/observations, (mean * (1-mean))].max/observations.to_f)
