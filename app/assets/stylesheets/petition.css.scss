@@ -522,7 +522,9 @@
 #content .sidebar_test.secondary {
   background: black;
   color: white;
-  position: fixed;
+  @media (min-height: 700px) {
+    position: fixed;
+  }
   *width: 250px;
   form {
     *width: 230px;
