@@ -2,7 +2,7 @@ class Admin::HottestController < ApplicationController
   newrelic_ignore
   before_filter :require_admin
   
-  def get_db_data(options)
+  def get_db_data(options=nil)
     options ||= Petition.find_all_by_to_send(true).map { |x| x.id }
     
     # for redis:
@@ -21,14 +21,19 @@ class Admin::HottestController < ApplicationController
     l.group_by{|x|x}.map{ |k, v| [k, v.length] }.sort{|x, y| y[1] <=> x[1] }
   end
   
-  def hot_petitions
-    t1k_sent = SentEmail.last(1000).map {|x| x.petition_id}
-    #t1k_best = db_data.sort_by { |x| x[1][1]/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
-    #t1k_chosen = (1..1000).map { best_guess(db_data) }
+  def hot_petitions w=nil
+    case w
+      when 'chosen'
+        t1k_chosen = (1..1000).map { best_guess(get_db_data) }
+      when 'best'
+        t1k_best = get_db_data.sort_by { |x| x[1][1]/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
+      else
+        t1k_sent = SentEmail.last(1000).map {|x| x.petition_id}
+    end
   end
   
   def index
-    hotlist = hot_petitions
+    hotlist = hot_petitions params[:w]
     db_data = get_db_data hotlist
     
     acc = 0
