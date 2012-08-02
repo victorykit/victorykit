@@ -26,6 +26,10 @@
 
 .petition {
   padding: 0 40px;
+  hr { display: none; }
+  @media (min-width: 250px) and (max-width: 767px) {
+    padding: 0 ;
+  }
   .header {
     min-height: 140px;
     margin-bottom: 8px;
