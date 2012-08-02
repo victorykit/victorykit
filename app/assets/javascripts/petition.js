@@ -7,7 +7,16 @@ function inviteToShareOnTwitter() {
 }
 
 function initFacebookApp() {
-  if (VK.is_facebook_sharing_enabled === "true") {
+  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget") {
+    FB.init({
+      appId:$('meta[property="fb:app_id"]').attr("content"),
+      status:true, // check login status
+      cookie:true, // enable cookies to allow the server to access the session
+      xfbml:true  // parse XFBML
+    });
+  }
+
+  if (VK.facebook_sharing_type == "facebook_widget") {
     FB.Event.subscribe('auth.statusChange', function(checkAuthStatus) {
       if ((VK.fb_action_instance_id !== "") && (checkAuthStatus.status === "connected")) {
         FB.api(VK.fb_action_instance_id, 'get', function (response) {
@@ -16,13 +25,6 @@ function initFacebookApp() {
           }
         });
       }
-    });
-
-    FB.init({
-      appId:$('meta[property="fb:app_id"]').attr("content"),
-      status:true, // check login status
-      cookie:true, // enable cookies to allow the server to access the session
-      xfbml:true  // parse XFBML
     });
   }
 }
@@ -33,8 +35,8 @@ function setUpParamsForSocialTracking(facebook_action, action_id) {
     params = $.extend(params, {signature_id: VK.signature_id});
   }
   if (action_id !== "") {
-    params = $.extend(params, {action_id: action_id});
-  }
+      params = $.extend(params, {action_id: action_id});
+    }
 
   return params;
 }
@@ -159,6 +161,21 @@ function bindFacebookPopupButton() {
   });
 }
 
+function bindFacebookWidgetButton() {
+  $('.fb_widget_btn').click(function() {
+    FB.login(function (response) {
+      if (response.authResponse) {
+        console.log("success");
+      }
+    });
+    //new FacebookShareWidget($(".facebook-share-widget"),
+    //{
+    //base_path: "/widget",
+    //template:  {"link": window.location.toString() }
+    //});
+  });
+}
+
 function drawJumpingArrow(element, closer) {
   $(element).nudgenudge({
     arrow: '/assets/limearrow.png',
@@ -201,15 +218,11 @@ function initShowPetition() {
 }
 
 function initSharePetition() {
-  new FacebookShareWidget($(".facebook-share-widget"),
-                          {
-                            base_path: "/widget",
-                            template:  {"link": window.location.toString() }
-                          });
   initTwitter();
   initFacebookApp();
   setupSocialTracking();
   setupShareFacebookButton();
   bindFacebookPopupButton();
+  bindFacebookWidgetButton();
   drawModalAfterSigning();
 }
