@@ -1,11 +1,11 @@
 - content_for :title, @petition.title
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 - if @was_signed
-  - fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
   - if browser.mobile? or browser.android? or browser.ie?
     - after_share_view = "modal"
   - else
     - after_share_view = spin! "after share view", :share, ["modal", "hero"]
+  - fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup", "facebook_widget"]
 -#add "facebook_share" option to this experiment
 
 = render :partial => "javascript_content", :locals => {fb_action_like_popup: fb_action_like_popup}
