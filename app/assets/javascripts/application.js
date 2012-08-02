@@ -23,6 +23,7 @@
 //= require petition
 //= require global
 //= require petition_editor
+//= require facebook_share_widget/application
 //= require_tree .
 
 var VK = VK || {};

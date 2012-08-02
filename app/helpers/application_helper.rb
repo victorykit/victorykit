@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include FacebookShareWidget::ApplicationHelper
   def twitterized_type(type)
     case type
       when :alert

@@ -1,4 +1,5 @@
 Victorykit::Application.routes.draw do
+  mount FacebookShareWidget::Engine => "/widget"
   get "privacy/index"
 
   get "sessions/new"

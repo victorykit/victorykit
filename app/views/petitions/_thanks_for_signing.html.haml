@@ -17,3 +17,14 @@
     .text Share on facebook
 - elsif fb_action_like_popup == "facebook_like"
   = fb_like petition_url(params[:id]), @current_member_hash, 'button_centered', true
+
+.facebook-share-widget
+  .name-search
+    = image_tag "facebook_share_widget/facebook-logo.png"
+    %input.search-text{ placeholder: "Search" }
+  .message-pane
+    .message-wrapper
+      %textarea.message{ placeholder: "Message to your friend" }
+  %ul
+    %li
+      = image_tag 'facebook_share_widget/loader.gif'
