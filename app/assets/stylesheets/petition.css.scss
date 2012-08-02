@@ -548,6 +548,8 @@
   }
   .through_site .controls {
     width: 72%;
+    @media (min-width: 280px) and (max-width: 1200px) { text-align: left; width: 100%;}
+
   }
   .through_site .controls, .through_site .controls input {
     float: right;
