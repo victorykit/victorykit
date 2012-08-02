@@ -91,6 +91,7 @@
                 #{@sigcount} of #{counter_size(@sigcount)} supporters have signed
             .progress
               .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+          %hr
       .content
         - petitiontext = @petition.description
         - if @petition.to_send != true

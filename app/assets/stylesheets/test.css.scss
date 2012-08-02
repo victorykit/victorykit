@@ -31,8 +31,9 @@ body.bootstrap {
   #content {
     margin: -40px auto 65px;
   }
-  .petition .header {
+  .petition .header  hr {
     border-bottom: 1px dotted #ccc;
+    display: block;
   }
   border-top: 40px solid black;
   .navigation {
