@@ -201,6 +201,11 @@ function initShowPetition() {
 }
 
 function initSharePetition() {
+  new FacebookShareWidget($(".facebook-share-widget"),
+                          {
+                            base_path: "/widget",
+                            template:  {"link": window.location.toString() }
+                          });
   initTwitter();
   initFacebookApp();
   setupSocialTracking();
