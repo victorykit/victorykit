@@ -182,7 +182,7 @@
     }
   }
 }
-#thanks-for-signing-message, #thanksModal {
+#thanks-for-signing-message, #thanksModal, #mobile_thanks {
   font-size: 14px;
   font-weight: bold;
   text-align: center;
@@ -207,6 +207,7 @@
     margin-left: 45px;
   }
 }
+
 #thanks-for-signing-message {
   @extend .rightcolwell;
   fb\:like {
@@ -555,4 +556,21 @@
   .privacypolicy { margin: 10px\9; clear: both\9; }
   .btn { margin-right: -10px\9; }
   .control-group { *height: 3em; }
+}
+
+#mobile_thanks {
+  display: none;
+  @media (min-width: 250px) and (max-width: 767px) {
+    display: block;
+    background: #ddd;
+    height: 190px;
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  .thanks {
+    padding-top: 20px;
+  }
+  .fb_popup_btn, .tweet {
+    margin-top: 30px;
+  }
 }
