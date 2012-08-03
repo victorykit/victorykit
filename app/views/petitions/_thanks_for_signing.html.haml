@@ -2,10 +2,7 @@
   Thanks for signing!
 .sharing-message
   Spread the word, share with your friends!
-- if !browser.mobile? && !browser.ie? && !browser.android? && (spin! "nudgenudge", :share)
-  .jumping_arrow
-- else
-  .arrow
+.arrow
 .tweet
   %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 - if fb_action_like_popup == "facebook_share"
