@@ -130,6 +130,11 @@
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
         = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
 
+  .modal.hide#facebookFriendsModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      = render :partial => "facebook_share_widget"
+
   .modal.hide#sign_mobile.signature-form
     .modal-body
       = link_to('x' , '', :class => 'close', :'data-dismiss' => 'modal')

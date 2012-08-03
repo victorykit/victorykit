@@ -178,12 +178,15 @@ function bindFacebookWidgetButton() {
   
   function performLoginAndOpenWidget() {
     FB.login(function (response) {
-      (response.authResponse) && (openWidget());  
+      (response.authResponse) && (openWidget());
     });
   }
 
   function openWidget() {
-    var element = $('.facebook-share-widget').removeClass('hidden');
+    var element = $('.facebook-share-widget');
+    $('#thanksModal').modal('hide');
+    $('#facebookFriendsModal').modal('toggle');
+    $('#facebookFriendsModal').on('hide', drawMainArrow);
     var options = {
       base_path: '/widget',
       template:  { 'link': window.location.toString() }
@@ -206,9 +209,12 @@ function drawJumpingArrow(element, closer) {
   });
 }
 
+function drawMainArrow() {
+  drawJumpingArrow('#thanks-for-signing-message .jumping_arrow', {"el": "#facebookFriendsModal", "event": "show"}); 
+}
+
 function drawModalAfterSigning() {
   var drawModalArrow = function() { drawJumpingArrow('#thanksModal .jumping_arrow', {"el": "#thanksModal", "event": "hide"}); };
-  var drawMainArrow = function() { drawJumpingArrow('#thanks-for-signing-message .jumping_arrow', {"el": {}, "event": "hide"}); };
 
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
