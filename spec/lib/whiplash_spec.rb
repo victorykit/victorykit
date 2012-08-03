@@ -1,23 +1,6 @@
 require 'whiplash'
 require 'spec_helper'
 
-describe "to1if0" do
-  it "should preserve nonzero" do
-    (5.0).to_1if0.should == 5.0
-  end
-  it "should convert zero to one" do
-    (0.0).to_1if0.should == 1.0
-  end
-end
-
-describe "Array.mean" do
-  it "should properly calculate means" do
-    [5].mean.should == 5
-    [0, 4].mean.should == 2
-    [0, 100, 100, 100].mean.should == 75
-  end
-end
-
 describe Bandit do
   include Bandit
 
@@ -26,6 +9,7 @@ describe Bandit do
     arm_guess(1, 0).class.should == Float
     arm_guess(2, 1).class.should == Float
     arm_guess(1000, 5).class.should == Float
+    arm_guess(10, -2).class.should == Float
   end
   
   it "should pick one of the options as the best" do

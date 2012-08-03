@@ -24,7 +24,7 @@ class Admin::HottestController < ApplicationController
   def hot_petitions w=nil
     case w
       when 'chosen'
-        t1k_chosen = (1..1000).map { best_guess(get_db_data) }
+        t1k_chosen = (1..100).map { best_guess(get_db_data) }
       when 'best'
         t1k_best = get_db_data.sort_by { |x| x[1][1]/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
       else
