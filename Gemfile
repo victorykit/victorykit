@@ -61,7 +61,8 @@ gem 'foreman'
 
 # for whiplash
 gem 'redis'
-gem 'distribution'
+gem 'simple-random'
+
 gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
 gem 'aws-sdk'
 

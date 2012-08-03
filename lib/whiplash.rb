@@ -1,9 +1,8 @@
-require 'distribution'
+require 'simple-random'
 require 'redis'
 
-FAIRNESS_CONSTANT = 0
 FAIRNESS_CONSTANT4 = 0
-FC5 = 2.0
+FAIRNESS_CONSTANT7 = FC7 = 2
 
 class Float
   def to_1if0
@@ -17,15 +16,9 @@ end
 
 module Bandit
   def arm_guess(observations, victories)
-    if observations == 0
-      mean = 0.5
-      stddev = 0.5
-    else
-      mean = victories.to_f/observations.to_f
-      stddev = Math.sqrt([FC5/observations.to_f, (mean * (1-mean))].max/observations.to_f)
-    end
-    out = [0, Distribution::Normal.rng(mean, stddev).call].max
-    return out + (FAIRNESS_CONSTANT * (1.0/observations.to_f.to_1if0))
+    a = [victories, 0].max
+    b = [observations-victories, 0].max
+    s = SimpleRandom.new; s.set_seed; s.beta(a+FC7, b+FC7)
   end
   
   def best_guess(options)
