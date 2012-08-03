@@ -567,6 +567,15 @@
   }
 }
 
-.facebook-share-widget {
-  width: 300px;
-}
+#facebookFriendsModal {
+  width: 600px;
+  height: 400px;
+  .modal-body {
+    padding: 2px;
+  }
+  .facebook-share-widget {
+    ul {
+      overflow-x: hidden;
+    }
+}}
+
