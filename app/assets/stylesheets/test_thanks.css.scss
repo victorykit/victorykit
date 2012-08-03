@@ -57,4 +57,19 @@
   }
 }
 
+.giantbox.smaller {
+  padding: 20px 55px;
+  .big_text {
+    font-size: 70px;
+    line-height: 80px;
+  }
+  .message {
+    font-size: 50px;
+    line-height: 60px;
+  }
+  .fb_button_big {
+    margin: 25px auto 15px;
+  }
+}
+
 

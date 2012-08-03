@@ -1,10 +1,20 @@
 -# thanks_message = spin! "toggle thanks messages", :share, ["thanks_so_much", "youre_amazing", "profit", "great_success"]
+- thanks_message = spin! "toggle message", :share, ["that_was_amazing_verbose", "text_from_modal"]
+- hero_font_sizes = spin! "toggle font sizes within sharing hero", :share, ["larger", "smaller"]
 
-.giantbox
-  .big_text
-    That was amazing,
-  .message
-    but we still need more people to make a <b>huge impact</b>.  Help us spread the word:
+.giantbox{class: [hero_font_sizes]}
+  - if thanks_message == 'that_was_amazing_verbose'
+    .big_text
+      That was amazing,
+    .message
+      but we still need more people to make a <b>huge impact</b>.  Help us spread the word:
+  - else
+    .big_text
+      Thanks for Signing!
+    .message
+      Spread the word,
+      %br
+      share with your friends!
   .fb_button_big.fb_popup_btn
 
   -##thanks{class: [thanks_message]}
