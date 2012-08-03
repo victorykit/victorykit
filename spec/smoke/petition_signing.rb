@@ -36,6 +36,7 @@ describe 'Petition page' do
   end
 
   it "should allow signing a petition again after clicking 'does somene else' link" do
+    force_result({"after share view" => "modal"})
     set_default_experiment_results
     go_to petition_path(@petition)
 

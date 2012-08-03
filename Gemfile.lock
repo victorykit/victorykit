@@ -287,7 +287,6 @@ DEPENDENCIES
   browser
   coffee-rails (~> 3.2.1)
   compass-rails
-  distribution
   dkim
   facebook_share_widget!
   factory_girl_rails (~> 3.0)
