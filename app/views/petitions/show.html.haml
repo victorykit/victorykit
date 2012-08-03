@@ -2,13 +2,17 @@
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 - if @was_signed
   - fb_action_like_popup = spin! "facebook sharing options", :referred_member, ["facebook_like", "facebook_popup"]
+  - if browser.mobile? or browser.android? or browser.ie?
+    - after_share_view = "modal"
+  - else
+    - after_share_view = spin! "after share view", :share, ["modal", "hero"]
 -#add "facebook_share" option to this experiment
 
 = render :partial => "javascript_content", :locals => {fb_action_like_popup: fb_action_like_popup}
 
 .fb-root
 
-- if @just_signed and !browser.mobile? and !browser.android? and !browser.ie? and (spin! "show_hero_thanks", :share)
+- if @just_signed and after_share_view == "hero"
   = render :partial => "share"
 
 - if @just_signed
@@ -120,7 +124,7 @@
 
   = hidden_field_tag 'petitionId', @petition.id
 
-  - if @just_signed
+  - if @just_signed and after_share_view == "modal"
     .modal#thanksModal
       .modal-body
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
