@@ -84,4 +84,4 @@ gem 'nokogiri'
 gem "truncate_html"
 gem "airbrake"
 gem "fb_graph"
-gem 'facebook_share_widget', :git => 'https://github.com/controlshift/facebook_share_widget_rails.git'
+gem 'facebook_share_widget', :git => 'https://github.com/mkurutin/facebook_share_widget_rails.git'
