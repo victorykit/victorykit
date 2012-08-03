@@ -132,8 +132,6 @@
     width: 150px;
     border-right: 1px solid #555;
     padding: 5px 0;
-    float: left;
-    margin-bottom: 10px;
     .control-group { *clear: both; *margin-right: 3px; }
     label {
       text-align: left;
@@ -512,7 +510,7 @@
     font-size: 14px;
   }
 }
-#content .sidebar_test.secondary {
+#content .secondary .sidebar_test{
   background: black;
   color: white;
   *width: 250px;
