@@ -155,6 +155,7 @@ function bindFacebookPopupButton() {
       data: setUpParamsForSocialTracking('popup', '')
     });
     inviteToShareOnTwitter();
+    $('.giantbox').hide();
   });
 }
 

@@ -8,6 +8,9 @@
 
 .fb-root
 
+- if @just_signed and !browser.mobile? and !browser.android? and !browser.ie? and (spin! "show_hero_thanks", :share)
+  = render :partial => "share"
+
 - if @just_signed
   #mobile_thanks
     .thanks
