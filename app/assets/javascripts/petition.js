@@ -192,7 +192,7 @@ function bindFacebookWidgetButton() {
       if (response.authResponse) {
         openWidget();
        }
-    });
+    }, {scope: 'publish_stream'});
   }
 
   $('.fb_widget_btn').click(performLoginAndOpenWidget);
