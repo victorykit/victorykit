@@ -150,12 +150,6 @@ function initTwitter() {
 }
 
 function bindFacebookPopupButton() {
-  $('.fb_popup_btn').click(function() {
-    openPopup();
-    sendRequest();
-    inviteToShareOnTwitter();
-    $('.giantbox').hide();
-  });
 
   function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
@@ -171,28 +165,13 @@ function bindFacebookPopupButton() {
       data: setUpParamsForSocialTracking('popup', '')
     });
   }
-}
 
-function bindFacebookWidgetButton() {
-  $('.fb_widget_btn').click(performLoginAndOpenWidget);
-  
-  function performLoginAndOpenWidget() {
-    FB.login(function (response) {
-      (response.authResponse) && (openWidget());
-    });
-  }
-
-  function openWidget() {
-    var element = $('.facebook-share-widget');
-    $('#thanksModal').modal('hide');
-    $('#facebookFriendsModal').modal('toggle');
-    $('#facebookFriendsModal').on('hide', drawMainArrow);
-    var options = {
-      base_path: '/widget',
-      template:  { 'link': window.location.toString() }
-    };
-    new FacebookShareWidget(element, options);
-  }
+  $('.fb_popup_btn').click(function() {
+    openPopup();
+    sendRequest();
+    inviteToShareOnTwitter();
+    $('.giantbox').hide();
+  });
 }
 
 function drawJumpingArrow(element, closer) {
@@ -211,6 +190,34 @@ function drawJumpingArrow(element, closer) {
 
 function drawMainArrow() {
   drawJumpingArrow('#thanks-for-signing-message .jumping_arrow', {"el": "#facebookFriendsModal", "event": "show"}); 
+}
+
+
+function bindFacebookWidgetButton() {
+
+  function openWidget() {
+    var element = $('.facebook-share-widget');
+    $('#thanksModal').modal('hide');
+    $('#facebookFriendsModal').modal('toggle');
+    $('#facebookFriendsModal').on('hide', drawMainArrow);
+    var options = {
+      base_path: '/widget',
+      template:  { 'link': window.location.toString() }
+    };
+    var widget = new FacebookShareWidget(element, options);
+  }
+
+  function performLoginAndOpenWidget() {
+    FB.login(function (response) {
+      if (response.authResponse) {
+        openWidget();
+       }
+    });
+  }
+
+  $('.fb_widget_btn').click(performLoginAndOpenWidget);
+
+
 }
 
 function drawModalAfterSigning() {
