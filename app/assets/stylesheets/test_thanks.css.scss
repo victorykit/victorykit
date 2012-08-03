@@ -1,0 +1,60 @@
+.giantbox {
+  background: black;
+  padding: 20px 35px;
+  margin-bottom: 20px;
+  color: lightblue;
+  text-align: center;
+}
+#thanks {
+  display: none;
+  margin: 1% auto;
+  height: 450px;
+  width: 700px;
+}
+.big_text {
+  font-size: 130px;
+  line-height: 170px;
+}
+.message {
+  font-size: 70px;
+  line-height: 80px;
+  clear: both;
+}
+.fb_button_big {
+  background: url('fb_normal.png');
+  height: 82px;
+  width: 563px;
+  margin: 40px auto 30px;
+  &:hover {
+    background: url('fb_hover.png');
+  }
+}
+.thanks_so_much {
+  background: url('thanks_so_much.png');
+  .fb_popup_btn {
+    margin: 353px 0 0 468px;
+  }
+}
+
+.youre_amazing {
+  background: url('youre_amazing.png');
+  .fb_popup_btn {
+    margin: 340px 0 0 376px;
+  }
+}
+
+.profit {
+  background: url('profit.png');
+  .fb_popup_btn {
+    margin: 290px 0 0 448px;
+  }
+}
+
+.great_success {
+  background: url('great_success.png');
+  .fb_popup_btn {
+    margin: 357px 0 0 429px;
+  }
+}
+
+
