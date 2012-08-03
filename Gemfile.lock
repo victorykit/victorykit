@@ -14,7 +14,7 @@ GIT
 
 GIT
   remote: https://github.com/mkurutin/facebook_share_widget_rails.git
-  revision: 5ca7c0ddbe3845d206cc33cfbc66668329546b2f
+  revision: 51f6a813917d1dfe6d8ee60c44251313b476a021
   specs:
     facebook_share_widget (0.0.10)
       coffee-rails
