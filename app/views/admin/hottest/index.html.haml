@@ -17,6 +17,8 @@
       %th
         New
       %th
+        Unsub
+      %th
         NPS
     - @rows.each do |count, petition, data, nps|
       %tr
@@ -29,5 +31,7 @@
           = data[0]
         %td
           = data[1]
+        %td
+          = data[2]
         %td
           = nps
