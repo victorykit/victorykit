@@ -28,29 +28,31 @@
       .text Share on facebook
 
 #petition_page.page_content
-  .sidebar_test.secondary
-    - unless @was_signed
-      .signature-form
-        .title
-          Sign this petition!
-        .through_site
-          = form_tag [@petition, @signature] do |form|
-            = simple_fields_for :signature, @signature do |f|
-              = f.input :first_name, :hint => false
-              = f.input :last_name, :hint => false
-              = f.input :email
-              = render :partial => "hidden_params"
-              #hint.alert.alert-error
-              = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
+  .secondary
+    .sidebar_test
+      - unless @was_signed
+        .signature-form
+          .title
+            Sign this petition!
+          .through_site
+            = form_tag [@petition, @signature] do |form|
+              = simple_fields_for :signature, @signature do |f|
+                = f.input :first_name, :hint => false
+                = f.input :last_name, :hint => false
+                = f.input :email
+                = render :partial => "hidden_params"
+                #hint.alert.alert-error
+                = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
 
-          .through_fb
-            .text Sign in via
-            .button.btn.btn-primary Facebook!
-          .privacypolicy
-            We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
-    - else
-      #thanks-for-signing-message
-        = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
+            .through_fb
+              .text Sign in via
+              .button.btn.btn-primary Facebook!
+            .privacypolicy
+              We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+      - else
+        #thanks-for-signing-message
+          = render :partial => "thanks_for_signing", :locals => {fb_action_like_popup: fb_action_like_popup}
+    - if @was_signed
       #sign-again
         %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
           Does someone else want to sign? Click here.
