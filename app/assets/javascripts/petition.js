@@ -174,32 +174,12 @@ function bindFacebookPopupButton() {
   });
 }
 
-function drawJumpingArrow(element, closer) {
-  $(element).nudgenudge({
-    arrow: '/assets/limearrow.png',
-    arrowWidth: 100,
-    arrowHeight: 100,
-    intensity: 'medium',  // the intensity of the nudge (low, medium, high)
-    placement: 'left', // place on the left or the right of the target
-    closeEvent: closer, // selector and event which triggers arrow hiding
-    hideAfter: 0,  // hide after this many nudges, 0 = for the rest of eternity
-    offsetX: 200, // adjust x position
-    offsetY: -20 // adjust y position
-  });
-}
-
-function drawMainArrow() {
-  drawJumpingArrow('#thanks-for-signing-message .jumping_arrow', {"el": "#facebookFriendsModal", "event": "show"}); 
-}
-
-
 function bindFacebookWidgetButton() {
 
   function openWidget() {
     var element = $('.facebook-share-widget');
     $('#thanksModal').modal('hide');
     $('#facebookFriendsModal').modal('toggle');
-    $('#facebookFriendsModal').on('hide', drawMainArrow);
     var options = {
       base_path: '/widget',
       template:  { 'link': window.location.toString() }
@@ -221,14 +201,8 @@ function bindFacebookWidgetButton() {
 }
 
 function drawModalAfterSigning() {
-  var drawModalArrow = function() { drawJumpingArrow('#thanksModal .jumping_arrow', {"el": "#thanksModal", "event": "hide"}); };
-
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
-    drawModalArrow();
-    $('#thanksModal').on('hide', drawMainArrow);
-  } else {
-    drawMainArrow();
   }
 }
 
