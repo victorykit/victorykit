@@ -568,14 +568,32 @@
 }
 
 #facebookFriendsModal {
-  width: 600px;
-  height: 400px;
+  width: 604px;
+  height: 420px;
+  
   .modal-body {
     padding: 2px;
-  }
-  .facebook-share-widget {
-    ul {
-      overflow-x: hidden;
+
+    .close {
+      margin-top: 8px;
+      margin-right: 20px;
     }
-}}
+
+    .facebook-share-widget {
+      .search-text {
+        float: none;
+      }
+
+      ul {
+        overflow-x: hidden;
+      }
+    }
+  }
+
+  .modal-footer {
+    .btn {
+      width: 60px;
+    }
+  }
+}
 
