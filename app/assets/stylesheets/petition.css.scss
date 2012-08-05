@@ -574,16 +574,23 @@
   .modal-body {
     padding: 2px;
 
+    i.icon-search {
+      position: absolute;
+      top: 15px;
+      left: 250px;
+      opacity: 0.4;
+    }
+    
     .close {
       margin-top: 8px;
       margin-right: 20px;
     }
-
+    
     .facebook-share-widget {
       .search-text {
         float: none;
       }
-
+      
       ul {
         overflow-x: hidden;
       }

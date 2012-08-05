@@ -134,6 +134,7 @@
 
   .modal.hide#facebookFriendsModal
     .modal-body
+      %i.icon-search
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
       = render :partial => "facebook_share_widget"
     .modal-footer
