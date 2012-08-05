@@ -185,6 +185,7 @@ function bindFacebookWidgetButton() {
       template:  { 'link': window.location.toString() }
     };
     var widget = new FacebookShareWidget(element, options);
+    $('.facebook-share-widget .search-text').get(0).focus();
   }
 
   function performLoginAndOpenWidget() {
@@ -196,8 +197,6 @@ function bindFacebookWidgetButton() {
   }
 
   $('.fb_widget_btn').click(performLoginAndOpenWidget);
-
-
 }
 
 function drawModalAfterSigning() {
