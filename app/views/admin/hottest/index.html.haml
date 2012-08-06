@@ -1,5 +1,27 @@
 .span12
-  %h1 Last 1000 Emails Sent
+  %h1 Hottest Petitions
+
+  %p
+    %i
+      currently showing:
+    - @options.each do |x|
+      &nbsp;&nbsp;
+      - if @filter == x
+        %b
+          = x
+      - else
+        = link_to x, params.merge(w: x)
+    - if @filter == 'mine'
+      <br /><i>who: </i>
+      - @authors.each do |x|
+        &nbsp;&nbsp;
+        - if @myauthor == x.to_s
+          %b
+            = x
+        - else
+          = link_to x, params.merge(id: x)
+
+
 
   %p
     %i
@@ -8,8 +30,9 @@
   
   %table{class: ['bordered-table', 'table-striped', 'dataTable']}
     %tr
-      %th
-        \%
+      - unless @unique
+        %th
+          \%
       %th
         Petition
       %th
@@ -22,8 +45,9 @@
         NPS
     - @rows.each do |count, petition, data, nps|
       %tr
-        %td
-          = count/10.0
+        - unless @unique
+          %td
+            = count/10.0
         %td
           %a{href: petition_url(petition)}
             = petition.title
