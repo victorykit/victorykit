@@ -27,6 +27,8 @@ class Admin::HottestController < ApplicationController
         t1k_chosen = (1..100).map { best_guess(get_db_data) }
       when 'best'
         t1k_best = get_db_data.sort_by { |x| x[1][1]/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
+      when 'mine'
+        Petition.select(:id).where(owner_id: params[:id] || current_user.id).order("created_at desc").limit(50).map{|x| x.id }
       else
         t1k_sent = SentEmail.last(1000).map {|x| x.petition_id}
     end
@@ -46,5 +48,14 @@ class Admin::HottestController < ApplicationController
 
     @avg = acc/hotlist.length.to_f
     @rows = rows
+    @unique = rows[0][0] == 1
+    
+    @options = ['sent', 'best', 'mine']
+    @filter = params[:w] || 'sent'
+    
+    if @filter == 'mine'
+      @authors = Petition.select(:owner_id).where(to_send: true).group(:owner_id).map{|x|x.owner_id}
+      @myauthor = params[:id] || current_user.id.to_s
+    end
   end
 end
