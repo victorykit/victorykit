@@ -38,6 +38,7 @@ body.bootstrap {
   border-top: 40px solid black;
   .navigation {
     margin-top: -40px;
+    *margin-top: 0;
   }
   @media (min-width: 250px) and (max-width: 767px) {
     a.logo {
