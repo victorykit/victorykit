@@ -1,18 +1,7 @@
 require 'simple-random'
 require 'redis'
 
-FAIRNESS_CONSTANT4 = 0
 FAIRNESS_CONSTANT7 = FC7 = 2
-
-class Float
-  def to_1if0
-    self.zero? ? 1.0 : self
-  end
-end
-
-class Array
-  def mean; sum / size; end
-end
 
 module Bandit
   def arm_guess(observations, victories)
@@ -22,13 +11,6 @@ module Bandit
   end
   
   def best_guess(options)
-    bestv = options.collect{ |o, v| v[1] / v[0].to_f.to_1if0 }.max
-    options2 = {}
-    options.each{ |o, v|
-      obs, vics = v
-      options2[o] = [obs, obs * ([vics/obs.to_f.to_1if0] + [bestv]*FAIRNESS_CONSTANT4).mean] }
-    options = options2
-    
     guesses = {}
     options.each { |o, v| guesses[o] = arm_guess(v[0], v[1]) }
     gmax = guesses.values.max
