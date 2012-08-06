@@ -12,6 +12,8 @@
 
 .navigation {
   margin: 0 auto;
+  *height: 50px;
+  *margin-top: 0;
   .nav {
     margin-left: 32px;
   }
@@ -45,6 +47,8 @@
   font-size: 3em;
   color: white;
   margin-top: 11px;
+  *line-height: 30px;
+  *margin-top: 5px;
   @media (min-width: 979px) {
     width: 181px;
   }
