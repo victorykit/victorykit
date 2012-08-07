@@ -38,7 +38,11 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
-    @option ||= choose_facebook_sharing_option
+    @facebook_sharing_option ||= choose_facebook_sharing_option
+  end
+
+  def after_share_view
+    @after_share_view_option ||= choose_after_share_view
   end
 
   private
@@ -46,6 +50,11 @@ module PetitionsHelper
   def choose_facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
     spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
+  end
+
+  def choose_after_share_view
+    return 'modal' if browser.ie? or browser.mobile? or browser.android?
+    spin! 'after share view', :share, ['modal', 'hero']
   end
   
 end
