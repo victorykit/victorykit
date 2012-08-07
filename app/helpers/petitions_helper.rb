@@ -1,8 +1,7 @@
 module PetitionsHelper
 
-  def open_graph_for(petition, member_hash)
-    # FIXME: move this query to model
-    member = find_member_by_hash(member_hash)
+  def open_graph_for(petition, hash)
+    member = MemberHasher.member_for(hash)
     { 
       'og:title' => petition.experiments.facebook(member).title,
       'og:type' => 'watchdognet:petition',
@@ -52,9 +51,4 @@ module PetitionsHelper
   def social_media_config
     Rails.configuration.social_media
   end
-
-  def find_member_by_hash(hash)
-    Member.find_by_id MemberHasher.validate(hash)
-  end
-  
 end

@@ -6,7 +6,7 @@ describe PetitionsHelper do
 
   describe '#open_graph_for' do 
     let(:petition) { create(:petition) }
-    let(:member_hash) { '42' }
+    let(:hash) { '42.aCKy3f' }
     let(:config) { 
       { facebook: { 
           site_name: 'My Super Petitions', 
@@ -18,10 +18,10 @@ describe PetitionsHelper do
     before(:each) do
       helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
-      helper.stub!(:find_member_by_hash).and_return anything
+      MemberHasher.stub!(:member_for).with(hash).and_return anything
     end    
 
-    subject { helper.open_graph_for(petition, member_hash) }
+    subject { helper.open_graph_for(petition, hash) }
     it { should include('og:type' => 'watchdognet:petition') }
     it { should include('og:title' => petition.title) }
     it { should include('og:description' => strip_tags(petition.description)) }
