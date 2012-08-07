@@ -2,7 +2,7 @@ require 'hasher'
 
 class SentEmailHasher < Hasher
 
-  def self.member_for(hashed_data)
+  def self.sent_email_for(hashed_data)
     SentEmail.where(:id => self.validate(hashed_data)).first
   end
 
