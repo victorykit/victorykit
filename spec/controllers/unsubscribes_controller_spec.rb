@@ -51,7 +51,7 @@ describe UnsubscribesController do
     context "when member not found" do
       before :each do
         Member.any_instance.stub(:find_by_email).and_return(nil)
-        post :create, unsubscribe: {}
+        post :create, unsubscribe: {email: 'does@not.exist'}
       end
       it "should redirect to new unsubscribe url" do
         response.should redirect_to new_unsubscribe_url
@@ -67,6 +67,15 @@ describe UnsubscribesController do
       it "associates the email with the unsubscribe" do
         unsubscribe = Unsubscribe.find_by_member_id member
         unsubscribe.sent_email.should == sent_email
+      end
+    end
+
+    context "when entering an email in a different case" do
+      let(:member) {create :member, email: 'me@my.com'}
+      it "unsubscribes the member" do
+        post :create, unsubscribe: {email: member.email.upcase}
+        unsubscribe = Unsubscribe.find_by_member_id member
+        unsubscribe.should_not be_nil
       end
     end
   end

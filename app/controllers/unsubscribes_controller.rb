@@ -3,7 +3,8 @@ class UnsubscribesController < ApplicationController
   def create
     @unsubscribe = Unsubscribe.new(params[:unsubscribe])
     @unsubscribe.cause = "unsubscribed"
-    @unsubscribe.member = Member.find_by_email(@unsubscribe.email)
+    @unsubscribe.member = Member.first(:conditions => [ "lower(email) = ?", @unsubscribe.email.downcase ])
+
     @unsubscribe.ip_address = connecting_ip
     @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"][0...255]
     
