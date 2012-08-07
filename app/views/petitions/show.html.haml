@@ -1,14 +1,14 @@
 - content_for :title, @petition.title
 - progressmessaging = spin! "test different messaging on progress bar", :signature, ["x_signatures_of_y", "x_y_to_next_goal", "x_y_to_goal", "x_y_to_go_of_z", "x_supporters_y_to_next_goal", "x_supporters_y_to_goal", "x_supporters_help_us", "x_of_y_supporters"]
 
--# FIXME: move this logic to petitions_helper 
+/FIXME: move this logic to petitions_helper 
 - if @was_signed
   - if browser.mobile? or browser.android? or browser.ie?
     - after_share_view = "modal"
   - else
     - after_share_view = spin! "after share view", :share, ["modal", "hero"]
   
-= render :partial => "javascript_content", :locals => {facebook_sharing_option: facebook_sharing_option }
+= render :partial => "javascript_content"
 
 .fb-root
 
