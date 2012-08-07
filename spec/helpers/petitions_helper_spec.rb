@@ -42,7 +42,10 @@ describe PetitionsHelper do
     
     context 'for an ie7 user' do
       before { browser.stub!(:ie7?).and_return true }
-      specify{ helper.facebook_sharing_option.should == 'facebook_popup' }
+      
+      it 'should be popup' do
+        helper.facebook_sharing_option.should == 'facebook_popup'
+      end
     end
 
     context 'for a proper browser user' do
@@ -52,7 +55,7 @@ describe PetitionsHelper do
       before { browser.stub!(:ie7?).and_return false }
 
       it 'should spin for an option' do
-        helper.should_receive(:spin!).with(exp, goal, options) 
+        helper.should_receive(:spin!).with(exp, goal, options)
         helper.facebook_sharing_option
       end
 
@@ -60,6 +63,51 @@ describe PetitionsHelper do
         helper.should_receive(:spin!).once.
         with(exp, goal, options).and_return anything
         2.times { helper.facebook_sharing_option }
+      end
+    end
+  end
+
+  describe 'after share view' do
+    let(:browser) { mock }
+    
+    before do 
+      helper.stub!(:browser).and_return browser
+      [:mobile?, :android?, :ie?].each { |m| browser.stub! m }
+    end
+
+    shared_examples 'modal' do
+      specify { helper.after_share_view.should == 'modal' }
+    end
+
+    context 'for a mobile user' do
+      before { browser.stub!(:mobile?).and_return true }
+      it_behaves_like 'modal'
+    end
+
+    context 'for an ie user' do
+      before { browser.stub!(:ie?).and_return true }
+      it_behaves_like 'modal'
+    end
+
+    context 'for an android user' do
+      before { browser.stub!(:android?).and_return true }
+      it_behaves_like 'modal'
+    end
+
+    context 'for a regular browser user' do
+      let(:exp) { 'after share view' }
+      let(:goal) { :share }
+      let(:options) { ['modal', 'hero'] }
+
+      it 'should spin for an option' do
+        helper.should_receive(:spin!).with(exp, goal, options)
+        helper.after_share_view
+      end
+
+      it 'should cache spin result' do
+        helper.should_receive(:spin!).once.
+        with(exp, goal, options).and_return anything
+        2.times { helper.after_share_view }
       end
     end
   end
