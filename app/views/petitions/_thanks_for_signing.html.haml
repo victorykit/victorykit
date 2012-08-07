@@ -5,16 +5,16 @@
 .arrow
 .tweet
   %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-- if fb_action_like_popup == "facebook_share"
+- if facebook_sharing_option == "facebook_share"
   .fb_share.btn.btn-primary Share on Facebook
   .fb_share_message
-- elsif fb_action_like_popup == "facebook_popup"
+- elsif facebook_sharing_option == "facebook_popup"
   .btn.btn-primary.fb_popup_btn
     .fb_icon
     .text Share on facebook
-- elsif fb_action_like_popup == "facebook_like"
+- elsif facebook_sharing_option == "facebook_like"
   = fb_like petition_url(params[:id]), @current_member_hash, 'button_centered', true
-- elsif fb_action_like_popup == "facebook_widget"
+- elsif facebook_sharing_option == "facebook_widget"
   .btn.btn-primary.fb_widget_btn
     .fb_icon
     .text Share with your friends
