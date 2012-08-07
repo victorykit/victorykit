@@ -54,8 +54,7 @@ module PetitionsHelper
   end
 
   def find_member_by_hash(hash)
-    id = MemberHasher.validate(hash)
-    Member.find id if id
+    Member.find_by_id MemberHasher.validate(hash)
   end
   
 end
