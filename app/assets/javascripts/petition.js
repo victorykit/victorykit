@@ -155,7 +155,7 @@ function bindFacebookPopupButton() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
     var domain = location.href.replace(/\?.*/,"");
     var memberHash = VK.current_member_hash;
-    var url = [sharer, domain, '?share_ref=', memberHash].join(''); 
+    var url = [sharer, domain, '?share_ref=', memberHash].join('');
     window.open(url , 'sharer', 'width=626,height=436');
   }
 
@@ -180,9 +180,10 @@ function bindFacebookWidgetButton() {
     var element = $('.facebook-share-widget');
     $('#thanksModal').modal('hide');
     $('#facebookFriendsModal').modal('toggle');
+    var domain = location.href.replace(/\?.*/,"");
     var options = {
       base_path: '/widget',
-      template:  { 'link': window.location.toString() }
+      template:  { 'link': domain + '?widget=' + VK.current_member_hash }
     };
     var widget = new FacebookShareWidget(element, options);
     $('.facebook-share-widget .search-text').get(0).focus();
