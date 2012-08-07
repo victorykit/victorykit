@@ -1,9 +1,5 @@
 module PetitionsHelper
   
-  def social_media_config
-    Rails.configuration.social_media
-  end
-
   def find_member_by_id_hash(hash)
     member_id = MemberHasher.validate(hash)
     member = Member.find member_id unless not member_id
@@ -21,12 +17,11 @@ module PetitionsHelper
   end
 
   def counter_size(signature_count)
-    counters = [5, 10, 50, 100, 250, 500, 750, 1000, 2000, 5000, 7500, 10000, 15000, 20000, 100000, 1000000]
-    for i in counters
-      if signature_count < i
-        return i
-      end
-    end
+    [  5,     10,     50,     100, 
+      250,   500,    750,    1000, 
+     2000,  5000,   7500,   10000, 
+    15000, 20000, 100000, 1000000].
+    find { |n| signature_count < n }
   end
 
   def choose_form_based_on_browser
@@ -55,6 +50,10 @@ module PetitionsHelper
 
   def really_ie?
     browser.ie? && !(browser.user_agent =~ /chromeframe/)
+  end
+
+  def social_media_config
+    Rails.configuration.social_media
   end
   
 end

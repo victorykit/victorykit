@@ -1,31 +1,28 @@
 require 'spec_helper'
 
 describe PetitionsHelper do
-  
-  describe "petition_to_open_graph" do 
-    include ApplicationHelper
+  let(:browser) { mock }
+  before { helper.stub!(:browser).and_return browser }
 
-    let(:petition) { create(:petition)}
-    let(:config) { { facebook: { site_name: "My Super Petitions", app_id: 12345 } } }
+  describe '#petition_to_open_graph' do 
+    let(:petition) { create(:petition) }
+    let(:config) { { facebook: { site_name: 'My Super Petitions', app_id: 12345 } } }
     
     before(:each) do
-      helper.stub!(:spin!).and_return(nil)
+      helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
     end    
 
     subject { helper.petition_to_open_graph(petition) }
-    
-    it { should include("og:type" => "watchdognet:petition")}
-    it { should include("og:title" => petition.title)}
-    it { should include("og:description" => strip_tags(petition.description))}
-    it { should include("og:image" => Rails.configuration.social_media[:facebook][:image])}
-    it { should include("og:site_name" => "My Super Petitions")}
-    it { should include("fb:app_id" => 12345)}
+    it { should include('og:type' => 'watchdognet:petition') }
+    it { should include('og:title' => petition.title) }
+    it { should include('og:description' => strip_tags(petition.description)) }
+    it { should include('og:image' => Rails.configuration.social_media[:facebook][:image]) }
+    it { should include('og:site_name' => 'My Super Petitions') }
+    it { should include('fb:app_id' => 12345) }
   end
 
-  context 'choosing a form' do
-    let(:browser) { mock }
-    before { helper.stub!(:browser).and_return browser }
+  describe '#choose_form_based_on_browser' do
 
     context 'for an ie user' do
       before do 
@@ -55,10 +52,8 @@ describe PetitionsHelper do
     end
   end
 
-  describe 'facebook sharing' do
-    let(:browser) { mock }
-    before { helper.stub!(:browser).and_return browser }
-    
+  describe '#facebook_sharing_option' do
+
     context 'for an ie7 user' do
       before { browser.stub!(:ie7?).and_return true }
       
@@ -86,8 +81,7 @@ describe PetitionsHelper do
     end
   end
 
-  describe 'after share view' do
-    let(:browser) { mock }
+  describe '#after_share_view' do
     
     before do 
       helper.stub!(:browser).and_return browser
@@ -128,6 +122,14 @@ describe PetitionsHelper do
         with(exp, goal, options).and_return anything
         2.times { helper.after_share_view }
       end
+    end
+  end
+
+  describe '#counter_size' do
+    it 'should be greater than the number of signatures' do
+      helper.counter_size(0).should == 5
+      helper.counter_size(5).should == 10
+      helper.counter_size(100000).should == 1000000
     end
   end
 
