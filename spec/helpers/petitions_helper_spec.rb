@@ -46,11 +46,20 @@ describe PetitionsHelper do
     end
 
     context 'for a proper browser user' do
+      let(:exp) { 'facebook sharing options' }
+      let(:goal) { :referred_member }
+      let(:options) { ['facebook_like', 'facebook_popup'] }
       before { browser.stub!(:ie7?).and_return false }
+
       it 'should spin for an option' do
-        e, g, o = 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
-        helper.should_receive(:spin!).with(e, g, o)
+        helper.should_receive(:spin!).with(exp, goal, options) 
         helper.facebook_sharing_option
+      end
+
+      it 'should cache spin result' do
+        helper.should_receive(:spin!).once.
+        with(exp, goal, options).and_return anything
+        2.times { helper.facebook_sharing_option }
       end
     end
   end
