@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe PetitionsHelper do
+  
   describe "petition_to_open_graph" do 
     include ApplicationHelper
 
@@ -22,17 +23,35 @@ describe PetitionsHelper do
     it { should include("fb:app_id" => 12345)}
   end
 
-  describe "choose_form_based_on_browser" do
-    attr_reader :browser
+  context 'choosing a form' do
+    let(:browser) { mock }
+    before { helper.stub!(:browser).and_return browser }
 
-    it "tells IE users to upgrade their shit" do
-      @browser = OpenStruct.new(:ie? => true, :user_agent => "MSIE")
-      choose_form_based_on_browser.should == 'ie_form'
+    context 'for an ie user' do
+      before do 
+        helper.browser.stub!(:ie?).and_return true
+        helper.browser.stub!(:user_agent).and_return 'MSIE'
+      end
+      
+      specify{ helper.choose_form_based_on_browser.should == 'ie_form' }
     end
 
-    it "tolerates IE with chrome frame" do
-      @browser = OpenStruct.new(:ie? => true, :user_agent => "MSIE chromeframe")
-      choose_form_based_on_browser.should == 'form'
+    context 'for a regular browser user' do
+      before do 
+        helper.browser.stub!(:ie?).and_return false
+        helper.browser.stub!(:user_agent).and_return anything
+      end
+
+      specify{ helper.choose_form_based_on_browser.should == 'form' }
+    end
+
+    context 'for a fake ie user' do
+      before do 
+        helper.browser.stub!(:ie?).and_return true
+        helper.browser.stub!(:user_agent).and_return 'chromeframe'
+      end
+      
+      specify{ helper.choose_form_based_on_browser.should == 'form' }
     end
   end
 
@@ -48,7 +67,7 @@ describe PetitionsHelper do
       end
     end
 
-    context 'for a proper browser user' do
+    context 'for a regular browser user' do
       let(:exp) { 'facebook sharing options' }
       let(:goal) { :referred_member }
       let(:options) { ['facebook_like', 'facebook_popup'] }
