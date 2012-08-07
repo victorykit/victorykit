@@ -67,21 +67,6 @@ describe EmailExperiments do
     end
   end
 
-  context "summary box experiment" do
-    it "should spin" do
-      @experiments.should_receive(:spin!).with("insert summary box to emails", :signature, ["true", "false"], anything()).and_return "true"
-      @experiments.summary_box.should == true
-    end
-    it "should persist the experiment" do
-      @experiments.stub(:spin!).and_return("false")
-      @experiments.summary_box.should == false
-      experiment_record = EmailExperiment.last
-      experiment_record.key.should == "insert summary box to emails"
-      experiment_record.choice.should == "false"
-      experiment_record.goal.should == "signature"
-    end
-  end
-
   context "image" do
     it "should return image url when images exist" do
       image = create(:petition_image, petition_id: @petition.id)

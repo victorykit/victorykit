@@ -11,10 +11,6 @@ class EmailExperiments
     spin_or_default!(test_name, :signature, title_options.map{|opt| opt.title}, default)
   end
 
-  def summary_box
-     spin_or_retrieve_choice("insert summary box to emails", :signature, ["true", "false"])=="true" ? true : false
-  end
-
   def sender
     spin_or_retrieve_choice "different from lines for scheduled emails", :signature, sender_options
   end

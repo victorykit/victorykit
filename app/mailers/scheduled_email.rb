@@ -17,14 +17,14 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url + link_request_params
     @petition = petition
     @member = member
+    @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
+    @image_url = email_experiment.image_url
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-    setup_experiments
     mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.name}\" <#{member.email}>").deliver
   end
 
   def send_preview(petition, member)
     @petition = petition
-    @is_summary_present = petition.short_summary.present?
     @member = member
     @petition_link = petition.persisted? ? petition_url(petition) : "PETITION LINK GOES HERE"
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
@@ -33,14 +33,7 @@ class ScheduledEmail < ActionMailer::Base
     mail(subject: petition.title, from: Settings.email.from_address, to: "\"#{member.name}\" <#{member.email}>", :template_name => 'new_petition').deliver
   end
 
-  private 
-
-  def setup_experiments
-    @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
-    @image_url = email_experiment.image_url
-    @is_summary_present = @petition.short_summary.present? ? email_experiment.summary_box : false
-  end
-
+  private
   def email_experiment
     @email_experiment ||= EmailExperiments.new(@sent_email)
   end
