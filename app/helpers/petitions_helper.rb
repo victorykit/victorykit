@@ -29,12 +29,8 @@ module PetitionsHelper
     end
   end
 
-  def browser_really_ie?
-    browser.ie? && !(browser.user_agent =~ /chromeframe/)
-  end
-
   def choose_form_based_on_browser
-    browser_really_ie? ? 'ie_form' : 'form'
+    really_ie? ? 'ie_form' : 'form'
   end
 
   def facebook_sharing_option
@@ -55,6 +51,10 @@ module PetitionsHelper
   def choose_after_share_view
     return 'modal' if browser.ie? or browser.mobile? or browser.android?
     spin! 'after share view', :share, ['modal', 'hero']
+  end
+
+  def really_ie?
+    browser.ie? && !(browser.user_agent =~ /chromeframe/)
   end
   
 end
