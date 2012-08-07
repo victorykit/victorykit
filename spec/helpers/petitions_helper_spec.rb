@@ -4,16 +4,24 @@ describe PetitionsHelper do
   let(:browser) { mock }
   before { helper.stub!(:browser).and_return browser }
 
-  describe '#petition_to_open_graph' do 
+  describe '#open_graph_for' do 
     let(:petition) { create(:petition) }
-    let(:config) { { facebook: { site_name: 'My Super Petitions', app_id: 12345 } } }
+    let(:member_hash) { '42' }
+    let(:config) { 
+      { facebook: { 
+          site_name: 'My Super Petitions', 
+          app_id: 12345 
+        } 
+      } 
+    }
     
     before(:each) do
       helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
+      helper.stub!(:find_member_by_hash).and_return anything
     end    
 
-    subject { helper.petition_to_open_graph(petition) }
+    subject { helper.open_graph_for(petition, member_hash) }
     it { should include('og:type' => 'watchdognet:petition') }
     it { should include('og:title' => petition.title) }
     it { should include('og:description' => strip_tags(petition.description)) }
