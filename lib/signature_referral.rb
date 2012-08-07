@@ -6,11 +6,11 @@ class SignatureReferral
   end
 
   def uri
-    URI.parse(@referring_url)
+    @uri ||= URI.parse(@referring_url) rescue nil
   end
 
   def params
-    @params ||= CGI.parse(self.uri.query)
+    @params ||= self.uri.try(:query).blank? ? {} : CGI.parse(self.uri.query)
   end
 
   def reference_param
@@ -26,14 +26,24 @@ class SignatureReferral
   end
 
   def record!(signature)
+    return if params.empty?
+
     case self.reference_type
     when Signature::ReferenceType::EMAIL
       sent_email = SentEmailHasher.sent_email_for(reference_hash)
-      sent_email.signature ||= signature
-      sent_email.save!
-      signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL, referring_url: @referring_url}
+      return if sent_email.blank?
+
+      if sent_email.signature.present?
+        signature.update_attributes(
+          referer: sent_email.member,
+          reference_type: Signature::ReferenceType::EMAIL,
+          referring_url: @referring_url
+        )
+      else
+        sent_email.update_attributes(signature: signature)
+      end
+
       EmailExperiments.new(sent_email).win!(:signature)
-      signature.save!
     end
   end
 

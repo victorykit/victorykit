@@ -1,5 +1,5 @@
 class SentEmail < ActiveRecord::Base
-  attr_accessible :email, :member, :petition, :opened_at, :clicked_at
+  attr_accessible :email, :member, :petition, :opened_at, :clicked_at, :signature
   belongs_to :petition
   belongs_to :member
   has_many :email_experiments
