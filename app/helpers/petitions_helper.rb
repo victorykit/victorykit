@@ -38,6 +38,12 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
+    @option ||= choose_facebook_sharing_option
+  end
+
+  private
+
+  def choose_facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
     spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
   end
