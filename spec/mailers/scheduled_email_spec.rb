@@ -79,33 +79,4 @@ describe ScheduledEmail do
         mail.subject.should be_in ["foo", "foo2"]
     end
   end
-
-  describe "summary box experiment" do
-    let(:member){ create(:member)}
-    
-    context "short_summary is present" do
-      let(:petition){ create(:petition, :short_summary => "short summary")}
-      it "should insert short_summary box to the email if the spin returned true" do
-        EmailExperiments.any_instance.should_receive(:summary_box).and_return true
-        mail = ScheduledEmail.new_petition(petition, member)
-        mail.body.encoded.should include "short summary"
-      end
-
-      it "should not insert short_summary box to the email if the spin returned false" do
-        EmailExperiments.any_instance.should_receive(:summary_box).and_return false
-        mail = ScheduledEmail.new_petition(petition, member)
-        mail.body.encoded.should_not include "short summary"
-      end
-    end
-
-    context 'short summary is not present' do
-      let(:petition){ create(:petition) }
-      
-      it "should not insert short_summary box to the email and it should not spin" do
-        EmailExperiments.any_instance.should_not_receive(:summary_box)
-        mail = ScheduledEmail.new_petition(petition, member)
-        mail.body.encoded.should_not include "Sign the petition!"
-      end
-    end
-  end
 end
