@@ -22,7 +22,7 @@ describe MemberHasher do
     end
 
     context 'existing hased id' do
-      specify { MemberHasher.member_for('42.aCKy3f').should == peter_griffin }
+      specify { MemberHasher.member_for('42.aCKy3f').should be peter_griffin }
     end
     
   end
