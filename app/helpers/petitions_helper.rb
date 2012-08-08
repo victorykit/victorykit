@@ -53,6 +53,7 @@ module PetitionsHelper
   def choose_facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
     spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
+    # Add 'facebook_request' for request dialog
   end
 
   def choose_after_share_view
