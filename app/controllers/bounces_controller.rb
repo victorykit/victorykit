@@ -22,14 +22,14 @@ class BouncesController < ApplicationController
       if notification_type == "Bounce"
         record_dsn
         begin
-          process_bounce dsn
+          process_bounce dsn["bounce"]
         rescue => error
           Rails.logger.error "Exception while handling a bounce message: #{error}"
         end
       elsif notification_type == "Complaint"
         record_dsn
         begin
-          process_complaint dsn
+          process_complaint dsn["complaint"]
         rescue => error
           Rails.logger.error "Exception while handling a complaint message: #{error}"
         end
@@ -38,22 +38,20 @@ class BouncesController < ApplicationController
   end
 
   def process_bounce bounce
-    bounce_type = bounce["bounce"]["bounceType"]
-    bounce_sub_type = bounce["bounce"]["bounceSubType"]
-    email = bounce["bounce"]["bouncedRecipients"][0]["emailAddress"]
-    unless bounce_type == "Transient"
-      unsubscribe email, "Bounce/#{bounce_type}/#{bounce_sub_type}"
+    bounce_type = bounce["bounceType"]
+    bounce_sub_type = bounce["bounceSubType"]
+    unless bounce_type == "Transient" or bounce["bouncedRecipients"].nil?
+      cause = "Bounce/#{bounce_type}/#{bounce_sub_type}"
+      unsubscribe(bounce["bouncedRecipients"], cause)
     end
   end
 
   def process_complaint complaint
-    complaint_type = complaint["complaint"]["complaintFeedbackType"]
-    email = complaint["complaint"]["complainedRecipients"][0]["emailAddress"]
-    cause = "Complaint"
-    cause << "/#{complaint_type}" if complaint_type
-
-    unless complaint_type == "not-spam"
-      unsubscribe email, cause
+    complaint_type = complaint["complaintFeedbackType"]
+    unless complaint_type == "not-spam" or complaint["complainedRecipients"].nil?
+      cause = "Complaint"
+      cause << "/#{complaint_type}" if complaint_type
+      unsubscribe(complaint["complainedRecipients"], cause)
     end
   end
 
@@ -63,14 +61,16 @@ class BouncesController < ApplicationController
     bounce.save!
   end
 
-  def unsubscribe email, cause
-    member = Member.find_by_email email
-    if member
-      unsubscribe = Unsubscribe.new
-      unsubscribe.cause = cause
-      unsubscribe.email = member.email
-      unsubscribe.member = member
-      unsubscribe.save!
+  def unsubscribe(recipients, cause)
+    recipients.each do |recipient|
+      member = Member.find_by_email recipient["emailAddress"]
+      if member
+        unsubscribe = Unsubscribe.new
+        unsubscribe.cause = cause
+        unsubscribe.email = member.email
+        unsubscribe.member = member
+        unsubscribe.save!
+      end
     end
   end
 
