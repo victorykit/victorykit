@@ -141,4 +141,21 @@ describe PetitionsHelper do
     end
   end
 
+  describe '#progressmessaging' do
+    let(:exp) { 'test different messaging on progress bar' }
+    let(:goal) { :signature }
+    let(:options) { anything }
+
+    it 'should spin for an option' do
+      helper.should_receive(:spin!).with(exp, goal, options)
+      helper.progressmessaging
+    end
+
+    it 'should cache spin result' do
+      helper.should_receive(:spin!).once.
+      with(exp, goal, options).and_return anything
+      2.times { helper.progressmessaging }
+    end
+  end
+
 end
