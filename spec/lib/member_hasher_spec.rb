@@ -6,7 +6,7 @@ describe MemberHasher do
   it_behaves_like 'a hasher'
 
   describe '#member_for' do
-    let(:peter_griffin) { stub }
+    let(:peter_griffin) { 'stub' }
     
     before do 
       Member.stub!(:where).with(:id => 42).and_return [peter_griffin]
@@ -22,7 +22,7 @@ describe MemberHasher do
     end
 
     context 'existing hased id' do
-      specify { MemberHasher.member_for('42.aCKy3f').should be peter_griffin }
+      specify { MemberHasher.member_for('42.aCKy3f').should == 'stub' }
     end
     
   end
