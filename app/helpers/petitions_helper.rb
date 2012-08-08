@@ -1,4 +1,5 @@
 module PetitionsHelper
+  extend ActiveSupport::Memoizable
 
   def open_graph_for(petition, hash)
     member = MemberHasher.member_for(hash)
@@ -25,16 +26,25 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
-    @facebook_sharing_option ||= choose_facebook_sharing_option
+    return 'facebook_popup' if browser.ie7?
+    spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
+    # Add 'facebook_request' for request dialog
   end
+
+  memoize :facebook_sharing_option
 
   def after_share_view
-    @after_share_view_option ||= choose_after_share_view
+    return 'modal' if browser.ie? or browser.mobile? or browser.android?
+    spin! 'after share view', :share, ['modal', 'hero']
   end
 
+  memoize :after_share_view
+
   def progress_option
-    @progress_option ||= choose_progress_option
+    spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
   end
+
+  memoize :progress_option
 
   def progress
     progress_options_config[progress_option]
@@ -42,27 +52,12 @@ module PetitionsHelper
 
   private
 
-  def choose_facebook_sharing_option
-    return 'facebook_popup' if browser.ie7?
-    spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
-    # Add 'facebook_request' for request dialog
-  end
-
-  def choose_after_share_view
-    return 'modal' if browser.ie? or browser.mobile? or browser.android?
-    spin! 'after share view', :share, ['modal', 'hero']
-  end
-
   def really_ie?
     browser.ie? && !(browser.user_agent =~ /chromeframe/)
   end
 
   def social_media_config
     Rails.configuration.social_media
-  end
-
-  def choose_progress_option
-    spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
   end
 
   def progress_options_config
