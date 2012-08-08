@@ -1,19 +1,22 @@
 function inviteToShareOnTwitter() {
   $('.fb_share.btn').hide();
   $('.fb_popup_btn').hide();
+  $('.fb_request_btn').hide();
   $('.fb_share_message').hide();
   $('.tweet').show();
   $('.sharing-message').text("You shared on Facebook! How about Twitter?");
 }
 
 function initFacebookApp() {
-  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget") {
+  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget" 
+    || VK.facebook_sharing_type == "facebook_request") {
     var appId = $('meta[property="fb:app_id"]').attr('content');
     FB.init({
       appId: appId,
       status: true, // check login status
       cookie: true, // enable cookies to allow the server to access the session
-      xfbml: true  // parse XFBML
+      xfbml: true,  // parse XFBML
+      frictionless:true // for facebook request dialog
     });
   }
 
@@ -30,14 +33,17 @@ function initFacebookApp() {
   }
 }
 
-function setUpParamsForSocialTracking(facebook_action, action_id) {
+function setUpParamsForSocialTracking(facebook_action, action_id, request_id) {
   var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
   if (VK.signature_id !== "") {
     params = $.extend(params, {signature_id: VK.signature_id});
   }
   if (action_id !== "") {
-      params = $.extend(params, {action_id: action_id});
-    }
+    params = $.extend(params, {action_id: action_id});
+  }
+  if (request_id !== "") {
+    params = $.extend(params, {request_id: request_id});
+  }
 
   return params;
 }
@@ -51,7 +57,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
           url: VK.social_tracking_url,
-          data: setUpParamsForSocialTracking('like', '')
+          data: setUpParamsForSocialTracking('like', '', '')
         });
         inviteToShareOnTwitter();
       });
@@ -79,7 +85,7 @@ function submitFacebookAction() {
           } else {
             $.ajax({
               url: VK.social_tracking_url,
-              data: setUpParamsForSocialTracking('share', response.id)
+              data: setUpParamsForSocialTracking('share', response.id, '')
             });
             inviteToShareOnTwitter();
           }
@@ -162,7 +168,7 @@ function bindFacebookPopupButton() {
   function sendRequest() {
     $.ajax({
       url: VK.social_tracking_url,
-      data: setUpParamsForSocialTracking('popup', '')
+      data: setUpParamsForSocialTracking('popup', '', '')
     });
   }
 
@@ -200,6 +206,24 @@ function bindFacebookWidgetButton() {
   $('.fb_widget_btn').click(performLoginAndOpenWidget);
 }
 
+function bindFacebookRequestButton() {
+  $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
+}
+
+function sendRequestViaMultiFriendSelector() {
+  FB.ui({method: 'apprequests',
+    message: 'Support this petition'
+  }, requestCallback);
+}
+
+function requestCallback(response) {
+  if(response && response.request)
+    $.ajax({
+      url: VK.social_tracking_url,
+      data: setUpParamsForSocialTracking('request', response.request, '')
+    });
+    inviteToShareOnTwitter();
+}
 function drawModalAfterSigning() {
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
@@ -227,5 +251,6 @@ function initSharePetition() {
   setupShareFacebookButton();
   bindFacebookPopupButton();
   bindFacebookWidgetButton();
+  bindFacebookRequestButton();
   drawModalAfterSigning();
 }
