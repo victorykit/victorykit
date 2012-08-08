@@ -1,0 +1,2 @@
+class FacebookRequest < FacebookAction
+end

@@ -17,6 +17,7 @@ Victorykit::Application.routes.draw do
   end
   resources :social_tracking
   resources :privacy
+  resources :facebook_landing_page
 
   get 'login', to: 'users#new', as: 'login'
   get 'subscribe', to: 'members#new', as: 'subscribe'

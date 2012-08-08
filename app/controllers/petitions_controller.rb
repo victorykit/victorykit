@@ -27,6 +27,7 @@ class PetitionsController < ApplicationController
     @fb_like_hash = params[:f]
     @fb_share_link_ref = params[:share_ref]
     @fb_action_id = params[:fb_action_ids]
+    @fb_dialog_request = params[:d]
     @existing_fb_action_instance_id = Share.where(member_id: get_member_id, petition_id: params[:id]).first.try(:action_id)
 
     signature_id = get_signature_id @petition

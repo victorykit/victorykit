@@ -54,6 +54,8 @@ class SignaturesController < ApplicationController
         petition.experiments.facebook(referring_member).win!(:signature)
       elsif referring_member = record_referer(signature, :fb_share_link_ref, Signature::ReferenceType::FACEBOOK_POPUP)
         petition.experiments.facebook(referring_member).win!(:signature)
+      elsif referring_member = record_referer(signature, :fb_dialog_request, Signature::ReferenceType::FACEBOOK_REQUEST)
+        petition.experiments.facebook(referring_member).win!(:signature)
       else record_referer signature, :twitter_hash, Signature::ReferenceType::TWITTER end
     end
   end
@@ -68,7 +70,7 @@ class SignaturesController < ApplicationController
   def nps_win signature
     if signature.created_member
       win_on_option!("email_scheduler_nps", signature.petition.id.to_s)
-      if (signature.reference_type == Signature::ReferenceType::FACEBOOK_LIKE || signature.reference_type == Signature::ReferenceType::FACEBOOK_SHARE || signature.reference_type == Signature::ReferenceType::FACEBOOK_POPUP) 
+      if (signature.reference_type == Signature::ReferenceType::FACEBOOK_LIKE || signature.reference_type == Signature::ReferenceType::FACEBOOK_SHARE || signature.reference_type == Signature::ReferenceType::FACEBOOK_POPUP || signature.reference_type == Signature::ReferenceType::FACEBOOK_REQUEST) 
         win_on_option!("facebook sharing options", signature.reference_type)
       end
     end

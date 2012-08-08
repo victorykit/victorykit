@@ -8,6 +8,8 @@
   = hidden_field_tag :fb_share_link_ref, @fb_share_link_ref
 - if @fb_action_id
   = hidden_field_tag :fb_action_id, @fb_action_id
+- if @fb_dialog_request
+  = hidden_field_tag :fb_dialog_request, @fb_dialog_request
 - if @forwarded_notification_hash
   = hidden_field_tag :forwarded_notification_hash, @forwarded_notification_hash
 - if @shared_link_hash
