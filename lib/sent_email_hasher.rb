@@ -3,7 +3,9 @@ require 'hasher'
 class SentEmailHasher < Hasher
 
   def self.sent_email_for(hashed_data)
-    SentEmail.where(:id => self.validate(hashed_data)).first
+    id = self.validate(hashed_data)
+    return nil unless id
+    SentEmail.where(:id => id).first
   end
 
   def self.generate data
