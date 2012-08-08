@@ -4,7 +4,7 @@
   Unsubscribe from future emails:
 
 = simple_form_for(@unsubscribe, :html => {:class => 'form-horizontal' }) do |f|
-  = f.input :email, :as => :string
+  = f.input :email, :as => :string, :input_html => { :value => @email }
   = f.button :submit, :class => 'btn btn-primary', :value => 'Unsubscribe'
   - if @email_hash
     = hidden_field_tag :email_hash, @email_hash
