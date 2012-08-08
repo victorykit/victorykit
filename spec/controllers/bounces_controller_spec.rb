@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe BouncesController do
   describe "create" do
-
     def unsubscribes_the_recipient_because_of cause
       member = create :member, :email => "username@example.com"
       request.env["RAW_POST_DATA"] = data
@@ -97,6 +96,10 @@ json
     end
 
     context "no recipients in the bounce message" do
+      before do
+        Rails.logger.should_not_receive(:error)
+      end
+
       let(:data) {
 <<json
 {\n  \"Type\" : \"Notification\",
