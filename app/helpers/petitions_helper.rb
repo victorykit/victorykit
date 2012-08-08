@@ -32,6 +32,22 @@ module PetitionsHelper
     @after_share_view_option ||= choose_after_share_view
   end
 
+  def progressmessaging
+    return @progress_option if @progress_option
+    experiment = 'test different messaging on progress bar'
+    options = [
+      'x_y_to_goal', 
+      'x_y_to_go_of_z', 
+      'x_y_to_next_goal', 
+      'x_signatures_of_y', 
+      'x_of_y_supporters',
+      'x_supporters_help_us', 
+      'x_supporters_y_to_goal', 
+      'x_supporters_y_to_next_goal'
+    ]
+    @progress_option = spin! experiment, :signature, options
+  end
+
   private
 
   def choose_facebook_sharing_option
