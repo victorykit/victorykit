@@ -184,6 +184,18 @@ describe SignaturesController do
         Signature.last.referer.should == member
       end
     end
+
+    context "the user signed from a facebook dialog request link" do
+      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:fb_dialog_request) { MemberHasher.generate(member.id) }
+
+      it "should set referer and reference type for the signature" do
+        sign_petition fb_dialog_request: fb_dialog_request
+        Signature.last.referring_url.should == referring_url
+        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_REQUEST
+        Signature.last.referer.should == member
+      end
+    end
     
     def sign_petition params = {}
       request.env["HTTP_USER_AGENT"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11"
