@@ -6,7 +6,7 @@ describe MemberHasher do
   it_behaves_like 'a hasher'
 
   describe '#member_for' do
-    let(:peter_griffin) { mock }
+    let(:peter_griffin) { stub }
     
     before do 
       Member.stub!(:where).with(:id => 42).and_return [peter_griffin]
