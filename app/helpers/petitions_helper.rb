@@ -32,20 +32,12 @@ module PetitionsHelper
     @after_share_view_option ||= choose_after_share_view
   end
 
-  def progressmessaging
-    return @progress_option if @progress_option
-    experiment = 'test different messaging on progress bar'
-    options = [
-      'x_y_to_goal', 
-      'x_y_to_go_of_z', 
-      'x_y_to_next_goal', 
-      'x_signatures_of_y', 
-      'x_of_y_supporters',
-      'x_supporters_help_us', 
-      'x_supporters_y_to_goal', 
-      'x_supporters_y_to_next_goal'
-    ]
-    @progress_option = spin! experiment, :signature, options
+  def progress_option
+    @progress_option ||= choose_progress_option
+  end
+
+  def progress
+    progress_options_config[progress_option]
   end
 
   private
@@ -67,5 +59,46 @@ module PetitionsHelper
 
   def social_media_config
     Rails.configuration.social_media
+  end
+
+  def choose_progress_option
+    spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
+  end
+
+  def progress_options_config
+    {
+      'x_signatures_of_y' => {
+        :text => "#{@sigcount} signatures\nof #{counter_size(@sigcount)}",
+        :classes => 'highlight_text'
+      },
+      'x_y_to_next_goal' => {
+        :text => "#{@sigcount} signatures\nonly #{counter_size(@sigcount)-@sigcount} more to reach our next goal!",
+        :classes => 'highlight_text break'
+      },
+     'x_y_to_goal' => {
+        :text => "#{@sigcount} signatures\nonly #{counter_size(@sigcount)-@sigcount} more to reach our goal!",
+        :classes => 'highlight_text break'
+     },
+     'x_y_to_go_of_z' => {
+        :text => "#{@sigcount} signatures\n only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!",
+        :classes => 'highlight_text break'
+     },
+     'x_supporters_y_to_next_goal' => {
+         :text => "#{@sigcount} supporters have signed\nonly #{counter_size(@sigcount)-@sigcount} more to reach our next goal!",
+        :classes => 'highlight_text break'
+     },
+     'x_supporters_y_to_goal' => {
+        :text => "#{@sigcount} supporters have signed\nonly #{counter_size(@sigcount)-@sigcount} more to reach our goal!",
+        :classes => 'highlight_text break'
+     },
+     'x_supporters_help_us' => {
+        :text => "#{@sigcount} supporters have signed\nsign now to help us reach our goal of #{counter_size(@sigcount)}!",
+        :classes => 'highlight_text break'
+     },
+     'x_of_y_supporters' => {
+        :text => "#{@sigcount} of #{counter_size(@sigcount)} supporters have signed",
+        :classes => ''
+      }
+    }
   end
 end

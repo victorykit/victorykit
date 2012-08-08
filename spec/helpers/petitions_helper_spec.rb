@@ -141,21 +141,39 @@ describe PetitionsHelper do
     end
   end
 
-  describe '#progressmessaging' do
+  describe '#progress_option' do
     let(:exp) { 'test different messaging on progress bar' }
     let(:goal) { :signature }
-    let(:options) { anything }
+    let(:options) { ['foo', 'bar'] }
+    let(:config) { { 'foo' => {}, 'bar' => {} } }
+
+    before { helper.stub!(:progress_options_config).and_return config }
 
     it 'should spin for an option' do
       helper.should_receive(:spin!).with(exp, goal, options)
-      helper.progressmessaging
+      helper.progress_option
     end
 
     it 'should cache spin result' do
       helper.should_receive(:spin!).once.
       with(exp, goal, options).and_return anything
-      2.times { helper.progressmessaging }
+      2.times { helper.progress_option }
     end
+  end
+
+  describe '#progress' do
+    let(:config) {{
+      'foo' => { :class => 'highlight', :text => 'Sign it dude!' }, 
+      'bar' => { :class => 'downfade', :text => 'Please, sign!' }
+    }}
+
+    before do
+      helper.stub!(:progress_options_config).and_return config
+      helper.stub!(:progress_option).and_return 'bar'
+    end
+      
+    specify { helper.progress[:class].should == 'downfade' }
+    specify { helper.progress[:text].should == 'Please, sign!' }
   end
 
 end
