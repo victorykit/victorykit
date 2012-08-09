@@ -69,7 +69,7 @@
               = fb_like petition_url(params[:id]), @fb_tracking_hash
           .progress_bar
             .numbers
-              %div{ :class => progress[:class] }
+              %div{ :class => progress[:classes] }
                 = progress[:text]
             .progress
               .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }

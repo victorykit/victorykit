@@ -7,13 +7,12 @@ describe PetitionsHelper do
   describe '#open_graph_for' do 
     let(:petition) { create(:petition) }
     let(:hash) { '42.aCKy3f' }
-    let(:config) { 
-      { facebook: { 
-          site_name: 'My Super Petitions', 
-          app_id: 12345 
-        } 
+    let(:config) {{ 
+      facebook: { 
+        site_name: 'My Super Petitions', 
+        app_id: 12345 
       } 
-    }
+    }}
     
     before(:each) do
       helper.stub!(:spin!)
@@ -64,16 +63,14 @@ describe PetitionsHelper do
 
     context 'for an ie7 user' do
       before { browser.stub!(:ie7?).and_return true }
-      
-      it 'should be popup' do
-        helper.facebook_sharing_option.should == 'facebook_popup'
-      end
+      specify{ helper.facebook_sharing_option.should == 'facebook_popup' }
     end
 
     context 'for a regular browser user' do
       let(:exp) { 'facebook sharing options' }
       let(:goal) { :referred_member }
       let(:options) { ['facebook_like', 'facebook_popup'] }
+
       before { browser.stub!(:ie7?).and_return false }
 
       it 'should spin for an option' do
@@ -90,7 +87,6 @@ describe PetitionsHelper do
   end
 
   describe '#after_share_view' do
-    
     before do 
       helper.stub!(:browser).and_return browser
       [:mobile?, :android?, :ie?].each { |m| browser.stub! m }
@@ -163,22 +159,22 @@ describe PetitionsHelper do
 
   describe '#progress' do
     let(:config) {{
-      'foo' => { :class => 'highlight', :text => 'Sign it dude!' }, 
-      'bar' => { :class => 'downfade', :text => 'Please, sign!' }
+      'foo' => { :text => 'Sign it dude!', :classes => 'highlight' }, 
+      'bar' => { :text => 'Please, sign!', :classes => 'downfade' }
     }}
 
     before { helper.stub!(:progress_options_config).and_return config }
       
     context 'for successful spin' do
       before { helper.stub!(:progress_option).and_return 'bar' }
-      specify { helper.progress[:class].should == 'downfade' }
       specify { helper.progress[:text].should == 'Please, sign!' }
+      specify { helper.progress[:classes].should == 'downfade' }
     end
 
     context 'for failed spin' do
       before { helper.stub!(:progress_option).and_return false }
-      specify { helper.progress[:class].should be_empty }
       specify { helper.progress[:text].should be_empty }
+      specify { helper.progress[:classes].should be_empty }
     end
   end
 
