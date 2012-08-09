@@ -167,13 +167,19 @@ describe PetitionsHelper do
       'bar' => { :class => 'downfade', :text => 'Please, sign!' }
     }}
 
-    before do
-      helper.stub!(:progress_options_config).and_return config
-      helper.stub!(:progress_option).and_return 'bar'
-    end
+    before { helper.stub!(:progress_options_config).and_return config }
       
-    specify { helper.progress[:class].should == 'downfade' }
-    specify { helper.progress[:text].should == 'Please, sign!' }
+    context 'for successful spin' do
+      before { helper.stub!(:progress_option).and_return 'bar' }
+      specify { helper.progress[:class].should == 'downfade' }
+      specify { helper.progress[:text].should == 'Please, sign!' }
+    end
+
+    context 'for failed spin' do
+      before { helper.stub!(:progress_option).and_return false }
+      specify { helper.progress[:class].should be_empty }
+      specify { helper.progress[:text].should be_empty }
+    end
   end
 
 end
