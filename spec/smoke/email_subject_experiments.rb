@@ -21,7 +21,8 @@ describe "creating an email subject experiment" do
     experiment.wins.should == 1
   end
 
-  pending "editing subject should start a new test" do
+  it "editing subject should start a new test" do
+    pending 'It has been here for weeks. Can I remove it?'
     # go back to editing your petition
     # change both of the subjects
     # save
