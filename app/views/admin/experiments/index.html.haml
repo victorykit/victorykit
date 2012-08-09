@@ -12,6 +12,7 @@
       &nbsp;&nbsp;
 
   - if @filter == "browser statistics"
+    .plot-container#signatures-by-browser{style: "width:600px;height:300px", data: { "query-url" => daily_browser_stats_admin_experiments_path } }
     - @browser_stat.each do |browser, percent|
       %br
         %b

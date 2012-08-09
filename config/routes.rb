@@ -30,7 +30,9 @@ Victorykit::Application.routes.draw do
   namespace(:admin) do
     resources :petitions 
     resources :users
-    resources :experiments
+    resources :experiments, only: [:index] do
+      collection { get :daily_browser_stats }
+    end
     resources :hottest
     resources :on_demand_email
   end
