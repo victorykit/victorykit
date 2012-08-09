@@ -1,0 +1,92 @@
+.span12
+  %h1 Statistics
+  %p
+    %i
+      currently showing:
+      = link_to_unless_current("metrics", metrics_admin_stats_path) { |x| content_tag(:b, x) }
+      &nbsp;&nbsp;
+      = link_to_unless_current("browser usage", browser_usage_admin_stats_path) { |x| content_tag(:b, x) }
+
+  %h2
+    Email response by hour
+
+  %table
+    %tr
+      %th
+        Response rate to emails by hour sent
+      %th
+        Signatures on emails sent by hour signed
+    %tr
+      %td
+        #hourchart1{style: "width:600px;height:300px"}
+      %td
+        #hourchart2{style: "width:600px;height:300px"}
+    %tr
+      %th
+        Response rate to emails by day of week sent (Sunday = 0)
+      %th
+        Signatures on emails sent by day of week signed
+    %tr
+      %td
+        #dowchart1{style: "width:600px;height:300px"}
+      %td
+        #dowchart2{style: "width:600px;height:300px"}
+    %tr
+      %th{colspan: 2}
+        New members per email sent since the beginning
+    %tr
+      %td{colspan: 2}
+        #npschart{style: "width:1200px;height:300px"}
+    %tr
+      %th{colspan: 2}
+        Percentage of emails opened during a past week
+    %tr
+      %td{colspan: 2}
+        #open-percentage{style: "width:1200px;height:300px"}
+    %tr
+      %th{colspan: 2}
+        Percentage of emails with the link clicked during a past week
+    %tr
+      %td{colspan: 2}
+        #clicked-percentage{style: "width:1200px;height:300px"}
+
+  - content_for(:javascripts) do
+    VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
+
+    $.plot($("#hourchart1"), [[
+    - @hourlydata1[0].keys.sort.each do |h|
+      [#{h}, #{(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f}],
+    ]], VK.default_plot_style)
+
+    $.plot($("#hourchart2"), [[
+    - @hourlydata2.keys.sort.each do |h|
+      [#{h}, #{@hourlydata2[h]}],
+    ]], VK.default_plot_style)
+
+    $.plot($("#dowchart1"), [[
+    - @dowdata1[0].keys.sort.each do |h|
+      [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
+    ]], VK.default_plot_style)
+
+    $.plot($("#dowchart2"), [[
+    - @dowdata2.keys.sort.each do |h|
+      [#{h}, #{@dowdata2[h]}],
+    ]], VK.default_plot_style)
+
+    $.plot($("#npschart"), [[
+    - @npsdata.each_with_index do |h, i|
+      - if h < 1
+        [#{i}, #{h}],
+      -# else
+      -#  [#{i}, .1],
+    ]], VK.default_plot_style)
+
+    $.plot($("#open-percentage"), [[
+    - @opened_emails_percentage.each_with_index do |h, i|
+      [#{i}, #{h}],
+    ]], VK.default_plot_style)
+
+    $.plot($("#clicked-percentage"), [[
+    - @clicked_email_links_percentage.each_with_index do |h, i|
+      [#{i}, #{h}],
+    ]], VK.default_plot_style)
