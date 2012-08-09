@@ -66,23 +66,28 @@ describe PetitionsHelper do
       specify{ helper.facebook_sharing_option.should == 'facebook_popup' }
     end
 
+
     context 'for a regular browser user' do
-      let(:exp) { 'facebook sharing options' }
-      let(:goal) { :referred_member }
-      let(:options) { ['facebook_like', 'facebook_popup'] }
+      specify{ helper.facebook_sharing_option.should == 'facebook_popup' }
+      # This test has been temporarily commented out until facebook request is activated
+      # For now, facebook_popup is the only option provided to a user after signing
+      
+      # let(:exp) { 'facebook sharing options' }
+      # let(:goal) { :referred_member }
+      # let(:options) { ['facebook_popup'] }
 
-      before { browser.stub!(:ie7?).and_return false }
+      # before { browser.stub!(:ie7?).and_return false }
 
-      it 'should spin for an option' do
-        helper.should_receive(:spin!).with(exp, goal, options)
-        helper.facebook_sharing_option
-      end
+      # it 'should spin for an option' do
+      #   helper.should_receive(:spin!).with(exp, goal, options)
+      #   helper.facebook_sharing_option
+      # end
 
-      it 'should cache spin result' do
-        helper.should_receive(:spin!).once.
-        with(exp, goal, options).and_return anything
-        2.times { helper.facebook_sharing_option }
-      end
+      # it 'should cache spin result' do
+      #   helper.should_receive(:spin!).once.
+      #   with(exp, goal, options).and_return anything
+      #   2.times { helper.facebook_sharing_option }
+      # end
     end
   end
 
