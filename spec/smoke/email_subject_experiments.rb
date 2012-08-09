@@ -22,7 +22,7 @@ describe "creating an email subject experiment" do
   end
 
   it "editing subject should start a new test" do
-    pending 'It has been here for weeks. Can I remove it?'
+    pending 'Someone has to implement it :)'
     # go back to editing your petition
     # change both of the subjects
     # save
