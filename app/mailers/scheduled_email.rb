@@ -1,5 +1,3 @@
-require 'sent_email_hasher'
-
 class ScheduledEmail < ActionMailer::Base
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,13 +6,12 @@ class ScheduledEmail < ActionMailer::Base
   #
 
   def new_petition(petition, member)
-    sent_email_id = log_sent_email(member, petition)
-    sent_email_hash = SentEmailHasher.generate(sent_email_id)
-    link_request_params = "?n=" + sent_email_hash
+    sent_email = log_sent_email(member, petition)
+    sent_email_hash = sent_email.hash
 
-    @petition_link = petition_url(petition) + link_request_params
-    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new) + link_request_params
-    @tracking_url = new_pixel_tracking_url + link_request_params
+    @petition_link = petition_url(petition, n: sent_email_hash)
+    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
+    @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
     @petition = petition
     @member = member
     @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
@@ -39,8 +36,6 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def log_sent_email(member, petition)
-    @sent_email = SentEmail.new(email: member.email, member: member, petition: petition)
-    @sent_email.save!
-    @sent_email.id
+    @sent_email = SentEmail.create!(email: member.email, member: member, petition: petition)
   end
 end

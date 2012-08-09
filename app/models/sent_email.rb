@@ -5,4 +5,12 @@ class SentEmail < ActiveRecord::Base
   has_many :email_experiments
   has_one :unsubscribe
   belongs_to :signature
+
+  def hash
+    SentEmailHasher.generate self.id
+  end
+
+  def self.find_by_hash(hash)
+    self.where(:id => SentEmailHasher.validate(hash)).first
+  end
 end

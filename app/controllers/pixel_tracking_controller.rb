@@ -1,12 +1,9 @@
-require 'sent_email_hasher'
-
 class PixelTrackingController < ApplicationController
 
   def new
-    if h = SentEmailHasher.validate(params[:n]) 
+    if email = SentEmail.find_by_hash(params[:n])
       begin
-        email = SentEmail.find_by_id(h)
-        email.update_attribute(:opened_at, Time.now) if not email.opened_at
+        email.update_attribute(:opened_at, Time.now) if email.opened_at.blank?
       rescue => error
         Rails.logger.error "Exception while trying to mark a sent email as opened: #{error}"
       end

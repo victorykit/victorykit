@@ -30,7 +30,7 @@ class SignatureReferral
 
     case self.reference_type
     when Signature::ReferenceType::EMAIL
-      sent_email = SentEmailHasher.sent_email_for(reference_hash)
+      sent_email = SentEmail.find_by_hash(reference_hash)
       return if sent_email.blank?
 
       if sent_email.signature.present?
