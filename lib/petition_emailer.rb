@@ -6,13 +6,28 @@ class PetitionEmailer
   
   def self.send
     member = Member.random_and_not_recently_contacted
-    if not member.nil?
-      interesting_petitions = Petition.find_interesting_petitions_for(member)
-      if interesting_petitions.any?
-        petition_id = spin!("email_scheduler_nps", :signatures_off_email, options=interesting_petitions.map {|x| x.id.to_s}, {session_id: member.id}).to_i
-        petition = Petition.find_by_id(petition_id)
-        ScheduledEmail.new_petition(petition, member)
-      end
-    end
+    self.send_to member if member
   end
+
+  def self.send_to member
+    interesting = Petition.find_interesting_petitions_for(member)
+    return unless interesting.any?
+
+    id = self.spin_for interesting, member
+    petition = Petition.find_by_id(id)
+    ScheduledEmail.new_petition(petition, member)
+  end
+
+  private
+
+  def self.spin_for petitions, member
+    experiment = 'email_scheduler_nps'
+    goal = :signatures_off_email
+    options = petitions.map(&:id).map(&:to_s)
+    session = { session_id: member.id }
+
+    option = spin! experiment, goal, options, session
+    option.to_i # the petition id
+  end
+
 end
