@@ -121,4 +121,14 @@ class Admin::ExperimentsController < ApplicationController
     end
 
   end
+
+  def daily_browser_stats
+    results = Signature.select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date").group("browser_name, created_date")
+    browsers = results.group_by &:browser_name
+    data = browsers.keys.map do |browser|
+      { label: browser, data: browsers[browser].map {|r| [ r.created_date.to_time.to_i * 1000, r.count_all ]} }
+    end
+
+    render json: data
+  end
 end
