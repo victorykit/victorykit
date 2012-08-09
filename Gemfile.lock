@@ -1,4 +1,10 @@
 GIT
+  remote: git://github.com/matthewrudy/memoist.git
+  revision: b5bbbd0048f6430493d2bd42828754643fc878f7
+  specs:
+    memoist (0.1.0)
+
+GIT
   remote: git://github.com/mkurutin/bootstrap-wysihtml5-rails.git
   revision: 6dbcb496e6243fa99cd1da6c9a3316fe821d2458
   specs:
@@ -6,14 +12,7 @@ GIT
       railties (>= 3.0)
 
 GIT
-  remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: 8e38453e001049b50b5ac5eae65992cfd2782328
-  specs:
-    jquery-datatables-rails (1.10.0)
-      jquery-rails
-
-GIT
-  remote: https://github.com/mkurutin/facebook_share_widget_rails.git
+  remote: git://github.com/mkurutin/facebook_share_widget_rails.git
   revision: 51f6a813917d1dfe6d8ee60c44251313b476a021
   specs:
     facebook_share_widget (0.0.10)
@@ -22,6 +21,13 @@ GIT
       fb_graph
       haml-rails
       sass-rails
+
+GIT
+  remote: git://github.com/rweng/jquery-datatables-rails.git
+  revision: a6bde0aed270e9d3dac239d331f84f9c22817750
+  specs:
+    jquery-datatables-rails (1.10.0)
+      jquery-rails
 
 GEM
   remote: https://rubygems.org/
@@ -65,7 +71,7 @@ GEM
     attr_required (0.0.5)
     autotest (4.4.6)
       ZenTest (>= 4.4.1)
-    aws-sdk (1.6.0)
+    aws-sdk (1.6.3)
       httparty (~> 0.7)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -78,9 +84,9 @@ GEM
     bcrypt-ruby (3.0.1)
     browser (0.1.4)
     builder (3.0.0)
-    childprocess (0.3.4)
+    childprocess (0.3.5)
       ffi (~> 1.0, >= 1.0.6)
-    chunky_png (1.2.5)
+    chunky_png (1.2.6)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -111,10 +117,10 @@ GEM
       httpclient (>= 2.2.0.2)
       rack-oauth2 (>= 0.14.4)
       tzinfo
-    ffi (1.1.3)
+    ffi (1.1.5)
     flot-rails (0.0.2)
       jquery-rails
-    foreigner (1.2.0)
+    foreigner (1.2.1)
       activerecord (>= 3.0.0)
     foreman (0.53.0)
       thor (>= 0.13.6)
@@ -168,7 +174,7 @@ GEM
     rack (1.4.1)
     rack-cache (1.2)
       rack (>= 0.4)
-    rack-oauth2 (0.14.4)
+    rack-oauth2 (0.14.7)
       activesupport (>= 2.3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.2.0.2)
@@ -303,6 +309,7 @@ DEPENDENCIES
   jquery-ui-rails
   jslint_on_rails
   kaminari
+  memoist!
   mysql
   mysql2
   newrelic_rpm

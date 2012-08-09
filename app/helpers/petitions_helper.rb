@@ -1,5 +1,5 @@
 module PetitionsHelper
-  extend ActiveSupport::Memoizable
+  extend Memoist
 
   def open_graph_for(petition, hash)
     member = MemberHasher.member_for(hash)
