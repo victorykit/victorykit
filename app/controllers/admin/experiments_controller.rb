@@ -123,10 +123,10 @@ class Admin::ExperimentsController < ApplicationController
   end
 
   def daily_browser_stats
-    results = Signature.select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date").group("browser_name, created_date").order(:created_date)
+    results = Signature.select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date").where('created_at > ?', 2.weeks.ago).group("browser_name, created_date").order(:created_date)
     browsers = results.group_by &:browser_name
     data = browsers.map do |browser, signature|
-      { label: browser, data: signature.map {|s| [ s.created_date.to_time.to_i * 1200, s.count_all ]} }
+      { label: browser, data: signature.map {|s| [ s.created_date.to_time.to_i * 1000, s.count_all ]} }
     end
 
     render json: data
