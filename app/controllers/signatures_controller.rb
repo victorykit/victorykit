@@ -37,7 +37,7 @@ class SignaturesController < ApplicationController
   private
 
   def track_referrals petition, signature
-    if sent_email = SentEmailHasher.sent_email_for(params[:email_hash])
+    if sent_email = SentEmail.find_by_hash(params[:email_hash])
       sent_email.signature ||= signature
       sent_email.save!
       signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}

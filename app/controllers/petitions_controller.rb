@@ -122,7 +122,7 @@ class PetitionsController < ApplicationController
 
   def prepopulate_signature
     begin
-      if email_id = SentEmailHasher.validate(@email_hash) then sent_email = SentEmail.find_by_id(email_id) end
+      sent_email = SentEmail.find_by_hash(@email_hash)
       if !populate_member_from_cookies && sent_email && sent_email.signature_id.nil?
         @signature.name =  sent_email.member.name
         @signature.email = sent_email.member.email
@@ -142,9 +142,8 @@ class PetitionsController < ApplicationController
   end
 
   def track_visit
-    if sent_email_id = SentEmailHasher.validate(params[:n])
+    if sent_email = SentEmail.find_by_hash(params[:n])
       begin
-        sent_email = SentEmail.find(sent_email_id)
         sent_email.update_attributes(clicked_at: Time.now) unless sent_email.clicked_at
       rescue => error
         Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"

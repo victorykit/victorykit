@@ -8,9 +8,10 @@ class UnsubscribesController < ApplicationController
     @unsubscribe.ip_address = connecting_ip
     @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"][0...255]
     
-    if h = SentEmailHasher.validate(params[:email_hash])
-      @unsubscribe.sent_email = SentEmail.find_by_id(h)
+    if email = SentEmail.find_by_hash(params[:email_hash])
+      @unsubscribe.sent_email = email
     end
+    
     if @unsubscribe.member && @unsubscribe.save
       nps_lose @unsubscribe.sent_email.petition_id if @unsubscribe.sent_email.present?
       Notifications.unsubscribed @unsubscribe

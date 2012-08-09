@@ -71,16 +71,15 @@ describe SignaturesController do
       end
     end
     context "the user signed from an emailed link" do
-      let(:email) { create :sent_email}
-      let(:email_hash) { SentEmailHasher.generate(email.id) }
+      let(:email) { create :sent_email }
 
       it "should record wins for any email experiments" do
         EmailExperiments.any_instance.should_receive(:win!)
-        sign_petition email_hash: email_hash
+        sign_petition email_hash: email.hash
       end
 
       it "should update sent email record with the signature_id value" do
-        sign_petition email_hash: email_hash
+        sign_petition email_hash: email.hash
         SentEmail.last.signature_id.should == Signature.last.id
       end
 
@@ -88,7 +87,7 @@ describe SignaturesController do
         member = create :member, :name => signature_fields[:name], :email => signature_fields[:email]
         email.member = member
         email.save!
-        sign_petition email_hash: email_hash
+        sign_petition email_hash: email.hash
         Signature.last.reference_type.should == Signature::ReferenceType::EMAIL
         Signature.last.referring_url.should be_nil
         Signature.last.referer.should == member
