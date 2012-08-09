@@ -26,9 +26,9 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
-    return 'facebook_popup' if browser.ie7?
-    spin! 'facebook sharing options', :referred_member, ['facebook_like', 'facebook_popup']
-    # Add 'facebook_request' for request dialog
+    return 'facebook_popup' #if browser.ie7?
+    # Add the experiment back in when facebook request goes live!!!
+    #spin! 'facebook sharing options', :referred_member, ['facebook_request', 'facebook_popup']
   end
 
   memoize :facebook_sharing_option
