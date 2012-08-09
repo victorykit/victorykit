@@ -47,7 +47,7 @@ module PetitionsHelper
   memoize :progress_option
 
   def progress
-    progress_options_config[progress_option]
+    progress_options_config[progress_option] || {:class=>'', :text=>''}
   end
 
   private
