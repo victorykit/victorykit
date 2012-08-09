@@ -11,7 +11,7 @@ describe PixelTrackingController do
     it "marks sent email as opened in the database" do
       email = create :sent_email, :opened_at => nil
       get :new, :n => email.hash
-      email.reload.opened_at.should == @time_now
+      email.reload.opened_at.to_i.should == @time_now.to_i
     end
 
     it "doesn`t make any changes if email has already been opened" do
