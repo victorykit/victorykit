@@ -31,13 +31,13 @@ describe SignaturesController do
 
       it "should record hashed member id to cookies" do
         sign_petition
-        cookies[:member_id].should == MemberHasher.generate(Signature.find_by_email(signature_fields[:email]).member_id)
+        cookies[:member_id].should == Signature.find_by_email(signature_fields[:email]).member.to_hash
       end
 
       it "should redirect to the petition page" do
-        MemberHasher.stub!(:generate).and_return('some_member_hash')
         sign_petition
-        should redirect_to petition_url(petition, l: 'some_member_hash')
+        hash = Signature.last.member.to_hash
+        should redirect_to petition_url(petition, l: hash)
       end
     end
     context "an error occurs when sending the confirmation email" do
@@ -96,7 +96,7 @@ describe SignaturesController do
 
     context "the user signed from a facebook like post" do
       let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_like_hash) { MemberHasher.generate(member.id) }
+      let(:fb_like_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition fb_like_hash: fb_like_hash
@@ -114,7 +114,7 @@ describe SignaturesController do
 
     context "the user signed from a facebook shared link" do
       let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_share_link_ref) { MemberHasher.generate(member.id) }
+      let(:fb_share_link_ref) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition fb_share_link_ref: fb_share_link_ref
@@ -150,7 +150,7 @@ describe SignaturesController do
 
     context "the user signed from a forwarded notification" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:forwarded_notification_hash) { MemberHasher.generate(member.id) }
+      let(:forwarded_notification_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition forwarded_notification_hash: forwarded_notification_hash
@@ -162,7 +162,7 @@ describe SignaturesController do
 
     context "the user signed from a shared link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:shared_link_hash) { MemberHasher.generate(member.id) }
+      let(:shared_link_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition shared_link_hash: shared_link_hash
@@ -174,7 +174,7 @@ describe SignaturesController do
 
     context "the user signed from a tweeted link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:twitter_hash) { MemberHasher.generate(member.id) }
+      let(:twitter_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition twitter_hash: twitter_hash
@@ -186,7 +186,7 @@ describe SignaturesController do
 
     context "the user signed from a facebook dialog request link" do
       let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:fb_dialog_request) { MemberHasher.generate(member.id) }
+      let(:fb_dialog_request) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
         sign_petition fb_dialog_request: fb_dialog_request

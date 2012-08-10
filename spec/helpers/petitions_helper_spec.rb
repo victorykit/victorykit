@@ -17,7 +17,7 @@ describe PetitionsHelper do
     before(:each) do
       helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
-      MemberHasher.stub!(:member_for).with(hash).and_return anything
+      Member.stub!(:find_by_hash).and_return anything
     end    
 
     subject { helper.open_graph_for(petition, hash) }

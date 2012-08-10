@@ -8,11 +8,7 @@ class Notifications < ActionMailer::Base
   #   en.notifications.signed_petition.subject
   #
   def signed_petition signature
-    member_id = signature.member.id
-    member_hash = MemberHasher.generate(member_id)
-    link_request_params = "?r=" + member_hash
-
-    @petition_link = petition_url(signature.petition) + link_request_params
+    @petition_link = petition_url(signature.petition, r: signature.member.to_hash)
     @signature = signature
     @unsubscribe_link = URI.join(root_url, 'unsubscribe')
     

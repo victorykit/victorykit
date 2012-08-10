@@ -50,23 +50,22 @@ describe PetitionsController do
 
     it "should assign tweetable_url after signing" do
       member = create(:member)
-      member_id_hash = MemberHasher.generate(member.id)
-      controller.stub(:cookies => {member_id: member_id_hash})
+      controller.stub(:cookies => {member_id: member.to_hash})
       create(:signature, :member_id => member.id, :petition_id => petition.id)
       get :show, :id => petition.id.to_s
-      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?t=#{member_id_hash}"
+      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?t=#{member.to_hash}"
     end
 
     it "should set was_signed to false if cookies don`t contain this petition" do
       member = create(:member)
-      controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
+      controller.stub(:cookies => {member_id: member.to_hash})
       get :show, :id => petition.id.to_s
       assigns(:was_signed).should == false
     end
 
     it "should set was_signed to true if cookies contain this petition" do
       member = create(:member)
-      controller.stub(:cookies => {member_id: MemberHasher.generate(member.id)})
+      controller.stub(:cookies => {member_id: member.to_hash})
       create(:signature, :member_id => member.id, :petition_id => petition.id)
       get :show, :id => petition.id.to_s
       assigns(:was_signed).should == true
@@ -75,7 +74,7 @@ describe PetitionsController do
     it "should assign a facebook action id if available for the current member and petition" do
       member = create :member
       share = create :share, {member: member, petition: petition}
-      controller.stub(cookies: {member_id: MemberHasher.generate(member.id)})
+      controller.stub(cookies: {member_id: member.to_hash})
       get :show, {id: petition.id}
       assigns(:existing_fb_action_instance_id).should == share.action_id
     end
@@ -90,7 +89,7 @@ describe PetitionsController do
       end
 
       it "should set the id for @signature" do
-        controller.stub(cookies: {:member_id => MemberHasher.generate(member.id)})
+        controller.stub(cookies: {:member_id => member.to_hash})
         signature = create(:signature, petition: petition, member: member)
         get :show, {:id => petition.id}
         assigns(:signature).id.should == signature.id
@@ -110,7 +109,7 @@ describe PetitionsController do
     #   let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
     #   let(:sent_email) { create :sent_email, member: member }
     #   it "should prepopulate signature from member values" do
-    #     controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+    #     controller.stub(cookies: {member_id: member_bob.to_hash})
     #     get :show, {:id => petition.id, :n => sent_email.to_hash}
     #
     #     assigns(:signature).name.should == "Sven"
@@ -122,7 +121,7 @@ describe PetitionsController do
       let(:member) { create :member }
 
       it 'should make the refering member available to the view' do
-        forwarded_notification_hash = MemberHasher.generate(member.id)
+        forwarded_notification_hash = member.to_hash
         get :show, {:id => petition.id, :r => forwarded_notification_hash }
 
         assigns(:forwarded_notification_hash).should == forwarded_notification_hash
@@ -133,7 +132,7 @@ describe PetitionsController do
       let(:member) { create :member }
 
       it 'should make the refering member available to the view' do
-        shared_link_hash = MemberHasher.generate(member.id)
+        shared_link_hash = member.to_hash
         get :show, {:id => petition.id, :l => shared_link_hash }
 
         assigns(:shared_link_hash).should == shared_link_hash
@@ -174,7 +173,7 @@ describe PetitionsController do
       let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
       context "no email hash" do
         it "populates his name and email in the signature form from cookies" do
-          controller.stub(cookies: {:member_id => MemberHasher.generate(member_bob.id)})
+          controller.stub(cookies: {:member_id => member_bob.to_hash})
           get :show, {:id => petition.id}
           assigns(:signature).name.should == "Bob"
           assigns(:signature).email.should == "bob@bob.com"
@@ -186,7 +185,7 @@ describe PetitionsController do
           let(:signature) { create :signature }
           let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
           it "should assign name and email to the form from member cookies" do
-            controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+            controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
 
             assigns(:signature).name.should == "Bob"
@@ -196,7 +195,7 @@ describe PetitionsController do
         context "the petition was not signed from this email" do
           let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
           it "should assign name and email to the form from cookies" do
-            controller.stub(cookies: {member_id: MemberHasher.generate(member_bob.id)})
+            controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
 
             assigns(:signature).name.should == "Bob"
