@@ -6,7 +6,7 @@ class SentEmail < ActiveRecord::Base
   has_one :unsubscribe
   belongs_to :signature
 
-  def hash
+  def to_hash
     SentEmailHasher.generate self.id
   end
 
