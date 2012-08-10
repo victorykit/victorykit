@@ -1,6 +1,8 @@
 require 'whiplash'
+
 class ApplicationController < ActionController::Base
   include Bandit
+  extend Memoist
   helper_method :win!, :spin!, :can
   
   protect_from_forgery

@@ -10,7 +10,17 @@ class SentEmail < ActiveRecord::Base
     SentEmailHasher.generate self.id
   end
 
+  scope :by_hash, lambda {|hash| where(:id => SentEmailHasher.validate(hash)) }
+
   def self.find_by_hash(hash)
-    self.where(:id => SentEmailHasher.validate(hash)).first
+    self.by_hash(hash).first
+  end
+
+  def already_clicked?
+    !self.clicked_at.nil?
+  end
+
+  def track_visit!
+    self.update_attributes(clicked_at: Time.now) unless already_clicked?
   end
 end
