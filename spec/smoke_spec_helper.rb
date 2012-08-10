@@ -227,7 +227,5 @@ end
 def current_member
   cookie = $driver.manage.cookie_named('member_id')
   raise "member_id cookie not found" if not cookie
-  member_id = MemberHasher.validate cookie[:value]
-  raise "member_id cookie value did not unhash" if not member_id
-  Member.find member_id
+  Member.find_by_hash(cookie[:value]) or raise "member_id cookie value did not unhash"
 end

@@ -48,5 +48,5 @@ require 'member_hasher'
 # end
 
 # def facebook_referral_link petition, member
-#   "#{petition_path(petition)}?rfbm=#{MemberHasher.generate(member.id)}"
+#   "#{petition_path(petition)}?rfbm=#{member.to_hash}"
 # end

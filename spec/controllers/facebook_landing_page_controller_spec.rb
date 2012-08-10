@@ -22,7 +22,7 @@ describe FacebookLandingPageController do
 	      facebook_request = create(:facebook_request, petition: petition, member: member, action_id: '1234')
 	      get(:new, {request_ids: '1234'})
 
-	      should redirect_to petition_url(petition, d: MemberHasher.generate(member.id))
+	      should redirect_to petition_url(petition, d: member.to_hash)
 	    end
 	end
 end

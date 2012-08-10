@@ -8,7 +8,7 @@ describe MemberHasher do
   describe "#member_for" do
     it "should return member instance if the hash is valid and member is present" do
       member = create(:member)
-      MemberHasher.member_for(MemberHasher.generate(member.id)).should == member
+      MemberHasher.member_for(member.to_hash).should == member
     end
 
     it "should return nil if the hash is valid but member is not present" do

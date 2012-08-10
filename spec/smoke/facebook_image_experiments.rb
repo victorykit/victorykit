@@ -5,7 +5,7 @@ describe 'petition facebook image in opengraph metadata' do
     member = create_member
     image_path = "http://wow.com/image.png"
     petition = create_a_featured_petition({image: image_path })
-    go_to petition_path(petition) + "?r=" + MemberHasher.generate(member.id)
+    go_to petition_path(petition) + "?r=" + member.to_hash
     element(css: 'meta[property="og:image"]').attribute('content').should == image_path
   end
 

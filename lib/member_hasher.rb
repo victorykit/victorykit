@@ -1,5 +1,3 @@
-require 'hasher'
-
 class MemberHasher < Hasher
 
   def self.member_for(hashed_data)

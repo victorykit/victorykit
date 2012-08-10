@@ -2,8 +2,8 @@ require "spec_helper"
 
 describe Notifications do
   describe "signed_petition" do
-    let(:signature){ create(:signature)}
-    let(:referer){ MemberHasher.generate signature.member.id}
+    let(:signature){ create(:signature) }
+    let(:referer){ signature.member.to_hash }
     let(:unsubscribe_link){"http://test/unsubscribe"}
     let(:mail) { Notifications.signed_petition(signature) }
     it "renders the headers" do
