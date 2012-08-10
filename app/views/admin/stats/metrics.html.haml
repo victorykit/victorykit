@@ -18,9 +18,9 @@
         Signatures on emails sent by hour signed
     %tr
       %td
-        .plot-container#email-response-rate-per-hour{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "hour"), "mode" => nil } }
+        .plot-container#email-response-rate-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "hour") } }
       %td
-        #hourchart2{style: "width:600px;height:300px"}
+        .plot-container#email-signatures-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "hour") } }
     %tr
       %th
         Response rate to emails by day of week sent (Sunday = 0)
@@ -28,9 +28,9 @@
         Signatures on emails sent by day of week signed
     %tr
       %td
-        .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow"), "mode" => nil } }
+        .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow") } }
       %td
-        #dowchart2{style: "width:600px;height:300px"}
+        .plot-container#email-signatures-by-day{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "dow") } }
     %tr
       %th{colspan: 2}
         New members per email sent since the beginning
@@ -52,16 +52,6 @@
 
   - content_for(:javascripts) do
     VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
-
-    $.plot($("#hourchart2"), [[
-    - @hourlydata2.keys.sort.each do |h|
-      [#{h}, #{@hourlydata2[h]}],
-    ]], VK.default_plot_style)
-
-    $.plot($("#dowchart2"), [[
-    - @dowdata2.keys.sort.each do |h|
-      [#{h}, #{@dowdata2[h]}],
-    ]], VK.default_plot_style)
 
     $.plot($("#npschart"), [[
     - @npsdata.each_with_index do |h, i|

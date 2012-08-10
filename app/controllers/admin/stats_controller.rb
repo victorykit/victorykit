@@ -10,8 +10,6 @@ class Admin::StatsController < ApplicationController
   end
 
   def metrics
-    @hourlydata2 = signatures_by_part 'hour'
-    @dowdata2 = signatures_by_part 'dow'
     @npsdata = nps_by_day
     @opened_emails_percentage = opened_emails_percentage
     @clicked_email_links_percentage = clicked_email_links_percentage
@@ -19,6 +17,10 @@ class Admin::StatsController < ApplicationController
 
   def email_response_rate
     render json: email_response_rate_by_part(params[:date_part])
+  end
+
+  def signature_activity
+    render json: signatures_by_part(params[:date_part])
   end
 
   def daily_browser_usage
@@ -34,11 +36,11 @@ class Admin::StatsController < ApplicationController
     render json: data
   end
 
+  private
+
   def js_timestamp(date_string)
     date_string.to_time.to_i * 1000
   end
-
-  private
 
   def email_response_rate_by_part part
     sent_emails_by_time = SentEmail.count(:group => "date_part('#{part}', created_at)")
@@ -53,7 +55,7 @@ class Admin::StatsController < ApplicationController
 
   def signatures_by_part part
     q = Signature.count(:group => "date_part('#{part}', signatures.created_at)", :joins => :sent_email)
-    Hash[q.map{|(k,v)| [k.to_i,v]}]
+    [{data: q.map{|(k,v)| [k.to_i,v]}}]
   end
 
   def nps_by_day
