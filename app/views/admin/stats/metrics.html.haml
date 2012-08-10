@@ -58,11 +58,6 @@
       [#{h}, #{@hourlydata2[h]}],
     ]], VK.default_plot_style)
 
-    -#$.plot($("#dowchart1"), [[
-    -#- @dowdata1[0].keys.sort.each do |h|
-    -#  [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
-    -#]], VK.default_plot_style)
-
     $.plot($("#dowchart2"), [[
     - @dowdata2.keys.sort.each do |h|
       [#{h}, #{@dowdata2[h]}],
