@@ -36,37 +36,16 @@
         New members per email sent since the beginning
     %tr
       %td{colspan: 2}
-        #npschart{style: "width:1200px;height:300px"}
+        .plot-container#npschart{style: "width:1200px;height:300px", data: { "query-url" => data_nps_by_day_admin_stats_path } }
     %tr
       %th{colspan: 2}
         Percentage of emails opened during a past week
     %tr
       %td{colspan: 2}
-        #open-percentage{style: "width:1200px;height:300px"}
+        .plot-container#opened-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_opened_emails_admin_stats_path } }
     %tr
       %th{colspan: 2}
         Percentage of emails with the link clicked during a past week
     %tr
       %td{colspan: 2}
-        #clicked-percentage{style: "width:1200px;height:300px"}
-
-  - content_for(:javascripts) do
-    VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
-
-    $.plot($("#npschart"), [[
-    - @npsdata.each_with_index do |h, i|
-      - if h < 1
-        [#{i}, #{h}],
-      -# else
-      -#  [#{i}, .1],
-    ]], VK.default_plot_style)
-
-    $.plot($("#open-percentage"), [[
-    - @opened_emails_percentage.each_with_index do |h, i|
-      [#{i}, #{h}],
-    ]], VK.default_plot_style)
-
-    $.plot($("#clicked-percentage"), [[
-    - @clicked_email_links_percentage.each_with_index do |h, i|
-      [#{i}, #{h}],
-    ]], VK.default_plot_style)
+        .plot-container#clicked-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_clicked_emails_admin_stats_path } }

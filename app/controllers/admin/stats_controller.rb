@@ -10,9 +10,18 @@ class Admin::StatsController < ApplicationController
   end
 
   def metrics
-    @npsdata = nps_by_day
-    @opened_emails_percentage = opened_emails_percentage
-    @clicked_email_links_percentage = clicked_email_links_percentage
+  end
+
+  def nps_by_day
+    render json: [{data:nps.each_with_index.map {|h, i| h < 1 ? [i, h] : [i, 0.01]}}]
+  end
+
+  def opened_emails
+    render json: [{data: opened_emails_percentage.each_with_index.map { |x,i| [i, x] }}]
+  end
+
+  def clicked_emails
+    render json: [{data: clicked_email_links_percentage.each_with_index.map { |x,i| [i, x] }}]
   end
 
   def email_response_rate
@@ -55,10 +64,10 @@ class Admin::StatsController < ApplicationController
 
   def signatures_by_part part
     q = Signature.count(:group => "date_part('#{part}', signatures.created_at)", :joins => :sent_email)
-    [{data: q.map{|(k,v)| [k.to_i,v]}}]
+    [{data: q.map{|(k,v)| [k.to_i,v]}.sort_by(&:first)}]
   end
 
-  def nps_by_day
+  def nps
     sent = Hash[SentEmail.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
     sent.default = 1
 
@@ -88,5 +97,4 @@ class Admin::StatsController < ApplicationController
 
     chart_for_table.call Member, nil, true
   end
-
 end
