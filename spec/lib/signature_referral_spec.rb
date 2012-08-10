@@ -20,7 +20,7 @@ describe SignatureReferral do
   context "user came from the link inside scheduled email" do
     let(:referring_member) { create :member }
     let(:email) { create :sent_email, :member => referring_member}
-    let(:reference_url) { "http://act.watchdog.net/petitions/1?n=#{email.hash}" }
+    let(:reference_url) { "http://act.watchdog.net/petitions/1?n=#{email.to_hash}" }
     let(:member) { create :member }
     let(:signature) { create :signature, member: member }
 

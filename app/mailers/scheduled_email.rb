@@ -7,7 +7,7 @@ class ScheduledEmail < ActionMailer::Base
 
   def new_petition(petition, member)
     sent_email = log_sent_email(member, petition)
-    sent_email_hash = sent_email.hash
+    sent_email_hash = sent_email.to_hash
 
     @petition_link = petition_url(petition, n: sent_email_hash)
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
