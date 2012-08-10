@@ -37,6 +37,9 @@ Victorykit::Application.routes.draw do
         get 'data/daily_browser_usage', to: "stats#daily_browser_usage"
         get 'data/email_response_rate', to: "stats#email_response_rate"
         get 'data/signature_activity', to: "stats#signature_activity"
+        get 'data/opened_emails', to: "stats#opened_emails"
+        get 'data/clicked_emails', to: "stats#clicked_emails"
+        get 'data/nps_by_day', to: "stats#nps_by_day"
       end
     end
 
