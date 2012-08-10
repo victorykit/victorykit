@@ -34,7 +34,8 @@ Victorykit::Application.routes.draw do
     resource :stats, only: [:show] do
       member do
         get :metrics, :browser_usage
-        get 'data/browsers', to: "stats#browsers"
+        get 'data/daily_browser_usage', to: "stats#daily_browser_usage"
+        get 'data/email_response_rate', to: "stats#email_response_rate"
       end
     end
 

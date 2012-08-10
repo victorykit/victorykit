@@ -18,7 +18,7 @@
         Signatures on emails sent by hour signed
     %tr
       %td
-        #hourchart1{style: "width:600px;height:300px"}
+        .plot-container#email-response-rate-per-hour{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "hour"), "mode" => nil } }
       %td
         #hourchart2{style: "width:600px;height:300px"}
     %tr
@@ -28,7 +28,7 @@
         Signatures on emails sent by day of week signed
     %tr
       %td
-        #dowchart1{style: "width:600px;height:300px"}
+        .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow"), "mode" => nil } }
       %td
         #dowchart2{style: "width:600px;height:300px"}
     %tr
@@ -53,20 +53,15 @@
   - content_for(:javascripts) do
     VK.default_plot_style = { series: {lines: {show: true, fill: true}, points: {show: true, fill: true}}}
 
-    $.plot($("#hourchart1"), [[
-    - @hourlydata1[0].keys.sort.each do |h|
-      [#{h}, #{(@hourlydata1[1][h]||0)/@hourlydata1[0][h].to_f}],
-    ]], VK.default_plot_style)
-
     $.plot($("#hourchart2"), [[
     - @hourlydata2.keys.sort.each do |h|
       [#{h}, #{@hourlydata2[h]}],
     ]], VK.default_plot_style)
 
-    $.plot($("#dowchart1"), [[
-    - @dowdata1[0].keys.sort.each do |h|
-      [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
-    ]], VK.default_plot_style)
+    -#$.plot($("#dowchart1"), [[
+    -#- @dowdata1[0].keys.sort.each do |h|
+    -#  [#{h}, #{(@dowdata1[1][h]||0)/@dowdata1[0][h].to_f}],
+    -#]], VK.default_plot_style)
 
     $.plot($("#dowchart2"), [[
     - @dowdata2.keys.sort.each do |h|

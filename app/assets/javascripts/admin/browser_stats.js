@@ -4,7 +4,7 @@ $(document).ready(function () {
   $(".plot-container").each(function() {
     var container = $(this), queryUrl = container.data("query-url");
     $.get(queryUrl).success(function(response) {
-      $.plot(container, response, $.extend({ xaxis: { mode: "time" }}, plotStyle));
+      $.plot(container, response, $.extend({ xaxis: { mode: container.data("mode") }}, plotStyle));
     });
   });
 });
