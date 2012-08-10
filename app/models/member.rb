@@ -3,6 +3,7 @@ class Member < ActiveRecord::Base
   has_many :subscribes
   has_many :unsubscribes
   has_many :sent_emails
+  has_many :signatures
 
   validates :email, :presence => true, :uniqueness => true
   validates :name, :presence => true
@@ -21,6 +22,24 @@ class Member < ActiveRecord::Base
     return true if unsubscribe_date.nil?
     return false if subscribe_date.nil?
     return subscribe_date > unsubscribe_date
+  end
+
+  def signed?(petition)
+    signature_for(petition).present?
+  end
+
+  def signature_for(petition)
+    self.signatures.where(petition_id: petition.try(:id)).first
+  end
+
+  def to_hash
+    MemberHasher.generate self.id
+  end
+
+  scope :by_hash, lambda {|hash| where(:id => MemberHasher.validate(hash)) }
+
+  def self.find_by_hash(hash)
+    self.by_hash(hash).first
   end
 
 end

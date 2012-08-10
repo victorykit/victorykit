@@ -44,4 +44,11 @@ class Signature < ActiveRecord::Base
     self.user_agent = self.user_agent[0..254]
   end
 
+  def prepopulate(member)
+    self.tap do |s|
+      s.name = member.try(:name)
+      s.email = member.try(:email)
+    end
+  end
+
 end

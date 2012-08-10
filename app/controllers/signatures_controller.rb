@@ -21,8 +21,8 @@ class SignaturesController < ApplicationController
         signature.save!
         nps_win signature
         win! :signature
-        member_hash = MemberHasher.generate(signature.member_id)
-        cookies[:member_id] = {:value => member_hash, :expires => 100.years.from_now}
+        member_hash = signature.member.to_hash
+        cookies[:member_id] = { :value => member_hash, :expires => 100.years.from_now }
         flash[:signature_id] = signature.id
       rescue => ex
         Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
@@ -61,7 +61,7 @@ class SignaturesController < ApplicationController
   end
 
   def record_referer signature, param_name, reference_type
-    if referring_member = MemberHasher.member_for(params[param_name])
+    if referring_member = Member.find_by_hash(params[param_name])
       signature.attributes = {referer: referring_member, reference_type: reference_type, referring_url: params[:referring_url]}
       referring_member
     end

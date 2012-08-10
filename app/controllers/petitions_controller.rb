@@ -1,6 +1,3 @@
-require 'sent_email_hasher'
-require 'member_hasher'
-
 class PetitionsController < ApplicationController
   before_filter :require_login, except: [:show]
   before_filter :track_visit, only: :show
@@ -28,17 +25,21 @@ class PetitionsController < ApplicationController
     @fb_share_link_ref = params[:share_ref]
     @fb_action_id = params[:fb_action_ids]
     @fb_dialog_request = params[:d]
-    @existing_fb_action_instance_id = Share.where(member_id: get_member_id, petition_id: params[:id]).first.try(:action_id)
+    @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
 
-    signature_id = get_signature_id @petition
-    @was_signed = signature_id.present?
+    @member = member_from_cookies || member_from_email
+    @was_signed = member_from_cookies.present? && member_from_cookies.signed?(@petition)
+
+    @signature = flash[:invalid_signature] || @petition.signatures.build
+    @signature.prepopulate(@member) if @member.present? && !@member.signed?(@petition)
+
+    # TODO Remove this - this is not the right way to propagate member information to the SocialTracking controller.
+    @signature.id = Signature.where(member_id: @member.try(:id), petition_id: @petition.id).first.try(:id)
+    
+    @just_signed = flash[:signature_id].present?
+    @signing_from_email = sent_email.present? && !@was_signed
+
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
-    unless @signature = flash[:invalid_signature]
-      @just_signed = flash[:signature_id].present?
-      @signature = Signature.new
-      prepopulate_signature
-      @signature.id = signature_id
-    end
   end
 
   def new
@@ -87,10 +88,6 @@ class PetitionsController < ApplicationController
 
   private
 
-  def get_member_id
-    MemberHasher.validate(cookies[:member_id])
-  end
-
   def refresh action
     flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
     render action: action
@@ -99,55 +96,33 @@ class PetitionsController < ApplicationController
   def log_empty_links
     #this is an attempt to detect petitions created with empty links (no 'href' attribute) with the wysihtml5 editor
     #remove when we've found the issue!
-    begin
-      doc = Nokogiri::HTML(@petition.description)
-      if doc.xpath("//a[not(@href)]").any?
-        flash[:error] = "This petition contains an empty link - please check and correct if necessary"
+    doc = Nokogiri::HTML(@petition.description)
+    if doc.xpath("//a[not(@href)]").any?
+      flash[:error] = "This petition contains an empty link - please check and correct if necessary"
 
-        Rails.logger.error "Petition #{@petition.id} contains an empty link"
-        Rails.logger.info @petition.description
-      end
-    rescue => ex
-      Rails.logger.warn "Failed to parse petition #{@petition.id}'s description (#{ex})"
+      Rails.logger.error "Petition #{@petition.id} contains an empty link"
+      Rails.logger.info @petition.description
     end
+  rescue => ex
+    Rails.logger.warn "Failed to parse petition #{@petition.id}'s description (#{ex})"
   end
 
-  def get_signature_id petition
-    if member_id = get_member_id
-      Signature.where(:petition_id => petition.id, :member_id => member_id).last.try(:id)
-    else
-      nil
-    end
+  def sent_email
+    SentEmail.find_by_hash(params[:n])
   end
+  memoize :sent_email
 
-  def prepopulate_signature
-    begin
-      sent_email = SentEmail.find_by_hash(@email_hash)
-      if !populate_member_from_cookies && sent_email && sent_email.signature_id.nil?
-        @signature.name =  sent_email.member.name
-        @signature.email = sent_email.member.email
-        @signing_from_email = true
-      end
-    rescue => er
-      Rails.logger.error "Error while prepopulating member info: #{er} #{er.backtrace.join}"
-    end
+  def member_from_cookies
+    Member.find_by_hash(cookies[:member_id])
   end
+  memoize :member_from_cookies
 
-  def populate_member_from_cookies
-    if member_id = get_member_id
-      member = Member.find member_id
-      @signature.name = member.name
-      @signature.email = member.email
-    end
+  def member_from_email
+    sent_email.try(:member)
   end
+  memoize :member_from_email
 
   def track_visit
-    if sent_email = SentEmail.find_by_hash(params[:n])
-      begin
-        sent_email.update_attributes(clicked_at: Time.now) unless sent_email.clicked_at
-      rescue => error
-        Rails.logger.error "Error while trying to record clicked_at time for petition: #{error}"
-      end
-    end
+    sent_email.track_visit! if sent_email.present?
   end
 end

@@ -146,7 +146,7 @@ describe PetitionsController do
 
       context "email hash is present" do
         context "the petition was already signed from this email" do
-          let(:signature) { create :signature }
+          let(:signature) { create :signature, member: member_sven, petition: petition }
           let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
 
           it "should not populate name and email from email_hash" do
@@ -156,15 +156,16 @@ describe PetitionsController do
             assigns(:signature).email.should be_nil
           end
         end
+
         context "the petition was not signed from this email" do
           let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
           it "should assign name and email to the form from email hash" do
             get :show, :id => petition.id, :n => sent_email.to_hash
 
-          assigns(:signature).name.should == "Sven"
-          assigns(:signature).email.should == "sven@svenland.se"
+            assigns(:signature).name.should == "Sven"
+            assigns(:signature).email.should == "sven@svenland.se"
+          end
         end
-      end
       end
     end
 
