@@ -10,16 +10,18 @@ class Admin::StatsController < ApplicationController
   end
 
   def metrics
-    @hourlydata1 = sent_emails_by_part 'hour'
     @hourlydata2 = signatures_by_part 'hour'
-    @dowdata1 = sent_emails_by_part 'dow'
     @dowdata2 = signatures_by_part 'dow'
     @npsdata = nps_by_day
     @opened_emails_percentage = opened_emails_percentage
     @clicked_email_links_percentage = clicked_email_links_percentage
   end
 
-  def browsers
+  def email_response_rate
+    render json: email_response_rate_by_part(params[:date_part])
+  end
+
+  def daily_browser_usage
     results = Signature
                 .select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date")
                 .where('created_at > ?', 2.weeks.ago)
@@ -35,12 +37,15 @@ class Admin::StatsController < ApplicationController
 
   private
 
-  def sent_emails_by_part part
-    sent_emails_by_hour = SentEmail.count(:group => "date_part('#{part}', created_at)")
-    spins = Hash[sent_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
-    signed_emails_by_hour = SentEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
-    wins = Hash[signed_emails_by_hour.map{|(k,v)| [k.to_i,v]}]
-    [spins, wins]
+  def email_response_rate_by_part part
+    sent_emails_by_time = SentEmail.count(:group => "date_part('#{part}', created_at)")
+    signed_emails_by_part = SentEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
+
+    spins = sent_emails_by_time.sort
+    wins = signed_emails_by_part.sort
+    response_rates = []
+    spins.zip(wins) {|spin, win| response_rates << [spin[0], win[1].to_f / spin[1].to_f]}
+    [{ data: response_rates }]
   end
 
   def signatures_by_part part
