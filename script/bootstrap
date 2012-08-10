@@ -5,13 +5,11 @@ def has_required_version? actual_version, required_version
 end
 
 def find_version(lib_name, version_placement)
-  output = `#{lib_name} --version`.split("\n")[0].split(' ')
-  output.length > 1 ? output[version_placement].strip : ""
+  `#{lib_name} --version|awk 'NR==1{print $#{version_placement}}'`
 end
 
-def confirm lib_name, required_version, version_placement=-1
+def confirm lib_name, required_version, version_placement=2
   actual_version = find_version(lib_name, version_placement)
-
   if has_required_version? actual_version, required_version
     puts "OK - #{lib_name} #{actual_version} #{required_version}"
   else
@@ -19,10 +17,10 @@ def confirm lib_name, required_version, version_placement=-1
   end
 end
 
-confirm "ruby", ">= 1.9.2", 1
+confirm "ruby", ">= 1.9.2"
 confirm "redis-cli", ">= 2.4.11"
 
-if confirm "psql", ">= 9.1.3"
+if confirm "psql", ">= 9.1.3", 3
   if `echo "select 1" | psql -At postgres`.strip == "1"
     puts "OK - postgres 9.1.3 up and running"
   else
