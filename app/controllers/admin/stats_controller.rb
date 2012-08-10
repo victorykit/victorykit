@@ -22,17 +22,20 @@ class Admin::StatsController < ApplicationController
   end
 
   def daily_browser_usage
-    results = Signature
-                .select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date")
-                .where('created_at > ?', 2.weeks.ago)
-                .group("browser_name, created_date")
-                .order(:created_date)
-    browsers = results.group_by &:browser_name
-    data = browsers.map do |browser, signature|
-      { label: browser, data: signature.map {|s| [ s.created_date.to_time.to_i * 1000, s.count_all ]} }
+    signatures = Signature
+                  .select("COUNT(*) AS count_all, browser_name, date(created_at) as created_date")
+                  .where('created_at > ?', 2.weeks.ago)
+                  .group("browser_name, created_date")
+                  .order(:created_date)
+    data = signatures.group_by(&:browser_name).map do |browser, signatures|
+      { label: browser, data: signatures.map {|s| [ js_timestamp(s.created_date), s.count_all ]} }
     end
 
     render json: data
+  end
+
+  def js_timestamp(date_string)
+    date_string.to_time.to_i * 1000
   end
 
   private
@@ -41,8 +44,8 @@ class Admin::StatsController < ApplicationController
     sent_emails_by_time = SentEmail.count(:group => "date_part('#{part}', created_at)")
     signed_emails_by_part = SentEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
 
-    spins = sent_emails_by_time.sort
-    wins = signed_emails_by_part.sort
+    spins = sent_emails_by_time.map{|k,v|[k.to_i,v]}.sort_by &:first
+    wins = signed_emails_by_part.map{|k,v|[k.to_i,v]}.sort_by &:first
     response_rates = []
     spins.zip(wins) {|spin, win| response_rates << [spin[0], win[1].to_f / spin[1].to_f]}
     [{ data: response_rates }]
