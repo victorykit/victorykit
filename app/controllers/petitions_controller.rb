@@ -28,10 +28,10 @@ class PetitionsController < ApplicationController
     @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
 
     @member = member_from_cookies || member_from_email
-    @was_signed = member_from_cookies.present? && member_from_cookies.signed?(@petition)
+    @was_signed = member_from_cookies.present? && member_from_cookies.has_signed?(@petition)
 
     @signature = flash[:invalid_signature] || @petition.signatures.build
-    @signature.prepopulate(@member) if @member.present? && !@member.signed?(@petition)
+    @signature.prepopulate(@member) if @member.present? && !@member.has_signed?(@petition)
 
     # TODO Remove this - this is not the right way to propagate member information to the SocialTracking controller.
     @signature.id = Signature.where(member_id: @member.try(:id), petition_id: @petition.id).first.try(:id)

@@ -18,28 +18,32 @@ class Member < ActiveRecord::Base
     Member.find(subscribed_members.sample['id'])
   end
 
-  def self.active_subscription?(subscribe_date, unsubscribe_date)
-    return true if unsubscribe_date.nil?
-    return false if subscribe_date.nil?
-    return subscribe_date > unsubscribe_date
-  end
-
-  def signed?(petition)
+  def has_signed?(petition)
     signature_for(petition).present?
-  end
-
-  def signature_for(petition)
-    self.signatures.where(petition_id: petition.try(:id)).first
   end
 
   def to_hash
     MemberHasher.generate self.id
   end
 
-  scope :by_hash, lambda {|hash| where(:id => MemberHasher.validate(hash)) }
+  scope :by_hash, ->(hash) do
+    where(:id => MemberHasher.validate(hash))
+  end
 
   def self.find_by_hash(hash)
     self.by_hash(hash).first
+  end
+
+  private
+
+  def signature_for(petition)
+    signatures.where(petition_id: petition.try(:id)).first
+  end
+
+  def self.active_subscription?(subscribe_date, unsubscribe_date)
+    return true if unsubscribe_date.nil?
+    return false if subscribe_date.nil?
+    return subscribe_date > unsubscribe_date
   end
 
 end
