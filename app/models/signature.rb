@@ -6,6 +6,7 @@ class Signature < ActiveRecord::Base
   has_one :sent_email
   validates_presence_of :name, :first_name, :last_name
   validates :email, :presence => true, :email => true
+  before_destroy { |record| record.sent_email.destroy }
 
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'

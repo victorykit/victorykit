@@ -29,4 +29,15 @@ describe Signature do
     its(:user_agent) { should have(255).characters }
   end
 
+  describe '#destroy' do
+    let(:sent_email) { create :sent_email }
+
+    before { subject.sent_email = sent_email }
+
+    it 'should remove its sent email before' do
+      sent_email.should_receive :destroy
+      subject.destroy
+    end
+  end
+
 end
