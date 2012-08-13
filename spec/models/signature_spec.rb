@@ -9,7 +9,7 @@ describe Signature do
 
     context 'reference types' do      
 
-      ['facebook_like', 'facebook_popup', 'email', 'twitter'].each do |type|
+      ['facebook_like', 'facebook_popup', 'facebook_wall_widget', 'email', 'twitter'].each do |type|
         context "when #{type}" do
           subject { build(:signature, reference_type: type) }
           it { should be_valid }
