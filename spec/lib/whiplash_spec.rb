@@ -1,8 +1,8 @@
 require 'whiplash'
 require 'spec_helper'
 
-describe Bandit do
-  include Bandit
+describe Whiplash do
+  include Whiplash
 
   it "should guess floats" do
     arm_guess(0, 0).class.should == Float

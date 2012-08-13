@@ -3,7 +3,7 @@ require 'redis'
 
 FAIRNESS_CONSTANT7 = FC7 = 2
 
-module Bandit
+module Whiplash
   def arm_guess(observations, victories)
     a = [victories, 0].max
     b = [observations-victories, 0].max
