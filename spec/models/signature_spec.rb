@@ -4,7 +4,8 @@ describe Signature do
   
   context 'validating' do
     it { should validate_presence_of :email }
-    it { should validate_presence_of :name }
+    it { should validate_presence_of :first_name }
+    it { should validate_presence_of :last_name }
     it_behaves_like 'email validator'
 
     context 'reference types' do      
@@ -28,5 +29,4 @@ describe Signature do
     before { subject.save! }
     its(:user_agent) { should have(255).characters }
   end
-
 end

@@ -53,9 +53,9 @@ end
 
 shared_examples_for "email validator" do
   it "should validate format of the email address" do
-    Signature.new(email: "asdsf", name: "Bob").valid?.should == false
-    Signature.new(email: "asdsf@localhost", name: "Bob").valid?.should == false
-    Signature.new(email: "asdsf@dfdf.net", name: "Bob").valid?.should == true
+    Signature.new(email: "asdsf", first_name: "Bob", last_name: "Loblaw").valid?.should == false
+    Signature.new(email: "asdsf@localhost", first_name: "Bob", last_name: "Loblaw").valid?.should == false
+    Signature.new(email: "asdsf@dfdf.net", first_name: "Bob", last_name: "Loblaw").valid?.should == true
   end
 end
 

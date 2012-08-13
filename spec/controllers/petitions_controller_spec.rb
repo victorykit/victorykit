@@ -151,7 +151,8 @@ describe PetitionsController do
           it "should not populate name and email from email_hash" do
             get :show, :id => petition.id, :n => sent_email.to_hash
 
-            assigns(:signature).name.should be_nil
+            assigns(:signature).first_name.should be_nil
+            assigns(:signature).last_name.should be_nil
             assigns(:signature).email.should be_nil
           end
         end
@@ -161,7 +162,7 @@ describe PetitionsController do
           it "should assign name and email to the form from email hash" do
             get :show, :id => petition.id, :n => sent_email.to_hash
 
-            assigns(:signature).name.should == "Sven"
+            assigns(:signature).first_name.should == "Sven"
             assigns(:signature).email.should == "sven@svenland.se"
           end
         end
@@ -175,7 +176,7 @@ describe PetitionsController do
         it "populates his name and email in the signature form from cookies" do
           controller.stub(cookies: {:member_id => member_bob.to_hash})
           get :show, {:id => petition.id}
-          assigns(:signature).name.should == "Bob"
+          assigns(:signature).first_name.should == "Bob"
           assigns(:signature).email.should == "bob@bob.com"
         end
       end
@@ -188,7 +189,7 @@ describe PetitionsController do
             controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
 
-            assigns(:signature).name.should == "Bob"
+            assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
           end
         end
@@ -198,7 +199,7 @@ describe PetitionsController do
             controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
 
-            assigns(:signature).name.should == "Bob"
+            assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
           end
         end

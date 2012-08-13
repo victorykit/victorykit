@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SignaturesController do
   let(:petition){ create(:petition) }
-  let(:signature_fields) { {name: "Bob", email: "bob@my.com"} }
+  let(:signature_fields) { {first_name: "Bob", last_name: "Loblaw", email: "bob@my.com"} }
   let(:referring_url) { "http://petitionator.com/456?other_stuff=etc" }
 
   describe "POST create" do
@@ -12,7 +12,8 @@ describe SignaturesController do
           sign_petition
           petition.signatures[0]
         end
-        its(:name) { should == signature_fields[:name] }
+        its(:first_name) { should == signature_fields[:first_name] }
+        its(:last_name) { should == signature_fields[:last_name] }
         its(:email) { should == signature_fields[:email] }
         its(:ip_address) { should == "0.0.0.0" }
         its(:user_agent) { should == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11" }
@@ -63,7 +64,7 @@ describe SignaturesController do
         sign_petition
       end
       it "should create a member record" do
-        Member.exists?(:email => signature_fields[:email]).should be_true
+        Member.exists?(email: signature_fields[:email]).should be_true
       end
       it "should indicate that this was the first petition signed by this member" do
         signature = Signature.find_by_email signature_fields[:email]
@@ -84,7 +85,7 @@ describe SignaturesController do
       end
 
       it "should set referer and reference type for the signature" do
-        member = create :member, :name => signature_fields[:name], :email => signature_fields[:email]
+        member = create :member, name: signature_fields[:first_name], email: signature_fields[:email]
         email.member = member
         email.save!
         sign_petition email_hash: email.to_hash
@@ -95,7 +96,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a facebook like post" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:member) { create :member, name: "recomender", email: "recomender@recomend.com"}
       let(:fb_like_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
@@ -113,7 +114,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a facebook shared link" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:member) { create :member, name: "recomender", email: "recomender@recomend.com"}
       let(:fb_share_link_ref) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
@@ -131,7 +132,7 @@ describe SignaturesController do
     end
 
      context "the user signed from a facebook posted action" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
+      let(:member) { create :member, name: "recomender", email: "recomender@recomend.com"}
       let(:fb_action) { create :share, :member => member, :action_id => "abcd1234" }
 
       it "should set referer and reference type for the signature" do
@@ -149,7 +150,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a forwarded notification" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:member) { create :member, name: "referer", email: "referer@referring.com"}
       let(:forwarded_notification_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
@@ -161,7 +162,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a shared link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:member) { create :member, name: "referer", email: "referer@referring.com"}
       let(:shared_link_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
@@ -173,7 +174,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a tweeted link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:member) { create :member, name: "referer", email: "referer@referring.com"}
       let(:twitter_hash) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
@@ -185,7 +186,7 @@ describe SignaturesController do
     end
 
     context "the user signed from a facebook dialog request link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
+      let(:member) { create :member, name: "referer", email: "referer@referring.com"}
       let(:fb_dialog_request) { member.to_hash }
 
       it "should set referer and reference type for the signature" do
