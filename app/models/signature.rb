@@ -30,7 +30,7 @@ class Signature < ActiveRecord::Base
     ReferenceType::EMAIL, 
     ReferenceType::FORWARDED_NOTIFICATION, 
     ReferenceType::SHARED_LINK,
-    nil ] # <= why?
+    nil ] # as per mykola, that's to accept nulls in db
 
   validates :reference_type, :inclusion => {
     :in => REFERENCE_TYPES, 
