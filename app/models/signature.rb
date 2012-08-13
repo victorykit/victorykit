@@ -12,15 +12,29 @@ class Signature < ActiveRecord::Base
     FACEBOOK_SHARE = 'facebook_share'
     FACEBOOK_POPUP = 'facebook_popup'
     FACEBOOK_REQUEST = 'facebook_request'
+    FACEBOOK_WALL_WIDGET = 'facebook_wall_widget'
     TWITTER = 'twitter'
     EMAIL = 'email'
     SHARED_LINK = 'shared_link'
     FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
-  REFERENCE_TYPES = [ ReferenceType::FACEBOOK_LIKE, ReferenceType::FACEBOOK_SHARE, ReferenceType::FACEBOOK_POPUP, ReferenceType::FACEBOOK_REQUEST, ReferenceType::TWITTER, ReferenceType::EMAIL, ReferenceType::FORWARDED_NOTIFICATION, ReferenceType::SHARED_LINK, nil ]
+  REFERENCE_TYPES = [ 
+    ReferenceType::FACEBOOK_LIKE, 
+    ReferenceType::FACEBOOK_SHARE, 
+    ReferenceType::FACEBOOK_POPUP, 
+    ReferenceType::FACEBOOK_REQUEST, 
+    ReferenceType::FACEBOOK_WALL_WIDGET, 
+    ReferenceType::TWITTER, 
+    ReferenceType::EMAIL, 
+    ReferenceType::FORWARDED_NOTIFICATION, 
+    ReferenceType::SHARED_LINK,
+    nil ] # <= why?
 
-  validates :reference_type, :inclusion => {:in => REFERENCE_TYPES, :message => "%{value} is not a valid reference_type"}
+  validates :reference_type, :inclusion => {
+    :in => REFERENCE_TYPES, 
+    :message => "%{value} is not a valid reference_type"
+  }
 
   before_save :truncate_user_agent
 
