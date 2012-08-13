@@ -1,25 +1,32 @@
 require 'spec_helper'
 
 describe Signature do
-  context "validation" do
-    subject { build(:signature) }
+  
+  context 'validating' do
     it { should validate_presence_of :email }
     it { should validate_presence_of :name }
-    it_behaves_like "email validator"
-  end
+    it_behaves_like 'email validator'
 
-  context "given a really long user agent" do
-    it "truncates it to 255 characters" do
-      signature = build(:signature, user_agent: "0" * 512)
-      signature.save!
-      signature.user_agent.length.should == 255
+    context 'reference types' do      
+
+      ['facebook_like', 'facebook_popup', 'email', 'twitter'].each do |type|
+        context "when #{type}" do
+          subject { build(:signature, reference_type: type) }
+          it { should be_valid }
+        end
+      end
+      
+      context 'when unkown' do
+        subject { build(:signature, reference_type: 'unkown') }
+        it { should_not be_valid }
+      end
     end
   end
 
-  it "should allow only predefined types of references" do
-    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "facebook_like").valid?.should == true
-    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "email" ).valid?.should == true
-    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "twitter" ).valid?.should == true
-    Signature.new(:name => "bob" , :email => "a@a.com", :reference_type => "wrong" ).valid?.should == false
+  context 'given a really long user agent' do
+    subject { build(:signature, user_agent: '0' * 512) }
+    before { subject.save! }
+    its(:user_agent) { should have(255).characters }
   end
+
 end
