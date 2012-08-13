@@ -1,10 +1,10 @@
 class Signature < ActiveRecord::Base
-  attr_accessible :email, :name, :first_name, :last_name, :reference_type, :referer, :referring_url, :browser_name
+  attr_accessible :email, :first_name, :last_name, :reference_type, :referer, :referring_url, :browser_name
   belongs_to :petition
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
   has_one :sent_email
-  validates_presence_of :name, :first_name, :last_name
+  validates_presence_of :first_name, :last_name
   validates :email, :presence => true, :email => true
 
   module ReferenceType
@@ -38,20 +38,18 @@ class Signature < ActiveRecord::Base
 
   before_save :truncate_user_agent
 
-  def first_name 
-    self.name.split(" ").first unless self.name.nil?
+  def full_name
+    "#{self.first_name} #{self.last_name}".strip
   end
 
-  def last_name 
-    self.name.split(" ").last unless self.name.nil?
-  end
-
-  def first_name=(val)
-    self.name = "#{val} #{last_name}".strip
-  end
-
-  def last_name=(val)
-    self.name = "#{first_name} #{val}".strip
+  def full_name=val
+    name_parts = val.split(" ")
+    if name_parts.length == 1
+      self.first_name = val
+    else
+      self.last_name = name_parts.pop
+      self.first_name= name_parts.join(" ")
+    end
   end
 
   def truncate_user_agent
@@ -60,7 +58,7 @@ class Signature < ActiveRecord::Base
 
   def prepopulate(member)
     self.tap do |s|
-      s.name = member.try(:name)
+      s.full_name = member.try(:name)
       s.email = member.try(:email)
     end
   end
