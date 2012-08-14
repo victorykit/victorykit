@@ -37,43 +37,36 @@ class SignaturesController < ApplicationController
   private
 
   def track_referrals petition, signature
-    if sent_email = SentEmail.find_by_hash(params[:email_hash])
-      sent_email.signature ||= signature
-      sent_email.save!
-      signature.attributes = {referer: sent_email.member, reference_type: Signature::ReferenceType::EMAIL}
-      petition.experiments.email(sent_email).win!(:signature)
-    else
-      if record_referer signature, :forwarded_notification_hash, Signature::ReferenceType::FORWARDED_NOTIFICATION
-      
-      elsif record_referer signature, :shared_link_hash, Signature::ReferenceType::SHARED_LINK
-      
-      elsif referring_member = record_referer(signature, :fb_like_hash, Signature::ReferenceType::FACEBOOK_LIKE)
-        petition.experiments.facebook(referring_member).win!(:signature)
-      
-      elsif params[:fb_action_id].present?
-        facebook_action = Share.find_by_action_id(params[:fb_action_id].to_s)
-        referring_member = facebook_action.member
-        signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: params[:referring_url]}
-        petition.experiments.facebook(referring_member).win!(:signature)
-      
-      elsif referring_member = record_referer(signature, :fb_share_link_ref, Signature::ReferenceType::FACEBOOK_POPUP)
-        petition.experiments.facebook(referring_member).win!(:signature)
-      
-      elsif referring_member = record_referer(signature, :fb_dialog_request, Signature::ReferenceType::FACEBOOK_REQUEST)
-        petition.experiments.facebook(referring_member).win!(:signature)
+    ref_types.keys.find do |key| 
+      if key == :email_hash
+        deal_with_email_special_case(petition, signature)
+      else
+        record_referer signature, key, ref_types[key]
+      end  
+    end  
 
-      elsif referring_member = record_referer(signature, :fb_wall_hash, Signature::ReferenceType::FACEBOOK_WALL)
-        petition.experiments.facebook(referring_member).win!(:signature)
-      
-      else record_referer signature, :twitter_hash, Signature::ReferenceType::TWITTER end
-    end
+    facebook_ref_types.keys.find do |key|
+      if key == :fb_action_id
+        deal_with_facebook_share_special_case(petition, signature)
+      else  
+        if found = record_referer(signature, key, facebook_ref_types[key])
+          petition.experiments.facebook(found).win!(:signature)
+          true
+        end
+      end
+    end  
   end
 
   def record_referer signature, param_name, reference_type
-    if referring_member = Member.find_by_hash(params[param_name])
-      signature.attributes = {referer: referring_member, reference_type: reference_type, referring_url: params[:referring_url]}
-      referring_member
-    end
+    referring_member = Member.find_by_hash(params[param_name])
+    return unless referring_member
+
+    signature.attributes = {
+      referer: referring_member, 
+      reference_type: reference_type, 
+      referring_url: params[:referring_url]
+    }
+    referring_member
   end
 
   def nps_win signature
@@ -81,7 +74,55 @@ class SignaturesController < ApplicationController
     win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
   
     reference = signature.reference_type
-    return unless reference && Signature::FACEBOOK_REFERENCE_TYPES.include?(reference)
+    return unless reference && facebook_ref_types.values.include?(reference)
     win_on_option!('facebook sharing options', reference)
+  end
+
+  def ref_types
+    {
+      email_hash: Signature::ReferenceType::EMAIL,
+      forwarded_notification_hash: Signature::ReferenceType::FORWARDED_NOTIFICATION,
+      shared_link_hash: Signature::ReferenceType::SHARED_LINK,
+      twitter_hash: Signature::ReferenceType::TWITTER
+    }
+  end
+
+  def facebook_ref_types
+    {
+      fb_action_id: Signature::ReferenceType::FACEBOOK_SHARE,
+      fb_like_hash: Signature::ReferenceType::FACEBOOK_LIKE,
+      fb_share_link_ref: Signature::ReferenceType::FACEBOOK_POPUP, 
+      fb_dialog_request: Signature::ReferenceType::FACEBOOK_REQUEST, 
+      fb_wall_hash: Signature::ReferenceType::FACEBOOK_WALL
+    }
+  end
+
+  def deal_with_facebook_share_special_case petition, signature
+    return unless params[:fb_action_id].present?
+    facebook_action = Share.find_by_action_id(params[:fb_action_id].to_s)
+    referring_member = facebook_action.member
+    
+    signature.attributes = {
+      referer: referring_member, 
+      reference_type: facebook_ref_types[:fb_action_id], 
+      referring_url: params[:referring_url]
+    }
+    
+    petition.experiments.facebook(referring_member).win!(:signature)
+    true
+  end
+
+  def deal_with_email_special_case petition, signature
+    return unless sent_email = SentEmail.find_by_hash(params[:email_hash])
+    sent_email.signature ||= signature
+    sent_email.save!
+    
+    signature.attributes = {
+      referer: sent_email.member, 
+      reference_type: ref_types[:email_hash]
+    }
+
+    petition.experiments.email(sent_email).win!(:signature)
+    true
   end
 end
