@@ -1,12 +1,12 @@
 class Member < ActiveRecord::Base
-  attr_accessible :first_name, :last_name, :email
+  attr_accessible :name, :email
   has_many :subscribes
   has_many :unsubscribes
   has_many :sent_emails
   has_many :signatures
 
   validates :email, :presence => true, :uniqueness => true
-  validates :first_name, :last_name, :presence => true
+  validates :name, :presence => true
 
   def self.random_and_not_recently_contacted
     uncontacted_members = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 week') WHERE sent_emails.member_id is null").to_a
@@ -16,10 +16,6 @@ class Member < ActiveRecord::Base
 
     return nil if subscribed_members.empty?
     Member.find(subscribed_members.sample['id'])
-  end
-
-  def full_name
-    [self.first_name,self.last_name].join " "
   end
 
   def has_signed?(petition)

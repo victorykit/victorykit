@@ -3,6 +3,7 @@
 - content_for :javascripts do
   VK.signing_from_email = '#{@signing_from_email}';
   VK.petition_id = '#{@petition.id}';
+  VK.petition_title = '#{@petition.title}';
   VK.signature_id = '#{@signature.id}';
   VK.current_member_hash = '#{@current_member_hash}'
   VK.social_tracking_url = '#{new_social_tracking_url}';
