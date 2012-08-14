@@ -1,44 +1,48 @@
 require 'spec_helper'
 
 describe SocialTrackingController do
-  describe "GET new" do
-    it "records a like on a petition" do
-      petition = create(:petition)
+  describe 'GET new' do
+    let(:petition) { create(:petition) }
+    let(:signature) { create(:signature) }
+
+    context 'when someone likes a petition' do
       
-      get(:new, {petition_id: petition.id, facebook_action: 'like'})
-      like = Like.last
-      like.petition.should == petition
-      like.member.should be_nil
-    end
-    it "records a like by a member on a petition" do
-      petition = create(:petition)
-      signature = create(:signature)
+      context 'before signing' do
+        before { get :new, { petition_id: petition.id, facebook_action: 'like' } }
+        
+        subject { Like.last }
+        
+        its(:petition) { should == petition }
+        its(:member) { should be_nil }
+      end
 
-      get(:new, {petition_id: petition.id, signature_id: signature.id, facebook_action: 'like'})
-      like = Like.last
-      like.petition.should == petition
-      like.member.should == signature.member
-    end
+      context 'after signing' do
+        before { get :new, { petition_id: petition.id, signature_id: signature.id, facebook_action: 'like' } }
 
-    it "records a share by a member on a petition" do
-      petition = create(:petition)
-      signature = create(:signature)
-
-      get(:new, {petition_id: petition.id, signature_id: signature.id, facebook_action: 'share'})
-      share = Share.last
-      share.petition.should == petition
-      share.action_id.should be_nil
-      share.member.should == signature.member
+        subject { Like.last }
+        
+        its(:petition) { should == petition }
+        its(:member) { should == signature.member }
+      end
     end
 
-    it "records share link popup opening by a member after signature" do
-      petition = create(:petition)
-      signature = create(:signature)
+    context 'when someone shares a petition' do
+      before { get :new, { petition_id: petition.id, signature_id: signature.id, facebook_action: 'share' } }
 
-      get(:new, {petition_id: petition.id, signature_id: signature.id, facebook_action: 'popup'})
-      popup = Popup.last
-      popup.petition.should == petition
-      popup.member.should == signature.member
+      subject { Share.last }
+
+      its(:petition) { should == petition }
+      its(:action_id) { should be_nil }
+      its(:member) { should == signature.member }
+    end
+
+    context 'when someone opens a share link popup' do
+      before { get :new, { petition_id: petition.id, signature_id: signature.id, facebook_action: 'popup' } }
+      
+      subject { Popup.last }
+      
+      its(:petition) { should == petition }
+      its(:member) { should == signature.member }
     end
   end
 end
