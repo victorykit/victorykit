@@ -1,203 +1,192 @@
 require 'spec_helper'
 
 describe SignaturesController do
-  let(:petition){ create(:petition) }
-  let(:signature_fields) { {name: "Bob", email: "bob@my.com"} }
-  let(:referring_url) { "http://petitionator.com/456?other_stuff=etc" }
+  let(:petition) { create(:petition) }
+  let(:signature_fields) { { name: 'Bob', email: 'bob@my.com' } }
+  let(:referring_url) { 'http://petitionator.com/456?other_stuff=etc' }
 
-  describe "POST create" do
-    context "the user supplies both a name and an email" do
-      describe "new signature" do
-        subject  do
-          sign_petition
-          petition.signatures[0]
-        end
+  describe 'POST create' do
+
+    context 'when the user supplies both a name and an email' do
+      before do 
+        ActionMailer::Base.deliveries = []
+        sign_petition
+      end
+
+      after do 
+        member = Signature.last.member
+        member.signatures.each &:destroy
+        member.destroy
+      end
+      
+      subject { petition.signatures.first }
+    
+      context 'new signature' do
         its(:name) { should == signature_fields[:name] }
         its(:email) { should == signature_fields[:email] }
-        its(:ip_address) { should == "0.0.0.0" }
-        its(:user_agent) { should == "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11" }
-        its(:browser_name) { should == "chrome" }
+        its(:ip_address) { should == '0.0.0.0' }
+        its(:user_agent) { should == 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11' }
+        its(:browser_name) { should == 'chrome' }
       end
-      before :each do
-        ActionMailer::Base.deliveries = []
-      end
-      it "should send an email to the signatory" do
-        sign_petition
+      
+      it 'should send an email to the signatory' do
         ActionMailer::Base.deliveries.size.should == 1
         email = ActionMailer::Base.deliveries.last
         email[:to].to_s.should == signature_fields[:email]
         email[:subject].to_s.should match /#{petition.title}/
       end
 
-      it "should record hashed member id to cookies" do
-        sign_petition
+      it 'should record hashed member id to cookies' do
         cookies[:member_id].should == Signature.find_by_email(signature_fields[:email]).member.to_hash
       end
 
-      it "should redirect to the petition page" do
-        sign_petition
+      it 'should redirect to the petition page' do
         hash = Signature.last.member.to_hash
         should redirect_to petition_url(petition, l: hash)
       end
-    end
-    context "an error occurs when sending the confirmation email" do
-      it "should notify user of the error" do
-        Notifications.any_instance.stub(:signed_petition).and_raise "bang!"
-        sign_petition
-        flash.now[:notice].should == "bang!"
+
+      it 'should create a member record' do
+        Member.should exist(:email => signature_fields[:email])
       end
-    end
-    context "the user leaves a field blank" do
-      before :each do
-        sign_without_name_or_email
-      end
-      it "should not add to cookies" do
-        response.cookies["member_id"].should be_nil
-      end
-      it "should redirect to the petition show page" do
-        should redirect_to petition_url(petition)
-      end
-    end
-    context "the user has not signed any petitions" do
-      before :each do
-        sign_petition
-      end
-      it "should create a member record" do
-        Member.exists?(:email => signature_fields[:email]).should be_true
-      end
-      it "should indicate that this was the first petition signed by this member" do
+
+      it 'should indicate that this was the first petition signed by this member' do
         signature = Signature.find_by_email signature_fields[:email]
         signature.created_member.should be_true
       end
     end
-    context "the user signed from an emailed link" do
-      let(:email) { create :sent_email }
 
-      it "should record wins for any email experiments" do
-        EmailExperiments.any_instance.should_receive(:win!)
-        sign_petition email_hash: email.to_hash
+    context 'when the user comes form' do
+      let(:member) { create(:member, name: 'recomender', email: 'recomender@recomend.com') }
+
+      shared_examples 'the event is tracked' do
+        before { sign_petition params }
+        subject { Signature.last }
+        its(:reference_type) { should == type }
+        its(:referring_url) { should == referring_url }
+        its(:referer) { should == member }
       end
 
-      it "should update sent email record with the signature_id value" do
-        sign_petition email_hash: email.to_hash
-        SentEmail.last.signature_id.should == Signature.last.id
+      context 'facebook' do
+        shared_examples 'the option wins' do
+          specify do
+            controller.stub(:win_on_option!)
+            controller.should_receive(:win_on_option!).
+            with('facebook sharing options', option)
+            sign_petition params
+          end
+        end
+
+        context 'like post' do
+          let(:params) { { fb_like_hash: member.to_hash } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_LIKE }
+          let(:option) { 'facebook_like' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'shared link' do
+          let(:params) { { fb_share_link_ref: member.to_hash } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_POPUP }
+          let(:option) { 'facebook_popup' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'dialog request link' do
+          let(:params) { { fb_dialog_request: member.to_hash } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_REQUEST }
+
+          it_behaves_like 'the event is tracked'
+        end
+
+        context 'posted action' do
+          let(:fb_action) { create :share, :member => member, :action_id => 'abcd1234' }
+          let(:params) { { fb_action_id: fb_action.action_id } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_SHARE }
+          let(:option) { 'facebook_share' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
       end
 
-      it "should set referer and reference type for the signature" do
-        member = create :member, :name => signature_fields[:name], :email => signature_fields[:email]
-        email.member = member
-        email.save!
-        sign_petition email_hash: email.to_hash
-        Signature.last.reference_type.should == Signature::ReferenceType::EMAIL
-        Signature.last.referring_url.should be_nil
-        Signature.last.referer.should == member
-      end
-    end
+      context 'a forwarded notification' do
+        let(:params) { { forwarded_notification_hash: member.to_hash } }
+        let(:type) { Signature::ReferenceType::FORWARDED_NOTIFICATION }
 
-    context "the user signed from a facebook like post" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_like_hash) { member.to_hash }
-
-      it "should set referer and reference type for the signature" do
-        sign_petition fb_like_hash: fb_like_hash
-        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_LIKE
-        Signature.last.referring_url.should == referring_url
-        Signature.last.referer.should == member
+        it_behaves_like 'the event is tracked'
       end
 
-      it "should declare win on facebook_like option" do
-        controller.stub(:win_on_option!)
-        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_like")
-        sign_petition fb_like_hash: fb_like_hash
-      end
-    end
+      context 'a shared link' do
+        let(:params) { { shared_link_hash: member.to_hash } }
+        let(:type) { Signature::ReferenceType::SHARED_LINK }
 
-    context "the user signed from a facebook shared link" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_share_link_ref) { member.to_hash }
-
-      it "should set referer and reference type for the signature" do
-        sign_petition fb_share_link_ref: fb_share_link_ref
-        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_POPUP
-        Signature.last.referring_url.should == referring_url
-        Signature.last.referer.should == member
+        it_behaves_like 'the event is tracked'
       end
 
-      it "should declare win on facebook_popup option" do
-        controller.stub(:win_on_option!)
-        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_popup")
-        sign_petition fb_share_link_ref: fb_share_link_ref
-      end
-    end
+      context 'a tweeted link' do
+        let(:params) { { twitter_hash: member.to_hash } } 
+        let(:type) { Signature::ReferenceType::TWITTER }
 
-     context "the user signed from a facebook posted action" do
-      let(:member) { create :member, :name => "recomender", :email => "recomender@recomend.com"}
-      let(:fb_action) { create :share, :member => member, :action_id => "abcd1234" }
-
-      it "should set referer and reference type for the signature" do
-        sign_petition fb_action_id: fb_action.action_id
-        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_SHARE
-        Signature.last.referring_url.should == referring_url
-        Signature.last.referer.should == member
+        it_behaves_like 'the event is tracked'
       end
 
-      it "should declare win on facebook_share option" do
-        controller.stub(:win_on_option!)
-        controller.should_receive(:win_on_option!).with("facebook sharing options", "facebook_share")
-        sign_petition fb_action_id: fb_action.action_id
-      end
-    end
+      context 'an emailed link' do
+        let(:email) { create :sent_email }
+        let(:params) { { email_hash: email.to_hash } }
+        let(:type) { Signature::ReferenceType::EMAIL }
 
-    context "the user signed from a forwarded notification" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:forwarded_notification_hash) { member.to_hash }
+        it 'should record win for email experiments' do
+          EmailExperiments.any_instance.should_receive(:win!)
+          sign_petition params
+        end
 
-      it "should set referer and reference type for the signature" do
-        sign_petition forwarded_notification_hash: forwarded_notification_hash
-        Signature.last.reference_type.should == Signature::ReferenceType::FORWARDED_NOTIFICATION
-        Signature.last.referring_url.should == referring_url
-        Signature.last.referer.should == member
-      end
-    end
+        it 'should update sent email record with the signature_id value' do
+          sign_petition params
+          SentEmail.last.signature_id.should == Signature.last.id
+        end
 
-    context "the user signed from a shared link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:shared_link_hash) { member.to_hash }
+        context 'referer and reference type for the signature are persisted' do
+          before do 
+            email.member = member
+            email.save!
+            sign_petition params
+          end
 
-      it "should set referer and reference type for the signature" do
-        sign_petition shared_link_hash: shared_link_hash
-        Signature.last.reference_type.should == Signature::ReferenceType::SHARED_LINK
-        Signature.last.referring_url.should == referring_url
-        Signature.last.referer.should == member
-      end
-    end
-
-    context "the user signed from a tweeted link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:twitter_hash) { member.to_hash }
-
-      it "should set referer and reference type for the signature" do
-        sign_petition twitter_hash: twitter_hash
-        Signature.last.referring_url.should == referring_url
-        Signature.last.reference_type.should == Signature::ReferenceType::TWITTER
-        Signature.last.referer.should == member
+          subject { Signature.last }
+          
+          its(:reference_type) { should == type }
+          its(:referring_url) { should be_nil }
+          its(:referer) { should == member }
+        end
       end
     end
 
-    context "the user signed from a facebook dialog request link" do
-      let(:member) { create :member, :name => "referer", :email => "referer@referring.com"}
-      let(:fb_dialog_request) { member.to_hash }
+    context 'when the user leaves a field blank' do
+      before { sign_without_name_or_email }
 
-      it "should set referer and reference type for the signature" do
-        sign_petition fb_dialog_request: fb_dialog_request
-        Signature.last.referring_url.should == referring_url
-        Signature.last.reference_type.should == Signature::ReferenceType::FACEBOOK_REQUEST
-        Signature.last.referer.should == member
+      it { should redirect_to petition_url(petition) }
+
+      it 'should not add to cookies' do
+        response.cookies['member_id'].should be_nil
       end
     end
     
+    context 'when an error occurs while sending the confirmation email' do
+      before do
+        Notifications.any_instance.stub(:signed_petition).and_raise 'bang!'
+        sign_petition
+      end        
+      
+      it 'should notify user of the error' do
+        flash.now[:notice].should == 'bang!'
+      end
+    end
+
     def sign_petition params = {}
-      request.env["HTTP_USER_AGENT"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11"
+      request.env['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11'
       post :create, params.merge({petition_id: petition.id, signature: signature_fields, referring_url: referring_url})
     end
     
