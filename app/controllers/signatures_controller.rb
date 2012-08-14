@@ -37,22 +37,25 @@ class SignaturesController < ApplicationController
   private
 
   def track_referrals petition, signature
-    ref_types.keys.find do |key| 
-      if key == :email_hash
-        deal_with_email_special_case(petition, signature)
-      else
-        record_referer signature, key, ref_types[key]
-      end  
-    end  
+    track_regular_referral(petition, signature) || track_facebook_referral(petition, signature)
+  end
 
+  def track_regular_referral petition, signature
+    ref_types.keys.find do |key| 
+      (key == :email_hash) ? 
+      deal_with_email_special_case(petition, signature) : 
+      record_referer(signature, key, ref_types[key])
+    end
+  end
+
+  def track_facebook_referral petition, signature
     facebook_ref_types.keys.find do |key|
       if key == :fb_action_id
         deal_with_facebook_share_special_case(petition, signature)
       else  
-        if found = record_referer(signature, key, facebook_ref_types[key])
-          petition.experiments.facebook(found).win!(:signature)
-          true
-        end
+        found = record_referer(signature, key, facebook_ref_types[key])
+        petition.experiments.facebook(found).win!(:signature) if found
+        found
       end
     end  
   end
