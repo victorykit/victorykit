@@ -207,9 +207,6 @@ function bindFacebookWidgetButton() {
 }
 
 // function bindFacebookRequestButton() {
-//   $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
-// }
-
 // function sendRequestViaMultiFriendSelector() {
 //   FB.ui({method: 'apprequests',
 //     message: 'Please support this petition'
@@ -224,6 +221,10 @@ function bindFacebookWidgetButton() {
 //     });
 //     inviteToShareOnTwitter();
 // }
+//   $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
+// }
+
+
 function drawModalAfterSigning() {
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
