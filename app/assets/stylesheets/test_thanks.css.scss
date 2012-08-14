@@ -1,75 +1,135 @@
-.giantbox {
+@import 'compass';
+
+.big_black_box {
   background: black;
   padding: 20px 35px;
   margin-bottom: 20px;
   color: lightblue;
   text-align: center;
-}
-#thanks {
-  display: none;
-  margin: 1% auto;
-  height: 450px;
-  width: 700px;
-}
-.big_text {
-  font-size: 130px;
-  line-height: 170px;
-}
-.message {
-  font-size: 70px;
-  line-height: 80px;
-  clear: both;
-}
-.fb_button_big {
-  background: url('fb_normal.png');
-  height: 82px;
-  width: 563px;
-  margin: 40px auto 30px;
-  &:hover {
-    background: url('fb_hover.png');
-  }
-}
-.thanks_so_much {
-  background: url('thanks_so_much.png');
-  .fb_popup_btn {
-    margin: 353px 0 0 468px;
-  }
-}
 
-.youre_amazing {
-  background: url('youre_amazing.png');
-  .fb_popup_btn {
-    margin: 340px 0 0 376px;
-  }
-}
-
-.profit {
-  background: url('profit.png');
-  .fb_popup_btn {
-    margin: 290px 0 0 448px;
-  }
-}
-
-.great_success {
-  background: url('great_success.png');
-  .fb_popup_btn {
-    margin: 357px 0 0 429px;
-  }
-}
-
-.giantbox.smaller {
-  padding: 20px 55px;
   .big_text {
-    font-size: 70px;
-    line-height: 80px;
+    font-size: 90px;
+    line-height: 95px;
   }
   .message {
     font-size: 50px;
     line-height: 60px;
+    clear: both;
   }
   .fb_button_big {
-    margin: 25px auto 15px;
+    background: url('fb_normal.png');
+    height: 82px;
+    width: 563px;
+    margin: 20px auto 30px;
+    &:hover {
+      background: url('fb_hover.png');
+    }
   }
 }
 
+.thanks_with_share_sidebar {
+  margin: 20px auto 80px;
+  width: 1100px;
+  #thanks {
+    float: left;
+    display: block;
+    height: 100%;
+    width: 683px;
+    background: #f1f4f9;
+    margin-bottom: 80px;
+    padding: 20px;
+    h1 { font-size: 102px; line-height: 110px; }
+    h2 { font-size: 48px; color: #bbb; line-height: 50px; }
+    h3 { font-size: 30px; color: #aaa; line-height: 35px; margin-top: 22px; }
+  }
+  #fb {
+    background: url('fb_bg_small.png') top left no-repeat;
+    float: left;
+    height: 100%;
+    width: 353px;
+    margin-top: 40px;
+    #title {
+      font-size: 31px;
+      line-height: 50px;
+      color: #233f78;
+      font-weight: bold;
+      letter-spacing: 1px;
+      padding: 155px 40px 135px;
+      padding: 30px 40px;
+    }
+    .fb_popup_btn{
+      > div { float: left; }
+      margin: 35px 39px;
+      height: 50px;
+      border: 1px solid darken(#f1f4f9, 20%);
+      background: #5b75aa;
+      color: white;
+      .fb_icon {
+        background: url('fb_icon.png');
+        height: 50px;
+        width: 50px;
+              }
+      .text {
+        font-size: 36px;
+        padding: 14px 60px;
+      }
+      &:hover {
+        background: #b8c0da;
+        .fb_icon {
+          background: url('fb_icon_hover.png');
+        }
+      }
+
+    }
+  }
+}
+
+.img_plus_fb_ribbon {
+  background: url('fb_point_hero.png') center bottom #eef1f7 no-repeat;
+  width: 750px;
+  margin: 20px auto 40px;
+  #thanks {
+    padding: 30px 60px;
+    h1 { font-size: 102px; line-height: 110px; color: #333; }
+    h2 { font-size: 48px; color: #ccc; line-height: 50px; margin-top: 10px; }
+    h3 { font-size: 30px; color: #aaa; line-height: 35px; margin-top: 22px; width: 500px; }
+  }
+  #fb {
+    background: url('fb_ribbon.png');
+    float: right;
+    height: 70px;
+    width: 211px;
+    margin: -96px -24px 0 0;
+    &:hover {
+      background: url('fb_ribbon_hover.png');
+    }
+  }
+}
+
+.box_with_centered_button {
+  $border-color: #eee;
+  border: {
+    left: 5px solid lighten($border-color, 2%);
+    top: 5px solid lighten($border-color, 1%);
+    right: 5px solid $border-color;
+    bottom: 5px solid $border-color;
+  }
+  width: 850px;
+  margin: 20px auto 80px;
+  #thanks {
+    padding: 20px 30px;
+    h1 { font-size: 90px; line-height: 95px; color: #444; }
+    h2 { font-size: 40px; color: #ccc; line-height: 42px; margin-top: 10px; }
+    h3 { font-size: 25px; color: #aaa; line-height: 30px; margin-top: 22px; }
+  }
+  #fb {
+    background: url('fb_blue_button.png');
+    height: 70px;
+    width: 250px;
+    margin: 0 auto 25px;
+    &:hover {
+      background: url('fb_blue_button_hover.png');
+    }
+  }
+}
 
