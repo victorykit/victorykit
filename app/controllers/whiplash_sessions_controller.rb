@@ -1,4 +1,7 @@
 class WhiplashSessionsController < ApplicationController
+
+  newrelic_ignore
+  
   def index
     @keys = REDIS.keys('whiplash/*/*/spins').map {|key| key.sub('whiplash/','').sub(/\/.+/,'')}.uniq
     respond_to do |format|
@@ -31,11 +34,6 @@ class WhiplashSessionsController < ApplicationController
   end
 
   def can_update_session?
-    if ENV['VK_DEBUG_TOKEN'].nil?
-      #need it to make debug_token verification work properly on environments without VK_DEBUG_TOKEN set
-      true
-    else
-      (params['debug_token'] == ENV['VK_DEBUG_TOKEN'])
-    end
+    debug_token_provided?
   end
 end

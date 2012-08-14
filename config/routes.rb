@@ -47,6 +47,7 @@ Victorykit::Application.routes.draw do
     resources :experiments, only: [:index]
     resources :hottest
     resources :on_demand_email
+    resources :heartbeat
   end
 
   # The priority is based upon order of creation:

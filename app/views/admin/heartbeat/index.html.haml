@@ -1,0 +1,40 @@
+- if display_content?
+  .page_content
+
+    %h1 Application Health
+
+    - # ATTENTION: newrelic expects to see "Status: OK" on this page, otherwise it sends out alerts. 
+    - # So if you change this here, make sure you also update newrelic. Especially if you change it late at night :)
+    %h3
+      Status:
+      %span{:class => @overall_working ? "ok" : "failing" }
+        #{@overall_working ? "OK" : "FAILING"}
+
+    %table.bordered-table.table-striped
+      %thead
+        %th
+          Function
+        %th
+          Last
+        %th
+          Threshold (min)
+        %th
+          Status
+      %tr
+        %td
+          Sending emails
+        %td
+          #{@last_email_timestamp}
+        %td
+          #{@email_threshold}
+        %td{:class => @email_working ? "ok" : "failing" }
+          #{@email_working ? "Active" : "INACTIVE" }
+      %tr
+        %td
+          Collecting signatures
+        %td
+          #{@last_signature_timestamp}
+        %td
+          #{@signature_threshold}
+        %td{:class => @signature_working ? "ok" : "failing" }
+          #{@signature_working ? "Active" : "INACTIVE"}
