@@ -89,7 +89,6 @@ def set_default_experiment_results
     #"testing different widths" => "fullwidthpetition",
     #"different background for thank you box" => "hex_f5f5f5",
     #"different arrow colors in thank you box" => "bluearrow",
-    #"full name vs first and last name" => "fullname",
     #"facebook sharing options" => "facebook_like",
     #"sign button" => 'Sign!',
     #"signature display threshold" => 0,
@@ -124,9 +123,10 @@ def create_normal_user
   raise "failed to create user" unless u.save
 end
 
-def create_member name = 'A Member', email = 'amember@some.com'
+def create_member first_name = 'A', last_name = 'Member', email = 'amember@some.com'
   go_to 'subscribe'
-  type(name).into(id: 'member_name')
+  type(first_name).into(id: 'member_first_name')
+  type(last_name).into(id: 'member_last_name')
   type(email).into(id: 'member_email')
   click id: 'sign-up-submit'
   Member.find_by_email email
@@ -202,16 +202,11 @@ def type_into_alt_title_fields title_type_div_id, alt_titles
   text_fields.zip(alt_titles).each {|pair| pair[0].send_keys(pair[1])}
 end
 
-def sign_petition (name = 'bob loblaw', email = "bob@yahoo.com")
+def sign_petition (first_name = 'bob', last_name = 'loblaw', email = "bob@yahoo.com")
   wait.until { element :id => 'signature_email' }
 
-  if element_exists :id => 'signature_first_name'
-    first_name, last_name = name.split(' ')
-    type(first_name).into(:id => 'signature_first_name')
-    type(last_name).into(:id => 'signature_last_name')
-  else
-    type(name).into(:id => 'signature_name')
-  end
+  type(first_name).into(:id => 'signature_first_name')
+  type(last_name).into(:id => 'signature_last_name')
   type(email).into(:id => 'signature_email')
   click :id => 'sign_petition'
 
