@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120814144247) do
+ActiveRecord::Schema.define(:version => 20120813182403) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(:version => 20120814144247) do
   add_index "facebook_actions", ["member_id"], :name => "index_likes_on_member_id"
   add_index "facebook_actions", ["petition_id"], :name => "index_likes_on_petition_id"
 
+  create_table "facebook_friends", :force => true do |t|
+    t.integer  "member_id",   :null => false
+    t.string   "facebook_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "facebook_friends", ["member_id", "facebook_id"], :name => "unique_facebook_friend", :unique => true
+
   create_table "facebook_share_widget_shares", :force => true do |t|
     t.string   "user_facebook_id"
     t.string   "friend_facebook_id"
@@ -65,11 +74,10 @@ ActiveRecord::Schema.define(:version => 20120814144247) do
   end
 
   create_table "members", :force => true do |t|
+    t.string   "name"
     t.string   "email"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "first_name"
-    t.string   "last_name"
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
@@ -170,6 +178,8 @@ ActiveRecord::Schema.define(:version => 20120814144247) do
   end
 
   add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
+
+  add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
 
   add_foreign_key "petition_images", "petitions", :name => "petition_images_petition_id_fk"
 

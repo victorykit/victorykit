@@ -27,7 +27,9 @@ describe 'Petition page' do
     referred_link = petition_path(@petition) + "?r=#{forwarded_notification_hash}"
     go_to referred_link
 
-    sign_petition Faker::Name.first_name, Faker::Name.last_name, Faker::Internet.email
+    name = Faker::Name.name
+    email = Faker::Internet.email
+    sign_petition name, email
 
     signature = Signature.last
     signature.referer.should == referer

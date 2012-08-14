@@ -6,10 +6,11 @@ class SocialTrackingController < ApplicationController
     member = Signature.find(params[:signature_id]).member if params[:signature_id].present?
     action_id = params[:action_id]
     request_id = params[:request_id]
+    friend_ids = params[:friend_ids]
     register_facebook_like petition, member if facebook_action == 'like'
     register_facebook_share petition, member, action_id if facebook_action == 'share'
     register_facebook_popup_opened petition, member if facebook_action == 'popup'
-    register_facebook_request petition, member, request_id if facebook_action == 'request'
+    register_facebook_request petition, member, request_id, friend_ids if facebook_action == 'request'
     render :text => ''
   end
 
@@ -37,11 +38,17 @@ class SocialTrackingController < ApplicationController
     share.save!
   end
 
-  def register_facebook_request petition, member, request_id
+  def register_facebook_request petition, member, request_id, friend_ids
     request = FacebookRequest.new
     request.petition = petition
     request.action_id = request_id if request_id.present?
     request.member = member if member.present?
     request.save!
+    friend_ids.each do |facebook_id|
+      if member.present?
+        new_facebook_friend = FacebookFriend.new(member_id: member.id, facebook_id: facebook_id) unless FacebookFriend.where(member_id: member.id, facebook_id: facebook_id).first.present?
+        new_facebook_friend.save! if new_facebook_friend.present?
+      end
+    end
   end
 end
