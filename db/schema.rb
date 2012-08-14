@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120813135808) do
+ActiveRecord::Schema.define(:version => 20120814144247) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -65,10 +65,11 @@ ActiveRecord::Schema.define(:version => 20120813135808) do
   end
 
   create_table "members", :force => true do |t|
-    t.string   "name"
     t.string   "email"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
