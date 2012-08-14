@@ -1,7 +1,7 @@
 class FacebookLandingPageController < ApplicationController
 	
-	def create
-		request_id = params[:request_ids].split(',').last if params[:request_ids].present?
+	def new
+		request_id = params[:request_ids]
 		facebook_request = FacebookRequest.find_by_action_id(request_id)
 		if facebook_request.present?
 			petition, member = facebook_request.petition, facebook_request.member
@@ -10,8 +10,4 @@ class FacebookLandingPageController < ApplicationController
 			redirect_to root_path
 		end
 	end
-
-	def show
- 		render :text => ''
- 	end
 end

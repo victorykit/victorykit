@@ -8,7 +8,7 @@ class SignaturesController < ApplicationController
     signature.ip_address = connecting_ip
     signature.user_agent = request.env["HTTP_USER_AGENT"]
     signature.browser_name = Browser.new(:ua => signature.user_agent).id.to_s
-    signature.member = Member.find_or_initialize_by_email(email: signature.email, name: signature.full_name)
+    signature.member = Member.find_or_initialize_by_email(email: signature.email, first_name: signature.first_name, last_name: signature.last_name)
     signature.created_member = signature.member.new_record?
     member_hash = nil
     if signature.valid?

@@ -80,7 +80,7 @@ describe PetitionsController do
     end
 
     context "the user has already signed the petition" do
-      let(:member) { create(:member, :name => "Bob", :email => "bob@bob.com") }
+      let(:member) { create(:member) }
 
       it "sets facebook ref hash to encoded signature id" do
         controller.stub(cookies: {member_id: "hash"})
@@ -140,8 +140,8 @@ describe PetitionsController do
     end
 
     context "no member cookies" do
-      let(:member_sven) { create :member, name: "Sven", email: "sven@svenland.se" }
-      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
+      let(:member_sven) { create :member, first_name: "Sven", email: "sven@svenland.se" }
+      let(:member_bob) { create :member, first_name: "Bob", email: "bob@bob.com" }
 
       context "email hash is present" do
         context "the petition was already signed from this email" do
@@ -170,8 +170,8 @@ describe PetitionsController do
     end
 
     context "member cookies are present" do
-      let(:member_sven) { create :member, name: "Sven", email: "sven@svenland.se" }
-      let(:member_bob) { create :member, name: "Bob", email: "bob@bob.com" }
+      let(:member_sven) { create :member, first_name: "Sven", email: "sven@svenland.se" }
+      let(:member_bob) { create :member, first_name: "Bob", email: "bob@bob.com" }
       context "no email hash" do
         it "populates his name and email in the signature form from cookies" do
           controller.stub(cookies: {:member_id => member_bob.to_hash})
