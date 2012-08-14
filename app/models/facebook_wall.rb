@@ -1,0 +1,2 @@
+class FacebookWall < FacebookAction
+end
