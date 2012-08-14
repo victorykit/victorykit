@@ -44,18 +44,27 @@ class SignaturesController < ApplicationController
       petition.experiments.email(sent_email).win!(:signature)
     else
       if record_referer signature, :forwarded_notification_hash, Signature::ReferenceType::FORWARDED_NOTIFICATION
+      
       elsif record_referer signature, :shared_link_hash, Signature::ReferenceType::SHARED_LINK
+      
       elsif referring_member = record_referer(signature, :fb_like_hash, Signature::ReferenceType::FACEBOOK_LIKE)
         petition.experiments.facebook(referring_member).win!(:signature)
+      
       elsif params[:fb_action_id].present?
         facebook_action = Share.find_by_action_id(params[:fb_action_id].to_s)
         referring_member = facebook_action.member
         signature.attributes = {referer: referring_member, reference_type: Signature::ReferenceType::FACEBOOK_SHARE, referring_url: params[:referring_url]}
         petition.experiments.facebook(referring_member).win!(:signature)
+      
       elsif referring_member = record_referer(signature, :fb_share_link_ref, Signature::ReferenceType::FACEBOOK_POPUP)
         petition.experiments.facebook(referring_member).win!(:signature)
+      
       elsif referring_member = record_referer(signature, :fb_dialog_request, Signature::ReferenceType::FACEBOOK_REQUEST)
         petition.experiments.facebook(referring_member).win!(:signature)
+
+      elsif referring_member = record_referer(signature, :fb_wall_hash, Signature::ReferenceType::FACEBOOK_WALL)
+        petition.experiments.facebook(referring_member).win!(:signature)
+      
       else record_referer signature, :twitter_hash, Signature::ReferenceType::TWITTER end
     end
   end
