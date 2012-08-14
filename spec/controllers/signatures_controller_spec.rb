@@ -111,6 +111,15 @@ describe SignaturesController do
           it_behaves_like 'the event is tracked'
           it_behaves_like 'the option wins'
         end
+
+        context 'wall widget' do
+          let(:params) { { fb_wall_hash: member.to_hash } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_WALL }
+          let(:option) { 'facebook_wall' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
       end
 
       context 'a forwarded notification' do
