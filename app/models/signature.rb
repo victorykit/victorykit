@@ -6,7 +6,7 @@ class Signature < ActiveRecord::Base
   has_one :sent_email
   validates_presence_of :name, :first_name, :last_name
   validates :email, :presence => true, :email => true
-  before_destroy { |record| record.sent_email.destroy }
+  before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
@@ -20,12 +20,15 @@ class Signature < ActiveRecord::Base
     FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
-  REFERENCE_TYPES = [ 
+  FACEBOOK_REFERENCE_TYPES = [
     ReferenceType::FACEBOOK_LIKE, 
     ReferenceType::FACEBOOK_SHARE, 
     ReferenceType::FACEBOOK_POPUP, 
     ReferenceType::FACEBOOK_WALL, 
     ReferenceType::FACEBOOK_REQUEST, 
+  ]
+
+  REFERENCE_TYPES = FACEBOOK_REFERENCE_TYPES + [ 
     ReferenceType::TWITTER, 
     ReferenceType::EMAIL, 
     ReferenceType::FORWARDED_NOTIFICATION, 

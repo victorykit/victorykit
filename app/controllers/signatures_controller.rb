@@ -68,11 +68,11 @@ class SignaturesController < ApplicationController
   end
 
   def nps_win signature
-    if signature.created_member
-      win_on_option!("email_scheduler_nps", signature.petition.id.to_s)
-      if (signature.reference_type == Signature::ReferenceType::FACEBOOK_LIKE || signature.reference_type == Signature::ReferenceType::FACEBOOK_SHARE || signature.reference_type == Signature::ReferenceType::FACEBOOK_POPUP || signature.reference_type == Signature::ReferenceType::FACEBOOK_REQUEST) 
-        win_on_option!("facebook sharing options", signature.reference_type)
-      end
-    end
+    return unless signature.created_member
+    win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
+  
+    reference = signature.reference_type
+    return unless reference && Signature::FACEBOOK_REFERENCE_TYPES.include?(reference)
+    win_on_option!('facebook sharing options', reference)
   end
 end
