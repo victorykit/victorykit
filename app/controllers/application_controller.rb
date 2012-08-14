@@ -50,4 +50,14 @@ class ApplicationController < ActionController::Base
   def role
     is_admin ? :admin : :default
   end
+
+  def debug_token_provided?
+    if ENV['VK_DEBUG_TOKEN'].nil?
+      #need it to make debug_token verification work properly on environments without VK_DEBUG_TOKEN set
+      true
+    else
+      (params['debug_token'] == ENV['VK_DEBUG_TOKEN'])
+    end
+  end
+
 end
