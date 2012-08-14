@@ -10,7 +10,8 @@
     %h1
       Sign up for regular emails about important new campaigns
     = simple_form_for @member do |f|
-      = f.input :name, :error => false, :input_html => { :autocomplete => "off" }
+      = f.input :first_name, :error => false, :input_html => { :autocomplete => "off" }
+      = f.input :last_name, :error => false, :input_html => { :autocomplete => "off" }
       = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
       = f.button :submit, :class => 'btn btn-primary', :id => 'sign-up-submit', :value => 'Sign Up'
 

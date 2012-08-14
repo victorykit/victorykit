@@ -1,15 +1,15 @@
 function inviteToShareOnTwitter() {
   $('.fb_share.btn').hide();
   $('.fb_popup_btn').hide();
-  $('.fb_request_btn').hide();
+  // $('.fb_request_btn').hide();
   $('.fb_share_message').hide();
   $('.tweet').show();
   $('.sharing-message').text("You shared on Facebook! How about Twitter?");
 }
 
 function initFacebookApp() {
-  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget" ||
-      VK.facebook_sharing_type == "facebook_request") {
+  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget") { 
+    // || VK.facebook_sharing_type == "facebook_request") {
     var appId = $('meta[property="fb:app_id"]').attr('content');
     FB.init({
       appId: appId,
@@ -33,7 +33,7 @@ function initFacebookApp() {
   }
 }
 
-function setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids) {
+function setUpParamsForSocialTracking(facebook_action, action_id, request_id) {
   var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
   if (VK.signature_id !== "") {
     params = $.extend(params, {signature_id: VK.signature_id});
@@ -43,7 +43,6 @@ function setUpParamsForSocialTracking(facebook_action, action_id, request_id, re
   }
   if (request_id !== "") {
     params = $.extend(params, {request_id: request_id});
-    params = $.extend(params, {friend_ids: request_to_ids});
   }
 
   return params;
@@ -58,7 +57,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         $.ajax({
           url: VK.social_tracking_url,
-          data: setUpParamsForSocialTracking('like', '', '', '')
+          data: setUpParamsForSocialTracking('like', '', '')
         });
         inviteToShareOnTwitter();
       });
@@ -86,7 +85,7 @@ function submitFacebookAction() {
           } else {
             $.ajax({
               url: VK.social_tracking_url,
-              data: setUpParamsForSocialTracking('share', response.id, '', '')
+              data: setUpParamsForSocialTracking('share', response.id, '')
             });
             inviteToShareOnTwitter();
           }
@@ -169,7 +168,7 @@ function bindFacebookPopupButton() {
   function sendRequest() {
     $.ajax({
       url: VK.social_tracking_url,
-      data: setUpParamsForSocialTracking('popup', '', '', '')
+      data: setUpParamsForSocialTracking('popup', '', '')
     });
   }
 
@@ -207,26 +206,24 @@ function bindFacebookWidgetButton() {
   $('.fb_widget_btn').click(performLoginAndOpenWidget);
 }
 
-function bindFacebookRequestButton() {
-  function requestCallbackForSendRequest(response) {
-    if(response && response.request) {
-        $.ajax({
-          url: VK.social_tracking_url,
-          data: setUpParamsForSocialTracking('request', '', response.request, response.to)
-        });
-      }
-      inviteToShareOnTwitter();
-  }
+// function bindFacebookRequestButton() {
+//   $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
+// }
 
-  function sendRequestViaMultiFriendSelector() {
-    FB.ui({method: 'apprequests',
-      message: VK.petition_title
-    }, requestCallbackForSendRequest);
-  }
+// function sendRequestViaMultiFriendSelector() {
+//   FB.ui({method: 'apprequests',
+//     message: 'Please support this petition'
+//   }, requestCallbackForSendRequest);
+// }
 
-  $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
-}
-
+// function requestCallbackForSendRequest(response) {
+//   if(response && response.request)
+//     $.ajax({
+//       url: VK.social_tracking_url,
+//       data: setUpParamsForSocialTracking('request', '', response.request)
+//     });
+//     inviteToShareOnTwitter();
+// }
 function drawModalAfterSigning() {
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');
@@ -254,6 +251,6 @@ function initSharePetition() {
   setupShareFacebookButton();
   bindFacebookPopupButton();
   bindFacebookWidgetButton();
-  bindFacebookRequestButton();
+  // bindFacebookRequestButton();
   drawModalAfterSigning();
 }

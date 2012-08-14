@@ -39,17 +39,7 @@ class Signature < ActiveRecord::Base
   before_save :truncate_user_agent
 
   def full_name
-    "#{self.first_name} #{self.last_name}".strip
-  end
-
-  def full_name=val
-    name_parts = val.split(" ")
-    if name_parts.length == 1
-      self.first_name = val
-    else
-      self.last_name = name_parts.pop
-      self.first_name= name_parts.join(" ")
-    end
+    [self.first_name,self.last_name].join " "
   end
 
   def truncate_user_agent
@@ -58,7 +48,8 @@ class Signature < ActiveRecord::Base
 
   def prepopulate(member)
     self.tap do |s|
-      s.full_name = member.try(:name)
+      s.first_name = member.try(:first_name)
+      s.last_name = member.try(:last_name)
       s.email = member.try(:email)
     end
   end
