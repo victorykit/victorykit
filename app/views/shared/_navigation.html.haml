@@ -11,12 +11,12 @@
   .primary
     %ul.nav
       %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-      - if can :list_petitions
+      - if is_admin
         %li= link_to('View all petitions', petitions_url)
-      - if can :edit_users
         %li= link_to('Manage users', admin_users_url)
-      - if can :edit_petitions
         %li= link_to('Petitions dashboard', admin_petitions_url)
+        %li= link_to('Experiments dashboard', admin_experiments_url)
+        %li= link_to('Statistics dashboard', admin_stats_url)
       - if current_user
         %li
           %div Logged in as #{current_user.email}

@@ -9,7 +9,7 @@
           = link_to(petition.title, petition, :class => 'title')
           .description
             = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
-          - if can :feature_petition
+          - if is_admin
             .feature
               - if petition.to_send == true
                 %i.icon-ok
