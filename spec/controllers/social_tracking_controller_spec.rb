@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe SocialTrackingController do
-  describe "GET new" do
-    it "records a like on a petition" do
+  describe 'GET new' do
+    it 'records a like on a petition' do
       petition = create(:petition)
       
       get(:new, {petition_id: petition.id, facebook_action: 'like'})
@@ -10,7 +10,7 @@ describe SocialTrackingController do
       like.petition.should == petition
       like.member.should be_nil
     end
-    it "records a like by a member on a petition" do
+    it 'records a like by a member on a petition' do
       petition = create(:petition)
       signature = create(:signature)
 
@@ -20,7 +20,7 @@ describe SocialTrackingController do
       like.member.should == signature.member
     end
 
-    it "records a share by a member on a petition" do
+    it 'records a share by a member on a petition' do
       petition = create(:petition)
       signature = create(:signature)
 
@@ -31,7 +31,7 @@ describe SocialTrackingController do
       share.member.should == signature.member
     end
 
-    it "records share link popup opening by a member after signature" do
+    it 'records share link popup opening by a member after signature' do
       petition = create(:petition)
       signature = create(:signature)
 
