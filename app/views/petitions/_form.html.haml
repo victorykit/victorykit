@@ -4,9 +4,9 @@
   = f.input :title, as: :string
   = f.input :short_summary, as: :string
   = f.input :description
-  - if can :feature_petition
+  - if is_admin
     = f.input :to_send, label: 'Feature this petition'
-  - if can :feature_petition
+  - if is_admin
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
     .controls.toggle
       = link_to_add_fields "Customize #{email_subject_title}", f, :petition_titles, {:class => "string", :id => 'email_subject_link'}, {:title_type => "email", :label_name => "#{email_subject_title}"}, "#email_subjects"
@@ -60,6 +60,6 @@
   .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary', id: "petition_submit", onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
-    - if can :feature_petition
+    - if is_admin
       = link_to "Email a preview to #{current_user.email}", "#", :id => "email_preview_link", :onclick => "send_email_preview($(this).closest('form'), '#{url_for(:action => 'send_email_preview', :controller => 'petitions')}');"
 

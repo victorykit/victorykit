@@ -3,7 +3,7 @@ require 'whiplash'
 class ApplicationController < ActionController::Base
   include Bandit
   extend Memoist
-  helper_method :win!, :spin!, :can
+  helper_method :win!, :spin!, :is_admin
   
   protect_from_forgery
   before_filter :add_environment_to_title
@@ -43,15 +43,11 @@ class ApplicationController < ActionController::Base
     render :file => "#{Rails.root}/public/403", :formats => [:html], :status => 403
   end
   
-  def can(permission)
+  def is_admin
     current_user && (current_user.is_super_user || current_user.is_admin)
   end
   
   def role
-    if can :admin
-      :admin
-    else
-      :default
-    end
+    is_admin ? :admin : :default
   end
 end

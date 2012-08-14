@@ -151,8 +151,9 @@ body.bordered_with_block_logo {
         height: 20px;
       }
       .nav {
+        float: right;
         *margin-top: -10px;
-        li { float: right; *margin-top: 70px; }
+        li { test-align: right; *margin-top: 70px; }
         li a, li div {
           font-family: "LeagueGothicRegular", helvetica;
           font-style: normal;
@@ -160,6 +161,9 @@ body.bordered_with_block_logo {
           font-weight: normal;
           color: #3399cc;
           text-transform: uppercase;
+        }
+        li div {
+          color: #888888;
         }
         &.grey {
           height: 60px;

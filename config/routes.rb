@@ -31,9 +31,10 @@ Victorykit::Application.routes.draw do
     resources :petitions 
     resources :users
 
-    resource :stats, only: [:show] do
+    resource :stats do
       member do
         get :metrics, :browser_usage
+        get :index, to: "stats#metrics"
         get 'data/daily_browser_usage', to: "stats#daily_browser_usage"
         get 'data/email_response_rate', to: "stats#email_response_rate"
         get 'data/signature_activity', to: "stats#signature_activity"
