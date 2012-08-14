@@ -20,20 +20,17 @@ class Signature < ActiveRecord::Base
     FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
-  FACEBOOK_REFERENCE_TYPES = [
-    ReferenceType::FACEBOOK_LIKE, 
-    ReferenceType::FACEBOOK_SHARE, 
-    ReferenceType::FACEBOOK_POPUP, 
-    ReferenceType::FACEBOOK_WALL, 
-    ReferenceType::FACEBOOK_REQUEST, 
-  ]
-
-  REFERENCE_TYPES = FACEBOOK_REFERENCE_TYPES + [ 
+  REFERENCE_TYPES = [ 
     ReferenceType::TWITTER, 
     ReferenceType::EMAIL, 
     ReferenceType::FORWARDED_NOTIFICATION, 
     ReferenceType::SHARED_LINK,
-    nil ] # as per mykola, that's to accept nulls in db
+    ReferenceType::FACEBOOK_LIKE, 
+    ReferenceType::FACEBOOK_SHARE, 
+    ReferenceType::FACEBOOK_POPUP, 
+    ReferenceType::FACEBOOK_WALL, 
+    ReferenceType::FACEBOOK_REQUEST,
+    nil ]
 
   validates :reference_type, :inclusion => {
     :in => REFERENCE_TYPES, 
