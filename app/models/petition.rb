@@ -37,8 +37,8 @@ class Petition < ActiveRecord::Base
 
   def facebook_description_for_sharing
     description_for_sharing = facebook_description.present? ? facebook_description : description
-    strip_tags(description_for_sharing).squish[0..300]
+    result = strip_tags(description_for_sharing)
+    result = result.gsub("'","&apos;") || result
+    result.gsub("\"","&quot;") || result
   end
-
 end
-

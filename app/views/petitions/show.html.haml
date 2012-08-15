@@ -80,7 +80,6 @@
           - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
         .description= petitiontext.html_safe
 
-
   - content_for(:meta_tags) do
     - open_graph_for(@petition, @referring_member_hash).each do |key, value|
       = content_tag 'meta', nil, property:key, content:value.to_s.try(:html_safe)
