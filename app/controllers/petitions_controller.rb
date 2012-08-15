@@ -14,7 +14,7 @@ class PetitionsController < ApplicationController
     @referring_url = request.original_url
 
     @current_member_hash = cookies[:member_id]
-    @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref]
+    @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref] || params[:wall]
     
     @email_hash = params[:n]
     @forwarded_notification_hash = params[:r]
@@ -23,6 +23,7 @@ class PetitionsController < ApplicationController
     @twitter_hash = params[:t]
     @fb_like_hash = params[:f]
     @fb_share_link_ref = params[:share_ref]
+    @fb_wall_hash = params[:wall]
     @fb_action_id = params[:fb_action_ids]
     @fb_dialog_request = params[:d]
     @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
