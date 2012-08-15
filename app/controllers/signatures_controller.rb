@@ -61,7 +61,7 @@ class SignaturesController < ApplicationController
   end
 
   def record_referer signature, param_name, reference_type
-    referring_member = Member.find_by_hash(params[param_name])
+    referring_member = Member.find_by_hash(params[param_name]) if params[param_name]
     return unless referring_member
 
     signature.attributes = {
