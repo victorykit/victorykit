@@ -5,7 +5,7 @@ class Admin::HeartbeatController < ApplicationController
 
   def index
     last_email = SentEmail.last
-    @email_threshold = ENV['VK_HEARTBEAT_SENT_EMAIL'] || 5
+    @email_threshold = ENV['VK_HEARTBEAT_SENT_EMAIL'].try(:to_i) || 5
     @last_email_timestamp = last_email.created_at
     @email_working = @last_email_timestamp > @email_threshold.minutes.ago
     if not @email_working
@@ -13,7 +13,7 @@ class Admin::HeartbeatController < ApplicationController
     end
 
     last_signature = Signature.last
-    @signature_threshold = ENV['VK_HEARTBEAT_SIGNATURE'] || 60
+    @signature_threshold = ENV['VK_HEARTBEAT_SIGNATURE'].try(:to_i) || 60
     @last_signature_timestamp = last_signature.created_at
     @signature_working = @last_signature_timestamp > @signature_threshold.minutes.ago
     if not @signature_working

@@ -13,26 +13,26 @@
         %th
           Function
         %th
-          Last
-        %th
           Threshold (minutes)
+        %th
+          Last
         %th
           Status
       %tr
         %td
           Sending emails
         %td
-          #{@last_email_timestamp}
-        %td
           #{@email_threshold}
+        %td
+          #{@last_email_timestamp}
         %td{:class => @email_working ? "ok" : "failing" }
           #{@email_working ? "Active" : "INACTIVE" }
       %tr
         %td
           Collecting signatures
         %td
-          #{@last_signature_timestamp}
-        %td
           #{@signature_threshold}
+        %td
+          #{@last_signature_timestamp}
         %td{:class => @signature_working ? "ok" : "failing" }
           #{@signature_working ? "Active" : "INACTIVE"}
