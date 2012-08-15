@@ -61,7 +61,7 @@ class EmailExperiments
     EmailExperiment.new(sent_email_id: @email.id, goal: goal, key: test_name, choice: choice)
   end
 
-  def trial_session
+  def whiplash_session
     {:session_id => @email.id.to_s}
   end
 

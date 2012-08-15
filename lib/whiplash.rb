@@ -4,6 +4,7 @@ require 'redis'
 FAIRNESS_CONSTANT7 = FC7 = 2
 
 module Whiplash
+
   def arm_guess(observations, victories)
     a = [victories, 0].max
     b = [observations-victories, 0].max
@@ -27,64 +28,73 @@ module Whiplash
     loptions
   end
 
-  def redis_nonce(mysession)
-    # force creation of a session_id
-    mysession[:tmp] = 1
-    mysession.delete(:tmp)
-    sessionid = mysession[:session_id] || request.session_options[:id]
-    return "#{sessionid}_#{Random.rand}"
+  def redis_nonce
+    "#{self.whiplash_session_id}_#{Random.rand}"
   end
   
-  def spin_for_choice(test_name, choice, mysession=nil)
-    data = {type: "spin", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+  def spin_for_choice(test_name, choice)
+    data = {type: "spin", when: Time.now.to_f, nonce: redis_nonce, test: test_name, choice: choice}
     Rails.logger.info "WHIPLASH: #{data.to_json}"
     REDIS.incr("whiplash/#{test_name}/#{choice}/spins")
-    mysession[test_name] = choice
+    whiplash_session[test_name] = choice
     return choice
   end
 
-  def measure!(test_name, options=[true, false], mysession=nil)
-    mysession ||= session
-    if mysession.key?(test_name) && options.include?(mysession[test_name])
-      return mysession[test_name]
+  def measure!(test_name, options=[true, false])
+    if whiplash_session.key?(test_name) && options.include?(whiplash_session[test_name])
+      return whiplash_session[test_name]
     end
     
     choice = options.sample
-    return spin_for_choice(test_name, choice, mysession)
+    return spin_for_choice(test_name, choice)
   end
 
-  def spin!(test_name, goal, options=[true, false], mysession=nil)
+  def spin!(test_name, goal, options=[true, false])
     return options.first if options.count == 1
 
-    mysession ||= session
     #manual_whiplash_mode allows to set new options using /whiplash_sessions page
-    if mysession.key?(test_name) && (options.include?(mysession[test_name]) || mysession.key?("manual_whiplash_mode"))
-      return mysession[test_name]
+    if whiplash_session.key?(test_name) && (options.include?(whiplash_session[test_name]) || whiplash_session.key?("manual_whiplash_mode"))
+      return whiplash_session[test_name]
     end
     
     REDIS.sadd("whiplash/goals/#{goal}", test_name)
     choice = best_guess(data_for_options(test_name, options))
-    return spin_for_choice(test_name, choice, mysession)
+    return spin_for_choice(test_name, choice)
   end
 
-  def win_on_option!(test_name, choice, mysession=nil)
-    mysession ||= session
-    data = {type: "win", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+  def win_on_option!(test_name, choice)
+    data = {type: "win", when: Time.now.to_f, nonce: redis_nonce, test: test_name, choice: choice}
     Rails.logger.info "WHIPLASH: #{data.to_json}"
     REDIS.incr("whiplash/#{test_name}/#{choice}/wins")
   end
 
-  def lose_on_option!(test_name, choice, mysession=nil)
-    mysession ||= session
-    data = {type: "lose", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
+  def lose_on_option!(test_name, choice)
+    data = {type: "lose", when: Time.now.to_f, nonce: redis_nonce, test: test_name, choice: choice}
     Rails.logger.info "WHIPLASH: #{data.to_json}"
     REDIS.decr("whiplash/#{test_name}/#{choice}/wins")
   end
 
-  def win!(goal, mysession=nil)
-    mysession ||= session
-    REDIS.smembers("whiplash/goals/#{goal}").each do |t|
-      win_on_option!(t, mysession[t], mysession)
+  def win!(goal)
+    REDIS.smembers("whiplash/goals/#{goal}").each do |test_name|
+      choice = whiplash_session[t]
+      win_on_option!(test_name, choice)
     end
   end
+
+  def whiplash_session
+    ( self.respond_to?(:session) && touch_session ) || {}
+  end
+
+  def whiplash_session_id
+    whiplash_session[:session_id] || request.session_options[:id]
+  end
+
+  # force creation of a session_id
+  # TODO there are private Rails methods you can call to achieve this - consider preferring them
+  def touch_session
+    self.session[:tmp] = 1
+    self.session.delete(:tmp)
+    self.session
+  end
+  
 end

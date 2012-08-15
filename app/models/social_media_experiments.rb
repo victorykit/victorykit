@@ -22,7 +22,7 @@ class SocialMediaExperiments
     SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice)
   end
 
-  def trial_session
+  def whiplash_session
     {:session_id => @member.id.to_s}
   end
 
