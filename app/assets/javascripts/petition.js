@@ -8,8 +8,7 @@ function inviteToShareOnTwitter() {
 }
 
 function initFacebookApp() {
-  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget" || 
-      VK.facebook_sharing_type == "facebook_request") {
+  if(['facebook_share', 'facebook_wall', 'facebook_request'].indexOf(VK.facebook_sharing_type) >= 0) {
     var appId = $('meta[property="fb:app_id"]').attr('content');
     FB.init({
       appId: appId,
@@ -20,7 +19,7 @@ function initFacebookApp() {
     });
   }
 
-  if (VK.facebook_sharing_type == "facebook_widget") {
+  if (VK.facebook_sharing_type == "facebook_wall") {
     FB.Event.subscribe('auth.statusChange', function(checkAuthStatus) {
       if ((VK.fb_action_instance_id !== "") && (checkAuthStatus.status === "connected")) {
         FB.api(VK.fb_action_instance_id, 'get', function (response) {
@@ -190,7 +189,7 @@ function bindFacebookWidgetButton() {
     var domain = location.href.replace(/\?.*/,"");
     var options = {
       base_path: '/widget',
-      template:  { 'link': domain + '?widget=' + VK.current_member_hash }
+      template:  { 'link': domain + '?wall=' + VK.current_member_hash }
     };
     var widget = new FacebookShareWidget(element, options);
     $('.facebook-share-widget .search-text').get(0).focus();
