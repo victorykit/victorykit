@@ -27,7 +27,7 @@ class Admin::HeartbeatController < ApplicationController
 
   # not using 'before_filter :require_admin' because newrelic needs to be able to access this page for availability checks
   def display_content?
-    debug_token_provided?
+    debug_access_permitted?
   end
 
 end
