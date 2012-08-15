@@ -29,4 +29,16 @@ describe Petition do
     petition = create(:petition)
     petition.experiments.should_not be_nil
   end
+
+  context "facebook descrption" do
+    it "should escape single and double quotes because wysihtml5 doesn't" do
+      petition = create(:petition, description: "'\"this description contains quotes")
+      petition.facebook_description_for_sharing.should == "&apos;&quot;this description contains quotes"
+    end
+
+    it "should strip tags" do
+      petition = create(:petition, description: "this description contains a <a href=\"http://woo.com\">link</a>")
+      petition.facebook_description_for_sharing.should == "this description contains a link"
+    end
+  end
 end
