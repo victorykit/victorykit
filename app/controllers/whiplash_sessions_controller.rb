@@ -34,6 +34,6 @@ class WhiplashSessionsController < ApplicationController
   end
 
   def can_update_session?
-    debug_token_provided?
+    debug_access_permitted?
   end
 end

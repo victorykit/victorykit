@@ -51,12 +51,14 @@ class ApplicationController < ActionController::Base
     is_admin ? :admin : :default
   end
 
-  def debug_token_provided?
+  # allow access to slightly non-public info (e.g. app status) providing the token param matches the token env variable
+  def debug_access_permitted?
     if ENV['VK_DEBUG_TOKEN'].nil?
-      #need it to make debug_token verification work properly on environments without VK_DEBUG_TOKEN set
+      # default true if VK_DEBUG_TOKEN not set (e.g. dev environments)
       true
     else
-      (params['debug_token'] == ENV['VK_DEBUG_TOKEN'])
+      # check token if present, but also allow admins to save us having to remember/type the token in all cases
+      (params['debug_token'] == ENV['VK_DEBUG_TOKEN']) || current_user.is_admin
     end
   end
 
