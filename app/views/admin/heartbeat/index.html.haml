@@ -5,19 +5,17 @@
 
     - # ATTENTION: newrelic expects to see "Status: OK" on this page, otherwise it sends out alerts. 
     - # So if you change this here, make sure you also update newrelic. Especially if you change it late at night :)
-    %h3
-      Status:
-      %span{:class => @overall_working ? "ok" : "failing" }
-        #{@overall_working ? "OK" : "FAILING"}
+    - # Also, the status color applies to both label and value because newrelic doesn't seem to like spans in its substring check.
+    %h3{:class => @overall_working ? "ok" : "failing" } Status: #{@overall_working ? "OK" : "FAILING"}
 
-    %table.bordered-table.table-striped
+    %table.table.table-condensed.bordered-table.table-striped
       %thead
         %th
           Function
         %th
           Last
         %th
-          Threshold (min)
+          Threshold (minutes)
         %th
           Status
       %tr
