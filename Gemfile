@@ -76,7 +76,6 @@ gem 'redis-store'
 gem 'redis-rails'
 
 gem 'dkim'
-gem 'rspec'
 gem 'sanitize'
 gem 'rinku', :require => 'rails_rinku'
 gem "flot-rails"
