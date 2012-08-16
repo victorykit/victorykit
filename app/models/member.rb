@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
   end
 
   def self.find_by_hash(hash)
-    self.by_hash(hash).first
+    self.by_hash(hash).first if hash
   end
 
   private
