@@ -68,6 +68,7 @@ module Bandit
   end
 
   def win_on_option!(test_name, choice, mysession=nil)
+    return if choice.nil?
     mysession ||= session
     data = {type: "win", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
     Rails.logger.info "WHIPLASH: #{data.to_json}"
@@ -75,6 +76,7 @@ module Bandit
   end
 
   def lose_on_option!(test_name, choice, mysession=nil)
+    return if choice.nil?
     mysession ||= session
     data = {type: "lose", when: Time.now.to_f, nonce: redis_nonce(mysession), test: test_name, choice: choice}
     Rails.logger.info "WHIPLASH: #{data.to_json}"
