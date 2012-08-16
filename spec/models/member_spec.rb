@@ -33,9 +33,17 @@ describe Member do
     let(:member) { create :member }
 
     describe '.find_by_hash' do
-      let(:id) { member.id }
-      before { MemberHasher.stub!(:validate).with('foo').and_return id }
-      specify { subject.find_by_hash('foo').should eql member }
+
+      context 'for a valid hash' do
+        let(:id) { member.id }
+        before { MemberHasher.stub!(:validate).with('foo').and_return id }
+        specify { subject.find_by_hash('foo').should eql member }
+      end
+      
+      context 'for nil hash' do
+        before { subject.should_not_receive(:by_hash) }
+        specify { subject.find_by_hash(nil).should be_nil }
+      end  
     end
 
     describe '#random_and_not_recently_contacted' do
