@@ -3,7 +3,8 @@ production: &default
     app_id: <%= ENV["FACEBOOK_APP_ID"] %>
     secret: <%= ENV["FACEBOOK_SECRET"] %>
     site_name: Victory Kit
-    image: http://act.watchdog.net/images/petition-fb.png
+    images:
+      - http://act.watchdog.net/images/fb-default-2.png
 
 staging: *default
 

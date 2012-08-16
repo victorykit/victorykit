@@ -7,7 +7,7 @@ module PersistedExperiments
 
   private
 
-  def spin_or_default!(test_name, goal, options, default)
+  def spin_or_default!(test_name, goal, options, default=nil)
     return default if not options.any?
     spin_or_retrieve_choice test_name, goal, options
   end

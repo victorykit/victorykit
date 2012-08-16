@@ -1,5 +1,4 @@
 class FacebookExperiments < SocialMediaExperiments
-
   def title
     default = @petition.title
     return default if not @member
@@ -7,9 +6,12 @@ class FacebookExperiments < SocialMediaExperiments
   end
 
   def image
-    default = Rails.configuration.social_media[:facebook][:image]
-    return default if not @member
-    spin_or_default!(test_names[:image], :signature, @petition.petition_images.map{|opt| opt.url}, default)
+    defaults = Rails.configuration.social_media[:facebook][:images]
+    return defaults.first if not @member
+
+    petition_images = @petition.petition_images.map { |opt| opt.url }
+    images_to_use = petition_images.any? ? petition_images : defaults
+    spin_or_default!(test_names[:image], :signature, images_to_use)
   end
 
   private
@@ -24,7 +26,7 @@ class FacebookExperiments < SocialMediaExperiments
 
   def test_names
     { :title => "petition #{@petition.id} #{title_type} title",
-      :image => "petition #{@petition.id} #{title_type} image" }
+      :image => @petition.petition_images.any? ? "petition #{@petition.id} #{title_type} image" : "default facebook image" }
   end
 
 end
