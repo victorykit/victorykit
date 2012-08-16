@@ -20,17 +20,6 @@ describe "creating an email subject experiment" do
     experiment.spins.should == 1
     experiment.wins.should == 1
   end
-
-  it "editing subject should start a new test" do
-    pending 'Someone has to implement it :)'
-    # go back to editing your petition
-    # change both of the subjects
-    # save
-    # send an email
-    # visit /admin/experiments
-    # make sure the number of spins is 1 and wins 1 for the old subject
-    # make sure the number of spins is 1 for a new subject
-  end
 end
 
 
