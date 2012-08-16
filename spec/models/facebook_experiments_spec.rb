@@ -49,7 +49,7 @@ describe FacebookExperiments do
 
   context 'image' do
     describe 'no image is given' do
-      let(:default_image) { Rails.configuration.social_media[:facebook][:image] }
+      let(:default_image) { Rails.configuration.social_media[:facebook][:images].first }
       subject { described_class.new(@petition, @member) }
       its(:image) {should == default_image}
       end

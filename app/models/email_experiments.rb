@@ -16,7 +16,7 @@ class EmailExperiments
   end
 
   def image_url
-    spin_or_default!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url}, nil)
+    spin_or_default!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
   end
 
   def demand_progress_introduction
