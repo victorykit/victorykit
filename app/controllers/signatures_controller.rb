@@ -18,7 +18,9 @@ class SignaturesController < ApplicationController
         track_referrals petition, signature
         signature.save!
 
-        Resque.enqueue(SignedPetitionEmailJob, signature.id)
+        #Resque.enqueue(SignedPetitionEmailJob, signature.id)
+        Notifications.signed_petition Signature.find(signature.id)
+        
         nps_win signature
         win! :signature
         member_hash = signature.member.to_hash
