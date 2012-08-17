@@ -9,6 +9,7 @@ describe 'Petition page' do
     @petition = create_a_petition
   end
   it 'should allow users to sign' do
+    force_result({"after share view" => "modal"})
     go_to petition_path(@petition)
     sign_petition
     element(:id => "thanks-for-signing-message").should be_displayed

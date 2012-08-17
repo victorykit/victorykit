@@ -4,8 +4,9 @@ describe PetitionsHelper do
   let(:browser) { mock }
   before { helper.stub!(:browser).and_return browser }
 
-  describe '#open_graph_for' do 
+  describe '#open_graph_for' do
     let(:petition) { create(:petition) }
+<<<<<<< HEAD
     let(:member) { create(:member) }
     let(:hash) { member.hash.to_s }
     let(:config) {{ 
@@ -13,11 +14,23 @@ describe PetitionsHelper do
         site_name: 'My Super Petitions', 
         app_id: 12345 
       } 
+=======
+    let(:hash) { '42.aCKy3f' }
+    let(:config) {{
+      facebook: {
+        site_name: 'My Super Petitions',
+        app_id: 12345
+      }
+>>>>>>> fix test breaking around new changes
     }}
-    
+
     before(:each) do
       helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
+<<<<<<< HEAD
+=======
+      Member.stub!(:find_by_hash).and_return anything
+>>>>>>> fix test breaking around new changes
     end
 
     subject { helper.open_graph_for(petition, hash) }
@@ -32,16 +45,16 @@ describe PetitionsHelper do
   describe '#choose_form_based_on_browser' do
 
     context 'for an ie user' do
-      before do 
+      before do
         helper.browser.stub!(:ie?).and_return true
         helper.browser.stub!(:user_agent).and_return 'MSIE'
       end
-      
+
       specify{ helper.choose_form_based_on_browser.should == 'ie_form' }
     end
 
     context 'for a regular browser user' do
-      before do 
+      before do
         helper.browser.stub!(:ie?).and_return false
         helper.browser.stub!(:user_agent).and_return anything
       end
@@ -50,11 +63,11 @@ describe PetitionsHelper do
     end
 
     context 'for a fake ie user' do
-      before do 
+      before do
         helper.browser.stub!(:ie?).and_return true
         helper.browser.stub!(:user_agent).and_return 'chromeframe'
       end
-      
+
       specify{ helper.choose_form_based_on_browser.should == 'form' }
     end
   end
@@ -88,7 +101,7 @@ describe PetitionsHelper do
   end
 
   describe '#after_share_view' do
-    before do 
+    before do
       helper.stub!(:browser).and_return browser
       [:mobile?, :android?, :ie?].each { |m| browser.stub! m }
     end
@@ -115,7 +128,7 @@ describe PetitionsHelper do
     context 'for a regular browser user' do
       let(:exp) { 'after share view' }
       let(:goal) { :share }
-      let(:options) { ['modal', 'hero'] }
+      let(:options) { ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"] }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)
@@ -160,12 +173,12 @@ describe PetitionsHelper do
 
   describe '#progress' do
     let(:config) {{
-      'foo' => { :text => 'Sign it dude!', :classes => 'highlight' }, 
+      'foo' => { :text => 'Sign it dude!', :classes => 'highlight' },
       'bar' => { :text => 'Please, sign!', :classes => 'downfade' }
     }}
 
     before { helper.stub!(:progress_options_config).and_return config }
-      
+
     context 'for successful spin' do
       before { helper.stub!(:progress_option).and_return 'bar' }
       specify { helper.progress[:text].should == 'Please, sign!' }

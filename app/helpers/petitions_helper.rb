@@ -34,7 +34,6 @@ module PetitionsHelper
 
   def after_share_view
     return 'modal' if browser.ie? or browser.mobile? or browser.android?
-    #spin! 'after share view', :share, ['modal', 'hero']
     spin! 'after share view', :share, ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"]
   end
 
