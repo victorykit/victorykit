@@ -26,7 +26,7 @@ class Admin::HottestController < ApplicationController
       when 'chosen'
         t1k_chosen = (1..100).map { best_guess(get_db_data) }
       when 'best'
-        t1k_best = get_db_data.sort_by { |x| x[1][1]/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
+        t1k_best = get_db_data.sort_by { |x| (x[1][1]-x[1][2])/x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
       when 'mine'
         Petition.select(:id).where(owner_id: params[:id] || current_user.id).order("created_at desc").limit(50).map{|x| x.id }
       else
