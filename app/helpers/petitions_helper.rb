@@ -14,9 +14,9 @@ module PetitionsHelper
   end
 
   def counter_size(signature_count)
-    [  5,     10,     50,     100, 
-      250,   500,    750,    1000, 
-     2000,  5000,   7500,   10000, 
+    [  5,     10,     50,     100,
+      250,   500,    750,    1000,
+     2000,  5000,   7500,   10000,
     15000, 20000, 100000, 1000000].
     find { |n| signature_count < n }
   end
@@ -34,7 +34,8 @@ module PetitionsHelper
 
   def after_share_view
     return 'modal' if browser.ie? or browser.mobile? or browser.android?
-    spin! 'after share view', :share, ['modal', 'hero']
+    #spin! 'after share view', :share, ['modal', 'hero']
+    spin! 'after share view', :share, ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"]
   end
 
   memoize :after_share_view

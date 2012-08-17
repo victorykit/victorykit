@@ -1,14 +1,28 @@
 function inviteToShareOnTwitter() {
   $('.fb_share.btn').hide();
-  $('.fb_popup_btn').hide();
+  $('.fb_popup_btn.btn-primary').hide();
   $('.fb_request_btn').hide();
   $('.fb_share_message').hide();
   $('.tweet').show();
   $('.sharing-message').text("You shared on Facebook! How about Twitter?");
+  //  Add this to get facebook button to change to twitter when fb is clicked
+  //if ($('.img_plus_fb_ribbon').length) {
+  //  $('.img_plus_fb_ribbon').addClass('tw');
+  //}
+  //if ($('.thanks_with_share_sidebar').length) {
+  //  $('.share_box').addClass('tw');
+  //}
+  // $('.fb_popup_btn').hide();
+  // $('.tw a').css('display', 'block');
 }
 
 function initFacebookApp() {
+<<<<<<< HEAD
   if(['facebook_share', 'facebook_wall', 'facebook_request'].indexOf(VK.facebook_sharing_type) >= 0) {
+=======
+  if (VK.facebook_sharing_type == "facebook_share" || VK.facebook_sharing_type == "facebook_widget") {
+    // || VK.facebook_sharing_type == "facebook_request") {
+>>>>>>> add share hero options after signing, split up css for ui tests
     var appId = $('meta[property="fb:app_id"]').attr('content');
     FB.init({
       appId: appId,
@@ -206,8 +220,9 @@ function bindFacebookWidgetButton() {
   $('.fb_widget_btn').click(performLoginAndOpenWidget);
 }
 
+<<<<<<< HEAD
 function bindFacebookRequestButton() {
-  
+
   function requestCallbackForSendRequest(response) {
     if(response && response.request) {
       $.ajax({
@@ -228,6 +243,26 @@ function bindFacebookRequestButton() {
 }
 
 
+=======
+// function bindFacebookRequestButton() {
+//   $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
+// }
+
+// function sendRequestViaMultiFriendSelector() {
+//   FB.ui({method: 'apprequests',
+//     message: 'Please support this petition'
+//   }, requestCallbackForSendRequest);
+// }
+
+// function requestCallbackForSendRequest(response) {
+//   if(response && response.request)
+//     $.ajax({
+//       url: VK.social_tracking_url,
+//       data: setUpParamsForSocialTracking('request', '', response.request)
+//     });
+//     inviteToShareOnTwitter();
+// }
+>>>>>>> add share hero options after signing, split up css for ui tests
 function drawModalAfterSigning() {
   if (screen.width > 480 && $('#thanksModal').length) {
     $('#thanksModal').modal('toggle');

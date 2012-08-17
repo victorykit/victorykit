@@ -1,122 +1,116 @@
-- share_message = spin! "toggle share messaging", :share, ["bananam"]
--#"banana", "make_a_bigger_difference", "need_your_help", "more_people_huge_impact", "have_x_signatures", "cool_people_like_you", "do_it", "changed_hair", "hit_gym", "strength_in_numbers", "rally_friends_rally_enemies", "moar_signatures", "ravenous_beat", "sharing_great_signing_better"
-
-- share_layout = spin! "toggle share layout", :share, ["big_black_box"]
--# share_layout = spin! "toggle share layout", :share, ["thanks_with_share_sidebar"]
--# share_layout = spin! "toggle share layout", :share, ["img_plus_fb_ribbon"]
--# share_layout = spin! "toggle share layout", :share, ["box_with_centered_button"]
--#"big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"
+-# if after_share_view != "modal"
+  - share_message = spin! "toggle share messaging", :share, ["bananam"]
+  -# share_message = spin! "toggle share messaging", :share, ["make_a_bigger_difference", "need_your_help", "more_people_huge_impact", "have_x_signatures", "cool_people_like_you", "do_it", "changed_hair", "hit_gym", "strength_in_numbers", "rally_friends_rally_enemies", "moar_signatures", "ravenous_beast", "sharing_great_signing_better"]
 
 
-- if share_message == "banana"
-  - header_two = "Is this thing on?"
-  - header_three = "If so, BANANANAAAAAAAAAAAA!"
-- if share_message == "bananam"
-  - header_two = "Is this thing on? It might be on.  Can we test if it's on?"
-  - header_three = "If so, BANANANAAAAAAAAAAAA!  Banana banana, banana banana.  Banana banana plantain.  Plantain plantain, banana banana, plantain banana plantain."
-- if share_message == "bananal"
-  - header_two = "Is this thing on? If so, I say we dance.  Dance crazy, man.  Banana dance.  Banana dance like it's nineteen-seventy-banana.  Oh my goodness, banana."
-  - header_three = "BANANANAAAAAAAAAAAA!  I say banana, you say banana.  Banana!  Banana!  You know what's awesome?  Bananas.  You know what's more awesome?  Plantains.  Fried plantains are perhaps the best thing in the universe, and if you disagree I don't want you anywhere near my petitions.  You hear me?  Get out, banana hater!  We don't need your type."
+-# if share_message == "make_a_bigger_difference"
+- header_two = "You've made a difference, but you could make an even bigger one."
+- header_three = "The more who sign, the stronger our voice becomes.  Share with your friends and help spread the word."
+
+// - if share_message == "need_your_help"
+//   - header_two = "Your signature is important, but we still need your help."
+//   - header_three = "The larger our list of supporters, the larger our impact.  Share with your friends, and let our voices be heard."
+//
+// - if share_message == "more_people_huge_impact"
+//   - header_two = "We still need more people to make a huge impact."
+//   - header_three = "Help us spread the word."
+//
+// - if share_message == "have_x_signatures"
+//   - header_two = "Now we have #{@sigcount} signatures!  Though that's amazing, we could still use more."
+//   - header_three = "Help us get more signatures by telling your friends, and together we'll make a huge difference!"
+//
+// - if share_message == "cool_people_like_you"
+//   - header_two = "You're awesome.  Actually, you could help us out."
+//   - header_three = "Cool person like you has to have some cool friends, right?  Why don't you tell them, and together we'll make our voice heard!"
+//
+// - if share_message == "do_it"
+//   - header_two = "DOOOO IT!"
+//   - header_three = "Do what?  Oh, share with your friends, of course!  See, the more people who sign up, the more impact we'll make.  So click that button."
+//
+// - if share_message == "changed_hair"
+//   - header_two = "You've changed. Is it your hair? It looks good."
+//   - header_three = "Now change other people. And their hair."
+//
+// - if share_message == "hit_gym"
+//   - header_two = "You've changed.  Have you been hitting the gym?  You look great."
+//   - header_three = "Know what would also be great?  Hitting that button over there.  So spread the word, and together we'll change the world."
+//
+// - if share_message == "strength_in_numbers"
+//   - header_two = "There is strength in numbers. If everyone who signs this petition gets three friends to sign this petition, there will be (do the math) more petitions."
+//   - header_three = "So don't stop now - tell your friends!"
+//
+// - if share_message == "rally_friends_rally_enemies"
+//   - header_two = "They can ignore one signature. They can't ignore thousands. Rally your friends!"
+//   - header_three = "Hell, rally your enemies!  And your neighbors!  Your mailman!  That guy at the grocery store!  Share, and let's win this battle!"
+//
+// - if share_message == "moar_signatures"
+//   - header_two = "MOAR SIGNATURES!"
+//   - header_three = "Help us out.  Share.  Must have more!"
+//
+// - if share_message == "ravenous_beast"
+//   - header_two = "This petition is a ravenous beast. It demands thousands of signatures EVERY DAY."
+//   - header_three = "So help us feed it, perhaps some of your delicious friends?  Share on facebook, and let's win this fight!"
+//
+// - if share_message == "sharing_great_signing_better"
+//   - header_two = "Signing is great.  Sharing is better."
+//   - header_three = "The more signatures we have, the bigger our voice becomes.  So spread the word, share with your friends, and together we'll have a huge impact."
 
 
-- if share_message == "make_a_bigger_difference"
-  - header_two == "You've made a difference, but you could make an even bigger one."
-  - header_three == "The more who sign, the stronger our voice becomes.  Share with your friends and help spread the word."
-
-- if share_message == "need_your_help"
-  - header_two == "Your signature is important, but we still need your help."
-  - header_three == "The larger our list of supporters, the larger our impact.  Share with your friends, and let our voices be heard."
-
-- if share_message == "more_people_huge_impact"
-  - header_two = "We still need more people to make a huge impact."
-  - header_three = "Help us spread the word."
-
-- if share_message == "have_x_signatures"
-  - header_two = "Now we have #{@sigcount} signatures!  Though that's amazing, we could still use more."
-  - header_three = "Help us get more signatures by telling your friends, and together we'll make a huge difference!"
-
-- if share_message == "cool_people_like_you"
-  - header_two = "You're awesome.  Actually, you could help us out."
-  - header_three = "Cool person like you has to have some cool friends, right?  Why don't you tell them, and together we'll make our voice heard!"
-
-- if share_message == "do_it"
-  - header_two = "DOOOO IT!"
-  - header_three = "Do what?  Oh, share with your friends, of course!  See, the more people who sign up, the more impact we'll make.  So click that button."
-
-- if share_message == "changed_hair"
-  - header_two = "You've changed. Is it your hair? It looks good."
-  - header_three = "Now change other people. And their hair."
-
-- if share_message == "hit_gym"
-  - header_two = "You've changed.  Have you been hitting the gym?  You look great."
-  - header_three = "Know what would also be great?  Hitting that button over there.  So spread the word, and together we'll change the world."
-
-- if share_message == "strength_in_numbers"
-  - header_two = "There is strength in numbers. If everyone who signs this petition gets three friends to sign this petition, there will be (do the math) more petitions."
-  - header_three = "So don't stop now - tell your friends!"
-
-- if share_message == "rally_friends_rally_enemies"
-  - header_two = "They can ignore one signature. They can't ignore thousands. Rally your friends!"
-  - header_three = "Hell, rally your enemies!  And your neighbors!  Your mailman!  That guy at the grocery store!  Share, and let's win this battle!"
-
-- if share_message == "moar_signatures"
-  - header_two = "MOAR SIGNATURES!"
-  - header_three = "Help us out.  Share.  Must have more!"
-
-- if share_message == "ravenous_beat"
-  - header_two = "This petition is a ravenous beast. It demands thousands of signatures EVERY DAY."
-  - header_three = "So help us feed it, perhaps some of your delicious friends?  Share on facebook, and let's win this fight!"
-
-- if share_message == "sharing_great_signing_better"
-  - header_two = "Signing is great.  Sharing is better."
-  - header_three = "The more signatures we have, the bigger our voice becomes.  So spread the word, share with your friends, and together we'll have a huge impact."
-
-
-
-- if share_layout == "big_black_box"
+- if after_share_view == "big_black_box"
   .big_black_box
     .big_text
       = header_two
     .message
       = header_three
-    .fb_button_big.fb_popup_btn
+    .button
+      .fb.fb_popup_btn
+      .tw
+        %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
 
-- if share_layout == "thanks_with_share_sidebar"
+- if after_share_view == "thanks_with_share_sidebar"
   .thanks_with_share_sidebar
-    #thanks
-      %h1 Thank you.
+    .thanks
+      %h1 One more thing...
       %h2
         = header_two
       %h3
         = header_three
-    #fb
-      #title
+    .share_box
+      .title
         Spread the word,
         %br
         tell your friends!
-      .fb_popup_btn
-        .fb_icon
+      .fb_popup_btn.fb
+        .fb.icon
         .text Share
+      .tw
+        %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
+          .tw.icon
+          .text Tweet
 
 
-- if share_layout == "img_plus_fb_ribbon"
+- if after_share_view == "img_plus_fb_ribbon"
   .img_plus_fb_ribbon
-    #thanks
-      %h1 Thank you.
+    .thanks
+      %h1 One more thing...
       %h2
         = header_two
       %h3
         = header_three
-    #fb.fb_popup_btn
+    .fb.fb_popup_btn
+    .tw
+      %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
 
-- if share_layout == "box_with_centered_button"
+- if after_share_view == "box_with_centered_button"
   .box_with_centered_button
-    #thanks
-      %h1 Thank you.
+    .thanks
+      %h1 One more thing...
       %h2
         = header_two
       %h3
         = header_three
-    #fb.fb_popup_btn
+    .fb.fb_popup_btn
+    .tw
+      %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
