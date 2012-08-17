@@ -184,7 +184,7 @@ describe SignaturesController do
     context 'queuing background processes' do
       subject { petition.signatures.first }
 
-      it "should send a confirmation email after signing" do
+      xit "should send a confirmation email after signing" do
         Resque.should_receive(:enqueue).with(SignedPetitionEmailJob, anything)
         sign_petition
       end
