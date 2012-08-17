@@ -3,8 +3,8 @@
 
 .fb-root
 
--# if @just_signed and after_share_view == "hero"
-= render :partial => "share"
+- if @just_signed and after_share_view != "modal"
+  = render :partial => "share"
 
 - if @just_signed
   #mobile_thanks
@@ -18,67 +18,70 @@
       .fb_icon
       .text Share on facebook
 
-#petition_page.page_content
-  .secondary
-    .sidebar_test
-      - unless @was_signed
-        .signature-form
-          .title
-            Sign this petition!
-          .through_site
-            = form_tag [@petition, @signature] do |form|
-              = simple_fields_for :signature, @signature do |f|
-                = f.input :first_name, :hint => false
-                = f.input :last_name, :hint => false
-                = f.input :email
-                = render :partial => "hidden_params"
-                #hint.alert.alert-error
-                = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
+- normal_browser = !browser.ie? and !browser.mobile? and !browser.android?
+- show_modal_after_signing = (@just_signed and (after_share_view == "modal"))
+- if !normal_browser or !@just_signed or show_modal_after_signing or (!show_modal_after_signing and spin!("show petition when share hero is visible", :share))
+  #petition_page.page_content
+    .secondary
+      .sidebar_test
+        - unless @was_signed
+          .signature-form
+            .title
+              Sign this petition!
+            .through_site
+              = form_tag [@petition, @signature] do |form|
+                = simple_fields_for :signature, @signature do |f|
+                  = f.input :first_name, :hint => false
+                  = f.input :last_name, :hint => false
+                  = f.input :email
+                  = render :partial => "hidden_params"
+                  #hint.alert.alert-error
+                  = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
 
-            .through_fb
-              .text Sign in via
-              .button.btn.btn-primary Facebook!
-            .privacypolicy
-              We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
-      - else
-        #thanks-for-signing-message
-          = render :partial => "thanks_for_signing"
-    - if @was_signed
-      #sign-again
-        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
-          Does someone else want to sign? Click here.
-
-  .petition_test.primary
-    .petition
-      .header
-        - if @petition.has_edit_permissions(current_user)
-          %h1.petition_title.admin= @petition.title
-          = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+              .through_fb
+                .text Sign in via
+                .button.btn.btn-primary Facebook!
+              .privacypolicy
+                We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
         - else
-          %h1.petition_title= @petition.title
+          #thanks-for-signing-message
+            = render :partial => "thanks_for_signing"
+      - if @was_signed
+        #sign-again
+          %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
+            Does someone else want to sign? Click here.
 
-        .social
-          .mobile_signup_button
-            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
-
-          - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
-            .social_icons
-              = fb_like petition_url(params[:id]), @fb_tracking_hash
+    .petition_test.primary
+      .petition
+        .header
+          - if @petition.has_edit_permissions(current_user)
+            %h1.petition_title.admin= @petition.title
+            = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
           - else
-            .social_icons.tallerprogress
-              = fb_like petition_url(params[:id]), @fb_tracking_hash
-          .progress_bar
-            .numbers
-              %div{ :class => progress[:classes] }
-                = progress[:text]
-            .progress
-              .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-          %hr
-      .content
-        - petitiontext = @petition.description
-        - if @petition.to_send != true
-          - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
-        .description= petitiontext.html_safe
+            %h1.petition_title= @petition.title
+
+          .social
+            .mobile_signup_button
+              = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+
+            - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
+              .social_icons
+                = fb_like petition_url(params[:id]), @fb_tracking_hash
+            - else
+              .social_icons.tallerprogress
+                = fb_like petition_url(params[:id]), @fb_tracking_hash
+            .progress_bar
+              .numbers
+                %div{ :class => progress[:classes] }
+                  = progress[:text]
+              .progress
+                .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+            %hr
+        .content
+          - petitiontext = @petition.description
+          - if @petition.to_send != true
+            - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
+          .description= petitiontext.html_safe
 
   - content_for(:meta_tags) do
     - open_graph_for(@petition, @referring_member_hash).each do |key, value|

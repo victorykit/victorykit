@@ -1,0 +1,120 @@
+@import "test";
+
+@import url(//fonts.googleapis.com/css?family=Open+Sans);
+
+body.black_lines {
+  h1, a.logo, .signature-form .title, #sign_petition { font-family: 'open sans'; letter-spacing: 1px; font-weight: normal; }
+  background: url('whitetexture.jpg');
+  #content {
+    width: 1000px;
+    .primary, .secondary {
+      margin-bottom: 0;
+    }
+    .primary {
+      width: 650px;
+    }
+    .secondary {
+      width: 300px;
+      @media (min-width: 250px) and (max-width: 767px) {
+        width: 200px;
+      }
+    }
+    @media (min-width: 250px) and (max-width: 767px) {
+      padding: 0;
+      width: 100%;
+      .navigation .mobile_nav {
+        margin: 5px;
+        width: 50px;
+      }
+    }
+  }
+  .signup_login_form { background: white; padding: 20px 35px; }
+  .petitionform { background: white; padding: 15px; }
+  a.logo {
+    font-size: 36px;
+    @media (min-width: 250px) and (max-width: 767px) {
+      font-size: 20px;
+      float: left;
+      width: 100px;
+      margin-left: 10px;
+    }
+  }
+  .navigation {
+    margin: 10px auto 5px;
+    height: 50px;
+    border-bottom: 5px solid black;
+    .nav {
+      float: left;
+      margin: 2px 0 0 -7px;
+    }
+  }
+  .navigation li { float: right; margin-right: 0; }
+  .navigation a.logo, .navigation .primary a {
+    text-transform: uppercase;
+    color: black;
+  }
+  #petition_page {
+    border-top: 5px solid black;
+    padding: 0;
+    .petition {
+      padding: 0;
+      margin-bottom: 20px;
+      border-bottom: 5px solid black;
+    }
+    .header {
+      margin-bottom: 0;
+      h1 {
+        padding: 25px 40px;
+        background: #ccc;
+        color: black;
+        margin: 0;
+        text-transform: uppercase;
+        border-bottom: 5px solid black;
+        @media (min-width: 250px) and (max-width: 767px) {
+          font-size: 20px;
+          padding: 10px;
+          line-height: 24px;
+        }
+      }
+      .social {
+        background: white;
+        padding: 10px 40px;
+        height: 49px;
+        @media (min-width: 250px) and (max-width: 767px) {
+          height: 155px;
+          padding: 5px 10px 10px;
+          .social_icons {
+            padding-top: 8px;
+          }
+        }
+      }
+    }
+    .primary {
+      .content {
+        background: white;
+        padding: 10px 40px;
+        @media (min-width: 250px) and (max-width: 767px) {
+          padding: 10px;
+        }
+      }
+    }
+    .secondary {
+      position: relative;
+      border-bottom: 5px solid black;
+      .signature-form {
+        background: white;
+        color: black;
+      }
+      .through_site {
+        padding: 0 10px;
+        .privacypolicy { color: #999; }
+        .control-label { width: 28%; }
+        .controls {
+          width: 66%;
+          @media (min-width: 280px) and (max-width: 1200px) { text-align: left; width: 100%;}
+        }
+      }
+
+    }
+  }
+}

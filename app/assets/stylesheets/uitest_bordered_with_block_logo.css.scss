@@ -1,0 +1,236 @@
+@import "test";
+
+body.bordered_with_block_logo {
+  label, button {
+    font-size: 18px;
+    font-family: "LeagueGothicRegular", helvetica;
+  }
+  .controls.toggle {
+    margin-bottom: 6px;
+    a { font-size: 16px; }
+  }
+  #thanks-for-signing-message, #thanksModal {
+   .jumping_arrow {
+      margin-top: -10px;
+      margin-bottom: 30px;
+    }
+  }
+  font-size: 18px;
+  @media (min-width: 1250px) and (max-width: 3000px) {
+    #top, #left, #right {
+      background: #ccc;
+    }
+  }
+  #top, #left, #right { background: #cccccc\9; }
+  #top { *background: #cccccc; }
+  #left, #right {
+    position: fixed;
+    top: 0; bottom: 0;
+    height: 100%;
+    width: 25px;
+  }
+  #left, #right { *width: 0; }
+  #top {
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 25px;
+    z-index: -1;
+    position: relative;
+    background: #ccc;
+  }
+  @media (min-width: 250px) and (max-width: 767px) {
+    #top {
+      height: 40px;
+    }
+  }
+  #left { left: 0; }
+  #right { right: 0; }
+  #content {
+    margin-top: 30px;
+    *padding: 0 10px;
+    @media (min-width: 250px) and (max-width: 767px) {
+      margin-top: -15px;
+      &:before {
+        clear: both;
+      }
+    }
+    .btn.btn-primary {
+      border-radius: 0;
+      height: 100%;
+      background-color: #ffd708;
+      background-image: linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+      background-image: -o-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+      background-image: -moz-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+      background-image: -webkit-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+      background-image: -ms-linear-gradient(bottom, rgb(255,200,34) 16%, rgb(255,238,2) 58%);
+      background-image: -webkit-gradient(
+        linear,
+        left bottom,
+        left top,
+        color-stop(0.16, rgb(255,200,34)),
+        color-stop(0.58, rgb(255,238,2))
+      );
+      background-repeat: repeat-x;
+      border: none;
+      color: black;
+      &:hover {
+        background-image: linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+        background-image: -o-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+        background-image: -moz-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+        background-image: -webkit-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+        background-image: -ms-linear-gradient(top, rgb(230,202,64) 6%, rgb(242,205,22) 53%);
+
+        background-image: -webkit-gradient(
+          linear,
+          left top,
+          left bottom,
+          color-stop(0.06, rgb(230,202,64)),
+          color-stop(0.53, rgb(242,205,22))
+        );
+        height: 100%;
+        background: #e6ca40;
+        color: black;
+      }
+    }
+    input, textarea, .btn, .btn-group .btn {
+      border-radius: 0;
+    }
+    .navigation {
+      @media (min-width: 768px) and (max-width: 30000px) {
+        min-height: 70px;
+      }
+      @media (min-width: 250px) and (max-width: 767px) {
+        height: 20px;
+      }
+      .nav {
+        *margin-top: -10px;
+        li { float: right; *margin-top: 70px; }
+        li a, li div {
+          font-family: "LeagueGothicRegular", helvetica;
+          font-style: normal;
+          font-size: 1.5em;
+          font-weight: normal;
+          color: #3399cc;
+          text-transform: uppercase;
+        }
+        &.grey {
+          height: 60px;
+          background: #ccc;
+        }
+      }
+      .logo_box {
+        @media (min-width: 768px) and (max-width: 1199px) {
+          margin: -40px 0 0 -5px;
+        }
+        min-width: 255px;
+        margin-top: -39px;
+        z-index: 1000;
+        background: #3399cc;
+        padding: 40px 0;
+        *padding: 60px 0 20px;
+        width: 100%;
+        *width: 250px;
+        width: 250px\9;
+        box-shadow: 0 0 7px 3px #aaa;
+        a.logo {
+          width: 100%;
+          text-align: center;
+          color: white;
+          margin: 0;
+          *line-height: 46px;
+        }
+        @media (min-width: 250px) and (max-width: 767px) {
+          a.logo {
+            font-size: 3em;
+          }
+        }
+      }
+      .mobile_nav {
+        margin: -15px 0;
+      }
+    }
+  }
+  .petition {
+    margin-top: 18px;
+    @media (min-width: 250px) and (max-width: 767px) {
+      margin-top: 5px;
+    }
+    .progress_bar .progress {
+      border-radius: 0;
+      border: 1px solid #888;
+      margin-top: 3px;
+    }
+  }
+  .signature-form {
+    &.modal {
+      background: white;
+      border-radius: 0;
+      .title {
+        padding-top: 10px;
+      }
+    }
+    .title {
+      font-family: "LeagueGothicRegular", helvetica;
+      text-transform: uppercase;
+      font-weight: normal;
+      font-size: 2.2em;
+      padding: 20px 0 5px;
+      line-height: 1.2em;
+    }
+    .control-group {
+      height: 1.6em;
+      *height: 4em;
+      font-weight: normal;
+      input {
+        border-radius: 0;
+        border: 1px solid black;
+        color: #777;
+      }
+    }
+    .btn.btn-primary {
+      text-transform: uppercase;
+      font-size: 2em;
+      font-weight: normal;
+      font-family: "LeagueGothicRegular", helvetica;
+      line-height: 43px;
+      padding: 5px 0;
+    }
+    .privacypolicy {
+      padding-top: 7px;
+      clear: both;
+    }
+  }
+  .mobile_sign.btn {
+    font-family: "LeagueGothicRegular", helvetica;
+    font-size: 24px;
+    line-height: 24px;
+    padding: 4px 8px;
+    text-transform: uppercase
+  }
+  .description {
+    padding-top: 10px;
+    clear: both;
+    line-height: 1.3em;
+  }
+  h1, .btn-large {
+    letter-spacing: 1px;
+    font-family: "LeagueGothicRegular", helvetica;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 3em;
+    line-height: 1em;
+    @media (min-width: 250px) and (max-width: 767px) {
+      font-size: 2.2em;
+    }
+  }
+  .footer {
+    height: 25px;
+    background: #ccc;
+  }
+  .signup_login h1 { font-size: 2em; }
+  #content {
+    *margin-top: -20px;
+  }
+}
+
