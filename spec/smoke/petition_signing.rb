@@ -5,9 +5,18 @@ require 'member_hasher'
 include Rails.application.routes.url_helpers
 
 describe 'Petition page' do
+  before :all do
+    #we need to sign a petition to force creation of certain experiment keys in Redis ('after share view', for example)
+    #this is sucky, so let's think of a better way
+    petition = create :petition
+    go_to petition_path(petition)
+    sign_petition
+  end
+
   before :each do
     @petition = create_a_petition
   end
+
   it 'should allow users to sign' do
     force_result({"after share view" => "modal"})
     go_to petition_path(@petition)
