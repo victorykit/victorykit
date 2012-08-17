@@ -85,3 +85,4 @@ gem "airbrake"
 gem "fb_graph"
 gem 'facebook_share_widget', github: 'mkurutin/facebook_share_widget_rails'
 gem 'memoist', github: 'matthewrudy/memoist'
+gem 'resque'

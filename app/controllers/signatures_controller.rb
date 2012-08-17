@@ -14,11 +14,11 @@ class SignaturesController < ApplicationController
     if signature.valid?
       begin
         petition.signatures.push signature
-        Notifications.signed_petition signature
         petition.save!
-
         track_referrals petition, signature
         signature.save!
+
+        Resque.enqueue(SignedPetitionEmailJob, signature.id)
         nps_win signature
         win! :signature
         member_hash = signature.member.to_hash
