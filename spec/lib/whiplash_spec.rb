@@ -5,11 +5,11 @@ describe Whiplash do
   include Whiplash
 
   it "should guess floats" do
-    Whiplash.arm_guess(0, 0).class.should == Float
-    Whiplash.arm_guess(1, 0).class.should == Float
-    Whiplash.arm_guess(2, 1).class.should == Float
-    Whiplash.arm_guess(1000, 5).class.should == Float
-    Whiplash.arm_guess(10, -2).class.should == Float
+    arm_guess(0, 0).class.should == Float
+    arm_guess(1, 0).class.should == Float
+    arm_guess(2, 1).class.should == Float
+    arm_guess(1000, 5).class.should == Float
+    arm_guess(10, -2).class.should == Float
   end
   
   it "should pick one of the options as the best" do
