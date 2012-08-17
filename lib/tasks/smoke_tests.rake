@@ -1,4 +1,4 @@
-unless ENV['RACK_ENV'] == 'production'
+unless Rails.env.production? 
   require 'rspec/core/rake_task'
 
   namespace :spec do

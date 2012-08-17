@@ -6,7 +6,7 @@ require File.expand_path('../config/application', __FILE__)
 
 Victorykit::Application.load_tasks
 
-unless ENV['RACK_ENV'] == 'production'
+unless Rails.env.production? 
   task :default => ['jslint', 'spec:smoke'] #remember, these are *appended* to the existing default tasks
 
   namespace :spec do
