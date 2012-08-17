@@ -50,7 +50,7 @@ class PetitionsDatatable
         dpct(petition.email_signature_count, petition.email_count),
         dpct(petition.likes_count, petition.email_count),
         dpct(petition.hit_count, petition.email_count, false),
-        dpct(petition.new_member_count, petition.email_count, false),
+        dpct(petition.new_member_count, petition.email_count),
         dpct(petition.unsubscribe_count, petition.email_count),
         h(format_date_time(petition.p.created_at)),
       ]
@@ -67,7 +67,7 @@ class PetitionsDatatable
       dpct(petition.email_signature_count, petition.email_count),
       dpct(petition.likes_count, petition.email_count),
       dpct(petition.hit_count, petition.email_count, false),
-      dpct(petition.new_member_count, petition.email_count, false),
+      dpct(petition.new_member_count, petition.email_count),
       dpct(petition.unsubscribe_count, petition.email_count),
       '',
     ]

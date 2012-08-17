@@ -101,3 +101,9 @@
   white-space: pre;
   font-family: monospace;
 }
+
+.dataTable td.data {
+  text-align: right;
+}
+
+.dataTable td { padding: 3px; }

@@ -46,16 +46,16 @@
     - @rows.each do |count, petition, data, nps|
       %tr
         - unless @unique
-          %td
+          %td.data
             = count/10.0
         %td
           %a{href: petition_url(petition)}
             = petition.title
-        %td
+        %td.data
           = data[0]
-        %td
+        %td.data
           = data[1]
-        %td
+        %td.data
           = data[2]
-        %td
-          = nps
+        %td.data
+          = float_to_percentage nps
