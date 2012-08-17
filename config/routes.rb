@@ -23,7 +23,7 @@ Victorykit::Application.routes.draw do
   get 'subscribe', to: 'members#new', as: 'subscribe'
   get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
   get 'logout', to: 'sessions#destroy', as: 'logout'
-
+  get 'test_resque', to: 'signatures#test_resque', as:'test_resque'
   post 'petitions/send_email_preview', to: 'petitions#send_email_preview', as: 'send_email_preview'
   put 'petitions/:id/send_email_preview', to: 'petitions#send_email_preview', as: 'send_email_preview'
 

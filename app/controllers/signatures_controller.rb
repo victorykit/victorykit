@@ -20,7 +20,7 @@ class SignaturesController < ApplicationController
 
         #Resque.enqueue(SignedPetitionEmailJob, signature.id)
         Notifications.signed_petition Signature.find(signature.id)
-        
+
         nps_win signature
         win! :signature
         member_hash = signature.member.to_hash
@@ -34,6 +34,10 @@ class SignaturesController < ApplicationController
       flash[:invalid_signature] = signature
     end
     redirect_to petition_url(petition, l: member_hash)
+  end
+
+  def test_resque
+    render text: Resque.enqueue(TestResqueJob, Time.now)
   end
 
   private
