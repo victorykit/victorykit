@@ -6,31 +6,18 @@ describe PetitionsHelper do
 
   describe '#open_graph_for' do
     let(:petition) { create(:petition) }
-<<<<<<< HEAD
     let(:member) { create(:member) }
     let(:hash) { member.hash.to_s }
-    let(:config) {{ 
-      facebook: { 
-        site_name: 'My Super Petitions', 
-        app_id: 12345 
-      } 
-=======
-    let(:hash) { '42.aCKy3f' }
     let(:config) {{
       facebook: {
         site_name: 'My Super Petitions',
         app_id: 12345
       }
->>>>>>> fix test breaking around new changes
     }}
 
     before(:each) do
       helper.stub!(:spin!)
       helper.stub!(:social_media_config).and_return config
-<<<<<<< HEAD
-=======
-      Member.stub!(:find_by_hash).and_return anything
->>>>>>> fix test breaking around new changes
     end
 
     subject { helper.open_graph_for(petition, hash) }
