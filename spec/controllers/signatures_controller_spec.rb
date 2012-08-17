@@ -6,6 +6,9 @@ describe SignaturesController do
   let(:referring_url) { 'http://petitionator.com/456?other_stuff=etc' }
 
   describe 'POST create' do
+    before do
+      Resque.stub(:enqueue)
+    end
 
     context 'when the user supplies both a name and an email' do
       before do 
@@ -29,13 +32,6 @@ describe SignaturesController do
         its(:user_agent) { should == 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11' }
         its(:browser_name) { should == 'chrome' }
       end
-      
-      it 'should send an email to the signatory' do
-        ActionMailer::Base.deliveries.size.should == 1
-        email = ActionMailer::Base.deliveries.last
-        email[:to].to_s.should == signature_fields[:email]
-        email[:subject].to_s.should match /#{petition.title}/
-      end
 
       it 'should record hashed member id to cookies' do
         cookies[:member_id].should == Signature.find_by_email(signature_fields[:email]).member.to_hash
@@ -56,7 +52,7 @@ describe SignaturesController do
       end
     end
 
-    context 'when the user comes form' do
+    context 'when the user comes from' do
       let(:member) { create(:member, first_name: 'recomender', last_name: 'smith', email: 'recomender@recomend.com') }
 
       shared_examples 'the event is tracked' do
@@ -184,13 +180,22 @@ describe SignaturesController do
         response.cookies['member_id'].should be_nil
       end
     end
-    
-    context 'when an error occurs while sending the confirmation email' do
-      before do
-        Notifications.any_instance.stub(:signed_petition).and_raise 'bang!'
+
+    context 'queuing background processes' do
+      subject { petition.signatures.first }
+
+      it "should send a confirmation email after signing" do
+        Resque.should_receive(:enqueue).with(SignedPetitionEmailJob, anything)
         sign_petition
-      end        
-      
+      end
+    end
+
+    context 'when an error occurs while saving the signature' do
+      before do
+        Signature.any_instance.stub(:save).and_raise 'bang!'
+        sign_petition
+      end
+
       it 'should notify user of the error' do
         flash.now[:notice].should == 'bang!'
       end
