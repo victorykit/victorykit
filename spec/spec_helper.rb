@@ -54,3 +54,34 @@ def valid_super_user_session
   valid_session_for user
 end
 
+# redefines a bandit instance to strip out randomness and redis
+def stub_bandit bandit
+
+  stub_bandit_spins bandit
+
+  def bandit.win! *args
+  end
+
+  def bandit.win_on_option! *args
+  end
+
+  def bandit.lose_on_option! *args
+  end
+end
+
+# redefines spins on a bandit instance to strip out randomness and redis, while preserving
+# behavior of wins for cases where the test wants more specific win assertions
+def stub_bandit_spins bandit
+  def bandit.spin! test_name, goals, options=[true, false], my_session=nil
+    options.first
+  end
+end
+
+# redefines a bandit class to strip out randomness and redis
+def stub_bandit_class bandit_class
+  bandit_class.any_instance.stub(:spin!) do |test_name, goals, options=[true, false], my_session=nil|
+    options.first
+  end
+  bandit_class.any_instance.stub(:win!)
+  bandit_class.any_instance.stub(:win_on_option!)
+end
