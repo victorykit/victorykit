@@ -3,6 +3,10 @@ require 'member_hasher'
 
 describe PetitionsController do
 
+  before(:each) do
+    stub_bandit controller
+  end
+
   # This should return the minimal set of attributes required to create a valid
   # Petition. As you add validations to Petition, be sure to
   # update the return value of this method accordingly.

@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe UnsubscribesController do
   
+  before(:each) do
+    stub_bandit controller
+  end
+
   describe 'GET new' do
 
     shared_examples 'assigns @unsubscribe' do

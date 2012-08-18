@@ -1,6 +1,11 @@
 require 'spec_helper'
 
 describe SignaturesController do
+
+  before(:each) do
+    stub_bandit controller
+  end
+
   let(:petition) { create(:petition) }
   let(:signature_fields) { {first_name: 'Bob', last_name: 'Loblaw', email: 'bob@my.com'} }
   let(:referring_url) { 'http://petitionator.com/456?other_stuff=etc' }

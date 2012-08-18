@@ -1,7 +1,13 @@
 require 'spec_helper'
 
 describe SocialTrackingController do
+
+  before(:each) do
+    stub_bandit controller
+  end
+
   describe 'GET new' do
+
     let(:petition) { create(:petition) }
     let(:signature) { create(:signature) }
 

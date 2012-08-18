@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 describe EmailExperiments do
+
   before :each do
     @default_title = "my petition title"
     @petition = create(:petition, title: @default_title)
     @email = create(:sent_email, petition: @petition)
     @experiments = EmailExperiments.new(@email)
+    stub_bandit_spins @experiments
   end
 
   context "title" do

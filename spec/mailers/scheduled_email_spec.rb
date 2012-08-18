@@ -1,6 +1,11 @@
 require "spec_helper"
 
 describe ScheduledEmail do
+
+  before(:each) do
+    stub_bandit_class EmailExperiments
+  end
+
   describe "sending an email" do
     let(:member){ create(:member)}
     let(:petition){ create(:petition)}
@@ -74,7 +79,7 @@ describe ScheduledEmail do
     let!(:mail){ ScheduledEmail.new_petition(petition, member)}
 
     it "picks an email subject if there is one" do
-        mail.subject.should be_in ["foo", "foo2"]
+      mail.subject.should be_in ["foo", "foo2"]
     end
   end
 end

@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 describe FacebookExperiments do
+
   before :each do
     @default_title = "my petition title"
     @petition = create(:petition, title: @default_title)
     @member = create(:member)
     @experiments = FacebookExperiments.new(@petition, @member)    
+    stub_bandit_spins @experiments
   end
 
   context "title" do
