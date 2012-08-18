@@ -1,8 +1,8 @@
 module PersistedExperiments
-  include Bandit
+  include Whiplash
 
   def win!(goal)
-    current_trials(goal).each { |trial| win_on_option!(trial.key, trial.choice, trial_session) }
+    current_trials(goal).each { |trial| win_on_option!(trial.key, trial.choice) }
   end
 
   private
@@ -14,11 +14,11 @@ module PersistedExperiments
 
   def spin_or_retrieve_choice test_name, goal, options
     current = current_trial(goal, test_name)
-    current ? current.choice : spin_new!(test_name, goal, options, trial_session)
+    current ? current.choice : spin_new!(test_name, goal, options)
   end
 
-  def spin_new!(test_name, goal, options, mysession)
-    choice = spin!(test_name, goal, options, mysession)
+  def spin_new!(test_name, goal, options)
+    choice = spin!(test_name, goal, options)
     create_trial(goal, test_name, choice).save! unless options.count < 2
     choice
   end
@@ -37,7 +37,7 @@ module PersistedExperiments
     raise 'implement'
   end
 
-  def trial_session
+  def whiplash_session
     raise 'implement'
   end
 

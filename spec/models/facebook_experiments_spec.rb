@@ -69,9 +69,9 @@ describe FacebookExperiments do
       other_member = create(:member)
       trial_c = create(:social_media_trial, petition: @petition, member: other_member, goal: :signature, key: test_name, choice: "etc")
 
-      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice, {:session_id => @member.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice, {:session_id => @member.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice, {:session_id => @member.id.to_s})
+      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice)
+      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice)
+      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice)
 
       @experiments.win! :signature
     end

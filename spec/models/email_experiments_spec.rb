@@ -45,7 +45,7 @@ describe EmailExperiments do
     context "running for the first time for this email" do
       it "should spin" do
         @experiments.should_receive(:spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
-                Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6], anything()).and_return("choice")
+                Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6]).and_return("choice")
         @experiments.sender.should == "choice"
       end
       it "should create an EmailExperiment record" do
@@ -109,10 +109,10 @@ describe EmailExperiments do
       trial_c = create(:email_experiment, sent_email_id: other_email.id, goal: :signature, key: test_name, choice: "whatever")
       trial_d = create(:email_experiment, sent_email: @email, goal: :signature, key: "different from lines for scheduled emails", choice: "choice")
 
-      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice, {:session_id => @email.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice, {:session_id => @email.id.to_s})
-      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice, {:session_id => other_email.id.to_s})
-      @experiments.should_receive(:win_on_option!).once.with(trial_d.key, trial_d.choice, {:session_id => @email.id.to_s})
+      @experiments.should_receive(:win_on_option!).once.with(trial_a.key, trial_a.choice)
+      @experiments.should_not_receive(:win_on_option!).with(trial_b.key, trial_b.choice)
+      @experiments.should_not_receive(:win_on_option!).with(trial_c.key, trial_c.choice)
+      @experiments.should_receive(:win_on_option!).once.with(trial_d.key, trial_d.choice)
 
       @experiments.win! :signature
     end

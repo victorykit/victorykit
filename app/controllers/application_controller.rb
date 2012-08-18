@@ -1,7 +1,7 @@
 require 'whiplash'
 
 class ApplicationController < ActionController::Base
-  include Bandit
+  include Whiplash
   extend Memoist
   helper_method :win!, :spin!, :is_admin
   
