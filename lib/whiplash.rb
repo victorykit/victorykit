@@ -54,14 +54,14 @@ module Bandit
   end
 
   def spin!(test_name, goal, options=[true, false], mysession=nil)
-    return options.first if options.count == 1
-
     mysession ||= session
     #manual_whiplash_mode allows to set new options using /whiplash_sessions page
     if mysession.key?(test_name) && (options.include?(mysession[test_name]) || mysession.key?("manual_whiplash_mode"))
       return mysession[test_name]
     end
     
+    return options.first if options.count == 1
+
     REDIS.sadd("whiplash/goals/#{goal}", test_name)
     choice = best_guess(data_for_options(test_name, options))
     return spin_for_choice(test_name, choice, mysession)
