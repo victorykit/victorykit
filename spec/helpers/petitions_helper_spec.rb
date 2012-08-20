@@ -87,6 +87,60 @@ describe PetitionsHelper do
     end
   end
 
+  describe '#facebook_button' do
+
+    context 'when facebook sharing option is "facebook_share"' do
+      
+      before do
+        helper.stub(:facebook_sharing_option).and_return 'facebook_share'
+      end
+
+      subject { helper.facebook_button }
+      
+      it{ should include(button: '.fb_share.btn.btn-primary') }
+      it{ should include(button_text: 'Share on Facebook') }
+
+    end
+
+    context 'when facebook sharing option is "facebook_popup"' do
+      
+      before do
+        helper.stub(:facebook_sharing_option).and_return 'facebook_popup'
+      end
+
+      subject { helper.facebook_button }
+      
+      it{ should include(button: '.btn.btn-primary.fb_popup_btn') }
+      it{ should include(button_text: 'Share on Facebook') }
+
+    end
+
+    context 'when facebook sharing option is "facebook_wall"' do
+      
+      before do
+        helper.stub(:facebook_sharing_option).and_return 'facebook_wall'
+      end
+
+      subject { helper.facebook_button }
+      
+      it{ should include(button: '.btn.btn-primary.fb_widget_btn') }
+      it{ should include(button_text: 'Share with your friends') }
+
+    end
+    context 'when facebook sharing option is "facebook_request"' do
+      
+      before do
+        helper.stub(:facebook_sharing_option).and_return 'facebook_request'
+      end
+
+      subject { helper.facebook_button }
+      
+      it{ should include(button: '.btn.btn-primary.fb_request_btn') }
+      it{ should include(button_text: 'Send request to friends') }
+
+    end
+  end
+
   describe '#after_share_view' do
     before do
       helper.stub!(:browser).and_return browser
