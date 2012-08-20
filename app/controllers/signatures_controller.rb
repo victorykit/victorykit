@@ -40,6 +40,7 @@ class SignaturesController < ApplicationController
     redirect_to petition_url(petition, l: member_hash)
   end
 
+  
   private
 
   def track_referrals petition, signature
