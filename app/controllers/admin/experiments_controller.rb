@@ -55,6 +55,12 @@ class Admin::ExperimentsController < ApplicationController
     @options = VALID_FILTERS
     render text: "Filter not recognized: #{@filter}", status: :not_found unless VALID_FILTERS.include?(@filter)
 
+    respond_to do |format|
+      format.html {
+        @redis_used = REDIS.info["used_memory"].to_f / 104857600
+      }
+    end
+
     @stats = case @filter
     when "both"
       stats

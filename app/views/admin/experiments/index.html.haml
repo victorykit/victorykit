@@ -10,6 +10,12 @@
       - else
         = link_to x, params.merge(f: x)
       &nbsp;&nbsp;
+  %p
+    Redis space used:
+    = float_to_percentage @redis_used
+    - if @redis_used > 0.85
+      %b{style: "color: red"}
+        SPACE RUNNING LOW!!
 
   - i = 0
   - @stats.each do |test|
