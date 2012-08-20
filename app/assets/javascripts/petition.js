@@ -57,6 +57,13 @@ function setUpParamsForSocialTracking(facebook_action, action_id, request_id, re
   return params;
 }
 
+function setupSocialTrackingControllerRequest(facebook_action, action_id, request_id, request_to_ids) {
+    $.ajax({
+      url: VK.social_tracking_url,
+      data: setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids)
+    });
+}
+
 function setupSocialTracking() {
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
@@ -64,7 +71,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
-        setupSocialTrackingControllerRequest('like')
+        setupSocialTrackingControllerRequest('like');
         inviteToShareOnTwitter();
       });
       FB.Event.subscribe('edge.remove', function (targetUrl) {
@@ -89,7 +96,7 @@ function submitFacebookAction() {
           if (!response || response.error) {
             $('.fb_share_message').text("Please try again.");
           } else {
-            setupSocialTrackingControllerRequest('share', response.id, '', '')
+            setupSocialTrackingControllerRequest('share', response.id, '', '');
             inviteToShareOnTwitter();
           }
         }
@@ -158,13 +165,6 @@ function initTwitter() {
   }
 }
 
-function setupSocialTrackingControllerRequest(facebook_action, action_id, request_id, request_to_ids) {
-    $.ajax({
-      url: VK.social_tracking_url,
-      data: setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids)
-    });
-  }
-
 function bindFacebookPopupButton() {
 
   function openPopup() {
@@ -216,7 +216,7 @@ function bindFacebookRequestButton() {
 
   function requestCallbackForSendRequest(response) {
     if(response && response.request) {
-      setupSocialTrackingControllerRequest('request', '', response.request, response.to)
+      setupSocialTrackingControllerRequest('request', '', response.request, response.to);
     }
       inviteToShareOnTwitter();
   }
