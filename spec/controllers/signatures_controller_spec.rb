@@ -189,8 +189,15 @@ describe SignaturesController do
     context 'queuing background processes' do
       subject { petition.signatures.first }
 
-      xit "should send a confirmation email after signing" do
+      it "should send a confirmation email after signing" do
         Resque.should_receive(:enqueue).with(SignedPetitionEmailJob, anything)
+        sign_petition
+      end
+
+      it "should fall back to direct email sending if Resque fails" do
+        #just being paranoid - remove this behaviour when we're happy that Resque is working well
+        Resque.should_receive(:enqueue).and_raise("bang!")
+        Notifications.should_receive(:signed_petition).with(an_instance_of(Signature))
         sign_petition
       end
     end

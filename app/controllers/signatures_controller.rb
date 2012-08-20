@@ -18,8 +18,12 @@ class SignaturesController < ApplicationController
         track_referrals petition, signature
         signature.save!
 
-        #Resque.enqueue(SignedPetitionEmailJob, signature.id)
-        Notifications.signed_petition Signature.find(signature.id)
+        begin
+          Resque.enqueue(SignedPetitionEmailJob, signature.id)
+        rescue => ex
+          Rails.logger.error "Error queueing email on Resque: #{ex} #{ex.backtrace.join}"
+          Notifications.signed_petition Signature.find(signature.id)
+        end
 
         nps_win signature
         win! :signature
