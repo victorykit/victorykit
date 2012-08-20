@@ -12,6 +12,12 @@
 
   %table
     %tr
+      %th{colspan: 2}
+        New members per email sent since the beginning
+    %tr
+      %td{colspan: 2}
+        .plot-container#npschart{style: "width:1200px;height:300px", data: { "query-url" => data_nps_by_day_admin_stats_path } }
+    %tr
       %th
         Response rate to emails by hour sent
       %th
@@ -31,12 +37,6 @@
         .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow") } }
       %td
         .plot-container#email-signatures-by-day{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "dow") } }
-    %tr
-      %th{colspan: 2}
-        New members per email sent since the beginning
-    %tr
-      %td{colspan: 2}
-        .plot-container#npschart{style: "width:1200px;height:300px", data: { "query-url" => data_nps_by_day_admin_stats_path } }
     %tr
       %th{colspan: 2}
         Percentage of emails opened during a past week
