@@ -6,18 +6,26 @@ class ScheduledEmail < ActionMailer::Base
   #
 
   def new_petition(petition, member)
-    sent_email = log_sent_email(member, petition)
-    sent_email_hash = sent_email.to_hash
+    SentEmail.transaction do
+      sent_email = log_sent_email(member, petition)
+      sent_email_hash = sent_email.to_hash
 
-    @petition_link = petition_url(petition, n: sent_email_hash)
-    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
-    @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
-    @petition = petition
-    @member = member
-    @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
-    @image_url = email_experiment.image_url
-    headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-    mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.full_name}\" <#{member.email}>").deliver
+      @petition_link = petition_url(petition, n: sent_email_hash)
+      @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
+      @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
+      @petition = petition
+      @member = member
+      @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
+      @image_url = email_experiment.image_url
+      headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
+
+      begin
+        mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.full_name}\" <#{member.email}>").deliver
+      rescue => exception
+        Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
+        raise ActiveRecord::Rollback
+      end
+    end
   end
 
   def send_preview(petition, member)
