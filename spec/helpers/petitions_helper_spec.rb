@@ -70,7 +70,7 @@ describe PetitionsHelper do
     context 'for a regular browser user' do
       let(:exp) { 'facebook sharing options' }
       let(:goal) { :referred_member }
-      let(:options) { ['facebook_popup'] }
+      let(:options) { ['facebook_popup', 'facebook_wall', 'facebook_request'] }
 
       before { browser.stub!(:ie7?).and_return false }
 
