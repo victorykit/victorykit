@@ -30,6 +30,15 @@ module PetitionsHelper
     spin! 'facebook sharing options', :referred_member, ['facebook_popup', 'facebook_wall', 'facebook_request']
   end
 
+  def facebook_button
+    {
+      'facebook_share' => { button: '.fb_share.btn.btn-primary', button_text: 'Share on Facebook' },
+      'facebook_popup' => { button: '.btn.btn-primary.fb_popup_btn', button_text: 'Share on Facebook' },
+      'facebook_wall' => { button: '.btn.btn-primary.fb_widget_btn', button_text: 'Share with your friends' },
+      'facebook_request' => { button: '.btn.btn-primary.fb_request_btn', button_text: 'Send request to friends' },
+    }[facebook_sharing_option]  
+  end
+
   memoize :facebook_sharing_option
 
   def after_share_view
