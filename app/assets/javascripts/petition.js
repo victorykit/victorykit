@@ -64,10 +64,7 @@ function setupSocialTracking() {
         _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
-        $.ajax({
-          url: VK.social_tracking_url,
-          data: setUpParamsForSocialTracking('like', '', '', '')
-        });
+        setupSocialTrackingControllerRequest('like')
         inviteToShareOnTwitter();
       });
       FB.Event.subscribe('edge.remove', function (targetUrl) {
@@ -92,10 +89,7 @@ function submitFacebookAction() {
           if (!response || response.error) {
             $('.fb_share_message').text("Please try again.");
           } else {
-            $.ajax({
-              url: VK.social_tracking_url,
-              data: setUpParamsForSocialTracking('share', response.id, '', '')
-            });
+            setupSocialTrackingControllerRequest('share', response.id, '', '')
             inviteToShareOnTwitter();
           }
         }
@@ -164,6 +158,13 @@ function initTwitter() {
   }
 }
 
+function setupSocialTrackingControllerRequest(facebook_action, action_id, request_id, request_to_ids) {
+    $.ajax({
+      url: VK.social_tracking_url,
+      data: setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids)
+    });
+  }
+
 function bindFacebookPopupButton() {
 
   function openPopup() {
@@ -174,16 +175,9 @@ function bindFacebookPopupButton() {
     window.open(url , 'sharer', 'width=626,height=436');
   }
 
-  function sendRequest() {
-    $.ajax({
-      url: VK.social_tracking_url,
-      data: setUpParamsForSocialTracking('popup', '', '', '')
-    });
-  }
-
   $('.fb_popup_btn').click(function() {
     openPopup();
-    sendRequest();
+    setupSocialTrackingControllerRequest('popup');
     inviteToShareOnTwitter();
     $('.giantbox').hide();
   });
@@ -207,6 +201,7 @@ function bindFacebookWidgetButton() {
   }
 
   function performLoginAndOpenWidget() {
+    setupSocialTrackingControllerRequest('wall');
     FB.login(function (response) {
       if (response.authResponse) {
         openWidget();
@@ -221,10 +216,7 @@ function bindFacebookRequestButton() {
 
   function requestCallbackForSendRequest(response) {
     if(response && response.request) {
-      $.ajax({
-        url: VK.social_tracking_url,
-        data: setUpParamsForSocialTracking('request', '', response.request, response.to)
-      });
+      setupSocialTrackingControllerRequest('request', '', response.request, response.to)
     }
       inviteToShareOnTwitter();
   }
