@@ -200,7 +200,9 @@ function bindFacebookWidgetButton() {
       base_path: '/widget',
       template:  { 'link': domain + '?wall=' + VK.current_member_hash }
     };
+    if (VK.fbWallLoaded) { return; }
     var widget = new FacebookShareWidget(element, options);
+    VK.fbWallLoaded = true;
     $('.facebook-share-widget .search-text').get(0).focus();
   }
 
