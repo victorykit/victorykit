@@ -34,5 +34,5 @@
           #{@signature_threshold}
         %td
           #{@last_signature_timestamp}
-        %td{:class => @signature_working ? "ok" : "failing" }
+        %td{:class => @signature_working ? "ok" : @signature_failing_style }
           #{@signature_working ? "Active" : "INACTIVE"}

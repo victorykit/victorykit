@@ -40,10 +40,7 @@ class SignaturesController < ApplicationController
     redirect_to petition_url(petition, l: member_hash)
   end
 
-  def test_resque
-    render text: Resque.enqueue(TestResqueJob, Time.now)
-  end
-
+  
   private
 
   def track_referrals petition, signature
