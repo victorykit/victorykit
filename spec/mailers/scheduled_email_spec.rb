@@ -48,6 +48,18 @@ describe ScheduledEmail do
     it "adds an unsubscribe header" do
       mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + sent_email.to_hash + "@appmail.watchdog.net"
     end
+
+  end
+
+  describe "email send failures" do
+    let(:member){ create(:member)}
+    let(:petition){ create(:petition)}
+
+    it "rolls back transaction" do
+      ScheduledEmail.any_instance.stub(:mail).and_raise("stuff")
+      ScheduledEmail.new_petition(petition, member)
+      SentEmail.last.should be_nil
+    end
   end
 
   describe "spinning for subject (default only)" do
@@ -82,4 +94,5 @@ describe ScheduledEmail do
       mail.subject.should be_in ["foo", "foo2"]
     end
   end
+
 end
