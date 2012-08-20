@@ -26,6 +26,3 @@
 //= require_tree .
 
 var VK = VK || {};
-
-Classes:          'Classes'
-Status:           'Estado',
