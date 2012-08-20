@@ -209,6 +209,22 @@ describe PetitionsController do
         end
       end
     end
+
+    describe 'show' do
+      render_views
+      let(:petition) { create(:petition) }
+      let(:signature) { create(:signature) }
+      let(:user) { create(:user) }
+      let(:member) { create(:member) }
+      it 'should include opengraph meta tags' do
+        response = get :show, id: petition.id
+        body = Nokogiri::HTML response.body
+        body.xpath('//meta[@property="og:title"]/@content').first.value.should == petition.title
+        body.xpath('//meta[@property="og:site_name"]/@content').first.value.should == 'Victory Kit'
+        body.xpath('//meta[@property="og:type"]/@content').first.value.should == 'watchdognet:petition'
+        body.xpath('//meta[@property="og:image"]/@content').first.value.should == 'http://act.watchdog.net/images/fb-default-2.png' #flakey - this will probably change
+      end
+    end
   end
 
   describe "GET new" do
