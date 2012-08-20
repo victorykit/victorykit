@@ -2,7 +2,6 @@ module PetitionsHelper
   extend Memoist
 
   def open_graph_for(petition, hash)
-    return [] unless hash
     member = Member.find_by_hash(hash)
     {
       'og:title' => petition.experiments.facebook(member).title,
