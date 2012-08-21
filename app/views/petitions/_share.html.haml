@@ -55,7 +55,6 @@
 //   - header_two = "Signing is great.  Sharing is better."
 //   - header_three = "The more signatures we have, the bigger our voice becomes.  So spread the word, share with your friends, and together we'll have a huge impact."
 
-
 - if after_share_view == "big_black_box"
   .big_black_box
     .big_text
@@ -69,6 +68,13 @@
 
 
 - if after_share_view == "thanks_with_share_sidebar"
+  - sidebar_share_messaging = spin! "change messaging in sidebar version of hero for share", :share, ["tell_your_friends", "share_with_your_friends", "send_requests_to_your_friends"]
+  - if sidebar_share_messaging == "tell_your_friends"
+    - second_line = "tell your friends!"
+  - if sidebar_share_messaging == "share_with_your_friends"
+    - second_line = "share with your friends!"
+  - if sidebar_share_messaging == "send_requests_to_your_friends"
+    - second_line = "send requests to your friends!"
   .thanks_with_share_sidebar
     .thanks
       %h1 One more thing...
@@ -80,10 +86,10 @@
       .title
         Spread the word,
         %br
-        tell your friends!
+        = second_line
       .fb{ class: facebook_button[:button_class] }
         .fb.icon
-          .text Share
+        .text Share
       .tw
         %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
           .tw.icon
