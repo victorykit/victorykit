@@ -17,28 +17,34 @@ function inviteToShareOnTwitter() {
 }
 
 function initFacebookApp() {
-  if(['facebook_share', 'facebook_wall', 'facebook_request'].indexOf(VK.facebook_sharing_type) >= 0) {
-    var appId = $('meta[property="fb:app_id"]').attr('content');
-    FB.init({
-      appId: appId,
-      status: true, // check login status
-      cookie: true, // enable cookies to allow the server to access the session
-      xfbml: true,  // parse XFBML
-      frictionless:true // for facebook request dialog
-    });
-  }
+  var appId = $('meta[property="fb:app_id"]').attr('content');
+  FB.init({
+    appId: appId,
+    status: true, // check login status
+    cookie: true, // enable cookies to allow the server to access the session
+    xfbml: true,  // parse XFBML
+    frictionless: true // for facebook request dialog
+  });
+  
+  FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
+    trackFacebookStatus(facebookStatus);
+    if (VK.facebook_sharing_type == "facebook_wall" && 
+        VK.fb_action_instance_id !== "" && 
+        checkAuthStatus.status === "connected") {
+      FB.api(VK.fb_action_instance_id, 'get', function (response) {
+        if (VK.fb_action_instance_id === response.id)  {
+          inviteToShareOnTwitter();
+        }
+      });
+    }
+  });
+}
 
-  if (VK.facebook_sharing_type == "facebook_wall") {
-    FB.Event.subscribe('auth.statusChange', function(checkAuthStatus) {
-      if ((VK.fb_action_instance_id !== "") && (checkAuthStatus.status === "connected")) {
-        FB.api(VK.fb_action_instance_id, 'get', function (response) {
-          if (VK.fb_action_instance_id === response.id)  {
-            inviteToShareOnTwitter();
-          }
-        });
-      }
-    });
-  }
+function trackFacebookStatus(facebookStatus) {
+  $.ajax({
+    url: VK.social_tracking_url,
+    data: {facebook_action: "status", facebook_status: facebookStatus.status}
+  });
 }
 
 function setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids) {
@@ -218,7 +224,7 @@ function bindFacebookRequestButton() {
     if(response && response.request) {
       setupSocialTrackingControllerRequest('request', '', response.request, response.to);
     }
-      inviteToShareOnTwitter();
+    inviteToShareOnTwitter();
   }
 
   function sendRequestViaMultiFriendSelector() {
