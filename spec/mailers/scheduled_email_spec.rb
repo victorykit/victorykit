@@ -17,7 +17,7 @@ describe ScheduledEmail do
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
     
     it "logs the email" do
-      ScheduledEmail.new_petition(petition, member)
+      mail
       SentEmail.find_by_member_id(member).petition.should eq petition
     end
 
