@@ -63,7 +63,7 @@
     .message
       = header_three
     .button
-      .fb.fb_popup_btn
+      .fb{ class: facebook_button[:button_class] }
       .tw
         %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
@@ -81,9 +81,9 @@
         Spread the word,
         %br
         tell your friends!
-      .fb_popup_btn.fb
+      .fb{ class: facebook_button[:button_class] }
         .fb.icon
-        .text Share
+          .text Share
       .tw
         %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
           .tw.icon
@@ -98,7 +98,7 @@
         = header_two
       %h3
         = header_three
-    .fb.fb_popup_btn
+    .fb{ class: facebook_button[:button_class] }
     .tw
       %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
@@ -111,6 +111,6 @@
         = header_two
       %h3
         = header_three
-    .fb.fb_popup_btn
+    .fb{ class: facebook_button[:button_class] }
     .tw
       %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
