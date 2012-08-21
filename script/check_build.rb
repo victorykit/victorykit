@@ -28,15 +28,18 @@ begin
   end
 
   puts "Monitoring build.  Press 'q <enter>' to quit"
-
+  puts
+  
   while true
     latest_build = d.find_element(xpath: "//a[contains(@class, 'build last')]")
     status_class = latest_build.attribute("class").split(" ")[1]
     build_status = status_class.split("-").last
+    print "Current build status is #{build_status}\r"
     if(build_status == 'error')
       user_text = latest_build.find_element(class: 'build_user').text
       build_breaker = user_text.split(' ')[0]
       message = "#{build_breaker} broke the build"
+      puts
       puts message
       `say #{build_breaker} broke the build`
     end
