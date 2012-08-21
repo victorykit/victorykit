@@ -1,27 +1,35 @@
 class SocialTrackingController < ApplicationController
   def new
-    win! :share
-    
-    @petition = Petition.find params[:petition_id]
-    @member = Signature.find(params[:signature_id]).member if params[:signature_id].present?
-    @action_id = params[:action_id]
-    @request_id = params[:request_id]
-    @friend_ids = params[:friend_ids]
-    
     action = params[:facebook_action]
-    
-    send({
-      'like' => :register_facebook_like,
-      'share' => :register_facebook_share,
-      'popup' => :register_facebook_popup_opened,
-      'wall' => :register_facebook_wall,
-      'request' => :register_facebook_request
-    }[action])
+        
+    if action == "status"
+      register_facebook_status
+    else
+      win! :share
+      
+      @petition = Petition.find params[:petition_id]
+      @member = Signature.find(params[:signature_id]).member if params[:signature_id].present?
+      @action_id = params[:action_id]
+      @request_id = params[:request_id]
+      @friend_ids = params[:friend_ids]
+      
+      send({
+        'like' => :register_facebook_like,
+        'share' => :register_facebook_share,
+        'popup' => :register_facebook_popup_opened,
+        'wall' => :register_facebook_wall,
+        'request' => :register_facebook_request
+      }[action])
+    end
     
     render :text => ''
   end
 
   private
+  
+  def register_facebook_status
+    REDIS.incr("fbtrack/#{params[:facebook_status]}")
+  end
 
   def register_facebook_like
     like = Like.new
