@@ -18,6 +18,7 @@
       .fb_icon
       .text Share on facebook
 
+/TODO: please, move the above 3 lines to the helper and unit test it!!!
 - normal_browser = !browser.ie? and !browser.mobile? and !browser.android?
 - show_modal_after_signing = (@just_signed and (after_share_view == "modal"))
 - if !normal_browser or !@just_signed or show_modal_after_signing or (!show_modal_after_signing and spin!("show petition when share hero is visible", :share))

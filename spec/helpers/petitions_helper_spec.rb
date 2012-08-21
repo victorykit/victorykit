@@ -89,55 +89,56 @@ describe PetitionsHelper do
 
   describe '#facebook_button' do
 
-    context 'when facebook sharing option is "facebook_share"' do
-      
+    shared_examples 'facebook button hash' do
       before do
-        helper.stub(:facebook_sharing_option).and_return 'facebook_share'
+        helper.stub(:facebook_sharing_option).and_return option
       end
 
       subject { helper.facebook_button }
       
-      it{ should include(button: '.fb_share.btn.btn-primary') }
-      it{ should include(button_text: 'Share on Facebook') }
+      it{ should include(button_class: button_class) }
+      it{ should include(button_text: button_text) }
+    end
 
+    context 'when facebook sharing option is blank' do
+      let(:option) { '' }
+      let(:button_class) { 'fb_popup_btn' }
+      let(:button_text) { 'Share on Facebook' }
+
+      it_behaves_like 'facebook button hash'
+    end
+
+    context 'when facebook sharing option is "facebook_share"' do
+      let(:option) { 'facebook_share' }
+      let(:button_class) { 'fb_share' }
+      let(:button_text) { 'Share on Facebook' }
+
+      it_behaves_like 'facebook button hash'
     end
 
     context 'when facebook sharing option is "facebook_popup"' do
-      
-      before do
-        helper.stub(:facebook_sharing_option).and_return 'facebook_popup'
-      end
+      let(:option) { 'facebook_popup' }
+      let(:button_class) { 'fb_popup_btn' }
+      let(:button_text) { 'Share on Facebook' }
 
-      subject { helper.facebook_button }
-      
-      it{ should include(button: '.btn.btn-primary.fb_popup_btn') }
-      it{ should include(button_text: 'Share on Facebook') }
-
+      it_behaves_like 'facebook button hash'
     end
 
     context 'when facebook sharing option is "facebook_wall"' do
       
-      before do
-        helper.stub(:facebook_sharing_option).and_return 'facebook_wall'
-      end
+      let(:option) { 'facebook_wall' }
+      let(:button_class) { 'fb_widget_btn' }
+      let(:button_text) { 'Share with your friends' }
 
-      subject { helper.facebook_button }
-      
-      it{ should include(button: '.btn.btn-primary.fb_widget_btn') }
-      it{ should include(button_text: 'Share with your friends') }
-
+      it_behaves_like 'facebook button hash'
     end
+
     context 'when facebook sharing option is "facebook_request"' do
-      
-      before do
-        helper.stub(:facebook_sharing_option).and_return 'facebook_request'
-      end
+      let(:option) { 'facebook_request' }
+      let(:button_class) { 'fb_request_btn' }
+      let(:button_text) { 'Send request to friends' }
 
-      subject { helper.facebook_button }
-      
-      it{ should include(button: '.btn.btn-primary.fb_request_btn') }
-      it{ should include(button_text: 'Send request to friends') }
-
+      it_behaves_like 'facebook button hash'
     end
   end
 
