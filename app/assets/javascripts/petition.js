@@ -33,18 +33,18 @@ function initFacebookApp() {
     frictionless: true // for facebook request dialog
   });
   
-  FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
-    trackFacebookStatus(facebookStatus);
-    if (VK.facebook_sharing_type == "facebook_wall" && 
-        VK.fb_action_instance_id !== "" && 
-        facebookStatus.status === "connected") {
-      FB.api(VK.fb_action_instance_id, 'get', function (response) {
-        if (VK.fb_action_instance_id === response.id)  {
-          inviteToShareOnTwitter();
-        }
-      });
-    }
-  });
+  FB.getLoginStatus(trackFacebookStatus);
+  if (VK.facebook_sharing_type == "facebook_wall") {
+    FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
+      if (VK.fb_action_instance_id !== "" && facebookStatus.status === "connected") {
+        FB.api(VK.fb_action_instance_id, 'get', function (response) {
+          if (VK.fb_action_instance_id === response.id)  {
+            inviteToShareOnTwitter();
+          }
+        });
+      }
+    });
+  }
 }
 
 function setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids) {
