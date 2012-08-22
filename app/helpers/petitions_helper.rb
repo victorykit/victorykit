@@ -4,7 +4,7 @@ module PetitionsHelper
   def open_graph_for(petition, hash)
     member = Member.find_by_hash(hash)
     {
-      'og:title' => petition.experiments.facebook(member).title,
+      'og:title' => h(petition.experiments.facebook(member).title),
       'og:type' => 'watchdognet:petition',
       'og:description' => petition.facebook_description_for_sharing,
       'og:image' => petition.experiments.facebook(member).image,
