@@ -86,7 +86,7 @@
 
   - content_for(:meta_tags) do
     - open_graph_for(@petition, @referring_member_hash).each do |key, value|
-      = content_tag 'meta', nil, property:key, content:value.to_s.try(:html_safe)
+      = tag 'meta', property:key, content:value.to_s.try(:html_safe)
 
   = hidden_field_tag 'petitionId', @petition.id
 
