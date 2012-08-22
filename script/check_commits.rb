@@ -112,11 +112,13 @@ def demonize
           log("new commit detected:")
           log(git_pull_output)
 
-          #TODO: log all commits since last checkout, not just most recent
-          git_log_output = `cd /var/tmp/#{repo_dirname}; git log -1 --pretty=format:"%h - %an, %ar : %s"`
-          commit = `cd /var/tmp/#{repo_dirname}; git log -1 --pretty=format:"%h"`
-          broadcast_on_skype "New commit: #{git_log_output}"
-          broadcast_on_skype "https://github.com/victorykit/victorykit/commit/#{commit}"
+          git_log_output = `cd /var/tmp/#{repo_dirname}; git log #{from_commit}..#{to_commit} --pretty=format:"%h - %an, %ar : %s"`
+
+          git_log_output.each do |commit|
+            sha = commit.split(" ").first
+            broadcast_on_skype "New commit: #{line}"
+            broadcast_on_skype "https://github.com/victorykit/victorykit/commit/#{sha}"
+          end
         end
         # TODO increase sleep time
         sleep(60)
