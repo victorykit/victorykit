@@ -7,7 +7,7 @@ describe PetitionsHelper do
   describe '#open_graph_for' do
     let(:petition) { create(:petition) }
     let(:member) { create(:member) }
-    let(:hash) { member.hash.to_s }
+    let(:hash) { member.to_hash.to_s }
     let(:config) {{
       facebook: {
         site_name: 'My Super Petitions',
@@ -27,6 +27,28 @@ describe PetitionsHelper do
     it { should include('og:image' => Rails.configuration.social_media[:facebook][:images].first) }
     it { should include('og:site_name' => 'My Super Petitions') }
     it { should include('fb:app_id' => 12345) }
+  end
+
+  describe '#open_graph_for where alternate title exists' do
+    let(:petition) { create(:petition) }
+    let(:member) { create(:member) }
+    let(:hash) { member.to_hash.to_s}
+    let(:alt_title) { create(:petition_title, petition: petition, title_type: PetitionTitle::TitleType::FACEBOOK)}
+
+    context "member hash is nil" do
+      subject { helper.open_graph_for(petition, nil) }
+      it { should include('og:title' => petition.title)}
+    end
+
+    context "member hash does not resolve" do
+      subject { helper.open_graph_for(petition, "junk or no longer valid") }
+      it { should include('og:title' => petition.title)}
+    end
+
+    context "member hash is valid" do
+      subject { helper.open_graph_for(petition, hash) }
+      it { should include('og:title' => alt_title.title)}
+    end
   end
 
   describe '#choose_form_based_on_browser' do
