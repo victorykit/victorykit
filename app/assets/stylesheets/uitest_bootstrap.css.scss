@@ -19,3 +19,9 @@ body.bootstrap {
     }
   }
 }
+body.bootstrap.admin {
+  #content {
+    margin-top: -80px;
+  }
+  border-top: 80px solid black;
+}

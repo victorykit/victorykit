@@ -18,7 +18,10 @@
     <![endif]-->
     = configure_google_analytics
 
-  %body
+
+  - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
+    - admin_toggle = 'admin'
+  %body.bootstrap{class: [admin_toggle]}
     #left
     #right
     #top
