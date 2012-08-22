@@ -85,7 +85,7 @@
           .description= petitiontext.html_safe
 
   - content_for(:meta_tags) do
-    - open_graph_for(@petition, @referring_member_hash).each do |key, value|
+    - open_graph_for(@petition, @referring_member_hash || @member.try(:to_hash)).each do |key, value|
       = tag 'meta', property:key, content:value.to_s.try(:html_safe)
 
   = hidden_field_tag 'petitionId', @petition.id
