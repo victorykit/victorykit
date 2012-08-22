@@ -120,7 +120,6 @@ def demonize
             broadcast_on_skype "https://github.com/victorykit/victorykit/commit/#{sha}"
           end
         end
-        # TODO increase sleep time
         sleep(60)
       end
     end
