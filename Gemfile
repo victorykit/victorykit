@@ -52,6 +52,9 @@ group :test, :development do
   gem "selenium-webdriver"
   gem "hirb"
   gem "jslint_on_rails"
+end
+
+group :ignore_on_rof do
   gem 'skypemac'
 end
 
