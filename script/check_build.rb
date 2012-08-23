@@ -21,7 +21,7 @@ def demonize
 
     rof_user = ENV['ROF_USER']
     rof_password = ENV['ROF_PASSWORD']
-    
+
     raise "You need to set ROF_USER and ROF_PASSWORD env vars" if !rof_user || !rof_password
 
     begin

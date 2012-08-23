@@ -1,3 +1,5 @@
+require 'daemons'
+
 def broadcast_on_skype message
   require 'skypemac'
   vkchat = SkypeMac::Chat.recent_chats.find {|c|c.topic == "VictoryKit Chat"}
@@ -8,13 +10,34 @@ def broadcast_on_skype message
   end
 end
 
-while true
-  status = `curl --head -s act.watchdog.net | awk 'NR==1{print $2}'`
-  status.strip!
-  if status != '200'
-    broadcast_on_skype "hey idiots, the site is broken"
+def start
+  demonize
+  log("site checker is now started")
+end
+
+def stop
+  demonize
+  log "site checker is now stopped"
+end
+
+def demonize
+  Daemons.run_proc('check_site', :dir_mode => :normal, :dir => '/var/tmp/', :monitor => false) do
+    while true
+      status = `curl --head -s act.watchdog.net | awk 'NR==1{print $2}'`
+      status.strip!
+      if status == '500'
+        broadcast_on_skype "hey idiots, the site is broken"
+      end
+      sleep 60
+    end
   end
-  print "Received #{status} from act.watchdog.net\r"
-  $stdout.flush
-  sleep 60
+end
+
+case ARGV[0]
+  when 'start'
+    start
+  when 'stop'
+    stop
+  else
+    puts "usage: check_build start|stop"
 end
