@@ -1,7 +1,8 @@
 class BuildChecker
 
-  def initialize rof
+  def initialize rof, chat
     @rails_on_fire = rof
+    @chat = chat
   end
   def run
     @rails_on_fire.log_in
@@ -18,10 +19,10 @@ class BuildChecker
   def check_build(previous_build = {}, current_build = {})
     if(current_build[:status] == 'error' && previous_build[:status] == 'success')
       message = "#{current_build[:builder]} broke the build"
-      VictoryKitChat.say message
+      @chat.say message
     end
     if(current_build[:status] == 'success' && previous_build[:status] == 'error')
-      VictoryKitChat.say "#{current_build[:builder]} has fixed the build"
+      @chat.say "#{current_build[:builder]} has fixed the build"
     end
     current_build
   end
