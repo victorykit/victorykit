@@ -54,10 +54,6 @@ group :test, :development do
   gem "jslint_on_rails"
 end
 
-group :ignore_on_rof do
-  gem 'skypemac'
-end
-
 gem 'simplecov', :require => false, :group => :test
 
 gem 'newrelic_rpm'

@@ -1,7 +1,7 @@
 id: 164da6d0-6c66-012f-a3f5-12313d2df0b0
 setup:
   commands:
-  - bundle install --without development production ignore_on_rof
+  - bundle install --without development production
   - bundle exec rake db:migrate
 test:
   commands:
