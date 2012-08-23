@@ -12,12 +12,12 @@ end
 
 def start
   demonize
-  log("site checker is now started")
+  puts "site checker is now started"
 end
 
 def stop
   demonize
-  log "site checker is now stopped"
+  puts "site checker is now stopped"
 end
 
 def demonize

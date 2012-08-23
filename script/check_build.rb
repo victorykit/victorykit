@@ -1,19 +1,19 @@
 #!/usr/bin/env ruby
 
-require File.expand_path('../../config/application', __FILE__)
 require 'daemons'
+require File.expand_path('../../config/application', __FILE__)
 require 'selenium/webdriver'
 require 'rails_on_fire'
 require 'build_checker'
 
 def start
   demonize
-  log("build checker is now started")
+  puts "build checker is now started"
 end
 
 def stop
   demonize
-  log "build checker is now stopped"
+  puts "build checker is now stopped"
 end
 
 def demonize
