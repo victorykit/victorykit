@@ -38,7 +38,7 @@ def find_new_commits
 
     #TODO: handle case where last_known_commit is not in the first page of results
     if(index_of_last_known_commit && index_of_last_known_commit > 0)
-      new_commits = all_commits[0..index_of_last_known_commit]
+      new_commits = all_commits[0..index_of_last_known_commit - 1]
 
       new_commits.each do |c|
         committer = c['commit']['committer']['name']
