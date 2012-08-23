@@ -33,7 +33,7 @@ function initFacebookApp() {
     frictionless: true // for facebook request dialog
   });
   
-  FB.getLoginStatus(trackFacebookStatus);
+  if (FB.getLoginStatus) { FB.getLoginStatus(trackFacebookStatus); }
   if (VK.facebook_sharing_type == "facebook_wall") {
     FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
       if (VK.fb_action_instance_id !== "" && facebookStatus.status === "connected") {
