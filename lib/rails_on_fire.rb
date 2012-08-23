@@ -1,8 +1,10 @@
 require 'selenium/webdriver'
 
 class RailsOnFire
-  def initialize driver
+  def initialize driver, user, password
     @driver = driver
+    @user = user
+    @password = password
   end
 
   def log_in
