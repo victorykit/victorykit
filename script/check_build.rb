@@ -1,6 +1,16 @@
 require 'selenium/webdriver'
 require 'io/console'
 
+def broadcast_on_skype message
+  require 'skypemac'
+  vkchat = SkypeMac::Chat.recent_chats.find {|c|c.topic == "VictoryKit Chat"}
+  if(vkchat)
+    vkchat.send_message message
+  else
+    raise "Could not find Victory Kit chat on Skype"
+  end
+end
+
 puts "RoF user:"
 rof_user = gets.chomp
 puts "RoF password:"
@@ -48,14 +58,4 @@ begin
   end
 ensure
   d.quit
-end
-
-def broadcast_on_skype message
-  require 'skypemac'
-  vkchat = SkypeMac::Chat.recent_chats.find {|c|c.topic == "VictoryKit Chat"}
-  if(vkchat)
-    vkchat.send_message message
-  else
-    raise "Could not find Victory Kit chat on Skype"
-  end
 end
