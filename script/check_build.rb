@@ -29,7 +29,7 @@ begin
 
   puts "Monitoring build.  Press 'q <enter>' to quit"
   puts
-  
+
   while true
     latest_build = d.find_element(xpath: "//a[contains(@class, 'build last')]")
     status_class = latest_build.attribute("class").split(" ")[1]
@@ -41,11 +41,21 @@ begin
       message = "#{build_breaker} broke the build"
       puts
       puts message
-      `say #{build_breaker} broke the build`
+      broadcast_on_skype message
     end
     sleep 60
     d.navigate.refresh
   end
 ensure
   d.quit
+end
+
+def broadcast_on_skype message
+  require 'skypemac'
+  vkchat = SkypeMac::Chat.recent_chats.find {|c|c.topic == "VictoryKit Chat"}
+  if(vkchat)
+    vkchat.send_message message
+  else
+    raise "Could not find Victory Kit chat on Skype"
+  end
 end
