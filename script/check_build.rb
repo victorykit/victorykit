@@ -14,7 +14,7 @@ raise "You need to set ROF_USER and ROF_PASSWORD env vars" if !$rof_user || !$ro
 begin
   d = Selenium::WebDriver.for :chrome
   rof = RailsOnFire.new d
-  BuildChecker.new(rof).run
+  BuildChecker.new(rof, VictoryKitChat).run
 ensure
   d.quit
 end
