@@ -4,7 +4,7 @@ class PetitionsController < ApplicationController
   before_filter :require_admin, only: :index
 
   def index
-    @petitions = Petition.order 'created_at DESC'
+    @petitions = Petition.order('created_at DESC').limit(50)
   end
 
   def show
