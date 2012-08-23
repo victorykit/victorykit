@@ -52,6 +52,7 @@ group :test, :development do
   gem "selenium-webdriver"
   gem "hirb"
   gem "jslint_on_rails"
+  gem 'skypemac'
 end
 
 gem 'simplecov', :require => false, :group => :test
