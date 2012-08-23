@@ -8,7 +8,7 @@ class StubChat
 end
 
 describe BuildChecker do
-  let(:build_checker) { BuildChecker.new RailsOnFire.new(nil), StubChat }
+  let(:build_checker) { BuildChecker.new RailsOnFire.new(nil, nil, nil), StubChat }
 
   it "should warn if current build broke a previously green build" do
     StubChat.should_receive(:say).with("bob broke the build")
