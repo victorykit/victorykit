@@ -37,11 +37,11 @@
                   = f.input :email
                   = render :partial => "hidden_params"
                   #hint.alert.alert-error
-                  = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
+                  = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!' )
 
-              .through_fb
-                .text Sign in via
-                .button.btn.btn-primary Facebook!
+              -#.through_fb
+              -#  .text Sign in via
+              -#  .button.btn.btn-primary Facebook!
               .privacypolicy
                 We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
         - else
@@ -63,7 +63,7 @@
 
           .social
             .mobile_signup_button
-              = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+              = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary btn-danger', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
 
             - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
               .social_icons

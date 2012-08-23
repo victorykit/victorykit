@@ -10,12 +10,8 @@
  *
 */
 
-@import "bootstrap";
-@import "responsive";
-
 .home, .home .hero-unit {
   width: 100%;
-  @extend .span12;
   padding: 0;
   @media (min-width: 480px) { margin: 15% 0; }
   margin: 0;

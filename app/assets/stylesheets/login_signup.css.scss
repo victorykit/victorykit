@@ -10,9 +10,6 @@
  *
 */
 
-@import "bootstrap";
-@import "responsive";
-
 .signup_login {
   > div { clear: both; margin: 0 auto; }
   .alert { margin-bottom: 5px; }
@@ -153,8 +150,6 @@
   }
 }
 .change_password {
-  @extend .well;
-  @extend .span5;
   min-height: 185px;
   margin: 50px auto;
   padding: 15px 35px 30px;
@@ -162,11 +157,9 @@
     margin-bottom: 0;
   }
   label {
-    @extend .span2;
     width: 130px\9;
   }
   .controls {
-    @extend .span3;
     float: left;
     input {
       width: 100%;
@@ -184,7 +177,6 @@
   }
   .control-group {
     *clear: right;
-    @extend .span5;
   }
 }
 .signuplink {

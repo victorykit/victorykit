@@ -5,7 +5,7 @@
   .petitionlist
     - @petitions.each do |petition|
       .petition
-        .about_petition
+        .about_petition.span6
           = link_to(petition.title, petition, :class => 'title')
           .description
             = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
@@ -18,7 +18,7 @@
                 %i.icon-remove
                 This petition is not featured.
                 = link_to('(Change)', edit_petition_path(petition))
-        .signature
+        .signature.span2
           = link_to('Sign this Petition!', petition, :class => 'btn btn-primary')
           - if !current_user.nil? && petition.has_edit_permissions(current_user)
             = link_to('Edit this Petition', edit_petition_path(petition), :class => 'btn btn-primary')

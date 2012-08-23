@@ -8,14 +8,13 @@
  * You're free to add application-wide styles to this file and they'll appear at the top of the
  * compiled file, but it's generally better to create a new file per style scope.
  *
+ *= require bootstrap
+ *= require responsive
  *= require dataTables/jquery.dataTables.bootstrap
  *= require bootstrap-wysihtml5
  *= require facebook_share_widget/application
  *= require_tree .
  */
-
-@import "bootstrap";
-@import "responsive";
 
 html, body {
   height: 100%;
@@ -112,7 +111,6 @@ form {
   }
   input, textarea {
     float: left;
-    margin-left: 20px;
   }
   textarea {
     resize: none;
