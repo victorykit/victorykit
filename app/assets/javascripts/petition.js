@@ -238,8 +238,10 @@ function bindFacebookRequestButton() {
 
 
 function drawModalAfterSigning() {
-  if (screen.width > 480 && $('#thanksModal').length) {
-    $('#thanksModal').modal('toggle');
+  var modal = $("#thanksModal");
+  if (screen.width > 480 && modal.length) {
+    modal.modal('toggle');
+    modal.find(".countdown-text").countdown({ until: "+30s", compact: true, format: "MS", onExpiry: function() { modal.modal('toggle'); }});
   }
 }
 

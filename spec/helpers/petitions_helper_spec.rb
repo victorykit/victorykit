@@ -100,12 +100,6 @@ describe PetitionsHelper do
         helper.should_receive(:spin!).with(exp, goal, options)
         helper.facebook_sharing_option
       end
-
-      it 'should cache spin result' do
-        helper.should_receive(:spin!).once.
-        with(exp, goal, options).and_return anything
-        2.times { helper.facebook_sharing_option }
-      end
     end
   end
 
@@ -198,12 +192,6 @@ describe PetitionsHelper do
         helper.should_receive(:spin!).with(exp, goal, options)
         helper.after_share_view
       end
-
-      it 'should cache spin result' do
-        helper.should_receive(:spin!).once.
-        with(exp, goal, options).and_return anything
-        2.times { helper.after_share_view }
-      end
     end
   end
 
@@ -226,12 +214,6 @@ describe PetitionsHelper do
     it 'should spin for an option' do
       helper.should_receive(:spin!).with(exp, goal, options)
       helper.progress_option
-    end
-
-    it 'should cache spin result' do
-      helper.should_receive(:spin!).once.
-      with(exp, goal, options).and_return anything
-      2.times { helper.progress_option }
     end
   end
 

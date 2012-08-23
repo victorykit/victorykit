@@ -30,8 +30,6 @@ module PetitionsHelper
     spin! 'facebook sharing options', :referred_member, ['facebook_popup', 'facebook_request']
   end
 
-  memoize :facebook_sharing_option
-
   def facebook_button
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
@@ -47,16 +45,16 @@ module PetitionsHelper
     spin! 'after share view', :share, ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"]
   end
 
-  memoize :after_share_view
-
   def progress_option
     spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
   end
 
-  memoize :progress_option
-
   def progress
     progress_options_config[progress_option] || {text: '', classes: ''}
+  end
+
+  def countdown_to_share?
+    spin! 'display countdown to share', :share
   end
 
   private
