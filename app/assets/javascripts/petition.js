@@ -251,8 +251,15 @@ function initShowPetition() {
   });
 }
 
+function initModalColor() {
+  if (VK.modal_coloring === 'black-box-on-light') {
+    $('body').addClass('inverse_modal');
+  }
+}
+
 function initSharePetition() {
-  initTwitter();
+  initModalColor();
+  //initTwitter();
   initFacebookApp();
   setupSocialTracking();
   setupShareFacebookButton();
