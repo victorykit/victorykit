@@ -41,8 +41,8 @@ module PetitionsHelper
   end
 
   def after_share_view
-    return 'modal' if browser.ie? or browser.mobile? or browser.android?
-    spin! 'after share view', :share, ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"]
+    return 'thanks_for_signing' if browser.ie? or browser.mobile? or browser.android?
+    spin! 'after share view', :share, ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply"]
   end
 
   def progress_option
@@ -103,5 +103,5 @@ module PetitionsHelper
       }
     }
   end
-  
+
 end

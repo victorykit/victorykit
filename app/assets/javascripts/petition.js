@@ -1,19 +1,11 @@
 function inviteToShareOnTwitter() {
-  $('.fb_share.btn').hide();
-  $('.fb_popup_btn.btn-primary').hide();
-  $('.fb_request_btn').hide();
-  $('.fb_share_message').hide();
-  $('.tweet').show();
+  // $('.fb_share.btn').hide();
+  // $('.fb_popup_btn.btn-primary').hide();
+  // $('.fb_request_btn').hide();
+  // $('.fb_share_message').hide();
+  $('.btn.fb').hide();
+  $('.btn.tw').show();
   $('.sharing-message').text("You shared on Facebook! How about Twitter?");
-  //  Add this to get facebook button to change to twitter when fb is clicked
-  //if ($('.img_plus_fb_ribbon').length) {
-  //  $('.img_plus_fb_ribbon').addClass('tw');
-  //}
-  //if ($('.thanks_with_share_sidebar').length) {
-  //  $('.share_box').addClass('tw');
-  //}
-  // $('.fb_popup_btn').hide();
-  // $('.tw a').css('display', 'block');
 }
 
 function trackFacebookStatus(facebookStatus) {
@@ -32,7 +24,6 @@ function initFacebookApp() {
     xfbml: true,  // parse XFBML
     frictionless: true // for facebook request dialog
   });
-  
   if (FB.getLoginStatus) { FB.getLoginStatus(trackFacebookStatus); }
   if (VK.facebook_sharing_type == "facebook_wall") {
     FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
