@@ -11,7 +11,7 @@
       Spread the word, share with your friends!
     .tweet
       %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-    .btn.btn-primary.fb_popup_btn
+    .btn.btn-primary.fb_popup_btn#share-unique
       .fb_icon
       .text Share on facebook
 
@@ -39,7 +39,7 @@
               We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
       - else
         #thanks-for-signing-message
-          = render :partial => "thanks_for_signing"
+          = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
     - if @was_signed
       #sign-again
         %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
@@ -87,7 +87,7 @@
     .modal#thanksModal
       .modal-body
         = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-        = render :partial => "thanks_for_signing"
+        = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
         - if countdown_to_share?
           %div.share-countdown
             This message will disappear in

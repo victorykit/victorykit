@@ -7,7 +7,7 @@
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
-  .btn.btn-primary{ class: facebook_button[:button_class] }
+  .btn.btn-primary{ class: facebook_button[:button_class], id: who }
     .fb_icon
     .text #{facebook_button[:button_text]}
 
@@ -17,7 +17,7 @@
   -#.btn.btn-primary.tw.red_button
   -#  %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
 
 - if after_share_view == "button_is_most_effective_tool_with_thanks"
   .thanks
@@ -26,7 +26,7 @@
     This button is the most effective tool to make change happen.
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
 
 
 - if after_share_view == "tell_two_friends"
@@ -39,7 +39,7 @@
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
 
 - if after_share_view == "tell_two_friends_with_thanks"
   .thanks
@@ -53,7 +53,7 @@
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
 
 
 - if after_share_view == "signatures_stop_signatures_multiply"
@@ -62,7 +62,7 @@
   .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
   .share.dual
     The signatures MULTIPLY here:
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
@@ -74,6 +74,6 @@
   .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
   .share.dual
     The signatures MULTIPLY here:
-  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
