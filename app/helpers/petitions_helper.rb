@@ -42,7 +42,7 @@ module PetitionsHelper
 
   def after_share_view
     return 'thanks_for_signing' if browser.ie? or browser.mobile? or browser.android?
-    spin! 'after share view', :share, ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply"]
+    spin! 'after share view 2', :share, ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks"]
   end
 
   def progress_option
