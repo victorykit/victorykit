@@ -89,4 +89,35 @@ module Bandit
       win_on_option!(t, mysession[t], mysession)
     end
   end
+
+  def all_tests
+    tests = {}
+    REDIS.keys('whiplash/goals/*').each do |g|
+      REDIS.smembers(g).each do |t|
+        tests[t] = {goal: g[15..-1], options: []}
+      end
+    end
+
+    tests.keys.each do |t|
+      prefix = "whiplash/#{t}/"
+      suffix = "/spins"
+      REDIS.keys(prefix + "*" + suffix).each do |o|
+        tests[t][:options].append o[prefix.length..-suffix.length-1]
+      end
+    end
+    tests
+  end
+
+  def spins_for test_name, opt_name
+    REDIS.get("whiplash/#{test_name}/#{opt_name}/spins").to_i
+  end
+
+  def wins_for test_name, opt_name
+    REDIS.get("whiplash/#{test_name}/#{opt_name}/wins").to_i
+  end
+
+  def used_storage
+    max_redis_space = 104857600 # (100 MB)
+    REDIS.info["used_memory"].to_f / max_redis_space
+  end
 end
