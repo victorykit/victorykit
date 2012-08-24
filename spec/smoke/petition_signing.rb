@@ -6,7 +6,7 @@ include Rails.application.routes.url_helpers
 
 describe 'Petition page' do
   before :all do
-    #we need to sign a petition to force creation of certain experiment keys in Redis ('after share view', for example)
+    #we need to sign a petition to force creation of certain experiment keys in Redis ('after share view 2', for example)
     #this is sucky, so let's think of a better way
     petition = create :petition
     go_to petition_path(petition)
@@ -18,7 +18,7 @@ describe 'Petition page' do
   end
 
   it 'should allow users to sign' do
-    force_result({"after share view" => "modal"})
+    force_result({"after share view 2" => "thanks_for_signing"})
     go_to petition_path(@petition)
     sign_petition
     element(:id => "thanks-for-signing-message").should be_displayed
@@ -44,7 +44,7 @@ describe 'Petition page' do
   end
 
   it "should allow signing a petition again after clicking 'does somene else' link" do
-    force_result({"after share view" => "modal"})
+    force_result({"after share view 2" => "thanks_for_signing"})
     set_default_experiment_results
     go_to petition_path(@petition)
 
