@@ -224,3 +224,31 @@ def current_member
   raise "member_id cookie not found" if not cookie
   Member.find_by_hash(cookie[:value]) or raise "member_id cookie value did not unhash"
 end
+
+def create_facebook_test_user user_name="victor", installed=false  
+  access_token = fetch_facebook_access_token
+  uri = 
+    "https://graph.facebook.com/#{facebook_app_id}/accounts/test-users?"\
+    "installed=#{installed}"\
+    "&name=#{user_name}"\
+    "&locale=en_US&permissions=read_stream&method=post"\
+    "&access_token=#{access_token}"    
+  JSON.parse(URI.parse(URI.encode(uri)).read)
+end
+
+def fetch_facebook_access_token
+  uri = 
+    "https://graph.facebook.com/oauth/access_token"\
+    "?client_id=#{facebook_app_id}"\
+    "&client_secret=#{facebook_secret}"\
+    "&grant_type=client_credentials"
+  URI.parse(uri).read.match(/^access_token=(.*)/)[1]
+end
+
+def facebook_app_id
+  ENV['FACEBOOK_APP_ID'] || raise("Missing FACEBOOK_APP_ID setting in environment variables")
+end
+
+def facebook_secret
+  ENV['FACEBOOK_SECRET'] || raise("Missing FACEBOOK_SECRET setting in environment variables")
+end
