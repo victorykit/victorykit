@@ -7,7 +7,8 @@ describe FacebookExperiments do
     @petition = create(:petition, title: @default_title)
     @member = create(:member)
     @experiments = FacebookExperiments.new(@petition, @member)    
-    stub_bandit_spins @experiments
+
+    stub_bandit_super_spins @experiments
   end
 
   context "title" do
