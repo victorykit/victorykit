@@ -1,11 +1,79 @@
-.thanks
-  Thanks for signing!
-.sharing-message
-  Spread the word, share with your friends!
-.arrow
-.tweet
-  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+- if after_share_view == "thanks_for_signing"
+  .share
+    Thanks for signing!
+  .sharing-message
+    Spread the word, share with your friends!
+  .arrow
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
-.btn.btn-primary{ class: facebook_button[:button_class] }
-  .fb_icon
-  .text #{facebook_button[:button_text]}
+  .btn.btn-primary{ class: facebook_button[:button_class] }
+    .fb_icon
+    .text #{facebook_button[:button_text]}
+
+- if after_share_view == "button_is_most_effective_tool"
+  .share.big_margin
+    This button is the most effective tool to make change happen.
+  .btn.btn-primary.tw.red_button
+    %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
+
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+
+- if after_share_view == "button_is_most_effective_tool_with_thanks"
+  .thanks
+    Thanks for signing!
+  .share
+    This button is the most effective tool to make change happen.
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "tell_two_friends"
+  .share.big_margin.two_friends
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+
+- if after_share_view == "tell_two_friends_with_thanks"
+  .thanks
+    Thanks for signing!
+  .share.two_friends
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "signatures_stop_signatures_multiply"
+  .share.dual
+    The signatures stop here:
+  .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
+  .share.dual
+    The signatures MULTIPLY here:
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+
+- if after_share_view == "signatures_stop_signatures_multiply_with_thanks"
+  .thanks
+    Thanks for signing!
+  .share.dual
+    The signatures stop here:
+  .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
+  .share.dual
+    The signatures MULTIPLY here:
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class] }
+  .tweet
+    %a.twitter-share-button{'data-url' => @tweetable_url} Tweet

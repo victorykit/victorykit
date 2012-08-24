@@ -111,7 +111,7 @@ describe PetitionsHelper do
       end
 
       subject { helper.facebook_button }
-      
+
       it{ should include(button_class: button_class) }
       it{ should include(button_text: button_text) }
     end
@@ -141,7 +141,7 @@ describe PetitionsHelper do
     end
 
     context 'when facebook sharing option is "facebook_wall"' do
-      
+
       let(:option) { 'facebook_wall' }
       let(:button_class) { 'fb_widget_btn' }
       let(:button_text) { 'Share with your friends' }
@@ -164,29 +164,29 @@ describe PetitionsHelper do
       [:mobile?, :android?, :ie?].each { |m| browser.stub! m }
     end
 
-    shared_examples 'modal' do
-      specify { helper.after_share_view.should == 'modal' }
+    shared_examples 'thanks_for_signing' do
+      specify { helper.after_share_view.should == 'thanks_for_signing' }
     end
 
     context 'for a mobile user' do
       before { browser.stub!(:mobile?).and_return true }
-      it_behaves_like 'modal'
+      it_behaves_like 'thanks_for_signing'
     end
 
     context 'for an ie user' do
       before { browser.stub!(:ie?).and_return true }
-      it_behaves_like 'modal'
+      it_behaves_like 'thanks_for_signing'
     end
 
     context 'for an android user' do
       before { browser.stub!(:android?).and_return true }
-      it_behaves_like 'modal'
+      it_behaves_like 'thanks_for_signing'
     end
 
     context 'for a regular browser user' do
       let(:exp) { 'after share view' }
       let(:goal) { :share }
-      let(:options) { ["modal", "big_black_box", "thanks_with_share_sidebar", "img_plus_fb_ribbon", "box_with_centered_button"] }
+      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply"] }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)

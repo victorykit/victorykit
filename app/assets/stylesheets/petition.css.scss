@@ -82,10 +82,13 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    width: 300px;
     min-height: 260px;
     margin: 0 auto;
     overflow: visible;
+    width: 500px;
+    @media (min-width: 200px) and (max-width: 800px) {
+      width: 300px;
+    }
   }
   a {
     clear: both;
@@ -101,6 +104,34 @@
   .share-countdown {
     font-weight: normal;
     .countdown-text { color: red; }
+  }
+}
+#thanksModal, #thanks-for-signing-message {
+  .btn.red_button, .btn.grey_button {
+    margin: 0 auto 10px;
+    padding: 0;
+    height: 51px;
+    width: 177px;
+    border: none;
+  }
+  .btn.grey_button {
+    background: url("dont_share_button.png");
+    &:hover {
+      background: url("dont_share_button_hover.png");
+    }
+  }
+  .btn.red_button {
+    background: url("fb_red_button.png");
+    &:hover {
+      background: url("fb_red_button_hover.png");
+    }
+  }
+  .btn.red_button.tw {
+    display: none;
+    background: url("tw_red_button.png");
+    &:hover {
+      background: url("tw_red_button_hover.png");
+    }
   }
 }
 
@@ -174,10 +205,25 @@
   font-size: 14px;
   font-weight: bold;
   text-align: center;
+
   .thanks {
+    color: #BBBBBB;
+    font-size: 21px;
+    line-height: 58px;
+  }
+  .share {
+    clear: both;
     font-size: 27px;
     line-height: 30px;
     margin: 15px 0 25px;
+    &.dual {
+      margin: 20px 0 15px;
+    }
+    &.two_friends {
+      font-size: 22px;
+      padding-left: .2em;
+      text-align: left;
+    }
   }
   .arrow {
     background: url('limearrow.png');
@@ -194,36 +240,6 @@
   fb\:like {
     margin: 4px;
     padding: 4px 10px 4px 58px;
-  }
-}
-#thanksModal {
-  display: none;
-  width: 800px;
-  height: 600px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  .modal-body {
-    background-clip: padding-box;
-    background-color: white;
-    border: 1px solid rgba(0, 0, 0, 0.3);
-    border-radius: 6px 6px 6px 6px;
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    width: 300px;
-    min-height: 260px;
-    margin: 0 auto;
-    overflow: visible;
-  }
-  a {
-    clear: both;
-    font-weight: normal;
-  }
-  .or {
-    font-size: 10px;
-    color: #666;
-    margin: 5px; }
-  fb\:like {
-    margin: 5px 0 10px 50px;
   }
 }
 .petitionform {
@@ -473,7 +489,7 @@
   height: 39px;
   margin: 10px;
   padding: 0;
-  border: 1px solid #3B5998 !important;
+  border: 1px solid #3B5998;
   background: #3B5998;
   &:hover {
     background: #32539a;
@@ -586,5 +602,14 @@
       width: 60px;
     }
   }
+}
+
+#thanksModal .share.big_margin {
+  margin-top: 50px;
+}
+#thanksModal .share.two_friends {
+  margin: 30px 0 15px;
+  line-height: 40px;
+  text-align: center;
 }
 
