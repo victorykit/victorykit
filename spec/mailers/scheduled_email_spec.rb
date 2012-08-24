@@ -3,34 +3,49 @@ require "spec_helper"
 describe ScheduledEmail do
 
   before(:each) do
-    stub_bandit_class EmailExperiments
+    guard_against_spins EmailExperiments
+  end
+
+  def stub_experiment_values
+    EmailExperiments.any_instance.stub(:subject).and_return("some subject")
+    EmailExperiments.any_instance.stub(:sender).and_return("mr. sender")
+    EmailExperiments.any_instance.stub(:demand_progress_introduction).and_return("dp intro")
+    EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
   end
 
   describe "sending an email" do
     let(:member){ create(:member)}
     let(:petition){ create(:petition)}
-    let!(:petition_image) {create(:petition_image, petition: petition)}
-    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
+    let(:petition_image) {create(:petition_image, petition: petition)}
+    let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
     
+    before do
+      stub_experiment_values
+    end
+
     it "logs the email" do
       mail
       SentEmail.find_by_member_id(member).petition.should eq petition
     end
 
     it "includes the petition title in the subject" do
-      mail.subject.should include petition.title
+      mail.subject.should eq "some subject"
     end
     
+    it "includes the from" do
+      mail.from.should eq "mr. sender"
+    end
+
     it "uses the member's email address" do
       mail.to[0].should match /#{member.email}$/
     end
     
-    it "includes an image if any exist" do
-      mail.body.encoded.should include "#{petition_image.url}"
+    it "includes an image from the petition" do
+      mail.body.encoded.should include "petition image url"
     end
 
     it "includes the petition link in the body" do
@@ -55,43 +70,14 @@ describe ScheduledEmail do
     let(:member){ create(:member)}
     let(:petition){ create(:petition)}
 
+    before do
+      stub_experiment_values
+    end
+
     it "rolls back transaction" do
       ScheduledEmail.any_instance.stub(:mail).and_raise("stuff")
       ScheduledEmail.new_petition(petition, member)
       SentEmail.last.should be_nil
-    end
-  end
-
-  describe "spinning for subject (default only)" do
-    let(:member){ create(:member)}
-    let(:petition){ create(:petition)}
-    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
-
-    it "picks the petition title by default" do
-      mail.subject.should eq petition.title
-    end
-  end
-
-  describe "spinning for subject (one subject)" do
-    let(:member){ create(:member)}
-    let(:petition){ create(:petition)}
-    let!(:title){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo"); p.petition_id = petition.id; p.save }
-    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
-
-    it "picks an email subject if there is one" do
-      mail.subject.should eq "foo"
-    end
-  end
-
-  describe "spinning for subject (two subjects)" do
-    let(:member){ create(:member)}
-    let(:petition){ create(:petition)}
-    let!(:title){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo"); p.petition_id = petition.id; p.save }
-    let!(:title2){ p = PetitionTitle.new(title_type: PetitionTitle::TitleType::EMAIL, title: "foo2"); p.petition_id = petition.id; p.save }
-    let!(:mail){ ScheduledEmail.new_petition(petition, member)}
-
-    it "picks an email subject if there is one" do
-      mail.subject.should be_in ["foo", "foo2"]
     end
   end
 

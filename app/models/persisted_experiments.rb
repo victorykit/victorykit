@@ -7,18 +7,15 @@ module PersistedExperiments
 
   private
 
-  def spin_or_default!(test_name, goal, options, default=nil)
+  alias super_spin! spin!
+
+  def spin!(test_name, goal, options=[true, false], default=nil)
     return default if not options.any?
-    spin_or_retrieve_choice test_name, goal, options
-  end
 
-  def spin_or_retrieve_choice test_name, goal, options
     current = current_trial(goal, test_name)
-    current ? current.choice : spin_new!(test_name, goal, options, trial_session)
-  end
+    return current.choice if current
 
-  def spin_new!(test_name, goal, options, mysession)
-    choice = spin!(test_name, goal, options, mysession)
+    choice = super_spin!(test_name, goal, options, trial_session)
     create_trial(goal, test_name, choice).save! unless options.count < 2
     choice
   end

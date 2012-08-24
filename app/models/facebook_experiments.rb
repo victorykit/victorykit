@@ -1,8 +1,9 @@
 class FacebookExperiments < SocialMediaExperiments
+
   def title
     default = @petition.title
     return default if not @member
-    spin_or_default!(test_names[:title], :signature, title_options.map{|opt| opt.title}, default)
+    spin!(test_names[:title], :signature, title_options.map{|opt| opt.title}, default)
   end
 
   def image
@@ -11,7 +12,7 @@ class FacebookExperiments < SocialMediaExperiments
 
     petition_images = @petition.petition_images.map { |opt| opt.url }
     images_to_use = petition_images.any? ? petition_images : defaults
-    spin_or_default!(test_names[:image], :signature, images_to_use)
+    spin!(test_names[:image], :signature, images_to_use)
   end
 
   private

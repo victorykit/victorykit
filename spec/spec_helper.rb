@@ -77,6 +77,12 @@ def stub_bandit_spins bandit
   end
 end
 
+def stub_bandit_super_spins bandit
+  bandit.stub(:super_spin!) do |test_name, goals, options=[true, false], my_session=nil|
+    options.first
+  end
+end
+
 # redefines a bandit class to strip out randomness and redis
 def stub_bandit_class bandit_class
   bandit_class.any_instance.stub(:spin!) do |test_name, goals, options=[true, false], my_session=nil|
@@ -84,4 +90,8 @@ def stub_bandit_class bandit_class
   end
   bandit_class.any_instance.stub(:win!)
   bandit_class.any_instance.stub(:win_on_option!)
+end
+
+def guard_against_spins bandit_class
+  bandit_class.any_instance.stub(:spin!).and_raise("Should not reach this point. Ensure you have stubbed whatever is calling this.")
 end
