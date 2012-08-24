@@ -15,8 +15,6 @@
       .fb_icon
       .text Share on facebook
 
-/TODO: please, move the above 3 lines to the helper and unit test it!!!
-- normal_browser = !browser.ie? and !browser.mobile? and !browser.android?
 #petition_page.page_content
   .secondary
     .sidebar_test
@@ -47,10 +45,6 @@
         %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
           Does someone else want to sign? Click here.
 
-
-        .social
-          .mobile_signup_button
-            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary btn-danger', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
   .petition_test.primary
     .petition
       .header
@@ -62,7 +56,7 @@
 
         .social
           .mobile_signup_button
-            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary btn-danger', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
 
           - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
             .social_icons

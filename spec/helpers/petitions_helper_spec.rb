@@ -184,9 +184,9 @@ describe PetitionsHelper do
     end
 
     context 'for a regular browser user' do
-      let(:exp) { 'after share view' }
+      let(:exp) { 'after share view 2' }
       let(:goal) { :share }
-      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply"] }
+      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks"] }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)
