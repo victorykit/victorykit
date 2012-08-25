@@ -24,7 +24,7 @@ class UnsubscribesController < ApplicationController
   def new
     @unsubscribe = Unsubscribe.new
     @email_hash = params[:n]
-    sent_email = SentEmailHasher.sent_email_for(@email_hash)
+    sent_email = SentEmail.find_by_hash(@email_hash)
     @email = sent_email.email if sent_email
   end
 
