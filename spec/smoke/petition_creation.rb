@@ -2,6 +2,7 @@ require 'smoke_spec_helper.rb'
 require 'uri'
 
 describe 'Petition create page' do
+
   it 'should allow users to create a petition' do
     petition = create_a_petition
     go_to petition_path(petition)
@@ -9,18 +10,21 @@ describe 'Petition create page' do
     element(:class => "description").text.should == petition.description
     log_out
   end
+
   it 'should redirect to petition create page after logging in' do
     go_to new_petition_path
     login_here
     current_path.should == new_petition_path
     log_out
   end
+
   it 'should redirect to petition create page after signing up' do
     go_to new_petition_path
     sign_up
     current_path.should == new_petition_path
     log_out
   end
+  
   it "should email a preview of the petition to the current user's email address" do
     as_admin do
       create_member "admin", "user", "admin@test.com"
@@ -31,6 +35,7 @@ describe 'Petition create page' do
       email.should_not == ""
     end
   end
+  
   it "should not allow non-admins to see email previews" do
     as_user do
       go_to new_petition_path
