@@ -351,7 +351,6 @@ DEPENDENCIES
   rspec-rails (~> 2.6)
   sanitize
   sass-rails (~> 3.2.3)
-  selenium-webdriver
   simple-random
   simple_form
   simplecov
