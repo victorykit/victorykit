@@ -53,7 +53,7 @@ group :test, :development do
   gem "factory_girl_rails", "~> 3.0"
   gem "faker", "~> 1.0"
   gem "autotest"
-  gem "selenium-webdriver"
+  #gem "selenium-webdriver"
   gem "hirb"
   gem "jslint_on_rails"
   gem 'capybara'
