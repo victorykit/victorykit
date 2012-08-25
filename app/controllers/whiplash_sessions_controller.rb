@@ -3,7 +3,7 @@ class WhiplashSessionsController < ApplicationController
   newrelic_ignore
   
   def index
-    @keys = REDIS.keys('whiplash/*/*/spins').map {|key| key.sub('whiplash/','').sub(/\/.+/,'')}.uniq
+    @keys = REDIS.keys('whiplash/*/*/spins').map {|key| key.sub('whiplash/','').sub(/\/.+/,'')}.uniq.sort { |x,y| compare_titles x, y }
     respond_to do |format|
       format.html {
         @commit_hash = ENV['COMMIT_HASH']
@@ -36,4 +36,19 @@ class WhiplashSessionsController < ApplicationController
   def can_update_session?
     debug_access_permitted?
   end
+
+  #todo: duplicate of compare_stats in experiments_controller. needs a home.
+  def compare_titles x, y
+    xname = x
+    yname = y
+    petition_id_pattern = /^petition (\d+)/
+    xmatch = xname.match petition_id_pattern
+    ymatch = yname.match petition_id_pattern
+    if xmatch && ymatch
+      ymatch[1].to_i <=> xmatch[1].to_i
+    else
+      xname <=> yname
+    end
+  end
+
 end

@@ -11,8 +11,28 @@
   - if @can_update_session
     = form_tag(whiplash_sessions_path, :method => :post) do
       = hidden_field_tag :debug_token, @debug_token
-      - @keys.each do |k|
-        = label_tag k, nil, {:style => "float:left;width:375px"}
-        = text_field_tag k, session[k], :style => "float:left"
-      = submit_tag "Update"
-    <div style="clear:both">
+
+      %div{style: "float:left;padding:10px" }
+        %table
+          - site_experiments = @keys.find_all {|s| not s.match(/^petition/)}
+          - site_experiments.each do |k|
+            %tr
+              %td
+                = label_tag k, nil
+              %td
+                = text_field_tag k, session[k]
+
+      %div{style: "float:left;padding:10px" }
+        %table
+          - petition_experiments = @keys.find_all {|s| s.match(/^petition/)}
+          - petition_experiments.each do |k|
+            %tr
+              %td
+                = label_tag k, nil
+              %td
+                = text_field_tag k, session[k]
+
+      %div{style: "float:left;padding:10px" }
+        = submit_tag "Update"
+
+    %div{style: "clear:both"}
