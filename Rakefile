@@ -8,8 +8,4 @@ Victorykit::Application.load_tasks
 
 unless Rails.env.production? 
   task :default => ['jslint'] #remember, these are *appended* to the existing default tasks
-
-  namespace :spec do
-    task :all => ['spec']
-  end
 end
