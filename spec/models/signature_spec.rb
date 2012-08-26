@@ -41,7 +41,7 @@ describe Signature do
     
     context 'for no user agent' do
       let(:agent) { nil }
-      its(:user_agent) { should be_nil }
+      its(:user_agent) { should eq 'not a browser' }
     end
   end
 

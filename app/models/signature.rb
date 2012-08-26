@@ -44,7 +44,8 @@ class Signature < ActiveRecord::Base
   end
 
   def truncate_user_agent
-    self.user_agent = self.user_agent[0..254] if self.user_agent
+    self.user_agent = self.user_agent ? 
+    self.user_agent[0..254] : 'not a browser'
   end
 
   def prepopulate(member)
