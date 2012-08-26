@@ -30,11 +30,24 @@ group :assets do
   gem 'jquery-ui-rails'
 end
 
-gem "haml"
+group :test, :development do
+  gem 'rspec-rails', '~> 2.6'
+  gem 'factory_girl_rails', '~> 3.0'
+  gem 'faker', '~> 1.0'
+  gem 'autotest'
+  gem 'simplecov', :require => false
+  gem 'selenium-webdriver'
+  gem 'hirb'
+  gem 'jslint_on_rails'
+  gem 'capybara'
+  gem 'database_cleaner'
+end
+
+gem 'haml'
 gem 'jquery-rails'
 gem 'simple_form'
-gem 'bootstrap-wysihtml5-rails', github: "mkurutin/bootstrap-wysihtml5-rails"
-gem "browser"
+gem 'bootstrap-wysihtml5-rails', github: 'mkurutin/bootstrap-wysihtml5-rails'
+gem 'browser'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
@@ -48,18 +61,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
 #
-group :test, :development do
-  gem "rspec-rails", "~> 2.6"
-  gem "factory_girl_rails", "~> 3.0"
-  gem "faker", "~> 1.0"
-  gem "autotest"
-  #gem "selenium-webdriver"
-  gem "hirb"
-  gem "jslint_on_rails"
-  gem 'capybara'
-end
-
-gem 'simplecov', :require => false, :group => :test
 
 gem 'newrelic_rpm'
 gem 'unicorn'
@@ -69,7 +70,7 @@ gem 'foreman'
 gem 'redis'
 gem 'simple-random'
 
-gem 'aws-ses', "~> 0.4.4", :require => 'aws/ses'
+gem 'aws-ses', '~> 0.4.4', :require => 'aws/ses'
 gem 'aws-sdk'
 
 gem 'garb'
@@ -83,11 +84,11 @@ gem 'redis-rails'
 gem 'dkim'
 gem 'sanitize'
 gem 'rinku', :require => 'rails_rinku'
-gem "flot-rails"
+gem 'flot-rails'
 gem 'nokogiri'
-gem "truncate_html"
-gem "airbrake"
-gem "fb_graph"
+gem 'truncate_html'
+gem 'airbrake'
+gem 'fb_graph'
 gem 'facebook_share_widget', github: 'mkurutin/facebook_share_widget_rails'
 gem 'memoist', github: 'matthewrudy/memoist'
 gem 'resque'
