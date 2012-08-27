@@ -14,6 +14,7 @@ Victorykit::Application.routes.draw do
   resources :incoming_mails
   resources :petitions do
     resources :signatures
+    member { get 'again' }
   end
   resources :social_tracking
   resources :privacy
@@ -28,7 +29,7 @@ Victorykit::Application.routes.draw do
   put 'petitions/:id/send_email_preview', to: 'petitions#send_email_preview', as: 'send_email_preview'
 
   namespace(:admin) do
-    resources :petitions 
+    resources :petitions
     resources :users
 
     resource :stats do

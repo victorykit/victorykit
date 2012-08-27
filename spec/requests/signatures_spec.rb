@@ -23,7 +23,7 @@ describe 'signatures' do
 
   context 'someone else' do
     it 'should be able to sign' do
-      pending 'work in progress'      
+      pending 'work in progress'
       sign_petition id
       click_link 'sign-again-link'
     end
