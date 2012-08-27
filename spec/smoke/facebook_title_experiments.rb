@@ -5,6 +5,9 @@ require 'member_hasher'
 describe 'creating a facebook title experiment' do
 
   it 'awards a win against the facebook title when facebook user signs' do
+
+    pending 'work in progress [martin/vini]'
+
     petition = create_a_featured_petition({
       title: 'Multiple facebook titles!',
       description: 'You betcha',

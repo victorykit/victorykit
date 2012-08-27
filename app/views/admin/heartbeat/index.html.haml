@@ -36,3 +36,28 @@
           #{@last_signature_timestamp}
         %td{:class => @signature_working ? "ok" : @signature_failing_style }
           #{@signature_working ? "Active" : "INACTIVE"}
+    %h3{:class => @resque_working ? "ok" : "failing" } Resque Status: #{@resque_working ? "OK" : "FAILING"}
+
+    %table.table.table-condensed.bordered-table.table-striped
+      %thead
+        %th
+          Workers
+        %th
+          Pending
+        %th
+          Processed
+        %th
+          Working
+        %th
+          Failed
+      %tr
+        %td
+          #{@resque_stats[:workers]}
+        %td
+          #{@resque_stats[:pending]}
+        %td
+          #{@resque_stats[:processed]}
+        %td
+          #{@resque_stats[:working]}
+        %td
+          #{@resque_stats[:failed]}

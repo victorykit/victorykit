@@ -15,13 +15,6 @@ module ApplicationHelper
     end
   end
 
-  def fb_like(url, ref_hash, classes = nil, is_button_count = false)
-    url = ref_hash ? "#{url}?f=#{ref_hash}" : url
-    attributes = {href: url, send: false, show_faces: false, action: 'like', width: '270'}
-    attributes.merge!({layout: 'button_count', width: '100'}) if is_button_count
-    tag "fb:like", {data: attributes, class: classes}, false, true
-  end
-
   def configure_google_analytics
     analytics_id = Settings.google_analytics.analytics_id
     javascript_tag "var _gaq = _gaq || [];
