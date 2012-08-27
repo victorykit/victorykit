@@ -29,6 +29,8 @@ class Admin::HeartbeatController < ApplicationController
     @overall_working = @email_working
     @overall_status = "FAILING"
     @overall_status = "OK" if @overall_working
+    @resque_working = Resque.info[:workers] > 0
+    @resque_stats = Resque.info
   end
 
   # not using 'before_filter :require_admin' because newrelic needs to be able to access this page for availability checks
