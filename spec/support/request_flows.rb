@@ -26,8 +26,8 @@ def login email, pass
   click_link 'Log Out'
 end
 
-def sign_petition id
-  visit "/petitions/#{id}"
+def sign petition
+  visit petition_path petition
   fill_in 'First name', with: 'Peter'
   fill_in 'Last name', with: 'Griffin'
   fill_in 'Email', with: 'peter@gmail.com'

@@ -1,17 +1,17 @@
 describe 'signatures' do
-  let(:id) { create(:petition).id }
+  let(:petition) { create(:petition) }
 
   context 'a user' do
     let(:hash) { Signature.last.member.to_hash }
 
     it 'should sign a petition' do
-      sign_petition id
+      sign petition
       page.should have_content 'Thanks for signing!'
       page.current_url.should include "l=#{hash}"
     end
 
     it 'should provide his info' do
-      visit "/petitions/#{id}"
+      visit petition_path petition
       click_button 'Sign!'
 
       page.should_not have_content 'Thanks for signing!'
