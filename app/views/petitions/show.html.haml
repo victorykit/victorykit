@@ -42,8 +42,8 @@
           = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
     - if @was_signed
       #sign-again
-        %a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
-          Does someone else want to sign? Click here.
+        /%a{href: "javascript:$.cookie('member_id', null, {path: '/'});location.reload();", :id => "sign-again-link"}
+        = link_to 'Does someone else want to sign? Click here.', again_petition_path(@petition), id: 'sign-again-link'
 
   .petition_test.primary
     .petition

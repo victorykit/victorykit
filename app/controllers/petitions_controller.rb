@@ -1,5 +1,5 @@
 class PetitionsController < ApplicationController
-  before_filter :require_login, except: [:show]
+  before_filter :require_login, except: [:show, :again]
   before_filter :track_visit, only: :show
   before_filter :require_admin, only: :index
 
@@ -41,6 +41,11 @@ class PetitionsController < ApplicationController
     @signing_from_email = sent_email.present? && !@was_signed
 
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
+  end
+
+  def again
+    cookies.delete :member_id
+    redirect_to Petition.find(params[:id])
   end
 
   def new
