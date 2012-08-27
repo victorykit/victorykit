@@ -33,3 +33,7 @@ def sign petition
   fill_in 'Email', with: 'peter@gmail.com'
   click_button 'Sign!'
 end
+
+def form
+  '.signature-form#non-mobile'
+end
