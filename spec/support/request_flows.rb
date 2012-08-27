@@ -11,7 +11,7 @@ def signin email, pass
     click_button 'Sign Up'
   end
   yield
-  logout
+  click_link 'Log Out'
 end
 
 def login email, pass
@@ -23,11 +23,13 @@ def login email, pass
     click_button 'Log in'
   end
   yield
-  logout
-end
-
-def logout
   click_link 'Log Out'
 end
 
-
+def sign_petition id
+  visit "/petitions/#{id}"
+  fill_in 'First name', with: 'Peter'
+  fill_in 'Last name', with: 'Griffin'
+  fill_in 'Email', with: 'peter@gmail.com'
+  click_button 'Sign!'
+end

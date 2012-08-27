@@ -31,7 +31,7 @@ RSpec.configure do |config|
     log_out
   end
 end
-
+ 
 def as_admin
   login_as_admin
     yield
