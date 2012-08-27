@@ -6,7 +6,7 @@ describe 'petitions' do
 
     it 'should successfully create a petition' do
       login email, pass do
-        visit '/petitions/new'
+        visit new_petition_path
         fill_in 'Title', with: 'I like Turtles'
         fill_in 'Short summary', with: 'I love them'
         fill_in 'Description', with: 'Turtles are awesome!'
@@ -28,7 +28,7 @@ describe 'petitions' do
     
     it 'cannot send preview emails to herself' do
       login email, pass do
-        visit '/petitions/new'
+        visit new_petition_path
         page.should_not have_content "Email a preview to #{email}"
       end
     end
@@ -41,7 +41,7 @@ describe 'petitions' do
     
     it 'can send a preview email to herself' do
       login email, pass do
-        visit '/petitions/new'
+        visit new_petition_path
         page.should have_content "Email a preview to #{email}"
       end
     end
