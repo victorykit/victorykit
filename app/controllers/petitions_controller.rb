@@ -41,11 +41,12 @@ class PetitionsController < ApplicationController
     @signing_from_email = sent_email.present? && !@was_signed
 
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
+    @query = request.query_parameters
   end
 
   def again
     cookies.delete :member_id
-    redirect_to Petition.find(params[:id])
+    redirect_to petition_path(params[:id], request.query_parameters)
   end
 
   def new
