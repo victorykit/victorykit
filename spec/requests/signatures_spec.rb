@@ -1,9 +1,8 @@
 describe 'signatures' do
   let(:petition) { create(:petition) }
+  let(:hash) { Signature.last.member.to_hash }
 
   context 'a user' do
-    let(:hash) { Signature.last.member.to_hash }
-
     it 'should sign a petition' do
       sign petition
       page.should have_content 'Thanks for signing!'
@@ -23,9 +22,13 @@ describe 'signatures' do
 
   context 'someone else' do
     it 'should be able to sign' do
-      pending 'work in progress'
-      sign_petition id
+      sign petition
       click_link 'sign-again-link'
+
+      find_field('First name').value.should be_blank
+      find_field('Last name').value.should be_blank
+      find_field('Email').value.should be_blank
+      page.current_url.should include "l=#{hash}"
     end
   end
 
