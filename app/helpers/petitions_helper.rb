@@ -40,6 +40,13 @@ module PetitionsHelper
     button_hash[facebook_sharing_option] || button_hash['facebook_popup']
   end
 
+  def fb_like(url, ref_hash, classes = nil, is_button_count = false)
+    url = ref_hash ? "#{url}?f=#{ref_hash}" : url
+    attributes = {href: url, send: false, show_faces: false, action: 'like', width: '270'}
+    attributes.merge!({layout: 'button_count', width: '100'}) if is_button_count
+    tag "fb:like", {data: attributes, class: classes}, false, true
+  end
+
   def after_share_view
     return 'thanks_for_signing' if browser.ie? or browser.mobile? or browser.android?
     spin! 'after share view 2', :share, ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks"]
