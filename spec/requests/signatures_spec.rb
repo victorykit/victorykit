@@ -14,9 +14,9 @@ describe 'signatures' do
       click_button 'Sign!'
 
       page.should_not have_content 'Thanks for signing!'
-
-      errors = all('.signature-form#non-mobile .alert-error', text: "can't be blank")
-      errors.should have(3).elements
+      within form do
+        all('.alert-error', text: "can't be blank").should have(3).elements
+      end
     end
   end
 
