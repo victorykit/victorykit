@@ -347,4 +347,23 @@ describe PetitionsController do
       SentEmail.find(sent_email.id).clicked_at.should == first_time
     end
   end
+
+  describe 'get again' do
+    let(:cookies) { mock }
+    
+    before do 
+      controller.stub(:cookies).and_return cookies
+      cookies.stub(:delete)
+    end
+    
+    it 'should delete member cookie' do
+      cookies.should_receive(:delete).with(:member_id)
+      get(:again, id: 42, l: '281._4oBaT')
+    end
+
+    it 'should redirect to show with query' do
+      get(:again, id: 42, l: '281._4oBaT')
+      response.should redirect_to '/petitions/42?l=281._4oBaT'
+    end
+  end
 end
