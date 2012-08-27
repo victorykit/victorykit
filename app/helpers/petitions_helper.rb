@@ -1,5 +1,4 @@
 module PetitionsHelper
-  extend Memoist
 
   def open_graph_for(petition, hash)
     member = Member.find_by_hash(hash)
@@ -27,7 +26,7 @@ module PetitionsHelper
 
   def facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
-    spin! 'facebook sharing options', :referred_member, ['facebook_popup', 'facebook_request']
+    spin! 'facebook sharing options', :referred_member, ['facebook_popup', 'facebook_request', 'facebook_wall']
   end
 
   def facebook_button
