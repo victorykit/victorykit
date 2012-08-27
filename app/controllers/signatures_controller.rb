@@ -6,7 +6,7 @@ class SignaturesController < ApplicationController
     petition = Petition.find(params[:petition_id])
     signature = Signature.new(params[:signature])
     signature.ip_address = connecting_ip
-    signature.user_agent = request.env["HTTP_USER_AGENT"]
+    signature.user_agent = request.env["HTTP_USER_AGENT"] || default_agent
     signature.browser_name = Browser.new(:ua => signature.user_agent).id.to_s
     signature.member = Member.find_or_initialize_by_email(email: signature.email, first_name: signature.first_name, last_name: signature.last_name)
     signature.created_member = signature.member.new_record?
@@ -134,5 +134,10 @@ class SignaturesController < ApplicationController
 
     petition.experiments.email(sent_email).win!(:signature)
     true
+  end
+
+  def default_agent 
+    #TODO: think of a better solution for Rack::Test
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_0) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.163 Safari/535.19'
   end
 end

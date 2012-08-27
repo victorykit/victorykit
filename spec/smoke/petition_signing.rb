@@ -24,11 +24,13 @@ describe 'Petition page' do
     element(:id => "thanks-for-signing-message").should be_displayed
     element(:class => "signature-form").should_not be_displayed
   end
+
   it 'should ensure user provides a name' do
     go_to petition_path(@petition)
     sign_petition '', 'no@yahoo.com'
     element(:class => 'help-inline').text.should == "can't be blank"
   end
+  
   it 'should track the referer for a signature' do
     go_to petition_path(@petition)
     referer = create_member
