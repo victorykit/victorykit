@@ -22,13 +22,14 @@ describe 'email experiments' do
         member = create(:member)
 
         visit on_demand_email_path(petition, member)
+        click_link 'Please, click here to sign now!'
+        hash = page.current_url.scan(/n=(.*)$/).join
 
         results = email_experiment_results_for petition
         results[:spins].should eq 1
         results[:wins ].should eq 0
 
-        # FIXME: get the email hash from the email body
-        sign petition, { n: SentEmail.last.to_hash }
+        sign petition, { n: hash }
 
         results = email_experiment_results_for petition
         results[:spins].should eq 1
