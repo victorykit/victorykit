@@ -18,7 +18,7 @@ describe PixelTrackingController do
       onedayago = 1.day.ago
       email = create :sent_email, :opened_at => onedayago
       get :new, :n => email.to_hash
-      email.reload.opened_at.should == onedayago
+      email.reload.opened_at.to_i == onedayago.to_i
     end
 
     it "should not do anything if hash is invalid" do
