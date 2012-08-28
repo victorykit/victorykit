@@ -84,7 +84,7 @@
     min-height: 260px;
     margin: 0 auto;
     overflow: visible;
-    width: 500px;
+    width: 400px;
     @media (min-width: 200px) and (max-width: 800px) {
       width: 300px;
     }
@@ -386,7 +386,7 @@
   display: none;
   padding: 0;
   width: 300px;
-  margin-left: 0;
+  margin: 0;
 }
 .controls .icon-trash a {
   width: 30px;
@@ -604,11 +604,80 @@
 }
 
 #thanksModal .share.big_margin {
-  margin-top: 50px;
+  margin-top: 33px;
 }
 #thanksModal .share.two_friends {
   margin: 30px 0 15px;
   line-height: 40px;
   text-align: center;
+}
+
+#thanksModal {
+  .image {
+    width: 420px;
+    height: 210px;
+    margin: -10px 0 20px -10px;
+    border-radius: 5px 5px 0 0;
+    &.mandela {
+      background: url('mandela.png');
+    }
+    &.warhol {
+      background: url('warhol.png');
+    }
+    &.teresa {
+      background: url('teresa.png');
+    }
+    &.teresa.color {
+      background: url('teresa_color.png');
+    }
+    &.gandhi {
+      background: url('gandhi.png');
+    }
+    &.king {
+      background: url('king.png');
+    }
+  }
+}
+#thanks-for-signing-message {
+  .image {
+    width: 280px;
+    height: 160px;
+    background-repeat: no-repeat;
+    margin-bottom: 8px;
+    &.mandela {
+      background: url('mandela_small.png');
+    }
+    &.warhol {
+      background: url('warhol_small.png');
+    }
+    &.teresa {
+      background: url('teresa_small.png');
+    }
+    &.teresa.color {
+      background: url('teresa_color_small.png');
+    }
+    &.gandhi {
+      background: url('gandhi_small.png');
+    }
+    &.king {
+      background: url('king_small.png');
+    }
+  }
+}
+
+.quote {
+  font-size: 16px;
+  font-weight: bold;
+  display: inline;
+  margin-bottom: 10px;
+  .source {
+    font-size: 12px;
+    font-weight: normal;
+    font-style: italic;
+    white-space: pre-line;
+  }
+}
+.btn.inspirational.red_button {
+  margin: 20px auto 15px !important;
 }
 
