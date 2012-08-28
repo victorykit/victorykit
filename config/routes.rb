@@ -14,7 +14,7 @@ Victorykit::Application.routes.draw do
   resources :incoming_mails
   resources :petitions do
     resources :signatures
-    member { get 'again' }
+    member { post 'again' }
   end
   resources :social_tracking
   resources :privacy

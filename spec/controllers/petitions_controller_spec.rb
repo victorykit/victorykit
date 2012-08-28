@@ -348,7 +348,7 @@ describe PetitionsController do
     end
   end
 
-  describe 'get again' do
+  describe '#again' do
     let(:cookies) { mock }
     
     before do 
@@ -358,11 +358,13 @@ describe PetitionsController do
     
     it 'should delete member cookie' do
       cookies.should_receive(:delete).with(:member_id)
-      get(:again, id: 42, l: '281._4oBaT')
+      post(:again, id: 42, l: '281._4oBaT')
     end
 
     it 'should redirect to show with query' do
-      get(:again, id: 42, l: '281._4oBaT')
+      #FIXME: think of a proper way to simulate it without forcing stub
+      request.stub(:query_parameters).and_return({ l: '281._4oBaT' })
+      post(:again, id: 42, l: '281._4oBaT')
       response.should redirect_to '/petitions/42?l=281._4oBaT'
     end
   end
