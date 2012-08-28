@@ -22,7 +22,6 @@ describe 'Petition page' do
     go_to petition_path(@petition)
     sign_petition
     element(:id => "thanks-for-signing-message").should be_displayed
-    element(:class => "signature-form").should_not be_displayed
   end
   it 'should ensure user provides a name' do
     go_to petition_path(@petition)

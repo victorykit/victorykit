@@ -56,7 +56,7 @@
 
         .social
           .mobile_signup_button
-            = link_to('Sign this Petition!', '#sign_mobile', :class => 'mobile_sign btn btn-primary btn-danger', :'data-toggle' => 'modal', :style => ( @was_signed ? 'display:none' : ''))
+            = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
 
           - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
             .social_icons
@@ -76,6 +76,8 @@
         - if @petition.to_send != true
           - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
         .description= petitiontext.html_safe
+        .mobile_signup_button
+          = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
 
   - content_for(:meta_tags) do
     - open_graph_for(@petition, @referring_member_hash || @member.try(:to_hash)).each do |key, value|
@@ -103,17 +105,4 @@
     .modal-footer
       %a.btn.btn-success{:href => "#", 'data-dismiss'=>"modal"} I'm done.
 
-  .modal.hide#sign_mobile.signature-form
-    .modal-body
-      = link_to('x' , '', :class => 'close', :'data-dismiss' => 'modal')
-      .title
-        Sign this petition!
-      .through_site
-        = form_tag [@petition, @signature] do |form|
-          = simple_fields_for :signature, @signature do |f|
-            = f.input :first_name, :hint => false
-            = f.input :last_name, :hint => false
-            = f.input :email
-            #hint.alert.alert-error
-            = render :partial => "hidden_params"
-            = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary', :value => 'Sign!' )
+
