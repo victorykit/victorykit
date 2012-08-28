@@ -183,6 +183,8 @@ input, textarea, .btn { border-radius: 0; }
   .modal-body {
     background-color: white;
   }
+  a.close { margin: -10px -5px 0 0; }
+
 }
 .inverse_modal {
   .modal .modal-body {
@@ -190,7 +192,8 @@ input, textarea, .btn { border-radius: 0; }
     color: white;
     a.close {
       color: white;
-      opacity: .9;
+      opacity: .7;
+      &:hover { opacity: .8; }
     }
   }
   .modal-backdrop {
