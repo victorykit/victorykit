@@ -23,7 +23,7 @@ describe 'signatures' do
   context 'someone else' do
     it 'should be able to sign' do
       sign petition
-      click_link 'sign-again-link'
+      click_button 'sign-again'
 
       find_field('First name').value.should be_blank
       find_field('Last name').value.should be_blank
