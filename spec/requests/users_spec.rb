@@ -19,7 +19,6 @@ describe 'a user' do
         page.should have_link 'Log Out'
       end  
     end
-
   end
 
   context 'already registered' do
@@ -31,7 +30,15 @@ describe 'a user' do
         page.should have_link 'Log Out'
        end 
     end
+  end
 
+  context 'visiting the privacy policy page' do
+    before { visit '/privacy' }
+
+    subject { page }
+
+    it { should have_content 'Privacy Policy' }
+    it { should have_content "We don't share your email address without your permission." }
   end
 
 end
