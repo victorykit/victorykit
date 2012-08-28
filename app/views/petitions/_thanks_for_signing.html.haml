@@ -77,3 +77,55 @@
   .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+
+- if after_share_view == "mandela-time_ripe_to_do_right"
+  .image.mandela
+  .quote
+    "We must use time wisely and forever realize that the time is always ripe to do right."
+    %span.source
+      \- Nelson Mandela
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+- if after_share_view == "warhol-change_things_yourself"
+  .image.warhol
+  .quote
+    "They always say time changes things, but you actually have to change them yourself."
+    %span.source
+      \- Andy Warhol
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "teresa-stone_creates_ripples"
+  .image.teresa
+  .quote
+    "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
+    %span.source
+      \- Mother Teresa
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "teresa-stone_creates_ripples-color"
+  .image.teresa.color
+  .quote
+    "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
+    %span.source
+      \- Mother Teresa
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "gandhi-shake_the_world"
+  .image.gandhi
+  .quote
+    "In a gentle way, you can shake the world."
+    %span.source
+      \- Mahatma Gandhi
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "king-do_what_is_right"
+  .image.king
+  .quote
+    "The time is always right to do what is right."
+    %span.source
+      \- Martin Luther King, Jr.
+  .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
