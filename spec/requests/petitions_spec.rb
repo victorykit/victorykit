@@ -16,6 +16,7 @@ describe 'petitions' do
         page.should have_content 'Petition was successfully created.'
         page.should have_content 'I like Turtles'
         page.should have_content 'Turtles are awesome!'
+        page.should have_selector '.progress_bar'
       end  
     end
     
