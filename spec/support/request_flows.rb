@@ -26,14 +26,31 @@ def login email, pass
   click_link 'Log Out'
 end
 
-def sign petition
-  visit petition_path petition
+def sign petition, params=nil
+  path = params ? 
+  petition_path(petition, params) : 
+  petition_path(petition)
+
+  visit path
   fill_in 'First name', with: 'Peter'
   fill_in 'Last name', with: 'Griffin'
   fill_in 'Email', with: 'peter@gmail.com'
   click_button 'Sign!'
 end
 
-def signature_form
-  '.signature-form#non-mobile'
+# for petition/new only with js on
+def fill_in_description_with text
+  page.execute_script(
+    "$('#petition_description').data('wysihtml5')\
+      .editor.composer.setValue('#{text}');")
+end
+
+def on_demand_email_path petition, member
+  "/admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
+end
+
+def email_experiment_results_for petition
+  visit '/admin/experiments?f=petitions'
+  { spins: find('td.spins').text.to_i, 
+    wins:  find('td.wins').text.to_i }
 end

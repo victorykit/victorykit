@@ -30,7 +30,12 @@ describe Petition do
     petition.experiments.should_not be_nil
   end
 
-  context "facebook descrption" do
+  it "should have a plain text description" do
+    petition = create(:petition, description: "I<br>contain&nbsp;html &quot;stuff&quot;")
+    petition.plain_text_description.should == "I\ncontain html \"stuff\""
+  end
+
+  context "facebook description" do
     it "should escape single and double quotes because wysihtml5 doesn't" do
       petition = create(:petition, description: "'\"this description contains quotes")
       petition.facebook_description_for_sharing.should == "&apos;&quot;this description contains quotes"
