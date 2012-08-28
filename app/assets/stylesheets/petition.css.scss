@@ -82,7 +82,7 @@
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 6px 6px 6px 6px;
     box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    min-height: 260px;
+    min-height: 219px;
     margin: 0 auto;
     overflow: visible;
     width: 400px;
@@ -703,5 +703,33 @@
 }
 .btn.inspirational.red_button {
   margin: 20px auto 15px !important;
+}
+
+#thanks-for-signing-message .melanie_1, #thanksModal .melanie_1 {
+  padding: 10px 10px 0;
+  .image {
+    height: 116px;
+    width: 100px;
+    margin: 5px -5px 0 10px;
+    float: right;
+  }
+  p {
+    font-weight: normal;
+    font-size: 16px;
+    margin-top: 4px;
+    line-height: normal;
+    text-align: left;
+    padding-left: 0;
+  }
+  .source {
+    float: right;
+    clear: right;
+    text-align: right;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 14px;
+    margin: 6px 0 0 3px;
+  }
+  .btn.red_button { margin: 11px auto 0 !important; }
 }
 
