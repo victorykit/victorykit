@@ -1,10 +1,13 @@
 require 'smoke_spec_helper'
+require 'facebook_spec_helper'
 require 'nokogiri'
 require 'member_hasher'
 
 describe 'creating a facebook title experiment' do
 
   it 'awards a win against the facebook title when facebook user signs' do
+
+    pending 'need to config FACEBOOK_APP_ID and FACEBOOK_SECRET for CI'
 
     petition = create_a_featured_petition({
       title: 'Multiple facebook titles!',
@@ -39,14 +42,4 @@ describe 'creating a facebook title experiment' do
     experiment.wins.should eq 1
   end
   
-  def click_shared_link expected_shared_link
-    actual_shared_link = element(link: "a link").attribute "href"
-    Rails.logger.debug "actual shared link: #{actual_shared_link}"
-    actual_shared_link.match(CGI.escape(expected_shared_link)).should_not be_nil
-    go_to expected_shared_link
-  end
-  
-  def expected_facebook_share_link petition, member
-    "#{petition_path(petition)}?share_ref=#{member.to_hash}"
-  end
 end
