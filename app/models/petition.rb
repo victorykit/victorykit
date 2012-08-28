@@ -1,5 +1,6 @@
 class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
+  include HtmlToPlainText
 
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :as => :admin
@@ -40,5 +41,9 @@ class Petition < ActiveRecord::Base
     result = strip_tags(description_for_sharing)
     result = result.gsub("'","&apos;") || result
     result.gsub("\"","&quot;") || result
+  end
+
+  def plain_text_description
+    convert_to_text(description)
   end
 end
