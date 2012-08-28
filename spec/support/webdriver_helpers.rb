@@ -35,6 +35,10 @@ module WebDriverHelpers
     $driver.navigate.to(uri)
   end
 
+  def go_to_external uri
+    $driver.navigate.to(uri)
+  end
+
   def current_path
     URI.split($driver.current_url)[5]
   end
