@@ -15,9 +15,10 @@ describe PixelTrackingController do
     end
 
     it "doesn`t make any changes if email has already been opened" do
-      email = create :sent_email, :opened_at => 1.day.ago
+      onedayago = 1.day.ago
+      email = create :sent_email, :opened_at => onedayago
       get :new, :n => email.to_hash
-      email.reload.opened_at.should == 1.day.ago
+      email.reload.opened_at.should == onedayago
     end
 
     it "should not do anything if hash is invalid" do

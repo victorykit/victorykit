@@ -237,7 +237,23 @@ function drawModalAfterSigning() {
   }
 }
 
+function mobileSignErrorHandling() {
+  if (($('.sidebar_test').find('.help-inline').length > 0) && (screen.width < 768)) {
+    $('.sidebar_test').show();
+  }
+}
+
+function initMobileSign() {
+  $('.mobile_signup_button').click(function() {
+    $('.sidebar_test').show();
+    $('body').animate({scrollTop:'40px'}, '0');
+    return false;
+  });
+}
+
 function initShowPetition() {
+  mobileSignErrorHandling();
+  initMobileSign();
   preventWhitespaceOn('#signature_email');
   setupSocialTracking();
 
