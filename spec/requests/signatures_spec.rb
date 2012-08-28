@@ -14,7 +14,7 @@ describe 'signatures' do
       click_button 'Sign!'
 
       page.should_not have_content 'Thanks for signing!'
-      within form do
+      within signature_form do
         all('.alert-error', text: "can't be blank").should have(3).elements
       end
     end

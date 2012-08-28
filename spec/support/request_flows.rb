@@ -34,6 +34,6 @@ def sign petition
   click_button 'Sign!'
 end
 
-def form
+def signature_form
   '.signature-form#non-mobile'
 end
