@@ -93,8 +93,8 @@ describe PetitionsHelper do
       let(:exp) { 'facebook sharing options' }
       let(:goal) { :referred_member }
       let(:options) { [
-        'facebook_popup', 
-        'facebook_request', 
+        'facebook_popup',
+        'facebook_request',
         'facebook_wall'
       ] }
 
@@ -190,7 +190,7 @@ describe PetitionsHelper do
     context 'for a regular browser user' do
       let(:exp) { 'after share view 2' }
       let(:goal) { :share }
-      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks", "mandela-time_ripe_to_do_right", "warhol-change_things_yourself", "teresa-stone_creates_ripples", "teresa-stone_creates_ripples-color", "gandhi-shake_the_world", "king-do_what_is_right"] }
+      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks", "mandela-time_ripe_to_do_right", "warhol-change_things_yourself", "teresa-stone_creates_ripples", "teresa-stone_creates_ripples-color", "gandhi-shake_the_world", "king-do_what_is_right", "melanie_1"] }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)
