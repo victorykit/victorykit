@@ -150,7 +150,7 @@ def create_a_petition (attributes = {})
 end
 
 def create_a_featured_petition (attributes = {})
-  attributes = {title: 'a featured petition', description: 'these can be emailed', email_subjects: [], facebook_titles: [], image: nil}.merge(attributes)
+  attributes = {title: 'a featured petition', description: 'these can be emailed', email_subjects: [], facebook_titles: [], images: []}.merge(attributes)
   as_admin do
     go_to new_petition_path
 
@@ -158,29 +158,31 @@ def create_a_featured_petition (attributes = {})
     type(attributes[:description]).into_wysihtml5(:id => 'petition_description')
 
     email_subjects = attributes[:email_subjects]
-
     if email_subjects and email_subjects.any?
       click :link_text => 'Customize Email Subject'
       email_subjects[1..-1].each do |subject|
         click :link_text => 'Add Email Subject'
       end
+      type_into_alt_title_fields "email_subjects", email_subjects, "_title"
     end
-    type_into_alt_title_fields "email_subjects", email_subjects
 
     facebook_titles = attributes[:facebook_titles]
-
     if facebook_titles and facebook_titles.any?
       click :link_text => 'Customize Facebook Title'
       wait
       facebook_titles[1..-1].each do |title|
         click :link_text => 'Add Facebook Title'
       end
+      type_into_alt_title_fields "facebook_titles", facebook_titles, "_title"
     end
-    type_into_alt_title_fields "facebook_titles", facebook_titles
 
-    if attributes[:image]
-      click id: 'sharing_image_link'
-      type_into_alt_image_field attributes[:image]
+    images = attributes[:images]
+    if images and images.any?
+      click :link_text => 'Customize Image'
+      images[1..-1].each do |image|
+        click link_text: 'Add Image'
+      end
+      type_into_alt_title_fields "sharing_images", images, "_url"
     end
 
     click :name => 'commit'
@@ -190,13 +192,14 @@ def create_a_featured_petition (attributes = {})
   Petition.find(:last, order: 'created_at ASC')
 end
 
-def type_into_alt_image_field(image)
+def type_into_alt_image_fields(div_id, images)
   type(image).into(css: 'div#sharing_images.controls div.additional_title input[type="text"]')
+  text_fields.zip(alt_titles).each {|pair| pair[0].send_keys(pair[1])}
 end
 
-def type_into_alt_title_fields title_type_div_id, alt_titles
+def type_into_alt_title_fields title_type_div_id, alt_titles, id_ending_with
   # xpath2 supports regex matching, which would simplify this line, but it doesn't appear to work.
-  text_fields = elements(xpath: "//div[@id = '#{title_type_div_id}']//input[@type='text']").select{|x| x.attribute('id').ends_with? 'title'}
+  text_fields = elements(xpath: "//div[@id = '#{title_type_div_id}']//input[@type='text']").select{|x| x.attribute('id').ends_with? id_ending_with}
   raise "expected #{alt_titles.count} title input fields under #{title_type_div_id} but found #{text_fields.count}" if alt_titles.count != text_fields.count
   text_fields.zip(alt_titles).each {|pair| pair[0].send_keys(pair[1])}
 end
