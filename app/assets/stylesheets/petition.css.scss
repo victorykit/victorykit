@@ -705,7 +705,8 @@
   margin: 20px auto 15px !important;
 }
 
-#thanks-for-signing-message .melanie_1, #thanksModal .melanie_1 {
+#thanks-for-signing-message .melanie_1, #thanksModal .melanie_1,
+#thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
   padding: 10px 10px 0;
   .image {
     height: 116px;
@@ -731,5 +732,8 @@
     margin: 6px 0 0 3px;
   }
   .btn.red_button { margin: 11px auto 0 !important; }
+}
+#thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
+  .source { margin-top: 10px; }
 }
 
