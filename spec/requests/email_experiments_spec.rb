@@ -5,7 +5,6 @@ describe 'email experiments' do
     let(:user) { create(:admin_user) }
 
     it 'should win', :js => true do
-      pending 'work in progress'
       login user.email, user.password do
         visit new_petition_path
         fill_in 'Title', with: 'I like Turtles'
@@ -21,13 +20,15 @@ describe 'email experiments' do
         
         petition = Petition.last
         member = create(:member)
+
         visit on_demand_email_path(petition, member)
 
         results = email_experiment_results_for petition
         results[:spins].should eq 1
         results[:wins ].should eq 0
 
-        sign petition, { n: member.to_hash }
+        # FIXME: get the email hash from the email body
+        sign petition, { n: SentEmail.last.to_hash }
 
         results = email_experiment_results_for petition
         results[:spins].should eq 1
