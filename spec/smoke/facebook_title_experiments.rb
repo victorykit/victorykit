@@ -1,18 +1,15 @@
 require 'smoke_spec_helper'
 require 'facebook_spec_helper'
-require 'nokogiri'
-require 'member_hasher'
 
 describe 'creating a facebook title experiment' do
 
   it 'awards a win against the facebook title when facebook user signs' do
 
-    pending 'need to config FACEBOOK_APP_ID and FACEBOOK_SECRET for CI'
-
     petition = create_a_featured_petition({
       title: 'Multiple facebook titles!',
       description: 'You betcha',
-      facebook_titles: ['FB Title A', 'FB Title B']
+      facebook_titles: ['FB Title A', 'FB Title B'],
+      images: ['placekitten.com/g/200/200','placekitten.com/g/200/220']
     })
 
     force_result({ 
@@ -28,18 +25,20 @@ describe 'creating a facebook title experiment' do
     expected_shared_link = expected_facebook_share_link petition, current_member
     share_petition_on_facebook fb_test_user, :share
 
-    experiment = facebook_experiment_results_for petition
-    experiment.spins.should eq 1
-    experiment.wins.should eq 0
+    at_petition_experiments do
+      assert_petition_experiment_results "petition #{petition.id} facebook title", 1, 0
+      assert_petition_experiment_results "petition #{petition.id} facebook image", 1, 0
+    end
     
     delete_member_cookie
     go_to_facebook
     click_shared_link expected_shared_link
     sign_petition
-    
-    experiment = facebook_experiment_results_for petition
-    experiment.spins.should eq 1
-    experiment.wins.should eq 1
+
+    at_petition_experiments do
+      assert_petition_experiment_results "petition #{petition.id} facebook title", 1, 1
+      assert_petition_experiment_results "petition #{petition.id} facebook image", 1, 1
+    end
   end
   
 end

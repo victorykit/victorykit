@@ -5,7 +5,7 @@ describe 'petition facebook image in opengraph metadata' do
   it "should use the petition's image if available" do
     member = create_member
     image_path = "http://wow.com/image.png"
-    petition = create_a_featured_petition({image: image_path })
+    petition = create_a_featured_petition({images: [image_path] })
     go_to petition_path(petition) + "?r=" + member.to_hash
     open_graph_image.should == image_path
   end

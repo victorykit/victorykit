@@ -63,14 +63,24 @@ def share_petition_on_facebook fb_test_user, share_mode
   end
 end
 
-def facebook_experiment_results_for petition
+def at_petition_experiments
   as_admin do
     go_to 'admin/experiments?f=petitions'
-    table = element(xpath: "//table[@id = 'petition #{petition.id} facebook title']")
-    spins = table.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
-    wins = table.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
-    return OpenStruct.new(spins: spins, wins: wins)
+      yield
   end
+end
+
+def find_experiment_results experiment_name
+  table = element(xpath: "//table[@id = '#{experiment_name}']")
+  spins = table.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
+  wins = table.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
+  return OpenStruct.new(spins: spins, wins: wins)
+end
+
+def assert_petition_experiment_results experiment_name, spins, wins
+  experiment = find_experiment_results experiment_name
+  experiment.spins.should eq spins
+  experiment.wins.should eq wins
 end
 
 def click_shared_link expected_shared_link
