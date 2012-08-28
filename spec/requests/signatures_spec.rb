@@ -14,7 +14,7 @@ describe 'signatures' do
       click_button 'Sign!'
 
       page.should_not have_selector '#thanksModal'
-      within signature_form do
+      within '.signature-form#non-mobile' do
         all('.alert-error', text: "can't be blank").should have(3).elements
       end
     end

@@ -44,6 +44,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.start
+    REDIS.flushdb
   end
 
   config.after(:each) do
