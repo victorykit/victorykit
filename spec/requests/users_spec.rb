@@ -1,6 +1,4 @@
 describe 'a user' do
-  let(:email) { 'user@test.com' }
-  let(:pass)  { 'pass' }
 
   context 'visiting the home page' do
     before { visit '/' }
@@ -12,6 +10,8 @@ describe 'a user' do
   end
 
   context 'joining the site' do
+    let(:email) { 'user@test.com' }
+    let(:pass)  { 'pass' }
 
     it 'should successfuly sign in' do
       signin email, pass do
@@ -22,10 +22,10 @@ describe 'a user' do
   end
 
   context 'already registered' do
-    before { create(:user, email: email, password: pass) }
+    let(:user) { create :user }
     
     it 'should successfuly login' do
-      login email, pass do
+      login user.email, user.password do
         page.current_path.should eq '/'
         page.should have_link 'Log Out'
        end 
@@ -34,7 +34,7 @@ describe 'a user' do
 
   context 'visiting the privacy policy page' do
     before { visit '/privacy' }
-
+    
     subject { page }
 
     it { should have_content 'Privacy Policy' }

@@ -1,0 +1,17 @@
+describe 'dashboard' do
+  
+  context 'an admin' do
+    let(:user) { create :admin_user }
+
+    it 'should see stats for a petition', :js => true do
+      pending 'damn analytics shit'
+      login user.email, user.password do
+        visit '/admin/petitions'
+        wait_until do
+          not find('tbody').text.empty?
+        end  
+      end
+    end
+  end
+
+end

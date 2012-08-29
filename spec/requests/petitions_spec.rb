@@ -1,6 +1,6 @@
 describe 'petitions' do
-  let(:email) { 'user@test.com' }
-  let(:pass)  { 'pass' }
+  let(:email) { user.email }
+  let(:pass)  { user.password }
 
   shared_examples 'an author' do
 
@@ -23,7 +23,7 @@ describe 'petitions' do
   end
 
   context 'a regular user' do
-    before { create(:user, email: email, password: pass) }
+    let(:user) { create :user }
     
     it_behaves_like 'an author'
     
@@ -36,7 +36,7 @@ describe 'petitions' do
   end
 
   context 'an admin user' do
-    before { create(:admin_user, email: email, password: pass) }
+    let(:user) { create :admin_user }
 
     it_behaves_like 'an author'
     
