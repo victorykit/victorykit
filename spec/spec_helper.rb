@@ -37,9 +37,14 @@ RSpec.configure do |config|
   config.infer_base_class_for_anonymous_controllers = false
   
   config.include FactoryGirl::Syntax::Methods
+
+  config.before(:each) do
+    REDIS.flushdb
+  end
 end
 
- Capybara.register_driver :webkit do |app| 
+Capybara.default_wait_time = 5
+Capybara.register_driver :webkit do |app| 
   Capybara::Driver::Webkit.new(app, :stdout => nil) 
 end 
 

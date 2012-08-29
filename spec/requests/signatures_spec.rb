@@ -1,5 +1,5 @@
 describe 'signatures' do
-  let(:petition) { create(:petition) }
+  let(:petition) { create :petition }
   let(:hash) { Signature.last.member.to_hash }
 
   context 'a user' do
