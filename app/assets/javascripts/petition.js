@@ -3,6 +3,7 @@ function inviteToShareOnTwitter() {
   // $('.fb_share.btn').hide();
   // $('.fb_popup_btn.btn-primary').hide();
   // $('.fb_request_btn').hide();
+  // $('.fb_specific_request_btn').hide();
   // $('.fb_share_message').hide();
   // $('.btn.fb').hide();
   // $('.btn.tw').show();
@@ -19,7 +20,7 @@ function trackFacebookStatus(facebookStatus) {
 function initFacebookApp() {
   var appId = $('meta[property="fb:app_id"]').attr('content');
   FB.init({
-    appId: appId,
+    appId: '399709656759307',
     status: true, // check login status
     cookie: true, // enable cookies to allow the server to access the session
     xfbml: true,  // parse XFBML
@@ -49,6 +50,8 @@ function setUpParamsForSocialTracking(facebook_action, action_id, request_id, re
   }
   if (request_id !== "") {
     params = $.extend(params, {request_id: request_id});
+  }
+  if (request_to_ids !== "") {
     params = $.extend(params, {friend_ids: request_to_ids});
   }
 
@@ -228,6 +231,23 @@ function bindFacebookRequestButton() {
   $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
 }
 
+function bindFacebookRequestAutofillFriendsButton() {
+  function requestCallbackForAutofillFriendsRequest(response) {
+    if(response && response.request) {
+      setupSocialTrackingControllerRequest('autofill_request', '', response.request, '');
+    }
+    inviteToShareOnTwitter();
+  }
+
+  function sendAutofillFriendRequests() {
+    FB.ui({method: 'apprequests',
+      message: VK.petition_title,
+      to: VK.facebook_friend_ids
+    }, requestCallbackForAutofillFriendsRequest);
+  }
+
+  $('.fb_autofill_request_btn').click(sendAutofillFriendRequests);
+}
 
 function drawModalAfterSigning() {
   var modal = $("#thanksModal");
@@ -295,6 +315,7 @@ function initSharePetition() {
   bindFacebookPopupButton();
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
+  bindFacebookRequestAutofillFriendsButton();
   drawModalAfterSigning();
   if ($('#mobile_thanks').length > 0) {
     $('body').animate({scrollTop:'-40px'}, '0');

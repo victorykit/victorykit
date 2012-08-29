@@ -18,7 +18,8 @@ class SocialTrackingController < ApplicationController
         'share' => :register_facebook_share,
         'popup' => :register_facebook_popup_opened,
         'wall' => :register_facebook_wall,
-        'request' => :register_facebook_request
+        'request' => :register_facebook_request,
+        'autofill_request' => :register_autofill_request
       }[action])
     end
     
@@ -73,6 +74,14 @@ class SocialTrackingController < ApplicationController
         new_facebook_friend.save! if new_facebook_friend.present?    
       end
     end
+  end
+
+  def register_autofill_request
+    request = FacebookAutofillRequest.new
+    request.petition = @petition
+    request.action_id = @request_id if @request_id.present?
+    request.member = @member if @member.present?
+    request.save!
   end
   
 end
