@@ -15,7 +15,7 @@ describe ScheduledEmail do
 
   describe "sending an email" do
     let(:member){ create(:member)}
-    let(:petition){ create(:petition)}
+    let(:petition){ create(:petition, description: "an<br>html&nbsp;&quot;body&quot;")}
     let(:petition_image) {create(:petition_image, petition: petition)}
     let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
@@ -64,6 +64,10 @@ describe ScheduledEmail do
       mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + sent_email.to_hash + "@appmail.watchdog.net"
     end
 
+    it "includes a plain text part" do
+      plain_text_part = mail.body.parts.find{|p|p.content_type =~ /text\/plain/}
+      plain_text_part.body.should include "an\nhtml \"body\""
+    end
   end
 
   describe "email send failures" do
