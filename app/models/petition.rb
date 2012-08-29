@@ -46,4 +46,8 @@ class Petition < ActiveRecord::Base
   def plain_text_description
     convert_to_text(description)
   end
+
+  def plain_text_title
+    convert_to_text(title)
+  end
 end
