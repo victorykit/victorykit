@@ -163,18 +163,8 @@ describe PetitionsHelper do
   end
 
   describe '#after_share_view' do
-    before do
-      helper.stub!(:browser).and_return browser
-      [:mobile?, :android?, :ie?].each { |m| browser.stub! m }
-    end
-
     shared_examples 'thanks_for_signing' do
       specify { helper.after_share_view.should == 'thanks_for_signing' }
-    end
-
-    context 'for a mobile user' do
-      before { browser.stub!(:mobile?).and_return true }
-      it_behaves_like 'thanks_for_signing'
     end
 
     context 'for an ie user' do
@@ -182,15 +172,12 @@ describe PetitionsHelper do
       it_behaves_like 'thanks_for_signing'
     end
 
-    context 'for an android user' do
-      before { browser.stub!(:android?).and_return true }
-      it_behaves_like 'thanks_for_signing'
-    end
-
     context 'for a regular browser user' do
       let(:exp) { 'after share view 2' }
       let(:goal) { :share }
-      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks", "mandela-time_ripe_to_do_right", "warhol-change_things_yourself", "teresa-stone_creates_ripples", "teresa-stone_creates_ripples-color", "gandhi-shake_the_world", "king-do_what_is_right", "melanie_1", "melanie_2", "most_people_will_share_will_you", "over_x_shares_and_counting", "over_x_shares_and_counting-with_counter", "if_facebook_is_slow_try_again_later"] }
+      let(:options) { ["thanks_for_signing", "button_is_most_effective_tool", "tell_two_friends", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks", "mandela-time_ripe_to_do_right", "warhol-change_things_yourself", "teresa-stone_creates_ripples", "teresa-stone_creates_ripples-color", "gandhi-shake_the_world", "king-do_what_is_right", "melanie_1", "melanie_2", "most_people_will_share_will_you", "over_x_shares_and_counting", "over_x_shares_and_counting-with_counter", "if_facebook_is_slow_try_again_later", "tell_two_friends-sandwich-grey", "tell_two_friends-sandwich-green", "tell_two_friends-sandwich-red"] }
+
+      before { browser.stub!(:ie?).and_return false }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)

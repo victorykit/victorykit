@@ -5,15 +5,8 @@
 
 - if @just_signed
   #mobile_thanks
-    .thanks
-      Thanks for signing!
-    .sharing-message
-      Spread the word, share with your friends!
-    .tweet
-      %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-    .btn.btn-primary.fb_popup_btn#share-unique
-      .fb_icon
-      .text Share on facebook
+    .container
+      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
 #petition_page.page_content
   .secondary
@@ -102,5 +95,3 @@
       = render :partial => "facebook_share_widget"
     .modal-footer
       %a.btn.btn-success{:href => "#", 'data-dismiss'=>"modal"} I'm done.
-
-
