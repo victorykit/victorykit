@@ -48,7 +48,7 @@
       %tbody
         - test[:arms].each do |arm|
           %tr
-            %td
+            %td.progress-bar
               .progress.progress-info
                 .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
             %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
@@ -56,7 +56,7 @@
             %td.spins= arm[:spins]
             %td.wins= arm[:wins]
             %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
-            %td
+            %td.progress-bar
               .progress.progress-success
                 .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
 
