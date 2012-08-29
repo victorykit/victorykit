@@ -15,7 +15,7 @@ class PetitionsController < ApplicationController
 
     @current_member_hash = cookies[:member_id]
     @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref] || params[:wall]
-    
+
     @email_hash = params[:n]
     @forwarded_notification_hash = params[:r]
     @shared_link_hash = params[:l]
@@ -36,11 +36,12 @@ class PetitionsController < ApplicationController
 
     # TODO Remove this - this is not the right way to propagate member information to the SocialTracking controller.
     @signature.id = Signature.where(member_id: @member.try(:id), petition_id: @petition.id).first.try(:id)
-    
+
     @just_signed = flash[:signature_id].present?
     @signing_from_email = sent_email.present? && !@was_signed
 
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
+    @share_count = FacebookAction.count # used in _thanks_for_signing experiment
   end
 
   def new
