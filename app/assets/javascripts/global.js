@@ -1,5 +1,8 @@
 $(document).ready(function(){
-  $("form:not(.filter) :input:visible:enabled:first").focus();
+  var theOneInTheSide = $('#the-one-in-the-side');
+  if (theOneInTheSide.length === 0) {
+    $("form:not(.filter) :input:visible:enabled:first").focus();
+  }
   $('#nav_btn').click(function() {
     $('.nav').toggle();
     $('.navigation').toggleClass('grey');

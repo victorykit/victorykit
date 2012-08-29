@@ -65,10 +65,17 @@
   }
 }
 #sign-again {
+  background: none;
+  border: none;
+  box-shadow: none;
   width: 300px;
   text-align: center;
   margin: 10px auto;
   font-weight: normal;
+  color: #06c;
+  &:hover {
+    color: #08c;
+  }
 }
 #thanksModal {
   display: none;
