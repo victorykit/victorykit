@@ -7,6 +7,7 @@ On a Mac, you'll want to install:
     $ brew install redis
     $ brew install mysql
     $ brew install chromedriver
+    $ brew install qt
 
 You may already have a version of Postgres installed, in which case [you'll need to remove it](https://gist.github.com/2471603) with:
 
