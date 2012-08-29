@@ -117,4 +117,28 @@ describe MailerProcessTracker do
       end
     end
   end
+
+  describe '.update' do
+    subject { MailerProcessTracker }
+    let(:first) { mock }
+    
+    before { subject.stub(:first).and_return first }
+
+    it 'should touch first' do
+      first.should_receive :touch
+      subject.update
+    end
+  end
+
+  describe '.put_to_sleep' do
+    subject { MailerProcessTracker }
+    let(:tracker) { stub }
+
+    before { tracker.stub(:updated_at).and_return 1.minutes.ago }
+
+    it 'should take a nap' do
+      subject.should_receive :nap
+      subject.put_to_sleep tracker
+    end
+  end
 end

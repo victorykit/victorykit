@@ -46,6 +46,10 @@ class MailerProcessTracker < ActiveRecord::Base
 
   def self.put_to_sleep mailer_process
     t = 4.minutes - (Time.now - mailer_process.updated_at)
-    sleep t if t > 0
-  end  
+    nap t if t > 0
+  end
+
+  def self.nap sec
+    sleep sec
+  end 
 end
