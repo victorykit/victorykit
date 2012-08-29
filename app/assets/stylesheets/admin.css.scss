@@ -23,19 +23,20 @@
 
 /* experiments */
 .experiment-table {
-  width: auto;
+  width: 100%;
   clear: both;
   td, th {
+    white-space: nowrap;
     text-align: right;
-    min-width: 70px;
     color: #444;
     &.name {
       text-align: left;
-      width: auto;
+      width: 100%;
       color: black;
     }
   }
   .progress {
+    width: 150px;
     margin: 5px;
     height: 5px;
     &.progress-info {
