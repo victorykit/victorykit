@@ -1,0 +1,2 @@
+class FacebookAutofillRequest < FacebookAction
+end
