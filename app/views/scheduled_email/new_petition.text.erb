@@ -2,7 +2,7 @@ Demand Progress has teamed up with Watchdog.net, a new site where you can start 
 
 Dear <%=@member.full_name%>,
 
-<%=@petition.plain_text_description%>
+<%=@petition.plain_text_description.html_safe%>
 
 Please, sign this petition at <%=@petition_link%>!
 
