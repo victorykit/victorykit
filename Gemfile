@@ -40,7 +40,7 @@ group :test, :development do
   gem 'hirb'
   gem 'jslint_on_rails'
   gem 'capybara'
-  gem 'database_cleaner'
+  gem 'capybara-webkit'
 end
 
 gem 'haml'

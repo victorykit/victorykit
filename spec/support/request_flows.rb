@@ -1,6 +1,3 @@
-require 'capybara/rails'
-require 'capybara/rspec'
-
 def signin email, pass
   visit '/'
   click_link 'Sign Up or Log In'

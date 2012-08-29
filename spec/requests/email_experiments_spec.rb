@@ -1,10 +1,14 @@
 describe 'email experiments' do
-  before(:all) { DatabaseCleaner.strategy = :truncation }
 
   describe 'multiple subjects experiment' do
     let(:user) { create(:admin_user) }
 
-    it 'should win', :js => true do
+    #FIXME: split in multiple examples, like:
+    # - should allow multiple subjects
+    # - should send email with the hashed link
+    # - should compute win after signin
+
+    it 'should win after signature from email', :js => true, :driver => :webkit do
       login user.email, user.password do
         visit new_petition_path
         fill_in 'Title', with: 'I like Turtles'
@@ -18,12 +22,16 @@ describe 'email experiments' do
         end
         click_button 'Create Petition'
         
+        wait_until do
+          page.has_content? 'Petition was successfully created'
+        end
+        
         petition = Petition.last
         member = create(:member)
 
         visit on_demand_email_path(petition, member)
-        click_link 'Please, click here to sign now!'
-        hash = page.current_url.scan(/n=(.*)$/).join
+        link = find_link('Please, click here to sign now!')[:href]
+        hash = link.scan(/n=(.*)$/).join
 
         results = email_experiment_results_for petition
         results[:spins].should eq 1
