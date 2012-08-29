@@ -9,10 +9,13 @@ class Member < ActiveRecord::Base
   validates :first_name, :last_name, :presence => true
 
   def self.random_and_not_recently_contacted
-    uncontacted_members = Member.connection.execute("SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 week') WHERE sent_emails.member_id is null").to_a
+    query = "SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 week') WHERE sent_emails.member_id is null"
+    uncontacted_members = Member.connection.execute(query).to_a
     subscribe_dates = Subscribe.group(:member_id).maximum(:created_at)
     unsubscribe_dates = Unsubscribe.group(:member_id).maximum(:created_at)
-    subscribed_members = uncontacted_members.select {|m| active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])}
+    subscribed_members = uncontacted_members.select do |m| 
+      active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])
+    end     
 
     return nil if subscribed_members.empty?
     Member.find(subscribed_members.sample['id'])
@@ -30,12 +33,8 @@ class Member < ActiveRecord::Base
     MemberHasher.generate self.id
   end
 
-  scope :by_hash, ->(hash) do
-    where(:id => MemberHasher.validate(hash))
-  end
-
   def self.find_by_hash(hash)
-    self.by_hash(hash).first if hash
+    where(:id => MemberHasher.validate(hash)).first
   end
 
   private
