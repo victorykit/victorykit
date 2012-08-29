@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe MailerProcessTracker do
   
   context '.create' do
@@ -94,5 +92,29 @@ describe MailerProcessTracker do
       subject.should_not be_deadlocked
     end
 
+  end
+
+  describe '.in_transaction' do
+    subject { MailerProcessTracker }
+
+    context 'when the block throws an error' do
+      let(:logger) { mock }
+
+      before do
+        logger.stub(:error)
+        Rails.stub(:logger).and_return logger
+        subject.stub(:update_mailer_process)
+      end
+
+      it 'should log it' do
+        logger.should_receive(:error) # improve with args
+        subject.in_transaction { Error.new }
+      end
+
+      it 'should ensure mail process is updated' do
+        subject.should_receive(:update_mailer_process).twice
+        subject.in_transaction { Error.new }
+      end
+    end
   end
 end
