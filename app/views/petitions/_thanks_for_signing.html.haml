@@ -228,3 +228,13 @@
   .share.big_margin
     If Facebook is slow because too many people are sharing, please try again later.
   .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
+- if after_share_view == "almost_there_one_thing_to_do"
+  .progress_image
+    = image_tag("progress_bar.png")
+    .share
+      You're almost there!
+      %br
+      Only one thing left to do...
+    .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }

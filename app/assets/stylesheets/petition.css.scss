@@ -676,6 +676,16 @@
   font-size: 26px;
   line-height: 40px;
 }
+.progress_image {
+  margin-top: 15px;
+  .share {
+    font-size: 22px;
+    line-height: 36px;
+    margin-bottom: 20px;
+  }
+}
+#thanks-for-signing-message .progress_image .share { font-size: 22px; }
+#mobile_thanks .progress_image .share { font-size: 20px; }
 
 
 #thanksModal {
