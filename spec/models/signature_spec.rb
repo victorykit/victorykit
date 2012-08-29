@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Signature do
   subject { build :signature }
 
@@ -28,6 +26,11 @@ describe Signature do
     end
   end
 
+  describe '#full_name' do
+    specify { subject.full_name.should include subject.first_name }
+    specify { subject.full_name.should include subject.last_name }
+  end
+
   describe '#truncate_user_agent' do
     before do 
       subject.user_agent = agent
@@ -48,7 +51,7 @@ describe Signature do
 
 
   describe '#destroy' do
-    let(:sent_email) { create :sent_email }
+    let(:sent_email) { build :sent_email }
 
     before { subject.sent_email = sent_email }
 
