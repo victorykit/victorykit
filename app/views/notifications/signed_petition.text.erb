@@ -4,7 +4,7 @@ Thanks for signing "<%=@signature.petition.title%>". Please encourage your frien
 
 <%=@signature.petition.title%>
 
-<%=strip_tags(@signature.petition.description)%>
+<%=@signature.petition.plain_text_description.html_safe%>
 
 -----------------------------
 
