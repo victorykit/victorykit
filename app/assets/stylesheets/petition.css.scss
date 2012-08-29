@@ -86,9 +86,6 @@
     margin: 0 auto;
     overflow: visible;
     width: 400px;
-    @media (min-width: 200px) and (max-width: 800px) {
-      width: 300px;
-    }
   }
   a {
     clear: both;
@@ -106,8 +103,8 @@
     .countdown-text { color: red; }
   }
 }
-#thanksModal, #thanks-for-signing-message {
-  .btn.red_button, .btn.grey_button {
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.red_button, .btn.grey_button, .btn.grey_donate, .btn.green_donate, .btn.red_donate {
     margin: 0 auto 10px;
     padding: 0;
     height: 51px;
@@ -118,6 +115,27 @@
     background: url("dont_share_button.png");
     &:hover {
       background: url("dont_share_button_hover.png");
+    }
+  }
+  .btn.grey_donate {
+    width: 163px;
+    background: url("donate_grey.png");
+    &:hover {
+      background: url("donate_grey_hover.png");
+    }
+  }
+  .btn.green_donate {
+    width: 163px;
+    background: url("donate_green.png");
+    &:hover {
+      background: url("donate_green_hover.png");
+    }
+  }
+  .btn.red_donate {
+    width: 163px;
+    background: url("donate_red.png");
+    &:hover {
+      background: url("donate_red_hover.png");
     }
   }
   .btn.red_button {
@@ -579,9 +597,11 @@
   @media (min-width: 250px) and (max-width: 767px) {
     display: block;
     background: #ddd;
-    height: 190px;
     width: 100%;
     margin-bottom: 25px;
+  }
+  .container {
+    padding: 10px;
   }
   .thanks {
     padding-top: 20px;
@@ -635,6 +655,15 @@
   line-height: 40px;
   text-align: center;
 }
+#thanks-for-signing-message .share.two_friends {
+  @media (min-width: 0) and (max-width: 800px) {
+    font-size: 17px;
+  }
+}
+#thanksModal .sandwich {
+  height: 90px;
+  .btn { margin: 5px; }
+}
 #thanksModal .share.most_share {
   margin-top: 30px;
   font-size: 26px;
@@ -645,53 +674,15 @@
 #thanksModal {
   .image {
     width: 420px;
-    height: 210px;
     margin: -10px 0 20px -10px;
     border-radius: 5px 5px 0 0;
-    &.mandela {
-      background: url('mandela.png');
-    }
-    &.warhol {
-      background: url('warhol.png');
-    }
-    &.teresa {
-      background: url('teresa.png');
-    }
-    &.teresa.color {
-      background: url('teresa_color.png');
-    }
-    &.gandhi {
-      background: url('gandhi.png');
-    }
-    &.king {
-      background: url('king.png');
-    }
   }
 }
-#thanks-for-signing-message {
+#thanks-for-signing-message, #mobile_thanks {
   .image {
-    width: 280px;
-    height: 160px;
-    background-repeat: no-repeat;
-    margin-bottom: 8px;
-    &.mandela {
-      background: url('mandela_small.png');
-    }
-    &.warhol {
-      background: url('warhol_small.png');
-    }
-    &.teresa {
-      background: url('teresa_small.png');
-    }
-    &.teresa.color {
-      background: url('teresa_color_small.png');
-    }
-    &.gandhi {
-      background: url('gandhi_small.png');
-    }
-    &.king {
-      background: url('king_small.png');
-    }
+    width:100%;
+    max-width: 280px;
+    margin: 0 auto 8px;
   }
 }
 
@@ -711,33 +702,39 @@
   margin: 20px auto 15px !important;
 }
 
-#thanks-for-signing-message .melanie_1, #thanksModal .melanie_1,
-#thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
-  padding: 10px 10px 0;
-  .image {
-    height: 116px;
-    width: 100px;
-    margin: 5px -5px 0 10px;
-    float: right;
+#thanks-for-signing-message , #thanksModal, #mobile_thanks {
+  .melanie_1,.melanie_2 {
+    padding: 10px 10px 0;
+    .image {
+      height: 116px;
+      width: 100px;
+      margin: 5px -5px 0 10px;
+      float: right;
+    }
+    p {
+      font-weight: normal;
+      font-size: 16px;
+      margin-top: 4px;
+      line-height: normal;
+      text-align: left;
+      padding-left: 0;
+    }
+    .source {
+      float: right;
+      clear: right;
+      text-align: right;
+      font-size: 12px;
+      font-weight: normal;
+      line-height: 14px;
+      margin: 6px 0 0 3px;
+    }
+    .btn.red_button { margin: 11px auto 0 !important; }
   }
-  p {
-    font-weight: normal;
-    font-size: 16px;
-    margin-top: 4px;
-    line-height: normal;
-    text-align: left;
-    padding-left: 0;
+}
+#mobile_thanks {
+  .melanie_1, .melanie_2 {
+    .btn.red_button { margin-bottom: 10px !important; }
   }
-  .source {
-    float: right;
-    clear: right;
-    text-align: right;
-    font-size: 12px;
-    font-weight: normal;
-    line-height: 14px;
-    margin: 6px 0 0 3px;
-  }
-  .btn.red_button { margin: 11px auto 0 !important; }
 }
 #thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
   .source { margin-top: 10px; }

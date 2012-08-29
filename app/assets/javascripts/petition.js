@@ -296,5 +296,8 @@ function initSharePetition() {
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
   drawModalAfterSigning();
+  if ($('#mobile_thanks').length > 0) {
+    $('body').animate({scrollTop:'-40px'}, '0');
+  }
   if ($('.tickcounter').length > 0) { updateCounter(); }
 }

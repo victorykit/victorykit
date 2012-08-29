@@ -37,8 +37,49 @@
     And they tell two friends...
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-
   .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
+- if after_share_view == "tell_two_friends-sandwich-grey"
+  .share.big_margin.two_friends
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  -#.tweet
+  -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+  .sandwich
+    .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+    = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary grey_donate")
+
+
+- if after_share_view == "tell_two_friends-sandwich-green"
+  .share.big_margin.two_friends
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  -#.tweet
+  -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+  .sandwich
+    .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+    = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary green_donate")
+
+
+- if after_share_view == "tell_two_friends-sandwich-red"
+  .share.big_margin.two_friends
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  -#.tweet
+  -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
+  .sandwich
+    .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+    = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary red_donate")
 
 - if after_share_view == "tell_two_friends_with_thanks"
   .thanks
@@ -78,7 +119,7 @@
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
 
 - if after_share_view == "mandela-time_ripe_to_do_right"
-  .image.mandela
+  .image= image_tag('mandela.png');
   .quote
     "We must use time wisely and forever realize that the time is always ripe to do right."
     %span.source
@@ -86,7 +127,7 @@
   .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
 
 - if after_share_view == "warhol-change_things_yourself"
-  .image.warhol
+  .image= image_tag('warhol.png');
   .quote
     "They always say time changes things, but you actually have to change them yourself."
     %span.source
@@ -95,7 +136,7 @@
 
 
 - if after_share_view == "teresa-stone_creates_ripples"
-  .image.teresa
+  .image= image_tag('teresa.png');
   .quote
     "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
     %span.source
@@ -104,7 +145,7 @@
 
 
 - if after_share_view == "teresa-stone_creates_ripples-color"
-  .image.teresa.color
+  .image= image_tag('teresa_color.png');
   .quote
     "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
     %span.source
@@ -113,7 +154,7 @@
 
 
 - if after_share_view == "gandhi-shake_the_world"
-  .image.gandhi
+  .image= image_tag('gandhi.png');
   .quote
     "In a gentle way, you can shake the world."
     %span.source
@@ -122,7 +163,7 @@
 
 
 - if after_share_view == "king-do_what_is_right"
-  .image.king
+  .image= image_tag('king.png');
   .quote
     "The time is always right to do what is right."
     %span.source
@@ -187,4 +228,3 @@
   .share.big_margin
     If Facebook is slow because too many people are sharing, please try again later.
   .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
-
