@@ -274,16 +274,16 @@ function initModalColor() {
 }
 
 function updateCounter() {
-  $('.tickcounter').each(function(idx, tc) {
-    var counter = parseInt(tc.innerHTML.replace(/,/g, '')) + 1;
-    counter = counter.toString()
-    var addcomma = /(\d+)(\d{3})/;
-    while (addcomma.test(counter)) {
-      counter = counter.replace(addcomma, '$1' + ',' + '$2');
-    }
-    tc.innerHTML = counter;
+  $('.tickcounter').each(function(idx, tc) {
+    var counter = parseInt(tc.innerHTML.replace(/,/g, ''), 10) + 1;
+    counter = counter.toString();
+    var addcomma = /(\d+)(\d{3})/;
+    while (addcomma.test(counter)) {
+      counter = counter.replace(addcomma, '$1' + ',' + '$2');
+    }
+    tc.innerHTML = counter;
   });
-  setTimeout(updateCounter, 1500);
+  setTimeout(updateCounter, 1500);
 }
 
 function initSharePetition() {
