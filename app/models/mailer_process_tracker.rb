@@ -13,7 +13,7 @@ class MailerProcessTracker < ActiveRecord::Base
         update_mailer_process(mailer_process, true)
         yield
       rescue => error
-        puts "Error in mail process transaction #{error} #{error.backtrace.join}"
+        Rails.logger.error "Error in mail process transaction #{error} #{error.backtrace.join}"
       ensure
         update_mailer_process(mailer_process, false)
       end

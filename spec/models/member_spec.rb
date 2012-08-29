@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Member do
   describe 'instance' do
     it { should validate_presence_of :first_name }
