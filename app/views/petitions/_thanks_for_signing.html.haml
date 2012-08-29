@@ -16,7 +16,6 @@
     This button is the most effective tool to make change happen.
   -#.btn.btn-primary.tw.red_button
   -#  %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
-
   .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
 
 - if after_share_view == "button_is_most_effective_tool_with_thanks"
@@ -155,3 +154,37 @@
     %p I really appreciate your help, but if we don't spread the word, it'll never be a success.
     %p Can you take a second and share it now?
     .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class] }
+
+
+- if after_share_view == "most_people_will_share_will_you"
+  .share.most_share
+    Most people share this petition.
+    %br
+    Will you?
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
+- if after_share_view == "over_x_shares_and_counting"
+  .share.big_margin
+    Over #{number_with_delimiter(@share_count)} shares
+    %br
+    and counting...
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
+- if after_share_view == "over_x_shares_and_counting-with_counter"
+  .share.big_margin
+    Over
+    %span.tickcounter
+      #{number_with_delimiter(@share_count)}
+    shares
+    %br
+    and counting...
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
+- if after_share_view == "if_facebook_is_slow_try_again_later"
+  .share.big_margin
+    If Facebook is slow because too many people are sharing, please try again later.
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+

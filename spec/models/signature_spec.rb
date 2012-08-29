@@ -21,8 +21,8 @@ describe Signature do
         end
       end
       
-      context 'when unkown' do
-        let(:type) { 'unkown' }
+      context 'when unknown' do
+        let(:type) { 'unknown' }
         it { should_not be_valid }
       end
     end
@@ -42,6 +42,7 @@ describe Signature do
     context 'for no user agent' do
       let(:agent) { nil }
       its(:user_agent) { should eq 'not a browser' }
+      its(:browser_name) { should eq 'not a browser' }
     end
   end
 
