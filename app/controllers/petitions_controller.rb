@@ -26,6 +26,7 @@ class PetitionsController < ApplicationController
     @fb_wall_hash = params[:wall]
     @fb_action_id = params[:fb_action_ids]
     @fb_dialog_request = params[:d]
+    @fb_autofill_request = params[:autofill]
     @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
 
     @member = member_from_cookies || member_from_email
@@ -40,6 +41,7 @@ class PetitionsController < ApplicationController
     @just_signed = flash[:signature_id].present?
     @signing_from_email = sent_email.present? && !@was_signed
 
+    @facebook_friend_ids = facebook_friends @member
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
@@ -129,6 +131,13 @@ class PetitionsController < ApplicationController
     sent_email.try(:member)
   end
   memoize :member_from_email
+
+  def facebook_friends member
+    fb_friends = FacebookFriend.find_all_by_member_id(member.id) if member.present?
+    facebook_ids = ''
+    fb_friends.each { |friend| facebook_ids << "'#{friend.facebook_id}'," } if fb_friends.present?
+    facebook_ids.to_s
+  end
 
   def track_visit
     sent_email.track_visit! if sent_email.present?

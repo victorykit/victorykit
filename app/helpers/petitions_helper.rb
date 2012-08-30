@@ -73,6 +73,11 @@ module PetitionsHelper
     Rails.configuration.social_media
   end
 
+  def facebook_request_pick_vs_autofill(member)
+    fb_friend = FacebookFriend.find_by_member_id(member.id) if member.present?
+    fb_friend.present? ? (spin! 'facebook request pick vs autofill', :referred_member, ['facebook_request', 'facebook_autofill_request']) : 'facebook_request'
+  end
+
   def progress_options_config
     {
       'x_signatures_of_y' => {
