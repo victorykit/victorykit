@@ -25,10 +25,13 @@ end
 
 def sign petition, params=nil
   path = params ? 
-  petition_path(petition, params) : 
-  petition_path(petition)
-
+    petition_path(petition, params) :
+    petition_path(petition)
   visit path
+  sign_at_petition
+end
+
+def sign_at_petition
   fill_in 'First name', with: 'Peter'
   fill_in 'Last name', with: 'Griffin'
   fill_in 'Email', with: 'peter@gmail.com'
