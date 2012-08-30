@@ -47,6 +47,7 @@ def create_petition params={}
   wait_until do
     page.has_content? 'Petition was successfully created'
   end
+  Petition.last
 end
 
 def petition_defaults
@@ -111,8 +112,9 @@ end
 
 def email_experiment_results_for petition
   visit '/admin/experiments?f=petitions'
-  { spins: find('td.spins').text.to_i, 
-    wins:  find('td.wins').text.to_i }
+  selector = "table[id='petition #{petition.id} email title']"
+  { spins: find("#{selector} td.spins").text.to_i, 
+    wins:  find("#{selector} td.wins").text.to_i }
 end
 
 def opengraph_image
