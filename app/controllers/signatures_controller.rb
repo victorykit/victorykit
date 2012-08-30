@@ -85,6 +85,10 @@ class SignaturesController < ApplicationController
   
     reference = signature.reference_type
     return unless reference && facebook_ref_types.values.include?(reference)
+    if(reference == 'facebook_request' || reference == 'facebook_autofill_request')
+      win_on_option!('facebook request pick vs autofill', reference)
+      reference = 'facebook_request'
+    end
     win_on_option!('facebook sharing options', reference)
   end
 
@@ -103,6 +107,7 @@ class SignaturesController < ApplicationController
       fb_like_hash: Signature::ReferenceType::FACEBOOK_LIKE,
       fb_share_link_ref: Signature::ReferenceType::FACEBOOK_POPUP, 
       fb_dialog_request: Signature::ReferenceType::FACEBOOK_REQUEST, 
+      fb_autofill_request: Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
       fb_wall_hash: Signature::ReferenceType::FACEBOOK_WALL
     }
   end

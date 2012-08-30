@@ -160,6 +160,14 @@ describe PetitionsHelper do
 
       it_behaves_like 'facebook button hash'
     end
+
+    context 'when facebook sharing option is "facebook_request" and sub-experiment is "facebook_autofill_request"' do
+      let(:option) { 'facebook_autofill_request' }
+      let(:button_class) { 'fb_autofill_request_btn' }
+      let(:button_text) { 'Send request to friends' }
+
+      it_behaves_like 'facebook button hash'
+    end
   end
 
   describe '#after_share_view' do
