@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PetitionStatistics do
   subject { PetitionStatistics.new(petition, google_data, local_data) }
   
