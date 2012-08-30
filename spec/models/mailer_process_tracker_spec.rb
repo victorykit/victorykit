@@ -133,11 +133,11 @@ describe MailerProcessTracker do
   describe '.put_to_sleep' do
     subject { MailerProcessTracker }
     let(:tracker) { stub }
-
+    
     before { tracker.stub(:updated_at).and_return 1.minutes.ago }
 
     it 'should take a nap' do
-      subject.should_receive :nap
+      subject.should_receive :sleep
       subject.put_to_sleep tracker
     end
   end
