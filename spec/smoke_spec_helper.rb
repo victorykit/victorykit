@@ -226,3 +226,16 @@ def current_member
   raise "member_id cookie not found" if not cookie
   Member.find_by_hash(cookie[:value]) or raise "member_id cookie value did not unhash"
 end
+
+def find_experiment_results experiment_name
+  table = element(xpath: "//table[@id = '#{experiment_name}']")
+  spins = table.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
+  wins = table.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
+  return OpenStruct.new(spins: spins, wins: wins)
+end
+
+def assert_petition_experiment_results experiment_name, spins, wins
+  experiment = find_experiment_results experiment_name
+  experiment.spins.should eq spins
+  experiment.wins.should eq wins
+end

@@ -10,7 +10,11 @@ module WebDriverHelpers
   end
 
   def element locator
-    $driver.find_element(locator)
+    begin
+      $driver.find_element(locator)
+    rescue Selenium::WebDriver::Error::NoSuchElementError => exception
+      raise Selenium::WebDriver::Error::NoSuchElementError.new ("#{exception.message}: #{locator}")
+    end
   end
 
   def elements locator
