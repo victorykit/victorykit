@@ -11,6 +11,7 @@
   VK.social_tracking_url = '#{new_social_tracking_url}';
   VK.fb_action_instance_id = '#{@existing_fb_action_instance_id}'
   VK.facebook_sharing_type = '#{facebook_sharing_option}';
+  VK.facebook_friend_ids = '#{j @facebook_friend_ids}';
   - if @was_signed
     $(document).ready(initSharePetition);
   - else
