@@ -39,12 +39,17 @@ describe 'petitions' do
     let(:user) { create :admin_user }
 
     it_behaves_like 'an author'
-    
-    it 'can send a preview email to herself' do
+
+    it 'can send a preview email to herself', js: true, driver: :webkit do
       login email, pass do
         visit new_petition_path
         page.should have_content "Email a preview to #{email}"
+        page.evaluate_script('window.alert = function() { return true; }')
+        click_link "Email a preview to #{email}"
       end
+
+      ActionMailer::Base.should have(1).delivery
+      ActionMailer::Base.deliveries.first.to.should include(email)
     end
   end
 

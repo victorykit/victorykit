@@ -41,6 +41,10 @@ RSpec.configure do |config|
   config.before(:each) do
     REDIS.flushdb
   end
+
+  config.after(:each) do
+    ActionMailer::Base.deliveries.clear
+  end
 end
 
 Capybara.default_wait_time = 5
