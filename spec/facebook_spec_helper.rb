@@ -105,8 +105,11 @@ end
 def share_petition_on_facebook fb_test_user, share_mode
   click(:id => 'the-one-in-the-modal')
   if (share_mode == :share)
+    #click(id: 'the-one-in-the-modal')
     $driver.switch_to.window $driver.window_handles.last
-    click(:name => 'share')
+    click(id: 'grant_required_clicked') if element_exists(id: 'grant_required_clicked')
+    click(id: 'grant_clicked') if element_exists(id: 'grant_clicked')
+    click(name: 'share')
     $driver.switch_to.window $driver.window_handles.first
   elsif (share_mode) == :request
     switch_to_frame(:class => "FB_UI_Dialog")

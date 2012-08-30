@@ -7,8 +7,7 @@ describe 'facebook experiments' do
 
     it 'should use the petition`s image if available' do
       login user.email, user.password do
-        create_petition(images: [image])
-        petition = Petition.last
+        petition = create_petition(images: [image])
         visit petition_path(petition, { r: member.to_hash })
         opengraph_image.should eq image
       end
@@ -16,8 +15,7 @@ describe 'facebook experiments' do
 
     it 'should use a default image when no alternative specified' do
       login user.email, user.password do
-        create_petition
-        petition = Petition.last
+        petition = create_petition
         visit petition_path(petition, { r: member.to_hash })
         defaults = Rails.configuration.social_media[:facebook][:images]
         defaults.should include opengraph_image
