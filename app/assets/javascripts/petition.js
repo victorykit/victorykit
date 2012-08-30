@@ -20,7 +20,7 @@ function trackFacebookStatus(facebookStatus) {
 function initFacebookApp() {
   var appId = $('meta[property="fb:app_id"]').attr('content');
   FB.init({
-    appId: '399709656759307',
+    appId: appId,
     status: true, // check login status
     cookie: true, // enable cookies to allow the server to access the session
     xfbml: true,  // parse XFBML
