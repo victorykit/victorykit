@@ -3,7 +3,7 @@ require 'whiplash'
 class ApplicationController < ActionController::Base
   include Bandit
   extend Memoist
-  helper_method :win!, :spin!, :is_admin
+  helper_method :win!, :spin!, :spin_if_cool_browser!, :is_admin
   
   protect_from_forgery
   before_filter :add_environment_to_title
@@ -16,8 +16,18 @@ class ApplicationController < ActionController::Base
   def connecting_ip
     request.env["HTTP_CF_CONNECTING_IP"] || request.remote_ip
   end
+
+  def spin_if_cool_browser!(test_name, goal, options=[true, false], mysession=nil)
+    return options.first unless browser_is_cool?
+    spin!(test_name, goal, options, mysession)
+  end
   
   private
+
+  def browser_is_cool?
+    browser.firefox? || browser.chrome? || browser.safari?
+  end
+
   def current_user
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
@@ -46,7 +56,7 @@ class ApplicationController < ActionController::Base
   def is_admin
     current_user && (current_user.is_super_user || current_user.is_admin)
   end
-  
+
   def role
     is_admin ? :admin : :default
   end
