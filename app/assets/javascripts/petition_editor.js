@@ -71,27 +71,40 @@ function initEditPetition(root) {
   });
 }
 
-function send_email_preview(form, url) {
+function authenticityToken() {
+  return $('meta[name="csrf-token"]').attr('content');
+}
+
+function sendEmailPreview(form, url) {
   var valuesToSubmit = form.serialize();
-    $.ajax({
-        url: url,
-        data: valuesToSubmit,
-        type: 'POST',
-        dataType: "JSON",
-        statusCode: {
-          200: function() {
-            alert("Email sent!");
-          }
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          alert(textStatus + "...Failed to send email because...\n" + jqXHR.responseText);
-        }
-    });
+  $.ajax({
+    url: url,
+    data: valuesToSubmit,
+    type: 'POST',
+    dataType: "JSON",
+    headers: { 'X-CSRF-Token': authenticityToken() },
+    statusCode: {
+      200: function() {
+        alert("Email sent!");
+      }
+    },
+    error: function(jqXHR, textStatus, errorThrown) {
+      alert(textStatus + "...Failed to send email because...\n" + jqXHR.responseText);
+    }
+  });
 }
 
 $(document).ready(function() {
   $(".petition-form").each(function() {
     initEditPetition(this);
     $("#petition_facebook_description").counter({ goal: 300, count: 'down' });
+  });
+
+  $("#email_preview_link").click(function(evt) {
+    evt.preventDefault();
+    var form = $(this).closest('form'),
+        url = $(this).data("preview-url");
+
+    sendEmailPreview(form, url);
   });
 });

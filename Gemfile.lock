@@ -104,6 +104,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.3.3)
+    columnize (0.3.6)
     compass (0.12.2)
       chunky_png (~> 1.2)
       fssm (>= 0.2.7)
@@ -114,6 +115,13 @@ GEM
     css_parser (1.2.6)
       addressable
       rdoc
+    debugger (1.2.0)
+      columnize (>= 0.3.1)
+      debugger-linecache (~> 1.1.1)
+      debugger-ruby_core_source (~> 1.1.3)
+    debugger-linecache (1.1.1)
+      debugger-ruby_core_source (>= 1.1.1)
+    debugger-ruby_core_source (1.1.3)
     diff-lcs (1.1.3)
     dkim (0.2.0)
     erubis (2.7.0)
@@ -329,6 +337,7 @@ DEPENDENCIES
   capybara-webkit
   coffee-rails (~> 3.2.1)
   compass-rails
+  debugger
   dkim
   facebook_share_widget!
   factory_girl_rails (~> 3.0)

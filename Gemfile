@@ -41,6 +41,7 @@ group :test, :development do
   gem 'jslint_on_rails'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'debugger'
 end
 
 gem 'haml'
