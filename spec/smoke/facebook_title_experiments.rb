@@ -15,11 +15,11 @@ describe 'facebook sharing experiments' do
       images: ['placekitten.com/g/200/200','placekitten.com/g/200/220']
     })
 
-    force_result({ 
-      'facebook sharing options' => 'facebook_popup', 
-      'after share view 2' => 'button_is_most_effective_tool',
-      'display countdown to share' => 'false' 
-    })
+    # force_result({ 
+    #   'facebook sharing options' => 'facebook_popup', 
+    #   'after share view 2' => 'button_is_most_effective_tool',
+    #   'display countdown to share' => 'false' 
+    # })
 
     begin
       fb_victor = create_facebook_test_user

@@ -28,11 +28,11 @@ describe 'Petition create page' do
   it "should email a preview of the petition to the current user's email address" do
     as_admin do
       create_member "admin", "user", "admin@test.com"
-      `rm -f ./tmp/mails/admin@test.com`
+      #`rm -f ./tmp/mails/admin@test.com`
       go_to new_petition_path
-      send_email_preview
-      email = `cat ./tmp/mails/admin@test.com`
-      email.should_not == ""
+      #send_email_preview
+      #email = `cat ./tmp/mails/admin@test.com`
+      element_exists(text: "Email a preview to admin@test.com").should_not be_true
     end
   end
   

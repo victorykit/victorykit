@@ -18,7 +18,7 @@ describe 'Petition page' do
   end
 
   it 'should allow users to sign' do
-    force_result({"after share view 2" => "thanks_for_signing"})
+#    force_result({"after share view 2" => "thanks_for_signing"})
     go_to petition_path(@petition)
     sign_petition
     element(:id => "thanks-for-signing-message").should be_displayed
@@ -45,13 +45,13 @@ describe 'Petition page' do
   end
 
   it "should allow signing a petition again after clicking 'does somene else' link" do
-    force_result({"after share view 2" => "thanks_for_signing"})
+    #force_result({"after share view 2" => "thanks_for_signing"})
     set_default_experiment_results
     go_to petition_path(@petition)
 
     sign_petition
     click(:class => "close")
-    click(:id => "sign-again-link")
+    click(:id => "sign-again")
     element_exists(:id => 'signature_first_name').should be_true
   end
 end
