@@ -14,6 +14,10 @@ class PetitionsController < ApplicationController
     @referring_url = request.original_url
 
     @current_member_hash = cookies[:member_id]
+
+    @referral_type = params[:ref_type]
+    @referral_value = params[:ref_val]
+
     @referring_member_hash = params[:r] || params[:t] || params[:f] || params[:share_ref] || params[:wall]
 
     @email_hash = params[:n]

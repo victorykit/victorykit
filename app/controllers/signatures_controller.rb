@@ -44,7 +44,11 @@ class SignaturesController < ApplicationController
   private
 
   def track_referrals petition, signature
-    track_regular_referral(petition, signature) || track_facebook_referral(petition, signature)
+    if params[:referral_type]
+      record_referer(signature, :referral_value, params[:referral_type])
+    else
+      track_regular_referral(petition, signature) || track_facebook_referral(petition, signature)
+    end
   end
 
   def track_regular_referral petition, signature

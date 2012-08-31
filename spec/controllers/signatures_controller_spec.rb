@@ -175,6 +175,109 @@ describe SignaturesController do
       end
     end
 
+    context 'NEW STYLE! when the user comes from' do
+      let(:member) { create(:member, first_name: 'recomender', last_name: 'smith', email: 'recomender@recomend.com') }
+
+      context 'facebook' do
+
+        context 'like post' do
+          let(:type) { Signature::ReferenceType::FACEBOOK_LIKE }
+          let(:params) { { referral_type: type, referral_value: member.to_hash } }
+          let(:option) { 'facebook_like' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'shared link' do
+          let(:type) { Signature::ReferenceType::FACEBOOK_POPUP }
+          let(:params) { { referral_type: type, referral_value: member.to_hash } }
+          let(:option) { 'facebook_popup' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'dialog request link' do
+          let(:type) { Signature::ReferenceType::FACEBOOK_REQUEST }
+          let(:params) { { referral_type: type, referral_value: member.to_hash } }
+          let(:option) { 'facebook_request' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'posted action' do
+          let(:fb_action) { create :share, :member => member, :action_id => 'abcd1234' }
+          let(:type) { Signature::ReferenceType::FACEBOOK_SHARE }
+          let(:params) { { referral_type: type, referral_value: member.to_hash } }
+          let(:option) { 'facebook_share' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+
+        context 'wall widget' do
+          let(:type) { Signature::ReferenceType::FACEBOOK_WALL }
+          let(:params) { { referral_type: type, referral_value: member.to_hash } }
+          let(:option) { 'facebook_wall' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
+      end
+
+      context 'a forwarded notification' do
+        let(:type) { Signature::ReferenceType::FORWARDED_NOTIFICATION }
+        let(:params) { { referral_type: type, referral_value: member.to_hash } }
+
+        it_behaves_like 'the event is tracked'
+      end
+
+      context 'a shared link' do
+        let(:type) { Signature::ReferenceType::SHARED_LINK }
+        let(:params) { { referral_type: type, referral_value: member.to_hash } }
+
+        it_behaves_like 'the event is tracked'
+      end
+
+      context 'a tweeted link' do
+        let(:type) { Signature::ReferenceType::TWITTER }
+        let(:params) { { referral_type: type, referral_value: member.to_hash } }
+
+        it_behaves_like 'the event is tracked'
+      end
+
+      context 'an emailed link' do
+        let(:email) { create :sent_email }
+        let(:type) { Signature::ReferenceType::EMAIL }
+        let(:params) { { referral_type: type, referral_value: email.to_hash } }
+
+        it 'should record win for email experiments' do
+          EmailExperiments.any_instance.should_receive(:win!)
+          sign_petition params
+        end
+
+        it 'should update sent email record with the signature_id value' do
+          sign_petition params
+          SentEmail.last.signature_id.should == Signature.last.id
+        end
+
+        context 'referer and reference type for the signature are persisted' do
+          before do
+            email.member = member
+            email.save!
+            sign_petition params
+          end
+
+          subject { Signature.last }
+
+          its(:reference_type) { should == type }
+          its(:referring_url) { should be_nil }
+          its(:referer) { should == member }
+        end
+      end
+    end
 
     context 'when the user leaves a field blank' do
       before { sign_without_name_or_email }
