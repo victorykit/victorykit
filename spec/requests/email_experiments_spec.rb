@@ -29,7 +29,7 @@ describe 'email experiments' do
 
         # sign and check again
         petitions.each do |petition|
-          sign petition, { n: hashes[petition] }
+          sign petition, { ref_type: Signature::ReferenceType::EMAIL, ref_val: hashes[petition] }
           results = email_experiment_results_for petition
           results[:spins].should eq 1
           results[:wins ].should eq 1

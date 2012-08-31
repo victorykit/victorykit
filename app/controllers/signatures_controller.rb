@@ -24,7 +24,6 @@ class SignaturesController < ApplicationController
           Rails.logger.error "Error queueing email on Resque: #{ex} #{ex.backtrace.join}"
           Notifications.signed_petition Signature.find(signature.id)
         end
-
         nps_win signature
         win! :signature
         member_hash = signature.member.to_hash
@@ -45,7 +44,11 @@ class SignaturesController < ApplicationController
 
   def track_referrals petition, signature
     if params[:referral_type]
-      record_referer(signature, :referral_value, params[:referral_type])
+      if(params[:referral_type] == Signature::ReferenceType::EMAIL)
+        deal_with_email_special_case(petition, signature, params[:referral_value])
+      else
+        record_referer(signature, :referral_value, params[:referral_type])
+      end
     else
       track_regular_referral(petition, signature) || track_facebook_referral(petition, signature)
     end
@@ -54,7 +57,7 @@ class SignaturesController < ApplicationController
   def track_regular_referral petition, signature
     ref_types.keys.find do |key| 
       (key == :email_hash) ? 
-      deal_with_email_special_case(petition, signature) : 
+      deal_with_email_special_case(petition, signature, params[:email_hash]) :
       record_referer(signature, key, ref_types[key])
     end
   end
@@ -131,8 +134,8 @@ class SignaturesController < ApplicationController
     true
   end
 
-  def deal_with_email_special_case petition, signature
-    return unless sent_email = SentEmail.find_by_hash(params[:email_hash])
+  def deal_with_email_special_case petition, signature, email_hash
+    return unless sent_email = SentEmail.find_by_hash(email_hash)
     sent_email.signature ||= signature
     sent_email.save!
     
