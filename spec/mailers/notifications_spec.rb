@@ -17,7 +17,7 @@ describe Notifications do
       mail.body.encoded.should include(unsubscribe_link)
     end
 
-    let(:petition_link){"http://test/petitions/#{signature.petition.id}?r=#{referer}"}
+    let(:petition_link){"http://test/petitions/#{signature.petition.id}?ref_type=#{Signature::ReferenceType::FORWARDED_NOTIFICATION}&ref_val=#{referer}"}
     it "includes a member-specific link to the petition" do
       mail.body.encoded.should include(petition_link)
     end

@@ -1,6 +1,6 @@
 Thanks for signing "<%=@signature.petition.plain_text_title.html_safe%>". Please encourage your friends to sign by forwarding this link to them:
 
-<%=@petition_link%>
+<%=@petition_link.html_safe%>
 
 <%=@signature.petition.plain_text_title.html_safe%>
 
@@ -8,4 +8,4 @@ Thanks for signing "<%=@signature.petition.plain_text_title.html_safe%>". Please
 
 -----------------------------
 
-To stop receiving emails from us, go to: <%=@unsubscribe_link%>
+To stop receiving emails from us, go to: <%=@unsubscribe_link.html_safe%>

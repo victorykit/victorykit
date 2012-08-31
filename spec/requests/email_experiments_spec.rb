@@ -16,7 +16,7 @@ describe 'email experiments' do
         hashes = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
           link = find_link('Please, click here to sign now!')[:href]
-          hash = link.scan(/n=(.*)$/).join
+          hash = link.scan(/ref_val=(.*)$/).join
           result[petition] = hash ; result
         end
 

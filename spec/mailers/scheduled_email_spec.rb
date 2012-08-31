@@ -19,9 +19,9 @@ describe ScheduledEmail do
     let(:petition_image) {create(:petition_image, petition: petition)}
     let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
-    let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
-    let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
-    let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
+    let(:petition_link){"http://test/petitions/#{petition.id}?ref_type=#{Signature::ReferenceType::EMAIL}&ref_val=#{sent_email.to_hash}"}
+    let(:unsubscribe_link){"http://test/unsubscribes/new?ref_type=#{Signature::ReferenceType::EMAIL}&ref_val=#{sent_email.to_hash}"}
+    let(:pixel_tracking_link){"http://test/pixel_tracking/new?ref_type=#{Signature::ReferenceType::EMAIL}&ref_val=#{sent_email.to_hash}"}
     
     before do
       stub_experiment_values

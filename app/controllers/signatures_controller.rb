@@ -44,7 +44,7 @@ class SignaturesController < ApplicationController
 
   def track_referrals petition, signature
     if params[:referral_type]
-      if(params[:referral_type] == Signature::ReferenceType::EMAIL)
+      if (params[:referral_type] == Signature::ReferenceType::EMAIL)
         deal_with_email_special_case(petition, signature, params[:referral_value])
       else
         record_referer(signature, :referral_value, params[:referral_type])

@@ -13,10 +13,11 @@ class ScheduledEmail < ActionMailer::Base
 
         @petition = petition
         @member = member
-        @petition_link = petition_url(petition, n: sent_email_hash)
-        @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
-        @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
-        @image_url = email_experiment.image_url
+
+        @petition_link = petition_url(petition, ref_type: Signature::ReferenceType::EMAIL, ref_val: sent_email_hash).html_safe
+        @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, ref_type: Signature::ReferenceType::EMAIL, ref_val: sent_email_hash).html_safe
+        @tracking_url = new_pixel_tracking_url(ref_type: Signature::ReferenceType::EMAIL, ref_val: sent_email_hash).html_safe
+        @image_url = email_experiment.image_url.try(:html_safe)
         @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
         headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
 

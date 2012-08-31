@@ -8,9 +8,9 @@ class Notifications < ActionMailer::Base
   #   en.notifications.signed_petition.subject
   #
   def signed_petition signature
-    @petition_link = petition_url(signature.petition, r: signature.member.to_hash)
+    @petition_link = petition_url(signature.petition, ref_type: Signature::ReferenceType::FORWARDED_NOTIFICATION, ref_val: signature.member.to_hash)
     @signature = signature
-    @unsubscribe_link = URI.join(root_url, 'unsubscribe')
+    @unsubscribe_link = URI.join(root_url, 'unsubscribe').to_s
     
     begin
       mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
@@ -23,7 +23,7 @@ class Notifications < ActionMailer::Base
   end
   
   def unsubscribed unsubscription
-    @signup_link = URI.join(root_url, 'subscribe')
+    @signup_link = URI.join(root_url, 'subscribe').to_s
     mail(subject:"You've successfully unsubscribed", to: unsubscription.email).deliver
   end
 end

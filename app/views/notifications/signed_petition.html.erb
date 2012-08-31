@@ -2,14 +2,12 @@
 
 <p>Thanks for signing "<%=@signature.petition.title%>". Please encourage your friends to sign by forwarding this link to them:</p>
 
-<p><a href="<%=@petition_link%>"><%=@petition_link%></a></p>
-
-<p><b><%=@signature.petition.title%></b></p>
+<p><a href="<%=@petition_link.html_safe%>"><b><%=@signature.petition.title%></b></a></p>
 
 <%=sanitize(@signature.petition.description)%>
 
-<p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
+<p><b><a href="<%=@petition_link.html_safe%>">Please, click here to sign now!</a></b></p>
 
 <hr />
 
-<p><a href="<%=@unsubscribe_link%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
+<p><a href="<%=@unsubscribe_link.html_safe%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
