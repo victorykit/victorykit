@@ -13,7 +13,7 @@ describe "creating an email subject experiment" do
 
     email_as_html = Nokogiri::HTML(email)
     petition_link = email_as_html.xpath("//a[text()='Please, click here to sign now!']/@href").to_s
-    go_to petition_link.scan(/(petitions\/\d+\?n=\d+\.\w+)$/).join
+    go_to petition_link.scan(/(petitions\/\d+\?ref_type=email&ref_val=\d+\.\w+)$/).join
     sign_petition
 
     experiment = email_experiment_results_for petition

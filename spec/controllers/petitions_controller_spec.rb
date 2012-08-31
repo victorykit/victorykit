@@ -1,3 +1,4 @@
+
 require 'spec_helper'
 require 'member_hasher'
 
@@ -57,7 +58,7 @@ describe PetitionsController do
       controller.stub(:cookies => {member_id: member.to_hash})
       create(:signature, :member_id => member.id, :petition_id => petition.id)
       get :show, :id => petition.id.to_s
-      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?t=#{member.to_hash}"
+      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?ref_type=twitter&ref_val=#{member.to_hash}"
     end
 
     it "should set was_signed to false if cookies don`t contain this petition" do

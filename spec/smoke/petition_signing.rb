@@ -35,7 +35,7 @@ describe 'Petition page' do
     referer = create_member
     forwarded_notification_hash = referer.to_hash
 
-    referred_link = petition_path(@petition) + "?r=#{forwarded_notification_hash}"
+    referred_link = petition_path(@petition) + "?ref_type=#{Signature::ReferenceType::FORWARDED_NOTIFICATION}&ref_val=#{forwarded_notification_hash}"
     go_to referred_link
 
     sign_petition Faker::Name.first_name, Faker::Name.last_name, Faker::Internet.email

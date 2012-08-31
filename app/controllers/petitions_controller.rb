@@ -46,7 +46,7 @@ class PetitionsController < ApplicationController
     @signing_from_email = sent_email.present? && !@was_signed
 
     @facebook_friend_ids = facebook_friends @member
-    @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
+    @tweetable_url = "http://#{request.host}#{request.fullpath}?ref_type=#{Signature::ReferenceType::TWITTER}&ref_val=#{cookies[:member_id]}"
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
   end
@@ -122,7 +122,11 @@ class PetitionsController < ApplicationController
   end
 
   def sent_email
-    SentEmail.find_by_hash(params[:n])
+    if(params[:ref_type] == Signature::ReferenceType::EMAIL)
+      SentEmail.find_by_hash(params[:ref_val])
+    else
+      SentEmail.find_by_hash(params[:n])
+    end
   end
   memoize :sent_email
 
