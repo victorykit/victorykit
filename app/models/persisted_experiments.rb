@@ -1,5 +1,5 @@
 module PersistedExperiments
-  include Bandit
+  include Whiplash
 
   def win!(goal)
     current_trials(goal).each { |trial| win_on_option!(trial.key, trial.choice, trial_session) }

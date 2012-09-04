@@ -1,8 +1,7 @@
 require 'support/request_facebook_flows'
-require 'whiplash'
 
 class Foo
-  include Bandit
+  include Whiplash
 end
 
 describe 'facebook sharing experiments' do
