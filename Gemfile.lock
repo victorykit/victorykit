@@ -29,6 +29,15 @@ GIT
     jquery-datatables-rails (1.10.0)
       jquery-rails
 
+GIT
+  remote: git://github.com/victorykit/whiplash.git
+  revision: d1ab3521c1f2a14dfd082fca2e0cdebbd6481b83
+  specs:
+    whiplash (0.0.1)
+      redis
+      redis-namespace
+      simple-random
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -379,3 +388,4 @@ DEPENDENCIES
   truncate_html
   uglifier (>= 1.0.3)
   unicorn
+  whiplash!

@@ -1,8 +1,6 @@
-require 'whiplash'
-
 #Finds a random member and chooses a petition to email them
 class PetitionEmailer
-  extend Bandit
+  extend Whiplash
   
   def self.send
     member = Member.random_and_not_recently_contacted

@@ -7,7 +7,7 @@ class Admin::HottestController < ApplicationController
     
     # for redis:
     #require "whiplash"
-    #include Bandit
+    #include Whiplash
     #redis_data = data_for_options("email_scheduler_nps", options)
   
     sent_data = SentEmail.group(:petition_id).count
