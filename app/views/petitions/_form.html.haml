@@ -2,7 +2,8 @@
 
 = simple_form_for(@petition, html: {class: 'form-horizontal petition-form' }) do |f|
   = f.input :title, as: :string
-  = f.input :short_summary, as: :string
+  %span.summary-help-text (The summary can only be 255 characters long)
+  = f.input :short_summary, as: :string, :input_html => { :maxlength => 255 }
   = f.input :description
   - if is_admin
     = f.input :to_send, label: 'Feature this petition'
