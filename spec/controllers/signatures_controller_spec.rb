@@ -44,7 +44,7 @@ describe SignaturesController do
 
       it 'should redirect to the petition page' do
         hash = Signature.last.member.to_hash
-        should redirect_to petition_url(petition, l: hash)
+        should redirect_to petition_url(petition, ref_type: Signature::ReferenceType::SHARED_LINK, ref_val: hash)
       end
 
       it 'should create a member record' do

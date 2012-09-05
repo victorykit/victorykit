@@ -22,7 +22,7 @@ describe FacebookLandingPageController do
 	      facebook_request = create(:facebook_request, petition: petition, member: member, action_id: '1234')
 	      post(:create, {request_ids: '1234'})
 
-	      should redirect_to petition_url(petition, d: member.to_hash)
+	      should redirect_to petition_url(petition, ref_type:Signature::ReferenceType::FACEBOOK_REQUEST, ref_val: member.to_hash)
 	    end
 	    it "should populate a facebook autofill request with petition and member" do
 	      petition = create(:petition)

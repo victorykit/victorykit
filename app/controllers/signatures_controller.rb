@@ -36,7 +36,8 @@ class SignaturesController < ApplicationController
     else
       flash[:invalid_signature] = signature
     end
-    redirect_to petition_url(petition, l: member_hash)
+    args = member_hash ? {ref_type: Signature::ReferenceType::SHARED_LINK, ref_val: member_hash} : {}
+    redirect_to petition_url(petition, args)
   end
 
   

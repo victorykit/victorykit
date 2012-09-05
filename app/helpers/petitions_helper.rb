@@ -42,7 +42,7 @@ module PetitionsHelper
   end
 
   def fb_like(url, ref_hash, classes = nil, is_button_count = false)
-    url = ref_hash ? "#{url}?f=#{ref_hash}" : url
+    url = ref_hash ? "#{url}?ref_type=#{Signature::ReferenceType::FACEBOOK_LIKE}&ref_val=#{ref_hash}" : url
     attributes = {href: url, send: false, show_faces: false, action: 'like', width: '270'}
     attributes.merge!({layout: 'button_count', width: '100'}) if is_button_count
     tag "fb:like", {data: attributes, class: classes}, false, true
