@@ -12,6 +12,7 @@ describe ScheduledEmail do
     EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PEITION")
     EmailExperiments.any_instance.stub(:demand_progress_introduction).and_return("dp intro")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
+    EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
   end
 
   describe "sending an email" do

@@ -6,7 +6,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <div style="font-weight:bold;margin-bottom:15px;">
       <%=@petition.short_summary %>
     </div>
-    <a href="<%=@petition_link%>" style="text-decoration:none">
+    <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
       <div>
         <%if(@image_url.present?)%>
           <img style="max-width:200px;margin-bottom:15px;" src="<%=@image_url%>"/>
@@ -28,8 +28,19 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <p>
     <%=sanitize(@petition.description)%>
     </p>
-    <p><b><a href="<%=@petition_link%>"><%= @ask_to_sign_text %></a></b></p>
-
+    <p>
+      <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
+        <%if(@show_button_instead_of_link)%>
+          <div style="width:220px; text-align:center;">
+            <div class="sign-button" style="background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;">
+              <%= @ask_to_sign_text %>
+            </div>
+          </div>
+        <%else%>
+          <b><%= @ask_to_sign_text %></b>
+        <%end%>
+      </a>
+    </p>
     <p>Thanks,<br/>
     -- The folks at Watchdog.net</p>
   </div>
