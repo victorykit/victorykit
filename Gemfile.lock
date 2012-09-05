@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/victorykit/whiplash.git
-  revision: d1ab3521c1f2a14dfd082fca2e0cdebbd6481b83
+  revision: 13fb9548aee3c69ed05bce7d6b6a85ab4966bfd8
   specs:
     whiplash (0.0.1)
       redis
@@ -250,7 +250,7 @@ GEM
     redis-activesupport (3.2.3)
       activesupport (~> 3.2.3)
       redis-store (~> 1.1.0)
-    redis-namespace (1.2.0)
+    redis-namespace (1.2.1)
       redis (~> 3.0.0)
     redis-rack (1.4.2)
       rack (~> 1.4.1)
