@@ -32,6 +32,10 @@ class EmailExperiments
     spin! "ask to sign text", :signature, ask_to_sign_text_options
   end
 
+  def show_button_instead_of_link
+    spin! "show button instead of link", :signature
+  end
+
   private
 
   def title_options
