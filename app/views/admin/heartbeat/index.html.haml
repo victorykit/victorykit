@@ -61,3 +61,16 @@
           #{@resque_stats[:working]}
         %td
           #{@resque_stats[:failed]}
+
+    %h3 Email Statistics   
+    %table.table.table-condensed.bordered-table.table-striped
+      %tr
+        %td
+          Emails sent in the past week
+        %td
+          #{@emails_sent_past_week}
+      %tr
+        %td
+          Number of emailable members
+        %td
+          #{@emailable_members}
