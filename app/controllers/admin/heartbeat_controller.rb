@@ -33,7 +33,7 @@ class Admin::HeartbeatController < ApplicationController
     @resque_stats = Resque.info
 
     @emails_sent_past_week = SentEmail.where("created_at > ?", 1.week.ago).count
-    @emailable_members = Member.all.count - Unsubscribe.all.count
+    @emailable_members = Member.count - Unsubscribe.count
   end
 
   # not using 'before_filter :require_admin' because newrelic needs to be able to access this page for availability checks
