@@ -64,6 +64,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 #
 
 gem 'newrelic_rpm'
+gem 'newrelic-redis'
 gem 'unicorn'
 gem 'foreman'
 
