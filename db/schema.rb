@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120815195803) do
+ActiveRecord::Schema.define(:version => 20120906210129) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20120815195803) do
     t.text     "referring_url"
     t.string   "first_name"
     t.string   "last_name"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "signatures", ["petition_id", "member_id"], :name => "index_signatures_on_petition_id_and_member_id"

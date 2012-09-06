@@ -60,4 +60,14 @@ describe Signature do
       subject.destroy
     end
   end
+
+  context 'geolocation' do
+    it { should respond_to :latitude }
+    it { should respond_to :longitude }
+
+    it 'shold geocode after validate' do
+      subject.should_receive :geocode
+      subject.valid?
+    end
+  end
 end
