@@ -82,38 +82,46 @@ module PetitionsHelper
   end
 
   def progress_options_config
+    total = number_with_delimiter(@sigcount, delimiter: ",")
+    goal  = number_with_delimiter(counter_size(@sigcount), delimiter: ",")
+    reach = number_with_delimiter(counter_size(@sigcount)-@sigcount, delimiter: ",")
+
+    signatures = "signature".pluralize(@sigcount)
+    supporters = @sigcount == 1 ? "supporter has" : "supporters have"
+    goal_supporters = counter_size(@sigcount) == 1 ? "supporter has" : "supporters have"
+
     {
       'x_signatures_of_y' => {
-        :text => "#{@sigcount} signatures\nof #{counter_size(@sigcount)}",
-        :classes => 'highlight_text'
+        text: "#{total} #{signatures}<br>of #{goal}",
+        classes: 'highlight_text'
       },
       'x_y_to_next_goal' => {
-        :text => "#{@sigcount} signatures\nonly #{counter_size(@sigcount)-@sigcount} more to reach our next goal!",
-        :classes => 'highlight_text break'
+        text: "#{total} #{signatures}<br>Only #{reach} more to reach our next goal!",
+        classes: 'highlight_text break'
       },
-     'x_y_to_goal' => {
-        :text => "#{@sigcount} signatures\nonly #{counter_size(@sigcount)-@sigcount} more to reach our goal!",
-        :classes => 'highlight_text break'
-     },
-     'x_y_to_go_of_z' => {
-        :text => "#{@sigcount} signatures\n only #{counter_size(@sigcount)-@sigcount} more to reach our goal of #{counter_size(@sigcount)}!",
-        :classes => 'highlight_text break'
-     },
-     'x_supporters_y_to_next_goal' => {
-         :text => "#{@sigcount} supporters have signed\nonly #{counter_size(@sigcount)-@sigcount} more to reach our next goal!",
-        :classes => 'highlight_text break'
-     },
-     'x_supporters_y_to_goal' => {
-        :text => "#{@sigcount} supporters have signed\nonly #{counter_size(@sigcount)-@sigcount} more to reach our goal!",
-        :classes => 'highlight_text break'
-     },
-     'x_supporters_help_us' => {
-        :text => "#{@sigcount} supporters have signed\nsign now to help us reach our goal of #{counter_size(@sigcount)}!",
-        :classes => 'highlight_text break'
-     },
-     'x_of_y_supporters' => {
-        :text => "#{@sigcount} of #{counter_size(@sigcount)} supporters have signed",
-        :classes => ''
+      'x_y_to_goal' => {
+        text: "#{total} #{signatures}<br>Only #{reach} more to reach our goal!",
+        classes: 'highlight_text break'
+      },
+      'x_y_to_go_of_z' => {
+        text: "#{total} #{signatures}<br>Only #{reach} more to reach our goal of #{goal}!",
+        classes: 'highlight_text break'
+      },
+      'x_supporters_y_to_next_goal' => {
+        text: "#{total} #{supporters} signed<br>Only #{reach} more to reach our next goal!",
+        classes: 'highlight_text break'
+      },
+      'x_supporters_y_to_goal' => {
+        text: "#{total} #{supporters} signed<br>Only #{reach} more to reach our goal!",
+        classes: 'highlight_text break'
+      },
+      'x_supporters_help_us' => {
+        text: "#{total} #{supporters} signed<br>Sign now to help us reach our goal of #{goal}!",
+        classes: 'highlight_text break'
+      },
+      'x_of_y_supporters' => {
+        text: "#{total} of #{goal} #{goal_supporters} signed",
+        classes: ''
       }
     }
   end
