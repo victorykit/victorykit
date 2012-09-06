@@ -1,3 +1,14 @@
+- if after_share_view == "checklist"
+  .checklist
+    .box.checked
+      Read the petition
+    .box.checked
+      Sign the petition
+    .box{ class: facebook_button[:button_class]}
+      Share the petition
+  .btn.btn-primary.red_button.fb{ class: facebook_button[:button_class], id: who }
+
+
 - if after_share_view == "thanks_for_signing"
   .share
     Thanks for signing!
@@ -6,7 +17,6 @@
   .arrow
   -#.tweet
   -#  %a.twitter-share-button{'data-url' => @tweetable_url} Tweet
-
   .btn.btn-primary{ class: facebook_button[:button_class], id: who }
     .fb_icon
     .text #{facebook_button[:button_text]}
