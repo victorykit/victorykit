@@ -1,28 +1,51 @@
 <%####################################################################################################################
 Greetings VictoryKit team member. When you change this template, please test it in multiple email clients. This can be easily done using Campaign Monitor: https://victorykit.createsend.com  
-#################################################################################################################### %><%= render "mail/email_style" %>
+#################################################################################################################### %>
+<%= render "mail/email_style" %>
 <div>
-  <div style="float:right;width:200px;margin:0 0 15px 20px;border:1px solid black; text-align:center; padding:10px;">
-    <div style="font-weight:bold;margin-bottom:15px;">
-      <%=@petition.short_summary %>
-    </div>
-    <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
-      <div>
-        <%if(@image_url.present?)%>
-          <img style="max-width:200px;margin-bottom:15px;" src="<%=@image_url%>"/>
-        <%end%>
-      </div>
-      <div class="sign-button" style="background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;">
-        Sign the Petition!
-      </div>
-    </a>
-  </div>
-
+  <table align="right" width="210"style="align: right; width: 210px;">
+    <tr>
+      <td style="cell-padding: 5px; padding: 5px;">
+        <table align="right" width="200" style="align:right;border: 1px solid black;">
+          <tr>
+            <td style="padding: 10px;">
+              <table width="180"style="width:180px;max-width:180px;">
+                <tr>
+                  <td style="font-weight:bold;margin-bottom:15px;">
+                    <%=@petition.short_summary %>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="180" style="width: 180px;">
+                    <%if(@image_url.present?)%>
+                      <img width="180" style="max-width:180px; width:180px;margin-bottom:15px;" src="<%=@image_url%>"/>
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
+                      <table>
+                        <tr>
+                          <td class="sign-button" width="180" align="right" style="font-weight:bold;width:180px;background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px; cell-padding: 10px; text-align: center;">
+                            Sign the Petition!
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
   <div>
     <%if(!@hide_demand_progress_introduction)%>
       <p><font color="#888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.</i></font></p>
     <%end%>
-
     <p>Dear <%=@member.full_name%>,</p>
 
     <p>
@@ -31,11 +54,11 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <p>
       <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
         <%if(@show_button_instead_of_link)%>
-          <div style="width:220px; text-align:center;">
-            <div class="sign-button" style="background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;">
+          <table width="280"><tr>
+            <td class="sign-button" width="280" style="font-weight: bold;width:280px;background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;cell-padding: 10px; padding: 10px; text-align: center;">
               <%= @ask_to_sign_text %>
-            </div>
-          </div>
+            </td>
+          </tr></table>
         <%else%>
           <b><%= @ask_to_sign_text %></b>
         <%end%>
@@ -44,7 +67,6 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <p>Thanks,<br/>
     -- The folks at Watchdog.net</p>
   </div>
-
 </div>
 
 <hr style="clear:both;"/>
