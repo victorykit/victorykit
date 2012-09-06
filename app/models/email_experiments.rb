@@ -11,10 +11,6 @@ class EmailExperiments
     spin!(test_name, :signature, title_options.map{|opt| opt.title}, default)
   end
 
-  def sender
-    spin! "different from lines for scheduled emails", :signature, sender_options
-  end
-
   def image_url
     spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
   end
@@ -40,11 +36,6 @@ class EmailExperiments
 
   def title_options
     PetitionTitle.find_all_by_petition_id_and_title_type(@email.petition.id, PetitionTitle::TitleType::EMAIL)
-  end
-
-  def sender_options
-    [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
-      Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6]
   end
 
   def image_url_options

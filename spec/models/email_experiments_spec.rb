@@ -44,32 +44,6 @@ describe EmailExperiments do
     end
   end
 
-  context "sender experiment" do
-    context "running for the first time for this email" do
-      it "should spin" do
-        @experiments.should_receive(:super_spin!).with("different from lines for scheduled emails", :signature, [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
-                Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6], anything()).and_return("choice")
-        @experiments.sender.should == "choice"
-      end
-      it "should create an EmailExperiment record" do
-        @experiments.stub(:super_spin!).and_return("choice")
-        @experiments.sender
-        experiment_record = EmailExperiment.last
-        experiment_record.key.should == "different from lines for scheduled emails"
-        experiment_record.choice.should == "choice"
-        experiment_record.goal.should == "signature"
-      end
-    end
-
-    context "running not for the first time for this email" do
-      it "should not spin" do
-        create(:email_experiment, :key => "different from lines for scheduled emails", :choice => "choice", :goal => "signature", :sent_email => @email)
-        @experiments.should_not_receive(:super_spin!)
-        @experiments.sender.should == "choice"
-      end
-    end
-  end
-
   context "image" do
     it "should return image url when images exist" do
       image = create(:petition_image, petition_id: @petition.id)
