@@ -28,6 +28,10 @@ class EmailExperiments
     display_introduction_experiment.present? ? display_introduction_experiment == "hide" : false
   end
 
+  def ask_to_sign_text
+    spin! "ask to sign text", :signature, ask_to_sign_text_options
+  end
+
   private
 
   def title_options
@@ -45,6 +49,11 @@ class EmailExperiments
 
   def display_options
     ["show", "hide"]
+  end
+
+  def ask_to_sign_text_options
+    ["Click here to sign -- it just takes a second.", "Sign this petition now.",
+      "SIGN THIS PETITION", "Please, click here to sign now!"]
   end
   
   # persisted experiments templates

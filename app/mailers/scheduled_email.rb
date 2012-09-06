@@ -18,6 +18,7 @@ class ScheduledEmail < ActionMailer::Base
         @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
         @image_url = email_experiment.image_url
         @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
+        @ask_to_sign_text = email_experiment.ask_to_sign_text
         headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
 
         mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.full_name}\" <#{member.email}>").deliver
