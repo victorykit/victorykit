@@ -58,7 +58,7 @@
           .progress_bar
             .numbers
               %div{ :class => progress[:classes] }
-                = progress[:text]
+                = raw progress[:text]
             .progress
               .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
           %hr
