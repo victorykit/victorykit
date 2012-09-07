@@ -51,19 +51,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <p>
     <%=sanitize(@petition.description)%>
     </p>
-    <p>
-      <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
-        <%if(@show_button_instead_of_link)%>
-          <table width="280"><tr>
-            <td class="sign-button" width="280" style="font-weight: bold;width:280px;background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;cell-padding: 10px; padding: 10px; text-align: center;">
-              <%= @ask_to_sign_text %>
-            </td>
-          </tr></table>
-        <%else%>
-          <b><%= @ask_to_sign_text %></b>
-        <%end%>
-      </a>
-    </p>
+    <p><b><a href="<%=@petition_link%>"><%= @ask_to_sign_text %></a></b></p>
     <p>Thanks,<br/>
     -- The folks at Watchdog.net</p>
   </div>

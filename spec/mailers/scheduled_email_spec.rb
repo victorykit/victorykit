@@ -8,7 +8,6 @@ describe ScheduledEmail do
 
   def stub_experiment_values
     EmailExperiments.any_instance.stub(:subject).and_return("some subject")
-    EmailExperiments.any_instance.stub(:sender).and_return("mr. sender")
     EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PEITION")
     EmailExperiments.any_instance.stub(:demand_progress_introduction).and_return("dp intro")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
@@ -39,7 +38,7 @@ describe ScheduledEmail do
     end
     
     it "includes the from" do
-      mail.from.should eq "mr. sender"
+      mail.from.should include "info@watchdog.net"
     end
 
     it "uses the member's email address" do
