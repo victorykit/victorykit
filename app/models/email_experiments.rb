@@ -15,6 +15,10 @@ class EmailExperiments
     spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
   end
 
+  def box_location
+    spin! "location of summary, image, and sign button", :signature, box_location_options
+  end
+
   def demand_progress_introduction
     previously_signed = Signature.where("email = ?", @email.email).present?
     previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", @email.email, nil, nil).present?
@@ -42,6 +46,10 @@ class EmailExperiments
     @email.petition.petition_images
   end
 
+  def box_location_options
+    ["top", "right"]
+  end
+
   def display_options
     ["show", "hide"]
   end
@@ -50,7 +58,7 @@ class EmailExperiments
     ["Click here to sign -- it just takes a second.", "Sign this petition now.",
       "SIGN THIS PETITION", "Please, click here to sign now!"]
   end
-  
+
   # persisted experiments templates
 
   def current_trials(goal)
