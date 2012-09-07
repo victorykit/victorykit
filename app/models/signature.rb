@@ -1,5 +1,5 @@
 class Signature < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :reference_type, :referer, :referring_url, :browser_name, :latitude, :longitude
+  attr_accessible :email, :first_name, :last_name, :reference_type, :referer, :referring_url, :browser_name
   belongs_to :petition
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
@@ -7,10 +7,6 @@ class Signature < ActiveRecord::Base
   validates_presence_of :first_name, :last_name
   validates :email, :presence => true, :email => true
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
-
-  # geolocation
-  geocoded_by :ip_address
-  after_validation :geocode
 
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
@@ -63,4 +59,9 @@ class Signature < ActiveRecord::Base
     end
   end
 
+  def location= l
+    self.city = l.city
+    self.state = l.state_code
+    self.country = l.country_code
+  end
 end

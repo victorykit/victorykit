@@ -19,10 +19,10 @@ class ScheduledEmail < ActionMailer::Base
         @image_url = email_experiment.image_url
         @hide_demand_progress_introduction = email_experiment.demand_progress_introduction
         @ask_to_sign_text = email_experiment.ask_to_sign_text
-        @show_button_instead_of_link = email_experiment.show_button_instead_of_link
+        # @show_button_instead_of_link = email_experiment.show_button_instead_of_link
         headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
 
-        mail(subject: email_experiment.subject, from: email_experiment.sender, to: "\"#{member.full_name}\" <#{member.email}>").deliver
+        mail(subject: email_experiment.subject, from: Settings.email.from_address, to: "\"#{member.full_name}\" <#{member.email}>").deliver
       rescue => exception
         Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
         raise ActiveRecord::Rollback

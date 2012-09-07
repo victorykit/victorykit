@@ -61,13 +61,13 @@ describe Signature do
     end
   end
 
-  context 'geolocation' do
-    it { should respond_to :latitude }
-    it { should respond_to :longitude }
+  describe '#location=' do
+    let(:place) { stub(city: 'Quahog', state_code: 'RI', country_code: 'US') }
 
-    it 'shold geocode after validate' do
-      subject.should_receive :geocode
-      subject.valid?
-    end
+    before { subject.location = place }
+    
+    its(:city) { should eq 'Quahog' }
+    its(:state) { should eq 'RI' }
+    its(:country) { should eq 'US' }
   end
 end
