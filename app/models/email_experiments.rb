@@ -32,6 +32,10 @@ class EmailExperiments
     spin! "ask to sign text", :signature, ask_to_sign_text_options
   end
 
+  def font_size_of_petition_link
+    spin! "font size of sign-this-petition link", :signature, font_size_options
+  end
+
   def show_button_instead_of_link
     spin! "show button instead of link", :signature
   end
@@ -57,6 +61,10 @@ class EmailExperiments
   def ask_to_sign_text_options
     ["Click here to sign -- it just takes a second.", "Sign this petition now.",
       "SIGN THIS PETITION", "Please, click here to sign now!"]
+  end
+
+  def font_size_options
+    ["12px", "14px", "18px", "24px"]
   end
 
   # persisted experiments templates
