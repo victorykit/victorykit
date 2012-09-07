@@ -85,6 +85,13 @@ describe EmailExperiments do
     end
   end
 
+  context "font size of sign-this-petition link" do
+    it "should spin and return selected font size" do
+      @experiments.should_receive(:super_spin!).with("font size of sign-this-petition link", :signature, ["12px", "14px", "18px", "24px"], anything()).and_return("18px")
+      @experiments.font_size_of_petition_link.should == "18px"
+    end
+  end
+
   context "win" do
     it "should win for all its trials" do
       test_name = "petition #{@petition.id} email title"
