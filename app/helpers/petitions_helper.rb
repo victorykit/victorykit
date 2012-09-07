@@ -65,6 +65,10 @@ module PetitionsHelper
     spin! 'display countdown to share', :share
   end
 
+  def sign_ajax_option
+    spin! 'use ajax to post signature before share', :share
+  end
+
   private
 
   def really_ie?

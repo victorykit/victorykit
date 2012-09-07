@@ -249,9 +249,13 @@ function bindFacebookRequestAutofillFriendsButton() {
   $('.fb_autofill_request_btn').click(sendAutofillFriendRequests);
 }
 
+function wasJustSigned() {
+  return $("#petition_page").hasClass("just_signed");
+}
+
 function drawModalAfterSigning() {
   var modal = $("#thanksModal");
-  if (screen.width > 480 && modal.length) {
+  if (screen.width > 480 && modal.length && wasJustSigned()) {
     modal.modal('toggle');
     modal.find(".countdown-text").countdown({ until: "+30s", compact: true, format: "MS", onExpiry: function() { modal.modal('hide'); }});
   }
@@ -317,8 +321,30 @@ function initSharePetition() {
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
   drawModalAfterSigning();
-  if ($('#mobile_thanks').length > 0) {
-    $('body').animate({scrollTop:'-40px'}, '0');
+  if ($("#mobile_thanks").length > 0 && wasJustSigned()) {
+    $('body').animate({ scrollTop: '-40px' }, '0');
   }
   if ($('.tickcounter').length > 0) { updateCounter(); }
 }
+
+$(document).ready(function() {
+  $("#sign_petition").click(function(evt) {
+    var button = $(this),
+        form = button.closest("form");
+    if (button.data("use-ajax")) {
+      evt.preventDefault();
+      $.ajax({ 
+        type: "post", 
+        url: form.attr("action"), 
+        data: form.serialize()
+      }).success(function(data) {
+        VK.signature_id = data.signature_id;
+        $("#petition_page").removeClass("not_signed").addClass("just_signed");
+        if (window.history && window.history.pushState) {
+          window.history.pushState({}, "", data.url);
+        }
+        initSharePetition();
+      });
+    }
+  });
+});

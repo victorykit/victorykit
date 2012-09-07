@@ -37,7 +37,17 @@ class SignaturesController < ApplicationController
     else
       flash[:invalid_signature] = signature
     end
-    redirect_to petition_url(petition, l: member_hash)
+
+    respond_to do |format|
+      format.json { 
+        if signature.valid?
+          render json: { signature_id: signature.id, url: petition_url(petition, l: member_hash) } 
+        else
+          render json: signature.errors, status: 400
+        end
+      }
+      format.html { redirect_to petition_url(petition, l: member_hash) }
+    end
   end
 
   

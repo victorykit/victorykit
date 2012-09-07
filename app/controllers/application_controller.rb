@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include NewRelic::Agent::MethodTracer
   include Whiplash
   extend Memoist
   helper_method :win!, :spin!, :spin_if_cool_browser!, :is_admin
