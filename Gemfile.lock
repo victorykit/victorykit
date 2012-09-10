@@ -158,6 +158,7 @@ GEM
     garb (0.9.1)
       activesupport (>= 2.2.0)
       crack (>= 0.1.6)
+    geocoder (1.1.3)
     haml (3.1.7)
     haml-rails (0.3.4)
       actionpack (~> 3.0)
@@ -359,6 +360,7 @@ DEPENDENCIES
   foreigner
   foreman
   garb
+  geocoder
   haml
   hirb
   jquery-datatables-rails!
