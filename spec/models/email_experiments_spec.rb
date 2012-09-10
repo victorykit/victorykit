@@ -55,7 +55,7 @@ describe EmailExperiments do
     end
   end
 
-  context "demand progress introduction" do 
+  context "demand progress introduction" do
     it "should return false if no email has previously been opened, clicked or signed" do
       @experiments.should_not_receive(:spin!)
       @experiments.demand_progress_introduction.should be_false
@@ -79,7 +79,7 @@ describe EmailExperiments do
 
   context "sign ask text" do
     it "should spin and return selected text" do
-      @experiments.should_receive(:super_spin!).with("ask to sign text", :signature, ["Click here to sign -- it just takes a second.", "Sign this petition now.", 
+      @experiments.should_receive(:super_spin!).with("ask to sign text", :signature, ["Click here to sign -- it just takes a second.", "Sign this petition now.",
       "SIGN THIS PETITION", "Please, click here to sign now!"], anything()).and_return("Sign this petition now.")
       @experiments.ask_to_sign_text.should == "Sign this petition now."
     end
@@ -87,8 +87,8 @@ describe EmailExperiments do
 
   context "font size of sign-this-petition link" do
     it "should spin and return selected font size" do
-      @experiments.should_receive(:super_spin!).with("font size of sign-this-petition link", :signature, ["12px", "14px", "18px", "24px"], anything()).and_return("18px")
-      @experiments.font_size_of_petition_link.should == "18px"
+      @experiments.should_receive(:super_spin!).with("font size of sign-this-petition link", :signature, ["100%", "125%", "150%", "200%"], anything()).and_return("150%")
+      @experiments.font_size_of_petition_link.should == "150%"
     end
   end
 

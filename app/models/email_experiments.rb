@@ -64,7 +64,7 @@ class EmailExperiments
   end
 
   def font_size_options
-    ["12px", "14px", "18px", "24px"]
+    ["100%", "125%", "150%", "200%"]
   end
 
   # persisted experiments templates
