@@ -8,6 +8,8 @@ class Signature < ActiveRecord::Base
   validates :email, :presence => true, :email => true
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
+  after_validation :geolocate
+
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
     FACEBOOK_SHARE = 'facebook_share'
@@ -59,4 +61,12 @@ class Signature < ActiveRecord::Base
     end
   end
 
+  def geolocate
+    return unless place = Geocoder.search(ip_address).first
+    self.city = place.city
+    self.metrocode = place.metrocode
+    self.state = place.state
+    self.state_code = place.state_code
+    self.country_code = place.country_code
+  end
 end
