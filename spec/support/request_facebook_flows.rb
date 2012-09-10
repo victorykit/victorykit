@@ -101,47 +101,79 @@ def visit_facebook path=nil
   visit "http://www.facebook.com#{path}"
 end
 
-def share_petition_on_facebook fb_test_user, share_mode
-  click_button(:id => 'the-one-in-the-modal')
+def share_petition fb_test_user, share_mode
+  find(:id, 'the-one-in-the-modal').click
   if (share_mode == :share)
-    $driver.switch_to.window $driver.window_handles.last
-    click(:name => 'share')
-    $driver.switch_to.window $driver.window_handles.first
+    switch_to_popup do
+      click_button ('Share Link')
+    end
   elsif (share_mode) == :request
-    switch_to_frame(:class => "FB_UI_Dialog")
-    checkbox = wait.until { element(class: "checkbox") }
-    checkbox.click
-    element(name: "ok_clicked").click
-    $driver.switch_to.window $driver.window_handles.first
+    switch_to_frame(:class => "FB_UI_Dialog") do
+      checkbox = wait.until { find(:class, "checkbox") }
+      checkbox.click
+      find(:name, "ok_clicked").click
+    end
   else
     raise "FB sharing mode #{share_mode} not yet supported in smoke specs. Heave away."
   end
 end
 
-def as_admin_at_petition_experiments
-  as_admin do
-    visit 'admin/experiments?f=petitions'
+def visit_petition_experiments admin
+  login(admin.email, admin.password) do
+    visit '/admin/experiments?f=petitions'
       yield
   end
 end
 
-def click_shared_link expected_shared_link_match
-  verify_and_click_link "a link", CGI.escape(expected_link_match)
+def click_shared_link expected_link_match
+  actual_link = find_link("a link")
+  actual_link[:href].should match CGI.escape(expected_link_match)
+  actual_link.click
+  switch_to_popup do
+    yield
+  end
 end
 
 def click_request_link
-  verify_and_click_link "a request", CGI.escape("http://apps.facebook.com/victorykit_dev/?fb_source=notification&request_ids=")
+  actual_link = find_link("a link")
+  CGI.escape(actual_link[:href]).should match CGI.escape("http://apps.facebook.com/victorykit_dev/?fb_source=notification&request_ids=")
+  actual_link[:href].click
 end
 
-def verify_and_click_link link_text, link_match
-  actual_link = element(link: link_text).attribute "href"
-  log "found link: #{actual_link}"
-  log "verifying link against: #{link_match}"
-  CGI.escape(actual_link).match(link_match).should_not be_nil
-  visit actual_link
+def switch_to_popup
+  page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
+    yield
+  end
 end
 
 def switch_to_frame locator
-  frame_id = $driver.find_element(locator)["id"]
-  $driver.switch_to.frame frame_id
+  frame_id = find(locator)["id"]
+  within_frame frame_id do
+    yield
+  end
+end
+
+def current_member
+  #note: selenium only
+  cookie = page.driver.browser.manage.cookie_named('member_id')
+  raise "member_id cookie not found" if not cookie
+  Member.find_by_hash(cookie[:value]) or raise "member_id cookie value did not unhash"
+end
+
+# clears member cookie
+def click_sign_again
+  find(:id, 'sign-again').click
+end
+
+def assert_petition_experiment_results experiment_name, spins, wins
+  experiment = find_experiment_results experiment_name
+  experiment.spins.should eq spins
+  experiment.wins.should eq wins
+end
+
+def find_experiment_results experiment_name
+  table = find(:xpath, "//table[@id = '#{experiment_name}']")
+  spins = table.find(:xpath, "tbody/tr/td[@class='spins']").text.to_i
+  wins = table.find(:xpath, "tbody/tr/td[@class='wins']").text.to_i
+  return OpenStruct.new(spins: spins, wins: wins)
 end
