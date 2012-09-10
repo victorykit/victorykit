@@ -8,9 +8,12 @@ describe ScheduledEmail do
 
   def stub_experiment_values
     EmailExperiments.any_instance.stub(:subject).and_return("some subject")
-    EmailExperiments.any_instance.stub(:sender).and_return("mr. sender")
+    EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PEITION")
     EmailExperiments.any_instance.stub(:demand_progress_introduction).and_return("dp intro")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
+    EmailExperiments.any_instance.stub(:box_location).and_return("top")
+    EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
+    EmailExperiments.any_instance.stub(:font_size_of_petition_link).and_return("18px")
   end
 
   describe "sending an email" do
@@ -22,7 +25,7 @@ describe ScheduledEmail do
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
-    
+
     before do
       stub_experiment_values
     end
@@ -35,15 +38,15 @@ describe ScheduledEmail do
     it "includes the petition title in the subject" do
       mail.subject.should eq "some subject"
     end
-    
+
     it "includes the from" do
-      mail.from.should eq "mr. sender"
+      mail.from.should include "info@watchdog.net"
     end
 
     it "uses the member's email address" do
       mail.to[0].should match /#{member.email}$/
     end
-    
+
     it "includes an image from the petition" do
       mail.body.encoded.should include "petition image url"
     end
@@ -51,7 +54,7 @@ describe ScheduledEmail do
     it "includes the petition link in the body" do
       mail.body.encoded.should include petition_link
     end
-        
+
     it "includes an unsubscribe link in the body" do
       mail.body.encoded.should include unsubscribe_link
     end
@@ -59,7 +62,7 @@ describe ScheduledEmail do
     it "includes pixel tracking image with correct url" do
       mail.body.encoded.should include "<img src=\"#{pixel_tracking_link}\" />"
     end
-    
+
     it "adds an unsubscribe header" do
       mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + sent_email.to_hash + "@appmail.watchdog.net"
     end

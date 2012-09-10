@@ -11,12 +11,12 @@ class EmailExperiments
     spin!(test_name, :signature, title_options.map{|opt| opt.title}, default)
   end
 
-  def sender
-    spin! "different from lines for scheduled emails", :signature, sender_options
-  end
-
   def image_url
     spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
+  end
+
+  def box_location
+    spin! "location of summary, image, and sign button", :signature, box_location_options
   end
 
   def demand_progress_introduction
@@ -28,25 +28,45 @@ class EmailExperiments
     display_introduction_experiment.present? ? display_introduction_experiment == "hide" : false
   end
 
+  def ask_to_sign_text
+    spin! "ask to sign text", :signature, ask_to_sign_text_options
+  end
+
+  def font_size_of_petition_link
+    spin! "font size of sign-this-petition link", :signature, font_size_options
+  end
+
+  def show_button_instead_of_link
+    spin! "show button instead of link", :signature
+  end
+
   private
 
   def title_options
     PetitionTitle.find_all_by_petition_id_and_title_type(@email.petition.id, PetitionTitle::TitleType::EMAIL)
   end
 
-  def sender_options
-    [Settings.email.from_address, Settings.email.from_address2, Settings.email.from_address3,
-      Settings.email.from_address4, Settings.email.from_address5, Settings.email.from_address6]
-  end
-
   def image_url_options
     @email.petition.petition_images
+  end
+
+  def box_location_options
+    ["top", "right"]
   end
 
   def display_options
     ["show", "hide"]
   end
-  
+
+  def ask_to_sign_text_options
+    ["Click here to sign -- it just takes a second.", "Sign this petition now.",
+      "SIGN THIS PETITION", "Please, click here to sign now!"]
+  end
+
+  def font_size_options
+    ["12px", "14px", "18px", "24px"]
+  end
+
   # persisted experiments templates
 
   def current_trials(goal)

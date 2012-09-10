@@ -34,6 +34,11 @@
     margin-bottom: 10px;
     line-height: 21px;
   }
+  #image {
+    float: right;
+    margin-left: 10px;
+    max-width: 300px;
+  }
 }
 .progress_bar {
   float: right;
@@ -283,8 +288,6 @@
   .with_icon {
     width: 90%;
   }
-}
-.petitionform {
   h1, h3 {
     margin: 0 0 20px 15px;
   }
@@ -337,6 +340,9 @@
   }
   .summary-help-text {
     margin-left: 160px;
+  }
+  .form-horizontal .controls span {
+    line-height: 28px;
   }
 }
 .petitionlist {
@@ -757,7 +763,22 @@
   .source { margin-top: 10px; }
 }
 
-#image {
-  float: right;
-  margin-left: 10px;
+
+.checklist {
+  margin: 10px 30px 20px;
+  .box {
+    height: 35px;
+    line-height: 35px;
+    padding-left: 45px;
+    margin-bottom: 10px;
+    background: url('checkbox.png') top left no-repeat;
+    font-size: 20px;
+    text-align: left;
+    &.checked {
+      background: url('checkedbox.png') top left no-repeat;
+      color: #888;
+      text-decoration: line-through;
+    }
+  }
 }
+#thanksModal .checklist { margin: 10px 85px 20px; }
