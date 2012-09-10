@@ -188,7 +188,10 @@
       %b Melanie Jones
       %br
       petition creator
-    %p Hi, #{@member.first_name}!  Thanks for signing my petition.
+    %p 
+      Hi, 
+      %span{class: "thanks_first_name"}= @member.try(:first_name) + "!" || "friend!"
+      Thanks for signing my petition.
     %p I really appreciate your help, but if we don't spread the word, it'll never be a success.
     %p Can you take a second and share it now?
     .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class], id: who  }
@@ -201,7 +204,10 @@
       %b Melanie Jones
       %br
       petition creator
-    %p Hi, #{@member.first_name}!  Thanks for signing my petition.
+    %p 
+      Hi, 
+      %span{class: "thanks_first_name"}= @member.try(:first_name) + "!" || "friend!"
+      Thanks for signing my petition.
     %p I really appreciate your help, but if we don't spread the word, it'll never be a success.
     %p Can you take a second and share it now?
     .btn.btn-primary.red_button.fb.inspirational{ class: facebook_button[:button_class], id: who  }

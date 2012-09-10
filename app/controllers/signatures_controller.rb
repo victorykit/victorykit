@@ -41,7 +41,7 @@ class SignaturesController < ApplicationController
     respond_to do |format|
       format.json { 
         if signature.valid?
-          render json: { signature_id: signature.id, url: petition_url(petition, l: member_hash) } 
+          render json: { signature_id: signature.id, url: petition_url(petition, l: member_hash), member: signature.member.attributes.slice(:first_name, :last_name, :email) } 
         else
           render json: signature.errors, status: 400
         end
