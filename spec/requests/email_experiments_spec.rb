@@ -4,9 +4,8 @@ describe 'email experiments' do
     let(:member) { create :member }
     let(:user  ) { create :admin_user }
 
-    it 'should win after signature from email', js: true, driver: :webkit  do
+    it 'should win after signature from email', js: true, driver: :webkit do
       login user.email, user.password do
-
         # create two petitions
         petitions = 2.times.map do
           create_petition(subjects: ['tutles 1', 'tutles 2'])
@@ -15,7 +14,7 @@ describe 'email experiments' do
         # send emails for them
         hashes = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
-          link = find_link('Please, click here to sign now!')[:href]
+          link = find('.sign-petition-link')[:href]
           hash = link.scan(/n=(.*)$/).join
           result[petition] = hash ; result
         end
@@ -34,10 +33,7 @@ describe 'email experiments' do
           results[:spins].should eq 1
           results[:wins ].should eq 1
         end
-
       end
     end
-
   end
-
 end

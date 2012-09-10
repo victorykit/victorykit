@@ -1,39 +1,95 @@
 <%####################################################################################################################
-Greetings VictoryKit team member. When you change this template, please test it in multiple email clients. This can be easily done using Campaign Monitor: https://victorykit.createsend.com  
-#################################################################################################################### %><%= render "mail/email_style" %>
+Greetings VictoryKit team member. When you change this template, please test it in multiple email clients. This can be easily done using Campaign Monitor: https://victorykit.createsend.com
+#################################################################################################################### %>
+<%= render "mail/email_style" %>
 <div>
-  <div style="float:right;width:200px;margin:0 0 15px 20px;border:1px solid black; text-align:center; padding:10px;">
-    <div style="font-weight:bold;margin-bottom:15px;">
-      <%=@petition.short_summary %>
-    </div>
-    <a href="<%=@petition_link%>" style="text-decoration:none">
-      <div>
-        <%if(@image_url.present?)%>
-          <img style="max-width:200px;margin-bottom:15px;" src="<%=@image_url%>"/>
-        <%end%>
-      </div>
-      <div class="sign-button" style="background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;">
-        Sign the Petition!
-      </div>
-    </a>
-  </div>
 
+  <%if(@box_location == "top")%>
+    <table style="width:100%;">
+      <tr>
+        <td style="min-width:520px;background:black;font-weight:bold;padding:5px 10px;color:#ffffff;">
+          <%if(@image_url.present?)%>
+            <table width="180" align="left" style="background:black;border-right: 10px solid black;align:left;width:180px;max-width:180px;">
+              <tr>
+                <td>
+                  <img width="180" style="max-width:180px;width:180px;margin-bottom:15px;" src="<%=@image_url%>"/>
+                </td>
+              </tr>
+            </table>
+          <%end%>
+          <span>
+            <%=@petition.short_summary %>
+          </span>
+          <table height="20"><tr><td height="20"></td></tr></table>
+          <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
+            <table width="180" style="width:180px;">
+              <tr>
+                <td class="sign-button" width="180" style="font-weight:bold;width:180px;background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px;text-align:center;">
+                  Sign the Petition!
+                </td>
+              </tr>
+            </table>
+          </a>
+        </td>
+      </tr>
+      <tr><td height="10" style="width:100%;height:10px;ackground:white;"></td></tr>
+    </table>
+  <%end%>
+
+  <%if(@box_location == "right")%>
+    <table align="right" width="210"style="align: right; width: 210px;">
+      <tr>
+        <td style="cell-padding: 5px; padding: 5px;">
+          <table align="right" width="200" style="align:right;border: 1px solid black;">
+            <tr>
+              <td style="padding: 10px;">
+                <table width="180"style="width:180px;max-width:180px;">
+                  <tr>
+                    <td style="font-weight:bold;margin-bottom:15px;">
+                      <%=@petition.short_summary %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td width="180" style="width: 180px;">
+                      <%if(@image_url.present?)%>
+                        <img width="180" style="max-width:180px; width:180px;margin-bottom:15px;" src="<%=@image_url%>"/>
+                      <%end%>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
+                        <table>
+                          <tr>
+                            <td class="sign-button" width="180" align="right" style="font-weight:bold;width:180px;background:#990000;border-radius:5px;color:white;padding:10px;font-size:16px; cell-padding: 10px; text-align: center;">
+                              Sign the Petition!
+                            </td>
+                          </tr>
+                        </table>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  <%end%>
   <div>
     <%if(!@hide_demand_progress_introduction)%>
-      <p><font color="#888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.</i></font></p>
+      <p><font color="#888888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.</i></font></p>
     <%end%>
-
     <p>Dear <%=@member.full_name%>,</p>
 
     <p>
     <%=sanitize(@petition.description)%>
     </p>
-    <p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
-
+    <p><b><a style="<%=@font_size_of_petition_link%>" href="<%=@petition_link%>"><%= @ask_to_sign_text %></a></b></p>
     <p>Thanks,<br/>
     -- The folks at Watchdog.net</p>
   </div>
-
 </div>
 
 <hr style="clear:both;"/>
