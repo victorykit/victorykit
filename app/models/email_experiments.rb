@@ -41,6 +41,11 @@ class EmailExperiments
     spin! "show button instead of link", :signature
   end
 
+  def show_ps_with_plain_text
+    (spin! "show ps with plain text", :signature, display_options) == "show" || false
+  end
+
+
   private
 
   def title_options

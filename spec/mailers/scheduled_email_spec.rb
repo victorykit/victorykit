@@ -14,6 +14,7 @@ describe ScheduledEmail do
     EmailExperiments.any_instance.stub(:box_location).and_return("top")
     EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
     EmailExperiments.any_instance.stub(:font_size_of_petition_link).and_return("150%")
+    EmailExperiments.any_instance.stub(:show_ps_with_plain_text).and_return(true)
   end
 
   describe "sending an email" do
