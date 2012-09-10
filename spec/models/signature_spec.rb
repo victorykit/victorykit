@@ -61,13 +61,33 @@ describe Signature do
     end
   end
 
-  describe '#location=' do
-    let(:place) { stub(city: 'Quahog', state_code: 'RI', country_code: 'US') }
-
-    before { subject.location = place }
+  describe '#geolocate' do
+    let(:ip) { '24.2.3.4' }
+    let(:place) { stub(
+      city: 'Independence',
+      metrocode: '616',
+      state: 'Missouri',
+      state_code: 'MO',
+      country_code: 'US'
+    )}
     
-    its(:city) { should eq 'Quahog' }
-    its(:state) { should eq 'RI' }
-    its(:country) { should eq 'US' }
+    before do
+      Geocoder.stub(:search).with(ip).and_return [place]
+      subject.ip_address = ip
+      subject.geolocate
+    end
+    
+    its(:city) { should eq 'Independence' }
+    its(:metrocode) { should eq '616' }
+    its(:state) { should eq 'Missouri' }
+    its(:state_code) { should eq 'MO' }
+    its(:country_code) { should eq 'US' }
+  end
+
+  context 'after validating' do
+    it 'should geolocate itself' do
+      subject.should_receive(:geolocate)
+      subject.valid?
+    end
   end
 end
