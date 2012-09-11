@@ -778,6 +778,20 @@
   }
 }
 
+#thanks-for-signing-message , #thanksModal, #mobile_thanks {
+  .fb {
+    .text {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 22px;
+      line-height: 25px;
+    }
+  }
+}
+#thanksModal .fb .image {
+  margin: 0 0 0 -10px;
+}
+
 
 #thanks-for-signing-message , #thanksModal, #mobile_thanks {
   .melanie_1,.melanie_2 {

@@ -225,3 +225,23 @@
       %br
       Only one thing left to do...
     .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "demand_progress_facebook_pictures"
+  .fb
+    .text
+      Most people share this petition.
+    .image= image_tag('facebook_people.png');
+    .text.will_you
+      Will you?
+    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+- if after_share_view == "demand_progress_facebook_pictures_with_thanks"
+  .fb
+    .text.thanks
+      Thanks for signing!
+    .text
+      Most people share this petition.
+    .image= image_tag('facebook_people.png');
+    .text.will_you
+      Will you?
+    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
