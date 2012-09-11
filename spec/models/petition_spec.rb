@@ -48,5 +48,11 @@ describe Petition do
       petition = create(:petition, description: "this description contains a <a href=\"http://woo.com\">link</a>")
       petition.facebook_description_for_sharing.should == "this description contains a link"
     end
+
+    it "should substitute LINK paragraph with given value" do
+      petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
+      petition.description_lsub("substituted").should == "this description has a<br><br>substituted<br><br>paragraph"
+    end
+
   end
 end

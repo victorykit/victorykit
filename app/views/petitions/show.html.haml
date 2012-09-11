@@ -63,7 +63,7 @@
               .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
           %hr
       .content
-        - petitiontext = @petition.description
+        - petitiontext = @petition.description_lsub
         - if @petition.to_send != true
           - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
         
