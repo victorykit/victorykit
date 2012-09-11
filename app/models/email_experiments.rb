@@ -16,7 +16,8 @@ class EmailExperiments
   end
 
   def box_location
-    spin! "location of summary, image, and sign button", :signature, box_location_options
+    default_box_location = "right"
+    @email.petition.short_summary.present? ? (spin! "location of summary, image, and sign button", :signature, box_location_options) : default_box_location
   end
 
   def demand_progress_introduction
@@ -39,6 +40,11 @@ class EmailExperiments
   def show_button_instead_of_link
     spin! "show button instead of link", :signature
   end
+
+  def show_ps_with_plain_text
+    (spin! "show ps with plain text", :signature, display_options) == "show" || false
+  end
+
 
   private
 
