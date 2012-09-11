@@ -34,8 +34,6 @@ class SignaturesController < ApplicationController
         Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
         flash.notice = ex.message
       end
-    else
-      flash[:invalid_signature] = signature
     end
 
     respond_to do |format|
@@ -46,7 +44,10 @@ class SignaturesController < ApplicationController
           render json: signature.errors, status: 400
         end
       }
-      format.html { redirect_to petition_url(petition, l: member_hash) }
+      format.html { 
+        flash[:invalid_signature] = signature unless signature.valid?
+        redirect_to petition_url(petition, l: member_hash) 
+      }
     end
   end
 

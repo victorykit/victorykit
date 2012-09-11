@@ -331,6 +331,7 @@ $(document).ready(function() {
   $("#sign_petition").click(function(evt) {
     var button = $(this),
         form = button.closest("form");
+
     if (button.data("use-ajax")) {
       evt.preventDefault();
       $.ajax({ 
@@ -345,6 +346,13 @@ $(document).ready(function() {
           window.history.pushState({}, "", data.url);
         }
         initSharePetition();
+      }).fail(function(response) {
+        var data = JSON.parse(response.responseText);
+        for (var field in data) {
+          var htmlField = $("[name='signature[" + field + "]']"),
+              error = $("<span/>").addClass("help-inline alert alert-error").text(data[field][0]);
+          htmlField.closest(".control-group").addClass("error").append(error);
+        }
       });
     }
   });
