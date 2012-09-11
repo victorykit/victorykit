@@ -30,6 +30,10 @@ module PetitionsHelper
     (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
   end
 
+  def facebook_button_aesthetic
+    spin! 'facebook button aesthetic', :share, ["fb_f_share", "fb_no_f_shareonfacebook", "fb_clipped_f_shareonfacebook", "fb_24k_shareonfacebook", "fb_red_share"]
+  end
+
   def facebook_button
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
