@@ -95,6 +95,6 @@ class Admin::StatsController < ApplicationController
     #chart_for_table.call Signature
     #chart_for_table.call Signature, 'created_member is not true'
 
-    chart_for_table.call Member, nil, true
+    chart_for_table.call Signature, 'created_member is true', true
   end
 end
