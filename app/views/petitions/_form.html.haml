@@ -5,9 +5,12 @@
   %span.summary-help-text (The summary can only be 255 characters long)
   = f.input :short_summary, as: :string, :input_html => { :maxlength => 255 }
   = f.input :description
+
+  #location-options
+    /= f.collection_radio_buttons :location, [["all", "All Countries"], ["non-us", "Non-United-States"], ["us", "United States"]], :first, :last        
+  
   - if is_admin
     = f.input :to_send, label: 'Feature this petition'
-  - if is_admin
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
     .controls.toggle
       = link_to_add_fields "Customize #{email_subject_title}", f, :petition_titles, {:class => "string", :id => 'email_subject_link'}, {:title_type => "email", :label_name => "#{email_subject_title}"}, "#email_subjects"
@@ -56,10 +59,8 @@
         .controls
           = link_to_add_fields "Add Image", f, :petition_images, {:class => "string btn btn-primary add_link"}, {:label_name => 'Image'}, "#sharing_images"
 
-
   .controls.submit
     -# trick not to submit the form on enter
     = f.button :submit, class: 'btn btn-primary span2', id: "petition_submit", onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
     - if is_admin
       = link_to "Email a preview to #{current_user.email}", "#", :id => "email_preview_link", :data => { "preview-url" => url_for(:controller => "petitions", :action => "send_email_preview") }
-
