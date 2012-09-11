@@ -341,7 +341,7 @@ $(document).ready(function() {
       }).success(function(data) {
         VK.signature_id = data.signature_id;
         $("#petition_page").removeClass("not_signed").addClass("just_signed");
-        $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name + "!");
+        $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
         if (window.history && window.history.pushState) {
           window.history.pushState({}, "", data.url);
         }
