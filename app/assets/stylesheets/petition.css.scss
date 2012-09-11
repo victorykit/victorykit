@@ -850,3 +850,20 @@
   }
 }
 #thanksModal .checklist { margin: 10px 85px 20px; }
+
+#location-options {
+  margin-left: 160px;
+  margin-bottom: 20px;
+  height: 20px;
+  span {
+    input {
+      margin: 0;
+      width: 20px;
+    }
+    label {
+      margin: 0;
+      padding: 0;
+      margin-right: 20px;
+    }
+  }
+}

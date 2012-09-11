@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907192921) do
+ActiveRecord::Schema.define(:version => 20120911183827) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20120907192921) do
     t.string   "ip_address"
     t.text     "facebook_description"
     t.string   "short_summary"
+    t.string   "location"
   end
 
   create_table "sent_emails", :force => true do |t|
