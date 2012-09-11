@@ -3,7 +3,7 @@ class Petition < ActiveRecord::Base
   include HtmlToPlainText
 
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :as => :admin
+  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :location, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
