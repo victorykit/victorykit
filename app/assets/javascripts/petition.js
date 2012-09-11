@@ -327,6 +327,41 @@ function initSharePetition() {
   if ($('.tickcounter').length > 0) { updateCounter(); }
 }
 
+function toggleUserCanSignPetition(enabledFlag) {
+  var CLASSES = "btn-danger btn-primary";
+  if (enabledFlag) {
+    $("#sign_petition").removeAttr("disabled").addClass(CLASSES);
+  } else {
+    $("#sign_petition").attr("disabled", "disabled").removeClass(CLASSES);
+  }
+}
+
+function clearAllSignatureErrors() {
+  $(".control-group").removeClass("error").find(".alert-error").remove();
+}
+
+function indicateUserPetitionSignedAfterAjax(data) {
+  clearAllSignatureErrors();
+  VK.signature_id = data.signature_id;
+  $("#petition_page").removeClass("not_signed").addClass("just_signed");
+  $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
+  if (window.history && window.history.pushState) {
+    window.history.pushState({}, "", data.url);
+  }
+  initSharePetition();  
+}
+
+function indicateUserSignatureFailedAfterAjax(response) {
+  clearAllSignatureErrors();
+  var data = JSON.parse(response.responseText);
+  for (var field in data) {
+    var htmlField = $("[name='signature[" + field + "]']"),
+        error = $("<span/>").addClass("help-inline alert alert-error").text(data[field][0]);
+    htmlField.closest(".control-group").addClass("error").append(error);
+  }
+  toggleUserCanSignPetition(true);
+}
+
 $(document).ready(function() {
   $("#sign_petition").click(function(evt) {
     var button = $(this),
@@ -334,26 +369,17 @@ $(document).ready(function() {
 
     if (button.data("use-ajax")) {
       evt.preventDefault();
+      toggleUserCanSignPetition(false);
+
       $.ajax({ 
         type: "post", 
         url: form.attr("action"), 
         data: form.serialize()
-      }).success(function(data) {
-        VK.signature_id = data.signature_id;
-        $("#petition_page").removeClass("not_signed").addClass("just_signed");
-        $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
-        if (window.history && window.history.pushState) {
-          window.history.pushState({}, "", data.url);
-        }
-        initSharePetition();
-      }).fail(function(response) {
-        var data = JSON.parse(response.responseText);
-        for (var field in data) {
-          var htmlField = $("[name='signature[" + field + "]']"),
-              error = $("<span/>").addClass("help-inline alert alert-error").text(data[field][0]);
-          htmlField.closest(".control-group").addClass("error").append(error);
-        }
-      });
+      }).success(
+        indicateUserPetitionSignedAfterAjax
+      ).fail(
+        indicateUserSignatureFailedAfterAjax
+      );
     }
   });
 });
