@@ -102,16 +102,19 @@ def visit_facebook path=nil
 end
 
 def share_petition fb_test_user, share_mode
-  find(:id, 'the-one-in-the-modal').click
+  wait_until {find(:id, 'the-one-in-the-modal')}.click
   if (share_mode == :share)
     switch_to_popup do
+      wait_until {find(:id, "FB_HiddenContainer")}
       click_button ('Share Link')
     end
   elsif (share_mode) == :request
-    switch_to_frame(:class => "FB_UI_Dialog") do
-      checkbox = wait.until { find(:class, "checkbox") }
-      checkbox.click
-      find(:name, "ok_clicked").click
+    within_frame 3 do
+      # 'find("checkbox")' doesn't seem to work as expected within frames
+      friend_checkbox = wait_until { all("input").select { |e| e["class"] == "checkbox" } .first }
+      friend_checkbox.set true
+      send_requests_button = all("input").select { |e| e["name"] == "ok_clicked"} .first
+      send_requests_button.click
     end
   else
     raise "FB sharing mode #{share_mode} not yet supported in smoke specs. Heave away."
@@ -135,20 +138,13 @@ def click_shared_link expected_link_match
 end
 
 def click_request_link
-  actual_link = find_link("a link")
+  actual_link = find_link("a request")
   CGI.escape(actual_link[:href]).should match CGI.escape("http://apps.facebook.com/victorykit_dev/?fb_source=notification&request_ids=")
-  actual_link[:href].click
+  actual_link.click
 end
 
 def switch_to_popup
   page.driver.browser.switch_to.window page.driver.browser.window_handles.last do
-    yield
-  end
-end
-
-def switch_to_frame locator
-  frame_id = find(locator)["id"]
-  within_frame frame_id do
     yield
   end
 end
@@ -162,7 +158,7 @@ end
 
 # clears member cookie
 def click_sign_again
-  find(:id, 'sign-again').click
+  wait_until { find(:id, 'sign-again') }.click
 end
 
 def assert_petition_experiment_results experiment_name, spins, wins
@@ -176,4 +172,15 @@ def find_experiment_results experiment_name
   spins = table.find(:xpath, "tbody/tr/td[@class='spins']").text.to_i
   wins = table.find(:xpath, "tbody/tr/td[@class='wins']").text.to_i
   return OpenStruct.new(spins: spins, wins: wins)
+end
+
+def dump_frames indices, locator
+  indices.each {|n| dump_frame(n, locator)}
+end
+
+def dump_frame n, locator
+  within_frame n do
+    puts "#{n} *******************"
+    all(locator).each { |element| puts "#{element['id']} #{element['class']}" }
+  end
 end
