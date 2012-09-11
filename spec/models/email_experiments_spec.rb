@@ -92,6 +92,30 @@ describe EmailExperiments do
     end
   end
 
+  context "box location" do
+    it "should not receive spin if petition summary is nil" do
+      @experiments.should_not_receive(:spin!)
+      @experiments.box_location.should == "right"
+    end
+    it "should receive spin if petition summary is not nil" do
+      @email.petition.short_summary = "summary present"
+      @experiments.should_receive(:super_spin!).with("location of summary, image, and sign button", :signature, ["top", "right"], anything()).and_return("top")
+      @experiments.box_location.should == "top"
+    end
+  end
+
+  context "show ps with plain text" do
+    it "should return true if choice is show" do
+      @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("show")
+      @experiments.show_ps_with_plain_text.should == true
+    end
+    it "should return false if choice is hide" do
+      @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("hide")
+      @experiments.show_ps_with_plain_text.should == false
+    end
+  end
+
+
   context "win" do
     it "should win for all its trials" do
       test_name = "petition #{@petition.id} email title"
