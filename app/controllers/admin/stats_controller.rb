@@ -77,10 +77,10 @@ class Admin::StatsController < ApplicationController
       out.default = 0
       if subtract_unsubs
         #NOTE: This does not include resubscribes, but there aren't many of those.
-        unsubs = Hash[Unsubscribe.count(prefs).map {|(k,v)| [k.to_date, v.to_f]}]
+        unsubs = Hash[Unsubscribe.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
         unsubs.default = 0
       end
-      (Date.new(2012, 05, 16)..Date.today).collect do |x|
+      (Date.new(2012, 06, 02)..Date.today).collect do |x|
         n = out[x]
         n -= unsubs[x] if subtract_unsubs
         n/sent[x]
