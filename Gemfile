@@ -42,6 +42,7 @@ group :test, :development do
   gem 'capybara'
   gem 'capybara-webkit'
   gem 'debugger'
+  gem 'shoulda-matchers'
 end
 
 gem 'haml'
