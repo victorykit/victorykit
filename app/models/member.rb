@@ -9,17 +9,30 @@ class Member < ActiveRecord::Base
   validates :first_name, :last_name, :presence => true
 
   def self.random_and_not_recently_contacted
-    query = "SELECT id FROM members WHERE id NOT IN (SELECT member_id FROM sent_emails WHERE created_at > now() - interval '1 week')"
+    query = <<-SQL
+      SELECT members.id 
+      FROM members 
+      LEFT OUTER JOIN signatures ON signatures.member_id = members.id 
+      WHERE members.id NOT IN (
+        SELECT member_id 
+        FROM sent_emails 
+        WHERE created_at > now() - interval '1 week'
+      ) AND ( 
+        signatures.member_id IS NULL OR 
+        signatures.created_member = false OR 
+        signatures.created_at < now() - interval '1 week'
+      )
+    SQL
 
     uncontacted_members = Member.connection.execute(query).to_a
     subscribe_dates = Subscribe.group(:member_id).maximum(:created_at)
     unsubscribe_dates = Unsubscribe.group(:member_id).maximum(:created_at)
-    subscribed_members = uncontacted_members.select do |m| 
+    receiver_ids = uncontacted_members.select do |m| 
       active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])
     end
 
-    return nil if subscribed_members.empty?
-    Member.find(subscribed_members.sample['id'])
+    return nil if receiver_ids.empty?
+    Member.find(receiver_ids.sample['id'])
   end
 
   def full_name
@@ -49,8 +62,8 @@ class Member < ActiveRecord::Base
   end
 
   def self.active_subscription?(subscribe_date, unsubscribe_date)
-    subscribe_date.present? && 
-    subscribe_date < 1.week.ago && 
-    ( unsubscribe_date.nil? || subscribe_date > unsubscribe_date )
+    return true if unsubscribe_date.nil?
+    return false if subscribe_date.nil?
+    return subscribe_date > unsubscribe_date
   end
 end
