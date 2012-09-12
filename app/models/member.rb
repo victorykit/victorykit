@@ -9,13 +9,14 @@ class Member < ActiveRecord::Base
   validates :first_name, :last_name, :presence => true
 
   def self.random_and_not_recently_contacted
-    query = "SELECT members.id FROM members LEFT JOIN sent_emails ON (members.id = sent_emails.member_id AND sent_emails.created_at > now() - interval '1 week') WHERE sent_emails.member_id is null"
+    query = "SELECT id FROM members WHERE id NOT IN (SELECT member_id FROM sent_emails WHERE created_at > now() - interval '1 week')"
+
     uncontacted_members = Member.connection.execute(query).to_a
     subscribe_dates = Subscribe.group(:member_id).maximum(:created_at)
     unsubscribe_dates = Unsubscribe.group(:member_id).maximum(:created_at)
     subscribed_members = uncontacted_members.select do |m| 
       active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])
-    end     
+    end
 
     return nil if subscribed_members.empty?
     Member.find(subscribed_members.sample['id'])
@@ -37,6 +38,10 @@ class Member < ActiveRecord::Base
     where(:id => MemberHasher.validate(hash)).first
   end
 
+  def latest_subscription
+    subscribes.order("created_at DESC").first
+  end
+
   private
 
   def signature_for(petition)
@@ -44,9 +49,8 @@ class Member < ActiveRecord::Base
   end
 
   def self.active_subscription?(subscribe_date, unsubscribe_date)
-    return true if unsubscribe_date.nil?
-    return false if subscribe_date.nil?
-    return subscribe_date > unsubscribe_date
+    subscribe_date.present? && 
+    subscribe_date < 1.week.ago && 
+    ( unsubscribe_date.nil? || subscribe_date > unsubscribe_date )
   end
-
 end
