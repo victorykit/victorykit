@@ -10,17 +10,17 @@ class Member < ActiveRecord::Base
 
   def self.random_and_not_recently_contacted
     query = <<-SQL
-      SELECT members.id 
+      SELECT members.id
       FROM members 
-      LEFT OUTER JOIN signatures ON signatures.member_id = members.id 
       WHERE members.id NOT IN (
         SELECT member_id 
         FROM sent_emails 
         WHERE created_at > now() - interval '1 week'
-      ) AND ( 
-        signatures.member_id IS NULL OR 
-        signatures.created_member = false OR 
-        signatures.created_at < now() - interval '1 week'
+      ) AND members.id NOT IN (
+        SELECT member_id
+        FROM signatures
+        WHERE created_at > now() - interval '1 week'
+        AND created_member = 't'
       )
     SQL
 
