@@ -71,9 +71,21 @@ describe Member do
         specify { subject.random_and_not_recently_contacted.should eql member }
       end
 
-      context 'for recently joined members' do
-        before { create :subscribe, created_at: 6.days.ago, member: member }
-        it_behaves_like 'ignoring them'
+      context 'for members who have previously signed a petition' do
+        context 'and joined that way less than a week ago' do
+          before { create :signature, created_member: true, created_at: 6.days.ago, member: member }
+          it_behaves_like 'ignoring them'
+        end
+
+        context 'and joined that way more than a week ago' do
+          before { create :signature, created_member: true, created_at: 8.days.ago, member: member }
+          it_behaves_like 'finding them'
+        end
+
+        context 'and signed recently but joined more than a week ago' do
+          before { create :signature, created_member: false, created_at: 6.days.ago, member: member }
+          it_behaves_like 'finding them'
+        end
       end
 
       context 'for recently contacted members' do
@@ -87,10 +99,7 @@ describe Member do
       end
 
       context 'for members contacted more than a week ago' do
-        before { 
-          create :subscribe, created_at: 8.days.ago, member: member
-          create :sent_email, created_at: 8.days.ago, member: member
-        }
+        before { create :sent_email, created_at: 8.days.ago, member: member }
         
         context 'and never unsubscribed' do
           it_behaves_like 'finding them'
