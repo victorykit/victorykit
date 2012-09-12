@@ -89,6 +89,40 @@ describe EmailExperiments do
     end
   end
 
+  context "demand progress introduction" do
+
+    context "hide" do
+      it "should return false if no email has previously been opened, clicked or signed" do
+        @experiments.hide_demand_progress_intro.should be_false
+      end
+      it "should return true if member has previously signed" do
+        create(:signature, :email => @email.email)
+        @experiments.hide_demand_progress_intro.should be_true
+      end
+      it "should return true if member has previously opened email" do
+        create(:sent_email, email: @email.email, opened_at: Time.now)
+        @experiments.hide_demand_progress_intro.should be_true
+      end
+      it "should return true if member has previously clicked email" do
+        create(:sent_email, email: @email.email, clicked_at: Time.now)
+        @experiments.hide_demand_progress_intro.should be_true
+      end
+    end
+
+    context "location" do
+      it "should receive spin only introduction is not hidden" do
+        @experiments.stub(:hide_demand_progress_intro).and_return(false)
+        @experiments.should_receive(:super_spin!).with("demand progress introduction location", :signature, ["top", "bottom"], anything()).and_return("bottom")
+        @experiments.demand_progress_introduction_location.should == "bottom"
+      end
+      it "should not receive spin and default location is top if introduction is hidden" do
+        @experiments.stub(:hide_demand_progress_intro).and_return(true)
+        @experiments.should_not_receive(:super_spin!)
+        @experiments.demand_progress_introduction_location.should == "top"
+      end
+    end
+  end
+
   context "show ps with plain text" do
     it "should return true if choice is show" do
       @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("show")
