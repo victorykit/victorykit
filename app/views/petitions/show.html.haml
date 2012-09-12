@@ -3,11 +3,11 @@
 
 .fb-root
 
-#mobile_thanks{data: { signed: @just_signed } }
+#mobile_thanks{class: @was_signed ? "was_signed" : "not_signed"}
   .container
     = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
-#petition_page.page_content{class: @just_signed ? "just_signed" : "not_signed"}
+#petition_page.page_content{class: @was_signed ? "was_signed" : "not_signed"}
   .secondary
     .sidebar_test
       .signature-form
@@ -44,7 +44,7 @@
 
         .social
           .mobile_signup_button
-            = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
+            = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger')
 
           - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
             .social_icons
@@ -78,7 +78,7 @@
 
   = hidden_field_tag 'petitionId', @petition.id
 
-  .modal#thanksModal{data: { signed: @just_signed } }
+  .modal#thanksModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }

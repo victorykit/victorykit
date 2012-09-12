@@ -249,13 +249,13 @@ function bindFacebookRequestAutofillFriendsButton() {
   $('.fb_autofill_request_btn').click(sendAutofillFriendRequests);
 }
 
-function wasJustSigned() {
-  return $("#petition_page").hasClass("just_signed");
+function wasSigned() {
+  return $("#petition_page").hasClass("was_signed");
 }
 
 function drawModalAfterSigning() {
   var modal = $("#thanksModal");
-  if (screen.width > 480 && modal.length && wasJustSigned()) {
+  if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
     modal.find(".countdown-text").countdown({ until: "+30s", compact: true, format: "MS", onExpiry: function() { modal.modal('hide'); }});
   }
@@ -321,7 +321,7 @@ function initSharePetition() {
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
   drawModalAfterSigning();
-  if ($("#mobile_thanks").length > 0 && wasJustSigned()) {
+  if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
   if ($('.tickcounter').length > 0) { updateCounter(); }
@@ -343,7 +343,7 @@ function clearAllSignatureErrors() {
 function indicateUserPetitionSignedAfterAjax(data) {
   clearAllSignatureErrors();
   VK.signature_id = data.signature_id;
-  $("#petition_page").removeClass("not_signed").addClass("just_signed");
+  $("#petition_page").removeClass("not_signed").addClass("was_signed");
   $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
   if (window.history && window.history.pushState) {
     window.history.pushState({}, "", data.url);

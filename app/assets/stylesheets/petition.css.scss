@@ -433,7 +433,7 @@
     .signature-form { display: block; }    
   }
 
-  &.just_signed {
+  &.was_signed {
     #thanks-for-signing-message { display: block; }
     .signature-form { display: none; }
   }
@@ -473,6 +473,11 @@
     float: left !important;
     text-align: left !important;
   }
+
+  .was_signed .mobile_signup_button {
+    display: none;
+  }
+
   .container h1 { margin-left: 0; }
   .petitionform {
     width: 95%;
@@ -620,8 +625,14 @@
 
 #mobile_thanks {
   display: none;
-  @media (min-width: 250px) and (max-width: 767px) {
-    display: block;
+
+  &.was_signed { 
+    @media (min-width: 250px) and (max-width: 767px) {
+      display: block;
+    }
+  }
+
+  @media (min-width: 250px) and (max-width: 767px) { 
     background: #ddd;
     width: 100%;
     margin-bottom: 25px;
