@@ -3,36 +3,33 @@
 
 .fb-root
 
-- if @just_signed
-  #mobile_thanks
-    .container
-      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
+#mobile_thanks{class: @was_signed ? "was_signed" : "not_signed"}
+  .container
+    = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
-#petition_page.page_content
+#petition_page.page_content{class: @was_signed ? "was_signed" : "not_signed"}
   .secondary
     .sidebar_test
-      - unless @was_signed
-        .signature-form
-          .title
-            Sign this petition!
-          .through_site
-            = form_tag [@petition, @signature] do |form|
-              = simple_fields_for :signature, @signature do |f|
-                = f.input :first_name, :hint => false
-                = f.input :last_name, :hint => false
-                = f.input :email
-                = render :partial => "hidden_params"
-                #hint.alert.alert-error
-                = f.button(:submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!' )
+      .signature-form
+        .title
+          Sign this petition!
+        .through_site
+          = form_tag [@petition, @signature] do |form|
+            = simple_fields_for :signature, @signature do |f|
+              = f.input :first_name, :hint => false
+              = f.input :last_name, :hint => false
+              = f.input :email
+              = render :partial => "hidden_params"
+              #hint.alert.alert-error
+              = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!', :"data-use-ajax" => sign_ajax_option
 
-            -#.through_fb
-            -#  .text Sign in via
-            -#  .button.btn.btn-primary Facebook!
-            .privacypolicy
-              We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
-      - else
-        #thanks-for-signing-message
-          = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
+          -#.through_fb
+          -#  .text Sign in via
+          -#  .button.btn.btn-primary Facebook!
+          .privacypolicy
+            We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+      #thanks-for-signing-message
+        = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
     - if @was_signed
       = button_to 'Does someone else want to sign? Click here.', again_petition_path(@petition, @query), id: 'sign-again', class: 'btn', method: :post
 
@@ -47,7 +44,7 @@
 
         .social
           .mobile_signup_button
-            = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
+            = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger')
 
           - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
             .social_icons
@@ -81,17 +78,16 @@
 
   = hidden_field_tag 'petitionId', @petition.id
 
-  - if @just_signed
-    .modal#thanksModal
-      .modal-body
-        = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-        = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
-        - if countdown_to_share?
-          %div.share-countdown
-            This message will disappear in
-            %span.countdown-text
-              &nbsp;
-            &hellip;
+  .modal#thanksModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
+      - if countdown_to_share?
+        %div.share-countdown
+          This message will disappear in
+          %span.countdown-text
+            &nbsp;
+          &hellip;
 
   .modal.hide#facebookFriendsModal
     .modal-body
