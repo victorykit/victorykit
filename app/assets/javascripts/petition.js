@@ -257,7 +257,6 @@ function drawModalAfterSigning() {
   var modal = $("#thanksModal");
   if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
-    modal.find(".countdown-text").countdown({ until: "+30s", compact: true, format: "MS", onExpiry: function() { modal.modal('hide'); }});
   }
 }
 

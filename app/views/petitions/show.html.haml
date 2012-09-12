@@ -81,13 +81,7 @@
   .modal#thanksModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
-      - if countdown_to_share?
-        %div.share-countdown
-          This message will disappear in
-          %span.countdown-text
-            &nbsp;
-          &hellip;
+      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modail' }
 
   .modal.hide#facebookFriendsModal
     .modal-body
