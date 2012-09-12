@@ -5,7 +5,7 @@ describe 'signatures' do
   context 'a user' do
     it 'should sign a petition' do
       sign petition
-      page.should have_selector('#thanksModal[data-signed]')
+      page.should have_selector('#petition_page.was_signed')
       page.current_url.should include "l=#{hash}"
     end
 
@@ -13,7 +13,7 @@ describe 'signatures' do
       visit petition_path petition
       click_button 'Sign!'
 
-      page.should_not have_selector('#thanksModal[data-signed]')
+      page.should have_selector('#petition_page.not_signed')
       within '.signature-form' do
         all('.alert-error', text: "can't be blank").should have(3).elements
       end
