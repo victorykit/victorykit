@@ -52,8 +52,12 @@ class Petition < ActiveRecord::Base
   end
 
   def description_lsub sub=''
-    bsub = "<br><br>#{sub}<br><br>".gsub /(<br>){4}/, '<br><br>'
-    description.gsub /(<br>){2}LINK(<br>){2}/, bsub
+    b = "<br><br>"
+    bsub = "#{b}#{sub}#{b}".gsub /#{b}#{b}/, "#{b}"
+    d = description.gsub /#{b}LINK#{b}/, bsub
+
+    psub = "<p>#{sub}</p>".gsub /<p><\/p>/, ""
+    d.gsub /<p>LINK<\/p>/, psub
   end
 
 end
