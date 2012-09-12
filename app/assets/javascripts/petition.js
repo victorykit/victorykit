@@ -1,13 +1,5 @@
 function inviteToShareOnTwitter() {
   return;
-  // $('.fb_share.btn').hide();
-  // $('.fb_popup_btn.btn-primary').hide();
-  // $('.fb_request_btn').hide();
-  // $('.fb_specific_request_btn').hide();
-  // $('.fb_share_message').hide();
-  // $('.btn.fb').hide();
-  // $('.btn.tw').show();
-  // $('.sharing-message').text("You shared on Facebook! How about Twitter?");
 }
 
 function trackFacebookStatus(facebookStatus) {
