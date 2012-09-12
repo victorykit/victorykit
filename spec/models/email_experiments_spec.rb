@@ -55,28 +55,6 @@ describe EmailExperiments do
     end
   end
 
-  context "demand progress introduction" do
-    it "should return false if no email has previously been opened, clicked or signed" do
-      @experiments.should_not_receive(:spin!)
-      @experiments.demand_progress_introduction.should be_false
-    end
-    it "should return true if member has previously signed and choice is to hide" do
-      create(:signature, :email => @email.email)
-      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "hide", :goal => "signature", :sent_email => @email)
-      @experiments.demand_progress_introduction.should be_true
-    end
-    it "should return true if member has previously opened email and choice is to hide" do
-      create(:sent_email, email: @email.email, opened_at: Time.now)
-      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "hide", :goal => "signature", :sent_email => @email)
-      @experiments.demand_progress_introduction.should be_true
-    end
-    it "should return false if member has previously clicked email and choice is to show" do
-      create(:sent_email, email: @email.email, clicked_at: Time.now)
-      create(:email_experiment, :key => "hide demand progress introduction in email", :choice => "show", :goal => "signature", :sent_email => @email)
-      @experiments.demand_progress_introduction.should be_false
-    end
-  end
-
   context "sign ask text" do
     it "should spin and return selected text" do
       @experiments.should_receive(:super_spin!).with("ask to sign text", :signature, ["Click here to sign -- it just takes a second.", "Sign this petition now.",
