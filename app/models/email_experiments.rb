@@ -19,16 +19,7 @@ class EmailExperiments
     default_box_location = "right"
     @email.petition.short_summary.present? ? (spin! "location of summary, image, and sign button", :signature, box_location_options) : default_box_location
   end
-
-  def demand_progress_introduction
-    previously_signed = Signature.where("email = ?", @email.email).present?
-    previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", @email.email, nil, nil).present?
-    if previously_signed || previously_opened_or_clicked_email
-      display_introduction_experiment = spin! "hide demand progress introduction in email", :signature, display_options
-    end
-    display_introduction_experiment.present? ? display_introduction_experiment == "hide" : false
-  end
-
+  
   def ask_to_sign_text
     spin! "ask to sign text", :signature, ask_to_sign_text_options
   end
