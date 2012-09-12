@@ -3,7 +3,7 @@ class Petition < ActiveRecord::Base
   include HtmlToPlainText
 
   attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :as => :admin
+  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :short_summary, :to_send, :location, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
@@ -44,10 +44,16 @@ class Petition < ActiveRecord::Base
   end
 
   def plain_text_description
-    convert_to_text(description)
+    convert_to_text(description_lsub)
   end
 
   def plain_text_title
     convert_to_text(title)
   end
+
+  def description_lsub sub=''
+    bsub = "<br><br>#{sub}<br><br>".gsub /(<br>){4}/, '<br><br>'
+    description.gsub /(<br>){2}LINK(<br>){2}/, bsub
+  end
+
 end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Petition do
+
   describe "validation" do
     subject { build(:petition) }
     it { should validate_presence_of :title }
@@ -8,6 +9,8 @@ describe Petition do
     it { should validate_presence_of :owner_id }
     its(:title) { should_not start_or_end_with_whitespace }
   end
+
+  it { should allow_mass_assignment_of(:location).as(:admin) }
   
   it "should find all emailable petitions not yet known to a member" do
     member = create(:member)
@@ -45,5 +48,11 @@ describe Petition do
       petition = create(:petition, description: "this description contains a <a href=\"http://woo.com\">link</a>")
       petition.facebook_description_for_sharing.should == "this description contains a link"
     end
+
+    it "should substitute LINK paragraph with given value" do
+      petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
+      petition.description_lsub("substituted").should == "this description has a<br><br>substituted<br><br>paragraph"
+    end
+
   end
 end

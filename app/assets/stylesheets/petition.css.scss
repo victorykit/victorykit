@@ -115,10 +115,21 @@
     .countdown-text { color: red; }
   }
 }
+
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.red_button, .btn.grey_button, .btn.grey_donate, .btn.green_donate, .btn.red_donate {
+  .btn {
     margin: 0 auto 10px;
     padding: 0;
+    box-shadow: none;
+    border: none;
+    &.inspirational {
+      margin: 20px auto 15px !important;
+    }
+  }
+}
+
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_red_share, .btn.grey_button, .btn.grey_donate, .btn.green_donate, .btn.red_donate {
     height: 51px;
     width: 177px;
     border: none;
@@ -150,10 +161,10 @@
       background: url("donate_red_hover.png");
     }
   }
-  .btn.red_button {
-    background: url("fb_red_button.png");
+  .btn.fb_red_share {
+    background: url("fb_red.png");
     &:hover {
-      background: url("fb_red_button_hover.png");
+      background: url("fb_red_hover.png");
     }
   }
   .btn.red_button.tw {
@@ -164,6 +175,51 @@
     }
   }
 }
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_f_share {
+    height: 70px;
+    width: 250px;
+    background: url("fb_f.png");
+    &:hover {
+      background: url("fb_f_hover.png");
+    }
+  }
+}
+
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_no_f_shareonfacebook {
+    height: 63px;
+    width: 250px;
+    background: url("fb_no_f.png");
+    &:hover {
+      background: url("fb_no_f_hover.png");
+    }
+  }
+}
+
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_clipped_f_shareonfacebook {
+    height: 46px;
+    width: 262px;
+    background: url("fb_clipped_f.png");
+    &:hover {
+      background: url("fb_clipped_f_hover.png");
+    }
+  }
+}
+
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_24k_shareonfacebook {
+    height: 52px;
+    width: 285px;
+    background: url("fb_24k.png");
+    &:hover {
+      background: url("fb_24k_hover.png");
+    }
+  }
+}
+
+
 
 #thanks-for-signing-message, #thanksModal, .signature-form, #ask-to-sign {
   padding: 10px;
@@ -745,9 +801,21 @@
     white-space: pre-line;
   }
 }
-.btn.inspirational.red_button {
-  margin: 20px auto 15px !important;
+
+#thanks-for-signing-message , #thanksModal, #mobile_thanks {
+  .fb {
+    .text {
+      margin: 20px 0;
+      text-align: center;
+      font-size: 22px;
+      line-height: 25px;
+    }
+  }
 }
+#thanksModal .fb .image {
+  margin: 0 0 0 -10px;
+}
+
 
 #thanks-for-signing-message , #thanksModal, #mobile_thanks {
   .melanie_1,.melanie_2 {
@@ -775,12 +843,12 @@
       line-height: 14px;
       margin: 6px 0 0 3px;
     }
-    .btn.red_button { margin: 11px auto 0 !important; }
+    .btn { margin: 11px auto 0 !important; }
   }
 }
 #mobile_thanks {
   .melanie_1, .melanie_2 {
-    .btn.red_button { margin-bottom: 10px !important; }
+    .btn.fb_red_share { margin-bottom: 10px !important; }
   }
 }
 #thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
@@ -806,3 +874,20 @@
   }
 }
 #thanksModal .checklist { margin: 10px 85px 20px; }
+
+#location-options {
+  margin-left: 160px;
+  margin-bottom: 20px;
+  height: 20px;
+  span {
+    input {
+      margin: 0;
+      width: 20px;
+    }
+    label {
+      margin: 0;
+      padding: 0;
+      margin-right: 20px;
+    }
+  }
+}
