@@ -249,9 +249,13 @@ function bindFacebookRequestAutofillFriendsButton() {
   $('.fb_autofill_request_btn').click(sendAutofillFriendRequests);
 }
 
+function wasSigned() {
+  return $("#petition_page").hasClass("was_signed");
+}
+
 function drawModalAfterSigning() {
   var modal = $("#thanksModal");
-  if (screen.width > 480 && modal.length) {
+  if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
     modal.find(".countdown-text").countdown({ until: "+30s", compact: true, format: "MS", onExpiry: function() { modal.modal('hide'); }});
   }
@@ -317,8 +321,65 @@ function initSharePetition() {
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
   drawModalAfterSigning();
-  if ($('#mobile_thanks').length > 0) {
-    $('body').animate({scrollTop:'-40px'}, '0');
+  if ($("#mobile_thanks").length > 0 && wasSigned()) {
+    $('body').animate({ scrollTop: '-40px' }, '0');
   }
   if ($('.tickcounter').length > 0) { updateCounter(); }
 }
+
+function toggleUserCanSignPetition(enabledFlag) {
+  var CLASSES = "btn-danger btn-primary";
+  if (enabledFlag) {
+    $("#sign_petition").removeAttr("disabled").addClass(CLASSES);
+  } else {
+    $("#sign_petition").attr("disabled", "disabled").removeClass(CLASSES);
+  }
+}
+
+function clearAllSignatureErrors() {
+  $(".control-group").removeClass("error").find(".alert-error").remove();
+}
+
+function indicateUserPetitionSignedAfterAjax(data) {
+  clearAllSignatureErrors();
+  VK.signature_id = data.signature_id;
+  $("#petition_page").removeClass("not_signed").addClass("was_signed");
+  $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
+  if (window.history && window.history.pushState) {
+    window.history.pushState({}, "", data.url);
+  }
+  initSharePetition();  
+}
+
+function indicateUserSignatureFailedAfterAjax(response) {
+  clearAllSignatureErrors();
+  var data = JSON.parse(response.responseText);
+  for (var field in data) {
+    var htmlField = $("[name='signature[" + field + "]']"),
+        error = $("<span/>").addClass("help-inline alert alert-error").text(data[field][0]);
+    htmlField.closest(".control-group").addClass("error").append(error);
+  }
+  toggleUserCanSignPetition(true);
+}
+
+$(document).ready(function() {
+  $("#sign_petition").click(function(evt) {
+    var button = $(this),
+        form = button.closest("form");
+
+    if (button.data("use-ajax")) {
+      evt.preventDefault();
+      toggleUserCanSignPetition(false);
+
+      $.ajax({ 
+        type: "post", 
+        url: form.attr("action"), 
+        data: form.serialize()
+      }).success(
+        indicateUserPetitionSignedAfterAjax
+      ).fail(
+        indicateUserSignatureFailedAfterAjax
+      );
+    }
+  });
+});
