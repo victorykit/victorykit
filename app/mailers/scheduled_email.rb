@@ -17,7 +17,8 @@ class ScheduledEmail < ActionMailer::Base
         @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
         @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
         @image_url = email_experiment.image_url
-        @hide_demand_progress_introduction = hide_demand_progress_introduction
+        @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro
+        @demand_progress_introduction_location = email_experiment.demand_progress_introduction_location
         @ask_to_sign_text = email_experiment.ask_to_sign_text
         @box_location = email_experiment.box_location
         @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
@@ -52,9 +53,4 @@ class ScheduledEmail < ActionMailer::Base
     @sent_email = SentEmail.create!(email: member.email, member: member, petition: petition)
   end
 
-  def hide_demand_progress_introduction
-    previously_signed = Signature.where("email = ?", @sent_email.email).present?
-    previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", @sent_email.email, nil, nil).present?
-    previously_signed || previously_opened_or_clicked_email
-  end
 end
