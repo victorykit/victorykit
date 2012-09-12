@@ -48,11 +48,27 @@ describe Petition do
       petition = create(:petition, description: "this description contains a <a href=\"http://woo.com\">link</a>")
       petition.facebook_description_for_sharing.should == "this description contains a link"
     end
+  end
 
-    it "should substitute LINK paragraph with given value" do
+  context "description link substitution" do
+    it "should substitute br-tagged LINK paragraph with given value" do
       petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
       petition.description_lsub("substituted").should == "this description has a<br><br>substituted<br><br>paragraph"
     end
 
+    it "should substitute br-tagged LINK paragraph with blank line given emtpy string substitution value" do
+      petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
+      petition.description_lsub("").should == "this description has a<br><br>paragraph"
+    end
+
+    it "should substitute p-tagged LINK paragraph with given value" do
+      petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
+      petition.description_lsub("substituted").should == "<p>this description has a</p><p>substituted</p><p>paragraph</p>"
+    end
+
+    it "should substitute br-tagged LINK paragraph with p break given emtpy string substitution value" do
+      petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
+      petition.description_lsub("").should == "<p>this description has a</p><p>paragraph</p>"
+    end
   end
 end
