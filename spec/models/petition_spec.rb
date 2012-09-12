@@ -56,7 +56,7 @@ describe Petition do
       petition.description_lsub("substituted").should == "this description has a<br><br>substituted<br><br>paragraph"
     end
 
-    it "should substitute br-tagged LINK paragraph with blank line given emtpy string substitution value" do
+    it "should substitute br-tagged LINK paragraph with blank line given empty string substitution value" do
       petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
       petition.description_lsub("").should == "this description has a<br><br>paragraph"
     end
@@ -66,7 +66,7 @@ describe Petition do
       petition.description_lsub("substituted").should == "<p>this description has a</p><p>substituted</p><p>paragraph</p>"
     end
 
-    it "should substitute br-tagged LINK paragraph with p break given emtpy string substitution value" do
+    it "should substitute p-tagged LINK paragraph with p break given empty string substitution value" do
       petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
       petition.description_lsub("").should == "<p>this description has a</p><p>paragraph</p>"
     end
