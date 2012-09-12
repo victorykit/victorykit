@@ -297,6 +297,8 @@ GEM
       libwebsocket (~> 0.1.3)
       multi_json (~> 1.0)
       rubyzip
+    shoulda-matchers (1.3.0)
+      activesupport (>= 3.0.0)
     simple-random (0.9.3)
     simple_form (2.0.2)
       actionpack (~> 3.0)
@@ -388,6 +390,7 @@ DEPENDENCIES
   sanitize
   sass-rails (~> 3.2.3)
   selenium-webdriver
+  shoulda-matchers
   simple-random
   simple_form
   simplecov

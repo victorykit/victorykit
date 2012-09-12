@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120907192921) do
+ActiveRecord::Schema.define(:version => 20120911183827) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(:version => 20120907192921) do
     t.string   "ip_address"
     t.text     "facebook_description"
     t.string   "short_summary"
+    t.string   "location"
   end
 
   create_table "sent_emails", :force => true do |t|
@@ -119,8 +120,8 @@ ActiveRecord::Schema.define(:version => 20120907192921) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.datetime "opened_at"
   end
 
   create_table "signatures", :force => true do |t|
@@ -185,26 +186,14 @@ ActiveRecord::Schema.define(:version => 20120907192921) do
     t.boolean  "is_admin",        :default => false, :null => false
   end
 
-  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
-
   add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
 
   add_foreign_key "petition_images", "petitions", :name => "petition_images_petition_id_fk"
 
   add_foreign_key "petition_titles", "petitions", :name => "petition_titles_petition_id_fk"
 
-  add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
-
-  add_foreign_key "sent_emails", "members", :name => "sent_emails_member_id_fk"
   add_foreign_key "sent_emails", "petitions", :name => "sent_emails_petition_id_fk"
-  add_foreign_key "sent_emails", "signatures", :name => "sent_emails_signature_id_fk"
-
-  add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
-  add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
 
   add_foreign_key "subscribes", "members", :name => "subscribes_member_id_fk"
-
-  add_foreign_key "unsubscribes", "members", :name => "unsubscribes_member_id_fk"
-  add_foreign_key "unsubscribes", "sent_emails", :name => "unsubscribes_sent_email_id_fk"
 
 end

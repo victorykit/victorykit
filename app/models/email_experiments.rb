@@ -37,6 +37,10 @@ class EmailExperiments
     spin! "font size of sign-this-petition link", :signature, font_size_options
   end
 
+  def button_color_for_petition_link
+    spin! "button color for sign-this-petition link", :signature, button_color_options
+  end
+
   def show_button_instead_of_link
     spin! "show button instead of link", :signature
   end
@@ -71,6 +75,10 @@ class EmailExperiments
 
   def font_size_options
     ["100%", "125%", "150%", "200%"]
+  end
+
+  def button_color_options
+    ["#990000", "#308014"]
   end
 
   # persisted experiments templates

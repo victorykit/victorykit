@@ -22,8 +22,9 @@ class ScheduledEmail < ActionMailer::Base
         @box_location = email_experiment.box_location
         @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
         @font_size_of_petition_link = "font-size:#{email_experiment.font_size_of_petition_link};"
+        @button_color = "background:#{email_experiment.button_color_for_petition_link};"
         headers["List-Unsubscribe"] = "mailto:unsubscribe+" + sent_email_hash + "@appmail.watchdog.net"
-        
+
         mail(subject: email_experiment.subject, from: Settings.email.from_address, to: "\"#{member.full_name}\" <#{member.email}>").deliver
       rescue => exception
         Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"

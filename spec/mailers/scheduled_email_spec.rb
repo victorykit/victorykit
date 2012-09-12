@@ -8,18 +8,19 @@ describe ScheduledEmail do
 
   def stub_experiment_values
     EmailExperiments.any_instance.stub(:subject).and_return("some subject")
-    EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PEITION")
+    EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PETITION")
     EmailExperiments.any_instance.stub(:demand_progress_introduction).and_return("dp intro")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
     EmailExperiments.any_instance.stub(:box_location).and_return("top")
     EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
     EmailExperiments.any_instance.stub(:font_size_of_petition_link).and_return("150%")
+    EmailExperiments.any_instance.stub(:button_color_for_petition_link).and_return("#308014")
     EmailExperiments.any_instance.stub(:show_ps_with_plain_text).and_return(true)
   end
 
   describe "sending an email" do
     let(:member){ create(:member)}
-    let(:petition){ create(:petition, description: "an<br>html&nbsp;&quot;body&quot;")}
+    let(:petition){ create(:petition, description: "an<br>html&nbsp;&quot;body&quot;and more<br><br>LINK<br><br>and so on")}
     let(:petition_image) {create(:petition_image, petition: petition)}
     let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
@@ -71,6 +72,17 @@ describe ScheduledEmail do
     it "includes a plain text part" do
       plain_text_part = mail.body.parts.find{|p|p.content_type =~ /text\/plain/}
       plain_text_part.body.should include "an\nhtml \"body\""
+    end
+
+    it "substitutes the LINK paragraph with the petition link" do
+      mail.body.encoded.should_not include "LINK"
+      mail.body.encoded.should include "<br><br><a href=\"#{petition_link}\">SIGN THIS PETITION</a><br><br>"
+    end
+
+    it "removes the LINK paragraph in plain text part" do
+      plain_text_part = mail.body.parts.find{|p|p.content_type =~ /text\/plain/}
+      plain_text_part.body.should_not include "LINK"
+      plain_text_part.body.should include "and more\n\nand so on"
     end
   end
 

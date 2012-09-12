@@ -2,6 +2,14 @@ require 'support/request_facebook_flows'
 
 describe 'facebook sharing experiments' do
 
+  # before(:all) do
+  #   config_for_integration self
+  # end
+
+  # after(:all) do
+  #   reset_config
+  # end
+
   let(:admin) { create :admin_user }
 
   context 'when sharing via facebook_popup' do
@@ -13,7 +21,7 @@ describe 'facebook sharing experiments' do
         create_petition({
           title: 'Facebook share via popup',
           fb_titles: ['FB Title A', 'FB Title B'],
-          images: ['placekitten.com/g/200/200','placekitten.com/g/200/220']
+          images: ['http://placekitten.com/g/200/200','http://placekitten.com/g/200/220']
         })
       end
       petition = Petition.last
@@ -25,7 +33,6 @@ describe 'facebook sharing experiments' do
 
         sign petition
         share_petition fb_victor, :share
-
         #need to capture the expected link before clearing the current_member cookie
         expected_shared_link = "#{petition_path(petition)}?share_ref=#{current_member.to_hash}"
         click_sign_again
@@ -55,14 +62,14 @@ describe 'facebook sharing experiments' do
   context 'when sharing via facebook_request' do
     it 'facebook_request registers wins when shared link leads to signature', js: true, driver: :selenium do
 
-      pending 'finish updating for capybara'
+      pending 'handle/simulate fb request loading app for localhost'
 
       login admin.email, admin.password do
         petition = create_petition({
           title: 'Multiple facebook titles!',
           description: 'You betcha',
           fb_titles: ['FB Title A', 'FB Title B'],
-          images: ['placekitten.com/g/200/200','placekitten.com/g/200/220']
+          images: ['http://placekitten.com/g/200/200','http://placekitten.com/g/200/220']
         })
       end
       petition = Petition.last
@@ -76,22 +83,23 @@ describe 'facebook sharing experiments' do
 
         sign petition
         share_petition fb_victor, :request
+        click_sign_again
 
-        as_admin_at_petition_experiments do
+        visit_petition_experiments admin do
           assert_petition_experiment_results "petition #{petition.id} facebook title", 1, 0
           assert_petition_experiment_results "petition #{petition.id} facebook image", 1, 0
         end
 
-        click_sign_again
         login_at_facebook fb_vincent
         visit_facebook "/notifications"
         click_request_link
 
-        switch_to_frame(:class => "smart_sizing_iframe")
-        find(:class, "mobile_signup_button").click
-        sign_petition "Vincent", "leTest", fb_vincent["email"]
+        within_frame 1 do
+          find(:class, "mobile_signup_button").click
+          sign_at_petition "Vincent", "leTest", fb_vincent["email"]
+        end
 
-        as_admin_at_petition_experiments do
+        visit_petition_experiments admin do
           assert_petition_experiment_results "petition #{petition.id} facebook title", 2, 1
           assert_petition_experiment_results "petition #{petition.id} facebook image", 2, 1
         end
