@@ -71,6 +71,11 @@ describe Member do
         specify { subject.random_and_not_recently_contacted.should eql member }
       end
 
+      context 'for recently joined members' do
+        before { create :subscribe, created_at: 6.days.ago, member: member }
+        it_behaves_like 'ignoring them'
+      end
+
       context 'for recently contacted members' do
         before { create :sent_email, member: member }
         it_behaves_like 'ignoring them'
@@ -82,7 +87,10 @@ describe Member do
       end
 
       context 'for members contacted more than a week ago' do
-        before { create :sent_email, created_at: 8.days.ago, member: member }
+        before { 
+          create :subscribe, created_at: 8.days.ago, member: member
+          create :sent_email, created_at: 8.days.ago, member: member
+        }
         
         context 'and never unsubscribed' do
           it_behaves_like 'finding them'
@@ -95,10 +103,10 @@ describe Member do
         context 'and have unsubscribed again' do
           before do
             Subscribe.stub_chain(:group, :maximum).
-            and_return(member.id => 8.days.ago)
+              and_return(member.id => 8.days.ago)
 
             Unsubscribe.stub_chain(:group, :maximum).
-            and_return(member.id => 3.days.ago)
+              and_return(member.id => 3.days.ago)
           end
 
           it_behaves_like 'ignoring them'
