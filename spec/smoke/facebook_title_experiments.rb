@@ -17,8 +17,7 @@ describe 'facebook sharing experiments' do
 
     # force_result({ 
     #   'facebook sharing options' => 'facebook_popup', 
-    #   'after share view 2' => 'button_is_most_effective_tool',
-    #   'display countdown to share' => 'false' 
+    #   'after share view 2' => 'button_is_most_effective_tool'
     # })
 
     begin
@@ -66,8 +65,7 @@ describe 'facebook sharing experiments' do
 
     force_result({
       'facebook sharing options' => 'facebook_request',
-      'after share view 2' => 'button_is_most_effective_tool',
-      'display countdown to share' => 'false'
+      'after share view 2' => 'button_is_most_effective_tool'
     })
 
     begin

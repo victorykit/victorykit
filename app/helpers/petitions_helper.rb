@@ -65,10 +65,6 @@ module PetitionsHelper
     progress_options_config[progress_option] || {text: '', classes: ''}
   end
 
-  def countdown_to_share?
-    spin! 'display countdown to share', :share
-  end
-
   def sign_ajax_option
     spin! 'use ajax to post signature before share', :share
   end
