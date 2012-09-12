@@ -5,11 +5,11 @@
   %span.summary-help-text (The summary can only be 255 characters long)
   = f.input :short_summary, as: :string, :input_html => { :maxlength => 255 }
   = f.input :description
-  
+
   - if is_admin
     #location-options
       = f.collection_radio_buttons :location, [["all", "All Countries"], ["non-us", "Non-United-States"], ["us", "United States"]], :first, :last
-      
+
     = f.input :to_send, label: 'Feature this petition'
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
     .controls.toggle
@@ -53,7 +53,7 @@
       .control-group.string
         .control-label Image Link
         .controls#sharing_images
-          %span (Image link can only be 255 characters long. The image will be resized to be 200 pixels wide.)
+          %span.description (Image link can only be 255 characters long. The image will be resized to be 200 pixels wide.)
           = f.fields_for :petition_images do |builder|
             = render 'petition_image_fields', {f: builder}
         .controls

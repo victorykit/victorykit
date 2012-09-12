@@ -445,7 +445,7 @@
   .summary-help-text {
     margin-left: 160px;
   }
-  .form-horizontal .controls span {
+  .form-horizontal .controls span.description {
     line-height: 28px;
   }
 }
@@ -534,7 +534,7 @@
 #petition_page {
   &.not_signed {
     #thanks-for-signing-message { display: none; }
-    .signature-form { display: block; }    
+    .signature-form { display: block; }
   }
 
   &.was_signed {
@@ -730,13 +730,13 @@
 #mobile_thanks {
   display: none;
 
-  &.was_signed { 
+  &.was_signed {
     @media (min-width: 250px) and (max-width: 767px) {
       display: block;
     }
   }
 
-  @media (min-width: 250px) and (max-width: 767px) { 
+  @media (min-width: 250px) and (max-width: 767px) {
     background: #ddd;
     width: 100%;
     margin-bottom: 25px;
@@ -935,7 +935,7 @@
     label {
       margin: 0;
       padding: 0;
-      margin-right: 20px;
+      margin: -3px 20px 0 5px;
     }
   }
 }
