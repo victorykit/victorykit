@@ -31,7 +31,7 @@ module PetitionsHelper
   end
 
   def facebook_button_aesthetic
-    spin! 'facebook button aesthetic', :share, ["fb_f_share", "fb_no_f_shareonfacebook", "fb_clipped_f_shareonfacebook", "fb_24k_shareonfacebook", "fb_red_share"]
+    spin! 'facebook button aesthetic', :share, ["fb_f_share", "fb_f_shareonfacebook", "fb_no_f_share", "fb_no_f_shareonfacebook", "fb_clipped_f_share", "fb_clipped_f_shareonfacebook", "fb_24k_share", "fb_24k_shareonfacebook", "fb_red_share", "fb_red_shareonfacebook"]
   end
 
   def facebook_button

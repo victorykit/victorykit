@@ -176,6 +176,17 @@
   }
 }
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_red_shareonfacebook {
+    height: 42px;
+    width: 260px;
+    border: none;
+    background: url("fb_red_long.png");
+    &:hover {
+      background: url("fb_red_long_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
   .btn.fb_f_share {
     height: 70px;
     width: 250px;
@@ -185,36 +196,73 @@
     }
   }
 }
-
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_no_f_shareonfacebook {
+  .btn.fb_f_shareonfacebook {
+    height: 70px;
+    width: 260px;
+    background: url("fb_f_long.png");
+    &:hover {
+      background: url("fb_f_long_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_no_f_share {
     height: 63px;
-    width: 250px;
+    width: 147px;
     background: url("fb_no_f.png");
     &:hover {
       background: url("fb_no_f_hover.png");
     }
   }
 }
-
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_clipped_f_shareonfacebook {
+  .btn.fb_no_f_shareonfacebook {
+    height: 63px;
+    width: 250px;
+    background: url("fb_no_f_long.png");
+    &:hover {
+      background: url("fb_no_f_long_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_clipped_f_share {
     height: 46px;
-    width: 262px;
+    width: 166px;
     background: url("fb_clipped_f.png");
     &:hover {
       background: url("fb_clipped_f_hover.png");
     }
   }
 }
-
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_clipped_f_shareonfacebook {
+    height: 46px;
+    width: 262px;
+    background: url("fb_clipped_f_long.png");
+    &:hover {
+      background: url("fb_clipped_f_long_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_24k_share {
+    height: 52px;
+    width: 171px;
+    background: url("fb_24k.png");
+    &:hover {
+      background: url("fb_24k_hover.png");
+    }
+  }
+}
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
   .btn.fb_24k_shareonfacebook {
     height: 52px;
     width: 285px;
-    background: url("fb_24k.png");
+    background: url("fb_24k_long.png");
     &:hover {
-      background: url("fb_24k_hover.png");
+      background: url("fb_24k_long_hover.png");
     }
   }
 }
