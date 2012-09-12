@@ -186,17 +186,8 @@ input, textarea, .btn { border-radius: 0; }
   a.close { margin: -10px -5px 0 0; }
 
 }
-.inverse_modal {
-  .modal .modal-body {
-    background-color: black;
-    color: white;
-    a.close {
-      color: white;
-      opacity: .7;
-      &:hover { opacity: .8; }
-    }
-  }
-  .modal-backdrop {
-    background: white;
+.blackout_modal {
+  .modal-backdrop, .modal-backdrop.fade.in {
+    opacity: 1;
   }
 }

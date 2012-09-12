@@ -291,8 +291,8 @@ function initShowPetition() {
 }
 
 function initModalColor() {
-  if (VK.modal_coloring === 'black-box-on-light') {
-    $('body').addClass('inverse_modal');
+  if (VK.modal_coloring === 'white-box-on-blackout') {
+    $('body').addClass('blackout_modal');
   }
 }
 
@@ -347,7 +347,7 @@ function indicateUserPetitionSignedAfterAjax(data) {
   if (window.history && window.history.pushState) {
     window.history.pushState({}, "", data.url);
   }
-  initSharePetition();  
+  initSharePetition();
 }
 
 function indicateUserSignatureFailedAfterAjax(response) {
@@ -370,9 +370,9 @@ $(document).ready(function() {
       evt.preventDefault();
       toggleUserCanSignPetition(false);
 
-      $.ajax({ 
-        type: "post", 
-        url: form.attr("action"), 
+      $.ajax({
+        type: "post",
+        url: form.attr("action"),
         data: form.serialize()
       }).success(
         indicateUserPetitionSignedAfterAjax
