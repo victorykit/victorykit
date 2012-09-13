@@ -165,8 +165,8 @@
       %b Melanie Jones
       %br
       petition creator
-    %p 
-      Hi, 
+    %p
+      Hi,
       = succeed "!" do
         %span{class: "thanks_first_name"}= @member.try(:first_name) || "friend"
       Thanks for signing my petition.
@@ -182,8 +182,8 @@
       %b Melanie Jones
       %br
       petition creator
-    %p 
-      Hi, 
+    %p
+      Hi,
       = succeed "!" do
         %span{class: "thanks_first_name"}= @member.try(:first_name) || "friend"
       Thanks for signing my petition.
@@ -253,3 +253,60 @@
     .text.will_you
       Will you?
     .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+- if after_share_view == "wow_most_shared_petition_ever"
+  .share.big_margin
+    Wow, this is one of our most shared petitions ever!
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+
+- if after_share_view == "hey_youre_not_done_yet"
+  .share.big_margin
+    .larger Hey!
+    %br
+    You're not done yet --
+    %br
+    you should share this on Facebook:
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "hey_you_youre_not_done_yet"
+  .share.big_margin
+    .larger Hey you!
+    %br
+    You're not done yet --
+    %br
+    you should share this on Facebook:
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "thanks_youre_not_done_yet"
+  .share.big_margin
+    .larger Thanks!
+    %br
+    But you're not done yet --
+    %br
+    you should share this on Facebook:
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "name_youre_not_done_yet"
+  .share.big_margin
+    .larger
+      Hey
+      = succeed "!" do
+        %span{class: "thanks_first_name"}= @member.try(:first_name) || "friend"
+    %br
+    You're not done yet --
+    %br
+    you should share this on Facebook:
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "name_big_on_facebook"
+  .share.big_margin
+    .larger
+      Hey
+      = succeed "!" do
+        %span{class: "thanks_first_name"}= @member.try(:first_name) || "friend"
+    %br
+    .smaller We noticed you're big on Facebook.
+    %br
+    .smaller Would you mind sharing this?
+  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
