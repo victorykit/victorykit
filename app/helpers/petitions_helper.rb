@@ -66,7 +66,8 @@ module PetitionsHelper
   end
 
   def sign_petition_option
-    spin! 'test different ways to sign and share', :share, ['just_sign', 'sign_and_share']
+    #spin! 'test different ways to sign and share', :share, ['just_sign', 'sign_and_share']
+    'just_sign'
   end
 
   private
