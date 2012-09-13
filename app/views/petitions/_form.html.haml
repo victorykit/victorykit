@@ -9,6 +9,23 @@
   - if is_admin
     #location-options
       = f.collection_radio_buttons :location, [["all", "All Countries"], ["non-us", "Non-United-States"], ["us", "United States"]], :first, :last
+    
+    #location-states.hidden
+      %select.chzn-select{ 'data-placeholder' => 'States', multiple: '', style: 'width:350px;', tabindex: '8' }
+        %option{ value: '' }
+        %option{ value: 'CA' } CA
+        %option{ value: 'NV' } NV
+        %option{ value: 'NY' } NY
+        %option{ value: 'TX' } TX
+        %option{ value: 'UT' } UT
+    
+    #location-countries.hidden
+      %select.chzn-select{ 'data-placeholder' => 'Countries', multiple: '', style: 'width:350px;', tabindex: '8' }
+        %option{ value: '' }
+        %option{ value: 'Canada' } Canada
+        %option{ value: 'Mexico' } Mexico
+        %option{ value: 'Panama' } Panama
+        %option{ value: 'Cuba' } Cuba
 
     = f.input :to_send, label: 'Feature this petition'
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL

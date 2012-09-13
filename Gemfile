@@ -28,6 +28,7 @@ group :assets do
   gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
   gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails'
+  gem 'chosen_rails'
 end
 
 group :test, :development do
