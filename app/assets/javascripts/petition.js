@@ -358,20 +358,18 @@ $(document).ready(function() {
     var button = $(this),
         form = button.closest("form");
 
-    if (button.data("use-ajax")) {
-      evt.preventDefault();
-      toggleUserCanSignPetition(false);
+    evt.preventDefault();
+    toggleUserCanSignPetition(false);
 
-      $.ajax({
-        type: "post",
-        url: form.attr("action"),
-        data: form.serialize()
-      }).success(
-        indicateUserPetitionSignedAfterAjax
-      ).fail(
-        indicateUserSignatureFailedAfterAjax
-      );
-    }
+    $.ajax({
+      type: "post",
+      url: form.attr("action"),
+      data: form.serialize()
+    }).success(
+      indicateUserPetitionSignedAfterAjax
+    ).fail(
+      indicateUserSignatureFailedAfterAjax
+    );
   });
 
   $('.chzn-select').chosen();
