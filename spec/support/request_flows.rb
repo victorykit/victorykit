@@ -35,7 +35,7 @@ def sign_at_petition
   fill_in 'First name', with: 'Peter'
   fill_in 'Last name', with: 'Griffin'
   fill_in 'Email', with: 'peter@gmail.com'
-  click_button 'Sign!'
+  click_button 'sign_petition'
 end
 
 def create_petition params={}

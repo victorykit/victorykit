@@ -311,7 +311,6 @@ function initSharePetition() {
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
-  drawModalAfterSigning();
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
@@ -331,7 +330,7 @@ function clearAllSignatureErrors() {
   $(".control-group").removeClass("error").find(".alert-error").remove();
 }
 
-function indicateUserPetitionSignedAfterAjax(data) {
+function updatePageToReflectUserSignature(data) {
   clearAllSignatureErrors();
   VK.signature_id = data.signature_id;
   $("#petition_page").removeClass("not_signed").addClass("was_signed");
@@ -339,7 +338,18 @@ function indicateUserPetitionSignedAfterAjax(data) {
   if (window.history && window.history.pushState) {
     window.history.pushState({}, "", data.url);
   }
+}
+
+function indicateUserPetitionSignedAfterAjax(data) {
+  updatePageToReflectUserSignature(data);
   initSharePetition();
+  drawModalAfterSigning();
+}
+
+function shareAfterUserPetitionSigned(data) {
+  updatePageToReflectUserSignature(data);
+  initSharePetition();
+  $("#thanksModal .btn.share").click();
 }
 
 function indicateUserSignatureFailedAfterAjax(response) {
@@ -354,7 +364,7 @@ function indicateUserSignatureFailedAfterAjax(response) {
 }
 
 $(document).ready(function() {
-  $("#sign_petition").click(function(evt) {
+  $("#sign_petition, #sign_petition_and_share").click(function(evt) {
     var button = $(this),
         form = button.closest("form");
 
@@ -366,7 +376,8 @@ $(document).ready(function() {
       url: form.attr("action"),
       data: form.serialize()
     }).success(
-      indicateUserPetitionSignedAfterAjax
+      button.attr("id") === "sign_petition_and_share" ? 
+        shareAfterUserPetitionSigned : indicateUserPetitionSignedAfterAjax
     ).fail(
       indicateUserSignatureFailedAfterAjax
     );

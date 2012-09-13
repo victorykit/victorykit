@@ -295,6 +295,20 @@
     input {
       margin-left: 0;
       &.btn { width: 100%; text-align: center; *clear: left; *margin-top: 20px; }
+
+      &#sign_petition_and_share, &#sign_petition {
+        float: left;
+        clear: none;
+      }
+
+      &#sign_petition.no_share {
+        width: 28%;
+      }
+
+      &#sign_petition_and_share {
+        width: 68%;
+        margin-right: 10px;
+      }
     }
     .help-inline {
       padding: 5px 10px;

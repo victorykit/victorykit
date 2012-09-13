@@ -6,7 +6,7 @@
       Sign the petition
     .box{ class: facebook_button[:button_class]}
       Share the petition
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "thanks_for_signing"
@@ -15,19 +15,19 @@
   .sharing-message
     Spread the word, share with your friends!
   .arrow
-  .btn.btn-primary{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "button_is_most_effective_tool"
   .share.big_margin
     This button is the most effective tool to make change happen.
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "button_is_most_effective_tool_with_thanks"
   .thanks
     Thanks for signing!
   .share
     This button is the most effective tool to make change happen.
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "tell_two_friends"
@@ -37,7 +37,7 @@
     And they tell two friends...
     %br
     And they tell two friends...
-  .btn.btn-primary{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "tell_two_friends-sandwich-grey"
@@ -48,7 +48,7 @@
     %br
     And they tell two friends...
   .sandwich
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
     = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary grey_donate")
 
 
@@ -60,7 +60,7 @@
     %br
     And they tell two friends...
   .sandwich
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
     = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary green_donate")
 
 
@@ -72,7 +72,7 @@
     %br
     And they tell two friends...
   .sandwich
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
     = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary red_donate")
 
 - if after_share_view == "tell_two_friends_with_thanks"
@@ -84,7 +84,7 @@
     And they tell two friends...
     %br
     And they tell two friends...
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "signatures_stop_signatures_multiply"
@@ -93,7 +93,7 @@
   .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
   .share.dual
     The signatures MULTIPLY here:
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "signatures_stop_signatures_multiply_with_thanks"
   .thanks
@@ -103,7 +103,7 @@
   .btn.btn-primary.grey_button{ :"data-dismiss" => 'modal' }
   .share.dual
     The signatures MULTIPLY here:
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "mandela-time_ripe_to_do_right"
   .image= image_tag('mandela.png');
@@ -111,7 +111,7 @@
     "We must use time wisely and forever realize that the time is always ripe to do right."
     %span.source
       \- Nelson Mandela
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 - if after_share_view == "warhol-change_things_yourself"
   .image= image_tag('warhol.png');
@@ -119,7 +119,7 @@
     "They always say time changes things, but you actually have to change them yourself."
     %span.source
       \- Andy Warhol
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "teresa-stone_creates_ripples"
@@ -128,7 +128,7 @@
     "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
     %span.source
       \- Mother Teresa
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "teresa-stone_creates_ripples-color"
@@ -137,7 +137,7 @@
     "I alone cannot change the world, but I can cast a stone across the waters to create many ripples."
     %span.source
       \- Mother Teresa
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "gandhi-shake_the_world"
@@ -146,7 +146,7 @@
     "In a gentle way, you can shake the world."
     %span.source
       \- Mahatma Gandhi
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "king-do_what_is_right"
@@ -155,7 +155,7 @@
     "The time is always right to do what is right."
     %span.source
       \- Martin Luther King, Jr.
-  .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "melanie_1"
@@ -172,7 +172,7 @@
       Thanks for signing my petition.
     %p I really appreciate your help, but if we don't spread the word, it'll never be a success.
     %p Can you take a second and share it now?
-    .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+    .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "melanie_2"
@@ -189,7 +189,7 @@
       Thanks for signing my petition.
     %p I really appreciate your help, but if we don't spread the word, it'll never be a success.
     %p Can you take a second and share it now?
-    .btn.btn-primary.fb.inspirational{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+    .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 
 - if after_share_view == "most_people_will_share_will_you"
@@ -197,7 +197,7 @@
     Most people share this petition.
     %br
     Will you?
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "over_x_shares_and_counting"
@@ -205,7 +205,7 @@
     Over #{number_with_delimiter(@share_count)} shares
     %br
     and counting...
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "over_x_shares_and_counting-with_counter"
@@ -216,13 +216,13 @@
     shares
     %br
     and counting...
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "if_facebook_is_slow_try_again_later"
   .share.big_margin
     If Facebook is slow because too many people are sharing, please try again later.
-  .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
 - if after_share_view == "almost_there_one_thing_to_do"
@@ -232,7 +232,7 @@
       You're almost there!
       %br
       Only one thing left to do...
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "demand_progress_facebook_pictures"
   .fb
@@ -241,7 +241,7 @@
     .image= image_tag('facebook_people.png');
     .text.will_you
       Will you?
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
 - if after_share_view == "demand_progress_facebook_pictures_with_thanks"
   .fb
@@ -252,4 +252,4 @@
     .image= image_tag('facebook_people.png');
     .text.will_you
       Will you?
-    .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
