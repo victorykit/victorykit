@@ -203,6 +203,26 @@
   }
 }
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_f_24_share {
+    height: 70px;
+    width: 250px;
+    background: url("fb_f_24.png");
+    &:hover {
+      background: url("fb_f_24_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn.fb_f_24_shareonfacebook {
+    height: 70px;
+    width: 260px;
+    background: url("fb_f_24_long.png");
+    &:hover {
+      background: url("fb_f_24_long_hover.png");
+    }
+  }
+}
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
   .btn.fb_no_f_share {
     height: 63px;
     width: 147px;
