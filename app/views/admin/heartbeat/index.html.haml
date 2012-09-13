@@ -3,44 +3,57 @@
 
     %h1 Application Health
 
-    - # ATTENTION: newrelic expects to see "Status: OK" on this page, otherwise it sends out alerts. 
-    - # So if you change this here, make sure you also update newrelic. Especially if you change it late at night :)
-    - # Also, the status color applies to both label and value because newrelic doesn't seem to like spans in its substring check.
-    %h3{:class => @overall_working ? "ok" : "failing" } Status: #{@overall_working ? "OK" : "FAILING"}
+    %h3{:class => @status.style} Application Status: #{@status.text}
 
     %table.table.table-condensed.bordered-table.table-striped
       %thead
         %th
+          Status
+        %th
           Function
+        %th
+          Fails App
         %th
           Threshold (minutes)
         %th
           Last
-        %th
-          Status
+        %th{:colspan => 3}
       %tr
+        %td{:class => @status[:email].style }
+          #{@status[:email].text }
         %td
           Sending emails
         %td
-          #{@email_threshold}
+          #{@status[:email].fails_app?}
         %td
-          #{@last_email_timestamp}
-        %td{:class => @email_working ? "ok" : "failing" }
-          #{@email_working ? "Active" : "INACTIVE" }
+          #{@status[:email].threshold}
+        %td
+          #{@status[:email].last_timestamp}
+        %td{:colspan => 4}
       %tr
+        %td{:class => @status[:signature].style }
+          #{@status[:signature].text}
         %td
           Collecting signatures
         %td
-          #{@signature_threshold}
+          #{@status[:signature].fails_app?}
         %td
-          #{@last_signature_timestamp}
-        %td{:class => @signature_working ? "ok" : @signature_failing_style }
-          #{@signature_working ? "Active" : "INACTIVE"}
-    
-    %table.table.table-condensed.bordered-table.table-striped
+          #{@status[:signature].threshold}
+        %td
+          #{@status[:signature].last_timestamp}
+        %td{:colspan => 4}
+
+      %tr
+        %td{:colspan => 8}
+          &nbsp;
+
       %thead
         %th
+          Status
+        %th
           Component
+        %th
+          Fails App
         %th
           Workers
         %th
@@ -52,34 +65,40 @@
         %th
           Failed
         %th
-          Status
+          Max Q
       %tr
+        %td{:class => @status[:resque].style }
+          #{@status[:resque].text}
         %td
           Resque
         %td
-          #{@resque_stats[:workers]}
+          #{@status[:resque].fails_app?}
         %td
-          #{@resque_stats[:pending]}
+          #{@status[:resque].stats[:workers]}
         %td
-          #{@resque_stats[:processed]}
+          #{@status[:resque].stats[:pending]}
         %td
-          #{@resque_stats[:working]}
+          #{@status[:resque].stats[:processed]}
         %td
-          #{@resque_stats[:failed]}
-        %td{:class => @resque_working ? "ok" : "failing" }
-          #{@resque_working ? "OK" : "FAILING"}
+          #{@status[:resque].stats[:working]}
+        %td
+          #{@status[:resque].stats[:failed]}
+        %td
+          #{@status[:resque].max_q}
+
+    %h3 Statistics
 
     %table.table.table-condensed.bordered-table.table-striped
-      %thead
-        %th
-          Email Statistics   
+
       %tr
-        %td
+        %td{:width => "220 px"}
           Emails sent in the past week
         %td
           #{@emails_sent_past_week}
+        %td
       %tr
         %td
           Number of emailable members
         %td
           #{@emailable_members}
+        %td
