@@ -6,7 +6,7 @@ describe FacebookExperiments do
     @default_title = "my petition title"
     @petition = create(:petition, title: @default_title)
     @member = create(:member)
-    @experiments = FacebookExperiments.new(@petition, @member)    
+    @experiments = FacebookExperiments.new(@petition, @member)
 
     stub_bandit_super_spins @experiments
   end
@@ -14,7 +14,7 @@ describe FacebookExperiments do
   context "title" do
 
     it "should return alternate value when alternates exist" do
-      alternate = create(:petition_title, petition_id: @petition.id, title_type: PetitionTitle::TitleType::FACEBOOK)    
+      alternate = create(:petition_title, petition_id: @petition.id, title_type: PetitionTitle::TitleType::FACEBOOK)
       @experiments.title.should eq alternate.title
     end
 
@@ -24,15 +24,15 @@ describe FacebookExperiments do
 
     #because we can't track the referral from a member without us having a member...
     it "should return petition title given nil member even when alternate titles exist" do
-      create(:petition_title, petition_id: @petition.id, title_type: PetitionTitle::TitleType::FACEBOOK)    
+      create(:petition_title, petition_id: @petition.id, title_type: PetitionTitle::TitleType::FACEBOOK)
       FacebookExperiments.new(@petition, nil).title.should eq @default_title
     end
 
     describe "multiple calls" do
 
       before :each do
-        create(:petition_title, petition_id: @petition.id, title: "A", title_type: PetitionTitle::TitleType::FACEBOOK)    
-        create(:petition_title, petition_id: @petition.id, title: "B", title_type: PetitionTitle::TitleType::FACEBOOK)    
+        create(:petition_title, petition_id: @petition.id, title: "A", title_type: PetitionTitle::TitleType::FACEBOOK)
+        create(:petition_title, petition_id: @petition.id, title: "B", title_type: PetitionTitle::TitleType::FACEBOOK)
       end
 
       it "should return a consistent title once spun" do
@@ -40,13 +40,13 @@ describe FacebookExperiments do
         twice = @experiments.title
         once.should eq twice
       end
-      
+
       it "should record a single trial for this member and petition" do
         @experiments.title
         @experiments.title
         SocialMediaTrial.all.count.should eq 1
       end
-      
+
     end
   end
 
@@ -54,7 +54,7 @@ describe FacebookExperiments do
     describe 'no image is given' do
       let(:default_image) { Rails.configuration.social_media[:facebook][:images].first }
       subject { described_class.new(@petition, @member) }
-      its(:image) {should == default_image}
+      its(:image) {should be_in Rails.configuration.social_media[:facebook][:images]}
       end
     describe 'an image is given' do
       let(:image_url) { "some_image.png" }

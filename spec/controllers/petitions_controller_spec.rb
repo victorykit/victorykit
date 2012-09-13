@@ -99,7 +99,7 @@ describe PetitionsController do
         assigns(:signature).id.should == signature.id
       end
     end
-    
+
     context "the user has not already signed the petition" do
       it "sets facebook ref hash to nil" do
         get :show, {:id => petition.id}
@@ -223,7 +223,8 @@ describe PetitionsController do
         body.xpath('//meta[@property="og:description"]/@content').first.inner_html.should == "\"&amp;'&lt;&gt;"
         body.xpath('//meta[@property="og:site_name"]/@content').first.value.should == 'Victory Kit'
         body.xpath('//meta[@property="og:type"]/@content').first.value.should == 'watchdognet:petition'
-        body.xpath('//meta[@property="og:image"]/@content').first.value.should == 'http://act.watchdog.net/images/fb-default-2.png' #flakey - this will probably change
+        # We want a value there, but it'll change with time.
+        body.xpath('//meta[@property="og:image"]/@content').first.value.should_not be_empty
       end
     end
   end
@@ -295,7 +296,7 @@ describe PetitionsController do
     let(:action){ put :update, {:id => petition, petition: {:title => "new title"}} }
     it_behaves_like "a login protected page"
     describe "with valid params" do
-      before :each do        
+      before :each do
         put :update, {:id => petition.to_param, :petition => {:title => "Changed title"}}, valid_super_user_session
       end
       it "updates the requested petition" do
@@ -315,7 +316,7 @@ describe PetitionsController do
       before :each do
         put :update, {:id => petition.to_param, :petition => {:title=>nil}}, valid_super_user_session
       end
-      it "assigns the petition as @petition" do  
+      it "assigns the petition as @petition" do
         assigns(:petition).should eq(petition)
       end
 
@@ -350,12 +351,12 @@ describe PetitionsController do
 
   describe '#again' do
     let(:cookies) { mock }
-    
-    before do 
+
+    before do
       controller.stub(:cookies).and_return cookies
       cookies.stub(:delete)
     end
-    
+
     it 'should delete member cookie' do
       cookies.should_receive(:delete).with(:member_id)
       post(:again, id: 42, l: '281._4oBaT')
