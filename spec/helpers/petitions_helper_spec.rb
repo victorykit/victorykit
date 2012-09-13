@@ -24,7 +24,9 @@ describe PetitionsHelper do
     it { should include('og:type' => 'watchdognet:petition') }
     it { should include('og:title' => petition.title) }
     it { should include('og:description' => strip_tags(petition.description)) }
-    it { should include('og:image' => Rails.configuration.social_media[:facebook][:images].first) }
+    it "should have an image drawn from the list of possible Facebook images" do
+      Rails.configuration.social_media[:facebook][:images].should include subject['og:image']
+    end
     it { should include('og:site_name' => 'My Super Petitions') }
     it { should include('fb:app_id' => 12345) }
   end

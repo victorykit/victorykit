@@ -4,12 +4,16 @@ production: &default
     secret: <%= ENV["FACEBOOK_SECRET"] %>
     site_name: Victory Kit
     images:
-      - http://act.watchdog.net/images/fb-default-2.png
+      - http://act.watchdog.net/images/fbpic_original_orange.png
+      - http://act.watchdog.net/images/fbpic_colored_fist.png
+      - http://act.watchdog.net/images/fbpic_progress_bar.png
+      - http://act.watchdog.net/images/fbpic_megaphone.png
+      - http://act.watchdog.net/images/fbpic_facebook-esque_button.png
 
 staging: *default
 
 test: *default
-    
+
 development: *default
 
 vagrant: *default
