@@ -65,6 +65,10 @@ module PetitionsHelper
     progress_options_config[progress_option] || {text: '', classes: ''}
   end
 
+  def sign_petition_option
+    spin! 'test different ways to sign and share', :share, ['just_sign', 'sign_and_share']
+  end
+
   private
 
   def really_ie?

@@ -13,7 +13,7 @@
   VK.facebook_sharing_type = '#{facebook_sharing_option}';
   VK.facebook_friend_ids = '#{j @facebook_friend_ids}';
   - if @was_signed
-    $(document).ready(initSharePetition);
+    $(document).ready(function() { initSharePetition(); drawModalAfterSigning() });
   - else
     $(document).ready(initShowPetition);
 

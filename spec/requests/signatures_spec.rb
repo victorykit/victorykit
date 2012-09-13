@@ -11,7 +11,7 @@ describe 'signatures' do
 
     it 'should provide his info' do
       visit petition_path petition
-      click_button 'Sign!'
+      click_button 'sign_petition'
 
       page.should have_selector('#petition_page.not_signed')
       within '.signature-form' do

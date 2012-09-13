@@ -21,7 +21,11 @@
               = f.input :email
               = render :partial => "hidden_params"
               #hint.alert.alert-error
-              = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!'
+              - if sign_petition_option == 'sign_and_share'
+                = f.button :submit, :id => 'sign_petition_and_share', :class => 'btn btn-primary btn-danger', :value => 'Sign and Share'
+                = f.button :submit, :id => 'sign_petition', :class => 'btn no_share', :value => 'Sign'
+              - else
+                = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!'
 
           -#.through_fb
           -#  .text Sign in via
