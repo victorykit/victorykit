@@ -103,6 +103,7 @@ GEM
     capybara-webkit (0.12.1)
       capybara (>= 1.0.0, < 1.2)
       json
+    carmen (1.0.0.beta2)
     childprocess (0.3.5)
       ffi (~> 1.0, >= 1.0.6)
     chosen_rails (0.1.0)
@@ -351,6 +352,7 @@ DEPENDENCIES
   browser
   capybara
   capybara-webkit
+  carmen
   chosen_rails
   coffee-rails (~> 3.2.1)
   compass-rails
