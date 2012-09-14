@@ -1,5 +1,5 @@
 class SocialTrackingController < ApplicationController
-  def new
+  def create
     action = params[:facebook_action]
         
     if action == "status"

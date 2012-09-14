@@ -17,7 +17,8 @@ Victorykit::Application.routes.draw do
     member { post 'again'; put 'send_email_preview' }
     collection { post 'send_email_preview' }
   end
-  resources :social_tracking
+  
+  post 'social_tracking', to: 'social_tracking#create', as: 'social_tracking'
   resources :privacy
   resources :facebook_landing_page
 
