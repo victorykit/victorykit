@@ -79,6 +79,7 @@ class SignatureStatus < ItemStatus
 
   def initialize fails_app
     super fails_app, "INACTIVE"
+    check
   end
 
   def check
