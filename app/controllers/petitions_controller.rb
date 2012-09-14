@@ -55,14 +55,12 @@ class PetitionsController < ApplicationController
   end
 
   def new
-    us = Country.coded 'USA'
-    hashify = ->(a){a.reduce({}){|t, e| t[e.code]=e.name; t}}
-    @states = hashify.(us.subregions)
-    @countries = hashify.(Country.all - [us])
+    @states, @countries = hash_states_and_countries
     @petition = Petition.new
   end
 
   def edit
+    @states, @countries = hash_states_and_countries
     @petition = Petition.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
   end
@@ -103,6 +101,14 @@ class PetitionsController < ApplicationController
   end
 
   private
+
+  def hash_states_and_countries
+    us = Country.coded 'USA'
+    hashify = ->(a){a.reduce({}){|t, e| t[e.code]=e.name; t}}
+    states = hashify.(us.subregions)
+    countries = hashify.(Country.all - [us])
+    return states, countries
+  end
 
   def refresh action
     flash[:error] = @petition.errors.full_messages.to_sentence if @petition.errors.any?
