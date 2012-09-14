@@ -51,7 +51,7 @@ class Admin::ExperimentsController < ApplicationController
 
     respond_to do |format|
       format.html {
-        @redis_used = used_storage
+        @redis_used = redis_used
       }
     end
 
@@ -63,5 +63,11 @@ class Admin::ExperimentsController < ApplicationController
     when "experiments"
       stats.select{|x| !x[:name].match /^petition \d+/}
     end
+  end
+
+  def redis_used
+    used = Whiplash.redis.info["used_memory"]
+    max = ENV['MAX_REDIS_SPACE'] || -1
+    return used, (used.to_f/max.to_f)
   end
 end
