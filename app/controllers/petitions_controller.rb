@@ -1,4 +1,6 @@
 class PetitionsController < ApplicationController
+  include Carmen
+
   before_filter :require_login, except: [:show, :again]
   before_filter :track_visit, only: :show
   before_filter :require_admin, only: :index
@@ -53,6 +55,10 @@ class PetitionsController < ApplicationController
   end
 
   def new
+    us = Country.coded 'USA'
+    hashify = ->(a){a.reduce({}){|t, e| t[e.code]=e.name; t}}
+    @states = hashify.(us.subregions)
+    @countries = hashify.(Country.all - [us])
     @petition = Petition.new
   end
 

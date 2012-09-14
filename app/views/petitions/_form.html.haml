@@ -13,19 +13,16 @@
     #location-states.hidden
       %select.chzn-select{ 'data-placeholder' => 'States', multiple: '', style: 'width:350px;', tabindex: '8' }
         %option{ value: '' }
-        %option{ value: 'CA' } CA
-        %option{ value: 'NV' } NV
-        %option{ value: 'NY' } NY
-        %option{ value: 'TX' } TX
-        %option{ value: 'UT' } UT
+        - @states.each do |code, name|
+          %option{ value: code } 
+            = name
     
     #location-countries.hidden
       %select.chzn-select{ 'data-placeholder' => 'Countries', multiple: '', style: 'width:350px;', tabindex: '8' }
         %option{ value: '' }
-        %option{ value: 'Canada' } Canada
-        %option{ value: 'Mexico' } Mexico
-        %option{ value: 'Panama' } Panama
-        %option{ value: 'Cuba' } Cuba
+        - @countries.each do |code, name|
+          %option{ value: code } 
+            = name
 
     = f.input :to_send, label: 'Feature this petition'
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
