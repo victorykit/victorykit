@@ -4,6 +4,7 @@ function inviteToShareOnTwitter() {
 
 function trackFacebookStatus(facebookStatus) {
   $.ajax({
+    type: 'post',
     url: VK.social_tracking_url,
     data: {facebook_action: "status", facebook_status: facebookStatus.status}
   });
@@ -18,6 +19,7 @@ function initFacebookApp() {
     xfbml: true,  // parse XFBML
     frictionless: true // for facebook request dialog
   });
+
   if (FB.getLoginStatus) { FB.getLoginStatus(trackFacebookStatus); }
   if (VK.facebook_sharing_type == "facebook_wall") {
     FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
@@ -32,29 +34,23 @@ function initFacebookApp() {
   }
 }
 
-function setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids) {
-  var params = {petition_id: VK.petition_id, facebook_action: facebook_action};
-  if (VK.signature_id !== "") {
-    params = $.extend(params, {signature_id: VK.signature_id});
-  }
-  if (action_id !== "") {
-    params = $.extend(params, {action_id: action_id});
-  }
-  if (request_id !== "") {
-    params = $.extend(params, {request_id: request_id});
-  }
-  if (request_to_ids !== "") {
-    params = $.extend(params, {friend_ids: request_to_ids});
-  }
+function socialTrackingParams(facebook_action, action_id, request_id, request_to_ids) {
+  var params = { petition_id: VK.petition_id, facebook_action: facebook_action };
+  
+  if (VK.signature_id !== "") { params.signature_id = VK.signature_id; }
+  if (action_id !== "")       { params.action_id = action_id; }
+  if (request_id !== "")      { params.request_id = request_id; }
+  if (request_to_ids !== "")  { params.friend_ids = request_to_ids; }
 
   return params;
 }
 
 function setupSocialTrackingControllerRequest(facebook_action, action_id, request_id, request_to_ids) {
-    $.ajax({
-      url: VK.social_tracking_url,
-      data: setUpParamsForSocialTracking(facebook_action, action_id, request_id, request_to_ids)
-    });
+  $.ajax({
+    type: 'post',
+    url: VK.social_tracking_url,
+    data: socialTrackingParams(facebook_action, action_id, request_id, request_to_ids)
+  });
 }
 
 function setupSocialTracking() {
