@@ -54,7 +54,38 @@ module PetitionsHelper
 
   def after_share_view
     return 'thanks_for_signing' if browser.ie?
-    spin! 'after share view 2', :share, ["thanks_for_signing", "button_is_most_effective_tool", "button_is_most_effective_tool_with_thanks", "tell_two_friends", "tell_two_friends_with_thanks", "signatures_stop_signatures_multiply", "signatures_stop_signatures_multiply_with_thanks", "mandela-time_ripe_to_do_right", "mandela-time_ripe_to_do_right-color", "teresa-stone_creates_ripples-color", "gandhi-shake_the_world", "king-do_what_is_right", "king-do_what_is_right-color", "melanie_1", "melanie_2", "most_people_will_share_will_you", "most_people_will_share_will_you_with_thanks", "over_x_shares_and_counting-with_counter", "if_facebook_is_slow_try_again_later", "tell_two_friends-sandwich-grey",  "almost_there_one_thing_to_do", "almost_there_one_thing_to_do_with_thanks", "checklist", "demand_progress_facebook_pictures", "demand_progress_facebook_pictures_with_thanks", "wow_most_shared_petition_ever", "hey_youre_not_done_yet", "hey_you_youre_not_done_yet", "thanks_youre_not_done_yet", "name_youre_not_done_yet"]
+    spin! 'after share view 2', :share, [
+      "thanks_for_signing",
+      "button_is_most_effective_tool",
+      "button_is_most_effective_tool_with_thanks",
+      "tell_two_friends",
+      "tell_two_friends_with_thanks",
+      "signatures_stop_signatures_multiply",
+      "signatures_stop_signatures_multiply_with_thanks",
+      "mandela-time_ripe_to_do_right",
+      "mandela-time_ripe_to_do_right-color",
+      "teresa-stone_creates_ripples-color",
+      "gandhi-shake_the_world",
+      "king-do_what_is_right",
+      "king-do_what_is_right-color",
+      "melanie_1",
+      "melanie_2",
+      "most_people_will_share_will_you",
+      "most_people_will_share_will_you_with_thanks",
+      "over_x_shares_and_counting-with_counter",
+      "if_facebook_is_slow_try_again_later",
+      "tell_two_friends-sandwich-grey",
+      "almost_there_one_thing_to_do",
+      "almost_there_one_thing_to_do_with_thanks",
+      "checklist",
+      "demand_progress_facebook_pictures",
+      "demand_progress_facebook_pictures_with_thanks",
+      "wow_most_shared_petition_ever",
+      "hey_youre_not_done_yet",
+      "hey_you_youre_not_done_yet",
+      "thanks_youre_not_done_yet",
+      "name_youre_not_done_yet"
+    ]
   end
 
   def progress_option
