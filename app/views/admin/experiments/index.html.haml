@@ -12,8 +12,9 @@
       &nbsp;&nbsp;
   %p
     Redis space used:
-    = float_to_percentage @redis_used
-    - if @redis_used > 0.85
+    - used, used_ratio = @redis_used
+    = used_ratio > 0 ? float_to_percentage(used_ratio) : "#{used}. (Limit unknown: set MAX_REDIS_SPACE environment variable)"
+    - if used_ratio > 0.85
       %b{style: "color: red"}
         SPACE RUNNING LOW!!
 
