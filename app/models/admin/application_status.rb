@@ -110,7 +110,7 @@ class ResqueStatus < ItemStatus
   end
 
   def max_q
-    Resque.queues.max_by { |queue| Resque.size(queue) }
+    Resque.queues.max_by { |queue| Resque.size(queue) } .to_i
   end
 
 end
