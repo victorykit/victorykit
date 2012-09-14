@@ -127,7 +127,7 @@
 }
 
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_red_share, .btn.grey_button, .btn.grey_donate, .btn.green_donate, .btn.red_donate {
+  .btn.fb_red_share, .btn.grey_button, .btn.grey_donate {
     height: 51px;
     width: 177px;
     border: none;
@@ -143,20 +143,6 @@
     background: url("donate_grey.png");
     &:hover {
       background: url("donate_grey_hover.png");
-    }
-  }
-  .btn.green_donate {
-    width: 163px;
-    background: url("donate_green.png");
-    &:hover {
-      background: url("donate_green_hover.png");
-    }
-  }
-  .btn.red_donate {
-    width: 163px;
-    background: url("donate_red.png");
-    &:hover {
-      background: url("donate_red_hover.png");
     }
   }
   .btn.fb_red_share {
@@ -834,7 +820,7 @@
   }
 }
 #thanksModal .sandwich {
-  height: 90px;
+  height: 120px;
   .btn { margin: 5px; }
 }
 #thanksModal .share.most_share {
