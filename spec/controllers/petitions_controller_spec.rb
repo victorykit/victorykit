@@ -230,11 +230,32 @@ describe PetitionsController do
   end
 
   describe "GET new" do
-    let(:action){ get :new }
+    let(:action) { get :new }
     it_behaves_like "a login protected page"
-    it "assigns a new petition as @petition" do
-      get :new, {}, valid_session
-      assigns(:petition).should be_a_new(Petition)
+    
+    context 'user logged in' do
+      let(:us) do
+        stub(subregions: 
+          [stub(code: 'CA', name: 'California'),
+           stub(code: 'NV', name: 'Nevada')])
+      end
+
+      let(:countries) do
+        [stub(code: 'USA', name: 'United States'),
+         stub(code: 'CAN', name: 'Canada')]
+      end
+      
+      before do
+        Carmen::Country.stub(:all).and_return countries
+        Carmen::Country.stub(:coded).with('USA').and_return us
+        get :new, {}, valid_session
+      end
+      
+      it { should respond_with :success }
+      it { assigns(:states).should == {'CA'=>'California', 'NV'=> 'Nevada'} }
+      it { assigns(:countries).should == {'USA'=>'United States', 'CAN'=> 'Canada'} }
+      it { assigns(:petition).should be_a_new(Petition) }
+      it { should render_template :new }
     end
   end
 
