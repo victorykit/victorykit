@@ -1,21 +1,22 @@
+function hideAll() {
+  $(['#states', '#countries']).each(function(i, s) {
+    $(s).addClass('hidden');
+  });
+}
+
+function showStates() {
+  $('#states').removeClass('hidden');
+  $('#countries').addClass('hidden');
+}
+
+function showCountries() {
+  $('#countries').removeClass('hidden');
+  $('#states').addClass('hidden');
+}
+
 $(document).ready(function() {
   $('.chzn-select').chosen();
-  
-  $('#petition_location_us').click(function() {
-    $('#location-states').removeClass('hidden');
-    $('#location-countries').addClass('hidden');
-  });
-
-  $('#petition_location_non-us').click(function() {
-    $('#location-states').addClass('hidden');
-    $('#location-countries').removeClass('hidden');
-  });
-
-  $('#petition_location_all').click(function() {
-    $('#location-states').addClass('hidden');
-    $('#location-countries').addClass('hidden');
-  });
-
-  $('#petition_location_all').attr('checked', true);
+  $('#petition_location_us').click(showStates);
+  $('#petition_location_non-us').click(showCountries);
+  $('#petition_location_all').click(hideAll).attr('checked', true);  
 });
-
