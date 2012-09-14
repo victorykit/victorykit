@@ -813,6 +813,7 @@
   margin: 30px 0 15px;
   line-height: 40px;
   text-align: center;
+  &.with_thanks { margin: 5px 0 15px; }
 }
 #thanks-for-signing-message .share.two_friends {
   @media (min-width: 0) and (max-width: 800px) {

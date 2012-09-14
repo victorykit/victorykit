@@ -39,6 +39,16 @@
     And they tell two friends...
   .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
+- if after_share_view == "tell_two_friends_with_thanks"
+  .thanks
+    Thanks for signing!
+  .share.two_friends.with_thanks
+    If you tell two friends...
+    %br
+    And they tell two friends...
+    %br
+    And they tell two friends...
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 - if after_share_view == "tell_two_friends-sandwich-grey"
   .share.big_margin.two_friends
@@ -50,19 +60,6 @@
   .sandwich
     .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
     = link_to('', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn btn-primary grey_donate")
-
-
-- if after_share_view == "tell_two_friends_with_thanks"
-  .thanks
-    Thanks for signing!
-  .share.two_friends
-    If you tell two friends...
-    %br
-    And they tell two friends...
-    %br
-    And they tell two friends...
-  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
-
 
 - if after_share_view == "signatures_stop_signatures_multiply"
   .share.dual
@@ -90,6 +87,14 @@
       \- Nelson Mandela
   .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
 
+- if after_share_view == "mandela-time_ripe_to_do_right-color"
+  .image= image_tag('mandela_color.png');
+  .quote
+    "We must use time wisely and forever realize that the time is always ripe to do right."
+    %span.source
+      \- Nelson Mandela
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
 - if after_share_view == "teresa-stone_creates_ripples-color"
   .image= image_tag('teresa_color.png');
   .quote
@@ -110,6 +115,15 @@
 
 - if after_share_view == "king-do_what_is_right"
   .image= image_tag('king.png');
+  .quote
+    "The time is always right to do what is right."
+    %span.source
+      \- Martin Luther King, Jr.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "king-do_what_is_right-color"
+  .image= image_tag('king_color.png');
   .quote
     "The time is always right to do what is right."
     %span.source
@@ -159,6 +173,16 @@
   .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
 
+- if after_share_view == "most_people_will_share_will_you_with_thanks"
+  .thanks
+    Thanks for signing!
+  .share.most_share
+    Most people share this petition.
+    %br
+    Will you?
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+
 - if after_share_view == "over_x_shares_and_counting-with_counter"
   .share.big_margin
     Over
@@ -175,9 +199,19 @@
     If Facebook is slow because too many people are sharing, please try again later.
   .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
 
-
 - if after_share_view == "almost_there_one_thing_to_do"
   .progress_image
+    = image_tag("progress_bar.png")
+    .share
+      You're almost there!
+      %br
+      Only one thing left to do...
+    .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+- if after_share_view == "almost_there_one_thing_to_do_with_thanks"
+  .progress_image
+    .thanks
+      Thanks for signing!
     = image_tag("progress_bar.png")
     .share
       You're almost there!
