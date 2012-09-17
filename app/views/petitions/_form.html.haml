@@ -78,3 +78,6 @@
     = f.button :submit, class: 'btn btn-primary span2', id: "petition_submit", onmousedown: "this.title=1", onclick: "if(this.title!=1){return false;}"
     - if is_admin
       = link_to "Email a preview to #{current_user.email}", "#", :id => "email_preview_link", :data => { "preview-url" => url_for(:controller => "petitions", :action => "send_email_preview") }
+
+- content_for :javascripts do
+  $(document).ready(geolocation.initialize);

@@ -104,10 +104,10 @@ class PetitionsController < ApplicationController
 
   def hash_states_and_countries
     us = Country.coded 'USA'
-    hashify = ->(a){a.reduce({}){|t, e| t[e.code]=e.name; t}}
-    states = hashify.(us.subregions)
-    countries = hashify.(Country.all - [us])
-    return states, countries
+    rest = Country.all - [us]
+    [us.subregions, rest].map do |a|
+      Hash[a.index_by(&:code).map{|k, v| [k, v.name]}]
+    end
   end
 
   def refresh action
