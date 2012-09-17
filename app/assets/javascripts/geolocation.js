@@ -2,9 +2,7 @@ var geolocation = (function() {
   var ns = {};
 
   function hideAll() {
-    $(['#states', '#countries']).each(function(i, s) {
-      $(s).addClass('hidden');
-    });
+    $('#states, #countries').addClass('hidden');
   }
 
   function showStates() {
