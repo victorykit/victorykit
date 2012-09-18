@@ -295,3 +295,58 @@
     %br
     .smaller Would you mind sharing this?
   .btn.btn-primary.fb{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+
+
+- if after_share_view == "kitten_sad"
+  .image.with_margin= image_tag('kitten_sad.png');
+  .larger
+    Sad kitten wants you to share.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "kitten_treat"
+  .image.with_margin= image_tag('kitten_shocked.png');
+  .larger
+    Share this petition
+    %br
+    and the kitten gets a treat.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "kitten_gun"
+  .image.with_margin= image_tag('kitten_gun.png');
+  .larger
+    Share this petition or the kitten gets it.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "puppy_sad"
+  .image.with_margin= image_tag('puppy_walking.png');
+  .larger
+    Sad puppy wants you to share.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "puppy_treat"
+  .image.with_margin= image_tag('puppy_laying.png');
+  .larger
+    Share this petition
+    %br
+    and the puppy gets a treat.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "puppy_gun"
+  .image.with_margin= image_tag('puppy_gun.png');
+  .larger
+    Share this petition or Fido gets it.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "ferret_treat"
+  .image.with_margin= image_tag('ferret.png');
+  .larger
+    Share this petition
+    %br
+    and the ferret gets a treat.
+  .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
