@@ -27,7 +27,7 @@ var geolocation = (function() {
   function rebuildSelections() {
     var loc = $('#location-options input[checked="checked"]').val();
     var div = {'us': '#states', 'non-us': '#countries'}[loc];
-    if(!div) return;
+    if(!div) { return; }
     var sel = ' .chzn-select';
     var details = $('#location-details').val().split(',');
     $(details).each(function(i, e) {
