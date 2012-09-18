@@ -16,13 +16,13 @@ var geolocation = (function() {
     $('#states').addClass('hidden');
   }
 
-  function updateStates() {
-    $('#location-details').val($('#states .chzn-select').val().join(','));
+  function update(selector) {
+    var val = $(selector+' .chzn-select').val();
+    $('#location-details').val(val ? val.join(',') : '');
   }
 
-  function updateCountries() {
-    $('#location-details').val($('#countries .chzn-select').val().join(','));
-  }
+  function updateStates() { update('#states'); }
+  function updateCountries() { update('#countries'); }
 
   function rebuildSelections() {
     var loc = $('#location-options input[checked="checked"]').val();
