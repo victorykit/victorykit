@@ -109,7 +109,7 @@ class PetitionsController < ApplicationController
     us = Country.coded 'USA'
     rest = Country.all - [us]
     [us.subregions, rest].map do |a|
-      Hash[a.index_by(&:code).map{|k, v| [k, v.name]}]
+      Hash[a.index_by(&:code).map{|k, v| [k, v.name]}.sort_by{|k, v| v}]
     end
   end
 
