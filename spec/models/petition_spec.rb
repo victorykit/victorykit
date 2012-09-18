@@ -11,10 +11,10 @@ describe Petition do
   end
 
   it { should allow_mass_assignment_of(:location).as(:admin) }
-  
+
   it "should find all emailable petitions not yet known to a member" do
     member = create(:member)
-    
+
     signed_petition = create(:petition)
     create(:signature, petition: signed_petition, member: member)
 
@@ -23,7 +23,7 @@ describe Petition do
 
     new_emailable_petition = create(:petition, to_send: true)
     new_unemailable_petition = create(:petition, to_send: false)
-    
+
     interesting_petitions = Petition.find_interesting_petitions_for(member)
     interesting_petitions.should eq [new_emailable_petition]
   end
@@ -69,6 +69,34 @@ describe Petition do
     it "should substitute p-tagged LINK paragraph with p break given empty string substitution value" do
       petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
       petition.description_lsub("").should == "<p>this description has a</p><p>paragraph</p>"
+    end
+  end
+
+  context 'parsing location back' do
+    before { subject.location = location }
+
+    context 'without details' do
+      let(:location) { 'us' }
+      its(:location_type) { should == 'us' }
+      its(:location_details) { should == '' }
+    end
+
+    context 'with single detail' do
+      let(:location) { 'us/CA' }
+      its(:location_type) { should == 'us' }
+      its(:location_details) { should == 'CA' }
+    end
+
+    context 'with multiple details' do
+      let(:location) { 'us/CA,us/TX,us/NY' }
+      its(:location_type) { should == 'us' }
+      its(:location_details) { should == 'CA,TX,NY' }
+    end
+
+    context 'for no location' do
+      let(:location) { nil }
+      its(:location_type) { should == 'all' }
+      its(:location_details) { should == '' }
     end
   end
 end

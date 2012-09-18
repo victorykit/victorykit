@@ -60,4 +60,13 @@ class Petition < ActiveRecord::Base
     d.gsub /<p>LINK<\/p>/, psub
   end
 
+  def location_type
+    return 'all' unless location.present?
+    location.split(',').first.split('/').first
+  end
+
+  def location_details
+    return '' unless location.present?
+    location.scan(/\/(\w\w)/).join(',')
+  end
 end
