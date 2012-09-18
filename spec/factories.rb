@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :user do
     email { Faker::Internet.email }
     password { Faker::Name.name }
-    password_confirmation { password }    
+    password_confirmation { password }
     factory :super_user do
       is_super_user true
     end
@@ -26,7 +26,7 @@ FactoryGirl.define do
       after(:create) do |petition, evaluator|
         today = Date.today
         last_month = today << 1
-        
+
         (last_month..today).to_a.each do |create_date|
           FactoryGirl.create(:signature, created_at: create_date,petition: petition)
         end
