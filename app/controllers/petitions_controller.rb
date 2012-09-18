@@ -66,6 +66,7 @@ class PetitionsController < ApplicationController
   end
 
   def create
+    compress_location params[:petition]
     @petition = Petition.new(params[:petition], as: role)
     @petition.owner = current_user
     @petition.ip_address = connecting_ip
@@ -81,6 +82,7 @@ class PetitionsController < ApplicationController
   def update
     @petition = Petition.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
+    compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
       log_empty_links
 
@@ -92,6 +94,7 @@ class PetitionsController < ApplicationController
 
   def send_email_preview
     @petition = params[:id].present? ? Petition.find(params[:id]) : Petition.new
+    compress_location params[:petition]
     @petition.assign_attributes(params[:petition], as: role)
     current_member = Member.find_or_initialize_by_email(email: current_user.email, first_name: "Admin", last_name: "User")
     ScheduledEmail.send_preview @petition, current_member
@@ -108,6 +111,15 @@ class PetitionsController < ApplicationController
     [us.subregions, rest].map do |a|
       Hash[a.index_by(&:code).map{|k, v| [k, v.name]}]
     end
+  end
+
+  def compress_location params
+    return unless params
+    return unless t = params[:location_type]
+    d = params[:location_details]
+    params[:location] = d.blank? ? t : d.split(',').map{|e| "#{t}/#{e}"}.join(',')
+    params.delete :location_type
+    params.delete :location_details
   end
 
   def refresh action
