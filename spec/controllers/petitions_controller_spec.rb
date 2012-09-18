@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'member_hasher'
 
 describe PetitionsController do
@@ -232,7 +231,7 @@ describe PetitionsController do
   describe "GET new" do
     let(:action) { get :new }
     it_behaves_like "a login protected page"
-    
+
     context 'user logged in' do
       let(:us) do
         stub(subregions: 
@@ -244,13 +243,13 @@ describe PetitionsController do
         [stub(code: 'USA', name: 'United States'),
          stub(code: 'CAN', name: 'Canada')]
       end
-      
+
       before do
         Carmen::Country.stub(:all).and_return countries
         Carmen::Country.stub(:coded).with('USA').and_return us
         get :new, {}, valid_session
       end
-      
+
       it { should respond_with :success }
       it { assigns(:states).should == {'CA'=>'California', 'NV'=> 'Nevada'} }
       it { assigns(:countries).should == {'USA'=>'United States', 'CAN'=> 'Canada'} }
