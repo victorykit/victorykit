@@ -17,16 +17,16 @@ describe 'petitions' do
         page.should have_content 'I like Turtles'
         page.should have_content 'Turtles are awesome!'
         page.should have_selector '.progress_bar'
-      end  
+      end
     end
-    
+
   end
 
   context 'a regular user' do
     let(:user) { create :user }
-    
+
     it_behaves_like 'an author'
-    
+
     it 'cannot send preview emails to herself' do
       login email, pass do
         visit new_petition_path
