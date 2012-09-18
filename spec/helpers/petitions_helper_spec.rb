@@ -215,7 +215,14 @@ describe PetitionsHelper do
         "hey_youre_not_done_yet",
         "hey_you_youre_not_done_yet",
         "thanks_youre_not_done_yet",
-        "name_youre_not_done_yet"
+        "name_youre_not_done_yet",
+        "kitten_sad",
+        "kitten_treat",
+        "kitten_gun",
+        "puppy_sad",
+        "puppy_treat",
+        "puppy_gun",
+        "ferret_treat"
       ]
    }
 
