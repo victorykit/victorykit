@@ -11,7 +11,7 @@ class Admin::HottestController < ApplicationController
     #redis_data = data_for_options("email_scheduler_nps", options)
   
     sent_data = SentEmail.group(:petition_id).count
-    new_data = Signature.where(created_member: true).group(:petition_id).count
+    new_data = Signature.where(created_member: true).where('referer_id != 79459').group(:petition_id).count
     unsub_data = Unsubscribe.joins(:sent_email).group(:petition_id).count
     sent_data.default, new_data.default, unsub_data.default = 0, 0, 0
     db_data = Hash[options.collect { |k| [k, [sent_data[k], new_data[k], unsub_data[k.to_s]]]}]
