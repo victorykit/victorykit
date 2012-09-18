@@ -8,21 +8,23 @@
 
   - if is_admin
     #location-options
-      = f.collection_radio_buttons :location, [["all", "All Countries"], ["non-us", "Non-United-States"], ["us", "United States"]], :first, :last
-    
+      = f.collection_radio_buttons :location_type, [["all", "All Countries"], ["non-us", "Non-United-States"], ["us", "United States"]], :first, :last
+
     #states.hidden
       %select.chzn-select{ 'data-placeholder' => 'States', multiple: '', style: 'width:350px;', tabindex: '8' }
         %option{ value: '' }
         - @states.each do |code, name|
-          %option{ value: code } 
+          %option{ value: code }
             = name
-    
+
     #countries.hidden
       %select.chzn-select{ 'data-placeholder' => 'Countries', multiple: '', style: 'width:350px;', tabindex: '8' }
         %option{ value: '' }
         - @countries.each do |code, name|
-          %option{ value: code } 
+          %option{ value: code }
             = name
+
+    = f.hidden_field :location_details, :id => 'location-details'
 
     = f.input :to_send, label: 'Feature this petition'
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
