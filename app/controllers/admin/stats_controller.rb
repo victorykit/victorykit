@@ -95,6 +95,6 @@ class Admin::StatsController < ApplicationController
     #chart_for_table.call Signature
     #chart_for_table.call Signature, 'created_member is not true'
 
-    chart_for_table.call Signature, 'created_member is true and referer_id != 79459', true
+    chart_for_table.call Signature, 'created_member is true and (referer_id is null or referer_id != 79459)', true
   end
 end
