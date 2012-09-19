@@ -70,11 +70,11 @@ class PetitionsController < ApplicationController
     @petition = Petition.new(params[:petition], as: role)
     @petition.owner = current_user
     @petition.ip_address = connecting_ip
-
     if @petition.save
       log_empty_links
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
+      @states, @countries = hash_states_and_countries
       refresh "new"
     end
   end
@@ -85,9 +85,9 @@ class PetitionsController < ApplicationController
     compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
       log_empty_links
-
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
+      @states, @countries = hash_states_and_countries
       refresh "edit"
     end
   end

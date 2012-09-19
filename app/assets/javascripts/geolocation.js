@@ -9,11 +9,13 @@ var geolocation = (function() {
   function showStates() {
     $('#states').removeClass('hidden');
     $('#countries').addClass('hidden');
+    updateStates();
   }
 
   function showCountries() {
     $('#countries').removeClass('hidden');
     $('#states').addClass('hidden');
+    updateCountries();
   }
 
   function update(selector) {
@@ -36,7 +38,7 @@ var geolocation = (function() {
     });
     $(div).removeClass('hidden');
   }
-
+  
   ns.initialize = function() {
     $('.chzn-select').chosen();
     $('#petition_location_type_us').click(showStates);
