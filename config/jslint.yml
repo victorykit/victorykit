@@ -29,7 +29,7 @@ plusplus: false     # true if ++ and -- should not be allowed
 regexp:   false     # true if . and [^...] should not be allowed in RegExp literals
 safe:     false     # true if the safe subset rules are enforced (used by ADsafe)
 strict:   false     # true if the ES5 "use strict"; pragma is required
-undef:    true     # true if variables must be declared before used
+undef:    false     # true if variables must be declared before used
 white:    false     # true if strict whitespace rules apply (see also 'indent' option)
 
 # "allow" type options (false means potentially more warnings)
