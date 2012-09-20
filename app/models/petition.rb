@@ -23,9 +23,9 @@ class Petition < ActiveRecord::Base
   end
 
   def self.find_interesting_petitions_for(member)
-    Petition.find_all_by_to_send(true) -
-      Signature.find_all_by_member_id(member).map{|s| s.petition} -
-      SentEmail.find_all_by_member_id(member).map{|e| e.petition}
+    signed = Signature.find_all_by_member_id(member).map(&:petition)
+    sent = SentEmail.find_all_by_member_id(member).map(&:petition)
+    find_all_by_to_send(true) - signed - sent
   end
 
   def strip_whitespace
