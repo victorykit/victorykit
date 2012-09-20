@@ -55,6 +55,14 @@ class Member < ActiveRecord::Base
     subscribes.order("created_at DESC").first
   end
 
+  def last_country_code
+    signatures.last.country_code
+  end
+  
+  def last_state_code
+    signatures.last.state_code
+  end
+
   private
 
   def signature_for(petition)

@@ -30,6 +30,15 @@ describe Member do
       specify { subject.full_name.should include subject.first_name }
       specify { subject.full_name.should include subject.last_name }
     end
+
+    context 'geolocation' do
+      let(:last) { build :signature, country_code: 'USA', state_code: 'NY' }
+
+      before { subject.signatures << last } 
+
+      its(:last_country_code) { should == 'USA' }
+      its(:last_state_code) { should == 'NY' }
+    end
   end
 
   describe 'class' do
