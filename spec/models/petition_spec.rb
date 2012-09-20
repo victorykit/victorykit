@@ -53,24 +53,8 @@ describe Petition do
     end
   end
 
-  it 'should find all emailable petitions not yet known to a member' do
-    member = create(:member)
-
-    signed_petition = create(:petition)
-    create(:signature, petition: signed_petition, member: member)
-
-    previously_sent_petition = create(:petition)
-    create(:sent_email, petition: previously_sent_petition, member: member)
-
-    new_emailable_petition = create(:petition, to_send: true)
-    new_unemailable_petition = create(:petition, to_send: false)
-
-    interesting_petitions = Petition.find_interesting_petitions_for(member)
-    interesting_petitions.should eq [new_emailable_petition]
-  end
-
   context 'parsing location back' do
-    before { subject.location = location }
+    before { petition.location = location }
 
     context 'without details' do
       let(:location) { 'us' }
@@ -95,5 +79,21 @@ describe Petition do
       its(:location_type) { should == 'all' }
       its(:location_details) { should == '' }
     end
+  end
+  
+  describe '.find_interesting_petitions_for' do
+    subject { Petition }
+
+    let(:member) { build :member }
+    let(:p) { 3.times.map{ build :petition } }
+
+    before do
+      subject.stub(:find_all_by_to_send).with(true).and_return p
+      [SentEmail, Signature].each_with_index do |c, i|
+        c.stub(:find_all_by_member_id).with(member).and_return [stub(petition: p[i])]
+      end
+    end
+
+    specify { subject.find_interesting_petitions_for(member).should == [p[2]] }
   end
 end
