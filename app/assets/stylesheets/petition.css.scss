@@ -962,3 +962,58 @@
   margin-left: 160px;
   margin-bottom: 20px;
 }
+
+.fb_image_holder, .fb_image_holder .holder {
+  height: 90px;
+  overflow: show;
+  .fb_image, .fb_text {
+    float: left;
+  }
+  .fb_text {
+    text-align: left;
+    margin: 24px 0 0 10px;
+    font-weight: normal;
+    font-size: 115%;
+  }
+}
+#thanksModal .fb_image_holder {
+  margin: -50px 20px;
+  height: 30px;
+  .fb_text {
+    width: 280px;
+  }
+}
+#mobile_thanks .fb_image_holder {
+  height: 0;
+  max-height: 100px;
+  margin: -40px 0 110px;
+  .fb_text {
+    width: 200px;
+  }
+}
+#thanks-for-signing-message .fb_image_holder {
+  height: 0;
+  max-height: 150px;
+  margin: -50px 0 50px;
+  .fb_text {
+    width: 175px;
+    margin-top: 25px;
+    font-size: 90%;
+  }
+
+  .fb_image {
+    margin: 10px 0 10px 10px;
+  }
+}
+@media (min-width: 0px) and (max-width: 1000px) {
+  #thanks-for-signing-message .fb_image_holder {
+    margin: -50px 0 50px;
+    .fb_text { width: 100px; margin-top: 20px; }
+  }
+}
+@media (min-width: 1000px) and (max-width: 1200px) {
+  #thanks-for-signing-message .fb_image_holder {
+    margin: -50px 0 50px;
+    .fb_text { width: 150px; margin-top: 23px; }
+  }
+}

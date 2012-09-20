@@ -350,3 +350,15 @@
     %br
     and the ferret gets a treat.
   .btn.btn-primary.inspirational.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who  }
+
+
+- if after_share_view == "fb_rotator-most_people_will_share"
+  .share.most_share
+    Most people share this petition.
+    %br
+    Will you?
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
+  .fb_image_holder
+    .holder
+      .fb_image
+      .fb_text
