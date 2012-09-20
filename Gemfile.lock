@@ -38,12 +38,6 @@ GIT
       redis-namespace
       simple-random
 
-GIT
-  remote: git://github.com/vvgomes/chosen_rails.git
-  revision: 27aa838f49e56c9c49c743bece577fd9ccae9831
-  specs:
-    chosen_rails (0.1.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -358,7 +352,6 @@ DEPENDENCIES
   capybara
   capybara-webkit
   carmen
-  chosen_rails!
   coffee-rails (~> 3.2.1)
   compass-rails
   debugger
