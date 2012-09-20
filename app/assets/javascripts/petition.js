@@ -1,3 +1,119 @@
+function modalFbImageRotator () {
+  var imgList = [
+    "fbmodal_1.png",
+    "fbmodal_2.png",
+    "fbmodal_3.png",
+    "fbmodal_4.png",
+    "fbmodal_5.png",
+    "fbmodal_6.png",
+    "fbmodal_7.png",
+    "fbmodal_8.png",
+    "fbmodal_9.png",
+    "fbmodal_10.png",
+    "fbmodal_11.png",
+    "fbmodal_12.png",
+    "fbmodal_13.png",
+    "fbmodal_14.png",
+    "fbmodal_15.png",
+    "fbmodal_16.png",
+    "fbmodal_17.png",
+    "fbmodal_18.png",
+    "fbmodal_19.png",
+    "fbmodal_20.png",
+    "fbmodal_21.png",
+    "fbmodal_22.png",
+    "fbmodal_23.png",
+    "fbmodal_24.png",
+    "fbmodal_25.png",
+    "fbmodal_26.png",
+    "fbmodal_27.png",
+    "fbmodal_28.png",
+    "fbmodal_29.png",
+    "fbmodal_30.png"
+  ];
+  var textList = [
+    "<b>Mike G</b> from <b>Mississippi</b> has shared.",
+    "<b>Chetan C</b> from <b>Washington</b> has shared.",
+    "<b>Eric S</b> from <b>Michigan</b> has shared.",
+    "<b>Ines L</b> from <b>Portugal</b> has shared.",
+    "<b>Emilie R</b> from <b>Washington</b> has shared.",
+    "<b>Monica R</b> from <b>Florida</b> has shared.",
+    "<b>Gerard P</b> from <b>Maryland</b> has shared.",
+    "<b>Aaron M</b> from <b>UK</b> has shared.",
+    "<b>Ashley R</b> from <b>Nevada</b> has shared.",
+    "<b>Zack B</b> from <b>Michigan</b> has shared.",
+    "<b>Kate B</b> from <b>California</b> has shared.",
+    "<b>Subhrajit B</b> from <b>Pennsylvania</b> has shared.",
+    "<b>Rutger M</b> from <b>Netherlands</b> has shared.",
+    "<b>Sarah G</b> from <b>Ohio</b> has shared.",
+    "<b>Jacob M</b> from <b>Sweden</b> has shared.",
+    "<b>Siah M</b> from <b>New York</b> has shared.",
+    "<b>Alex A</b> from <b>California</b> has shared.",
+    "<b>Renae H</b> from <b>Utah</b> has shared.",
+    "<b>Benjamin S</b> from <b>Pennsylvania</b> has shared.",
+    "<b>Arthur V</b> from <b>Connecticut</b> has shared.",
+    "<b>Noah H</b> from <b>New York</b> has shared.",
+    "<b>Caroline D</b> from <b>Texas</b> has shared.",
+    "<b>Beth S</b> from <b>Massachusetts</b> has shared.",
+    "<b>Beth C</b> from <b>Michigan</b> has shared.",
+    "<b>Peter V</b> from <b>New York</b> has shared.",
+    "<b>Nico D</b> from <b>UK</b> has shared.",
+    "<b>Sarah D</b> from <b>Alabama</b> has shared.",
+    "<b>Melissa P</b> from <b>Ohio</b> has shared.",
+    "<b>Angie H</b> from <b>Washington</b> has shared.",
+    "<b>Cassie R</b> from <b>Georgia</b> has shared."
+  ]
+
+  var arrayOption = randomInt(imgList.length),
+      fbHolder = $('.holder'),
+      fbImage = $('.fb_image'),
+      fbText = $('.fb_text');
+
+  var status = {}
+
+  function firstFbText(callback){
+    var myid = Math.random();
+    status[myid] = fbHolder.length;
+    return function() {
+      if (--status[myid] === 0) {
+        return callback();
+      }
+    }
+  }
+
+  function slideFbImage(afterdone) {
+    fbHolder.animate({opacity: '0', paddingTop:'+=60'}, {complete: firstFbText(afterdone)});
+  }
+  function revealFbImage(afterdone) {
+    fbHolder.css('padding-top', 'inherit');
+    fbHolder.animate({opacity: '1', paddingTop:'+=60'}, {complete: firstFbText(afterdone)});
+  }
+
+  function randomTimeInterval() {
+    return Math.floor(Math.random() * 6000) + 4000;
+  }
+
+  function swapImage() {
+    slideFbImage(function() {
+      arrayOption = (arrayOption + 1) % imgList.length;
+      fbImage.html("<img src=\"/assets/" + imgList[arrayOption] + "\" />");
+      fbText.html(textList[arrayOption]);
+
+      revealFbImage(function(){
+        setTimeout(swapImage, randomTimeInterval());
+      });
+    });
+  }
+  setTimeout( function() {
+      swapImage();
+      $('.fb_image_holder').animate({height: '230'});
+    }, randomTimeInterval() / 4);
+}
+
+function randomInt(range) {
+  return Math.floor(Math.random() * range);
+}
+
 function inviteToShareOnTwitter() {
   return;
 }
@@ -36,7 +152,7 @@ function initFacebookApp() {
 
 function socialTrackingParams(facebook_action, action_id, request_id, request_to_ids) {
   var params = { petition_id: VK.petition_id, facebook_action: facebook_action };
-  
+
   if (VK.signature_id !== "") { params.signature_id = VK.signature_id; }
   if (action_id !== "")       { params.action_id = action_id; }
   if (request_id !== "")      { params.request_id = request_id; }
@@ -246,6 +362,10 @@ function drawModalAfterSigning() {
   if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
   }
+  if ($('.fb_image_holder').length > 0) {
+    modalFbImageRotator();
+  }
+
 }
 
 function mobileSignErrorHandling() {
@@ -359,6 +479,7 @@ function indicateUserSignatureFailedAfterAjax(response) {
   toggleUserCanSignPetition(true);
 }
 
+
 $(document).ready(function() {
   $("#sign_petition, #sign_petition_and_share").click(function(evt) {
     var button = $(this),
@@ -372,7 +493,7 @@ $(document).ready(function() {
       url: form.attr("action"),
       data: form.serialize()
     }).success(
-      button.attr("id") === "sign_petition_and_share" ? 
+      button.attr("id") === "sign_petition_and_share" ?
         shareAfterUserPetitionSigned : indicateUserPetitionSignedAfterAjax
     ).fail(
       indicateUserSignatureFailedAfterAjax

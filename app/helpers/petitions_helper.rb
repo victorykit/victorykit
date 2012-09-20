@@ -91,7 +91,8 @@ module PetitionsHelper
       "puppy_sad",
       "puppy_treat",
       "puppy_gun",
-      "ferret_treat"
+      "ferret_treat",
+      "fb_rotator-most_people_will_share"
     ]
   end
 
