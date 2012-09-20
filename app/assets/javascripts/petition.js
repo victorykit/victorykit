@@ -1,3 +1,7 @@
+function randomInt(range) {
+  return Math.floor(Math.random() * range);
+}
+
 function modalFbImageRotator () {
   var imgList = [
     "fbmodal_1.png",
@@ -62,14 +66,14 @@ function modalFbImageRotator () {
     "<b>Melissa P</b> from <b>Ohio</b> has shared.",
     "<b>Angie H</b> from <b>Washington</b> has shared.",
     "<b>Cassie R</b> from <b>Georgia</b> has shared."
-  ]
+  ];
 
   var arrayOption = randomInt(imgList.length),
       fbHolder = $('.holder'),
       fbImage = $('.fb_image'),
       fbText = $('.fb_text');
 
-  var status = {}
+  var status = {};
 
   function firstFbText(callback){
     var myid = Math.random();
@@ -78,7 +82,7 @@ function modalFbImageRotator () {
       if (--status[myid] === 0) {
         return callback();
       }
-    }
+    };
   }
 
   function slideFbImage(afterdone) {
@@ -108,10 +112,6 @@ function modalFbImageRotator () {
       swapImage();
       $('.fb_image_holder').animate({height: '230'});
     }, randomTimeInterval() / 4);
-}
-
-function randomInt(range) {
-  return Math.floor(Math.random() * range);
 }
 
 function inviteToShareOnTwitter() {
