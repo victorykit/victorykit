@@ -1,18 +1,59 @@
-require 'spec_helper'
-
 describe Petition do
+  subject(:petition) { build :petition }
+ 
+  it { should validate_presence_of :title }
+  it { should validate_presence_of :description }
+  it { should validate_presence_of :owner_id }
+  it { should allow_mass_assignment_of(:location).as(:admin) }
+  
+  its(:title) { should_not start_or_end_with_whitespace }
+  its(:experiments) { should_not be_nil }
 
-  describe "validation" do
-    subject { build(:petition) }
-    it { should validate_presence_of :title }
-    it { should validate_presence_of :description }
-    it { should validate_presence_of :owner_id }
-    its(:title) { should_not start_or_end_with_whitespace }
+  context 'descriptions' do
+    before { petition.description = descr } 
+
+    context 'with html' do
+      let(:descr) { 'I<br>haz&nbsp;&quot;stuff&quot;' }
+      its(:plain_text_description) { should == "I\nhaz \"stuff\"" }
+      its(:facebook_description_for_sharing){ should == 'Ihaz&nbsp;&quot;stuff&quot;' }
+    end
+
+    context 'with quotes' do
+      let(:descr) { "'\"quotes" }
+      its(:plain_text_description) { should == "'\"quotes" }
+      its(:facebook_description_for_sharing) { should == '&apos;&quot;quotes' }
+    end
+
+    context 'with links' do
+      let(:descr) { 'a <a href="http://w.com">link</a>' }
+      its(:plain_text_description) { should == 'a link ( http://w.com )' }
+      its(:facebook_description_for_sharing) { should == 'a link' }
+    end
+
+    describe '#description_lsub' do
+      context '1' do
+        let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
+        specify { petition.description_lsub('subs').should == 'a<br><br>subs<br><br>paragraph' }
+      end
+
+      context '2' do
+        let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
+        specify { petition.description_lsub('').should == 'a<br><br>paragraph' }
+      end
+
+      context '3' do
+        let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' } 
+        specify { petition.description_lsub('subs').should == '<p>a</p><p>subs</p><p>paragraph</p>' } 
+      end
+
+      context '4' do
+        let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' }
+        specify { petition.description_lsub('').should == '<p>a</p><p>paragraph</p>' }
+      end
+    end
   end
 
-  it { should allow_mass_assignment_of(:location).as(:admin) }
-
-  it "should find all emailable petitions not yet known to a member" do
+  it 'should find all emailable petitions not yet known to a member' do
     member = create(:member)
 
     signed_petition = create(:petition)
@@ -26,50 +67,6 @@ describe Petition do
 
     interesting_petitions = Petition.find_interesting_petitions_for(member)
     interesting_petitions.should eq [new_emailable_petition]
-  end
-
-  it "should return its experiments" do
-    petition = create(:petition)
-    petition.experiments.should_not be_nil
-  end
-
-  it "should have a plain text description" do
-    petition = create(:petition, description: "I<br>contain&nbsp;html &quot;stuff&quot;")
-    petition.plain_text_description.should == "I\ncontain html \"stuff\""
-  end
-
-  context "facebook description" do
-    it "should escape single and double quotes because wysihtml5 doesn't" do
-      petition = create(:petition, description: "'\"this description contains quotes")
-      petition.facebook_description_for_sharing.should == "&apos;&quot;this description contains quotes"
-    end
-
-    it "should strip tags" do
-      petition = create(:petition, description: "this description contains a <a href=\"http://woo.com\">link</a>")
-      petition.facebook_description_for_sharing.should == "this description contains a link"
-    end
-  end
-
-  context "description link substitution" do
-    it "should substitute br-tagged LINK paragraph with given value" do
-      petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
-      petition.description_lsub("substituted").should == "this description has a<br><br>substituted<br><br>paragraph"
-    end
-
-    it "should substitute br-tagged LINK paragraph with blank line given empty string substitution value" do
-      petition = create(:petition, description: "this description has a<br><br>LINK<br><br>paragraph")
-      petition.description_lsub("").should == "this description has a<br><br>paragraph"
-    end
-
-    it "should substitute p-tagged LINK paragraph with given value" do
-      petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
-      petition.description_lsub("substituted").should == "<p>this description has a</p><p>substituted</p><p>paragraph</p>"
-    end
-
-    it "should substitute p-tagged LINK paragraph with p break given empty string substitution value" do
-      petition = create(:petition, description: "<p>this description has a</p><p>LINK</p><p>paragraph</p>")
-      petition.description_lsub("").should == "<p>this description has a</p><p>paragraph</p>"
-    end
   end
 
   context 'parsing location back' do
