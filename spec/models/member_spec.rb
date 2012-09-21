@@ -31,13 +31,18 @@ describe Member do
       specify { subject.full_name.should include subject.last_name }
     end
 
-    context 'geolocation' do
-      let(:last) { build :signature, country_code: 'USA', state_code: 'NY' }
-
+    describe '#last_location' do
       before { subject.signatures << last } 
+      
+      context 'when last signed from us' do
+        let(:last) { build :signature, country_code: 'US', state_code: 'NY'  }
+        its(:last_location) { should == 'us/NY' }
+      end
 
-      its(:last_country_code) { should == 'USA' }
-      its(:last_state_code) { should == 'NY' }
+      context 'when last signed from outside us' do
+        let(:last) { build :signature, country_code: 'BR', state_code: 'RS' }
+        its(:last_location) { should == 'non-us/BR' }
+      end
     end
   end
 

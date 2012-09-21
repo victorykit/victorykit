@@ -55,12 +55,10 @@ class Member < ActiveRecord::Base
     subscribes.order("created_at DESC").first
   end
 
-  def last_country_code
-    signatures.last.country_code
-  end
-  
-  def last_state_code
-    signatures.last.state_code
+  def last_location
+    t = signatures.last.country_code
+    d = signatures.last.state_code
+    t == 'US' ? "us/#{d}" : "non-us/#{t}"  
   end
 
   private
