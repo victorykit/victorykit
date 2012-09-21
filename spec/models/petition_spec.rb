@@ -53,31 +53,59 @@ describe Petition do
     end
   end
 
-  context 'parsing location back' do
+  context 'localizing' do
     before { petition.location = location }
 
-    context 'without details' do
+    let(:mexican) { stub(last_location: 'non-us/MX') }
+    let(:canadian) { stub(last_location: 'non-us/CA') }
+    let(:newyorker) { stub(last_location: 'us/NY') }
+    let(:californian) { stub(last_location: 'us/CA') }
+
+    context 'everyone' do
+      let(:location) { 'all' }
+      its(:location_type) { should == 'all' }
+      its(:location_details) { should == '' }
+
+      it { should cover mexican }
+      it { should cover canadian }
+      it { should cover newyorker }
+      it { should cover californian }
+    end
+
+    context 'americans' do
       let(:location) { 'us' }
       its(:location_type) { should == 'us' }
       its(:location_details) { should == '' }
     end
 
-    context 'with single detail' do
-      let(:location) { 'us/CA' }
+    context 'newyorkers' do
+      let(:location) { 'us/NY' }
       its(:location_type) { should == 'us' }
+      its(:location_details) { should == 'NY' }
+    end
+
+    context 'newyorkers ans californians' do
+      let(:location) { 'us/CA,us/NY' }
+      its(:location_type) { should == 'us' }
+      its(:location_details) { should == 'CA,NY' }
+    end
+
+    context 'not americans' do
+      let(:location) { 'non-us' }
+      its(:location_type) { should == 'non-us' }
+      its(:location_details) { should == '' }
+    end
+
+    context 'canadians' do
+      let(:location) { 'non-us/CA' }
+      its(:location_type) { should == 'non-us' }
       its(:location_details) { should == 'CA' }
     end
 
-    context 'with multiple details' do
-      let(:location) { 'us/CA,us/TX,us/NY' }
-      its(:location_type) { should == 'us' }
-      its(:location_details) { should == 'CA,TX,NY' }
-    end
-
-    context 'for no location' do
-      let(:location) { nil }
-      its(:location_type) { should == 'all' }
-      its(:location_details) { should == '' }
+    context 'mexicans and canadians' do
+      let(:location) { 'non-us/CA,non-us/MX' }
+      its(:location_type) { should == 'non-us' }
+      its(:location_details) { should == 'CA,MX' }
     end
   end
   
