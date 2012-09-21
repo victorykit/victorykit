@@ -25,7 +25,7 @@ class Petition < ActiveRecord::Base
   def self.find_interesting_petitions_for(member)
     signed = Signature.find_all_by_member_id(member).map(&:petition)
     sent = SentEmail.find_all_by_member_id(member).map(&:petition)
-    find_all_by_to_send(true) - signed - sent
+    (find_all_by_to_send(true) - signed - sent).select { |p| p.cover? member }
   end
 
   def strip_whitespace
