@@ -223,7 +223,8 @@ describe PetitionsHelper do
         "puppy_treat",
         "puppy_gun",
         "ferret_treat",
-        "fb_rotator-most_people_will_share"
+        "fb_rotator-most_people_will_share",
+        "no_thanks_vs_share"
       ]
    }
 

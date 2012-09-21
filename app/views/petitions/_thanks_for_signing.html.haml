@@ -357,8 +357,16 @@
     Most people share this petition.
     %br
     Will you?
+  .btn.btn-primary.share{class: [facebook_button[:button_class], facebook_button_aesthetic], id: who}
+    .fb_image_holder
+      .holder
+        .fb_image
+        .fb_text
+
+- if after_share_view == "no_thanks_vs_share"
+  .share.most_share
+    Most people share this petition.
+    %br
+    Will you?
   .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
-  .fb_image_holder
-    .holder
-      .fb_image
-      .fb_text
+  .btn.btn-primary.no_thanks.swap{ :"data-dismiss" => 'modal' }
