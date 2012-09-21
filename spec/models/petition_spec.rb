@@ -76,36 +76,66 @@ describe Petition do
       let(:location) { 'us' }
       its(:location_type) { should == 'us' }
       its(:location_details) { should == '' }
-    end
+
+      it { should cover newyorker }
+      it { should cover californian } 
+      it { should_not cover mexican }
+      it { should_not cover canadian }
+   end
 
     context 'newyorkers' do
       let(:location) { 'us/NY' }
       its(:location_type) { should == 'us' }
       its(:location_details) { should == 'NY' }
+
+      it { should cover newyorker }
+      it { should_not cover californian }
+      it { should_not cover mexican }
+      it { should_not cover canadian }
     end
 
     context 'newyorkers ans californians' do
       let(:location) { 'us/CA,us/NY' }
       its(:location_type) { should == 'us' }
       its(:location_details) { should == 'CA,NY' }
+
+      it { should cover newyorker }
+      it { should cover californian }
+      it { should_not cover mexican }
+      it { should_not cover canadian }
     end
 
     context 'not americans' do
       let(:location) { 'non-us' }
       its(:location_type) { should == 'non-us' }
       its(:location_details) { should == '' }
+
+      it { should cover mexican }
+      it { should cover canadian }
+      it { should_not cover newyorker }
+      it { should_not cover californian }
     end
 
     context 'canadians' do
       let(:location) { 'non-us/CA' }
       its(:location_type) { should == 'non-us' }
       its(:location_details) { should == 'CA' }
+    
+      it { should cover canadian }
+      it { should_not cover mexican }
+      it { should_not cover newyorker }
+      it { should_not cover californian }
     end
 
     context 'mexicans and canadians' do
       let(:location) { 'non-us/CA,non-us/MX' }
       its(:location_type) { should == 'non-us' }
       its(:location_details) { should == 'CA,MX' }
+
+      it { should cover mexican }
+      it { should cover canadian }
+      it { should_not cover newyorker }
+      it { should_not cover californian }
     end
   end
   
