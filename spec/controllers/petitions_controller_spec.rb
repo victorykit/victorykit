@@ -240,19 +240,19 @@ describe PetitionsController do
       end
 
       let(:countries) do
-        [stub(code: 'USA', name: 'United States'),
+        [stub(code: 'US', name: 'United States'),
          stub(code: 'CAN', name: 'Canada')]
       end
 
       before do
         Carmen::Country.stub(:all).and_return countries
-        Carmen::Country.stub(:coded).with('USA').and_return us
+        Carmen::Country.stub(:coded).with('US').and_return us
         get :new, {}, valid_session
       end
 
       it { should respond_with :success }
       it { assigns(:states).should == {'CA'=>'California', 'NV'=> 'Nevada'} }
-      it { assigns(:countries).should == {'USA'=>'United States', 'CAN'=> 'Canada'} }
+      it { assigns(:countries).should == {'US'=>'United States', 'CAN'=> 'Canada'} }
       it { assigns(:petition).should be_a_new(Petition) }
       it { should render_template :new }
     end
