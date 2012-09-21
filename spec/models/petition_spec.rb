@@ -142,16 +142,21 @@ describe Petition do
   describe '.find_interesting_petitions_for' do
     subject { Petition }
 
+    let(:sent) { build :petition }
+    let(:signed) { build :petition }
+    let(:nocoverage) { build :petition }
+    let(:interesting) { build :petition }
     let(:member) { build :member }
-    let(:p) { 3.times.map{ build :petition } }
 
     before do
-      subject.stub(:find_all_by_to_send).with(true).and_return p
-      [SentEmail, Signature].each_with_index do |c, i|
-        c.stub(:find_all_by_member_id).with(member).and_return [stub(petition: p[i])]
-      end
+      nocoverage.stub(:cover?).with(member).and_return false
+      interesting.stub(:cover?).with(member).and_return true
+      all = [sent, signed, nocoverage, interesting] 
+      subject.stub(:find_all_by_to_send).with(true).and_return all
+      SentEmail.stub(:find_all_by_member_id).with(member).and_return [stub(petition: sent)]
+      Signature.stub(:find_all_by_member_id).with(member).and_return [stub(petition: signed)]
     end
 
-    specify { subject.find_interesting_petitions_for(member).should == [p[2]] }
+    specify { subject.find_interesting_petitions_for(member).should == [interesting] }
   end
 end
