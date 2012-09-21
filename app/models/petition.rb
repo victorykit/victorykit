@@ -53,11 +53,11 @@ class Petition < ActiveRecord::Base
 
   def description_lsub sub=''
     b = "<br><br>"
-    bsub = "#{b}#{sub}#{b}".gsub /#{b}#{b}/, "#{b}"
-    d = description.gsub /#{b}LINK#{b}/, bsub
+    bsub = "#{b}#{sub}#{b}".gsub(/#{b}#{b}/, "#{b}")
+    d = description.gsub(/#{b}LINK#{b}/, bsub)
 
-    psub = "<p>#{sub}</p>".gsub /<p><\/p>/, ""
-    d.gsub /<p>LINK<\/p>/, psub
+    psub = "<p>#{sub}</p>".gsub(/<p><\/p>/, "")
+    d.gsub(/<p>LINK<\/p>/, psub)
   end
 
   def location_type
@@ -68,5 +68,9 @@ class Petition < ActiveRecord::Base
   def location_details
     return '' unless location.present?
     location.scan(/\/(\w\w)/).join(',')
+  end
+
+  def cover? member
+    location_type == 'all'
   end
 end
