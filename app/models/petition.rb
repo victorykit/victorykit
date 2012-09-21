@@ -71,6 +71,14 @@ class Petition < ActiveRecord::Base
   end
 
   def cover? member
-    location_type == 'all'
+    location_patterns.find { |p| member.last_location =~ p }
+  end
+
+  private
+
+  def location_patterns
+    return [/.*/] if (type = location_type) == 'all' 
+    details = ['\w\w'] if (details = location_details.split(',')).empty?
+    details.map { |d| Regexp.new("^#{type}/#{d}$") }
   end
 end
