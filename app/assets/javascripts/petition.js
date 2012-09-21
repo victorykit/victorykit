@@ -1,3 +1,15 @@
+function changeSidebar() {
+  $('.swap').click(function () {
+    $('#thanks-for-signing-message').html('' +
+      '<div class="share sidebar_plea">' +
+        'Really?' +
+        '<br /><br />' +
+        'A small click can make a huge difference.' +
+      '</div>' +
+      '<div class="btn btn-primary share fb_f_share facebook_popup" id="the-one-in-the-side"></div>');
+  });
+}
+
 function randomInt(range) {
   return Math.floor(Math.random() * range);
 }
@@ -365,7 +377,7 @@ function drawModalAfterSigning() {
   if ($('.fb_image_holder').length > 0) {
     modalFbImageRotator();
   }
-
+  changeSidebar();
 }
 
 function mobileSignErrorHandling() {

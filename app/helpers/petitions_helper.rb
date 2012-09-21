@@ -34,6 +34,10 @@ module PetitionsHelper
     spin! 'facebook button aesthetic', :share, ["fb_f_24_share", "fb_f_24_shareonfacebook", "fb_f_share", "fb_f_shareonfacebook", "fb_no_f_share", "fb_no_f_shareonfacebook", "fb_clipped_f_share", "fb_clipped_f_shareonfacebook", "fb_24k_share", "fb_24k_shareonfacebook", "fb_red_share", "fb_red_shareonfacebook"]
   end
 
+  def swapSidebarMessage
+    spin! 'change the sidebar message to a plea if the user closes the share modal', :share, ["swap", "dont_swap"]
+  end
+
   def facebook_button
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
@@ -92,7 +96,8 @@ module PetitionsHelper
       "puppy_treat",
       "puppy_gun",
       "ferret_treat",
-      "fb_rotator-most_people_will_share"
+      "fb_rotator-most_people_will_share",
+      "no_thanks_vs_share"
     ]
   end
 

@@ -67,11 +67,11 @@
         - petitiontext = @petition.description_lsub
         - if @petition.to_send != true
           - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
-        
+
         #image
           - if @petition.petition_images.any?
             %img{ src: @petition.petition_images.first.url }
-        
+
         .description= petitiontext.html_safe
         .mobile_signup_button
           = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
@@ -84,7 +84,7 @@
 
   .modal#thanksModal
     .modal-body
-      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      = link_to('x' , '#', :class => "close #{swapSidebarMessage}", :"data-dismiss" => 'modal')
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modail' }
 
   .modal.hide#facebookFriendsModal

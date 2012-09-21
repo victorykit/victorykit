@@ -211,12 +211,20 @@
   }
 }
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_no_f_share {
+  .btn.fb_no_f_share, .btn.no_thanks {
     height: 63px;
     width: 147px;
+  }
+  .btn.fb_no_f_share {
     background: url("fb_no_f.png");
     &:hover {
       background: url("fb_no_f_hover.png");
+    }
+  }
+  .btn.no_thanks {
+    background: url("no_thanks.png");
+    &:hover {
+      background: url("no_thanks_hover.png");
     }
   }
 }
@@ -374,6 +382,14 @@
     &.two_friends {
       font-size: 22px;
       padding-left: .2em;
+      text-align: left;
+    }
+    &.sidebar_plea {
+      font-weight: normal;
+      color: #fefefe;
+      margin: 25px 0 0;
+      padding-left: 25px;
+      font-size: 29px;
       text-align: left;
     }
   }
