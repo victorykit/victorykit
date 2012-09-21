@@ -12,26 +12,27 @@ describe 'email experiments' do
         end
 
         # send emails for them
-        hashes = petitions.reduce({}) do |result, petition|
+        info = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
           link = find('.sign-petition-link')[:href]
           hash = link.scan(/n=(.*)$/).join
-          result[petition] = hash ; result
+          subject = page.html.scan(/Subject: (.*?)\n/)[0][0]
+          result[petition] = { hash: hash, subject: subject} ; result
         end
 
         # check results
         petitions.each do |petition|
-          results = email_experiment_results_for petition
-          results[:spins].should eq 1
-          results[:wins ].should eq 0
+          results = email_experiment_results_for(petition)[info[petition][:subject]]
+          results[:spins].should == 1
+          results[:wins ].should == 0
         end
 
         # sign and check again
         petitions.each do |petition|
-          sign petition, { n: hashes[petition] }
-          results = email_experiment_results_for petition
-          results[:spins].should eq 1
-          results[:wins ].should eq 1
+          sign petition, { n: info[petition][:hash] }
+          results = email_experiment_results_for(petition)[info[petition][:subject]]
+          results[:spins].should == 1
+          results[:wins ].should == 1
         end
       end
     end

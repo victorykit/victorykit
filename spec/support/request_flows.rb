@@ -116,8 +116,13 @@ end
 def email_experiment_results_for petition
   visit '/admin/experiments?f=petitions'
   selector = "table[id='petition #{petition.id} email title']"
-  { spins: find("#{selector} td.spins").text.to_i, 
-    wins:  find("#{selector} td.wins").text.to_i }
+  out = {}
+  all("#{selector} tbody tr").each do |e|
+    out[e.find("td.name").text] = { 
+      spins: e.find("td.spins").text.to_i, 
+      wins:  e.find("td.wins").text.to_i }
+  end
+  out
 end
 
 def opengraph_image
