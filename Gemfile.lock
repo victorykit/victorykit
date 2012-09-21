@@ -31,12 +31,14 @@ GIT
 
 GIT
   remote: git://github.com/victorykit/whiplash.git
-  revision: 13fb9548aee3c69ed05bce7d6b6a85ab4966bfd8
+  revision: 134bc1ef8038301ed4dfe55cf55b28fe166da266
   specs:
     whiplash (0.0.1)
+      haml
       redis
       redis-namespace
       simple-random
+      sinatra
 
 GEM
   remote: https://rubygems.org/
