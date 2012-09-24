@@ -32,16 +32,27 @@ describe Member do
     end
 
     describe '#last_location' do
-      before { subject.signatures << last } 
-      
-      context 'when last signed from us' do
-        let(:last) { build :signature, country_code: 'US', state_code: 'NY'  }
-        its(:last_location) { should == 'us/NY' }
+      context 'when never signed' do
+        its(:last_location) { should == '' }
       end
 
-      context 'when last signed from outside us' do
-        let(:last) { build :signature, country_code: 'BR', state_code: 'RS' }
-        its(:last_location) { should == 'non-us/BR' }
+      context 'when last signed from' do
+        before { subject.signatures << last } 
+        
+        context 'us' do
+          let(:last) { build :signature, country_code: 'US', state_code: 'NY'  }
+          its(:last_location) { should == 'us/NY' }
+        end
+
+        context 'outside us' do
+          let(:last) { build :signature, country_code: 'BR', state_code: 'RS' }
+          its(:last_location) { should == 'non-us/BR' }
+        end
+
+        context 'unknown place' do
+          let(:last) { build :signature }
+          its(:last_location) { should == '' }
+        end
       end
     end
   end
