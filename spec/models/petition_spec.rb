@@ -31,23 +31,15 @@ describe Petition do
     end
 
     describe '#description_lsub' do
-      context '1' do
+      context 'between br tags' do
         let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
         specify { petition.description_lsub('subs').should == 'a<br><br>subs<br><br>paragraph' }
-      end
-
-      context '2' do
-        let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
         specify { petition.description_lsub('').should == 'a<br><br>paragraph' }
       end
 
-      context '3' do
+      context 'inside p tag' do
         let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' } 
         specify { petition.description_lsub('subs').should == '<p>a</p><p>subs</p><p>paragraph</p>' } 
-      end
-
-      context '4' do
-        let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' }
         specify { petition.description_lsub('').should == '<p>a</p><p>paragraph</p>' }
       end
     end
@@ -60,6 +52,7 @@ describe Petition do
     let(:canadian) { stub(last_location: 'non-us/CA') }
     let(:newyorker) { stub(last_location: 'us/NY') }
     let(:californian) { stub(last_location: 'us/CA') }
+    let(:delocalized) { stub(last_location: '') }
 
     context 'everyone' do
       let(:location) { 'all' }
@@ -70,6 +63,7 @@ describe Petition do
       it { should cover canadian }
       it { should cover newyorker }
       it { should cover californian }
+      it { should cover delocalized }
     end
 
     context 'americans' do
@@ -81,6 +75,7 @@ describe Petition do
       it { should cover californian } 
       it { should_not cover mexican }
       it { should_not cover canadian }
+      it { should_not cover delocalized }
    end
 
     context 'newyorkers' do
@@ -92,6 +87,7 @@ describe Petition do
       it { should_not cover californian }
       it { should_not cover mexican }
       it { should_not cover canadian }
+      it { should_not cover delocalized }
     end
 
     context 'newyorkers ans californians' do
@@ -103,6 +99,7 @@ describe Petition do
       it { should cover californian }
       it { should_not cover mexican }
       it { should_not cover canadian }
+      it { should_not cover delocalized }
     end
 
     context 'not americans' do
@@ -114,6 +111,7 @@ describe Petition do
       it { should cover canadian }
       it { should_not cover newyorker }
       it { should_not cover californian }
+      it { should_not cover delocalized }
     end
 
     context 'canadians' do
@@ -125,6 +123,7 @@ describe Petition do
       it { should_not cover mexican }
       it { should_not cover newyorker }
       it { should_not cover californian }
+      it { should_not cover delocalized }
     end
 
     context 'mexicans and canadians' do
@@ -136,6 +135,7 @@ describe Petition do
       it { should cover canadian }
       it { should_not cover newyorker }
       it { should_not cover californian }
+      it { should_not cover delocalized }
     end
   end
   
