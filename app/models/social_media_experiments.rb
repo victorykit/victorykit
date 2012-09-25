@@ -19,7 +19,7 @@ class SocialMediaExperiments
   end
 
   def create_trial(goal, test_name, choice)
-    SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice, referral_code: @member.referral_code)
+    SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice)
   end
 
   def trial_session
