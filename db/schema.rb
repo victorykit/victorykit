@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120912230331) do
+ActiveRecord::Schema.define(:version => 20120919173938) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -77,13 +77,15 @@ ActiveRecord::Schema.define(:version => 20120912230331) do
 
   create_table "members", :force => true do |t|
     t.string   "email"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "referral_code"
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
+  add_index "members", ["referral_code"], :name => "index_members_on_referral_code"
 
   create_table "petition_images", :force => true do |t|
     t.text     "url",         :null => false
@@ -157,9 +159,12 @@ ActiveRecord::Schema.define(:version => 20120912230331) do
     t.string   "goal"
     t.string   "key"
     t.string   "choice"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "referral_code"
   end
+
+  add_index "social_media_trials", ["referral_code"], :name => "index_social_media_trials_on_referral_code"
 
   create_table "subscribes", :force => true do |t|
     t.integer  "member_id"
