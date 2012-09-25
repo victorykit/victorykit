@@ -19,7 +19,9 @@ class SocialMediaExperiments
   end
 
   def create_trial(goal, test_name, choice)
-    SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice)
+    SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice).tap do |t|
+      t.referral_code = @member.referral_code if t.respond_to?(:referral_code=) && @member.respond_to?(:referral_code)
+    end
   end
 
   def trial_session
