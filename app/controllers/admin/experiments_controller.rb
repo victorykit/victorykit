@@ -4,8 +4,11 @@ class Admin::ExperimentsController < ApplicationController
   before_filter :require_admin
     
   def stats
+    Rails.logger.info "[experiments] preparing stats"
     mystats = []
-    all_tests.each do |test_name, test_info|
+    tests = all_tests
+    Rails.logger.info "[experiments] test count: #{tests.count}"
+    tests.each do |test_name, test_info|
       test_stats = {
         name: test_name,
         trials: 0,
@@ -45,6 +48,7 @@ class Admin::ExperimentsController < ApplicationController
   VALID_FILTERS = ["experiments", "petitions", "both"]
 
   def index
+    Rails.logger.info "[experiments] index"
     @filter = params[:f] || "experiments"
     @options = VALID_FILTERS
     render text: "Filter not recognized: #{@filter}", status: :not_found unless VALID_FILTERS.include?(@filter)
