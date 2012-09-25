@@ -7,6 +7,7 @@ production: &default
       - http://act.watchdog.net/images/fbpic_original_orange.png
       - http://act.watchdog.net/images/fbpic_colored_fist.png
       - http://act.watchdog.net/images/fbpic_progress_bar.png
+      - http://act.watchdog.net/images/fbpic_progress_bar_red_border.png
       - http://act.watchdog.net/images/fbpic_megaphone.png
       - http://act.watchdog.net/images/fbpic_megaphone_red_border.png
       - http://act.watchdog.net/images/fbpic_facebook-esque_button.png
