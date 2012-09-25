@@ -56,9 +56,7 @@ class Member < ActiveRecord::Base
   end
 
   def last_location
-    return '' unless signatures.last && signatures.last.country_code
-    return '' unless (l = signatures.last)
-    return '' unless (t = l.country_code)
+    return '' unless (l = signatures.last) && (t = l.country_code)
     t == 'US' ? "us/#{l.state_code}" : "non-us/#{t}"  
   end
 
