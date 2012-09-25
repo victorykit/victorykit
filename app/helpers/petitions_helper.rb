@@ -71,7 +71,7 @@ module PetitionsHelper
 
   def after_share_view
     return 'thanks_for_signing' if browser.ie?
-    spin! 'after share view 2', :share, [
+    spin! 'after share view 3', :share, [
       "thanks_for_signing",
       "button_is_most_effective_tool",
       "button_is_most_effective_tool_with_thanks",
@@ -104,10 +104,8 @@ module PetitionsHelper
       "name_youre_not_done_yet",
       "kitten_sad",
       "kitten_treat",
-      "kitten_gun",
       "puppy_sad",
       "puppy_treat",
-      "puppy_gun",
       "ferret_treat",
       "fb_rotator-most_people_will_share",
       "no_thanks_vs_share"

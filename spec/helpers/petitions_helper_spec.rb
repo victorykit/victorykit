@@ -183,7 +183,7 @@ describe PetitionsHelper do
     end
 
     context 'for a regular browser user' do
-      let(:exp) { 'after share view 2' }
+      let(:exp) { 'after share view 3' }
       let(:goal) { :share }
       let(:options) { [
         "thanks_for_signing",
@@ -218,10 +218,8 @@ describe PetitionsHelper do
         "name_youre_not_done_yet",
         "kitten_sad",
         "kitten_treat",
-        "kitten_gun",
         "puppy_sad",
         "puppy_treat",
-        "puppy_gun",
         "ferret_treat",
         "fb_rotator-most_people_will_share",
         "no_thanks_vs_share"
