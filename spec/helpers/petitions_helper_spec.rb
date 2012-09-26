@@ -196,6 +196,7 @@ describe PetitionsHelper do
         "mandela-time_ripe_to_do_right",
         "mandela-time_ripe_to_do_right-color",
         "teresa-stone_creates_ripples-color",
+        "teresa-stone_creates_ripples",
         "gandhi-shake_the_world",
         "king-do_what_is_right",
         "king-do_what_is_right-color",
