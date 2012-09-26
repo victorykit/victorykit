@@ -2,33 +2,13 @@ class Admin::ExperimentsController < ApplicationController
   include ApplicationMetrics
   newrelic_ignore
   before_filter :require_admin
-    
+
   def stats
     Rails.logger.info "[experiments] preparing stats"
-    mystats = []
-    tests = all_tests
-    Rails.logger.info "[experiments] test count: #{tests.count}"
-    tests.each do |test_name, test_info|
-      test_stats = {
-        name: test_name,
-        trials: 0,
-        arms: [],
-        goal: test_info[:goal]
-      }
-      test_info[:options].each do |opt_name|
-        spins = spins_for(test_name, opt_name)
-        test_stats[:arms].append({
-          name: opt_name,
-          spins: spins,
-          wins: wins_for(test_name, opt_name)
-        })
-        test_stats[:trials] += spins
-      end
-      test_stats[:arms].sort! { |x,y| x[:name] <=> y[:name] }
-      mystats.append test_stats unless test_name.starts_with? "email_scheduler"
-    end
 
-    mystats.sort! { |x,y| compare_stats x, y }
+    all_tests.reject do |test_info|
+      test_info[:name].starts_with? "email_scheduler"
+    end.sort { |x,y| compare_stats x, y }
   end
 
   #not bulletproof, but works with form like "petition 110 etc" (doesn't sort anything right of the number, though)
