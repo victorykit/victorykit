@@ -34,3 +34,7 @@ Make sure the tests pass:
 To get the smoke tests to pass, you'll need to have the right OAUTH variables, either by running `./script/gen_google_oauth` or getting the right variables from a friend and then setting them in your environment. You'll also need to be running the local server:
 
     $ rails server
+
+Alternatively, you can use Foreman:
+
+    $ foreman start -f Procfile.dev -p 3000
