@@ -305,7 +305,7 @@ function bindFacebookWidgetButton() {
   function openWidget() {
     var element = $('.facebook-share-widget');
     $('#thanksModal').modal('hide');
-    $('#facebookFriendsModal').modal('toggle');
+    $('#facebookShareModal').modal('toggle');
     var domain = location.href.replace(/\?.*/,"");
     var options = {
       base_path: '/widget',
@@ -439,6 +439,7 @@ function initSharePetition() {
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
+  //bindFacebookAppRequestButton();
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
