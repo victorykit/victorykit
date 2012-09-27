@@ -31,7 +31,7 @@ GIT
 
 GIT
   remote: git://github.com/victorykit/whiplash.git
-  revision: 82466300fe173a3ead6a6a91fac953d74e8e2487
+  revision: bcd9764d2404477d823c7eadcd9cd44c510bf209
   specs:
     whiplash (0.0.1)
       haml
