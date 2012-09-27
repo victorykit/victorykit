@@ -110,7 +110,8 @@ module PetitionsHelper
       "ferret_treat",
       "fb_rotator-most_people_will_share",
       "no_thanks_vs_share",
-      "click_it_maybe"
+      "click_it_maybe",
+      "because_thats_how_our_voice_gets_heard"
     ]
   end
 
