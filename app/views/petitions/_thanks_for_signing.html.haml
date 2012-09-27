@@ -370,3 +370,14 @@
     Will you?
   .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
   .btn.btn-primary.no_thanks.swap{ :"data-dismiss" => 'modal' }
+
+- if after_share_view == "click_it_maybe"
+  .share.big_margin
+    Hey you just signed this
+    %br
+    And this is crazy
+    %br
+    But here's a button
+    %br
+    So click it maybe?
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_aesthetic], id: who }
