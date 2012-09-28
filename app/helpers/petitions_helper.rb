@@ -47,10 +47,6 @@ module PetitionsHelper
     ]
   end
 
-  def swapSidebarMessage
-    spin! 'change the sidebar message to a plea if the user closes the share modal', :share, ["swap", "dont_swap"]
-  end
-
   def facebook_button
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
@@ -71,47 +67,29 @@ module PetitionsHelper
 
   def after_share_view
     return 'thanks_for_signing' if browser.ie?
-    spin! 'after share view 3', :share, [
-      "thanks_for_signing",
-      "button_is_most_effective_tool",
-      "button_is_most_effective_tool_with_thanks",
-      "tell_two_friends",
-      "tell_two_friends_with_thanks",
-      "signatures_stop_signatures_multiply",
-      "signatures_stop_signatures_multiply_with_thanks",
-      "mandela-time_ripe_to_do_right",
-      "mandela-time_ripe_to_do_right-color",
-      "teresa-stone_creates_ripples-color",
-      "teresa-stone_creates_ripples",
-      "gandhi-shake_the_world",
-      "king-do_what_is_right",
-      "king-do_what_is_right-color",
-      "melanie_1",
-      "melanie_2",
-      "most_people_will_share_will_you",
-      "most_people_will_share_will_you_with_thanks",
-      "over_x_shares_and_counting-with_counter",
-      "if_facebook_is_slow_try_again_later",
-      "tell_two_friends-sandwich-grey",
-      "almost_there_one_thing_to_do",
-      "almost_there_one_thing_to_do_with_thanks",
-      "checklist",
-      "demand_progress_facebook_pictures",
-      "demand_progress_facebook_pictures_with_thanks",
-      "wow_most_shared_petition_ever",
-      "hey_youre_not_done_yet",
-      "hey_you_youre_not_done_yet",
-      "thanks_youre_not_done_yet",
-      "name_youre_not_done_yet",
-      "kitten_sad",
-      "kitten_treat",
-      "puppy_sad",
-      "puppy_treat",
-      "ferret_treat",
-      "fb_rotator-most_people_will_share",
-      "no_thanks_vs_share",
-      "click_it_maybe",
-      "because_thats_how_our_voice_gets_heard"
+    spin! 'after share view 4', :share, [
+       "button_is_most_effective_tool-progress_bar",
+       "tell_two_friends-progress_bar",
+       "most_people_will_share_will_you-progress_bar",
+       "over_x_shares_and_counting-with_counter-progress_bar",
+       "king-progress_bar",
+       "mandela-progress_bar",
+       "teresa-progress_bar",
+       "almost_there_only_one_thing_left_to_do",
+       "almost_done_only_one_thing_left_to_do",
+       "almost_finished_only_one_thing_left_to_do",
+       "almost_there",
+       "only_one_thing_left_to_do",
+       "almost_there_just_one_thing_left_to_do",
+       "almost_there_only_one_more_thing_to_do",
+       "almost_there_just_one_last_thing_to_do",
+       "almost_there_just_one_more_thing_to_do",
+       "thanks_for_signing_but_youre_not_done_yet_only_one_thing_left_to_do",
+       "almost_there_only_one_thing_left_to_do-top_arrow",
+       "almost_there_only_one_thing_left_to_do-bottom_arrow",
+       "almost_there_only_one_thing_left_to_do-85",
+       "almost_there_only_one_thing_left_to_do-85_top_arrow",
+       "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
     ]
   end
 
