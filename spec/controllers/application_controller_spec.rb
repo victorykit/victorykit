@@ -38,4 +38,27 @@ describe ApplicationController do
       end
     end
   end
+
+  describe "stashing and retrieving http referer" do
+     it "should return value once initially stashed as that value" do
+       request.stub(:referer).and_return "www.initial.com"
+       controller.stash_http_referer
+       controller.retrieve_http_referer.should == "www.initial.com"
+
+       request.stub(:referer).and_return "www.elsewhere.com"
+       controller.stash_http_referer
+       controller.retrieve_http_referer.should == "www.initial.com"
+     end
+
+     it "should return nil once initially stashed as nil" do
+       request.stub(:referer).and_return nil
+       controller.stash_http_referer
+       controller.retrieve_http_referer.should be_nil
+
+       request.stub(:referer).and_return "www.elsewhere.com"
+       controller.stash_http_referer
+       controller.retrieve_http_referer.should be_nil
+     end
+   end
+
 end

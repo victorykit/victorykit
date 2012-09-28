@@ -8,11 +8,13 @@ describe SignaturesController do
 
   let(:petition) { create(:petition) }
   let(:signature_fields) { {first_name: 'Bob', last_name: 'Loblaw', email: 'bob@my.com'} }
-  let(:referring_url) { 'http://petitionator.com/456?other_stuff=etc' }
+  let(:referring_url) { 'http://watchdog.net/123?ref=bzzt' }
+  let(:http_referer) { 'http://petitionator.com/456?other_stuff=etc' }
 
   describe 'POST create' do
     before do
       Resque.stub(:enqueue)
+      request.stub(:referer).and_return http_referer
     end
 
     context 'when the user supplies both a name and an email' do
@@ -26,9 +28,9 @@ describe SignaturesController do
         member.signatures.each &:destroy
         member.destroy
       end
-      
+
       subject { petition.signatures.first }
-    
+
       context 'new signature' do
         its(:first_name) { should == signature_fields[:first_name] }
         its(:last_name) { should == signature_fields[:last_name] }
@@ -65,6 +67,7 @@ describe SignaturesController do
         subject { Signature.last }
         its(:reference_type) { should == type }
         its(:referring_url) { should == referring_url }
+        its(:http_referer) { should == http_referer }
         its(:referer) { should == member }
       end
 
@@ -167,7 +170,7 @@ describe SignaturesController do
           end
 
           subject { Signature.last }
-          
+
           its(:reference_type) { should == type }
           its(:referring_url) { should be_nil }
           its(:referer) { should == member }
@@ -217,7 +220,7 @@ describe SignaturesController do
       request.env['HTTP_USER_AGENT'] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11'
       post :create, params.merge({petition_id: petition.id, signature: signature_fields, referring_url: referring_url})
     end
-    
+
     def sign_without_name_or_email
       post :create, petition_id: petition.id
     end

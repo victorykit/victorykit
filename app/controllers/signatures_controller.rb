@@ -10,6 +10,8 @@ class SignaturesController < ApplicationController
     signature.browser_name = browser.id.to_s
     signature.member = Member.find_or_initialize_by_email(email: signature.email, first_name: signature.first_name, last_name: signature.last_name)
     signature.created_member = signature.member.new_record?
+    signature.http_referer = retrieve_http_referer
+
     member_hash = nil
     if signature.valid?
       begin

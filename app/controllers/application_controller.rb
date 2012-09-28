@@ -4,7 +4,15 @@ class ApplicationController < ActionController::Base
   helper_method :win!, :spin!, :spin_if_cool_browser!, :is_admin
   
   protect_from_forgery
-  before_filter :add_environment_to_title
+  before_filter :add_environment_to_title, :stash_http_referer
+
+  def stash_http_referer
+    session['http_referer'] = request.referer || "none" unless session['http_referer']
+  end
+
+  def retrieve_http_referer
+    session['http_referer'] == "none" ? nil : session['http_referer']
+  end
 
   def add_environment_to_title
     @title = "Watchdog.net"
