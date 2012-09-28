@@ -187,6 +187,8 @@
 }
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
   .btn.fb_no_f_share {
+    height: 63px;
+    width: 147px;
     background: url("fb_no_f.png");
     &:hover {
       background: url("fb_no_f_hover.png");
