@@ -104,10 +104,6 @@
     clear: both;
     font-weight: normal;
   }
-  .or {
-    font-size: 10px;
-    color: #666;
-    margin: 5px; }
   fb\:like {
     margin: 5px 0 10px 50px;
   }
@@ -128,35 +124,13 @@
 }
 
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_red_share, .btn.grey_button, .btn.grey_donate {
+  .btn.fb_red_share {
     height: 51px;
     width: 177px;
     border: none;
-  }
-  .btn.grey_button {
-    background: url("dont_share_button.png");
-    &:hover {
-      background: url("dont_share_button_hover.png");
-    }
-  }
-  .btn.grey_donate {
-    width: 163px;
-    background: url("donate_grey.png");
-    &:hover {
-      background: url("donate_grey_hover.png");
-    }
-  }
-  .btn.fb_red_share {
     background: url("fb_red.png");
     &:hover {
       background: url("fb_red_hover.png");
-    }
-  }
-  .btn.red_button.tw {
-    display: none;
-    background: url("tw_red_button.png");
-    &:hover {
-      background: url("tw_red_button_hover.png");
     }
   }
 }
@@ -212,10 +186,6 @@
   }
 }
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
-  .btn.fb_no_f_share, .btn.no_thanks {
-    height: 63px;
-    width: 147px;
-  }
   .btn.fb_no_f_share {
     background: url("fb_no_f.png");
     &:hover {
@@ -282,10 +252,10 @@
 
 
 
-#thanks-for-signing-message, #thanksModal, .signature-form, #ask-to-sign {
+#thanks-for-signing-message, #thanksModal, .signature-form {
   padding: 10px;
 }
-.signature-form, #ask-to-sign {
+.signature-form {
   .title {
     font-size: 25px;
     text-align: center;
@@ -366,19 +336,25 @@
   font-size: 14px;
   font-weight: bold;
   text-align: center;
+  .remix {
+    font-size: 20px;
+    line-height: 25px;
+    padding: 15px;
+    &.img {
+      padding: 0;
+    }
+    &.two_friends {
+      line-height: 27px;
+    }
 
-  .thanks {
-    color: #BBBBBB;
-    font-size: 21px;
-    line-height: 58px;
   }
   .share {
     clear: both;
     font-size: 27px;
     line-height: 30px;
     margin: 15px 0 25px;
-    &.dual {
-      margin: 20px 0 15px;
+    &.remixed {
+      font-size: 22px;
     }
     &.two_friends {
       font-size: 22px;
@@ -394,15 +370,47 @@
       text-align: left;
     }
   }
-  .arrow {
-    background: url('limearrow.png');
-    margin: 15px auto 5px;
-    height: 100px;
-    width: 100px;
+}
+
+#thanksModal {
+  .remix {
+    margin: 0 0 15px -16px;
+    padding: 15px;
+    &.img {
+      width: 108%;
+    }
+    &.text {
+      margin: 0 0 15px -15px;
+      width: 100%;
+      background: none repeat scroll 0 0 #EEEEEE;
+    }
+    &.most_share {
+      line-height: 35px;
+    }
   }
-  .tweet {
-    margin-left: 45px;
+}
+#thanks-for-signing-message, #mobile_thanks {
+  .remix {
+    background: none;
+    margin: 0 0 15px -10px;
+    &.text {
+      width: 96%;
+    }
+    &.img {
+      width: 107%;
+    }
+    &.most_share {
+      line-height: 30px;
+      font-size: 17px;
+    }
   }
+}
+#thanks-for-signing-message .remix.text {
+  background: #444;
+}
+#mobile_thanks .remix.text {
+  background: #444;
+  color: white;
 }
 
 #thanks-for-signing-message {
@@ -538,10 +546,6 @@
   &.break { display: block; }
 }
 
-
-.tweet, #ask-to-sign , #ask-to-sign-modal {
-  display: none;
-}
 
 @media (min-width: 250px) and (max-width: 767px) {
   body #content #petition_page .sidebar_test { margin-top: 0; }
@@ -764,13 +768,11 @@
 
 #mobile_thanks {
   display: none;
-
   &.was_signed {
     @media (min-width: 250px) and (max-width: 767px) {
       display: block;
     }
   }
-
   @media (min-width: 250px) and (max-width: 767px) {
     background: #ddd;
     width: 100%;
@@ -792,30 +794,25 @@
   height: 424px;
   .modal-body {
     padding: 2px;
-
     i.icon-search {
       position: absolute;
       top: 15px;
       left: 250px;
       opacity: 0.4;
     }
-
     .close {
       margin-top: 8px;
       margin-right: 20px;
     }
-
     .facebook-share-widget {
       .search-text {
         float: none;
       }
-
       ul {
         overflow-x: hidden;
       }
     }
   }
-
   .modal-footer {
     .btn {
       width: 60px;
@@ -852,28 +849,11 @@
     font-size: 22px;
     line-height: 36px;
     margin-bottom: 20px;
+    &.remixed { font-size: 20px; }
   }
 }
 #thanks-for-signing-message .progress_image .share { font-size: 22px; }
 #mobile_thanks .progress_image .share { font-size: 20px; }
-
-
-#thanksModal {
-  .image {
-    width: 420px;
-    margin: -10px 0 20px -10px;
-    border-radius: 5px 5px 0 0;
-    &.with_margin { margin-top: 15px; }
-  }
-}
-#thanks-for-signing-message, #mobile_thanks {
-  .image {
-    width:100%;
-    max-width: 280px;
-    margin: 0 auto 8px;
-  }
-}
-
 .quote {
   font-size: 16px;
   font-weight: bold;
@@ -901,65 +881,6 @@
   margin: 0 0 0 -10px;
 }
 
-
-#thanks-for-signing-message , #thanksModal, #mobile_thanks {
-  .melanie_1,.melanie_2 {
-    padding: 10px 10px 0;
-    .image {
-      height: 116px;
-      width: 100px;
-      margin: 5px -5px 0 10px;
-      float: right;
-    }
-    p {
-      font-weight: normal;
-      font-size: 16px;
-      margin-top: 4px;
-      line-height: normal;
-      text-align: left;
-      padding-left: 0;
-    }
-    .source {
-      float: right;
-      clear: right;
-      text-align: right;
-      font-size: 12px;
-      font-weight: normal;
-      line-height: 14px;
-      margin: 6px 0 0 3px;
-    }
-    .btn { margin: 11px auto 0 !important; }
-  }
-}
-#mobile_thanks {
-  .melanie_1, .melanie_2 {
-    .btn.fb_red_share { margin-bottom: 10px !important; }
-  }
-}
-#thanks-for-signing-message .melanie_2, #thanksModal .melanie_2 {
-  .source { margin-top: 10px; }
-}
-
-
-.checklist {
-  margin: 10px 30px 20px;
-  .box {
-    height: 35px;
-    line-height: 35px;
-    padding-left: 45px;
-    margin-bottom: 10px;
-    background: url('checkbox.png') top left no-repeat;
-    font-size: 20px;
-    text-align: left;
-    &.checked {
-      background: url('checkedbox.png') top left no-repeat;
-      color: #888;
-      text-decoration: line-through;
-    }
-  }
-}
-#thanksModal .checklist { margin: 10px 85px 20px; }
-
 #location-options {
   height: 20px;
   span {
@@ -974,63 +895,7 @@
     }
   }
 }
-
 #location-options, #countries, #states {
   margin-left: 160px;
   margin-bottom: 20px;
-}
-
-.fb_image_holder, .fb_image_holder .holder {
-  height: 90px;
-  overflow: show;
-  .fb_image, .fb_text {
-    float: left;
-  }
-  .fb_text {
-    text-align: left;
-    margin: 24px 0 0 10px;
-    font-weight: normal;
-    font-size: 115%;
-  }
-}
-#thanksModal .fb_image_holder {
-  margin: -50px 20px;
-  height: 30px;
-  .fb_text {
-    width: 280px;
-  }
-}
-#mobile_thanks .fb_image_holder {
-  height: 0;
-  max-height: 100px;
-  margin: -40px 0 110px;
-  .fb_text {
-    width: 200px;
-  }
-}
-#thanks-for-signing-message .fb_image_holder {
-  height: 0;
-  max-height: 150px;
-  margin: -50px 0 50px;
-  .fb_text {
-    width: 175px;
-    margin-top: 25px;
-    font-size: 90%;
-  }
-
-  .fb_image {
-    margin: 10px 0 10px 10px;
-  }
-}
-@media (min-width: 0px) and (max-width: 1000px) {
-  #thanks-for-signing-message .fb_image_holder {
-    margin: -50px 0 50px;
-    .fb_text { width: 100px; margin-top: 20px; }
-  }
-}
-@media (min-width: 1000px) and (max-width: 1200px) {
-  #thanks-for-signing-message .fb_image_holder {
-    margin: -50px 0 50px;
-    .fb_text { width: 150px; margin-top: 23px; }
-  }
 }

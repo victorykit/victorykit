@@ -75,7 +75,7 @@
         .description= petitiontext.html_safe
         .mobile_signup_button
           = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
-  
+
   - content_for(:meta_tags) do
     - open_graph_for(@petition, @referring_member_hash || @member.try(:to_hash)).each do |key, value|
       = tag 'meta', property:key, content:value.to_s
@@ -84,7 +84,7 @@
 
   .modal#thanksModal
     .modal-body
-      = link_to('x' , '#', :class => "close #{swapSidebarMessage}", :"data-dismiss" => 'modal')
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modail' }
 
   .modal.hide#facebookShareModal
@@ -94,11 +94,11 @@
       = render :partial => "facebook_share_widget"
     .modal-footer
       %a.btn.btn-success{:href => "#", 'data-dismiss'=>"modal"} I'm done.
-  
+
   .modal.hide#facebookFriendsModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
       = render :partial => "facebook_friend_widget"
     .modal-footer
       %a.btn.btn-success{:href => "#"} Send
-  
+
