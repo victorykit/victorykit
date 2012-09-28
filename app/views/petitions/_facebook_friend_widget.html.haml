@@ -1,5 +1,6 @@
 .facebook_friend_widget
   %h3 Spread the word by inviting up to 25 friends
+  
   #suggested.hide
     %h4 Suggested Friends
     %ul
@@ -10,4 +11,3 @@
 
   - content_for :javascripts do
     $('a.close').click(function(){$('#facebookFriendsModal').hide();});
-  /   $(document).ready(showRecommendedFriends);

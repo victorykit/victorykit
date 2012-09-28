@@ -214,7 +214,6 @@ function submitFacebookAction() {
             $('.fb_share_message').text("Please try again.");
           } else {
             setupSocialTrackingControllerRequest('share', response.id, '', '');
-            inviteToShareOnTwitter();
           }
         }
       );
@@ -439,7 +438,7 @@ function initSharePetition() {
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
-  //bindFacebookAppRequestButton();
+  // bindFacebookAppRequestButton();
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
