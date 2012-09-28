@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120919173938) do
+ActiveRecord::Schema.define(:version => 20120927213629) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -148,6 +148,7 @@ ActiveRecord::Schema.define(:version => 20120919173938) do
     t.string   "state"
     t.string   "state_code"
     t.string   "country_code"
+    t.string   "http_referer"
   end
 
   add_index "signatures", ["created_at"], :name => "index_signatures_on_created_at"
