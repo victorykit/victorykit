@@ -12,4 +12,10 @@ describe Unsubscribe do
       Unsubscribe.unsubscribe_member(Member.new).cause.should == "unsubscribed"
     end
   end
+
+  describe "analytics" do
+    it "should increment unsubscribe count on create" do
+      expect { create(:unsubscribe) }.to change{ $statsd.value_of("unsubscribes") }.from(0).to(1)
+    end
+  end
 end

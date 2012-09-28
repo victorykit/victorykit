@@ -31,6 +31,11 @@ describe PixelTrackingController do
       hash = build(:sent_email, id: 12).to_hash
       get :new, :n => hash
     end
+
+    it "increments emails_opened by 1" do
+      email = create :sent_email, :opened_at => nil
+      expect { get :new, :n => email.to_hash }.to change{ $statsd.value_of("emails_opened") }.from(0).to(1)
+    end
   end
 
 end
