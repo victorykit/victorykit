@@ -1,7 +1,9 @@
 class WhiplashSessionsController < ApplicationController
 
   newrelic_ignore
-  
+
+  helper_method :retrieve_http_referer
+
   def index
     @keys = REDIS.keys('whiplash/*/*/spins').map {|key| key.sub('whiplash/','').sub(/\/.+/,'')}.uniq.sort { |x,y| compare_titles x, y }
     respond_to do |format|
