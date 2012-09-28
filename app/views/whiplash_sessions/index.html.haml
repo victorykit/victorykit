@@ -8,6 +8,9 @@
     You are session ID: #{@session_id}.
   %p
     Your user agent: #{@user_agent}
+  %p
+    Http referer: #{retrieve_http_referer}
+
   - if @can_update_session
     = form_tag(whiplash_sessions_path, :method => :post) do
       = hidden_field_tag :debug_token, @debug_token
