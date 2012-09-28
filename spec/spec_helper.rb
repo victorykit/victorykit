@@ -48,6 +48,7 @@ RSpec.configure do |config|
     location.stub(:state_code).and_return 'NY'
     location.stub(:country_code).and_return 'US'
     Geocoder.stub(:search).and_return [location]
+    $statsd = FakeStatsd.new
   end
 
   config.after(:each) do
