@@ -41,6 +41,40 @@ function buildMultiFriendSelector() {
   });
 }
 
+function postOnFriendsTimeline()
+{
+  var domain = location.href.replace(/\?.*/,"");
+  var memberHash = VK.current_member_hash;
+  var url = [domain, '?suggested_ref=', memberHash].join('');
+  var message = $('#message-to-friends').val();
+
+  function postOnFacebook(user, action, data, callback) {
+    if(!callback) {
+      callback = function(){};
+    }
+    FB.api('/'+user+'/'+action,'post', data, callback);
+  }
+
+  postOnFacebook('me', 'watchdognet:sign', {petition: url},
+    function(response) {
+      $(friendUids()).each(function(index, uid) {
+        postOnFacebook(uid, 'feed', {link: url, message: message});
+      });
+      $('#facebookFriendsModal').modal('toggle');
+    }
+  );
+
+  function friendUids() {
+    var uids = [];
+    $('#suggested input[type="checkbox"]').each(function(index, item) {
+      if($(item).attr('checked')) {
+        uids.push($(item).val());
+      }
+    });
+    return uids;
+  }
+}
+
 function findRecommendedFriends(groups) {
   var tier1 = diff(groups.friends_notifying, groups.friends_involved);
   var friends_not_involved = diff(groups.friends, groups.friends_involved);
@@ -63,25 +97,10 @@ function findRecommendedFriends(groups) {
 
   buildMultiFriendSelector();
   spinner.stop();
-  // $('.btn-success').click(function(event){
-  //   alert("blah");
-  //   //post on friend's timeline
-  // });
+  $('.btn-success').click(function(event){
+    postOnFriendsTimeline();
+  });
 }
-
-// function postOnFriendsTimeline()
-// {
-//   FB.api(
-//     '/me/watchdognet:sign',
-//     'post',
-//     {
-//       petition: $('meta[property="og:url"]').attr("content")
-//     },
-//     function (response) {
-//       console.log(response.id);
-//     }
-//   );
-// }
 
 function queryFacebook(query, groups) {
   FB.api("/fql?q=" +  encodeURIComponent(JSON.stringify(query)),
@@ -136,6 +155,6 @@ function submitAppRequest() {
   }, {scope: 'publish_actions, manage_notifications'});
 }
 
-function bindFacebookAppRequestButton() {
+function bindFacebookSuggestedButton() {
   $('.fb_request_btn').click(submitAppRequest);  
 }
