@@ -72,7 +72,7 @@ class SignaturesController < ApplicationController
     facebook_ref_types.keys.find do |key|
       if key == :fb_action_id
         deal_with_facebook_share_special_case(petition, signature)
-      else  
+      else
         found = record_referer(signature, key, facebook_ref_types[key])
         petition.experiments.facebook(found).win!(:signature) if found
         found
@@ -121,7 +121,8 @@ class SignaturesController < ApplicationController
       fb_share_link_ref: Signature::ReferenceType::FACEBOOK_POPUP, 
       fb_dialog_request: Signature::ReferenceType::FACEBOOK_REQUEST, 
       fb_autofill_request: Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
-      fb_wall_hash: Signature::ReferenceType::FACEBOOK_WALL
+      fb_wall_hash: Signature::ReferenceType::FACEBOOK_WALL,
+      fb_recommendation_ref: Signature::ReferenceType::FACEBOOK_RECOMMENDATION
     }
   end
 

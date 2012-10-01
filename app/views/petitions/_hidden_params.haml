@@ -14,6 +14,8 @@
   = hidden_field_tag :fb_dialog_request, @fb_dialog_request
 - if @fb_autofill_request
   = hidden_field_tag :fb_autofill_request, @fb_autofill_request
+- if @fb_recommendation_ref
+  = hidden_field_tag :fb_recommendation_ref, @fb_recommendation_ref
 - if @forwarded_notification_hash
   = hidden_field_tag :forwarded_notification_hash, @forwarded_notification_hash
 - if @shared_link_hash

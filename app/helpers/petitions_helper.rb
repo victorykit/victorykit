@@ -26,7 +26,8 @@ module PetitionsHelper
 
   def facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
-    winner =  spin! 'facebook sharing options', :referred_member, ['facebook_popup', 'facebook_request', 'facebook_wall']
+    options = ['facebook_popup', 'facebook_request', 'facebook_wall']
+    winner =  spin! 'facebook sharing options', :referred_member, options
     (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
   end
 

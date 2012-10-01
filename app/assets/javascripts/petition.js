@@ -158,7 +158,7 @@ function bindFacebookPopupButton() {
   function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
     var domain = location.href.replace(/\?.*/,"");
-    var memberHash = VK.current_member_hash;
+    var memberHash = $.cookie('member_id');
     var url = [sharer, domain, '?share_ref=', memberHash].join('');
     window.open(url , 'sharer', 'width=626,height=436');
   }
@@ -180,7 +180,7 @@ function bindFacebookWidgetButton() {
     var domain = location.href.replace(/\?.*/,"");
     var options = {
       base_path: '/widget',
-      template:  { 'link': domain + '?wall=' + VK.current_member_hash }
+      template:  { 'link': domain + '?wall=' + $.cookie('member_id') }
     };
     if (VK.fbWallLoaded) { return; }
     var widget = new FacebookShareWidget(element, options);
@@ -248,7 +248,6 @@ function drawModalAfterSigning() {
   if ($('.fb_image_holder').length > 0) {
     modalFbImageRotator();
   }
-  changeSidebar();
 }
 
 function mobileSignErrorHandling() {

@@ -20,7 +20,7 @@ class SocialTrackingController < ApplicationController
         'wall' => :register_facebook_wall,
         'request' => :register_facebook_request,
         'autofill_request' => :register_autofill_request,
-        'recommendation' => :register_recommendation
+        'recommend' => :register_recommendation
       }[action])
     end
     
