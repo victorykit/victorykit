@@ -310,7 +310,7 @@ function initSharePetition() {
   bindFacebookWidgetButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
-  // bindFacebookSuggestedButton();
+  bindFacebookRecommendationButton();
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }

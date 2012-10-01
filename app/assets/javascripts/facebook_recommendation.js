@@ -155,6 +155,6 @@ function submitAppRequest() {
   }, {scope: 'publish_actions, manage_notifications'});
 }
 
-function bindFacebookSuggestedButton() {
-  $('.fb_request_btn').click(submitAppRequest);  
+function bindFacebookRecommendationButton() {
+  $('.fb_recommend_btn').click(submitAppRequest);  
 }
