@@ -30,6 +30,7 @@ describe 'email experiments' do
         # sign and check again
         petitions.each do |petition|
           sign petition, { n: info[petition][:hash] }
+          sleep 1
           results = email_experiment_results_for(petition)[info[petition][:subject]]
           results[:spins].should == 1
           results[:wins ].should == 1
