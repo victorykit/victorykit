@@ -44,8 +44,8 @@ function buildMultiFriendSelector() {
 function postOnFriendsTimeline()
 {
   var domain = location.href.replace(/\?.*/,"");
-  var memberHash = VK.current_member_hash;
-  var url = [domain, '?recommmend_ref=', memberHash].join('');
+  var memberHash = $.cookie('member_id');
+  var url = [domain, '?recommend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
   function postOnFacebook(user, action, data, callback) {
@@ -55,6 +55,7 @@ function postOnFriendsTimeline()
     FB.api('/'+user+'/'+action,'post', data, callback);
   }
 
+  // only posts to his own timeline with production url
   postOnFacebook('me', 'watchdognet:sign', {petition: url},
     function(response) {
       $(friendUids()).each(function(index, uid) {
@@ -130,14 +131,15 @@ function getFriendsWithAppInstalled() {
     "friend_ids":"select uid2 from friend where uid1 = me()",
     "friends_notifying":"select name, uid from user where uid "+
       "in (select sender_id from notification where recipient_id = me()) "+
-      // "order by profile_update_time desc limit 50",
       "order by profile_update_time desc",
     "friends_involved":"select name, uid from user where uid in "+
       "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
-      // "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc limit 50",
       "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc",
+      "order by profile_update_time desc", 
+    "friends_involved":"select name, uid from user where uid in "+
+      "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
+      "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc", 
     "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) "+
-      // "order by profile_update_time desc limit 50"
       "order by profile_update_time desc"
   };
 

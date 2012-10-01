@@ -124,6 +124,15 @@ describe SignaturesController do
           it_behaves_like 'the event is tracked'
           it_behaves_like 'the option wins'
         end
+
+        context 'recommendation' do
+          let(:params) { { fb_recommendation_ref: member.to_hash } }
+          let(:type) { Signature::ReferenceType::FACEBOOK_RECOMMENDATION }
+          let(:option) { 'facebook_recommendation' }
+
+          it_behaves_like 'the event is tracked'
+          it_behaves_like 'the option wins'
+        end
       end
 
       context 'a forwarded notification' do

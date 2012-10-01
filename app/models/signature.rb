@@ -17,6 +17,7 @@ class Signature < ActiveRecord::Base
     FACEBOOK_WALL = 'facebook_wall'
     FACEBOOK_REQUEST = 'facebook_request'
     FACEBOOK_AUTOFILL_REQUEST = 'facebook_autofill_request'
+    FACEBOOK_RECOMMENDATION = 'facebook_recommendation'
     TWITTER = 'twitter'
     EMAIL = 'email'
     SHARED_LINK = 'shared_link'
@@ -34,6 +35,7 @@ class Signature < ActiveRecord::Base
     ReferenceType::FACEBOOK_WALL, 
     ReferenceType::FACEBOOK_REQUEST,
     ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
+    ReferenceType::FACEBOOK_RECOMMENDATION,
     nil ]
 
   validates :reference_type, :inclusion => {

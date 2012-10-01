@@ -11,7 +11,7 @@ describe Signature do
     context 'reference types' do      
       before { subject.reference_type = type }
 
-      ['facebook_like', 'facebook_popup', 
+      ['facebook_like', 'facebook_popup', 'facebook_recommendation',
        'facebook_wall', 'email', 'twitter'].each do |type|
         context "when #{type}" do
           let(:type) { type }

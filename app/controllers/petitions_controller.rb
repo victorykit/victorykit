@@ -29,6 +29,7 @@ class PetitionsController < ApplicationController
     @fb_action_id = params[:fb_action_ids]
     @fb_dialog_request = params[:d]
     @fb_autofill_request = params[:autofill]
+    @fb_recommendation_ref = params[:recommend_ref]
     @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
 
     @member = member_from_cookies || member_from_email
