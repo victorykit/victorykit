@@ -45,7 +45,7 @@ function postOnFriendsTimeline()
 {
   var domain = location.href.replace(/\?.*/,"");
   var memberHash = VK.current_member_hash;
-  var url = [domain, '?suggested_ref=', memberHash].join('');
+  var url = [domain, '?recommmend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
   function postOnFacebook(user, action, data, callback) {
@@ -151,6 +151,7 @@ function submitAppRequest() {
       $('#facebookFriendsModal').modal('toggle');
       spinner = createSpinner();
       getFriendsWithAppInstalled();
+      setupSocialTrackingControllerRequest('recommend');
      }
   }, {scope: 'publish_actions, manage_notifications'});
 }

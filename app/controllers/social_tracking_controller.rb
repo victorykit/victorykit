@@ -19,7 +19,8 @@ class SocialTrackingController < ApplicationController
         'popup' => :register_facebook_popup_opened,
         'wall' => :register_facebook_wall,
         'request' => :register_facebook_request,
-        'autofill_request' => :register_autofill_request
+        'autofill_request' => :register_autofill_request,
+        'recommendation' => :register_recommendation
       }[action])
     end
     
@@ -83,5 +84,11 @@ class SocialTrackingController < ApplicationController
     request.member = @member if @member.present?
     request.save!
   end
-  
+
+  def register_recommendation
+    recommendation = FacebookRecommendation.new
+    recommendation.petition = @petition
+    recommendation.member = @member if @member.present?
+    recommendation.save!
+  end
 end
