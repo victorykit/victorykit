@@ -135,7 +135,6 @@ function getFriendsWithAppInstalled() {
     "friends_involved":"select name, uid from user where uid in "+
       "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
       "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc",
-      "order by profile_update_time desc", 
     "friends_involved":"select name, uid from user where uid in "+
       "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
       "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc", 
