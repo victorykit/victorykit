@@ -1,16 +1,16 @@
 .facebook_friend_widget
   %h3 Spread the word by inviting up to 25 friends
 
-  %p
-    %input#message-to-friends{:type => 'text', :value => 'Your voice will make a difference. Sign the petition.'}
-    
-  #suggested.hide
-    %h4 Suggested Friends
-    %ul
+  #message_label Tell them:
+  %input#message-to-friends{:type => 'text', :value => 'Hey, you\'ve got to check out this petition!'}
 
-  #other.hide
-    %h4 Other Friends
-    %ul
+  .friend_lists
+    #suggested.hide
+      %h4 Suggested Friends
+      .friend_list
+    #other.hide
+      %h4 Other Friends
+      .friend_list
 
   - content_for :javascripts do
     $('a.close').click(function(){$('#facebookFriendsModal').hide();});

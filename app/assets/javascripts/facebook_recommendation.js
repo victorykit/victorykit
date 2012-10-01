@@ -34,9 +34,9 @@ function createSpinner() {
 function buildMultiFriendSelector() {
   $(VK.recommended_friends).each(function(index, item) {
     var checked = item.preselect ? 'checked' : '';
-    var li = $('<li><input type="checkbox" '+checked+' value="'+item.uid+'"/>'+item.name+'</li>');
+    var friend = $('<div class="friend"><input type="checkbox" '+checked+' value="'+item.uid+'"/><div class="name">'+item.name+'</div></div>');
     var id = '#' + item.type;
-    $('.facebook_friend_widget ' + id + ' ul').append(li);
+    $('.facebook_friend_widget ' + id + ' .friend_list').append(friend);
     $(id).removeClass('hide');
   });
 }
@@ -125,17 +125,17 @@ function getFriendsWithAppInstalled() {
     friends_involved: [],
     friends: []
   };
- 
+
   var query = {
     "friend_ids":"select uid2 from friend where uid1 = me()",
     "friends_notifying":"select name, uid from user where uid "+
       "in (select sender_id from notification where recipient_id = me()) "+
-      // "order by profile_update_time desc limit 50", 
-      "order by profile_update_time desc", 
+      // "order by profile_update_time desc limit 50",
+      "order by profile_update_time desc",
     "friends_involved":"select name, uid from user where uid in "+
       "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
-      // "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc limit 50", 
-      "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc", 
+      // "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc limit 50",
+      "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc",
     "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) "+
       // "order by profile_update_time desc limit 50"
       "order by profile_update_time desc"
@@ -156,5 +156,5 @@ function submitAppRequest() {
 }
 
 function bindFacebookRecommendationButton() {
-  $('.fb_recommend_btn').click(submitAppRequest);  
+  $('.fb_recommend_btn').click(submitAppRequest);
 }

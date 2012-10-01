@@ -901,3 +901,58 @@
   margin-left: 160px;
   margin-bottom: 20px;
 }
+
+
+#facebookFriendsModal.modal {
+  margin-left: -281px;
+  .modal-body {
+    overflow-y: hidden;
+    background: #F5F5F5;
+    padding: 15px 15px 0;
+  }
+  h3 {
+    margin-top: 10px;
+    font-size: 23px;
+    color: #222;
+  }
+  #message_label {
+    margin-top: 15px;
+  }
+  #message-to-friends {
+    width: 520px;
+    margin: 5px 0 15px 0;
+  }
+  h4 {
+    font-size: 18px;
+    color: #222;
+    clear: both;
+    padding: 14px 0 6px 0;
+    font-weight: 500;
+  }
+  #other {
+    margin-top: 10px;
+  }
+  .friend_lists {
+    overflow-y: scroll;
+    background: white;
+    border: 1px solid #CCCCCC;
+    max-height: 285px;
+    margin-left: -15px;
+    overflow-y: auto;
+    padding: 0 20px;
+    width: 518px;
+  }
+  .friend {
+    padding: 5px;
+    width: 241px;
+    float: left;
+    .name {
+      display: inline;
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    input {
+      margin-top: -2px;
+    }
+  }
+}
