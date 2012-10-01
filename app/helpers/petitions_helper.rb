@@ -53,6 +53,7 @@ module PetitionsHelper
       'facebook_popup' => { button_class: 'fb_popup_btn', button_text: 'Share on Facebook' },
       'facebook_wall' => { button_class: 'fb_widget_btn', button_text: 'Share with your friends' },
       'facebook_request' => { button_class: 'fb_request_btn', button_text: 'Send request to friends' },
+      'facebook_recommendation' => { button_class: 'fb_recommend_btn', button_text: 'Send to friends' },
       'facebook_autofill_request' => { button_class: 'fb_autofill_request_btn', button_text: 'Send request to friends' }
     }
     button_hash[facebook_sharing_option] || button_hash['facebook_popup']
