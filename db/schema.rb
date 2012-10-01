@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120928213712) do
+ActiveRecord::Schema.define(:version => 20121001201648) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -169,12 +169,14 @@ ActiveRecord::Schema.define(:version => 20120928213712) do
     t.string   "goal"
     t.string   "key"
     t.string   "choice"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
     t.string   "referral_code"
+    t.integer  "referral_code_id"
   end
 
   add_index "social_media_trials", ["referral_code"], :name => "index_social_media_trials_on_referral_code"
+  add_index "social_media_trials", ["referral_code_id"], :name => "index_social_media_trials_on_referral_code_id"
 
   create_table "subscribes", :force => true do |t|
     t.integer  "member_id"
