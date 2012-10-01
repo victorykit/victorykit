@@ -1,0 +1,2 @@
+class FacebookRecommendation < FacebookAction
+end
