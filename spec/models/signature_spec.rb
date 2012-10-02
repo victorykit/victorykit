@@ -92,6 +92,11 @@ describe Signature do
     its(:state) { should eq 'Missouri' }
     its(:state_code) { should eq 'MO' }
     its(:country_code) { should eq 'US' }
+
+    it 'should update member location' do
+      subject.member.country_code.should == 'US'
+      subject.member.state_code.should == 'MO'
+    end
   end
 
   context "analytics" do
