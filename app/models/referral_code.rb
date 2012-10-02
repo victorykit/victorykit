@@ -69,7 +69,7 @@ class ReferralCode < ActiveRecord::Base
   private
 
   def generate_code
-     self.code = SecureRandom.base64(8) if self.code.blank?
+    self.code = SecureRandom.urlsafe_base64(8) if self.code.blank? && self.new_record?
   end
 
 end
