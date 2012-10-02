@@ -84,10 +84,10 @@ describe Signature do
     its(:country_code) { should eq 'US' }
   end
 
-  context 'after validating' do
+  context 'after being saved' do
     it 'should geolocate itself' do
-      subject.should_receive(:geolocate)
-      subject.valid?
+      subject.should_receive :geolocate
+      subject.run_callbacks :save
     end
   end
 
