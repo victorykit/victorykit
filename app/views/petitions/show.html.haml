@@ -9,6 +9,15 @@
 
 #petition_page.page_content{class: @was_signed ? "was_signed" : "not_signed"}
   .secondary
+    - if !@was_signed and !browser.mobile?
+      - if spin! "show progress box above sign petition", :signature
+        .progress_box
+          .progress_text.plain
+            Step 1 of 3 complete...
+          .progressbar
+            .fluid
+          .progress_text
+            You've made it this far.  Please sign!
     .sidebar_test
       .signature-form
         .title
@@ -22,10 +31,10 @@
               = render :partial => "hidden_params"
               #hint.alert.alert-error
               - if sign_petition_option == 'sign_and_share'
-                = f.button :submit, :id => 'sign_petition_and_share', :class => 'btn btn-primary btn-danger', :value => 'Sign and Share'
+                = f.button :submit, :id => 'sign_petition_and_share', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign and Share'
                 = f.button :submit, :id => 'sign_petition', :class => 'btn no_share', :value => 'Sign'
               - else
-                = f.button :submit, :id => 'sign_petition', :class => 'btn btn-primary btn-danger', :value => 'Sign!'
+                = f.button :submit, :id => 'sign_petition', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign!'
 
           -#.through_fb
           -#  .text Sign in via

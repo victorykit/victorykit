@@ -95,6 +95,10 @@ module PetitionsHelper
     ]
   end
 
+  def sign_button_color
+    spin! 'change button brightness for sign button', :signature, ["btn-danger", "btn-bright_red"]
+  end
+
   def progress_option
     spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
   end
