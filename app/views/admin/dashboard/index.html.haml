@@ -1,0 +1,39 @@
+%h1 Dashboard
+
+#email_summary{style: "float:left;padding-right:20px" }
+  %table.table.table-condensed.bordered-table.table-striped
+    %tr
+      %td
+        Last email:
+      %td.numeric
+        = time_ago_in_words heartbeat[:last_email]
+    %tr
+      %td
+        Last signature:
+      %td.numeric
+        = time_ago_in_words heartbeat[:last_signature]
+    %tr
+      %td
+        Emails in queue:
+      %td.numeric
+        = number_with_delimiter heartbeat[:emails_in_queue]
+    %tr
+      %td
+        Emails sent past week:
+      %td.numeric
+        = number_with_delimiter heartbeat[:emails_sent_past_week]
+    %tr
+      %td
+        Emailable members:
+      %td.numeric
+        = number_with_delimiter heartbeat[:emailable_member_count]
+
+#nps_chart{stlye: "float:left"}
+  %span{style: "padding-left:50px"}
+    = link_to_self_with_param :f, nps_chart_from_options, " | "
+  %br    
+  %img{ src: nps_chart_url }
+ 
+- content_for :javascripts do
+  $(document).ready(setInterval(function(){$("#nps_chart>img").attr("src", "#{nps_chart_url}");},60000));
+
