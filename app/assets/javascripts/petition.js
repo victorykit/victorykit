@@ -340,6 +340,7 @@ function updatePageToReflectUserSignature(data) {
 }
 
 function indicateUserPetitionSignedAfterAjax(data) {
+  $('.progress_box').hide();
   updatePageToReflectUserSignature(data);
   initSharePetition();
   drawModalAfterSigning();

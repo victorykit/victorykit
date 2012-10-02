@@ -195,3 +195,71 @@ input, textarea, .btn { border-radius: 0; }
 td.numeric {
   text-align:right;
 }
+
+$red1: #cc1100;
+$red2: #ff0000;
+.btn.btn-bright_red {
+  background: $red1; /* Old browsers */
+  background: -moz-linear-gradient(90deg,  $red1 0%, $red2 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$red1), color-stop(100%,$red2)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(90deg,  $red1 0%,$red2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(90deg,  $red1 0%,$red2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(90deg,  $red1 0%,$red2 100%); /* IE10+ */
+  background: linear-gradient(90deg,  $red1 0%,$red2 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$red1', endColorstr='$red2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+  border: 1px solid $red1;
+  &:hover {
+    background: $red2; /* Old browsers */
+    background: -moz-linear-gradient(90deg,  $red1 100%, $red2 0%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$red1), color-stop(100%,$red2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(90deg,  $red1 100%,$red2 0%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(90deg,  $red1 100%,$red2 0%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(90deg,  $red1 100%,$red2 0%); /* IE10+ */
+    background: linear-gradient(90deg,  $red1 100%,$red2 0%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$red1', endColorstr='$red2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+  }
+}
+.progress_box {
+  padding: 15px 20px;
+  margin-bottom: 10px;
+  background: #FFF8DC;
+}
+.progress_text {
+  font-size: 15px;
+  font-weight: bold;
+  color: #615E3F;
+  &.plain {
+    font-size: 13px;
+    font-weight: normal;
+  }
+}
+$fluid: #C67171;
+$fluid_highlight: #CD9B9B;
+.progressbar {
+  width: 100%;
+  height: 20px;
+  margin: 5px 0 10px;
+  border-radius: 11px;
+  -moz-box-shadow: inset 0 0 5px #ddd;
+  -webkit-box-shadow: inset 0 0 5px #ddd;
+  box-shadow: inset 0 0 5px #ddd;
+  background: #fefefe;
+  border: 1px solid #ddd;
+  .fluid {
+    background: $fluid; /* Old browsers */
+    background: -moz-linear-gradient(80deg,  $fluid 0%, $fluid_highlight 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$fluid), color-stop(100%,$fluid_highlight)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* IE10+ */
+    background: linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$fluid', endColorstr='$fluid_highlight',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    width: 33%;
+    height: 92%;
+    border: 1px solid $fluid;
+    -moz-box-shadow: inset 3px -4px 4px 1px $fluid;
+    -webkit-box-shadow: inset 3px -4px 4px 1px $fluid;
+    box-shadow: inset 3px -4px 4px 1px $fluid;
+    border-radius: 11px;
+  }
+}
