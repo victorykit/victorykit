@@ -45,6 +45,8 @@ Victorykit::Application.routes.draw do
       end
     end
 
+    resources :dashboard
+
     resources :experiments, only: [:index]
     resources :hottest
     resources :on_demand_email

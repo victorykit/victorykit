@@ -31,9 +31,11 @@ end
 
 class ItemStatus
 
-  def initialize fails_app, down_term="FAILING"
+  def initialize heartbeat, fails_app, down_term="FAILING"
+    @heartbeat = heartbeat
     @fails_app = fails_app
     @down_term = down_term
+    check
   end
 
   def fails_app?
@@ -57,14 +59,13 @@ end
 class EmailStatus < ItemStatus
   attr_accessor :threshold, :last_timestamp, :working
 
-  def initialize fails_app
-    super fails_app, "INACTIVE"
-    check
+  def initialize heartbeat, fails_app
+    super heartbeat, fails_app, "INACTIVE"
   end
 
   def check
     @threshold = ENV['VK_HEARTBEAT_SENT_EMAIL'].try(:to_i) || 5
-    @last_timestamp = SentEmail.last.created_at
+    @last_timestamp = @heartbeat.last_sent_email
     @ok = @last_timestamp > @threshold.minutes.ago
     if not @working
       Rails.logger.error "Heartbeat: emails inactive since #{@last_timestamp}"
@@ -77,9 +78,8 @@ end
 class SignatureStatus < ItemStatus
   attr_accessor :threshold, :last_timestamp, :working
 
-  def initialize fails_app
-    super fails_app, "INACTIVE"
-    check
+  def initialize heartbeat, fails_app
+    super heartbeat, fails_app, "INACTIVE"
   end
 
   def check
@@ -87,7 +87,7 @@ class SignatureStatus < ItemStatus
     # Failing on a shortage of signatures turned out to be a bit overzealous, particularly in the middle of the night.
     # Instead, we'll keep it on the page so it's visible for manual checks but not fail over it. We can redefine it as
     # a ratio of signatures per page hit to take late night and holiday fluctuations into account.
-    @last_timestamp = Signature.last.created_at
+    @last_timestamp = @heartbeat.last_signature
     @ok = @last_timestamp > @threshold.minutes.ago
     if not @working
       Rails.logger.warn "Heartbeat: signatures inactive since #{@last_timestamp}"
@@ -100,18 +100,17 @@ end
 class ResqueStatus < ItemStatus
   attr_accessor :ok, :stats, :max_q
 
-  def initialize fails_app
-    super fails_app
-    check
+  def initialize heartbeat, fails_app
+    super heartbeat, fails_app
   end
 
   def check
     @stats = Resque.info
-    @ok = Resque.info[:workers] > 0 && max_q <= 100
+    @ok = @heartbeat.workers > 0 && max_q <= 100
   end
 
   def max_q
-    Resque.queues.max_by { |queue| Resque.size(queue) } .to_i
+    @heartbeat.emails_max_queue
   end
 
 end

@@ -2,8 +2,11 @@
   %h1 Petitions dashboard
 
   %p
+    - labels = 'today', 'yesterday', 'a week ago', 'a month ago', 'a year ago'
     - today = Date.today
-    Activity since #{link_to_self_with_param :since, {'today' => today, 'yesterday' => today - 1.day, 'a week ago' => today - 1.week, 'a month ago' => today - 1.month, 'a year ago' => today - 1.year, 'forever' => nil}, " | "}
+    - values = today, today - 1.day, today - 1.week, today - today.month, today - 1.year
+    - options = Hash[labels.zip(values.map(&:to_s))]
+    Activity since #{link_to_self_with_param :since, options, " | "}
 
   <button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
 
