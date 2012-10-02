@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   attr_accessible :first_name, :last_name, :email, :referral_code
+  attr_accessible :country_code, :state_code
   has_many :subscribes
   has_many :unsubscribes
   has_many :sent_emails
