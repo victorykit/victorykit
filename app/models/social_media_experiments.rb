@@ -20,12 +20,11 @@ class SocialMediaExperiments
 
   def create_trial(goal, test_name, choice)
     SocialMediaTrial.new(petition_id: @petition.id, member_id: @member.id, goal: goal, key: test_name, choice: choice).tap do |t|
-      t.referral_code = @member.referral_code
-
       # As a precursor to introducing this model between members and trials. Will add old codes as a one-off task.
-      unless ReferralCode.where(code: @member.referral_code).exists?
-        ReferralCode.create petition_id: @petition.id, member_id: @member.id, code: @member.referral_code
-      end
+      code = ReferralCode.find_or_create_by_code(code: @member.referral_code, petition_id: @petition.id, member_id: @member.id)
+
+      t.referral_code = @member.referral_code
+      t.referral_code_id = code.try(:id)
     end
   end
 
