@@ -23,7 +23,9 @@ class SocialMediaExperiments
       t.referral_code = @member.referral_code
 
       # As a precursor to introducing this model between members and trials. Will add old codes as a one-off task.
-      ReferralCode.create! petition_id: @petition.id, member_id: @member.id, code: @member.referral_code
+      unless ReferralCode.where(code: @member.referral_code).exists?
+        ReferralCode.create petition_id: @petition.id, member_id: @member.id, code: @member.referral_code
+      end
     end
   end
 
