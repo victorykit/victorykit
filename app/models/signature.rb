@@ -1,14 +1,19 @@
 class Signature < ActiveRecord::Base
-  attr_accessible :email, :first_name, :last_name, :reference_type, :referer, :referring_url, :http_referer, :browser_name
   belongs_to :petition
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
   has_one :sent_email
+ 
+  attr_accessible :email, :first_name, :last_name
+  attr_accessible :reference_type, :referer, :referring_url
+  attr_accessible :http_referer, :browser_name
+ 
   validates_presence_of :first_name, :last_name
   validates :email, :presence => true, :email => true
-  before_destroy { |record| record.sent_email.destroy if record.sent_email }
-
+ 
+  before_save :truncate_user_agent
   after_save :geolocate
+  before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
@@ -43,7 +48,6 @@ class Signature < ActiveRecord::Base
     :message => "%{value} is not a valid reference_type"
   }
 
-  before_save :truncate_user_agent
 
   def full_name
     [self.first_name,self.last_name].join " "
