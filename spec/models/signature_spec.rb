@@ -2,33 +2,37 @@ describe Signature do
   subject { build :signature }
 
   context 'validating' do
+    it { should allow_mass_assignment_of :email }
+    it { should allow_mass_assignment_of :first_name }
+    it { should allow_mass_assignment_of :last_name }
+    it { should allow_mass_assignment_of :reference_type }
+    it { should allow_mass_assignment_of :referer }
+    it { should allow_mass_assignment_of :referring_url }
+    it { should allow_mass_assignment_of :http_referer }
+    it { should allow_mass_assignment_of :browser_name }
+
     it { should validate_presence_of :email }
     it { should validate_presence_of :first_name }
     it { should validate_presence_of :last_name }
+
+    it { should ensure_inclusion_of(:reference_type).in_array(Signature::REFERENCE_TYPES) }
     
     it_behaves_like 'email validator'
-
-    context 'reference types' do      
-      before { subject.reference_type = type }
-
-      ['facebook_like', 'facebook_popup', 'facebook_recommendation',
-       'facebook_wall', 'email', 'twitter'].each do |type|
-        context "when #{type}" do
-          let(:type) { type }
-          it { should be_valid }
-        end
-      end
-      
-      context 'when unknown' do
-        let(:type) { 'unknown' }
-        it { should_not be_valid }
-      end
-    end
   end
 
   describe '#full_name' do
-    specify { subject.full_name.should include subject.first_name }
-    specify { subject.full_name.should include subject.last_name }
+    before do
+      subject.first_name = 'Peter'
+      subject.last_name = 'Griffin'
+    end
+    its(:full_name) { should == 'Peter Griffin' }
+  end
+
+  context 'before save' do
+    it 'should truncate user agent' do
+      subject.should_receive :truncate_user_agent
+      subject.run_callbacks :save
+    end
   end
 
   describe '#truncate_user_agent' do
@@ -49,15 +53,21 @@ describe Signature do
     end
   end
 
-
-  describe '#destroy' do
+  context 'before destroy' do
     let(:sent_email) { build :sent_email }
-
+    
     before { subject.sent_email = sent_email }
 
-    it 'should remove its sent email before' do
+    it 'should remove its sent email' do
       sent_email.should_receive :destroy
-      subject.destroy
+      subject.run_callbacks :destroy
+    end
+  end
+
+  context 'after save' do
+    it 'should geolocate' do
+      subject.should_receive :geolocate
+      subject.run_callbacks :save
     end
   end
 
@@ -82,13 +92,6 @@ describe Signature do
     its(:state) { should eq 'Missouri' }
     its(:state_code) { should eq 'MO' }
     its(:country_code) { should eq 'US' }
-  end
-
-  context 'after being saved' do
-    it 'should geolocate itself' do
-      subject.should_receive :geolocate
-      subject.run_callbacks :save
-    end
   end
 
   context "analytics" do
