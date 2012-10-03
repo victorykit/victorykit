@@ -66,9 +66,29 @@ class Signature < ActiveRecord::Base
       s.email = member.try(:email)
     end
   end
+  
+  def fetch_location ip
+    def ip2bigint ip
+      # > ip2bigint '161.132.13.1'
+      # => 2709785857
+      a, b, c, d = ip.split('.').map(&:to_i)
+      return a*256**3 + b*256**2 + c*256 + d
+    end
+    
+    c = ActiveRecord::Base.connection    
+    if c.table_exists? 'ip_locations'
+      q1 = c.quote(ip2bigint(ip))
+      result = c.execute "SELECT * FROM ip_locations WHERE box(point(ip_from,ip_from),point(ip_to,ip_to)) @> box(point (#{q1},#{q1}), point(#{q1},#{q1}))"
+      out = OpenStruct.new(result.first)
+      out.state = out.region
+      return out
+    else
+      return Geocoder.search(ip).first
+    end
+  end
 
   def geolocate
-    return unless place = Geocoder.search(ip_address).first
+    return unless place = fetch_location(ip_address)
     self.city = place.city
     self.metrocode = place.metrocode
     self.state = place.state

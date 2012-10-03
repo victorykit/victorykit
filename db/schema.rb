@@ -133,8 +133,8 @@ ActiveRecord::Schema.define(:version => 20121002194512) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "signature_id"
-    t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.datetime "opened_at"
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
@@ -208,26 +208,6 @@ ActiveRecord::Schema.define(:version => 20121002194512) do
     t.boolean  "is_admin",        :default => false, :null => false
   end
 
-  add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
-
   add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
-
-  add_foreign_key "petition_images", "petitions", :name => "petition_images_petition_id_fk"
-
-  add_foreign_key "petition_titles", "petitions", :name => "petition_titles_petition_id_fk"
-
-  add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
-
-  add_foreign_key "sent_emails", "members", :name => "sent_emails_member_id_fk"
-  add_foreign_key "sent_emails", "petitions", :name => "sent_emails_petition_id_fk"
-  add_foreign_key "sent_emails", "signatures", :name => "sent_emails_signature_id_fk"
-
-  add_foreign_key "signatures", "members", :name => "signatures_member_id_fk"
-  add_foreign_key "signatures", "petitions", :name => "signatures_petition_id_fk"
-
-  add_foreign_key "subscribes", "members", :name => "subscribes_member_id_fk"
-
-  add_foreign_key "unsubscribes", "members", :name => "unsubscribes_member_id_fk"
-  add_foreign_key "unsubscribes", "sent_emails", :name => "unsubscribes_sent_email_id_fk"
 
 end
