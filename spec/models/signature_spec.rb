@@ -84,6 +84,7 @@ describe Signature do
     before do
       Geocoder.stub(:search).with(ip).and_return [place]
       subject.ip_address = ip
+      subject.member.should_receive :save
       subject.geolocate
     end
     

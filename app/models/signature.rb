@@ -96,5 +96,6 @@ class Signature < ActiveRecord::Base
     self.country_code = place.country_code
     self.member.country_code = place.country_code
     self.member.state_code = place.state_code
+    self.member.save
   end
 end
