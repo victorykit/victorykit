@@ -43,20 +43,23 @@ describe Member do
       end
 
       context 'when last signed from' do
-        before { subject.signatures << last } 
+        subject { build :member, :country_code => country, :state_code => state } 
         
         context 'us' do
-          let(:last) { build :signature, country_code: 'US', state_code: 'NY'  }
+          let(:country) { 'US' }
+          let(:state) { 'NY' }
           its(:last_location) { should == 'us/NY' }
         end
 
         context 'outside us' do
-          let(:last) { build :signature, country_code: 'BR', state_code: 'RS' }
+          let(:country) { 'BR' }
+          let(:state) { 'RS' }
           its(:last_location) { should == 'non-us/BR' }
         end
 
-        context 'unknown place' do
-          let(:last) { build :signature }
+        context 'unknown' do
+          let(:country) { nil }
+          let(:state) { nil }
           its(:last_location) { should == '' }
         end
       end
