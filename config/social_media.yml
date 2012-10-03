@@ -4,14 +4,22 @@ production: &default
     secret: <%= ENV["FACEBOOK_SECRET"] %>
     site_name: Victory Kit
     images:
-      - http://act.watchdog.net/images/fbpic_original_orange.png
-      - http://act.watchdog.net/images/fbpic_colored_fist.png
-      - http://act.watchdog.net/images/fbpic_progress_bar.png
-      - http://act.watchdog.net/images/fbpic_progress_bar_red_border.png
-      - http://act.watchdog.net/images/fbpic_megaphone.png
-      - http://act.watchdog.net/images/fbpic_megaphone_red_border.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border_white-bg.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_white-bg.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_join-the-fight_border.png
+      - http://act.watchdog.net/images/fbpic_almost-there_progress_join-the-fight.png
       - http://act.watchdog.net/images/fbpic_facebook-esque_button.png
-      - http://act.watchdog.net/images/fbpic_facebook-esque_button_red_border.png
+      - http://act.watchdog.net/images/fbpic_megaphone_fb-button.png
+      - http://act.watchdog.net/images/fbpic_red-megaphone_fb-button_border.png
+      - http://act.watchdog.net/images/fbpic_megaphone.png
+      - http://act.watchdog.net/images/fbpic_progress_bar_red_border_white-bg.png
+      - http://act.watchdog.net/images/fbpic_progress_bar_red_border.png
+      - http://act.watchdog.net/images/fbpic_progress_bar_white-bg.png
+      - http://act.watchdog.net/images/fbpic_progress_bar.png
+      - http://act.watchdog.net/images/fbpic_top-megaphone_fb-button.png
+      - http://act.watchdog.net/images/fbpic_top-megaphone_red-button.png
 
 staging: *default
 
