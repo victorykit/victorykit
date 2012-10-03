@@ -82,7 +82,7 @@ describe Signature do
     )}
     
     before do
-      Geocoder.stub(:search).with(ip).and_return [place]
+      subject.stub(:fetch_location).and_return place
       subject.ip_address = ip
       subject.member.should_receive :save
       subject.geolocate
@@ -98,6 +98,41 @@ describe Signature do
       subject.member.country_code.should == 'US'
       subject.member.state_code.should == 'MO'
     end
+  end
+
+  describe '#fetch_location' do
+    subject { build :signature, :ip_address => '161.132.13.1' }
+    let(:db) { stub }
+
+    before do
+      Signature.stub(:connection).and_return db
+      db.stub(:table_exists?).with('ip_locations').and_return available
+      db.stub(:quote).and_return anything
+    end
+
+    context 'when local lookup is unavailable' do
+      let(:available) { false }
+
+      it 'should fallback to remote service' do
+        Geocoder.should_receive(:search).with('161.132.13.1').and_return [anything]
+        subject.fetch_location
+      end
+    end
+
+    context 'when local lookup is available' do
+      let(:available) { true }
+      let(:data) { { :region => 'CA' } }
+
+      it 'should fetch from db' do
+        db.should_receive(:execute).and_return [data]
+        subject.fetch_location
+      end
+    end
+  end
+
+  describe '#ip2bigint' do
+    subject { build :signature, :ip_address => '161.132.13.1' }
+    its(:ip2bigint) { should == 2709785857 }
   end
 
   context "analytics" do
