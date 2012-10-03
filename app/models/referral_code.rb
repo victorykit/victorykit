@@ -7,49 +7,36 @@ class ReferralCode < ActiveRecord::Base
 
   has_many :social_media_trials
   validates :code, uniqueness: true
-  validates :member_id, :petition_id, presence: true
+  validates :petition_id, presence: true
 
   after_initialize :generate_code
 
   scope :unused, where(member_id: nil)
 
-  class ActiveRecordWhiplashSession < Hash
+  def spin!(*args)
+    save! if new_record?
+    super
+  end
 
-    def initialize(opts={})
-      @session_id    = opts[:session_id]
-      @scope         = opts[:scope]
-      @test_column   = opts[:test_column]
-      @choice_column = opts[:choice_column]
-
-      self.reload
+  def title
+    if member_id.blank? || title_options.empty?
+      petition.title
+    else
+      spin! test_names[:title], :signature, title_options.map(&:title)
     end
+  end
 
-    def []=(test_name, choice)
-      if key?(test_name) && self[test_name] != choice
-        @scope.where(@test_column => test_name).first[ @choice_column ] = choice
-      else
-        @scope.build @test_column => test_name, @choice_column => choice
-      end
+  def image
+    defaults = Rails.configuration.social_media[:facebook][:images]
 
-      store test_name, choice
+    if member_id.blank?
+      defaults.first
+    else
+      petition_images = petition.petition_images.map(&:url)
+      images_to_use = petition_images.any? ? petition_images : defaults
+
+      spin! test_names[:image], :signature, images_to_use
     end
-
-    def reload
-      store :session_id, @session_id
-
-      @scope.each do |record|
-        store record.send(@test_column), record.send(@choice_column)
-      end
-
-      self
-    end
-
-    private
-
-    def record_for(test_name)
-      @scope.where(@test_column => test_name).first
-    end
-
   end
 
   def session
@@ -69,7 +56,22 @@ class ReferralCode < ActiveRecord::Base
   private
 
   def generate_code
-    self.code = SecureRandom.urlsafe_base64(8) if self.code.blank? && self.new_record?
+    if self.code.blank? && self.new_record?
+      self.code = member.present? ? member.to_hash : SecureRandom.urlsafe_base64(8)
+    end
+  end
+
+  def title_options
+    PetitionTitle.where(petition_id: self.petition_id, title_type: title_type).all
+  end
+
+  def title_type
+    PetitionTitle::TitleType::FACEBOOK
+  end
+
+  def test_names
+    { :title => "petition #{petition.id} #{title_type} title",
+      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image" }
   end
 
 end

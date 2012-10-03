@@ -8,6 +8,7 @@ class Petition < ActiveRecord::Base
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
   has_many :petition_images, :dependent => :destroy
+  has_many :referral_codes
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
   validates_length_of :facebook_description, :maximum => 300
