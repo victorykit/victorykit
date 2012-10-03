@@ -51,4 +51,9 @@ module ApplicationHelper
     end
     link_to_function(name, "add_fields(this, \"#{association}\", \"#{escape_javascript(fields)}\", \"#{where}\")", html_options)
   end
+
+  def should_spin_petition_options?
+    #current_page?(controller: 'petitions', action: 'show', id: params[:id])# && !( !current_user.nil? && ( current_user.is_admin? || current_user.is_super_user? ) )
+    params[:controller] == 'petitions' && params[:action] == 'show' && !(!current_user.nil? && (current_user.is_admin? || current_user.is_super_user?))
+  end
 end
