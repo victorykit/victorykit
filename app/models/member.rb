@@ -1,10 +1,11 @@
 class Member < ActiveRecord::Base
-  attr_accessible :first_name, :last_name, :email, :referral_code
-  attr_accessible :country_code, :state_code
   has_many :subscribes
   has_many :unsubscribes
   has_many :sent_emails
   has_many :signatures
+
+  attr_accessible :first_name, :last_name, :email, :referral_code
+  attr_accessible :country_code, :state_code
 
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
@@ -59,8 +60,8 @@ class Member < ActiveRecord::Base
   end
 
   def last_location
-    return '' unless (l = signatures.last) && (t = l.country_code)
-    t == 'US' ? "us/#{l.state_code}" : "non-us/#{t}"  
+    return '' unless (c = country_code) && (s = state_code)
+    c == 'US' ? "us/#{s}" : "non-us/#{c}"  
   end
 
   private
