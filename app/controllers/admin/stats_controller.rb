@@ -13,7 +13,7 @@ class Admin::StatsController < ApplicationController
   end
 
   def nps_by_day
-    render json: [{data: nps.each_with_index.map{|h, i| [i, h]}.select{|i, h| h < 1 and not [102,103].include?(i) }}]
+    render json: [{data: nps.each_with_index.map{|h, i| [i, h]}.select{|i, h| h < 1 and not [102,103,104].include?(i) }}]
   end
 
   def opened_emails
