@@ -12,7 +12,7 @@ class Signature < ActiveRecord::Base
   validates :email, :presence => true, :email => true
  
   before_save :truncate_user_agent
-  after_save :geolocate
+  before_save :geolocate
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
   module ReferenceType
