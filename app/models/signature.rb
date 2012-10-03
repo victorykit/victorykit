@@ -67,28 +67,8 @@ class Signature < ActiveRecord::Base
     end
   end
   
-  def fetch_location ip
-    def ip2bigint ip
-      # > ip2bigint '161.132.13.1'
-      # => 2709785857
-      a, b, c, d = ip.split('.').map(&:to_i)
-      return a*256**3 + b*256**2 + c*256 + d
-    end
-    
-    c = ActiveRecord::Base.connection    
-    if c.table_exists? 'ip_locations'
-      q1 = c.quote(ip2bigint(ip))
-      result = c.execute "SELECT * FROM ip_locations WHERE box(point(ip_from,ip_from),point(ip_to,ip_to)) @> box(point (#{q1},#{q1}), point(#{q1},#{q1}))"
-      out = OpenStruct.new(result.first)
-      out.state = out.region
-      return out
-    else
-      return Geocoder.search(ip).first
-    end
-  end
-
   def geolocate
-    return unless place = fetch_location(ip_address)
+    return unless place = fetch_location 
     self.city = place.city
     self.metrocode = place.metrocode
     self.state = place.state
@@ -97,5 +77,29 @@ class Signature < ActiveRecord::Base
     self.member.country_code = place.country_code
     self.member.state_code = place.state_code
     self.member.save
+  end
+
+  # could the next two methods take part in a separated class?
+  
+  def fetch_location
+    c = Signature.connection    
+    return Geocoder.search(ip_address).first unless c.table_exists? 'ip_locations'
+    ip = c.quote ip2bigint
+    q = <<-SQL
+      SELECT * 
+      FROM ip_locations 
+      WHERE box(
+        point(ip_from, ip_from),
+        point(ip_to, ip_to)
+      ) @> box(
+        point(#{ip}, #{ip}), 
+        point(#{ip}, #{ip})
+      )
+    SQL
+    OpenStruct.new(c.execute(q).first).tap{|o|o.state=o.region}
+  end
+
+  def ip2bigint
+    ip_address.split('.').map(&:to_i).each_with_index.map{|e,i|e*256**(3-i)}.reduce(&:+)
   end
 end
