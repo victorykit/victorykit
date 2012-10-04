@@ -17,6 +17,8 @@
  *= require_tree .
  */
 
+@import "bootstrap";
+
 html, body {
   height: 100%;
   padding: 0;
@@ -196,28 +198,45 @@ th, td .numeric {
   text-align:right;
 }
 
-$red1: #cc1100;
-$red2: #ff0000;
-.btn.btn-bright_red {
-  background: $red1; /* Old browsers */
-  background: -moz-linear-gradient(90deg,  $red1 0%, $red2 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$red1), color-stop(100%,$red2)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(90deg,  $red1 0%,$red2 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(90deg,  $red1 0%,$red2 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(90deg,  $red1 0%,$red2 100%); /* IE10+ */
-  background: linear-gradient(90deg,  $red1 0%,$red2 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$red1', endColorstr='$red2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-  border: 1px solid $red1;
+@mixin button($color1, $color2) {
+  background: $color1; /* Old browsers */
+  background: -moz-linear-gradient(90deg,  $color1 0%, $color2 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(90deg,  $color1 0%,$color2 100%); /* IE10+ */
+  background: linear-gradient(90deg,  $color1 0%,$color2 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+  border: 1px solid $color1;
   &:hover {
-    background: $red2; /* Old browsers */
-    background: -moz-linear-gradient(90deg,  $red1 100%, $red2 0%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$red1), color-stop(100%,$red2)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(90deg,  $red1 100%,$red2 0%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(90deg,  $red1 100%,$red2 0%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(90deg,  $red1 100%,$red2 0%); /* IE10+ */
-    background: linear-gradient(90deg,  $red1 100%,$red2 0%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$red1', endColorstr='$red2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    background: $color2; /* Old browsers */
+    background: -moz-linear-gradient(90deg,  $color1 100%, $color2 0%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(90deg,  $color1 100%,$color2 0%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(90deg,  $color1 100%,$color2 0%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(90deg,  $color1 100%,$color2 0%); /* IE10+ */
+    background: linear-gradient(90deg,  $color1 100%,$color2 0%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
   }
+}
+
+.btn.btn-red0 {
+  @include button(#ff0000, #ff0000);
+}
+.btn.btn-red1 {
+  @include button(#cc1100, #ff0000);
+}
+.btn.btn-red2 {
+  @include button(#CD0000, #E3170D);
+}
+.btn.btn-red3 {
+  @include button(#B22222, #CD2626);
+}
+.btn.btn-red4 {
+  @include button(#CD3333, #CC3232);
+}
+.btn.btn-red5 {
+  @extend .btn-danger;
 }
 .progress_box {
   padding: 15px 20px;
