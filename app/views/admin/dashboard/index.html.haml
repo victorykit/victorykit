@@ -38,7 +38,7 @@
   %table.table.table-condensed.bordered-table.table-striped
     %tr
       %th
-        Petition
+        Petitions (Best/Worst NPS)
       %th.numeric
         Sent
       %th.numeric
@@ -48,7 +48,30 @@
       %th.numeric
         NPS
 
-    - petition_extremes.each do |p|
+    - petition_extremes[:best].each do |p|
+      %tr
+        %td
+          = link_to p[0].title, p[0]
+        %td.numeric
+          = p[1][:sent]
+        %td.numeric
+          = p[1][:subscribes]
+        %td.numeric
+          = p[1][:unsubscribes]
+        %td.numeric
+          = float_to_percentage p[1][:nps]
+    %tr
+      %td
+        -
+      %td
+        -
+      %td
+        -
+      %td
+        -
+      %td
+        -
+    - petition_extremes[:worst].each do |p|
       %tr
         %td
           = link_to p[0].title, p[0]

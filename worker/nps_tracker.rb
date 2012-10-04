@@ -1,7 +1,7 @@
 class NpsTracker
 
   def snapshot_nps(since=10.minutes.ago)
-    Metrics::Nps.new.overall(since)[:nps]
+    Metrics::Nps.new.aggregate(since)[:nps]
   end
 
   def track
