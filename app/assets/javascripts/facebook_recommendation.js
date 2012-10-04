@@ -1,3 +1,4 @@
+recommended_friends = [];
 var spinner;
 
 function diff(array1, array2) {
@@ -32,17 +33,21 @@ function createSpinner() {
 }
 
 function buildMultiFriendSelector() {
-  $(VK.recommended_friends).each(function(index, item) {
+  $(recommended_friends).each(function(index, item) {
     var checked = item.preselect ? 'checked' : '';
-    var friend = $('<div class="friend"><input type="checkbox" '+checked+' value="'+item.uid+'"/><div class="name">'+item.name+'</div></div>');
+    var friend = $(
+      '<div class="friend">'+
+        '<input type="checkbox" '+checked+' value="'+item.uid+'"/>'+
+        '<div class="name">'+item.name+'</div>'+
+      '</div>'
+    );
     var id = '#' + item.type;
     $('.facebook_friend_widget ' + id + ' .friend_list').append(friend);
     $(id).removeClass('hide');
   });
 }
 
-function postOnFriendsTimeline()
-{
+function postOnFriendsTimeline() {
   var domain = location.href.replace(/\?.*/,"");
   var memberHash = $.cookie('member_id');
   var url = [domain, '?recommend_ref=', memberHash].join('');
@@ -81,19 +86,17 @@ function findRecommendedFriends(groups) {
   var friends_not_involved = diff(groups.friends, groups.friends_involved);
   var tier2 = diff(friends_not_involved, tier1);
   var tier3 = diff(groups.friends, tier1.concat(tier2));
-  VK.recommended_friends = [];
-
   var suggested = tier1.concat(tier2);
   remaining = suggested.slice(25);
   suggested = suggested.slice(0, 25);
   remaining = remaining.concat(tier3);
 
-  $(suggested).each(function(index, friend){
-    VK.recommended_friends.push({uid: friend.uid, name: friend.name, type: 'suggested', preselect: true});
+  recommended_friends = $.map(suggested, function(friend) {
+    return {uid: friend.uid, name: friend.name, type: 'suggested', preselect: true};
   });
 
   $(remaining).each(function(index, friend){
-    VK.recommended_friends.push({uid: friend.uid, name: friend.name, type: 'other', preselect: false});
+    recommended_friends.push({uid: friend.uid, name: friend.name, type: 'other', preselect: false});
   });
 
   buildMultiFriendSelector();
@@ -105,7 +108,7 @@ function findRecommendedFriends(groups) {
 
 function queryFacebook(query, groups) {
   FB.api("/fql?q=" +  encodeURIComponent(JSON.stringify(query)),
-    function(response) {
+  function(response) {
       $(response.data).each(function(index, object) {
         var name = object.name;
         var resultSet = object.fql_result_set;
@@ -121,6 +124,8 @@ function queryFacebook(query, groups) {
 }
 
 function getFriendsWithAppInstalled() {
+  spinner = createSpinner();
+
   var groups = {
     friends_notifying: [],
     friends_involved: [],
@@ -147,8 +152,7 @@ function submitAppRequest() {
   FB.login(function (response) {
     if (response.authResponse) {
       $('#facebookFriendsModal').modal('toggle');
-      spinner = createSpinner();
-      getFriendsWithAppInstalled();
+      if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
       setupSocialTrackingControllerRequest('recommend');
      }
   }, {scope: 'publish_actions, manage_notifications'});
