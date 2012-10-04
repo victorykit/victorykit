@@ -51,10 +51,17 @@ u.strip
 
   def petition_extremes
     limit = 3
-    nps = Metrics::Nps.new.timespan 1.send(timeframe).ago..Time.now
-    sorted = nps.sort_by { |n| n[:nps] }.reverse
-    extremes = sorted.first(limit) + sorted.last(limit)
-    Petition.select("id, title").where("id in (?)", extremes.map{ |n| n[:petition_id] }).zip(extremes)
+    nps = Metrics::Nps.new.timespan(1.send(timeframe).ago..Time.now).sort_by { |n| n[:nps] }.reverse
+    best = nps.first(limit)
+    worst = nps.last(limit) - best
+    {
+      best: associate_petitions(best),
+      worst: associate_petitions(worst)
+    }
+  end
+
+  def associate_petitions stats
+    Petition.select("id, title").where("id in (?)", stats.map{ |n| n[:petition_id] }).zip(stats)
   end
 
 end
