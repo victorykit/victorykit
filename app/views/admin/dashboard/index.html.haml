@@ -30,10 +30,36 @@
 
 #nps_chart{stlye: "float:left"}
   %span{style: "padding-left:50px"}
-    = link_to_self_with_param :f, nps_chart_from_options, " | "
+    = link_to_self_with_param :f, timeframe_options, " | "
   %br    
   %img{ src: nps_chart_url }
- 
+  %br
+
+  %table.table.table-condensed.bordered-table.table-striped
+    %tr
+      %th
+        Petition
+      %th.numeric
+        Sent
+      %th.numeric
+        Sub
+      %th.numeric
+        Unsub
+      %th.numeric
+        NPS
+
+    - petition_extremes.each do |p|
+      %tr
+        %td
+          = link_to p[0].title, p[0]
+        %td.numeric
+          = p[1][:sent]
+        %td.numeric
+          = p[1][:subscribes]
+        %td.numeric
+          = p[1][:unsubscribes]
+        %td.numeric
+          = float_to_percentage p[1][:nps]
+
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$("#nps_chart>img").attr("src", "#{nps_chart_url}");},60000));
-

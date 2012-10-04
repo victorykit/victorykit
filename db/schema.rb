@@ -210,4 +210,12 @@ ActiveRecord::Schema.define(:version => 20121003182142) do
 
   add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
 
+  add_foreign_key "petition_images", "petitions", :name => "petition_images_petition_id_fk"
+
+  add_foreign_key "petition_titles", "petitions", :name => "petition_titles_petition_id_fk"
+
+  add_foreign_key "sent_emails", "petitions", :name => "sent_emails_petition_id_fk"
+
+  add_foreign_key "subscribes", "members", :name => "subscribes_member_id_fk"
+
 end

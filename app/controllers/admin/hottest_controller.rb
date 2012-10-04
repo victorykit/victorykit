@@ -9,7 +9,7 @@ class Admin::HottestController < ApplicationController
     #require "whiplash"
     #include Whiplash
     #redis_data = data_for_options("email_scheduler_nps", options)
-  
+
     sent_data = SentEmail.group(:petition_id).count
     new_data = Signature.where(created_member: true).where('(referer_id != 79459 or referer_id is null)').group(:petition_id).count
     unsub_data = Unsubscribe.joins(:sent_email).group(:petition_id).count
