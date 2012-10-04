@@ -1,3 +1,6 @@
+require 'sent_email_hasher'
+require 'member_hasher'
+
 class SignaturesController < ApplicationController
   def create
     petition = Petition.find(params[:petition_id])

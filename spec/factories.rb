@@ -58,7 +58,4 @@ FactoryGirl.define do
     goal { :signature }
     key { Faker::Lorem.sentence }
   end
-  factory :referral_code do
-    petition
-  end
 end
