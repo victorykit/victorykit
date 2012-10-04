@@ -3,13 +3,14 @@ class Member < ActiveRecord::Base
   has_many :unsubscribes
   has_many :sent_emails
   has_many :signatures
-  has_many :referral_codes, autosave: true
 
-  attr_accessible :first_name, :last_name, :email
+  attr_accessible :first_name, :last_name, :email, :referral_code
   attr_accessible :country_code, :state_code
 
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
+
+  after_create :set_referral_code
 
   def self.random_and_not_recently_contacted
     query = <<-SQL
@@ -73,5 +74,11 @@ class Member < ActiveRecord::Base
     return true if unsubscribe_date.nil?
     return false if subscribe_date.nil?
     return subscribe_date > unsubscribe_date
+  end
+
+  def set_referral_code
+    if respond_to?(:referral_code) && referral_code.blank?
+      update_attribute(:referral_code, self.to_hash)
+    end
   end
 end

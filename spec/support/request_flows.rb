@@ -19,9 +19,8 @@ def login email, pass
     fill_in 'Password', with: pass
     click_button 'Log in'
   end
-  val = yield
+  yield
   click_link 'Log Out'
-  val
 end
 
 def sign petition, params=nil
@@ -32,10 +31,10 @@ def sign petition, params=nil
   sign_at_petition
 end
 
-def sign_at_petition(first_name = 'Peter', last_name = 'Griffin', email = 'peter@example.com')
-  fill_in 'First name', with: first_name
-  fill_in 'Last name', with: last_name
-  fill_in 'Email', with: email
+def sign_at_petition
+  fill_in 'First name', with: 'Peter'
+  fill_in 'Last name', with: 'Griffin'
+  fill_in 'Email', with: 'peter@gmail.com'
   click_button 'sign_petition'
 end
 
@@ -114,23 +113,16 @@ def on_demand_email_path petition, member
   "/admin/on_demand_email/new?petition_id=#{petition.id}&member_id=#{member.id}"
 end
 
-def experiment_results_for test_name, filter=nil
-  url = "/admin/experiments"
-  url << "?f=#{filter}" if filter
-  visit url
-
-  selector = "table[id='#{test_name}']"
-
-  all("#{selector} tbody tr").inject({}) do |out, e|
-    out.merge e.find("td.name").text => {
-      spins: e.find("td.spins").text.to_i, 
-      wins:  e.find("td.wins").text.to_i
-    }
-  end
-end
-
 def email_experiment_results_for petition
-  experiment_results_for "petition #{petition.id} email title", "petitions"
+  visit '/admin/experiments?f=petitions'
+  selector = "table[id='petition #{petition.id} email title']"
+  out = {}
+  all("#{selector} tbody tr").each do |e|
+    out[e.find("td.name").text] = { 
+      spins: e.find("td.spins").text.to_i, 
+      wins:  e.find("td.wins").text.to_i }
+  end
+  out
 end
 
 def opengraph_image
