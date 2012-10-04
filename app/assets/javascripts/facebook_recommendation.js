@@ -148,7 +148,7 @@ function getFriendsWithAppInstalled() {
 }
 
 function submitAppRequest() {
-  $("#thanksModal").modal('toggle');
+  $("#thanksModal").modal('hide');
   FB.login(function (response) {
     if (response.authResponse) {
       $('#facebookFriendsModal').modal('toggle');
