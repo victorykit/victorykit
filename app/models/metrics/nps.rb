@@ -20,8 +20,7 @@ class Metrics::Nps
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
 
-  def timespan range
-    sent_threshold = 1000
+  def timespan range, sent_threshold=1000
     sent = SentEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
     subscribes = Signature.where(created_at: range).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
     unsubscribes = Unsubscribe.joins(:sent_email).where(created_at: range).group(:petition_id).count
