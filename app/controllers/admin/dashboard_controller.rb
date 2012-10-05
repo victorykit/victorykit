@@ -28,8 +28,8 @@ u = <<-url
 http://graphite.watchdog.net/render?\
 target=alias(movingAverage(stats.gauges.victorykit.nps,1440),"moving average (daily)")&\
 target=alias(movingAverage(stats.gauges.victorykit.nps,60), "moving average (hourly)")&\
-target=threshold(0.5, "hot")&\
-target=threshold(0.35, "warm")&\
+target=lineWidth(threshold(0.5, "hot"), 2)&\
+target=lineWidth(threshold(0.35, "warm"), 1)&\
 from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
 bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
@@ -55,7 +55,7 @@ u.strip
   def petition_extremes
     limit = extremes_count.value.to_i
     timespan = 1.send(timeframe.value).ago..Time.now
-    threshold = extremes_threshold.value
+    threshold = extremes_threshold.value.to_i
     nps = Metrics::Nps.new.timespan(timespan, threshold).sort_by { |n| n[:nps] }.reverse
     best = nps.first(limit)
     worst = nps.last(limit) - best
