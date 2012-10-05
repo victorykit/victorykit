@@ -22,6 +22,6 @@ class SentEmail < ActiveRecord::Base
 
   def track_visit!
     self.update_attributes(clicked_at: Time.now) unless already_clicked?
-    $statsd.increment "emails_clicked"
+    $statsd.increment "emails_clicked.count"
   end
 end

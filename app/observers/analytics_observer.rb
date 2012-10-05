@@ -4,14 +4,14 @@ class AnalyticsObserver < ActiveRecord::Observer
   def after_create(record)
     stat_name = case record
     when Signature
-      "signatures"
+      "signatures.count"
     when Unsubscribe
-      "unsubscribes"
+      "unsubscribes.count"
     when SentEmail
-      "emails_sent"
+      "emails_sent.count"
     end
 
     $statsd.increment stat_name
-    $statsd.increment "members_joined" if record.is_a?(Signature) && record.created_member?
+    $statsd.increment "members_joined.count" if record.is_a?(Signature) && record.created_member?
   end
 end
