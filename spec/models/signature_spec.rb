@@ -137,15 +137,15 @@ describe Signature do
 
   context "analytics" do
     it "should increment signature count on create" do
-      expect { create(:signature) }.to change{ $statsd.value_of("signatures") }.from(0).to(1)
+      expect { create(:signature) }.to change{ $statsd.value_of("signatures.count") }.from(0).to(1)
     end
 
     it "should increment members joined if a new member was created" do
-      expect { create(:signature, created_member: true) }.to change{ $statsd.value_of("members_joined") }.from(0).to(1)
+      expect { create(:signature, created_member: true) }.to change{ $statsd.value_of("members_joined.count") }.from(0).to(1)
     end
 
     it "should not increment members joined if a new member was not created" do
-      expect { create(:signature, created_member: false) }.to_not change{ $statsd.value_of("members_joined") }
+      expect { create(:signature, created_member: false) }.to_not change{ $statsd.value_of("members_joined.count") }
     end
   end
 end

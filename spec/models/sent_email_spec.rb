@@ -3,7 +3,7 @@ require 'spec_helper'
 describe SentEmail do
   describe "analytics" do
     it "should increment unsubscribe count on create" do
-      expect { create(:sent_email) }.to change{ $statsd.value_of("emails_sent") }.from(0).to(1)
+      expect { create(:sent_email) }.to change{ $statsd.value_of("emails_sent.count") }.from(0).to(1)
     end
   end
 
@@ -15,7 +15,7 @@ describe SentEmail do
     end
 
     it "should increment emails_clicked" do
-      expect { subject.track_visit! }.to change{ $statsd.value_of("emails_clicked") }.from(0).to(1)
+      expect { subject.track_visit! }.to change{ $statsd.value_of("emails_clicked.count") }.from(0).to(1)
     end
   end
 end
