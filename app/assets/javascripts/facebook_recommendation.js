@@ -53,10 +53,8 @@ function postOnFriendsTimeline() {
   var url = [domain, '?recommend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
-  //postOnFacebook('me', 'watchdognet:sign', {petition: url},
   FB.api('/me/feed', 'post', {link: url, message: message},
     function(res) {
-      console.log('res', res);
       $(friendUids()).each(function(index, uid) {
         FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(){});
       });
