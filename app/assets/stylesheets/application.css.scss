@@ -252,9 +252,7 @@ th, td .numeric {
     font-weight: normal;
   }
 }
-$fluid: #C67171;
-$fluid_highlight: #CD9B9B;
-.progressbar {
+@mixin progressbar($fluid, $fluid_highlight) {
   width: 100%;
   height: 20px;
   margin: 5px 0 10px;
@@ -281,4 +279,13 @@ $fluid_highlight: #CD9B9B;
     box-shadow: inset 3px -4px 4px 1px $fluid;
     border-radius: 11px;
   }
+}
+.progress_bright {
+  @include progressbar(#E3170D, #ff0000);
+}
+.progress_dull {
+  @include progressbar(#C67171, #cd9b9b);
+}
+.progress_dark {
+  @include progressbar(#8B1A1A, #CC1100);
 }
