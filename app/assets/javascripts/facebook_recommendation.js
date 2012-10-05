@@ -53,21 +53,15 @@ function postOnFriendsTimeline() {
   var url = [domain, '?recommend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
-  function postOnFacebook(user, action, data, callback) {
-    if(!callback) {
-      callback = function(){};
-    }
-    FB.api('/'+user+'/'+action,'post', data, callback);
-  }
-
-  // only posts to his own timeline with production url
-  postOnFacebook('me', 'watchdognet:sign', {petition: url},
-    function(response) {
+  //postOnFacebook('me', 'watchdognet:sign', {petition: url},
+  FB.api('/me/feed', 'post', {link: url, message: message},
+    function(res) {
+      console.log('res', res);
       $(friendUids()).each(function(index, uid) {
-        postOnFacebook(uid, 'feed', {link: url, message: message});
+        FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(){});
       });
       $('#facebookFriendsModal').modal('toggle');
-    }
+    }    
   );
 
   function friendUids() {
