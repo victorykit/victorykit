@@ -1,10 +1,12 @@
 class PetitionExperiments
+
   def initialize(petition)
     @petition = petition
   end
 
-  def facebook(member)
-    FacebookExperiments.new(@petition, member)
+  def facebook(member=nil)
+    codes, member_id = @petition.referral_codes, member.try(:id)
+    codes.where(member_id: member_id).first || @petition.referral_codes.build(member_id: member_id)
   end
 
   def email(email)
