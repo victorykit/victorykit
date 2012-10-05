@@ -63,6 +63,7 @@ describe SignaturesController do
       let(:member) { create(:member, first_name: 'recomender', last_name: 'smith', email: 'recomender@recomend.com') }
 
       shared_examples 'the event is tracked' do
+        before { create :referral_code, code: member.to_hash, member: member, petition: petition }
         before { sign_petition params }
         subject { Signature.last }
         its(:reference_type) { should == type }
@@ -187,6 +188,35 @@ describe SignaturesController do
       end
     end
 
+    context 'with social tracking parameters' do
+      let(:member) { create :member }
+      let(:code)   { create :referral_code, member: member, petition: petition }
+
+      shared_examples 'the social media trial wins' do
+        specify do
+          code.reload.all_tests.first[:arms].first.values_at(:spins, :wins).should == [ 1, 0 ]
+          sign_petition params
+          code.reload.all_tests.first[:arms].first.values_at(:spins, :wins).should == [ 1, 1 ]
+        end
+      end
+
+      before {
+        petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "better title"
+        petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "worse title"
+        petition.save
+        code.title
+      }
+
+      context 'with an old tracking parameter' do
+        let(:params) { { fb_dialog_request: member.to_hash } }
+        it_behaves_like 'the social media trial wins'
+      end
+
+      context 'with a new arbitrarily-generated tracking parameter' do
+        let(:params) { { fb_dialog_request: code.code } }
+        it_behaves_like 'the social media trial wins'
+      end
+    end
 
     context 'when the user leaves a field blank' do
       before { sign_without_name_or_email }
