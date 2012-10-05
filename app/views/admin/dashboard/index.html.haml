@@ -1,6 +1,12 @@
 %h1 Dashboard
 
 #email_summary{style: "float:left;padding-right:20px" }
+  = link_to("petitions", "petitions")
+  |
+  = link_to("experiments", "experiments")
+  |
+  = link_to("statistics", "stats")
+
   %table.table.table-condensed.bordered-table.table-striped
     %tr
       %td
@@ -30,12 +36,23 @@
 
 #nps_chart{stlye: "float:left"}
   %span{style: "padding-left:50px"}
-    = link_to_self_with_param :f, timeframe_options, " | "
-  %br    
+    = link_to_self_with_param timeframe.key, timeframe.options, " | "
+  %br
   %img{ src: nps_chart_url }
   %br
 
+#best_worst
   %table.table.table-condensed.bordered-table.table-striped
+    %tr
+      %td
+        Count
+        = link_to_self_with_param extremes_count.key, extremes_count.options, " | "
+      %td
+        Threshold
+        = link_to_self_with_param extremes_threshold.key, extremes_threshold.options, " | "
+      %td
+      %td
+      %td
     %tr
       %th
         Petitions (Best/Worst NPS)
