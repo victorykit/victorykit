@@ -7,6 +7,29 @@
   |
   = link_to("statistics", "stats")
 
+  - nsum = nps_summary
+  - nps24h = nsum[:nps24h]
+  - nps7d = nsum[:nps7d]
+  - npscolors = ["red", "orange", "green"]
+  - color7d = "grey" #todo: colorize based on thresholds
+  - color24h = "grey"
+  %table.table.table-condensed.bordered-table.table-striped
+    %tr
+      %td
+        %h3 NPS
+      %td{style: "color:#{color7d}"}
+        %h3
+          = nps7d
+      %td{style: "color:#{color24h}"}
+        %h3
+          = nps24h
+    %tr
+      %td
+      %td
+        7 day
+      %td
+        24 hr
+
   %table.table.table-condensed.bordered-table.table-striped
     %tr
       %td
@@ -79,15 +102,11 @@
           = float_to_percentage p[1][:nps]
     %tr
       %td
-        -
       %td
-        -
       %td
-        -
       %td
-        -
       %td
-        -
+
     - petition_extremes[:worst].each do |p|
       %tr
         %td
