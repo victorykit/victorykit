@@ -32,4 +32,35 @@ describe 'signatures' do
     end
   end
 
+  context 'a facebook share' do
+    let(:member) { create :member }
+    let(:hash) { member.to_hash }
+    let(:petition_fb_title) { "petition #{petition.id} #{PetitionTitle::TitleType::FACEBOOK} title" }
+
+    before {
+      petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "better title"
+      petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "worse title"
+      petition.save
+    }
+
+    it 'should register a spin and a win', js: true, driver: :webkit do
+      admin_user = create :admin_user
+
+      visit petition_path(petition, r: hash)
+      sign_at_petition member.first_name, member.last_name, member.email
+
+      share = login(admin_user.email, admin_user.password) { experiment_results_for(petition_fb_title, "petitions") }
+      option = share.keys.first
+      share[option].should == { spins: 1, wins: 0 }
+
+      reset_session!
+      
+      visit petition_path(petition, d: hash)
+      sign_at_petition 'Herrman', 'Toothrot', 'htoothrot@example.com'
+
+      share = login(admin_user.email, admin_user.password) { experiment_results_for(petition_fb_title, "petitions") }
+      share[option].should == { spins: 1, wins: 1 }
+    end
+  end
+
 end
