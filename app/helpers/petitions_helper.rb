@@ -95,6 +95,10 @@ module PetitionsHelper
     ]
   end
 
+  def progress_bar_color
+    spin! 'change progress bar brightness above sign box (number goes bright to dull, 0 being brightest)', :signature, ["progress_bright", "progress_dull", "progress_dark"]
+  end
+
   def sign_button_color
     spin! 'change button brightness for sign button (number goes bright to dull, 0 being brightest)', :signature, ["btn-red0", "btn-red1", "btn-red2", "btn-red3", "btn-red4", "btn-red5"]
   end
