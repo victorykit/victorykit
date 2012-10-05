@@ -3,7 +3,8 @@ class Admin::DashboardController < ApplicationController
   before_filter :require_admin
   newrelic_ignore
 
-  helper_method :heartbeat, :nps_chart_url, :timeframe, :petition_extremes, :extremes_count, :extremes_threshold, :nps_summary
+  helper_method :heartbeat, :nps_summary, :nps_chart_url, :petition_extremes,
+    :timeframe, :extremes_count, :extremes_threshold, :map_to_threshold
 
   def index
     timeframe.verify.tap {|t| flash.now[:error] = t unless not t }
@@ -76,6 +77,10 @@ u.strip
     ids = stats.map{ |n| n[:petition_id] }
     petitions = Petition.select("id, title").where("id in (?)", ids)
     petitions.map{ |p| [p, stats.find { |s| s[:petition_id] == p.id }]}
+  end
+
+  def map_to_threshold value, thresholds
+    thresholds.inject(thresholds[nil]){|result, pair| (pair[0] and value >= pair[0]) ? pair[1] : result  }
   end
 
   class Options
