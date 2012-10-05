@@ -61,7 +61,9 @@ u.strip
   end
 
   def associate_petitions stats
-    Petition.select("id, title").where("id in (?)", stats.map{ |n| n[:petition_id] }).zip(stats)
+    ids = stats.map{ |n| n[:petition_id] }
+    petitions = Petition.select("id, title").where("id in (?)", ids)
+    petitions.map{ |p| [p, stats.find { |s| s[:petition_id] == p.id }]}
   end
 
 end

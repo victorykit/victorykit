@@ -86,7 +86,7 @@ describe Metrics::Nps do
 
   end
 
-  context "timeframe" do
+  context "timespan" do
     
     it "should calculate nps per item over a month" do
       nps = Metrics::Nps.new.timespan @month-1.second..Time.now
