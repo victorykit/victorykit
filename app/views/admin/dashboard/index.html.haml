@@ -38,7 +38,7 @@
   %span{style: "padding-left:50px"}
     = link_to_self_with_param timeframe.key, timeframe.options, " | "
   %br
-  %img{ src: nps_chart_url }
+  %iframe{ src: nps_chart_url, style: "border:none" }
   %br
 
 #best_worst
@@ -102,4 +102,4 @@
           = float_to_percentage p[1][:nps]
 
 - content_for :javascripts do
-  $(document).ready(setInterval(function(){$("#nps_chart>img").attr("src", "#{nps_chart_url}");},60000));
+  $(document).ready(setInterval(function(){$("#nps_chart>iframe").contentDocument.location.reload(true);},60000));
