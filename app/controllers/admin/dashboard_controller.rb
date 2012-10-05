@@ -3,7 +3,7 @@ class Admin::DashboardController < ApplicationController
   before_filter :require_admin
   newrelic_ignore
 
-  helper_method :heartbeat, :nps_chart_url, :timeframe, :petition_extremes, :extremes_count, :extremes_threshold
+  helper_method :heartbeat, :nps_chart_url, :timeframe, :petition_extremes, :extremes_count, :extremes_threshold, :nps_summary
 
   def index
     timeframe.verify.tap {|t| flash.now[:error] = t unless not t }
@@ -50,6 +50,13 @@ u.strip
 
   def extremes_threshold
     @extremes_threshold ||= Options.new(["1000", "100", "10"], "1000", params, :th)
+  end
+
+  def nps_summary
+    {
+      nps24h: Metrics::Nps.new.aggregate(1.day.ago)[:nps],
+      nps7d: Metrics::Nps.new.aggregate(1.week.ago)[:nps]
+    }
   end
 
   def petition_extremes
