@@ -10,9 +10,9 @@
   - nsum = nps_summary
   - nps24h = nsum[:nps24h]
   - nps7d = nsum[:nps7d]
-  - npscolors = ["red", "orange", "green"]
-  - color7d = "grey" #todo: colorize based on thresholds
-  - color24h = "grey"
+  - threshold_map = {nil => "red", 0.35 => "orange", 0.5 => "green"}
+  - color7d = map_to_threshold(nps7d, threshold_map)
+  - color24h = map_to_threshold(nps24h, threshold_map)
   %table.table.table-condensed.bordered-table.table-striped
     %tr
       %td
