@@ -1,6 +1,6 @@
 %h1 Dashboard
 
-#email_summary{style: "float:left;padding-right:20px" }
+#email_summary{style: "float:left;width:275px" }
   = link_to("petitions", "petitions")
   |
   = link_to("experiments", "experiments")
@@ -57,68 +57,69 @@
       %td.numeric
         = number_with_delimiter heartbeat[:emailable_member_count]
 
-#nps_chart{stlye: "float:left"}
-  %span{style: "padding-left:50px"}
-    = link_to_self_with_param timeframe.key, timeframe.options, " | "
-  %br
-  %iframe{ src: nps_chart_url, style: "border:none" }
-  %br
+#meh{style: "margin-left:275px;padding-left:25px"}
+  #nps_chart
+    %span
+      = link_to_self_with_param timeframe.key, timeframe.options, " | "
+    %br
+    %iframe{ src: nps_chart_url, style: "border:none" }
+    %br
 
-#best_worst
-  %table.table.table-condensed.bordered-table.table-striped
-    %tr
-      %td
-        Count
-        = link_to_self_with_param extremes_count.key, extremes_count.options, " | "
-      %td
-        Threshold
-        = link_to_self_with_param extremes_threshold.key, extremes_threshold.options, " | "
-      %td
-      %td
-      %td
-    %tr
-      %th
-        Petitions (Best/Worst NPS)
-      %th.numeric
-        Sent
-      %th.numeric
-        Sub
-      %th.numeric
-        Unsub
-      %th.numeric
-        NPS
-
-    - petition_extremes[:best].each do |p|
+  #best_worst
+    %table.table.table-condensed.bordered-table.table-striped
+      %tr
+        %th
+          Petitions (Best/Worst NPS)
+        %th.numeric
+          Sent
+        %th.numeric
+          Sub
+        %th.numeric
+          Unsub
+        %th.numeric
+          NPS
       %tr
         %td
-          = link_to p[0].title, p[0]
-        %td.numeric
-          = p[1][:sent]
-        %td.numeric
-          = p[1][:subscribes]
-        %td.numeric
-          = p[1][:unsubscribes]
-        %td.numeric
-          = float_to_percentage p[1][:nps]
-    %tr
-      %td
-      %td
-      %td
-      %td
-      %td
+          Show
+          = link_to_self_with_param extremes_count.key, extremes_count.options, " | "
+        %td
+          Threshold
+          = link_to_self_with_param extremes_threshold.key, extremes_threshold.options, " | "
+        %td
+        %td
+        %td
 
-    - petition_extremes[:worst].each do |p|
+      - petition_extremes[:best].each do |p|
+        %tr
+          %td
+            = link_to p[0].title, p[0]
+          %td.numeric
+            = p[1][:sent]
+          %td.numeric
+            = p[1][:subscribes]
+          %td.numeric
+            = p[1][:unsubscribes]
+          %td.numeric
+            = float_to_percentage p[1][:nps]
       %tr
         %td
-          = link_to p[0].title, p[0]
-        %td.numeric
-          = p[1][:sent]
-        %td.numeric
-          = p[1][:subscribes]
-        %td.numeric
-          = p[1][:unsubscribes]
-        %td.numeric
-          = float_to_percentage p[1][:nps]
+        %td
+        %td
+        %td
+        %td
+
+      - petition_extremes[:worst].each do |p|
+        %tr
+          %td
+            = link_to p[0].title, p[0]
+          %td.numeric
+            = p[1][:sent]
+          %td.numeric
+            = p[1][:subscribes]
+          %td.numeric
+            = p[1][:unsubscribes]
+          %td.numeric
+            = float_to_percentage p[1][:nps]
 
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$("#nps_chart>iframe").contentDocument.location.reload(true);},60000));
