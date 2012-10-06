@@ -76,7 +76,7 @@ u.strip
   def associate_petitions stats
     ids = stats.map{ |n| n[:petition_id] }
     petitions = Petition.select("id, title").where("id in (?)", ids)
-    petitions.map{ |p| [p, stats.find { |s| s[:petition_id] == p.id }]}
+    stats.map {|s| [petitions.find {|p| p.id = s[:petition_id]}, s]}
   end
 
   def map_to_threshold value, thresholds
