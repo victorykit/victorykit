@@ -82,8 +82,8 @@
         %td
           Show
           = link_to_self_with_param extremes_count.key, extremes_count.options, " | "
-        %td
-          Threshold
+        %td{style: "white-space:nowrap"}
+          >
           = link_to_self_with_param extremes_threshold.key, extremes_threshold.options, " | "
         %td
         %td
@@ -111,7 +111,7 @@
       - petition_extremes[:worst].each do |p|
         %tr
           %td
-            = link_to p[0].title, p[0]
+            = link_to truncate(p[0].title, :length => 75), p[0]
           %td.numeric
             = p[1][:sent]
           %td.numeric
