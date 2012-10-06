@@ -33,7 +33,7 @@ target=lineWidth(threshold(0.5, "hot"), 2)&\
 target=lineWidth(threshold(0.35, "warm"), 1)&\
 from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
-bgcolor=white&fgcolor=black&colorList=darkgray,red,99FF66,FFCC66&\
+bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
 lineWidth=3&\
 height=400&width=800&\
 format=svg
