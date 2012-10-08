@@ -102,4 +102,8 @@ class Signature < ActiveRecord::Base
   def ip2bigint
     ip_address.split('.').map(&:to_i).each_with_index.map{|e,i|e*256**(3-i)}.reduce(&:+)
   end
+
+  def track_referrals(petition, params = {})
+    self.attributes = SignatureReferral.new(petition, self, params).referral
+  end
 end
