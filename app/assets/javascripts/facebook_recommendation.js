@@ -53,15 +53,6 @@ function postOnFriendsTimeline() {
   var url = [domain, '?recommend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
-  FB.api('/me/feed', 'post', {link: url, message: message},
-    function(res) {
-      $(friendUids()).each(function(index, uid) {
-        FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(){});
-      });
-      $('#facebookFriendsModal').modal('toggle');
-    }    
-  );
-
   function friendUids() {
     var uids = [];
     $('#suggested input[type="checkbox"]').each(function(index, item) {
@@ -71,6 +62,12 @@ function postOnFriendsTimeline() {
     });
     return uids;
   }
+
+  $(friendUids().concat(['me'])).each(function(index, uid) {
+    FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(){});
+  });
+
+  $('#facebookFriendsModal').modal('toggle');
 }
 
 function findRecommendedFriends(groups) {
