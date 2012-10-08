@@ -112,6 +112,7 @@ class SignaturesController < ApplicationController
   def track_facebook_referral petition, signature
     param_name, reference_type, received_code = referral_params(facebook_ref_types)
     return nil if param_name.nil?
+    $statsd.increment "facebook_referrals.count"
 
     code, referring_member = if param_name == :fb_action_id
       code_and_member_for_facebook_share_special_case received_code, petition.id
