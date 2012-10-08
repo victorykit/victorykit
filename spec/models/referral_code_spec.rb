@@ -27,6 +27,6 @@ describe ReferralCode do
   context "with a member" do
     let(:member) { create(:member) }
     subject { ReferralCode.new member: member }
-    its(:code) { should eq member.to_hash }
+    its(:code) { should_not be_nil }
   end
 end
