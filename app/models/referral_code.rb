@@ -57,7 +57,7 @@ class ReferralCode < ActiveRecord::Base
 
   def generate_code
     if self.code.blank? && self.new_record?
-      self.code = member.present? ? member.to_hash : SecureRandom.urlsafe_base64(8)
+      self.code = SecureRandom.urlsafe_base64(8)
     end
   end
 
