@@ -358,7 +358,6 @@ DEPENDENCIES
   capybara-webkit
   carmen
   coffee-rails (~> 3.2.1)
-  compass-rails
   debugger
   dkim
   facebook_share_widget!
