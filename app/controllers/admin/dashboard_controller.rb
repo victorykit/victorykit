@@ -4,22 +4,30 @@ class Admin::DashboardController < ApplicationController
   newrelic_ignore
 
   helper_method :heartbeat, :nps_summary, :nps_chart_url, :petition_extremes,
-    :timeframe, :extremes_count, :extremes_threshold, :map_to_threshold
+    :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
-    timeframe.verify.tap {|t| flash.now[:error] = t unless not t }
-    extremes_count.verify.tap {|t| flash.now[:error] = t unless not t }
-    extremes_threshold.verify.tap {|t| flash.now[:error] = t unless not t }
+    timeframe.verify.tap {|error| flash.now[:error] = error unless not error }
+    extremes_count.verify.tap {|error| flash.now[:error] = error unless not error }
+    extremes_threshold.verify.tap {|error| flash.now[:error] = error unless not error }
   end
 
   def heartbeat
-    heartbeat = Admin::Heartbeat.new
+    @heartbeat ||= Admin::Heartbeat.new
     {
-      last_email: heartbeat.last_sent_email,
-      last_signature: heartbeat.last_signature,
-      emails_in_queue: heartbeat.emails_in_queue,
-      emails_sent_past_week: heartbeat.emails_sent_since(1.week.ago),
-      emailable_member_count: heartbeat.emailable_members
+      last_email: @heartbeat.last_sent_email,
+      last_signature: @heartbeat.last_signature,
+      emails_in_queue: @heartbeat.emails_in_queue,
+      emails_sent_past_week: @heartbeat.emails_sent_since(1.week.ago),
+      emailable_member_count: @heartbeat.emailable_members
+    }
+  end
+
+  def nps_summary
+    @nps_summary ||=
+    {
+      nps24h: Metrics::Nps.new.aggregate(1.day.ago)[:nps],
+      nps7d: Metrics::Nps.new.aggregate(1.week.ago)[:nps]
     }
   end
 
@@ -29,8 +37,8 @@ u = <<-url
 http://graphite.watchdog.net/render?\
 target=alias(movingAverage(stats.gauges.victorykit.nps,1440),"moving average (daily)")&\
 target=alias(movingAverage(stats.gauges.victorykit.nps,60), "moving average (hourly)")&\
-target=lineWidth(threshold(0.05, "hot"), 2)&\
-target=lineWidth(threshold(0.035, "warm"), 1)&\
+target=lineWidth(threshold(#{nps_thresholds["hot"]}, "hot"), 2)&\
+target=lineWidth(threshold(#{nps_thresholds["warm"]}, "warm"), 1)&\
 from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
 bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
@@ -39,6 +47,13 @@ height=300&width=800&\
 format=svg
 url
 u.strip
+  end
+
+  def nps_thresholds
+    {
+      "warm" => 0.035,
+      "hot" => 0.05
+    }
   end
 
   def timeframe
@@ -53,20 +68,16 @@ u.strip
     @extremes_threshold ||= Options.new(["1000", "100", "10"], "1000", params, :th)
   end
 
-  def nps_summary
-    {
-      nps24h: Metrics::Nps.new.aggregate(1.day.ago)[:nps],
-      nps7d: Metrics::Nps.new.aggregate(1.week.ago)[:nps]
-    }
+  def petition_extremes
+    @extremes ||= fetch_petition_extremes(timeframe.value, extremes_count.value.to_i, extremes_threshold.value.to_i)
   end
 
-  def petition_extremes
-    limit = extremes_count.value.to_i
-    timespan = 1.send(timeframe.value).ago..Time.now
+  def fetch_petition_extremes timeframe, count, threshold
+    timespan = 1.send(timeframe).ago..Time.now
     threshold = extremes_threshold.value.to_i
     nps = Metrics::Nps.new.timespan(timespan, threshold).sort_by { |n| n[:nps] }.reverse
-    best = nps.first(limit)
-    worst = nps.last(limit) - best
+    best = nps.first(count)
+    worst = nps.last(count) - best
     {
       best: associate_petitions(best),
       worst: associate_petitions(worst)
