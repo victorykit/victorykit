@@ -52,17 +52,19 @@
 .experiment-name {
   font-weight: bold;
   font-size: larger;
-  float: left;
 }
 .experiment-details {
   color: #444;
-  float: left;
-  clear: right;
   margin-left: 7px;
+}
+
+.experiment {
+  padding: 1em 0;
 }
 
 .experiment-trash {
   float: right;
+  clear: right;
 }
 
 .experiment-trash-data {
