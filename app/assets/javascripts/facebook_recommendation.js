@@ -65,8 +65,8 @@ function postOnFriendsTimeline() {
 
   $(friendUids().concat(['me'])).each(function(index, uid) {
     FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(res){
-      console.log('sent to', uid);
-      console.log('res was', res);
+      //console.log('sent to', uid);
+      //console.log('res was', res);
     });
   });
 

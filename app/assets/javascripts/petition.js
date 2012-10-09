@@ -21,17 +21,6 @@ function initFacebookApp() {
   });
 
   if (FB.getLoginStatus) { FB.getLoginStatus(trackFacebookStatus); }
-  if (VK.facebook_sharing_type == "facebook_wall") {
-    FB.Event.subscribe('auth.statusChange', function (facebookStatus) {
-      if (VK.fb_action_instance_id !== "" && facebookStatus.status === "connected") {
-        FB.api(VK.fb_action_instance_id, 'get', function (response) {
-          if (VK.fb_action_instance_id === response.id)  {
-            inviteToShareOnTwitter();
-          }
-        });
-      }
-    });
-  }
 }
 
 function socialTrackingParams(facebook_action, action_id, request_id, request_to_ids) {
@@ -171,35 +160,6 @@ function bindFacebookPopupButton() {
   });
 }
 
-function bindFacebookWidgetButton() {
-
-  function openWidget() {
-    var element = $('.facebook-share-widget');
-    $('#thanksModal').modal('hide');
-    $('#facebookShareModal').modal('toggle');
-    var domain = location.href.replace(/\?.*/,"");
-    var options = {
-      base_path: '/widget',
-      template:  { 'link': domain + '?wall=' + $.cookie('member_id') }
-    };
-    if (VK.fbWallLoaded) { return; }
-    var widget = new FacebookShareWidget(element, options);
-    VK.fbWallLoaded = true;
-    $('.facebook-share-widget .search-text').get(0).focus();
-  }
-
-  function performLoginAndOpenWidget() {
-    setupSocialTrackingControllerRequest('wall');
-    FB.login(function (response) {
-      if (response.authResponse) {
-        openWidget();
-       }
-    }, {scope: 'publish_stream'});
-  }
-
-  $('.fb_widget_btn').click(performLoginAndOpenWidget);
-}
-
 function bindFacebookRequestButton() {
 
   function requestCallbackForSendRequest(response) {
@@ -301,12 +261,10 @@ function updateCounter() {
 
 function initSharePetition() {
   initModalColor();
-  //initTwitter();
   initFacebookApp();
   setupSocialTracking();
   setupShareFacebookButton();
   bindFacebookPopupButton();
-  bindFacebookWidgetButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
   bindFacebookRecommendationButton();

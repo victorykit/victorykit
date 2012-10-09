@@ -22,7 +22,6 @@
 //= require petition
 //= require global
 //= require petition_editor
-//= require facebook_share_widget/application
 //= require chosen.jquery
 //= require spin.min
 //= require_tree .
