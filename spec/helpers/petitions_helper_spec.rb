@@ -94,11 +94,7 @@ describe PetitionsHelper do
     context 'for a regular browser user' do
       let(:exp) { 'facebook sharing options' }
       let(:goal) { :referred_member }
-      let(:options) { [
-        'facebook_popup',
-        'facebook_request',
-        'facebook_wall'
-      ] }
+      let(:options) { ['facebook_popup', 'facebook_request'] }
 
       before { browser.stub!(:ie7?).and_return false }
 
@@ -142,15 +138,6 @@ describe PetitionsHelper do
       let(:option) { 'facebook_popup' }
       let(:button_class) { 'fb_popup_btn' }
       let(:button_text) { 'Share on Facebook' }
-
-      it_behaves_like 'facebook button hash'
-    end
-
-    context 'when facebook sharing option is "facebook_wall"' do
-
-      let(:option) { 'facebook_wall' }
-      let(:button_class) { 'fb_widget_btn' }
-      let(:button_text) { 'Share with your friends' }
 
       it_behaves_like 'facebook button hash'
     end

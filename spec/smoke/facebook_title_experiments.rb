@@ -101,11 +101,6 @@ describe 'facebook sharing experiments' do
       delete_fb_test_user fb_vincent
     end
   end
-  
-  # facebook_wall
-  it 'registers win for facebook_wall' do
-    pending 'implement test'
-  end
 end
 
 #todo: temporary while sorting out fb testing and cleanup

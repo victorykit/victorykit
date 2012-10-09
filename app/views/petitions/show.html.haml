@@ -96,14 +96,6 @@
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modail' }
 
-  .modal.hide#facebookShareModal
-    .modal-body
-      %i.icon-search
-      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-      = render :partial => "facebook_share_widget"
-    .modal-footer
-      %a.btn.btn-success{:href => "#", 'data-dismiss'=>"modal"} I'm done.
-
   .modal.hide#facebookFriendsModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')

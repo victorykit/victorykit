@@ -51,15 +51,6 @@ describe SocialTrackingController do
       its(:member) { should == signature.member }
     end
 
-    context 'when someone shares the petition with her friends' do
-      before { post :create, { petition_id: petition.id, signature_id: signature.id, facebook_action: 'wall' } }
-
-      subject { FacebookWall.last }
-      
-      its(:petition) { should == petition }
-      its(:member) { should == signature.member }      
-    end
-
     context 'when someone recommends a petition to friends' do
       before { post :create, { petition_id: petition.id, signature_id: signature.id, facebook_action: 'recommend' } }
       

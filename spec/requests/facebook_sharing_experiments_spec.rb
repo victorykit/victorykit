@@ -111,9 +111,4 @@ describe 'facebook sharing experiments' do
     end
   end
 
-  context 'when sharing via facebook_wall' do
-    it 'registers wins when sharing leads to signature' do
-      pending 'implement test'
-    end
-  end
 end

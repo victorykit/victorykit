@@ -17,7 +17,6 @@ class SocialTrackingController < ApplicationController
         'like' => :register_facebook_like,
         'share' => :register_facebook_share,
         'popup' => :register_facebook_popup_opened,
-        'wall' => :register_facebook_wall,
         'request' => :register_facebook_request,
         'autofill_request' => :register_autofill_request,
         'recommend' => :register_recommendation
@@ -53,13 +52,6 @@ class SocialTrackingController < ApplicationController
     share.petition = @petition
     share.member = @member if @member.present?
     share.save!
-  end
-
-  def register_facebook_wall
-    wall = FacebookWall.new
-    wall.petition = @petition
-    wall.member = @member if @member.present?
-    wall.save!
   end
 
   def register_facebook_request

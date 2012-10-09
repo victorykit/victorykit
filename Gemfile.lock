@@ -12,17 +12,6 @@ GIT
       railties (>= 3.0)
 
 GIT
-  remote: git://github.com/mkurutin/facebook_share_widget_rails.git
-  revision: 51f6a813917d1dfe6d8ee60c44251313b476a021
-  specs:
-    facebook_share_widget (0.0.10)
-      coffee-rails
-      compass-rails
-      fb_graph
-      haml-rails
-      sass-rails
-
-GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
   revision: a6bde0aed270e9d3dac239d331f84f9c22817750
   specs:
@@ -164,11 +153,6 @@ GEM
       crack (>= 0.1.6)
     geocoder (1.1.3)
     haml (3.1.7)
-    haml-rails (0.3.4)
-      actionpack (~> 3.0)
-      activesupport (~> 3.0)
-      haml (~> 3.0)
-      railties (~> 3.0)
     hike (1.2.1)
     hirb (0.7.0)
     htmlentities (4.3.1)
@@ -360,7 +344,6 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   debugger
   dkim
-  facebook_share_widget!
   factory_girl_rails (~> 3.0)
   faker (~> 1.0)
   flot-rails

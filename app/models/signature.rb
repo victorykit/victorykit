@@ -19,7 +19,6 @@ class Signature < ActiveRecord::Base
     FACEBOOK_LIKE = 'facebook_like'
     FACEBOOK_SHARE = 'facebook_share'
     FACEBOOK_POPUP = 'facebook_popup'
-    FACEBOOK_WALL = 'facebook_wall'
     FACEBOOK_REQUEST = 'facebook_request'
     FACEBOOK_AUTOFILL_REQUEST = 'facebook_autofill_request'
     FACEBOOK_RECOMMENDATION = 'facebook_recommendation'
@@ -37,7 +36,6 @@ class Signature < ActiveRecord::Base
     ReferenceType::FACEBOOK_LIKE, 
     ReferenceType::FACEBOOK_SHARE, 
     ReferenceType::FACEBOOK_POPUP, 
-    ReferenceType::FACEBOOK_WALL, 
     ReferenceType::FACEBOOK_REQUEST,
     ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
     ReferenceType::FACEBOOK_RECOMMENDATION,

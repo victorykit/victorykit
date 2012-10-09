@@ -13,7 +13,6 @@ class SignatureReferral
     fb_share_link_ref: Signature::ReferenceType::FACEBOOK_POPUP, 
     fb_dialog_request: Signature::ReferenceType::FACEBOOK_REQUEST, 
     fb_autofill_request: Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
-    fb_wall_hash: Signature::ReferenceType::FACEBOOK_WALL,
     fb_recommendation_ref: Signature::ReferenceType::FACEBOOK_RECOMMENDATION
   }.with_indifferent_access
 
