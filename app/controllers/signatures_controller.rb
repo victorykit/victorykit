@@ -14,7 +14,7 @@ class SignaturesController < ApplicationController
       begin
         petition.signatures.push signature
         petition.save!
-        signature.track_referrals(petition, params)
+        signature.track_referrals(params)
         signature.save!
 
         begin
