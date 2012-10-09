@@ -164,11 +164,6 @@ describe PetitionsHelper do
       specify { helper.after_share_view.should == 'thanks_for_signing' }
     end
 
-    context 'for an ie user' do
-      before { browser.stub!(:ie?).and_return true }
-      it_behaves_like 'thanks_for_signing'
-    end
-
     context 'for a regular browser user' do
       let(:exp) { 'after share view 4' }
       let(:goal) { :share }
