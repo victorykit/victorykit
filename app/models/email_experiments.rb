@@ -22,7 +22,7 @@ class EmailExperiments
 
   def demand_progress_introduction_location
     default_intro_location = "top"
-    hide_demand_progress_intro ? default_intro_location : (spin! "demand progress introduction location", :signature, intro_location_options)
+    hide_demand_progress_intro? ? default_intro_location : (spin! "demand progress introduction location", :signature, intro_location_options)
   end
   
   def ask_to_sign_text
@@ -45,9 +45,9 @@ class EmailExperiments
     (spin! "show ps with plain text", :signature, display_options) == "show" || false
   end
 
-  def hide_demand_progress_intro
+  def hide_demand_progress_intro?
     previously_signed = Signature.where("email = ?", @email.email).present?
-    previously_opened_or_clicked_email = SentEmail.where("email = ? AND opened_at IS NOT ? OR clicked_at IS NOT ?", @email.email, nil, nil).present?
+    previously_opened_or_clicked_email = SentEmail.where("email = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.email, nil, nil).present?
     previously_signed || previously_opened_or_clicked_email
   end
 
