@@ -17,7 +17,7 @@ class ScheduledEmail < ActionMailer::Base
         @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: sent_email_hash)
         @tracking_url = new_pixel_tracking_url(n: sent_email_hash)
         @image_url = email_experiment.image_url
-        @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro
+        @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro?
         @demand_progress_introduction_location = email_experiment.demand_progress_introduction_location
         @ask_to_sign_text = email_experiment.ask_to_sign_text
         @box_location = email_experiment.box_location
