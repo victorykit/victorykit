@@ -120,4 +120,4 @@
               = float_to_percentage p[1][:nps]
 
 - content_for :javascripts do
-  $(document).ready(setInterval(function(){$("#dashboard").contentDocument.location.reload(true);},60000));
+  $(document).ready(setInterval(function(){$('#dashboard').load(window.location.href + ' #dashboard');}, 60000));
