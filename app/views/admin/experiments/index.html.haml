@@ -21,43 +21,47 @@
   - i = 0
   - @stats.each do |test|
     - i += 1
-    .experiment-name
-      = test[:name]
-    .experiment-details
-      (goal: #{test[:goal]}) #{test[:trials]} trials
-    .experiment-trash
-      .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
-        Trash
-
-    .experiment-trash-data{id: "trashinfo#{i}"}
-      - test[:arms].each do |arm|
-        REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
-        REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
-      REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
-
-
-    %table.table.table-striped.table-condensed.experiment-table.sortable{id: "#{test[:name]}"}
-      %thead
-        %tr
-          %th
-          %th % Tried
-          %th.name Variable
-          %th Spins
-          %th Wins
-          %th % Success
-          %th
-      %tbody
+    .experiment
+      .experiment-trash
+        .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
+          Trash
+        .btn{onclick: "$('\#test_#{i}').toggle()"}
+          Hide
+      .experiment-title
+        %span.experiment-name
+          = test[:name]
+        %span.experiment-details
+          (goal: #{test[:goal]}) #{test[:trials]} trials
+  
+      .experiment-trash-data{id: "trashinfo#{i}"}
         - test[:arms].each do |arm|
+          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
+          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
+        REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
+  
+  
+      %table.table.table-striped.table-condensed.experiment-table.sortable{id: "test_#{i}"}
+        %thead
           %tr
-            %td.progress-bar
-              .progress.progress-info
-                .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
-            %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
-            %td.name= arm[:name]
-            %td.spins= arm[:spins]
-            %td.wins= arm[:wins]
-            %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
-            %td.progress-bar
-              .progress.progress-success
-                .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
-
+            %th
+            %th % Tried
+            %th.name Variable
+            %th Spins
+            %th Wins
+            %th % Success
+            %th
+        %tbody
+          - test[:arms].each do |arm|
+            %tr
+              %td.progress-bar
+                .progress.progress-info
+                  .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
+              %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
+              %td.name= arm[:name]
+              %td.spins= arm[:spins]
+              %td.wins= arm[:wins]
+              %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
+              %td.progress-bar
+                .progress.progress-success
+                  .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
+  
