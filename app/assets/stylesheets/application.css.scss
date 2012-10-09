@@ -17,7 +17,6 @@
  *= require_tree .
  */
 
-@import "bootstrap";
 
 html, body {
   height: 100%;
@@ -59,6 +58,13 @@ html, body {
     .secondary { width: 32%; }
     .primary { width: 67%; }
   }
+}
+
+blockquote p {
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  margin-bottom: inherit;
 }
 
 .flash_message {
@@ -236,7 +242,7 @@ th, td .numeric {
   @include button(#CD3333, #CC3232);
 }
 .btn.btn-red5 {
-  @extend .btn-danger;
+  @include button(#bd3c2d, #ea6156);
 }
 .progress_box {
   padding: 15px 20px;
