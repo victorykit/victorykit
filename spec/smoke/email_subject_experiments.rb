@@ -26,7 +26,7 @@ end
 def email_experiment_results_for petition
   as_admin do
     go_to 'admin/experiments?f=petitions'
-    table = element(xpath: "//table[@id = 'petition #{petition.id} email title']")
+    table = element(xpath: "//table[@data-title = 'petition #{petition.id} email title']")
     spins = table.find_element(xpath: "tbody/tr/td[@class='spins']").text.to_i
     wins = table.find_element(xpath: "tbody/tr/td[@class='wins']").text.to_i
     return OpenStruct.new(spins: spins, wins: wins)
