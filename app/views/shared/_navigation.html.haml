@@ -24,9 +24,7 @@
       - if is_admin
         %li= link_to('View all petitions', petitions_url)
         %li= link_to('Manage users', admin_users_url)
-        %li= link_to('Petitions dashboard', admin_petitions_url)
-        %li= link_to('Experiments dashboard', admin_experiments_url)
-        %li= link_to('Statistics dashboard', admin_stats_url)
+        %li= link_to('Dashboard', admin_dashboard_url)
       - if current_user
         %li
           %div Logged in as #{current_user.email}
