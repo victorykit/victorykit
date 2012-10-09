@@ -35,7 +35,7 @@ from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
 bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
 lineWidth=3&\
-height=400&width=800&\
+height=300&width=800&\
 format=svg
 url
 u.strip
