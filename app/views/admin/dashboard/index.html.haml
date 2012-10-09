@@ -8,10 +8,9 @@
     |
     = link_to("statistics", "stats")
 
-    - nsum = nps_summary
-    - nps24h = nsum[:nps24h]
-    - nps7d = nsum[:nps7d]
-    - threshold_map = {nil => "red", 0.35 => "orange", 0.5 => "green"}
+    - nps24h = nps_summary[:nps24h]
+    - nps7d = nps_summary[:nps7d]
+    - threshold_map = {nil => "red", nps_thresholds["warm"] => "orange", nps_thresholds["hot"] => "green"}
     - color7d = map_to_threshold(nps7d, threshold_map)
     - color24h = map_to_threshold(nps24h, threshold_map)
     %table.table.table-condensed.bordered-table.table-striped
