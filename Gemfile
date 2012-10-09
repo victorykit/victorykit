@@ -44,6 +44,7 @@ group :test, :development do
   gem 'debugger'
   gem 'shoulda-matchers'
   gem 'nokogiri'
+  gem 'geocoder'
 end
 
 gem 'haml'
@@ -55,15 +56,6 @@ gem 'browser'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'ruby-debug19', :require => 'ruby-debug'
-#
 
 gem 'newrelic_rpm'
 gem 'newrelic-redis'
@@ -91,12 +83,11 @@ gem 'rinku', :require => 'rails_rinku'
 gem 'flot-rails'
 gem 'truncate_html'
 gem 'airbrake'
-gem 'fb_graph'
 gem 'facebook_share_widget', github: 'mkurutin/facebook_share_widget_rails'
 gem 'memoist', github: 'matthewrudy/memoist'
 gem 'resque'
 gem 'premailer'
 gem 'whiplash', github: 'victorykit/whiplash'
-gem 'geocoder'
 gem 'carmen'
 gem 'statsd-ruby', require: 'statsd'
+gem 'bumbler'
