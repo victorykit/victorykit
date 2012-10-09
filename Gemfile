@@ -43,6 +43,7 @@ group :test, :development do
   gem 'capybara-webkit'
   gem 'debugger'
   gem 'shoulda-matchers'
+  gem 'nokogiri'
 end
 
 gem 'haml'
@@ -88,7 +89,6 @@ gem 'dkim'
 gem 'sanitize'
 gem 'rinku', :require => 'rails_rinku'
 gem 'flot-rails'
-gem 'nokogiri'
 gem 'truncate_html'
 gem 'airbrake'
 gem 'fb_graph'
