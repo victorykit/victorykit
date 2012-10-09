@@ -300,6 +300,7 @@ describe PetitionsController do
         response.should render_template("new")
       end
     end
+  end
 
   describe "PUT update" do
     let(:petition) { create(:petition) }
