@@ -64,7 +64,6 @@ module PetitionsHelper
   end
 
   def after_share_view
-    return 'thanks_for_signing' if browser.ie?
     spin! 'after share view 4', :share, [
        "button_is_most_effective_tool-progress_bar",
        "tell_two_friends-progress_bar",
