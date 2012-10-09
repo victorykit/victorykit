@@ -29,8 +29,8 @@ u = <<-url
 http://graphite.watchdog.net/render?\
 target=alias(movingAverage(stats.gauges.victorykit.nps,1440),"moving average (daily)")&\
 target=alias(movingAverage(stats.gauges.victorykit.nps,60), "moving average (hourly)")&\
-target=lineWidth(threshold(0.5, "hot"), 2)&\
-target=lineWidth(threshold(0.35, "warm"), 1)&\
+target=lineWidth(threshold(0.05, "hot"), 2)&\
+target=lineWidth(threshold(0.035, "warm"), 1)&\
 from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
 bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
