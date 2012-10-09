@@ -40,7 +40,7 @@
         REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
   
   
-      %table.table.table-striped.table-condensed.experiment-table.sortable{id: "test_#{i}"}
+      %table.table.table-striped.table-condensed.experiment-table.sortable{"id" => "test_#{i}", "data-title" => "#{test[:name]}" }
         %thead
           %tr
             %th

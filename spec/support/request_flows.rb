@@ -119,7 +119,7 @@ def experiment_results_for test_name, filter=nil
   url << "?f=#{filter}" if filter
   visit url
 
-  selector = "table[id='#{test_name}']"
+  selector = "table[data-title='#{test_name}']"
 
   all("#{selector} tbody tr").inject({}) do |out, e|
     out.merge e.find("td.name").text => {
