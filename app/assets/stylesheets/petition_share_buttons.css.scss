@@ -1,0 +1,87 @@
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+
+  .btn.share_blue_tall_f {
+    height: 63px;
+    width: 180px;
+    border: none;
+    background: url("share_blue_tall_f.png");
+    &:hover {
+      background: url("share_blue_tall_f_hover.png");
+    }
+  }
+
+  .btn.share_blue_tall_no_f, .btn.share_red_tall_no_f {
+    height: 63px;
+    width: 147px;
+    &.share_blue_tall_no_f {
+      background: url("share_blue_tall_no_f.png");
+      &:hover {
+        background: url("share_blue_tall_no_f_hover.png");
+      }
+    }
+    &.share_red_tall_no_f {
+      background: url("share_red_tall_no_f.png");
+      &:hover {
+        background: url("share_red_tall_no_f_hover.png");
+      }
+    }
+  }
+
+  .btn.share_blue_wide_no_f {
+    height: 70px;
+    width: 223px;
+    border: none;
+    background: url("share_blue_wide_no_f.png");
+    &:hover {
+      background: url("share_blue_wide_no_f_hover.png");
+    }
+  }
+
+  .btn.share_blue_wide_f, .btn.share_red_wide_f {
+    height: 70px;
+    width: 250px;
+    &.share_blue_wide_f {
+      background: url("share_blue_wide_f.png");
+      &:hover {
+        background: url("share_blue_wide_f_hover.png");
+      }
+    }
+    &.share_red_wide_f {
+      background: url("share_red_wide_f.png");
+      &:hover {
+        background: url("share_red_wide_f_hover.png");
+      }
+    }
+  }
+
+  .btn.share_blue_texture_f {
+    height: 67px;
+    width: 177px;
+    border: none;
+    background: url("share_blue_texture_f.png");
+    &:hover {
+      background: url("share_blue_texture_f_hover.png");
+    }
+  }
+
+  .btn.share_blue_texture_no_f {
+    height: 67px;
+    width: 180px;
+    border: none;
+    background: url("share_blue_texture_no_f.png");
+    &:hover {
+      background: url("share_blue_texture_no_f_hover.png");
+    }
+  }
+
+  .btn.share_red_texture_f {
+    height: 51px;
+    width: 177px;
+    border: none;
+    background: url("share_red_texture_f.png");
+    &:hover {
+      background: url("share_red_texture_f_hover.png");
+    }
+  }
+
+}
