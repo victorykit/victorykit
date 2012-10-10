@@ -3,7 +3,8 @@ class Admin::DashboardController < ApplicationController
   before_filter :require_admin
   newrelic_ignore
 
-  helper_method :heartbeat, :nps_summary, :nps_chart_url, :ups_chart_url, :petition_extremes,
+  helper_method :heartbeat, :nps_summary, :petition_extremes,
+    :nps_chart_url, :emails_sent_chart_url, :unsubscribes_chart_url, :facebook_referrals_chart_url,
     :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
@@ -42,8 +43,16 @@ class Admin::DashboardController < ApplicationController
     strip_chart_url timeframe.value, "stats.gauges.victorykit.nps"
   end
 
-  def ups_chart_url
-    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps"
+  def emails_sent_chart_url
+    strip_chart_url timeframe.value, "stats_counts.victorykit.emails_sent.count"
+  end
+
+  def unsubscribes_chart_url
+    strip_chart_url timeframe.value, "stats_counts.victorykit.unsubscribes.count"
+  end
+
+  def facebook_referrals_chart_url
+    strip_chart_url timeframe.value, "stats_counts.victorykit.facebook_referrals.count"
   end
 
   def strip_chart_url timeframe, gauge
