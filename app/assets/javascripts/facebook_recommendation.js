@@ -53,21 +53,20 @@ function postOnFriendsTimeline() {
   var url = [domain, '?recommend_ref=', memberHash].join('');
   var message = $('#message-to-friends').val();
 
-  function friendUids() {
-    var uids = [];
-    $('#suggested input[type="checkbox"]').each(function(index, item) {
-      if($(item).attr('checked')) {
-        uids.push($(item).val());
-      }
+  var friends = (function() {
+    return $('#suggested input[type="checkbox"]').filter(function(i) {
+      return $(this).attr('checked');
+    }).map(function() {
+      return $(this).val();
     });
-    return uids;
-  }
+  })().toArray().concat(['me']);
 
-  $(friendUids().concat(['me'])).each(function(index, uid) {
+  (function send(i) {
+    if(!(uid = friends[i])) { return; } 
     FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(res){
-      console.log('RESPONSE!', uid, res);
+      send(i+1);
     });
-  });
+  })(0);
 
   $('#facebookFriendsModal').modal('toggle');
 }
