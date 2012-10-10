@@ -143,7 +143,7 @@ function submitAppRequest() {
       if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
       setupSocialTrackingControllerRequest('recommend');
      }
-  }, {scope: 'publish_actions, manage_notifications, publish_stream'});
+  }, {scope: 'publish_actions, publish_stream'});
 }
 
 function bindFacebookRecommendationButton() {
