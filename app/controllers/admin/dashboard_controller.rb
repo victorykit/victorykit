@@ -3,7 +3,7 @@ class Admin::DashboardController < ApplicationController
   before_filter :require_admin
   newrelic_ignore
 
-  helper_method :heartbeat, :nps_summary, :nps_chart_url, :petition_extremes,
+  helper_method :heartbeat, :nps_summary, :nps_chart_url, :ups_chart_url, :petition_extremes,
     :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
@@ -24,26 +24,41 @@ class Admin::DashboardController < ApplicationController
   end
 
   def nps_summary
-    @nps_summary ||=
+    @nps_summary ||= fetch_nps_summary
+  end
+
+  def fetch_nps_summary
+    nps24h = Metrics::Nps.new.aggregate(1.day.ago)
+    nps7d = Metrics::Nps.new.aggregate(1.week.ago)
     {
-      nps24h: Metrics::Nps.new.aggregate(1.day.ago)[:nps],
-      nps7d: Metrics::Nps.new.aggregate(1.week.ago)[:nps]
+      nps24h: nps24h[:nps],
+      nps7d: nps7d[:nps],
+      ups24h: nps24h[:ups],
+      ups7d: nps7d[:ups]
     }
   end
 
   def nps_chart_url
-    from = "1#{timeframe.value}"
+    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps"
+  end
+
+  def ups_chart_url
+    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps"
+  end
+
+  def strip_chart_url timeframe, gauge
+    from = "1#{timeframe}"
 u = <<-url
 http://graphite.watchdog.net/render?\
-target=alias(movingAverage(stats.gauges.victorykit.nps,1440),"moving average (daily)")&\
-target=alias(movingAverage(stats.gauges.victorykit.nps,60), "moving average (hourly)")&\
-target=lineWidth(threshold(#{nps_thresholds["hot"]}, "hot"), 2)&\
-target=lineWidth(threshold(#{nps_thresholds["warm"]}, "warm"), 1)&\
+target=color(lineWidth(threshold(0), 1), '7E2217')&\
+target=color(lineWidth(threshold(#{nps_thresholds["warm"]}), 1), 'grey')&\
+target=color(lineWidth(threshold(#{nps_thresholds["hot"]}), 1), '66CC66')&\
+target=color(lineWidth(movingAverage(#{gauge},90), 2), 'blue')&\
 from=-#{from}&\
 fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
-bgcolor=white&fgcolor=black&colorList=darkgray,red,green,orange&\
-lineWidth=3&\
-height=300&width=800&\
+bgcolor=white&fgcolor=black&\
+graphOnly=true&\
+height=50&width=600&\
 format=svg
 url
 u.strip

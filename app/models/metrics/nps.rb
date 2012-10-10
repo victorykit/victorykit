@@ -33,7 +33,8 @@ class Metrics::Nps
     subscribes = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
     unsubscribes  = Unsubscribe.where("created_at > ?", since).count
     nps = calculate sent, subscribes, unsubscribes
-    {sent: sent, subscribes: subscribes, unsubscribes: unsubscribes, nps: nps}
+    ups = calculate_unsubscribe_rate sent, unsubscribes
+    {sent: sent, subscribes: subscribes, unsubscribes: unsubscribes, ups: ups, nps: nps}
   end
 
   private
@@ -52,6 +53,11 @@ class Metrics::Nps
   def calculate sent, subscribes, unsubscribes
     sent = sent.nonzero? || 1
     nps = (subscribes - unsubscribes).to_f / sent.to_f
+  end
+
+  def calculate_unsubscribe_rate sent, unsubscribes
+    sent = sent.nonzero? || 1
+    unsubscribes.to_f / sent.to_f
   end
 
   def as_id p
