@@ -6,7 +6,6 @@ describe "petitions/show.html.haml" do
   let(:signature) { create(:signature) }
   let(:user) { create(:user) }
   let(:member) { create(:member) }
-  let(:signer_code) { create(:referral_code, member: member, petition: petition) }
   
   before do
     view.stub(:current_user) { user }
@@ -15,7 +14,6 @@ describe "petitions/show.html.haml" do
 
     assign :petition, petition
     assign :signature, signature
-    assign :signer_code, signer_code
     assign :sigcount, 1
 
     view.stub(:spin!) { false }

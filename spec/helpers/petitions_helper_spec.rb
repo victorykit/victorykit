@@ -7,7 +7,7 @@ describe PetitionsHelper do
   describe '#open_graph_for' do
     let(:petition) { create(:petition) }
     let(:member) { create(:member) }
-    let(:signer_code) { create(:referral_code, member: member, petition: petition) }
+    let(:hash) { member.to_hash.to_s }
     let(:config) {{
       facebook: {
         site_name: 'My Super Petitions',
@@ -20,7 +20,7 @@ describe PetitionsHelper do
       helper.stub!(:social_media_config).and_return config
     end
 
-    subject { helper.open_graph_for(petition, signer_code) }
+    subject { helper.open_graph_for(petition, hash) }
     it { should include('og:type' => 'watchdognet:petition') }
     it { should include('og:title' => petition.title) }
     it { should include('og:description' => strip_tags(petition.description)) }
@@ -34,11 +34,21 @@ describe PetitionsHelper do
   describe '#open_graph_for where alternate title exists' do
     let(:petition) { create(:petition) }
     let(:member) { create(:member) }
-    let(:signer_code) { create(:referral_code, member: member, petition: petition) }
+    let(:hash) { member.to_hash.to_s}
     let(:alt_title) { create(:petition_title, petition: petition, title_type: PetitionTitle::TitleType::FACEBOOK)}
 
+    context "member hash is nil" do
+      subject { helper.open_graph_for(petition, nil) }
+      it { should include('og:title' => petition.title)}
+    end
+
+    context "member hash does not resolve" do
+      subject { helper.open_graph_for(petition, "junk or no longer valid") }
+      it { should include('og:title' => petition.title)}
+    end
+
     context "member hash is valid" do
-      subject { helper.open_graph_for(petition, signer_code) }
+      subject { helper.open_graph_for(petition, hash) }
       it { should include('og:title' => alt_title.title)}
     end
   end
