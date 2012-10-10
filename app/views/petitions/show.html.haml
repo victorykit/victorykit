@@ -30,7 +30,6 @@
               = f.input :email
               = hidden_field_tag :referer_ref_code, @referer_ref_code
               = hidden_field_tag :referer_ref_type, @referer_ref_type
-              = hidden_field_tag :signer_ref_code, @signer_code.code
               #hint.alert.alert-error
               - if sign_petition_option == 'sign_and_share'
                 = f.button :submit, :id => 'sign_petition_and_share', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign and Share'
@@ -93,7 +92,7 @@
           = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
 
   - content_for(:meta_tags) do
-    - open_graph_for(@petition, @referer_code || @signer_code).each do |key, value|
+    - open_graph_for(@petition, @referer_ref_code || @member.try(:to_hash)).each do |key, value|
       = tag 'meta', property:key, content:value.to_s
 
   = hidden_field_tag 'petitionId', @petition.id

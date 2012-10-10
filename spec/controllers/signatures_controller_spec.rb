@@ -18,11 +18,9 @@ describe SignaturesController do
     end
 
     context 'when the user supplies both a name and an email' do
-      let(:code) { "some_code" }
-
       before do 
         ActionMailer::Base.deliveries = []
-        sign_petition signer_ref_code: code
+        sign_petition
       end
 
       after do 
@@ -47,7 +45,8 @@ describe SignaturesController do
       end
 
       it 'should redirect to the petition page' do
-        should redirect_to petition_url(petition, l: code)
+        hash = Signature.last.member.to_hash
+        should redirect_to petition_url(petition, l: hash)
       end
 
       it 'should create a member record' do

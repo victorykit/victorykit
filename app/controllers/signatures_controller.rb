@@ -8,17 +8,14 @@ class SignaturesController < ApplicationController
     signature.member = Member.find_or_initialize_by_email(email: signature.email, first_name: signature.first_name, last_name: signature.last_name)
     signature.created_member = signature.member.new_record?
     signature.http_referer = retrieve_http_referer
-    ref_code = ReferralCode.where(code: params[:signer_ref_code]).first || ReferralCode.new(code: params[:signer_ref_code])
 
+    member_hash = nil
     if signature.valid?
       begin
         petition.signatures.push signature
         petition.save!
         signature.track_referrals(params)
         signature.save!
-        ref_code.member_id = signature.member.id
-        ref_code.petition_id = petition.id
-        ref_code.save!
 
         begin
           Resque.enqueue(SignedPetitionEmailJob, signature.id)
@@ -29,8 +26,8 @@ class SignaturesController < ApplicationController
 
         nps_win signature
         win! :signature
-        cookies[:member_id] = { :value => signature.member.to_hash, :expires => 100.years.from_now }
-
+        member_hash = signature.member.to_hash
+        cookies[:member_id] = { :value => member_hash, :expires => 100.years.from_now }
         flash[:signature_id] = signature.id
       rescue => ex
         Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
@@ -41,14 +38,14 @@ class SignaturesController < ApplicationController
     respond_to do |format|
       format.json { 
         if signature.valid?
-          render json: { signature_id: signature.id, url: petition_url(petition, l: ref_code.code), member: signature.member.attributes.slice(:first_name, :last_name, :email) }
+          render json: { signature_id: signature.id, url: petition_url(petition, l: member_hash), member: signature.member.attributes.slice(:first_name, :last_name, :email) } 
         else
           render json: signature.errors, status: 400
         end
       }
       format.html { 
         flash[:invalid_signature] = signature unless signature.valid?
-        redirect_to petition_url(petition, l: signature.valid? ? ref_code.code : nil)
+        redirect_to petition_url(petition, l: member_hash) 
       }
     end
   end

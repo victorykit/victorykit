@@ -4,12 +4,11 @@ describe 'facebook experiments' do
   context 'image on opengraph metadata', js: true, driver: :webkit do
     let(:member) { create :member }
     let(:image ) { 'http://wow.com/image.png' }
-    let(:petition) { create_petition(images: [image]) }
-    let(:code)   { create :referral_code, petition: petition, member: member }
 
     it 'should use the petition`s image if available' do
       login user.email, user.password do
-        visit petition_path(petition, r: code.code)
+        petition = create_petition(images: [image])
+        visit petition_path(petition, { r: member.to_hash })
         opengraph_image.should eq image
       end
     end

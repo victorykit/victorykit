@@ -24,14 +24,6 @@ class PetitionsController < ApplicationController
     @member = member_from_cookies || member_from_email
     @was_signed = member_from_cookies.present? && member_from_cookies.has_signed?(@petition)
 
-    @referer_code = ReferralCode.where(code: @referer_ref_code).first
-
-    @signer_code = if @member.present?
-      @member.referral_codes.where(petition_id: @petition.id).first || @member.referral_codes.build(petition_id: @petition.id)
-    else
-      ReferralCode.new(petition_id: @petition.id)
-    end
-
     @signature = flash[:invalid_signature] || @petition.signatures.build
     @signature.prepopulate(@member) if @member.present? && !@member.has_signed?(@petition)
 
