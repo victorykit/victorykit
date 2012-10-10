@@ -61,6 +61,15 @@ describe SignaturesController do
 
     context 'when the user comes from' do
       let(:member) { create(:member, first_name: 'recomender', last_name: 'smith', email: 'recomender@recomend.com') }
+      let(:type) { nil }
+      let(:ref_code) { member.to_hash }
+      let(:params) { { referer_ref_type: type, referer_ref_code: ref_code } }
+
+      INVERTED_REF_TYPES = SignatureReferral::ALL_REF_TYPES.inject({}) { |h, (k, v)| h.merge! v => k }
+
+      def param_for(reference_type)
+        INVERTED_REF_TYPES[reference_type]
+      end
 
       shared_examples 'the event is tracked' do
         before { create :referral_code, code: member.to_hash, member: member, petition: petition }
@@ -83,7 +92,6 @@ describe SignaturesController do
         end
 
         context 'like post' do
-          let(:params) { { fb_like_hash: member.to_hash } }
           let(:type) { Signature::ReferenceType::FACEBOOK_LIKE }
           let(:option) { 'facebook_like' }
 
@@ -92,7 +100,6 @@ describe SignaturesController do
         end
 
         context 'shared link' do
-          let(:params) { { fb_share_link_ref: member.to_hash } }
           let(:type) { Signature::ReferenceType::FACEBOOK_POPUP }
           let(:option) { 'facebook_popup' }
 
@@ -101,7 +108,6 @@ describe SignaturesController do
         end
 
         context 'dialog request link' do
-          let(:params) { { fb_dialog_request: member.to_hash } }
           let(:type) { Signature::ReferenceType::FACEBOOK_REQUEST }
 
           it_behaves_like 'the event is tracked'
@@ -109,7 +115,7 @@ describe SignaturesController do
 
         context 'posted action' do
           let(:fb_action) { create :share, :member => member, :action_id => 'abcd1234' }
-          let(:params) { { fb_action_id: fb_action.action_id } }
+          let(:ref_code) { fb_action.action_id }
           let(:type) { Signature::ReferenceType::FACEBOOK_SHARE }
           let(:option) { 'facebook_share' }
 
@@ -118,7 +124,6 @@ describe SignaturesController do
         end
 
         context 'recommendation' do
-          let(:params) { { fb_recommendation_ref: member.to_hash } }
           let(:type) { Signature::ReferenceType::FACEBOOK_RECOMMENDATION }
           let(:option) { 'facebook_recommendation' }
 
@@ -128,21 +133,18 @@ describe SignaturesController do
       end
 
       context 'a forwarded notification' do
-        let(:params) { { forwarded_notification_hash: member.to_hash } }
         let(:type) { Signature::ReferenceType::FORWARDED_NOTIFICATION }
 
         it_behaves_like 'the event is tracked'
       end
 
       context 'a shared link' do
-        let(:params) { { shared_link_hash: member.to_hash } }
         let(:type) { Signature::ReferenceType::SHARED_LINK }
 
         it_behaves_like 'the event is tracked'
       end
 
       context 'a tweeted link' do
-        let(:params) { { twitter_hash: member.to_hash } } 
         let(:type) { Signature::ReferenceType::TWITTER }
 
         it_behaves_like 'the event is tracked'
@@ -150,7 +152,7 @@ describe SignaturesController do
 
       context 'an emailed link' do
         let(:email) { create :sent_email }
-        let(:params) { { email_hash: email.to_hash } }
+        let(:ref_code) { email.to_hash }
         let(:type) { Signature::ReferenceType::EMAIL }
 
         it 'should record win for email experiments' do
@@ -182,6 +184,7 @@ describe SignaturesController do
     context 'with social tracking parameters' do
       let(:member) { create :member }
       let(:code)   { create :referral_code, member: member, petition: petition }
+      let(:params) { { referer_ref_type: Signature::ReferenceType::FACEBOOK_REQUEST, referer_ref_code: ref_code } }
 
       shared_examples 'the social media trial wins' do
         specify do
@@ -199,12 +202,12 @@ describe SignaturesController do
       }
 
       context 'with an old tracking parameter' do
-        let(:params) { { fb_dialog_request: member.to_hash } }
+        let(:ref_code) { member.to_hash }
         it_behaves_like 'the social media trial wins'
       end
 
       context 'with a new arbitrarily-generated tracking parameter' do
-        let(:params) { { fb_dialog_request: code.code } }
+        let(:ref_code) { code.code }
         it_behaves_like 'the social media trial wins'
       end
     end
