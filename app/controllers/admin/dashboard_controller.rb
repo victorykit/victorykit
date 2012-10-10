@@ -40,31 +40,35 @@ class Admin::DashboardController < ApplicationController
   end
 
   def nps_chart_url
-    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps"
-  end
-
-  def emails_sent_chart_url
-    strip_chart_url timeframe.value, "stats_counts.victorykit.emails_sent.count"
-  end
-
-  def unsubscribes_chart_url
-    strip_chart_url timeframe.value, "stats_counts.victorykit.unsubscribes.count"
+    thresholds = [
+      ThresholdLine.hot(nps_thresholds["hot"]),
+      ThresholdLine.mid(nps_thresholds["warm"]),
+      ThresholdLine.crisis(0)]
+    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps", 90, thresholds
   end
 
   def facebook_referrals_chart_url
-    strip_chart_url timeframe.value, "stats_counts.victorykit.facebook_referrals.count"
+    thresholds = [ThresholdLine.hot(0.10), ThresholdLine.crisis(0.03)]
+    strip_chart_url timeframe.value, "stats_counts.victorykit.facebook_referrals.count", 90, thresholds
   end
 
-  def strip_chart_url timeframe, gauge
+  def unsubscribes_chart_url
+    thresholds = [ThresholdLine.crisis(0.03), ThresholdLine.hot(0)]
+    strip_chart_url timeframe.value, "stats_counts.victorykit.unsubscribes.count", 60, thresholds
+  end
+
+  def emails_sent_chart_url
+    thresholds = [ThresholdLine.crisis(2), ThresholdLine.hot(2.75)]
+    strip_chart_url timeframe.value, "stats_counts.victorykit.emails_sent.count", 10, thresholds
+  end
+
+  def strip_chart_url timeframe, gauge, averaging_window, thresholds=[]
     from = "1#{timeframe}"
 u = <<-url
 http://graphite.watchdog.net/render?\
-target=color(lineWidth(threshold(0), 1), '7E2217')&\
-target=color(lineWidth(threshold(#{nps_thresholds["warm"]}), 1), 'grey')&\
-target=color(lineWidth(threshold(#{nps_thresholds["hot"]}), 1), '66CC66')&\
-target=color(lineWidth(movingAverage(#{gauge},90), 2), 'blue')&\
+#{thresholds.join('&')}&\
+target=color(lineWidth(movingAverage(#{gauge},#{averaging_window}), 2), 'blue')&\
 from=-#{from}&\
-fontName=Helvetica&fontSize=12&title=New%20members%20per%20email%20sent&\
 bgcolor=white&fgcolor=black&\
 graphOnly=true&\
 height=50&width=600&\
@@ -156,4 +160,24 @@ u.strip
     end
 
   end
+
+  class ThresholdLine
+
+    def self.hot value
+      threshold_line value, '66CC66'
+    end
+
+    def self.mid value
+      threshold_line value, 'grey'
+    end
+
+    def self.crisis value
+      threshold_line value, '7E2217'
+    end
+
+    def self.threshold_line value, color
+      "target=color(lineWidth(threshold(#{value}), 1), '#{color}')"
+    end
+  end
+
 end
