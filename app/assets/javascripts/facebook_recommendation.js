@@ -54,7 +54,7 @@ function postOnFriendsTimeline() {
   var message = $('#message-to-friends').val();
 
   var friends = (function() {
-    return $('#suggested input[type="checkbox"]').filter(function(i) {
+    return $('.friend_lists input[type="checkbox"]').filter(function(i) {
       return $(this).attr('checked');
     }).map(function() {
       return $(this).val();
