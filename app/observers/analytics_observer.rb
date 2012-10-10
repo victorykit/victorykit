@@ -1,5 +1,5 @@
 class AnalyticsObserver < ActiveRecord::Observer
-  observe :signature, :unsubscribe, :sent_email
+  observe :signature, :unsubscribe, :sent_email, :facebook_action
 
   def after_create(record)
     stat_name = case record
@@ -9,6 +9,8 @@ class AnalyticsObserver < ActiveRecord::Observer
       "unsubscribes.count"
     when SentEmail
       "emails_sent.count"
+    when FacebookAction
+      "facebook_action.count"
     end
 
     $statsd.increment stat_name

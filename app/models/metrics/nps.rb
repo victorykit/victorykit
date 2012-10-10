@@ -32,16 +32,15 @@ class Metrics::Nps
     sent = SentEmail.where("created_at > ?", since).count
     subscribes = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
     unsubscribes  = Unsubscribe.where("created_at > ?", since).count
-    nps = calculate sent, subscribes, unsubscribes
-    ups = calculate_unsubscribe_rate sent, unsubscribes
-    {sent: sent, subscribes: subscribes, unsubscribes: unsubscribes, ups: ups, nps: nps}
+    rates = calculate_rates sent, subscribes, unsubscribes
+    {sent: sent, subscribes: subscribes, unsubscribes: unsubscribes}.merge rates
   end
 
   private
 
   def assemble petition_id, sent, subscribes, unsubscribes
-    nps = calculate sent, subscribes, unsubscribes
-    {petition_id: petition_id, sent: sent, subscribes: subscribes, unsubscribes: unsubscribes, nps: nps}
+    rates = calculate_rates(sent, subscribes, unsubscribes)
+    {petition_id: petition_id, sent: sent, subscribes: subscribes, unsubscribes: unsubscribes}.merge rates
   end
 
   def assemble_multiple petitions, sent, subscribes, unsubscribes
@@ -50,14 +49,12 @@ class Metrics::Nps
     petitions.map{ |p| as_id(p) }.map { |id| assemble(id, sent[id], subscribes[id], unsubscribes[id.to_s]) }
   end
 
-  def calculate sent, subscribes, unsubscribes
+  def calculate_rates sent, subscribes, unsubscribes
     sent = sent.nonzero? || 1
-    nps = (subscribes - unsubscribes).to_f / sent.to_f
-  end
-
-  def calculate_unsubscribe_rate sent, unsubscribes
-    sent = sent.nonzero? || 1
-    unsubscribes.to_f / sent.to_f
+    sps = subscribes.to_f / sent.to_f
+    ups = unsubscribes.to_f / sent.to_f
+    nps = sps - ups
+    {sps: sps, ups: ups, nps: nps, }
   end
 
   def as_id p
