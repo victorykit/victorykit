@@ -47,7 +47,7 @@ function buildMultiFriendSelector() {
   });
 }
 
-function postOnFriendsTimeline() {
+function postToMeAndFriends() {
   var domain = location.href.replace(/\?.*/,"");
   var memberHash = $.cookie('member_id');
   var url = [domain, '?recommend_ref=', memberHash].join('');
@@ -91,9 +91,7 @@ function findRecommendedFriends(groups) {
 
   buildMultiFriendSelector();
   spinner.stop();
-  $('.btn-success').click(function(event){
-    postOnFriendsTimeline();
-  });
+  $('.btn-success').click(postToMeAndFriends);
 }
 
 function queryFacebook(query, groups) {
