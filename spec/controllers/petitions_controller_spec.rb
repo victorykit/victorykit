@@ -41,16 +41,6 @@ describe PetitionsController do
       assigns(:email_hash).should == "some_hash"
     end
 
-    it "should assign fb_like_hash variable" do
-      get :show, {:id => petition.id, f: "some_fb_like_hash"}
-      assigns(:fb_like_hash).should == "some_fb_like_hash"
-    end
-
-    it "should assign fb_share_link_ref variable" do
-      get :show, {:id => petition.id, share_ref: "some_fb_like_hash"}
-      assigns(:fb_share_link_ref).should == "some_fb_like_hash"
-    end
-
     it "should assign tweetable_url after signing" do
       member = create(:member)
       controller.stub(:cookies => {member_id: member.to_hash})
@@ -119,28 +109,6 @@ describe PetitionsController do
     #     assigns(:signature).email.should == "sven@svenland.se"
     #   end
     # end
-
-    context 'forward notification hash param is present' do
-      let(:member) { create :member }
-
-      it 'should make the refering member available to the view' do
-        forwarded_notification_hash = member.to_hash
-        get :show, {:id => petition.id, :r => forwarded_notification_hash }
-
-        assigns(:forwarded_notification_hash).should == forwarded_notification_hash
-      end
-    end
-
-    context 'shared link hash param is present' do
-      let(:member) { create :member }
-
-      it 'should make the refering member available to the view' do
-        shared_link_hash = member.to_hash
-        get :show, {:id => petition.id, :l => shared_link_hash }
-
-        assigns(:shared_link_hash).should == shared_link_hash
-      end
-    end
 
     context "no member cookies" do
       let(:member_sven) { create :member, first_name: "Sven", email: "sven@svenland.se" }

@@ -1,37 +1,36 @@
 class SignatureReferral
 
   REF_TYPES = {
-    email_hash: Signature::ReferenceType::EMAIL,
-    forwarded_notification_hash: Signature::ReferenceType::FORWARDED_NOTIFICATION,
-    shared_link_hash: Signature::ReferenceType::SHARED_LINK,
-    twitter_hash: Signature::ReferenceType::TWITTER
+    n:             Signature::ReferenceType::EMAIL,
+    r:             Signature::ReferenceType::FORWARDED_NOTIFICATION,
+    l:             Signature::ReferenceType::SHARED_LINK,
+    t:             Signature::ReferenceType::TWITTER
   }.with_indifferent_access
 
   FACEBOOK_REF_TYPES = {
-    fb_action_id: Signature::ReferenceType::FACEBOOK_SHARE,
-    fb_like_hash: Signature::ReferenceType::FACEBOOK_LIKE,
-    fb_share_link_ref: Signature::ReferenceType::FACEBOOK_POPUP, 
-    fb_dialog_request: Signature::ReferenceType::FACEBOOK_REQUEST, 
-    fb_autofill_request: Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
-    fb_recommendation_ref: Signature::ReferenceType::FACEBOOK_RECOMMENDATION
+    f:             Signature::ReferenceType::FACEBOOK_LIKE,
+    share_ref:     Signature::ReferenceType::FACEBOOK_POPUP,
+    d:             Signature::ReferenceType::FACEBOOK_REQUEST,
+    autofill:      Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
+    recommend_ref: Signature::ReferenceType::FACEBOOK_RECOMMENDATION,
+    fb_action_ids: Signature::ReferenceType::FACEBOOK_SHARE
   }.with_indifferent_access
 
   ALL_REF_TYPES = REF_TYPES.merge(FACEBOOK_REF_TYPES)
 
-  attr_reader :petition, :signature, :params, :param_name, :reference_type, :received_code, :referral_type, :referring_url
+  attr_reader :petition, :signature, :params, :reference_type, :received_code, :referral_type, :referring_url
 
   def initialize(petition, signature, params = {})
     @petition       = petition
     @signature      = signature
     @referring_url  = params[:referring_url]
-    @param_name     = ( params.keys & ALL_REF_TYPES.keys ).first.try(:to_sym)
-    @received_code  = params[@param_name]
-    @reference_type = ALL_REF_TYPES[@param_name]
-    @referral_type  = trackable? && ( REF_TYPES.has_key?(@param_name) ? :regular : :facebook )
+    @received_code  = params[:referer_ref_code]
+    @reference_type = params[:referer_ref_type]
+    @referral_type  = trackable? && ( REF_TYPES.values.include?(@reference_type) ? :regular : :facebook )
   end
 
   def trackable?
-    @param_name.present? && @received_code.present?
+    @reference_type.present? && @received_code.present?
   end
 
   def referral
@@ -39,10 +38,18 @@ class SignatureReferral
     @referral_type == :regular ? track_regular_referral : track_facebook_referral
   end
 
+  def self.translate_raw_referral(params={})
+    raw_referer_ref_type = ( params.keys & ALL_REF_TYPES.keys ).first.try(:to_sym)
+    ref_type = ALL_REF_TYPES[raw_referer_ref_type]
+    ref_code = params[raw_referer_ref_type]
+
+    return ref_type, ref_code
+  end
+
   private
 
   def track_regular_referral
-    if param_name == :email_hash
+    if reference_type == Signature::ReferenceType::EMAIL
       sent_email = SentEmail.find_by_hash(received_code)
       sent_email.signature ||= signature
       sent_email.save!
@@ -86,7 +93,7 @@ class SignatureReferral
   def track_facebook_referral
     $statsd.increment "facebook_referrals.count"
 
-    code, referring_member = if param_name == :fb_action_id
+    code, referring_member = if reference_type == Signature::ReferenceType::FACEBOOK_SHARE
       code_and_member_for_facebook_share_special_case
     elsif received_code =~ /^(\d+)\.(.*?)$/
       code_and_member_for_legacy_referral_code
