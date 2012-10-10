@@ -10,25 +10,38 @@
 
     - nps24h = nps_summary[:nps24h]
     - nps7d = nps_summary[:nps7d]
-    - threshold_map = {nil => "red", nps_thresholds["warm"] => "orange", nps_thresholds["hot"] => "green"}
-    - color7d = map_to_threshold(nps7d, threshold_map)
-    - color24h = map_to_threshold(nps24h, threshold_map)
+    - nps_threshold_map = {nil => "red", nps_thresholds["warm"] => "orange", nps_thresholds["hot"] => "green"}
+    - nps_color24h = map_to_threshold(nps24h, nps_threshold_map)
+    - nps_color7d = map_to_threshold(nps7d, nps_threshold_map)
+
+    - ups24h = nps_summary[:ups24h]
+    - ups7d = nps_summary[:ups7d]
+    - ups_threshold_map = {nil => "green", 0.005 => "orange", 0.01 => "red"}
+    - ups_color24h = map_to_threshold(ups24h, ups_threshold_map)
+    - ups_color7d = map_to_threshold(ups7d, ups_threshold_map)
     %table.table.table-condensed.bordered-table.table-striped
-      %tr
-        %td
-          %h3 NPS
-        %td{style: "color:#{color7d}"}
-          %h3
-            = float_to_percentage nps7d
-        %td{style: "color:#{color24h}"}
-          %h3
-            = float_to_percentage nps24h
       %tr
         %td
         %td
           7 day
         %td
           24 hr
+      %tr
+        %td
+          %h3 NPS
+        %td{style: "color:#{nps_color7d}"}
+          %h3
+            = float_to_percentage nps7d
+        %td{style: "color:#{nps_color24h}"}
+          %h3
+            = float_to_percentage nps24h
+      %tr
+        %td
+          UPS
+        %td{style: "color:#{ups_color7d}"}
+          = float_to_percentage ups7d
+        %td{style: "color:#{ups_color24h}"}
+          = float_to_percentage ups24h
 
     %table.table.table-condensed.bordered-table.table-striped
       %tr
@@ -58,13 +71,39 @@
           = number_with_delimiter heartbeat[:emailable_member_count]
 
   #main_content{style: "margin-left:275px;padding-left:25px"}
-    #nps_chart
+    #charts
       %span
         = link_to_self_with_param timeframe.key, timeframe.options, " | "
       %br
       = # match frame height to chart height in nps_chart_url
-      %iframe{ src: nps_chart_url, style: "border:none", height: "300px" }
-      %br
+      %table
+        %tr
+          %td
+            NPS
+            %span{style: "font-size:8pt"}
+              %span{style: "color:#7E2217"}
+                &#9608 neg
+              %span{style: "color:grey"}
+                &#9608 slow
+              %span{style: "color:green"}
+                &#9608 viral
+            %br
+            %iframe{ src: nps_chart_url, style: "border:none", height: "50px" }
+        %tr
+          %td
+            Sent
+            %br
+            %iframe{ src: ups_chart_url, style: "border:none", height: "50px" }
+        %tr
+          %td
+            Unsubscribed
+            %br
+            %iframe{ src: ups_chart_url, style: "border:none", height: "50px" }
+        %tr
+          %td
+            Shared
+            %br
+            %iframe{ src: ups_chart_url, style: "border:none", height: "50px" }
 
     #extremes
       %table.table.table-condensed.bordered-table.table-striped
