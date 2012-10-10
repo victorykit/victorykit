@@ -162,7 +162,7 @@ describe PetitionsHelper do
   describe '#after_share_view' do
 
     context 'for a regular browser user' do
-      let(:exp) { 'after share view 4' }
+      let(:exp) { 'after share view 5' }
       let(:goal) { :share }
       let(:options) { [
         "button_is_most_effective_tool-progress_bar",

@@ -64,7 +64,7 @@ module PetitionsHelper
   end
 
   def after_share_view
-    spin! 'after share view 4', :share, [
+    spin! 'after share view 5', :share, [
        "button_is_most_effective_tool-progress_bar",
        "tell_two_friends-progress_bar",
        "most_people_will_share_will_you-progress_bar",
