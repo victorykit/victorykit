@@ -122,10 +122,11 @@
   .larger { font-size: 150%; line-height: 130%; margin-top: -5px;}
   .smaller {font-size: 80%; }
 }
+@media (min-width: 0) and (max-width: 700px) {
+  .signature-form { padding: 10px 0; }
+}
 
-
-
-#thanks-for-signing-message, #thanksModal, .signature-form {
+#thanks-for-signing-message, #thanksModal {
   padding: 10px;
 }
 .signature-form {
@@ -136,17 +137,15 @@
     padding: 15px;
     line-height: 30px;
   }
-
   .privacypolicy {
     color: #ccc;
-    width: 100%;
-    padding: 10px 0;
+    padding: 0 10px 10px;
     clear: both;
   }
   .through_site {
     width: 150px;
     border-right: 1px solid #555;
-    padding: 5px 0;
+    form { padding: 10px; min-height: 160px; margin-bottom: 0; }
     .control-group { *clear: both; *margin-right: 3px; }
     label {
       text-align: left;
@@ -157,7 +156,6 @@
       &.btn { width: 100%; text-align: center; *clear: left; *margin-top: 20px; }
 
       &#sign_petition_and_share, &#sign_petition {
-        float: left;
         clear: none;
       }
 
@@ -199,9 +197,6 @@
     .controls, input {
       width: 100%;
       padding: 5px 0;
-    }
-    .btn {
-      float: right;
     }
   }
 }
@@ -598,19 +593,6 @@
 #content .secondary .sidebar_test{
   background: black;
   color: white;
-  *width: 250px;
-  form {
-    *width: 230px;
-    input {
-      *width: 230px;
-      *clear: both;
-    }
-    .btn.btn-primary {
-      *height: 40px;
-      *padding: 5px;
-      *offset: 0;
-    }
-  }
 }
 .page_content .signature-form {
   .control-label {
@@ -635,7 +617,7 @@
     *float: left;
     @media (min-width: 280px) and (max-width: 1200px) { clear: both; width: 100%; }
   }
-  .privacypolicy { margin: 10px\9; clear: both\9; }
+  .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
   .control-group { *height: 4.5em; *width: 100%; }
 }
 
@@ -825,5 +807,19 @@
     input {
       margin-top: -2px;
     }
+  }
+}
+.privacypolicy {
+  &.inside_ccc, &.outside_ccc {
+    color: #ccc;
+  }
+  &.inside_aaa, &.outside_aaa {
+    color: #aaa;
+  }
+  &.inside_888, &.outside_888 {
+    color: #888;
+  }
+  &.outside_ccc, &.outside_aaa, &.outside_888 {
+    margin-top: 5px;
   }
 }

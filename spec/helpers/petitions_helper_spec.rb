@@ -160,9 +160,6 @@ describe PetitionsHelper do
   end
 
   describe '#after_share_view' do
-    shared_examples 'thanks_for_signing' do
-      specify { helper.after_share_view.should == 'thanks_for_signing' }
-    end
 
     context 'for a regular browser user' do
       let(:exp) { 'after share view 4' }
@@ -192,8 +189,6 @@ describe PetitionsHelper do
         "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
       ]
    }
-
-      before { browser.stub!(:ie?).and_return false }
 
       it 'should spin for an option' do
         helper.should_receive(:spin!).with(exp, goal, options)
