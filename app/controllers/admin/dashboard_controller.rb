@@ -4,7 +4,7 @@ class Admin::DashboardController < ApplicationController
   newrelic_ignore
 
   helper_method :heartbeat, :nps_summary, :petition_extremes,
-    :nps_chart_url, :emails_sent_chart_url, :unsubscribes_chart_url, :facebook_referrals_chart_url,
+    :nps_chart, :emails_sent_chart, :unsubscribes_chart, :facebook_actions_chart, :facebook_referrals_chart,
     :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
@@ -33,36 +33,40 @@ class Admin::DashboardController < ApplicationController
     nps7d = Metrics::Nps.new.aggregate(1.week.ago)
     {
       nps24h: nps24h[:nps],
-      nps7d: nps7d[:nps],
+      sps24h: nps24h[:sps],
       ups24h: nps24h[:ups],
+      nps7d: nps7d[:nps],
+      sps7d: nps7d[:sps],
       ups7d: nps7d[:ups]
     }
   end
 
-  def nps_chart_url
-    thresholds = [
-      ThresholdLine.hot(nps_thresholds["hot"]),
-      ThresholdLine.mid(nps_thresholds["warm"]),
-      ThresholdLine.crisis(0)]
-    strip_chart_url timeframe.value, "stats.gauges.victorykit.nps", 90, thresholds
+  def nps_chart
+    thresholds = [ThresholdLine.excellent(0.05), ThresholdLine.moderate(0.035), ThresholdLine.crisis(0)]
+    strip_chart timeframe.value, "stats.gauges.victorykit.nps", 90, thresholds
   end
 
-  def facebook_referrals_chart_url
-    thresholds = [ThresholdLine.hot(0.10), ThresholdLine.crisis(0.03)]
-    strip_chart_url timeframe.value, "stats_counts.victorykit.facebook_referrals.count", 90, thresholds
+  def facebook_actions_chart
+    thresholds = [ThresholdLine.excellent(0.10), ThresholdLine.crisis(0.03)]
+    strip_chart timeframe.value, "stats_counts.victorykit.facebook_actions.count", 90, thresholds
   end
 
-  def unsubscribes_chart_url
-    thresholds = [ThresholdLine.crisis(0.03), ThresholdLine.hot(0)]
-    strip_chart_url timeframe.value, "stats_counts.victorykit.unsubscribes.count", 60, thresholds
+  def facebook_referrals_chart
+    thresholds = [ThresholdLine.excellent(0.10), ThresholdLine.crisis(0.03)]
+    strip_chart timeframe.value, "stats_counts.victorykit.facebook_referrals.count", 90, thresholds
   end
 
-  def emails_sent_chart_url
-    thresholds = [ThresholdLine.crisis(2), ThresholdLine.hot(2.75)]
-    strip_chart_url timeframe.value, "stats_counts.victorykit.emails_sent.count", 10, thresholds
+  def unsubscribes_chart
+    thresholds = [ThresholdLine.crisis(0.03), ThresholdLine.excellent(0)]
+    strip_chart timeframe.value, "stats_counts.victorykit.unsubscribes.count", 60, thresholds
   end
 
-  def strip_chart_url timeframe, gauge, averaging_window, thresholds=[]
+  def emails_sent_chart
+    thresholds = [ThresholdLine.crisis(2), ThresholdLine.excellent(2.75)]
+    strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 10, thresholds
+  end
+
+  def strip_chart timeframe, gauge, averaging_window, thresholds=[]
     from = "1#{timeframe}"
 u = <<-url
 http://graphite.watchdog.net/render?\
@@ -75,13 +79,6 @@ height=50&width=600&\
 format=svg
 url
 u.strip
-  end
-
-  def nps_thresholds
-    {
-      "warm" => 0.035,
-      "hot" => 0.05
-    }
   end
 
   def timeframe
@@ -163,11 +160,11 @@ u.strip
 
   class ThresholdLine
 
-    def self.hot value
+    def self.excellent value
       threshold_line value, '66CC66'
     end
 
-    def self.mid value
+    def self.moderate value
       threshold_line value, 'grey'
     end
 
