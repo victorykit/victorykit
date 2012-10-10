@@ -98,6 +98,11 @@ module PetitionsHelper
     spin! 'change button brightness for sign button (number goes bright to dull, 0 being brightest)', :signature, ["btn-red0", "btn-red1", "btn-red2", "btn-red3", "btn-red4", "btn-red5", "btn-danger"]
   end
 
+  def privacy_policy_position_and_color
+    return 'inside_aaa' if browser.mobile?
+    spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ["inside_ccc", "inside_aaa", "inside_888", "outside_ccc", "outside_aaa", "outside_888"]
+  end
+
   def progress_option
     spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
   end

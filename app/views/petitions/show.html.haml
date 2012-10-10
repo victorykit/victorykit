@@ -40,10 +40,15 @@
           -#.through_fb
           -#  .text Sign in via
           -#  .button.btn.btn-primary Facebook!
-          .privacypolicy
-            We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+          - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
+            .privacypolicy{ :class => privacy_policy_position_and_color }
+              We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
       #thanks-for-signing-message
         = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
+    - if privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888"
+      .privacypolicy{ :class => privacy_policy_position_and_color }
+        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+
     - if @was_signed
       = button_to 'Does someone else want to sign? Click here.', again_petition_path(@petition, @query), id: 'sign-again', class: 'btn', method: :post
 

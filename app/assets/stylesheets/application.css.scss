@@ -117,9 +117,6 @@ form {
     padding: 4px 10px 0 0;
     text-align: right;
   }
-  input, textarea {
-    float: left;
-  }
   textarea {
     resize: none;
     min-height: 60px;
@@ -136,10 +133,8 @@ form {
 input, textarea, .btn { border-radius: 0; }
 
 .privacypolicy {
-  margin: 10px auto 0;
   color: #888;
   font-size: 11px;
-  padding: 0 20px;
 }
 
 .navigation {
@@ -211,8 +206,8 @@ th, td .numeric {
   background: -o-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Opera 11.10+ */
   background: -ms-linear-gradient(90deg,  $color1 0%,$color2 100%); /* IE10+ */
   background: linear-gradient(90deg,  $color1 0%,$color2 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
-  border: 1px solid $color1;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
+  border: 1px solid #{$color1};
   &:hover {
     background: $color2; /* Old browsers */
     background: -moz-linear-gradient(90deg,  $color1 100%, $color2 0%); /* FF3.6+ */
@@ -221,7 +216,7 @@ th, td .numeric {
     background: -o-linear-gradient(90deg,  $color1 100%,$color2 0%); /* Opera 11.10+ */
     background: -ms-linear-gradient(90deg,  $color1 100%,$color2 0%); /* IE10+ */
     background: linear-gradient(90deg,  $color1 100%,$color2 0%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$color1', endColorstr='$color2',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color1}', endColorstr='#{$color2}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
   }
 }
 
@@ -268,17 +263,17 @@ th, td .numeric {
   background: #fefefe;
   border: 1px solid #ddd;
   .fluid {
-    background: $fluid; /* Old browsers */
+    background: #{$fluid}; /* Old browsers */
     background: -moz-linear-gradient(80deg,  $fluid 0%, $fluid_highlight 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$fluid), color-stop(100%,$fluid_highlight)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* IE10+ */
     background: linear-gradient(80deg,  $fluid 0%,$fluid_highlight 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$fluid', endColorstr='$fluid_highlight',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$fluid_highlight}', endColorstr='#{$fluid}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
     width: 33%;
     height: 92%;
-    border: 1px solid $fluid;
+    border: 1px solid #{$fluid};
     -moz-box-shadow: inset 3px -4px 4px 1px $fluid;
     -webkit-box-shadow: inset 3px -4px 4px 1px $fluid;
     box-shadow: inset 3px -4px 4px 1px $fluid;
