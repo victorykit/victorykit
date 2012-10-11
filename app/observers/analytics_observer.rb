@@ -10,7 +10,7 @@ class AnalyticsObserver < ActiveRecord::Observer
     when SentEmail
       "emails_sent.count"
     when FacebookAction
-      "facebook_action.count"
+      "facebook_actions.count"
     end
 
     $statsd.increment stat_name
