@@ -102,6 +102,10 @@ Greetings VictoryKit team member. When you change this template, please test it 
 <p><font color="#888888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic.</i></font></p>
 <%end%>
 
-<p><a href="<%=@unsubscribe_link%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
+<%if(@show_less_prominent_unsubscribe_link)%>
+  <p style="font-size:50%">This email was sent by watchdog.net. To remove yourself from this list, <a href="<%=@unsubscribe_link%>">click here</a>.</p>
+<%else%>
+  <p><a href="<%=@unsubscribe_link%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
+<%end%>
 
 <img src="<%=@tracking_url%>" />
