@@ -37,7 +37,8 @@ class UnsubscribesController < ApplicationController
 
   def win_for_unsubscribe_email_experiment sent_email_id
     e = EmailExperiment.find_by_sent_email_id_and_goal_and_key(sent_email_id, :unsubscribe, "show less prominent unsubscribe link")
-    win_on_option!("show less prominent unsubscribe link", e.choice == 't' ? true : false) if e.present?
+    # The line below is monkey-patch code, so that the loser (which causes less unsubscribes) gets picked more often
+    win_on_option!("show less prominent unsubscribe link", e.choice == 't' ? false : true) if e.present?
   end
   
 end
