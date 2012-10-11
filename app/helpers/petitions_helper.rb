@@ -1,12 +1,11 @@
 module PetitionsHelper
 
-  def open_graph_for(petition, hash)
-    member = Member.find_by_hash(hash)
+  def open_graph_for(petition, referral_code)
     {
-      'og:title' => petition.experiments.facebook(member).title,
+      'og:title' => referral_code.title,
       'og:type' => 'watchdognet:petition',
       'og:description' => petition.facebook_description_for_sharing.html_safe,
-      'og:image' => petition.experiments.facebook(member).image,
+      'og:image' => referral_code.image,
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
     }
