@@ -1,12 +1,14 @@
 describe 'signatures' do
   let(:petition) { create :petition }
-  let(:hash) { Signature.last.member.to_hash }
+  let(:code) { ReferralCode.last.code }
 
   context 'a user' do
+    let(:member) { create :member }
+
     it 'should sign a petition' do
       sign petition
       page.should have_selector('#petition_page.was_signed')
-      page.current_url.should include "l=#{hash}"
+      page.current_url.should include "l=#{code}"
     end
 
     it 'should provide his info' do
@@ -28,13 +30,14 @@ describe 'signatures' do
       find_field('First name').value.should be_blank
       find_field('Last name').value.should be_blank
       find_field('Email').value.should be_blank
-      page.current_url.should include "l=#{hash}"
+      page.current_url.should include "l=#{code}"
     end
   end
 
   context 'a facebook share' do
+    let(:old_petition) { create :petition }
     let(:member) { create :member }
-    let(:hash) { member.to_hash }
+    let(:code) { create(:referral_code, petition: petition, member: member).code }
     let(:petition_fb_title) { "petition #{petition.id} #{PetitionTitle::TitleType::FACEBOOK} title" }
 
     before {
@@ -46,8 +49,9 @@ describe 'signatures' do
     it 'should register a spin and a win', js: true, driver: :webkit do
       admin_user = create :admin_user
 
-      visit petition_path(petition, r: hash)
+      visit petition_path(petition, r: code)
       sign_at_petition member.first_name, member.last_name, member.email
+      page.should have_selector('#petition_page.was_signed')
 
       share = login(admin_user.email, admin_user.password) { experiment_results_for(petition_fb_title, "petitions") }
       option = share.keys.first
@@ -55,7 +59,7 @@ describe 'signatures' do
 
       reset_session!
       
-      visit petition_path(petition, d: hash)
+      visit petition_path(petition, d: code)
       sign_at_petition 'Herrman', 'Toothrot', 'htoothrot@example.com'
 
       share = login(admin_user.email, admin_user.password) { experiment_results_for(petition_fb_title, "petitions") }
