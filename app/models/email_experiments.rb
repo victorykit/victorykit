@@ -45,6 +45,10 @@ class EmailExperiments
     (spin! "show ps with plain text", :signature, display_options) == "show" || false
   end
 
+  def show_less_prominent_unsubscribe_link
+    spin! "show less prominent unsubscribe link", :unsubscribe
+  end
+
   def hide_demand_progress_intro?
     previously_signed = Signature.where("email = ?", @email.email).present?
     previously_opened_or_clicked_email = SentEmail.where("email = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.email, nil, nil).present?

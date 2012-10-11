@@ -134,6 +134,13 @@ describe EmailExperiments do
     end
   end
 
+  context "show less prominent unsubscribe link" do
+    it "should return true if choice is true" do
+      @experiments.should_receive(:super_spin!).with("show less prominent unsubscribe link", :unsubscribe, [true, false], anything()).and_return(true)
+      @experiments.show_less_prominent_unsubscribe_link.should == true
+    end
+  end
+
 
   context "win" do
     it "should win for all its trials" do
