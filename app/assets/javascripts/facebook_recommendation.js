@@ -72,8 +72,8 @@ function postToMeAndFriends() {
 }
 
 function findRecommendedFriends(groups) {
-  var tier1 = diff(groups.friends_notifying, groups.friends_involved);
-  var friends_not_involved = diff(groups.friends, groups.friends_involved);
+  var tier1 = diff(groups.interacted, groups.sympathetic);
+  var friends_not_involved = diff(groups.friends, groups.sympathetic);
   var tier2 = diff(friends_not_involved, tier1);
   var tier3 = diff(groups.friends, tier1.concat(tier2));
   var suggested = tier1.concat(tier2);
@@ -112,21 +112,18 @@ function getFriendsWithAppInstalled() {
   spinner = createSpinner();
 
   var groups = {
-    friends_notifying: [],
-    friends_involved: [],
+    interacted: [],
+    sympathetic: [],
     friends: []
   };
 
   var query = {
+    "interacted":"select fromid from comment where post_id in "+
+      "(select post_id from stream where source_id = me() limit 200) limit 25",
     "friend_ids":"select uid2 from friend where uid1 = me()",
-    "friends_notifying":"select name, uid from user where uid "+
-      "in (select sender_id from notification where recipient_id = me()) "+
-      "order by profile_update_time desc",
-    "friends_involved":"select name, uid from user where uid in "+
-      "(select user_id from url_like where user_id in (select uid2 from #friend_ids) "+
-      "and strpos(url, 'watchdog.net') > 0) order by profile_update_time desc", 
-    "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) "+
-      "order by profile_update_time desc"
+    "sympathetic":"select user_id from url_like where user_id in "+
+      "(select uid2 from #friend_ids) and strpos(url, 'watchdog.net') > 0", 
+    "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) order by profile_update_time desc"
   };
 
   queryFacebook(query, groups);
@@ -140,7 +137,7 @@ function submitAppRequest() {
       if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
       setupSocialTrackingControllerRequest('recommend');
      }
-  }, {scope: 'publish_actions, publish_stream'});
+  }, {scope: 'publish_actions, read_stream, publish_stream'});
 }
 
 function bindFacebookRecommendationButton() {
