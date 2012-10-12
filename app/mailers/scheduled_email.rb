@@ -43,7 +43,7 @@ class ScheduledEmail < ActionMailer::Base
     @tracking_url = new_pixel_tracking_url
     @image_url = petition.petition_images.any? ? petition.petition_images.first.url : nil
     @ask_to_sign_text = "Please, click here to sign now!"
-    @box_location = 'top'
+    @box_location = email_experiment.box_location
     mail(subject: petition.title, from: Settings.email.from_address, to: "\"#{member.full_name}\" <#{member.email}>", :template_name => 'new_petition').deliver
   end
 
