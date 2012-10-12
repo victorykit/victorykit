@@ -95,20 +95,17 @@ function findRecommendedFriends(groups) {
 }
 
 function queryFacebook(query, groups) {
-  FB.api("/fql?q=" +  encodeURIComponent(JSON.stringify(query)),
-  function(response) {
-      $(response.data).each(function(index, object) {
-        var name = object.name;
-        var resultSet = object.fql_result_set;
-        $(resultSet).each(function(i, friend) {
-          if(!groups[name]) { return; }
-          groups[name].push(friend);
-        });
+  FB.api('/fql?q='+encodeURIComponent(JSON.stringify(query)), function(response) {
+    $(response.data).each(function(index, object) {
+      var name = object.name;
+      var resultSet = object.fql_result_set;
+      $(resultSet).each(function(i, friend) {
+        if(!groups[name]) { return; }
+        groups[name].push(friend);
       });
-
-      findRecommendedFriends(groups);
-    }
-  );
+    });
+    findRecommendedFriends(groups);
+  });
 }
 
 function getFriendsWithAppInstalled() {
