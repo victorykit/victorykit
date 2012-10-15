@@ -64,11 +64,12 @@ class Admin::DashboardController < ApplicationController
 
   def emails_sent_chart
     thresholds = [ThresholdLine.good(3.75), ThresholdLine.bad(2)]
-    strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 30, thresholds
+    avging = { "month" => 120, "week" => 120, "day" => 60, "hour" => 60}[timeframe.value]
+    strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 60, thresholds
   end
 
   def averaging_window
-    { "month" => 120, "week" => 120, "day" => 60, "hour" => 10}[timeframe.value]
+    { "month" => 120, "week" => 120, "day" => 60, "hour" => 60}[timeframe.value]
   end
 
   def series_as_email_rate series
@@ -81,7 +82,7 @@ class Admin::DashboardController < ApplicationController
 u = <<-url
 http://graphite.watchdog.net/render?\
 #{thresholds.join('&')}&\
-target=color(lineWidth(#{target}, 2), 'blue')&\
+target=color(lineWidth(keepLastValue(#{target}), 2), 'blue')&\
 from=-#{from}&\
 bgcolor=white&fgcolor=black&\
 graphOnly=true&\
