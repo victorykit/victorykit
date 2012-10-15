@@ -5,8 +5,12 @@ class SignaturesController < ApplicationController
     signature.ip_address = connecting_ip
     signature.user_agent = browser.user_agent
     signature.browser_name = browser.id.to_s
-    signature.member = Member.find_or_initialize_by_email(email: signature.email, first_name: signature.first_name, last_name: signature.last_name)
+    signature.member = Member.find_or_initialize_by_email(signature.email).tap do |m|
+      m.first_name = signature.first_name
+      m.last_name = signature.last_name
+    end
     signature.created_member = signature.member.new_record?
+    signature.member.save
     signature.http_referer = retrieve_http_referer
     ref_code = ReferralCode.where(code: params[:signer_ref_code]).first || ReferralCode.new(code: params[:signer_ref_code])
 
