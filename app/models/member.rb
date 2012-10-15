@@ -11,7 +11,7 @@ class Member < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
 
-  def self.random_and_not_recently_contacted
+  def self.random_and_not_recently_contacted(n)
     query = <<-SQL
       SELECT members.id
       FROM members 
@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
     end
 
     return nil if receiver_ids.empty?
-    Member.find(receiver_ids.sample['id'])
+    receiver_ids.sample(n).collect{ |x| Member.find(x['id']) }
   end
 
   def full_name

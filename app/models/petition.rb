@@ -22,11 +22,15 @@ class Petition < ActiveRecord::Base
     return false if current_user.nil?
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
+  
+  def self.emailable_petition_ids
+    select('id').where(to_send: true).map(&:id)
+  end
 
   def self.find_interesting_petitions_for(member)
-    signed = Signature.find_all_by_member_id(member).map(&:petition)
-    sent = SentEmail.find_all_by_member_id(member).map(&:petition)
-    (find_all_by_to_send(true) - signed - sent).select { |p| p.cover? member }
+    signed = Signature.find_all_by_member_id(member).map(&:petition_id)
+    sent = SentEmail.find_all_by_member_id(member).map(&:petition_id)
+    find_all_by_id(emailable_petition_ids - signed - sent).select { |p| p.cover? member }
   end
 
   def strip_whitespace
