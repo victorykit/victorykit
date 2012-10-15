@@ -49,26 +49,30 @@ class Admin::DashboardController < ApplicationController
 
   def facebook_actions_chart
     thresholds = [ThresholdLine.good(0.30), ThresholdLine.bad(0.03)]
-    strip_chart timeframe.value, "stats_counts.victorykit.facebook_actions.count", averaging_window, thresholds
+    strip_chart timeframe.value, series_as_email_rate("stats_counts.victorykit.facebook_actions.count"), averaging_window, thresholds
   end
 
   def facebook_referrals_chart
     thresholds = [ThresholdLine.good(0.10), ThresholdLine.bad(0.03)]
-    strip_chart timeframe.value, "stats_counts.victorykit.facebook_referrals.count", averaging_window, thresholds
+    strip_chart timeframe.value, series_as_email_rate("stats_counts.victorykit.facebook_referrals.count"), averaging_window, thresholds
   end
 
   def unsubscribes_chart
-    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.035)]
-    strip_chart timeframe.value, "stats_counts.victorykit.unsubscribes.count", averaging_window, thresholds
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_email_rate("stats_counts.victorykit.unsubscribes.count"), averaging_window, thresholds
   end
 
   def emails_sent_chart
-    thresholds = [ThresholdLine.good(2.75), ThresholdLine.bad(2)]
+    thresholds = [ThresholdLine.good(3.75), ThresholdLine.bad(2)]
     strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 30, thresholds
   end
 
   def averaging_window
     { "month" => 120, "week" => 120, "day" => 60, "hour" => 10}[timeframe.value]
+  end
+
+  def series_as_email_rate series
+    "divideSeries(#{series}, stats_counts.victorykit.emails_sent.count)"
   end
 
   def strip_chart timeframe, gauge, averaging_window, thresholds=[]
