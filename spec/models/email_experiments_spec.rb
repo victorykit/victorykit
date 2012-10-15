@@ -96,15 +96,15 @@ describe EmailExperiments do
         @experiments.hide_demand_progress_intro?.should be_false
       end
       it "should return true if member has previously signed" do
-        create(:signature, :email => @email.email)
+        create(:signature, member_id: @email.member_id)
         @experiments.hide_demand_progress_intro?.should be_true
       end
       it "should return true if member has previously opened email" do
-        create(:sent_email, email: @email.email, opened_at: Time.now)
+        create(:sent_email, member_id: @email.member_id, opened_at: Time.now)
         @experiments.hide_demand_progress_intro?.should be_true
       end
       it "should return true if member has previously clicked email" do
-        create(:sent_email, email: @email.email, clicked_at: Time.now)
+        create(:sent_email, member_id: @email.member_id, clicked_at: Time.now)
         @experiments.hide_demand_progress_intro?.should be_true
       end
     end

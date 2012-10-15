@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20121004214008) do
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
+  add_index "sent_emails", ["member_id"], :name => "sent_emails_member_id_idx"
 
   create_table "signatures", :force => true do |t|
     t.string   "email",          :null => false
