@@ -89,7 +89,20 @@ module PetitionsHelper
   end
 
   def sign_button_color
-    spin! 'change button brightness for sign button (number goes bright to dull, 0 being brightest)', :signature, ["btn-red0", "btn-red1", "btn-red2", "btn-red3", "btn-red4", "btn-red5", "btn-danger"]
+    spin! 'change button brightness and gradient use for sign button (number goes bright to dull, 0 being brightest, flat indicates no gradient)', :signature, [
+      "btn-red1",
+      "btn-red2",
+      "btn-red3",
+      "btn-red4_with-gradient",
+      "btn-red5",
+      "btn-red0_flat",
+      "btn-red1_flat",
+      "btn-red2_flat",
+      "btn-red3_flat",
+      "btn-red4_flat",
+      "btn-red5_flat",
+      "btn-danger"
+    ]
   end
 
   def privacy_policy_position_and_color
