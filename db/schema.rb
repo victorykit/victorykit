@@ -160,7 +160,7 @@ ActiveRecord::Schema.define(:version => 20121004214008) do
     t.string   "state"
     t.string   "state_code"
     t.string   "country_code"
-    t.string   "http_referer"
+    t.text     "http_referer"
   end
 
   add_index "signatures", ["created_at"], :name => "index_signatures_on_created_at"
