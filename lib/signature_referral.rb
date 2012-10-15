@@ -51,6 +51,7 @@ class SignatureReferral
   def track_regular_referral
     if reference_type == Signature::ReferenceType::EMAIL
       sent_email = SentEmail.find_by_hash(received_code)
+      return unless sent_email
       sent_email.signature ||= signature
       sent_email.save!
       petition.experiments.email(sent_email).win!(:signature)
