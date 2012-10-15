@@ -30,17 +30,12 @@ module PetitionsHelper
     (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
   end
 
-  def facebook_button_aesthetic
-    spin! 'facebook button aesthetic 2', :share, [
-      "share_blue_tall_no_f",
-      "share_blue_tall_f",
+  def facebook_button_wording
+    spin! 'facebook button wording', :share, [
       "share_red_tall_no_f",
-      "share_blue_wide_f",
-      "share_blue_wide_no_f",
-      "share_red_wide_f",
-      "share_blue_texture_f",
-      "share_blue_texture_no_f",
-      "share_red_texture_f"
+      "like_red_tall_no_f",
+      "tell_your_friends_red_tall_no_f",
+      "spread_the_word_red_tall_no_f"
     ]
   end
 
