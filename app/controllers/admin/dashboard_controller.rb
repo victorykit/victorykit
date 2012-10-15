@@ -43,36 +43,41 @@ class Admin::DashboardController < ApplicationController
   end
 
   def nps_chart
-    thresholds = [ThresholdLine.excellent(0.05), ThresholdLine.moderate(0.035), ThresholdLine.crisis(0)]
-    strip_chart timeframe.value, "stats.gauges.victorykit.nps", 90, thresholds
+    thresholds = [ThresholdLine.good(0.05), ThresholdLine.moderate(0.035), ThresholdLine.bad(0)]
+    strip_chart timeframe.value, "stats.gauges.victorykit.nps", averaging_window, thresholds
   end
 
   def facebook_actions_chart
-    thresholds = [ThresholdLine.excellent(0.10), ThresholdLine.crisis(0.03)]
-    strip_chart timeframe.value, "stats_counts.victorykit.facebook_actions.count", 90, thresholds
+    thresholds = [ThresholdLine.good(0.30), ThresholdLine.bad(0.03)]
+    strip_chart timeframe.value, "stats_counts.victorykit.facebook_actions.count", averaging_window, thresholds
   end
 
   def facebook_referrals_chart
-    thresholds = [ThresholdLine.excellent(0.10), ThresholdLine.crisis(0.03)]
-    strip_chart timeframe.value, "stats_counts.victorykit.facebook_referrals.count", 90, thresholds
+    thresholds = [ThresholdLine.good(0.10), ThresholdLine.bad(0.03)]
+    strip_chart timeframe.value, "stats_counts.victorykit.facebook_referrals.count", averaging_window, thresholds
   end
 
   def unsubscribes_chart
-    thresholds = [ThresholdLine.crisis(0.03), ThresholdLine.excellent(0)]
-    strip_chart timeframe.value, "stats_counts.victorykit.unsubscribes.count", 60, thresholds
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.035)]
+    strip_chart timeframe.value, "stats_counts.victorykit.unsubscribes.count", averaging_window, thresholds
   end
 
   def emails_sent_chart
-    thresholds = [ThresholdLine.crisis(2), ThresholdLine.excellent(2.75)]
-    strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 10, thresholds
+    thresholds = [ThresholdLine.good(2.75), ThresholdLine.bad(2)]
+    strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 30, thresholds
+  end
+
+  def averaging_window
+    { "month" => 120, "week" => 120, "day" => 60, "hour" => 10}[timeframe.value]
   end
 
   def strip_chart timeframe, gauge, averaging_window, thresholds=[]
     from = "1#{timeframe}"
+    target = "movingAverage(#{gauge}, #{averaging_window})"
 u = <<-url
 http://graphite.watchdog.net/render?\
 #{thresholds.join('&')}&\
-target=color(lineWidth(movingAverage(#{gauge},#{averaging_window}), 2), 'blue')&\
+target=color(lineWidth(#{target}, 2), 'blue')&\
 from=-#{from}&\
 bgcolor=white&fgcolor=black&\
 graphOnly=true&\
@@ -161,16 +166,16 @@ u.strip
 
   class ThresholdLine
 
-    def self.excellent value
-      threshold_line value, '66CC66'
+    def self.good value
+      threshold_line value, 'green'
     end
 
     def self.moderate value
       threshold_line value, 'grey'
     end
 
-    def self.crisis value
-      threshold_line value, '7E2217'
+    def self.bad value
+      threshold_line value, 'red'
     end
 
     def self.threshold_line value, color
