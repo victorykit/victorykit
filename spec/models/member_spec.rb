@@ -98,11 +98,11 @@ describe Member do
     describe '.random_and_not_recently_contacted' do
 
       shared_examples 'ignoring them' do
-        specify { subject.random_and_not_recently_contacted.should be_nil }
+        specify { subject.random_and_not_recently_contacted(1).should eql [] }
       end
 
       shared_examples 'finding them' do
-        specify { subject.random_and_not_recently_contacted.should eql member }
+        specify { subject.random_and_not_recently_contacted(1)[0].should eql member }
       end
 
       context 'for members who have previously signed a petition' do
