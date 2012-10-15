@@ -6,6 +6,8 @@ BATCH_SIZE = 100
 
 class EmailScheduler
   def self.schedule_email
+    return if ENV['REALLY_SEND_REAL_EMAILS'] != "1"
+
     sleep_debt = 0
     max_emails_per_week = Member.count.to_f
     MailerProcessTracker.in_transaction do
