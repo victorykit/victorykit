@@ -6,6 +6,7 @@ class PixelTrackingController < ApplicationController
         $statsd.increment "emails_opened.count"
         email.update_attribute(:opened_at, Time.now) if email.opened_at.blank?
       rescue => error
+        notify_airbrake(error)
         Rails.logger.error "Exception while trying to mark a sent email as opened: #{error}"
       end
     end

@@ -24,6 +24,7 @@ class BouncesController < ApplicationController
         begin
           process_bounce dsn["bounce"]
         rescue => error
+          notify_airbrake(error)
           Rails.logger.error "Exception while handling a bounce message: #{error}"
         end
       elsif notification_type == "Complaint"
@@ -31,6 +32,7 @@ class BouncesController < ApplicationController
         begin
           process_complaint dsn["complaint"]
         rescue => error
+          notify_airbrake(error)
           Rails.logger.error "Exception while handling a complaint message: #{error}"
         end
       end

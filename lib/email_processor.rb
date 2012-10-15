@@ -19,6 +19,7 @@ class EmailProcessor < ActionMailer::Base
         end
       end
     rescue => error
+      Airbrake.notify(error)
       puts "Error in processing exceptional mail #{error}"
     end  
   end

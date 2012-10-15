@@ -18,6 +18,7 @@ class UnsubscribePoller
         latest_member_created = unsubscribe_requests.max { |x,y| x.created_at <=> y.created_at }
         update_token.updated_at = latest_member_created.nil? ? update_token.updated_at : latest_member_created.created_at
       rescue => error
+        Airbrake.notify(error)
         Rails.logger.error "Error in retrieving and unsubscribing users #{error} #{error.backtrace.join}"
       ensure
         lock_update_token(update_token, false)
