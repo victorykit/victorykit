@@ -23,6 +23,7 @@ class SignaturesController < ApplicationController
         begin
           Resque.enqueue(SignedPetitionEmailJob, signature.id)
         rescue => ex
+          notify_airbrake(ex)
           Rails.logger.error "Error queueing email on Resque: #{ex} #{ex.backtrace.join}"
           Notifications.signed_petition Signature.find(signature.id)
         end
@@ -33,6 +34,7 @@ class SignaturesController < ApplicationController
 
         flash[:signature_id] = signature.id
       rescue => ex
+        notify_airbrake(ex)
         Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join}"
         flash.notice = ex.message
       end
