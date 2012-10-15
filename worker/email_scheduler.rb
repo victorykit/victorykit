@@ -12,6 +12,7 @@ class EmailScheduler
         last_email = Time.now
         send_email
         interval = WEEK/max_emails_per_week - (Time.now-last_email)
+        puts "Sleeping " + interval.to_s
         sleep(interval) unless interval < 0
       end
     end
