@@ -207,20 +207,24 @@ th, td .numeric {
   background: -ms-linear-gradient(90deg,  $color1 0%,$color2 100%); /* IE10+ */
   background: linear-gradient(90deg,  $color1 0%,$color2 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
-  border: 1px solid #{$color1};
+  border: {
+    width: 1px;
+    style: solid;
+    color: #{$color1} #{$color1} darken($color1, 10%);
+  }
   &:hover {
     background: $color2; /* Old browsers */
-    background: -moz-linear-gradient(90deg,  $color1 100%, $color2 0%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(90deg,  $color1 100%,$color2 0%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(90deg,  $color1 100%,$color2 0%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(90deg,  $color1 100%,$color2 0%); /* IE10+ */
-    background: linear-gradient(90deg,  $color1 100%,$color2 0%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color1}', endColorstr='#{$color2}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
+    background: -moz-linear-gradient(90deg,  $color2 0%, $color1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, $color2), color-stop(100%,$color1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(90deg,  $color2 0%,$color1 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(90deg,  $color2 0%,$color1 100%); /* IE10+ */
+    background: linear-gradient(90deg,  $color2 0%,$color1 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
   }
 }
 
-.btn.btn-red0 {
+.btn.btn-red0_flat {
   @include button(#ff0000, #ff0000);
 }
 .btn.btn-red1 {
@@ -232,11 +236,26 @@ th, td .numeric {
 .btn.btn-red3 {
   @include button(#B22222, #CD2626);
 }
-.btn.btn-red4 {
-  @include button(#CD3333, #CC3232);
+.btn.btn-red4_with-gradient {
+  @include button(#b11c1c, #CC3232);
 }
 .btn.btn-red5 {
   @include button(#bd3c2d, #ea6156);
+}
+.btn.btn-red1_flat {
+  @include button(#cc1100, #cc1100);
+}
+.btn.btn-red2_flat {
+  @include button(#CD0000, #CD0000);
+}
+.btn.btn-red3_flat {
+  @include button(#B22222, #B22222);
+}
+.btn.btn-red4_flat {
+  @include button(#CD3333, #CD3333);
+}
+.btn.btn-red5_flat {
+  @include button(#bd3c2d, #bd3c2d);
 }
 .progress_box {
   padding: 15px 20px;
