@@ -82,6 +82,11 @@
           Emailable members:
         %td.numeric
           = number_with_delimiter heartbeat[:emailable_member_count]
+      %tr
+        %td
+          Total net new members:
+        %td.numeric
+          = number_with_delimiter heartbeat[:new_members]
 
   #main_content{style: "margin-left:275px;padding-left:25px"}
     #charts
