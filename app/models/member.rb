@@ -34,7 +34,7 @@ class Member < ActiveRecord::Base
       active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])
     end
 
-    return nil if receiver_ids.empty?
+    return [] if receiver_ids.empty?
     receiver_ids.sample(n).collect{ |x| Member.find(x['id']) }
   end
 

@@ -7,20 +7,20 @@ describe PetitionEmailer do
   describe '#send' do
 
     context 'when there is a member not recently contacted' do
-      before { Member.stub!(:random_and_not_recently_contacted).and_return member }
+      before { Member.stub!(:random_and_not_recently_contacted).with(1).and_return [member] }
 
       it 'should send an email to him' do
         PetitionEmailer.should_receive(:send_to).with(member)
-        PetitionEmailer.send
+        PetitionEmailer.send(1)
       end
     end
 
     context 'when all members were recently contacted' do
-      before { Member.stub!(:random_and_not_recently_contacted) }
+      before { Member.stub!(:random_and_not_recently_contacted).and_return [] }
 
       it 'should not send any email' do
         PetitionEmailer.should_not_receive(:send_to)
-        PetitionEmailer.send
+        PetitionEmailer.send(1)
       end
     end
   end
