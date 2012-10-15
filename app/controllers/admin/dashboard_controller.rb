@@ -1,3 +1,4 @@
+
 class Admin::DashboardController < ApplicationController
 
   before_filter :require_admin
@@ -64,7 +65,6 @@ class Admin::DashboardController < ApplicationController
 
   def emails_sent_chart
     thresholds = [ThresholdLine.good(3.75), ThresholdLine.bad(2)]
-    avging = { "month" => 120, "week" => 120, "day" => 60, "hour" => 60}[timeframe.value]
     strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 60, thresholds
   end
 
