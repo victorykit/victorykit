@@ -77,7 +77,7 @@ describe ScheduledEmail do
 
     it "substitutes the LINK paragraph with the petition link" do
       mail.body.encoded.should_not include "LINK"
-      mail.body.encoded.should include "<br><br><a href=\"#{petition_link}\">SIGN THIS PETITION</a><br><br>"
+      mail.body.encoded.should include "<br><br><b><a href=\"#{petition_link}\">SIGN THIS PETITION</a></b><br><br>"
     end
 
     it "removes the LINK paragraph in plain text part" do
