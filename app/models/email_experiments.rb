@@ -50,8 +50,8 @@ class EmailExperiments
   end
 
   def hide_demand_progress_intro?
-    previously_signed = Signature.where("email = ?", @email.email).present?
-    previously_opened_or_clicked_email = SentEmail.where("email = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.email, nil, nil).present?
+    previously_signed = Signature.where("member_id = ?", @email.member_id).present?
+    previously_opened_or_clicked_email = SentEmail.where("member_id = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.member_id, nil, nil).present?
     previously_signed || previously_opened_or_clicked_email
   end
 
