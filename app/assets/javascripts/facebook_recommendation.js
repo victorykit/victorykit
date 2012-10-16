@@ -69,6 +69,7 @@ function postToMeAndFriends() {
   })(0);
 
   $('#facebookFriendsModal').modal('toggle');
+  $('#thanksAfterSharingModal').modal('toggle');
 }
 
 function findRecommendedFriends(groups) {
@@ -129,17 +130,39 @@ function getFriendsWithAppInstalled() {
   queryFacebook(query, groups);
 }
 
+function checkPermissions() {
+  function proceedSharing() {
+    $('#facebookFriendsModal').modal('toggle');
+    if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
+    setupSocialTrackingControllerRequest('recommend');
+  }
+
+  function abortSharing() {
+    $('#abortSharingModal').modal('toggle');
+  }
+
+  FB.api('/me/permissions', function(res) {
+    var d = res.data[0];
+    return (d.publish_actions && d.read_stream && d.publish_stream) ?
+      proceedSharing() : abortSharing();
+  });
+}
+
 function submitAppRequest() {
   $("#thanksModal").modal('hide');
   FB.login(function (response) {
     if (response.authResponse) {
-      $('#facebookFriendsModal').modal('toggle');
-      if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
-      setupSocialTrackingControllerRequest('recommend');
+      checkPermissions();
      }
   }, {scope: 'publish_actions, read_stream, publish_stream'});
 }
 
+function tryAgain() {
+  $('#the-one-in-the-side').trigger('click');
+  $('#abortSharingModal').modal('toggle');
+}
+
 function bindFacebookRecommendationButton() {
   $('.fb_recommend_btn').click(submitAppRequest);
+  $('#try-again').click(tryAgain);
 }
