@@ -110,3 +110,17 @@
     .modal-footer
       %a.btn.btn-success{:href => "#"} Send
 
+  .modal.hide#thanksAfterSharingModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      %p
+        Thanks For Sharing!
+
+  .modal.hide#abortSharingModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      %p
+        We're sorry, but you'll not be able to share without granting us permission.
+      %p
+        %a.btn.btn-primary.share#try-again
+          Try again!
