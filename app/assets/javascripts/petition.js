@@ -160,6 +160,33 @@ function bindFacebookPopupButton() {
   });
 }
 
+function bindFacebookDialogButton() {
+  function getProperty(propertyName) {
+    return encodeURIComponent($('meta[property="' + propertyName + '"]').attr('content'));
+  }
+  
+  function openDialog() {
+    var domain = location.href.replace(/\?.*/,"");
+    var memberHash = $.cookie('member_id');
+    var link = [domain, '?share_ref=', memberHash].join('');
+    var dialog = "https://www.facebook.com/dialog/feed?" + 
+      "app_id=" + getProperty('fb:app_id') + "&" + 
+      "link=" + link + "&" + 
+      "picture=" + getProperty('og:image') + "&" + 
+      "name=" + getProperty('og:title') + "&" + 
+      "description=" + getProperty('og:description') + "&" +
+      "redirect_uri=" + location.href;
+    window.open(dialog , 'dialog', 'width=626,height=436');
+  }
+  $('.fb_dialog_btn').click(function() {
+    openDialog();
+    setupSocialTrackingControllerRequest('dialog');
+    inviteToShareOnTwitter();
+    $('.giantbox').hide();
+  });
+}
+
+
 function bindFacebookRequestButton() {
 
   function requestCallbackForSendRequest(response) {
