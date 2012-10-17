@@ -176,7 +176,7 @@ function bindFacebookDialogButton() {
       "name=" + getProperty('og:title') + "&" + 
       "description=" + getProperty('og:description') + "&" +
       "redirect_uri=" + location.href;
-    window.open(dialog , 'dialog', 'width=626,height=436');
+    window.open(dialog , 'dialog', 'width=1000,height=500');
   }
   $('.fb_dialog_btn').click(function() {
     openDialog();
