@@ -25,7 +25,7 @@ module PetitionsHelper
 
   def facebook_sharing_option
     return 'facebook_popup' if browser.ie7?
-    options = ['facebook_popup', 'facebook_request', 'facebook_recommendation']
+    options = ['facebook_popup', 'facebook_request', 'facebook_recommendation', 'facebook_dialog']
     winner =  spin! 'facebook sharing options', :referred_member, options
     (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
   end
@@ -43,6 +43,7 @@ module PetitionsHelper
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
       'facebook_popup' => { button_class: 'fb_popup_btn', button_text: 'Share on Facebook' },
+      'facebook_dialog' => { button_class: 'fb_dialog_btn', button_text: 'Share on Facebook' },
       'facebook_request' => { button_class: 'fb_request_btn', button_text: 'Send request to friends' },
       'facebook_recommendation' => { button_class: 'fb_recommend_btn', button_text: 'Send to friends' },
       'facebook_autofill_request' => { button_class: 'fb_autofill_request_btn', button_text: 'Send request to friends' }

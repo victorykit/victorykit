@@ -566,7 +566,7 @@
   *display: none;
 }
 
-.btn.fb_popup_btn, .btn.fb_widget_btn, .btn.fb_request_btn, .btn.fb_autofill_request_btn {
+.btn.fb_popup_btn, .btn.fb_dialog_btn, .btn.fb_widget_btn, .btn.fb_request_btn, .btn.fb_autofill_request_btn {
   height: 39px;
   margin: 10px;
   padding: 0;
@@ -637,7 +637,7 @@
   .thanks {
     padding-top: 20px;
   }
-  .fb_popup_btn, .tweet {
+  .fb_popup_btn, .fb_dialog_btn, .tweet {
     margin-top: 30px;
   }
 }

@@ -1,0 +1,2 @@
+class Dialog < FacebookAction
+end

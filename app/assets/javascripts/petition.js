@@ -168,7 +168,7 @@ function bindFacebookDialogButton() {
   function openDialog() {
     var domain = location.href.replace(/\?.*/,"");
     var memberHash = $.cookie('member_id');
-    var link = [domain, '?share_ref=', memberHash].join('');
+    var link = [domain, '?fd=', memberHash].join('');
     var dialog = "https://www.facebook.com/dialog/feed?" + 
       "app_id=" + getProperty('fb:app_id') + "&" + 
       "link=" + link + "&" + 
@@ -292,6 +292,7 @@ function initSharePetition() {
   setupSocialTracking();
   setupShareFacebookButton();
   bindFacebookPopupButton();
+  bindFacebookDialogButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
   bindFacebookRecommendationButton();

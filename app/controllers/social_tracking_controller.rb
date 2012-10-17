@@ -17,6 +17,7 @@ class SocialTrackingController < ApplicationController
         'like' => :register_facebook_like,
         'share' => :register_facebook_share,
         'popup' => :register_facebook_popup_opened,
+        'dialog' => :register_facebook_dialog,
         'request' => :register_facebook_request,
         'autofill_request' => :register_autofill_request,
         'recommend' => :register_recommendation
@@ -48,10 +49,17 @@ class SocialTrackingController < ApplicationController
   end
 
   def register_facebook_popup_opened
-    share = Popup.new
-    share.petition = @petition
-    share.member = @member if @member.present?
-    share.save!
+    popup = Popup.new
+    popup.petition = @petition
+    popup.member = @member if @member.present?
+    popup.save!
+  end
+
+  def register_facebook_dialog
+    dialog = Dialog.new
+    dialog.petition = @petition
+    dialog.member = @member if @member.present?
+    dialog.save!
   end
 
   def register_facebook_request
