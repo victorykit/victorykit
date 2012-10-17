@@ -11,7 +11,7 @@
   .secondary
     - if !@was_signed and !browser.mobile?
       - if spin! "show progress box above sign petition", :signature
-        .progress_box
+        .progress_box{ :class => progress_box_aesthetic }
           .progress_text.plain
             Step 1 of 3 complete...
           .progressbar{class: progress_bar_color}
