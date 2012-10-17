@@ -113,14 +113,20 @@
   .modal.hide#thanksAfterSharingModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      %h3
+        Thanks for sharing!
       %p
-        Thanks For Sharing!
+        Want to support our work?
+        = link_to('Donate $5', 'https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=info@demandprogress.org&lc=US&item_name=Support%20Watchdog.net&no_note=1&no_shipping=1&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted', :class => "btn")
+      = link_to('Close', '#', :class => "close btn", :"data-dismiss" => 'modal')
 
   .modal.hide#abortSharingModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      %h3
+        Hey &mdash; we need those permissions in order to share!
+      %h4
+        Sorry, but Facebook won't let us share this unless you grant us those permissions.  We promise we won't abuse them for anything else.
       %p
-        We're sorry, but you'll not be able to share without granting us permission.
-      %p
-        %a.btn.btn-primary.share#try-again
+        %a.btn.btn-primary.btn-large.share#try-again{ :class => sign_button_color }
           Try again!
