@@ -88,6 +88,21 @@ module PetitionsHelper
     spin! 'change progress bar brightness above sign box (number goes bright to dull, 0 being brightest)', :signature, ["progress_bright", "progress_dull", "progress_dark"]
   end
 
+  def progress_box_aesthetic
+    spin! 'change background and border of progress box', :signature, [
+      "yellow-unbordered",
+      "blue-unbordered",
+      "green-unbordered",
+      "grey-unbordered",
+      "red-unbordered",
+      "yellow-bordered",
+      "blue-bordered",
+      "green-bordered",
+      "grey-bordered",
+      "red-bordered"
+    ]
+  end
+
   def sign_button_color
     spin! 'change button brightness and gradient use for sign button (number goes bright to dull, 0 being brightest, flat indicates no gradient)', :signature, [
       "btn-red1",
