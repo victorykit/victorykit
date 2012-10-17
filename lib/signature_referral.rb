@@ -34,8 +34,14 @@ class SignatureReferral
   end
 
   def referral
-    return {} unless trackable?
-    @referral_type == :regular ? track_regular_referral : track_facebook_referral
+    default = {}
+    begin
+      return default unless trackable?
+      @referral_type == :regular ? track_regular_referral : track_facebook_referral
+    rescue => ex
+      Rails.logger.warn "Error resolving referral: #{ex} #{ex.backtrace.join}"
+      return default
+    end
   end
 
   def self.translate_raw_referral(params={})
@@ -51,7 +57,8 @@ class SignatureReferral
   def track_regular_referral
     if reference_type == Signature::ReferenceType::EMAIL
       sent_email = SentEmail.find_by_hash(received_code)
-      return unless sent_email
+      raise "SentEmail record not found for referral code #{received_code}" if not sent_email
+
       sent_email.signature ||= signature
       sent_email.save!
       petition.experiments.email(sent_email).win!(:signature)
@@ -62,7 +69,8 @@ class SignatureReferral
       }
     else
       referring_member = Member.find_by_hash(received_code)
-      
+      raise "Member record not found for referral code #{received_code}" if not referring_member
+
       {
         referer: referring_member,
         reference_type: reference_type,
@@ -73,6 +81,8 @@ class SignatureReferral
 
   def code_and_member_for_facebook_share_special_case
     facebook_action = Share.find_by_action_id(received_code.to_s)
+    raise "FacebookAction record not found for referral code #{received_code}" if not facebook_action
+
     code = ReferralCode.where(petition_id: petition.id, member_id: facebook_action.member_id).first
 
     return code, facebook_action.member
@@ -80,6 +90,8 @@ class SignatureReferral
 
   def code_and_member_for_legacy_referral_code
     member = Member.find_by_hash(received_code)
+    raise "Member record not found for referral code #{received_code}" if not member
+
     code = ReferralCode.where(petition_id: petition.id, member_id: member.id).first
 
     return code, member
@@ -87,6 +99,7 @@ class SignatureReferral
 
   def code_and_member_for_generated_referral_code
     code = ReferralCode.where(code: received_code).first
+    raise "ReferralCode record not found for referral code #{received_code}" if not code
 
     return code, code.try(:member)
   end
