@@ -48,7 +48,7 @@ class Admin::DashboardController < ApplicationController
   end
 
   def nps_chart
-    thresholds = [ThresholdLine.good(0.05), ThresholdLine.moderate(0.035), ThresholdLine.bad(0)]
+    thresholds = [ThresholdLine.good(0.05), ThresholdLine.bad(0)]
     strip_chart timeframe.value, "stats.gauges.victorykit.nps", averaging_window, thresholds
   end
 
@@ -82,11 +82,13 @@ class Admin::DashboardController < ApplicationController
 
   def strip_chart timeframe, gauge, averaging_window, thresholds=[]
     from = "1#{timeframe}"
-    target = "movingAverage(#{gauge}, #{averaging_window})"
+    main = "movingAverage(#{gauge}, #{averaging_window})"
+    timeshift = "timeShift(#{main}, '#{from}')"
 u = <<-url
 http://graphite.watchdog.net/render?\
+target=color(lineWidth(#{timeshift}, 2), 'dddddd')&\
+target=color(lineWidth(#{main}, 2), 'blue')&\
 #{thresholds.join('&')}&\
-target=color(lineWidth(keepLastValue(#{target}), 2), 'blue')&\
 from=-#{from}&\
 bgcolor=white&fgcolor=black&\
 graphOnly=true&\
