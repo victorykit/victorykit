@@ -71,7 +71,7 @@ class ReferralCode < ActiveRecord::Base
 
   def test_names
     { :title => "petition #{petition.id} #{title_type} title",
-      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image" }
+      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image 2" }
   end
 
 end
