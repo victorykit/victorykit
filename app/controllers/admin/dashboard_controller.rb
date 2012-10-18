@@ -31,15 +31,19 @@ class Admin::DashboardController < ApplicationController
   end
 
   def fetch_nps_summary
-    nps24h = Metrics::Nps.new.aggregate(1.day.ago)
     nps7d = Metrics::Nps.new.aggregate(1.week.ago)
+    nps24h = Metrics::Nps.new.aggregate(1.day.ago)
+    nps60m = Metrics::Nps.new.aggregate(1.hour.ago)
     {
+      nps7d: nps7d[:nps],
+      sps7d: nps7d[:sps],
+      ups7d: nps7d[:ups],
       nps24h: nps24h[:nps],
       sps24h: nps24h[:sps],
       ups24h: nps24h[:ups],
-      nps7d: nps7d[:nps],
-      sps7d: nps7d[:sps],
-      ups7d: nps7d[:ups]
+      nps60m: nps60m[:nps],
+      sps60m: nps60m[:sps],
+      ups60m: nps60m[:ups]
     }
   end
 

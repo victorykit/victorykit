@@ -8,23 +8,30 @@
     |
     = link_to("statistics", "stats")
 
-    - nps24h = nps_summary[:nps24h]
     - nps7d = nps_summary[:nps7d]
+    - nps24h = nps_summary[:nps24h]
+    - nps60m = nps_summary[:nps60m]
     - nps_threshold_map = {nil => "red", 0.035 => "orange", 0.05 => "green"}
-    - nps_color24h = map_to_threshold(nps24h, nps_threshold_map)
     - nps_color7d = map_to_threshold(nps7d, nps_threshold_map)
+    - nps_color24h = map_to_threshold(nps24h, nps_threshold_map)
+    - nps_color60m = map_to_threshold(nps60m, nps_threshold_map)
 
-    - sps24h = nps_summary[:sps24h]
     - sps7d = nps_summary[:sps7d]
+    - sps24h = nps_summary[:sps24h]
+    - sps60m = nps_summary[:sps60m]
     - sps_threshold_map = {nil => "red", 0.035 => "orange", 0.05 => "green"}
-    - sps_color24h = map_to_threshold(sps24h, sps_threshold_map)
     - sps_color7d = map_to_threshold(sps7d, sps_threshold_map)
+    - sps_color24h = map_to_threshold(sps24h, sps_threshold_map)
+    - sps_color60m = map_to_threshold(sps60m, sps_threshold_map)
 
-    - ups24h = nps_summary[:ups24h]
     - ups7d = nps_summary[:ups7d]
+    - ups24h = nps_summary[:ups24h]
+    - ups60m = nps_summary[:ups60m]
     - ups_threshold_map = {nil => "green", 0.005 => "orange", 0.01 => "red"}
-    - ups_color24h = map_to_threshold(ups24h, ups_threshold_map)
     - ups_color7d = map_to_threshold(ups7d, ups_threshold_map)
+    - ups_color24h = map_to_threshold(ups24h, ups_threshold_map)
+    - ups_color60m = map_to_threshold(ups60m, ups_threshold_map)
+
     %table.table.table-condensed.bordered-table.table-striped
       %tr
         %td
@@ -32,6 +39,8 @@
           7 day
         %td
           24 hr
+        %td
+          60 min
       %tr
         %td
           %h3 NPS
@@ -41,6 +50,9 @@
         %td{style: "color:#{nps_color24h}"}
           %h3
             = float_to_percentage nps24h
+        %td{style: "color:#{nps_color60m}"}
+          %h3
+            = float_to_percentage nps60m
       %tr
         %td
           Sub
@@ -48,6 +60,8 @@
           = float_to_percentage sps7d
         %td{style: "color:#{sps_color24h}"}
           = float_to_percentage sps24h
+        %td{style: "color:#{sps_color60m}"}
+          = float_to_percentage sps60m
       %tr
         %td
           Unsub
@@ -55,6 +69,8 @@
           = float_to_percentage ups7d
         %td{style: "color:#{ups_color24h}"}
           = float_to_percentage ups24h
+        %td{style: "color:#{ups_color60m}"}
+          = float_to_percentage ups60m
 
     %table.table.table-condensed.bordered-table.table-striped
       %tr
