@@ -108,6 +108,15 @@
     #charts
       %span
         = link_to_self_with_param timeframe.key, timeframe.options, " | "
+        %span{style:"padding-left:350px"}
+          %span{style:"color:blue;font-weight:bold"}
+            &#x2015;
+          %span
+            current
+          %span{style:"color:#dddddd;font-weight:bold"}
+            &#x2015;
+          %span
+            prior
       %br
       = # match frame height to chart height in nps_chart
       %table
