@@ -111,7 +111,7 @@ end
 # redefines spins on a bandit instance to strip out randomness and redis, while preserving
 # behavior of wins for cases where the test wants more specific win assertions
 def stub_bandit_spins bandit
-  def bandit.spin! test_name, goals, options=[true, false], my_session=nil
+  def bandit.spin! test_name, goals, options=[true, false], my_session=nil, measure=false
     options.first
   end
 end
