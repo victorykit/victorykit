@@ -232,7 +232,9 @@ function drawModalAfterSigning() {
   var modal = $("#thanksModal");
   if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
-    if (($(".modal_centered_hide-sidebar").length > 0) || ($(".modal_left_hide-sidebar").length > 0) || ($(".modal_sidebar_hide-sidebar").length > 0)) {
+    if (($(".modal_centered_hide-sidebar").length > 0) || +
+        ($(".modal_left_hide-sidebar").length > 0) || +
+        ($(".modal_sidebar_hide-sidebar").length > 0)) {
       $(".secondary").css("display", "none");
       $('#thanksModal').on('hidden', function () {
         $(".secondary").css("display", "block");
