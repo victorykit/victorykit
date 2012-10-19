@@ -45,6 +45,13 @@ class PetitionsController < ApplicationController
     @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
+
+    @modal_position = modal_positioning
+  end
+
+  def modal_positioning
+    return 'modal_centered' if ( browser.mobile? or browser.ie? )
+    spin! 'alter modal positioning and hiding of sidebar when modal is open', :share, ["modal_centered", "modal_left", "modal_sidebar", "modal_centered_hide-sidebar", "modal_sidebar_hide-sidebar", "modal_left_hide-sidebar"]
   end
 
   def again
