@@ -20,7 +20,7 @@ GIT
 
 GIT
   remote: git://github.com/victorykit/whiplash.git
-  revision: bcd9764d2404477d823c7eadcd9cd44c510bf209
+  revision: 58cfc28da2ceefcd0ebe6c42768d50a57dedc255
   specs:
     whiplash (0.0.1)
       haml
@@ -206,7 +206,7 @@ GEM
     rake (0.9.2.2)
     rdoc (3.12)
       json (~> 1.4)
-    redis (3.0.1)
+    redis (3.0.2)
     redis-actionpack (3.2.3)
       actionpack (~> 3.2.3)
       redis-rack (~> 1.4.0)
