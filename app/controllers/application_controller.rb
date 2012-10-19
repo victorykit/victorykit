@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   include Whiplash
   extend Memoist
-  helper_method :win!, :spin!, :spin_if_cool_browser!, :is_admin
+  helper_method :win!, :spin!, :spin_if_cool_browser!, :measure!, :is_admin
   
   protect_from_forgery
   before_filter :add_environment_to_title, :stash_http_referer
