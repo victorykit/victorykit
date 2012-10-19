@@ -5,7 +5,7 @@
   .secondary
     .logo_box
       - if should_spin_petition_options?
-        - if spin! "have logo link to home for non-admins on petition page", :signature
+        - if measure! "have logo link to home for non-admins on petition page 2", :signature
           = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
         - else
           .logo.brand WATCHDOG.NET
