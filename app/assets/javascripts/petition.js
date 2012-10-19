@@ -164,18 +164,18 @@ function bindFacebookDialogButton() {
   function getProperty(propertyName) {
     return encodeURIComponent($('meta[property="' + propertyName + '"]').attr('content'));
   }
-  
+
   function openDialog() {
     var domain = location.href.replace(/\?.*/,"");
     var memberHash = $.cookie('member_id');
     var link = [domain, '?fd=', memberHash].join('');
-    var dialog = "https://www.facebook.com/dialog/feed?" + 
-      "app_id=" + getProperty('fb:app_id') + "&" + 
-      "link=" + encodeURIComponent(link) + "&" + 
-      "picture=" + getProperty('og:image') + "&" + 
-      "name=" + getProperty('og:title') + "&" + 
+    var dialog = "https://www.facebook.com/dialog/feed?" +
+      "app_id=" + getProperty('fb:app_id') + "&" +
+      "link=" + encodeURIComponent(link) + "&" +
+      "picture=" + getProperty('og:image') + "&" +
+      "name=" + getProperty('og:title') + "&" +
       "description=" + getProperty('og:description') + "&" +
-      "redirect_uri=" + location.href + "&" + 
+      "redirect_uri=" + location.href + "&" +
       "display=popup";
     window.open(dialog , 'dialog', 'width=626,height=436');
   }
@@ -232,9 +232,12 @@ function drawModalAfterSigning() {
   var modal = $("#thanksModal");
   if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
-  }
-  if ($('.fb_image_holder').length > 0) {
-    modalFbImageRotator();
+    if (($(".modal_centered_hide-sidebar").length > 0) || ($(".modal_left_hide-sidebar").length > 0) || ($(".modal_sidebar_hide-sidebar").length > 0)) {
+      $(".secondary").css("display", "none");
+      $('#thanksModal').on('hidden', function () {
+        $(".secondary").css("display", "block");
+      });
+    }
   }
 }
 
