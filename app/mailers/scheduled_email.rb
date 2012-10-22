@@ -13,6 +13,7 @@ class ScheduledEmail < ActionMailer::Base
       rescue => exception
         Airbrake.notify(exception)
         Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
+        EmailError.create!(member: member, email: member.email, error: exception)
         raise ActiveRecord::Rollback
       end
     end
