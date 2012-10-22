@@ -152,7 +152,7 @@ describe PetitionsHelper do
   describe '#after_share_view' do
 
     context 'for a regular browser user' do
-      let(:exp) { 'after share view 5' }
+      let(:exp) { 'after share view 6' }
       let(:goal) { :share }
       let(:options) { [
         "button_is_most_effective_tool-progress_bar",
@@ -181,7 +181,7 @@ describe PetitionsHelper do
    }
 
       it 'should spin for an option' do
-        helper.should_receive(:spin!).with(exp, goal, options)
+        helper.should_receive(:measure!).with(exp, goal, options)
         helper.after_share_view
       end
     end

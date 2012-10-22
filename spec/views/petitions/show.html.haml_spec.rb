@@ -19,6 +19,7 @@ describe "petitions/show.html.haml" do
     assign :sigcount, 1
 
     view.stub(:spin!) { false }
+    view.stub(:measure!) { false }
   end
 
   it "doesn't fail when rendering" do

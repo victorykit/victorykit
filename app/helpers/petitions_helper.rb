@@ -31,7 +31,7 @@ module PetitionsHelper
   end
 
   def facebook_button_wording
-    spin! 'facebook button wording', :share, [
+    measure! 'facebook button wording', :share, [
       "share_red_tall_no_f",
       "like_red_tall_no_f",
       "tell_your_friends_red_tall_no_f",
@@ -59,7 +59,7 @@ module PetitionsHelper
   end
 
   def after_share_view
-    spin! 'after share view 5', :share, [
+    measure! 'after share view 6', :share, [
        "button_is_most_effective_tool-progress_bar",
        "tell_two_friends-progress_bar",
        "most_people_will_share_will_you-progress_bar",
@@ -86,7 +86,7 @@ module PetitionsHelper
   end
 
   def progress_bar_color
-    spin! 'change progress bar brightness above sign box (number goes bright to dull, 0 being brightest)', :signature, ["progress_bright", "progress_dull", "progress_dark"]
+    measure! 'change progress bar brightness above sign box (number goes bright to dull, 0 being brightest) 2', :signature, ["progress_bright", "progress_dull", "progress_dark"]
   end
 
   def progress_box_aesthetic
