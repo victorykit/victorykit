@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121004214008) do
+ActiveRecord::Schema.define(:version => 20121022164546) do
+
+  create_table "email_errors", :force => true do |t|
+    t.integer  "member_id",  :null => false
+    t.string   "email"
+    t.text     "error"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -209,6 +217,7 @@ ActiveRecord::Schema.define(:version => 20121004214008) do
     t.boolean  "is_admin",        :default => false, :null => false
   end
 
+  add_foreign_key "email_errors", "members", :name => "email_errors_member_id_fk"
   add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
 
   add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
