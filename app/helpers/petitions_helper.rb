@@ -31,7 +31,7 @@ module PetitionsHelper
   end
 
   def facebook_button_wording
-    measure! 'facebook button wording', :share, [
+    measure! 'facebook button wording 2', :share, [
       "share_red_tall_no_f",
       "like_red_tall_no_f",
       "tell_your_friends_red_tall_no_f",
