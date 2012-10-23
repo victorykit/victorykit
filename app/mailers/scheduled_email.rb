@@ -6,32 +6,29 @@ class ScheduledEmail < ActionMailer::Base
   #
 
   def new_petition(petition, member)
-    SentEmail.transaction do
-      begin
+    begin
+      SentEmail.transaction do
         email_record = SentEmail.create!(email: member.email, member: member, petition: petition)
         compose(petition, member, email_record, petition_link(petition, email_record)).deliver
-      rescue => exception
-        Airbrake.notify(exception)
-        Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
-        # EmailError.create!(member: member, email: member.email, error: exception)
-        raise ActiveRecord::Rollback
       end
+    rescue => exception
+      Airbrake.notify(exception)
+      Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
+      EmailError.create!(member: member, email: member.email, error: exception)
     end
   end
 
   def send_preview(petition, member)
     SentEmail.transaction do
-      begin
-        email_record = SentEmail.new(email: member.email, member: member, petition: petition)
-        class <<email_record
-          def to_hash
-            "preview"
-          end
+      email_record = SentEmail.new(email: member.email, member: member, petition: petition)
+      class <<email_record
+        def to_hash
+          "preview"
         end
-        compose(petition, member, email_record, petition_link(petition, email_record, true)).deliver
-        # always rollback for preview
-        raise ActiveRecord::Rollback
       end
+      compose(petition, member, email_record, petition_link(petition, email_record, true)).deliver
+      # always rollback for preview
+      raise ActiveRecord::Rollback
     end
   end
 
