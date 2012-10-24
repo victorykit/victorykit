@@ -32,6 +32,7 @@ describe SignatureReferral do
   context "unresolvable referral codes" do
 
     received_code = "1a2b3c"
+    legacy_received_code = "123.abc"
 
     it "logs warning and returns default for email referral when email unresolved" do
       SentEmail.stub(:find_by_hash).with(received_code).and_return(nil)
@@ -41,9 +42,17 @@ describe SignatureReferral do
       referral.should be_empty
     end
 
-    it "logs warning and returns default for shared link referral when member unresolved" do
-      Member.stub(:find_by_hash).with(received_code).and_return(nil)
-      Rails.logger.should_receive(:warn).with(/Member record not found for referral code 1a2b3c/)
+    it "logs warning and returns default for legacy shared link referral when member unresolved" do
+      Member.stub(:find_by_hash).with(legacy_received_code).and_return(nil)
+      Rails.logger.should_receive(:warn).with(/Neither member nor ReferralCode record not found for referral code 1a2b3c/)
+      params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::SHARED_LINK}.with_indifferent_access
+      referral = SignatureReferral.new(petition, signature, params).referral
+      referral.should be_empty
+    end
+
+    it "logs warning and returns default for shared link referral when member and referral code unresolved" do
+      ReferralCode.stub(:where).with("code = '1a2b3c'").and_return([])
+      Rails.logger.should_receive(:warn).with(/Neither member nor ReferralCode record not found for referral code 1a2b3c/)
       params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::SHARED_LINK}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral
       referral.should be_empty
@@ -58,10 +67,9 @@ describe SignatureReferral do
     end
 
     it "logs warning and returns default for legacy facebook referral when member unresolved" do
-      legacy_referral_code = "123.foo"
-      Member.stub(:find_by_hash).with(legacy_referral_code).and_return(nil)
-      Rails.logger.should_receive(:warn).with(/Member record not found for referral code 123.foo/)
-      params = {referer_ref_code: legacy_referral_code, referer_ref_type: Signature::ReferenceType::FACEBOOK_LIKE}.with_indifferent_access
+      Member.stub(:find_by_hash).with(legacy_received_code).and_return(nil)
+      Rails.logger.should_receive(:warn).with(/Member record not found for referral code 123.abc/)
+      params = {referer_ref_code: legacy_received_code, referer_ref_type: Signature::ReferenceType::FACEBOOK_LIKE}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral
       referral.should be_empty
     end

@@ -69,8 +69,14 @@ class SignatureReferral
         reference_type: reference_type
       }
     else
-      referring_member = Member.find_by_hash(received_code)
-      raise "Member record not found for referral code #{received_code}" if not referring_member
+      if legacy_referral_code? received_code
+        referring_member = Member.find_by_hash(received_code)
+        raise "Member record not found for referral code #{received_code}" if not referring_member
+      else
+        code = ReferralCode.where("code = '#{received_code}'").first
+        raise "Neither member nor ReferralCode record not found for referral code #{received_code}" if not code
+        referring_member = Member.find(code.member_id)
+      end
 
       {
         referer: referring_member,
@@ -110,7 +116,7 @@ class SignatureReferral
 
     code, referring_member = if reference_type == Signature::ReferenceType::FACEBOOK_SHARE
       code_and_member_for_facebook_share_special_case
-    elsif received_code =~ /^(\d+)\.(.*?)$/
+    elsif legacy_referral_code? received_code
       code_and_member_for_legacy_referral_code
     else
       code_and_member_for_generated_referral_code
@@ -125,4 +131,7 @@ class SignatureReferral
     }
   end
 
+  def legacy_referral_code? code
+    code =~ /^(\d+)\.(.*?)$/
+  end
 end
