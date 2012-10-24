@@ -27,7 +27,7 @@ describe Metrics::Nps do
     @signature_ax = create(:signature, petition: @petition_a, member: @member_x, created_member: true, created_at: @month)
     @signature_ay = create(:signature, petition: @petition_a, member: @member_y, created_member: true, created_at: @week)
 
-    @unsubscribe_az = create(:unsubscribe, member: @member_z, sent_email: @sent_az, created_at: @day)
+    @unsubscribe_az = create(:unsubscribe, member: @member_z, sent_email: @sent_az, created_at: @day, cause: "unsubscribed")
 
     # petition_b: send, sign, unsubscribe
     @sent_bx = create(:sent_email, petition: @petition_b, member: @member_x, created_at: @week)
