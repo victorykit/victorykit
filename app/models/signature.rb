@@ -13,6 +13,7 @@ class Signature < ActiveRecord::Base
  
   before_save :truncate_user_agent
   before_save :geolocate
+  after_save :clear_cache
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
   module ReferenceType
@@ -105,5 +106,9 @@ class Signature < ActiveRecord::Base
 
   def track_referrals(params = {})
     self.attributes = SignatureReferral.new(self.petition, self, params).referral
+  end
+  
+  def clear_cache
+    Rails.cache.delete('signature_count_' + self.petition_id.to_s)
   end
 end
