@@ -10,7 +10,7 @@ class SignaturesController < ApplicationController
     signature.member = (member || Member.new).tap do |m|
       m.first_name = signature.first_name
       m.last_name = signature.last_name
-      m.email = email
+      m.email = email unless m.email
     end
     signature.created_member = signature.member.new_record?
     signature.member.save

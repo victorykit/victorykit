@@ -17,13 +17,12 @@ describe SignaturesController do
 
     context 'when the user supplies both a name and an email' do
       let(:code) { "some_code" }
+      subject { petition.signatures.first }
 
       before do 
         ActionMailer::Base.deliveries = []
         sign_petition signer_ref_code: code
       end
-
-      subject { petition.signatures.first }
 
       context 'new signature' do
         its(:first_name) { should == signature_fields[:first_name] }
@@ -42,13 +41,31 @@ describe SignaturesController do
         should redirect_to petition_url(petition, l: code)
       end
 
-      it 'should create a member record' do
-        Member.should exist(:email => signature_fields[:email])
+      context 'new member' do
+        it 'should create a member record' do
+          Member.should exist(:email => signature_fields[:email])
+        end
+
+        it 'should indicate that this was the first petition signed by this member' do
+          signature = Signature.find_by_email signature_fields[:email]
+          signature.created_member.should be_true
+        end
       end
 
-      it 'should indicate that this was the first petition signed by this member' do
-        signature = Signature.find_by_email signature_fields[:email]
-        signature.created_member.should be_true
+      context 'existing member' do
+        it 'should update name' do
+          signature_fields[:first_name] = 'Robert'
+          signature_fields[:last_name] = 'Smith'
+          sign_petition signer_ref_code: code
+          Signature.last.member.full_name.should == 'Robert Smith'
+        end
+
+        it 'should ignore case for email' do
+          signature_fields[:email] = 'BoB@My.coM'
+          sign_petition signer_ref_code: code
+          Member.should_not exist(:email => 'BoB@My.coM')
+          Member.find_by_email('bob@my.com').signatures.should have(2).elements
+        end
       end
     end
 
