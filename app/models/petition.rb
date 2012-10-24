@@ -78,6 +78,10 @@ class Petition < ActiveRecord::Base
   def cover? member
     location_patterns.find { |p| member.last_location =~ p }
   end
+  
+  def sigcount
+    Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count }
+  end
 
   private
 

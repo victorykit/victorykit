@@ -11,7 +11,7 @@ class PetitionsController < ApplicationController
 
   def show
     @petition = Petition.find(params[:id])
-    @sigcount = @petition.signatures.count
+    @sigcount = @petition.sigcount
 
     @referring_url = request.original_url
 
