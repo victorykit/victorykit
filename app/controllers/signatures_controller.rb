@@ -5,9 +5,12 @@ class SignaturesController < ApplicationController
     signature.ip_address = connecting_ip
     signature.user_agent = browser.user_agent
     signature.browser_name = browser.id.to_s
-    signature.member = Member.find_or_initialize_by_email(signature.email).tap do |m|
+    email = signature.email
+    member = Member.find(:first, conditions: ["lower(email)=?", email.try(:downcase)])
+    signature.member = (member || Member.new).tap do |m|
       m.first_name = signature.first_name
       m.last_name = signature.last_name
+      m.email = email
     end
     signature.created_member = signature.member.new_record?
     signature.member.save

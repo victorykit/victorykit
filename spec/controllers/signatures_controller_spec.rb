@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SignaturesController do
 
   before(:each) do
@@ -23,12 +21,6 @@ describe SignaturesController do
       before do 
         ActionMailer::Base.deliveries = []
         sign_petition signer_ref_code: code
-      end
-
-      after do 
-        member = Signature.last.member
-        member.signatures.each(&:destroy)
-        member.destroy
       end
 
       subject { petition.signatures.first }
@@ -213,8 +205,8 @@ describe SignaturesController do
       end
     end
 
-    context 'when the user leaves a field blank' do
-      before { sign_without_name_or_email }
+    context 'when the user leaves a field blank' do 
+      before { sign_without_name_or_email } 
 
       it { should redirect_to petition_url(petition) }
 
