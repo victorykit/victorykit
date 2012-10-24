@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20121022164546) do
 
   add_index "facebook_actions", ["member_id"], :name => "index_likes_on_member_id"
   add_index "facebook_actions", ["petition_id"], :name => "index_likes_on_petition_id"
+  add_index "facebook_actions", ["action_id"], :name => "index_facebook_actions_action_id"
 
   create_table "facebook_friends", :force => true do |t|
     t.integer  "member_id",   :null => false
