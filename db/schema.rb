@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20121022164546) do
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
+  add_index "members", ["email"], :name => "index_lower_members_on_email"
   add_index "members", ["referral_code"], :name => "index_members_on_referral_code"
 
   create_table "petition_images", :force => true do |t|
