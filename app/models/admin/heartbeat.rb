@@ -17,7 +17,7 @@ class Admin::Heartbeat
   end
   
   def new_members
-    Signature.where(created_member: true).count - Unsubscribe.count
+    Signature.where(created_member: true).count - Unsubscribe.where("cause='unsubscribed'").count
   end
 
   def emails_in_queue
