@@ -31,7 +31,7 @@ class Metrics::Nps
   def aggregate since
     sent = SentEmail.where("created_at > ?", since).count
     subscribes = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
-    unsubscribes  = Unsubscribe.where("created_at > ?", since).count
+    unsubscribes  = Unsubscribe.where("cause='unsubscribed' and created_at > ?", since).count
     rates = calculate_rates sent, subscribes, unsubscribes
     {sent: sent, subscribes: subscribes, unsubscribes: unsubscribes}.merge rates
   end
