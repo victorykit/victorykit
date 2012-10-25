@@ -27,6 +27,7 @@ class Signature < ActiveRecord::Base
     TWITTER = 'twitter'
     EMAIL = 'email'
     SHARED_LINK = 'shared_link'
+    SHARED_LINK_FROM_MODAL = 'shared_link_from_modal'
     FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
