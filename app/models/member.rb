@@ -63,12 +63,12 @@ class Member < ActiveRecord::Base
     c == 'US' ? "us/#{s}" : "non-us/#{c}"  
   end
 
-  private
-
   def signature_for(petition)
     signatures.where(petition_id: petition.try(:id)).first
   end
 
+  private
+  
   def self.active_subscription?(subscribe_date, unsubscribe_date)
     return true if unsubscribe_date.nil?
     return false if subscribe_date.nil?
