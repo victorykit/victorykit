@@ -138,8 +138,7 @@ class SignatureReferral
   def self.sanitize_referral_code code
       # people cutting and pasting links from text-based emails appear to be picking up 
       # adjacent punctuation, which then rides along with our ref codes
-      match = code.match /.*[^\W]/ if code
-      match[0] if match
+      code.chomp("!") if code
   end
 
 end
