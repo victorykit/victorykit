@@ -344,6 +344,7 @@ function clearAllSignatureErrors() {
 function updatePageToReflectUserSignature(data) {
   clearAllSignatureErrors();
   VK.signature_id = data.signature_id;
+  $(".share_url").attr("value", data.share_url);
   $("#petition_page").removeClass("not_signed").addClass("was_signed");
   $("#thanks-for-signing-message.thanks_first_name").text(data.member.first_name);
   if (window.history && window.history.pushState) {
