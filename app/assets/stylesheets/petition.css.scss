@@ -235,6 +235,20 @@
       font-size: 29px;
       text-align: left;
     }
+    &.margin-bottom-ten {
+      margin-bottom: 10px;
+    }
+    &.fb_toggle {
+      color: blue;
+      font-size: 14px;
+      font-weight: normal;
+      cursor: pointer;
+      margin: -15px 0 0px;
+    }
+  }
+  .share_url {
+    margin-bottom: 25px;
+    width: 75%;
   }
 }
 
@@ -699,13 +713,21 @@
 .progress_image {
   margin-top: 15px;
   .share {
-    font-size: 22px;
     line-height: 36px;
     margin-bottom: 20px;
     &.remixed { font-size: 20px; }
   }
 }
-#thanks-for-signing-message .progress_image .share { font-size: 22px; }
+#mobile_thanks, #thanks-for-signing-message {
+  .share {
+    font-size: 22px;
+    &.fb_toggle {
+      font-size: 15px;
+      color: #007FFF;
+    }
+  }
+
+}
 #mobile_thanks .progress_image .share { font-size: 20px; }
 .quote {
   font-size: 16px;
@@ -884,3 +906,4 @@
     }
   }
 }
+.hide { display: none; }

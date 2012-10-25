@@ -152,31 +152,22 @@ describe PetitionsHelper do
   describe '#after_share_view' do
 
     context 'for a regular browser user' do
-      let(:exp) { 'after share view 6' }
+      let(:exp) { 'after share view 7' }
       let(:goal) { :share }
       let(:options) { [
         "button_is_most_effective_tool-progress_bar",
-        "tell_two_friends-progress_bar",
-        "most_people_will_share_will_you-progress_bar",
-        "over_x_shares_and_counting-with_counter-progress_bar",
-        "king-progress_bar",
-        "mandela-progress_bar",
-        "teresa-progress_bar",
         "almost_there_only_one_thing_left_to_do",
         "almost_done_only_one_thing_left_to_do",
         "almost_finished_only_one_thing_left_to_do",
-        "almost_there",
-        "only_one_thing_left_to_do",
         "almost_there_just_one_thing_left_to_do",
-        "almost_there_only_one_more_thing_to_do",
         "almost_there_just_one_last_thing_to_do",
         "almost_there_just_one_more_thing_to_do",
-        "thanks_for_signing_but_youre_not_done_yet_only_one_thing_left_to_do",
         "almost_there_only_one_thing_left_to_do-top_arrow",
         "almost_there_only_one_thing_left_to_do-bottom_arrow",
         "almost_there_only_one_thing_left_to_do-85",
         "almost_there_only_one_thing_left_to_do-85_top_arrow",
-        "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
+        "almost_there_only_one_thing_left_to_do-85_bottom_arrow",
+        "almost_there_only_one_thing_left_to_do_or_share_link"
       ]
    }
 
