@@ -1,0 +1,12 @@
+.share_button
+  .btn.btn-primary.share{ class: [facebook_button[:button_class], facebook_button_wording], id: who }
+  .share.fb_toggle
+    No Facebook?
+.share_link.hide
+  .share.margin-bottom-10
+    Share this link:
+  %input.share_url{ :value => @referring_url }
+  .share.fb_toggle
+    Want Facebook?
+
+

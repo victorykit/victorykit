@@ -240,6 +240,18 @@ function drawModalAfterSigning() {
         $(".secondary").css("display", "block");
       });
     }
+
+  }
+  if ($(".share_button").length > 0) {
+    $('.fb_toggle').click( function() {
+      $('.share_button').toggleClass("hide");
+      $('.share_link').toggleClass("hide");
+    });
+    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+      $('.share_url').click( function() {
+        $(this).select();
+      });
+    }
   }
 }
 
@@ -375,4 +387,5 @@ $(document).ready(function() {
       indicateUserSignatureFailedAfterAjax
     );
   });
+
 });
