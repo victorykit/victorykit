@@ -142,25 +142,20 @@ describe Petition do
   describe '.find_interesting_petitions_for' do
     subject { Petition }
 
-    let(:sent) { build :petition }
-    let(:signed) { build :petition }
-    let(:nocoverage) { build :petition }
-    let(:interesting) { build :petition }
+    let(:sent) { build :petition, :id => 1 }
+    let(:signed) { build :petition, :id => 2 }
+    let(:nocoverage) { build :petition, :id => 3 }
+    let(:interesting) { build :petition, :id => 4 }
     let(:member) { build :member }
 
     before do
-      # there's probably a better way to do this...
-      sent.stub(:id).and_return 1
-      signed.stub(:id).and_return 2
-      nocoverage.stub(:id).and_return 3
-      interesting.stub(:id).and_return 4
-      
       nocoverage.stub(:cover?).with(member).and_return false
       interesting.stub(:cover?).with(member).and_return true
-      all = [sent, signed, nocoverage, interesting] 
-      subject.stub(:emailable_petition_ids).and_return all.map(&:id)
+
       SentEmail.stub(:find_all_by_member_id).with(member).and_return [stub(petition_id: sent.id)]
       Signature.stub(:find_all_by_member_id).with(member).and_return [stub(petition_id: signed.id)]
+      
+      subject.stub(:emailable_petition_ids).and_return [sent, signed, nocoverage, interesting].map(&:id)
       subject.stub(:find_all_by_id).with([nocoverage.id, interesting.id]).and_return [nocoverage, interesting]
     end
 
