@@ -37,6 +37,25 @@ describe Member do
       specify { subject.full_name.should include subject.last_name }
     end
 
+    describe '#signature_for' do
+      let(:petition) { build :petition, :id => 5 }
+      let(:signature) { build :signature }
+
+      before do
+        subject.signatures.stub(:where).with(petition_id:5).and_return result
+      end
+
+      context 'signed petition' do
+        let(:result) { [signature] }
+        specify { subject.signature_for(petition).should == signature }
+      end
+
+      context 'not signed petition' do
+        let(:result) { [] }
+        specify { subject.signature_for(petition).should be_nil }
+      end
+    end
+
     describe '#last_location' do
       context 'when never signed' do
         its(:last_location) { should == '' }
