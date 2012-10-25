@@ -10,6 +10,7 @@ describe Signature do
     it { should allow_mass_assignment_of :referring_url }
     it { should allow_mass_assignment_of :http_referer }
     it { should allow_mass_assignment_of :browser_name }
+    it { should allow_mass_assignment_of :member }
 
     it { should validate_presence_of :email }
     it { should validate_presence_of :first_name }

@@ -4,7 +4,7 @@ class Signature < ActiveRecord::Base
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
   has_one :sent_email
  
-  attr_accessible :email, :first_name, :last_name
+  attr_accessible :email, :first_name, :last_name, :member
   attr_accessible :reference_type, :referer, :referring_url
   attr_accessible :http_referer, :browser_name
  
