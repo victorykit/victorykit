@@ -1,6 +1,10 @@
 class SignaturesController < ApplicationController
   def create
     petition = Petition.find(params[:petition_id])
+
+    # trailing periods cause SES to reject emails
+    params[:signature][:email] = params[:signature][:email].chomp(".") if params[:signature] and params[:signature][:email]
+
     signature = Signature.new(params[:signature])
     signature.ip_address = connecting_ip
     signature.user_agent = browser.user_agent
