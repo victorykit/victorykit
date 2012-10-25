@@ -4,9 +4,18 @@ describe SignatureReferral do
 
   let(:petition) { create :petition }
   let(:signature) { create :signature, petition_id: petition.id }
+  received_code = "1a2b3c"
+  legacy_received_code = "123.abc"
 
   it "return email referer given sent mail (:n) param" do
     params = {:n => "foo"}.with_indifferent_access
+    referer_ref_type, referer_ref_code = SignatureReferral.translate_raw_referral(params)
+    referer_ref_type.should eq "email"
+    referer_ref_code.should eq "foo"
+  end
+
+  it "return email referer given sent mail (:n) param with inadvertent punctuation included" do
+    params = {:n => "foo!"}.with_indifferent_access
     referer_ref_type, referer_ref_code = SignatureReferral.translate_raw_referral(params)
     referer_ref_type.should eq "email"
     referer_ref_code.should eq "foo"
@@ -29,10 +38,16 @@ describe SignatureReferral do
     SignatureReferral.new(petition, signature, params).trackable?.should be true
   end
 
-  context "unresolvable referral codes" do
+  it "finds email using hash given referral code having trailing punctuation" do
+    sent_email = create :sent_email
+    SentEmail.stub(:find_by_hash).with(received_code).and_return(sent_email)
+    params = {referer_ref_code: "#{received_code}!", referer_ref_type: Signature::ReferenceType::EMAIL}.with_indifferent_access
+    referral = SignatureReferral.new(petition, signature, params).referral
+    referral[:referer].should eq sent_email.member
+    referral[:reference_type].should eq Signature::ReferenceType::EMAIL
+  end
 
-    received_code = "1a2b3c"
-    legacy_received_code = "123.abc"
+  context "unresolvable referral codes" do
 
     it "logs warning and returns default for email referral when email unresolved" do
       SentEmail.stub(:find_by_hash).with(received_code).and_return(nil)
