@@ -3,6 +3,8 @@ function inviteToShareOnTwitter() {
 }
 
 function trackFacebookStatus(facebookStatus) {
+  VK.facebook_login_status = facebookStatus.status;
+  
   $.ajax({
     type: 'post',
     url: VK.social_tracking_url,
@@ -242,11 +244,17 @@ function drawModalAfterSigning() {
     }
 
   }
+  
+  function fb_flip() {
+    $('.share_button').toggleClass("hide");
+    $('.share_link').toggleClass("hide");
+  }
+  
   if ($(".share_button").length > 0) {
-    $('.fb_toggle').click( function() {
-      $('.share_button').toggleClass("hide");
-      $('.share_link').toggleClass("hide");
-    });
+    
+    if (VK.facebook_login_status == 'unknown') { fb_flip(); }    
+    $('.fb_toggle').click(fb_flip);
+    
     if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $('.share_url').click( function() {
         $(this).select();
