@@ -4,6 +4,7 @@ class SignatureReferral
     n:             Signature::ReferenceType::EMAIL,
     r:             Signature::ReferenceType::FORWARDED_NOTIFICATION,
     l:             Signature::ReferenceType::SHARED_LINK,
+    ls:            Signature::ReferenceType::SHARED_LINK_FROM_MODAL,
     t:             Signature::ReferenceType::TWITTER
   }.with_indifferent_access
 

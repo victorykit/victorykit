@@ -5,7 +5,7 @@
 .share_link.hide
   .share.margin-bottom-10
     Share this link:
-  %input.share_url{ :value => @referring_url }
+  %input.share_url{ :value => petition_url(@petition, ls: @member.to_hash) }
   .share.fb_toggle
     Want Facebook?
 
