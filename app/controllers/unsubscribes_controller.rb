@@ -6,7 +6,7 @@ class UnsubscribesController < ApplicationController
     @unsubscribe.member = Member.first(:conditions => [ "lower(email) = ?", @unsubscribe.email.downcase ])
 
     @unsubscribe.ip_address = connecting_ip
-    @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"][0...255]
+    @unsubscribe.user_agent = request.env["HTTP_USER_AGENT"].try(:truncate, 255, omission: "")
     
     if email = SentEmail.find_by_hash(params[:email_hash])
       @unsubscribe.sent_email = email
