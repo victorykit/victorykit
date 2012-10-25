@@ -25,7 +25,7 @@ class SignatureReferral
     @petition       = petition
     @signature      = signature
     @referring_url  = params[:referring_url]
-    @received_code  = SignatureReferral.sanitize_referral_code params[:referer_ref_code]
+    @received_code  = params[:referer_ref_code]
     @reference_type = params[:referer_ref_type]
     @referral_type  = trackable? && ( REF_TYPES.values.include?(@reference_type) ? :regular : :facebook )
   end
@@ -48,7 +48,7 @@ class SignatureReferral
   def self.translate_raw_referral(params={})
     raw_referer_ref_type = ( params.keys & ALL_REF_TYPES.keys ).first.try(:to_sym)
     ref_type = ALL_REF_TYPES[raw_referer_ref_type]
-    ref_code = sanitize_referral_code params[raw_referer_ref_type]
+    ref_code = params[raw_referer_ref_type]
 
     return ref_type, ref_code
   end
@@ -134,12 +134,4 @@ class SignatureReferral
   def legacy_referral_code? code
     code =~ /^(\d+)\.(.*?)$/
   end
-
-  def self.sanitize_referral_code code
-      # people cutting and pasting links from text-based emails appear to be picking up 
-      # adjacent punctuation, which then rides along with our ref codes
-      match = code.match /.*[^\W]/ if code
-      match[0] if match
-  end
-
 end
