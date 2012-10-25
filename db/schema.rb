@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121022164546) do
+ActiveRecord::Schema.define(:version => 20121025192718) do
 
   create_table "email_errors", :force => true do |t|
     t.integer  "member_id",  :null => false
