@@ -11,10 +11,10 @@ class ScheduledEmail < ActionMailer::Base
         email_record = SentEmail.create!(email: member.email, member: member, petition: petition)
         compose(petition, member, email_record, petition_link(petition, email_record)).deliver
       end
+    rescue AWS::SES::ResponseError => exception
+      handle_aws_ses_error member, exception
     rescue => exception
-      Airbrake.notify(exception)
-      Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
-      EmailError.create!(member: member, email: member.email, error: exception)
+      record_exception member, exception
     end
   end
 
@@ -67,6 +67,22 @@ class ScheduledEmail < ActionMailer::Base
       from: Settings.email.from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
+  end
+
+  def handle_aws_ses_error member, exception
+    if exception.message.match /MessageRejected - Address blacklisted/
+      u = Unsubscribe.unsubscribe_member(member)
+      u.cause = "#{exception.class}: #{exception.message}"
+      u.save!
+    else
+      record_exception member, exception
+    end
+  end
+
+  def record_exception member, exception
+    Airbrake.notify(exception)
+    Rails.logger.error "exception sending email: #{exception} #{exception.backtrace.join}"
+    EmailError.create!(member: member, email: member.email, error: exception)
   end
 
 end
