@@ -30,15 +30,6 @@ module PetitionsHelper
     (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
   end
 
-  def facebook_button_wording
-    measure! 'facebook button wording 2', :share, [
-      "share_red_tall_no_f",
-      "like_red_tall_no_f",
-      "tell_your_friends_red_tall_no_f",
-      "spread_the_word_red_tall_no_f"
-    ]
-  end
-
   def facebook_button
     button_hash = {
       'facebook_share' => { button_class: 'fb_share', button_text: 'Share on Facebook' },
