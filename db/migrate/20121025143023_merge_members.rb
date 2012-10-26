@@ -14,7 +14,7 @@ class MergeMembers < ActiveRecord::Migration
     seen.each do |email, ids|
       if ids.size > 1
         first, rest = ids[0], ids[1..-1]
-        [Signature, SentEmail, Unsubscribe].each do |collection|
+        [Signature, SentEmail, Unsubscribe, FacebookFriend].each do |collection|
           collection.where(member_id: rest).update_all(member_id: first)
         end
         Member.where(id: rest).delete_all
