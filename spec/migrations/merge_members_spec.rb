@@ -1,4 +1,4 @@
-require Rails.root.to_s+'/db/migrate/20121025143023_merge_members'
+require Rails.root.join('db', 'migrate', '20121025143023_merge_members')
 
 describe 'merging members by email ignoring case' do
   it 'keeps only the first created' do
