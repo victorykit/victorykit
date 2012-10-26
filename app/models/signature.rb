@@ -36,6 +36,7 @@ class Signature < ActiveRecord::Base
     ReferenceType::EMAIL, 
     ReferenceType::FORWARDED_NOTIFICATION, 
     ReferenceType::SHARED_LINK,
+    ReferenceType::SHARED_LINK_FROM_MODAL,
     ReferenceType::FACEBOOK_LIKE, 
     ReferenceType::FACEBOOK_SHARE, 
     ReferenceType::FACEBOOK_POPUP, 
