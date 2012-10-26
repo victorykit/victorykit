@@ -14,8 +14,9 @@ class MergeMembers < ActiveRecord::Migration
     seen.each do |email, ids|
       if ids.size > 1
         first, rest = ids[0], ids[1..-1]
-        Signature.where(member_id: rest).update_all(member_id: first)
-        SentEmail.where(member_id: rest).update_all(member_id: first)
+        [Signature, SentEmail, Unsubscribe].each do |collection|
+          collection.where(member_id: rest).update_all(member_id: first)
+        end
         Member.where(id: rest).delete_all
       end
     end
