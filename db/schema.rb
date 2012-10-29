@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121025192718) do
+ActiveRecord::Schema.define(:version => 20121029223417) do
 
   create_table "email_errors", :force => true do |t|
     t.integer  "member_id",  :null => false
@@ -128,9 +128,11 @@ ActiveRecord::Schema.define(:version => 20121025192718) do
   end
 
   create_table "referral_codes", :force => true do |t|
-    t.string  "code"
-    t.integer "member_id"
-    t.integer "petition_id"
+    t.string   "code"
+    t.integer  "member_id"
+    t.integer  "petition_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "referral_codes", ["code"], :name => "index_referral_codes_on_code"
