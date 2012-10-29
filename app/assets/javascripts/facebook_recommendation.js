@@ -49,8 +49,8 @@ function buildMultiFriendSelector() {
 
 function postToMeAndFriends() {
   var domain = location.href.replace(/\?.*/,"");
-  var memberHash = $.cookie('member_id');
-  var url = [domain, '?recommend_ref=', memberHash].join('');
+  var referralCode = $.cookie('ref_code');
+  var url = [domain, '?recommend_ref=', referralCode].join('');
   var message = $('#message-to-friends').val();
 
   var friends = (function() {
