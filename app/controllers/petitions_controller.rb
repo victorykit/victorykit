@@ -15,11 +15,9 @@ class PetitionsController < ApplicationController
 
     @referring_url = request.original_url
 
-    @current_member_hash = cookies[:member_id]
     @referer_ref_type, @referer_ref_code = SignatureReferral.translate_raw_referral(params)
 
     @email_hash = params[:n]
-    @existing_fb_action_instance_id = Share.where(member_id: member_from_cookies.try(:id), petition_id: params[:id]).first.try(:action_id)
 
     @member = member_from_cookies || member_from_email
     @was_signed = member_from_cookies.present? && member_from_cookies.has_signed?(@petition)

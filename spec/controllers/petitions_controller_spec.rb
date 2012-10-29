@@ -64,22 +64,8 @@ describe PetitionsController do
       assigns(:was_signed).should == true
     end
 
-    it "should assign a facebook action id if available for the current member and petition" do
-      member = create :member
-      share = create :share, {member: member, petition: petition}
-      controller.stub(cookies: {member_id: member.to_hash})
-      get :show, {id: petition.id}
-      assigns(:existing_fb_action_instance_id).should == share.action_id
-    end
-
     context "the user has already signed the petition" do
       let(:member) { create(:member) }
-
-      it "sets facebook ref hash to encoded signature id" do
-        controller.stub(cookies: {member_id: "hash"})
-        get :show, {:id => petition.id}
-        assigns(:current_member_hash).should == "hash"
-      end
 
       it "should set the id for @signature" do
         controller.stub(cookies: {:member_id => member.to_hash})
