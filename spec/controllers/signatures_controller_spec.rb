@@ -2,6 +2,8 @@ describe SignaturesController do
 
   before(:each) do
     stub_bandit controller
+    now = Time.now
+    Time.stub(:now).and_return(now)
   end
 
   let(:petition) { create(:petition) }
@@ -95,8 +97,7 @@ describe SignaturesController do
         shared_examples 'the option wins' do
           specify do
             controller.stub(:win_on_option!)
-            controller.should_receive(:win_on_option!).
-            with('facebook sharing options', option)
+            FacebookSharingOptionsExperiment.any_instance.should_receive(:win!).with(option, Time.now)
             sign_petition params
           end
         end

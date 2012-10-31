@@ -73,28 +73,6 @@ describe PetitionsHelper do
     end
   end
 
-  describe '#facebook_sharing_option' do
-
-    context 'for an ie7 user' do
-      before { browser.stub!(:ie7?).and_return true }
-      specify{ helper.facebook_sharing_option.should == 'facebook_popup' }
-    end
-
-
-    context 'for a regular browser user' do
-      let(:exp) { 'facebook sharing options' }
-      let(:goal) { :referred_member }
-      let(:options) { ['facebook_popup', 'facebook_request', 'facebook_recommendation', 'facebook_dialog'] }
-
-      before { browser.stub!(:ie7?).and_return false }
-
-      it 'should spin for an option' do
-        helper.should_receive(:spin!).with(exp, goal, options)
-        helper.facebook_sharing_option
-      end
-    end
-  end
-
   describe '#facebook_button' do
 
     shared_examples 'facebook button hash' do
