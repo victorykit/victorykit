@@ -39,7 +39,7 @@ class SignaturesController < ApplicationController
           Notifications.signed_petition Signature.find(signature.id)
         end
 
-        nps_win signature
+        nps_win signature, ref_code
         win! :signature
         cookies[:member_id] = { :value => signature.member.to_hash, :expires => 100.years.from_now }
         cookies[:ref_code] = { :value => ref_code.code, :expires => 100.years.from_now }
@@ -69,16 +69,13 @@ class SignaturesController < ApplicationController
 
   private
   
-  def nps_win signature
+  def nps_win signature, ref_code
     return unless signature.created_member
     win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
   
     reference = signature.reference_type
     return unless reference && SignatureReferral::FACEBOOK_REF_TYPES.values.include?(reference)
-    if(reference == 'facebook_request' || reference == 'facebook_autofill_request')
-      win_on_option!('facebook request pick vs autofill', reference)
-      reference = 'facebook_request'
-    end
-    win_on_option!('facebook sharing options', reference)
+
+    FacebookSharingOptionsExperiment.new(session, request).win! reference, ref_code.created_at
   end
 end

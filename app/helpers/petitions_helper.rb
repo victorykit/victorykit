@@ -24,10 +24,7 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
-    return 'facebook_popup' if browser.ie7?
-    options = ['facebook_popup', 'facebook_request', 'facebook_recommendation', 'facebook_dialog']
-    winner =  spin! 'facebook sharing options', :referred_member, options
-    (winner == 'facebook_request') ? facebook_request_pick_vs_autofill : winner
+    FacebookSharingOptionsExperiment.new(session, request).spin! @member, browser
   end
 
   def facebook_button
@@ -129,12 +126,6 @@ module PetitionsHelper
 
   def social_media_config
     Rails.configuration.social_media
-  end
-
-  def facebook_request_pick_vs_autofill
-    return unless @member.present?
-    fb_friend = FacebookFriend.find_by_member_id(@member.id)
-    fb_friend.present? ? (spin! 'facebook request pick vs autofill', :referred_member, ['facebook_request', 'facebook_autofill_request']) : 'facebook_request'
   end
 
   def progress_options_config
