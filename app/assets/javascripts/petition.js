@@ -145,7 +145,6 @@ function initTwitter() {
 }
 
 function bindFacebookPopupButton() {
-
   function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
     var domain = location.href.replace(/\?.*/,"");
@@ -157,7 +156,6 @@ function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
     openPopup();
     setupSocialTrackingControllerRequest('popup');
-    inviteToShareOnTwitter();
     $('.giantbox').hide();
   });
 }
@@ -177,14 +175,14 @@ function bindFacebookDialogButton() {
       "picture=" + getProperty('og:image') + "&" +
       "name=" + getProperty('og:title') + "&" +
       "description=" + getProperty('og:description') + "&" +
-      "redirect_uri=" + location.href + "&" +
+      "redirect_uri=http://" + location.host + "/close.html&" +
       "display=popup";
     window.open(dialog , 'dialog', 'width=626,height=436');
   }
+
   $('.fb_dialog_btn').click(function() {
     openDialog();
     setupSocialTrackingControllerRequest('dialog');
-    inviteToShareOnTwitter();
     $('.giantbox').hide();
   });
 }
