@@ -4,6 +4,11 @@ describe PetitionsController do
 
   before(:each) do
     stub_bandit controller
+    class Petition
+      def sigcount
+        signatures.count
+      end
+    end
   end
 
   # This should return the minimal set of attributes required to create a valid
@@ -46,7 +51,7 @@ describe PetitionsController do
       controller.stub(:cookies => {member_id: member.to_hash})
       create(:signature, :member_id => member.id, :petition_id => petition.id)
       get :show, :id => petition.id.to_s
-      assigns(:tweetable_url).should == "http://test.host/petitions/#{petition.id}?t=#{member.to_hash}"
+      assigns(:tweetable_url).should =~ /#{petition.id}\?t=#{member.to_hash}/
     end
 
     it "should set was_signed to false if cookies don`t contain this petition" do
