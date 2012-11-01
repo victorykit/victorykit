@@ -2,7 +2,7 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
   include Whiplash
 
   def initialize session, request
-    super('facebook sharing options', [Time.parse("2012-Nov-01 14:00 -0400")])
+    super('facebook sharing options', [Time.parse("2015-Nov-01 14:00 -0400")])
 
     @options = ['facebook_popup', 'facebook_request', 'facebook_recommendation', 'facebook_dialog']
     @session = session
@@ -27,6 +27,7 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
   end
 
   def win! reference, ref_time
+    Rails.logger.debug "facebook sharing win for: #{reference} from #{ref_time} against #{name_as_of(ref_time)}"
     reference = win_request_pick_vs_autofill reference
     win_on_option! name_as_of(ref_time), reference
   end
