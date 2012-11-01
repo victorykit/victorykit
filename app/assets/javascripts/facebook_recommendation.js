@@ -54,11 +54,9 @@ function postToMeAndFriends() {
   var message = $('#message-to-friends').val();
 
   var friends = (function() {
-    return $('.friend_lists input[type="checkbox"]').filter(function(i) {
-      return $(this).attr('checked');
-    }).map(function() {
-      return $(this).val();
-    });
+    return $('.friend_lists input[type="checkbox"]')
+      .filter(function() { return $(this).attr('checked'); })
+      .map(function() { return $(this).val(); });
   })().toArray().concat(['me']);
 
   (function send(i) {
@@ -124,7 +122,8 @@ function getFriendsWithAppInstalled() {
     "friend_ids":"select uid2 from friend where uid1 = me()",
     "sympathetic":"select user_id from url_like where user_id in "+
       "(select uid2 from #friend_ids) and strpos(url, 'watchdog.net') > 0", 
-    "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) order by profile_update_time desc"
+    "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) "+
+      "order by profile_update_time desc"
   };
 
   queryFacebook(query, groups);
@@ -148,8 +147,12 @@ function checkPermissions() {
   });
 }
 
-function submitAppRequest() {
+function closeThanksModal() {
   $("#thanksModal").modal('hide');
+}
+
+function submitAppRequest() {
+  closeThanksModal();
   FB.login(function (response) {
     if (response.authResponse) {
       checkPermissions();
