@@ -73,7 +73,7 @@ class SignaturesController < ApplicationController
     win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
   
     if FacebookSharingOptionsExperiment.applicable_to? signature
-      FacebookSharingOptionsExperiment.new(session, request).win! signature
+      FacebookSharingOptionsExperiment.new(self).win! signature
     end
   end
 end
