@@ -8,6 +8,23 @@ describe FacebookSharingOptionsExperiment do
     @experiment = FacebookSharingOptionsExperiment.new(session, request)
   end
 
+  context "referred signature" do
+    it "should be applicable when referred from facebook sharing" do
+      signature = stub("signature", :reference_type => "facebook_popup")
+      FacebookSharingOptionsExperiment.applicable_to?(signature).should be_true
+    end
+
+    it "should not be applicable when referred from other than facebook" do
+      signature = stub("signature", :reference_type => "shared_link")
+      FacebookSharingOptionsExperiment.applicable_to?(signature).should be_false
+    end
+
+    it "should not be applicable when referred from unknown" do
+      signature = stub("signature", :reference_type => nil)
+      FacebookSharingOptionsExperiment.applicable_to?(signature).should be_false
+    end
+  end
+
   context "using ie7" do
     let(:browser){ stub("browser", :ie7? => true) }
 
@@ -29,32 +46,41 @@ describe FacebookSharingOptionsExperiment do
       it "should spin using test name as of now" do
         spin_time = now
         test_name_as_of_now = "test name (reset <timestamp for now>)"
-        winning_option = "some option"
+        referral_type = "some option"
 
         @experiment.stub(:name_as_of).with(spin_time).and_return(test_name_as_of_now)
-        @experiment.stub(:super_spin!).with(test_name_as_of_now, :referred_member, kind_of(Array)).and_return(winning_option)
+        @experiment.stub(:super_spin!).with(test_name_as_of_now, :referred_member, kind_of(Array)).and_return(referral_type)
 
-        @experiment.spin!(member, browser).should eq winning_option
+        @experiment.spin!(member, browser).should eq referral_type
+      end
+
+      it "should win using default test name where no referral code found" do
+        default_test_name = "facebook sharing options"
+        referral_type = "some option"
+        signature = stub("signature", :id => 5, :reference_type => referral_type, :referral_code => nil)
+        @experiment.should_receive(:win_on_option!).with(default_test_name, referral_type)
+        @experiment.win!(signature)
       end
 
       it "should win using default test name where referral code has no timestamp" do
-        referral_time = nil
         default_test_name = "facebook sharing options"
-        winning_option = "some option"
-
-        @experiment.should_receive(:win_on_option!).with(default_test_name, winning_option)
-        @experiment.win!(winning_option, referral_time)
+        referral_type = "some option"
+        referral_time = nil
+        signature = stub_signature_for_referral referral_type, referral_time
+        @experiment.should_receive(:win_on_option!).with(default_test_name, referral_type)
+        @experiment.win!(signature)
       end
 
       it "should win using new test name where referral code has timestamp later than test transition date" do
-        referral_time = Date.tomorrow.to_time
         test_name_as_of_tomorrow = "test name (reset <timestamp for tomorrow>)"
-        winning_option = "some option"
+        referral_type = "some option"
+        referral_time = Date.tomorrow.to_time
+        signature = stub_signature_for_referral referral_type, referral_time
 
         @experiment.stub(:name_as_of).with(referral_time).and_return(test_name_as_of_tomorrow)
 
-        @experiment.should_receive(:win_on_option!).with(test_name_as_of_tomorrow, winning_option)
-        @experiment.win!(winning_option, referral_time)
+        @experiment.should_receive(:win_on_option!).with(test_name_as_of_tomorrow, referral_type)
+        @experiment.win!(signature)
       end
 
     end
@@ -92,20 +118,27 @@ describe FacebookSharingOptionsExperiment do
       context "win for request pick/autofill subexperiment" do
 
         it "should record win for facebook request against subexperiment as well as main experiment" do
+          signature = stub_signature_for_referral "facebook_request", 1.month.ago.to_time
           @experiment.should_receive(:win_on_option!).with("facebook request pick vs autofill", "facebook_request")
           @experiment.should_receive(:win_on_option!).with(/facebook sharing options/, "facebook_request")
-          @experiment.win!("facebook_request", 1.month.ago.to_time)
+          @experiment.win!(signature)
         end
 
         it "should record win for autofill against subexperiment but as generic facebook request for main experiment" do
+          signature = stub_signature_for_referral "facebook_autofill_request", 1.month.ago.to_time
           @experiment.should_receive(:win_on_option!).with("facebook request pick vs autofill", "facebook_autofill_request")
           @experiment.should_receive(:win_on_option!).with(/facebook sharing options/, "facebook_request")
-          @experiment.win!("facebook_autofill_request", 1.month.ago.to_time)
+          @experiment.win!(signature)
         end
       end
 
     end
 
+  end
+
+  def stub_signature_for_referral referral_type, referral_time
+    referral_code = stub("ref code", :created_at => referral_time)
+    signature = stub("signature", :id => 5, :reference_type => referral_type, :referral_code => referral_code)
   end
 
 end

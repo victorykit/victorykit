@@ -97,7 +97,7 @@ describe SignaturesController do
         shared_examples 'the option wins' do
           specify do
             controller.stub(:win_on_option!)
-            FacebookSharingOptionsExperiment.any_instance.should_receive(:win!).with(option, Time.now)
+            FacebookSharingOptionsExperiment.any_instance.should_receive(:win!).with(an_instance_of(Signature))
             sign_petition params
           end
         end

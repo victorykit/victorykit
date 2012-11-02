@@ -2,7 +2,7 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
   include Whiplash
 
   def initialize session, request
-    super('facebook sharing options', [Time.parse("2015-Nov-01 14:00 -0400")])
+    super('facebook sharing options', [Time.parse("2012-Nov-02 11:30 -0400")])
 
     @options = ['facebook_popup', 'facebook_request', 'facebook_recommendation', 'facebook_dialog']
     @session = session
@@ -26,10 +26,14 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
     spin_request_subexperiment sharing_option, member
   end
 
-  def win! reference, ref_time
-    Rails.logger.debug "facebook sharing win for: #{reference} from #{ref_time} against #{name_as_of(ref_time)}"
-    reference = win_request_pick_vs_autofill reference
-    win_on_option! name_as_of(ref_time), reference
+  def self.applicable_to? signature
+    referral_type = signature.reference_type
+    return referral_type && SignatureReferral::FACEBOOK_REF_TYPES.values.include?(referral_type)
+  end
+
+  def win! signature
+    referral_type = win_request_pick_vs_autofill signature.reference_type
+    win_on_option! name_as_of_referral(signature), referral_type
   end
 
   private
@@ -44,12 +48,22 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
       request_default
   end
 
-  def win_request_pick_vs_autofill reference
-    if(reference == 'facebook_request' || reference == 'facebook_autofill_request')
-      win_on_option! 'facebook request pick vs autofill', reference
-      reference = 'facebook_request'
+  def win_request_pick_vs_autofill referral_type
+    if(referral_type == 'facebook_request' || referral_type == 'facebook_autofill_request')
+      win_on_option! 'facebook request pick vs autofill', referral_type
+      referral_type = 'facebook_request'
     end
-    reference
+    referral_type
+  end
+
+  def name_as_of_referral signature
+    referral_code = signature.referral_code
+    referral_time = referral_code.created_at if referral_code
+    name = name_as_of referral_time
+    if not referral_time
+      Rails.logger.debug "Referral time unknown: no referer_id for signature #{signature.id}. Awarding win for #{signature.reference_type} to default test: #{name}"
+    end
+    name
   end
 
 end
