@@ -35,7 +35,7 @@ class Member < ActiveRecord::Base
     end
 
     return [] if receiver_ids.empty?
-    receiver_ids.sample(n).collect{ |x| Member.find(x['id']) }
+    Member.find_all_by_id(receiver_ids.sample(n).collect{|x| x['id']})
   end
 
   def full_name
