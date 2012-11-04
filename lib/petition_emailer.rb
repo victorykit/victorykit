@@ -3,7 +3,17 @@ class PetitionEmailer
   extend Whiplash
   
   def self.send(n)
-    Member.random_and_not_recently_contacted(n).each  do |member|
+    to_contact = Member.random_and_not_recently_contacted(n).select do |member|
+        k = "scheduled_email/sent/#{member.id}"
+        if REDIS.incr(k) == 1
+            REDIS.expire(k, 60*60)
+            next true
+        else
+            next false
+        end
+    end
+
+    to_contact.each  do |member|
       self.send_to member if member
     end
   end
