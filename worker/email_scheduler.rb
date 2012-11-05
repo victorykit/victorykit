@@ -1,7 +1,7 @@
 require 'scheduled_email'
 require 'petition_emailer'
 
-WEEK = 60*60*24*7
+WEEK = 60*60*24
 BATCH_SIZE = 100
 
 class EmailScheduler
