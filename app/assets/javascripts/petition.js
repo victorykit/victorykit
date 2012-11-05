@@ -148,7 +148,8 @@ function bindFacebookPopupButton() {
   function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
     var domain = location.href.replace(/\?.*/,"");
-    var referralCode = $.cookie('ref_code');
+    var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
+
     var url = sharer + encodeURIComponent(domain + '?share_ref=' + referralCode);
     window.open(url , 'sharer', 'width=626,height=436');
   }
@@ -167,7 +168,7 @@ function bindFacebookDialogButton() {
 
   function openDialog() {
     var domain = location.href.replace(/\?.*/,"");
-    var referralCode = $.cookie('ref_code');
+    var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
     var link = [domain, '?fd=', referralCode].join('');
     var dialog = "https://www.facebook.com/dialog/feed?" +
       "app_id=" + getProperty('fb:app_id') + "&" +

@@ -49,7 +49,7 @@ function buildMultiFriendSelector() {
 
 function postToMeAndFriends() {
   var domain = location.href.replace(/\?.*/,"");
-  var referralCode = $.cookie('ref_code');
+  var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
   var url = [domain, '?recommend_ref=', referralCode].join('');
   var message = $('#message-to-friends').val();
 
