@@ -68,10 +68,10 @@
 
           - if progress_option == 'x_signatures_of_y' || progress_option == 'x_of_y_supporters'
             .social_icons
-              = fb_like petition_url(params[:id]), @fb_tracking_hash
+              = fb_like petition_url(params[:id]), @signer_code.code
           - else
             .social_icons.tallerprogress
-              = fb_like petition_url(params[:id]), @fb_tracking_hash
+              = fb_like petition_url(params[:id]), @signer_code.code
           .progress_bar
             .numbers
               %div{ :class => progress[:classes] }
