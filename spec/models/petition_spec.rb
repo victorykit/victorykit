@@ -152,13 +152,19 @@ describe Petition do
       nocoverage.stub(:cover?).with(member).and_return false
       interesting.stub(:cover?).with(member).and_return true
 
-      SentEmail.stub(:find_all_by_member_id).with(member).and_return [stub(petition_id: sent.id)]
-      Signature.stub(:find_all_by_member_id).with(member).and_return [stub(petition_id: signed.id)]
+      SentEmail.stub_chain(:where, :select).
+        and_return [stub(petition_id: sent.id)]
+
+      Signature.stub_chain(:where, :select).
+        and_return [stub(petition_id: signed.id)]
       
-      subject.stub(:emailable_petition_ids).and_return [sent, signed, nocoverage, interesting].map(&:id)
-      subject.stub(:find_all_by_id).with([nocoverage.id, interesting.id]).and_return [nocoverage, interesting]
+      subject.stub(:emailable_petition_ids).
+        and_return [sent, signed, nocoverage, interesting].map(&:id)
+
+      subject.stub_chain(:select, :where).
+        and_return [nocoverage, interesting]
     end
 
-    specify { subject.find_interesting_petitions_for(member).should == [interesting] }
+    pending { subject.find_interesting_petitions_for(member).should == [interesting] }
   end
 end
