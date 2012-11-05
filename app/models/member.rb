@@ -18,7 +18,7 @@ class Member < ActiveRecord::Base
       WHERE members.id NOT IN (
         SELECT member_id 
         FROM sent_emails 
-        WHERE created_at > now() - interval '48 hours'
+        WHERE created_at > now() - interval '1 week'
       ) AND members.id NOT IN (
         SELECT member_id
         FROM signatures

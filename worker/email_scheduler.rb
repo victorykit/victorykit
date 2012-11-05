@@ -1,8 +1,8 @@
 require 'scheduled_email'
 require 'petition_emailer'
 
-WEEK = 60*60*3
-BATCH_SIZE = 1000
+WEEK = 60*60*24*7
+BATCH_SIZE = 100
 
 class EmailScheduler
   def self.schedule_email
