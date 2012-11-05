@@ -2,7 +2,7 @@ require 'scheduled_email'
 require 'petition_emailer'
 
 WEEK = 60*60*24*7
-BATCH_SIZE = 1000
+BATCH_SIZE = 100
 
 class EmailScheduler
   def self.schedule_email
@@ -10,23 +10,30 @@ class EmailScheduler
 
     sleep_debt = 0
     max_emails_per_week = Member.count.to_f
-    #MailerProcessTracker.in_transaction do
+    
+    process = MailerProcessTracker.new(is_locked: true)
+    process.save!
+
+    begin
       while 1
         last_email = Time.now
-        send_email(BATCH_SIZE)
-        sleep_debt += WEEK/(max_emails_per_week/BATCH_SIZE) - (Time.now-last_email)
+        amount_sent = PetitionEmailer.send(BATCH_SIZE).length
+        process.touch
+
+        sleep_debt += WEEK/((max_emails_per_week/MailerProcessTracker.count)/amount_sent) - (Time.now-last_email)
         puts "Sleep debt: " + sleep_debt.to_s
+
         if sleep_debt > 0
           sleep(sleep_debt)
           sleep_debt = 0
         end
       end
-    #end
-  end
-
-  def self.send_email(n)
-    PetitionEmailer.send(n)
-    MailerProcessTracker.update
+    rescue => error
+      Airbrake.notify(error)
+      Rails.logger.error "Error in mail process transaction #{error} #{error.backtrace.join}"
+    ensure
+      process.delete
+    end
   end
 end
 
