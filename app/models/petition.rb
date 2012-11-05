@@ -28,9 +28,9 @@ class Petition < ActiveRecord::Base
   end
 
   def self.find_interesting_petitions_for(member)
-    signed = Signature.find_all_by_member_id(member).map(&:petition_id)
-    sent = SentEmail.find_all_by_member_id(member).map(&:petition_id)
-    find_all_by_id(emailable_petition_ids - signed - sent).select { |p| p.cover? member }
+    signed = Signature.where(member_id: member).select(:petition_id).map(&:petition_id)
+    sent = SentEmail.where(member_id: member).select(:petition_id).map(&:petition_id)
+    select('location_patterns').where(id: (emailable_petition_ids - signed - sent)).select { |p| p.cover? member }
   end
 
   def strip_whitespace
