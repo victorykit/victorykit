@@ -48,7 +48,9 @@ function setupSocialTracking() {
   try {
     if (FB && FB.Event && FB.Event.subscribe) {
       FB.Event.subscribe('edge.create', function (targetUrl) {
+        targetUrl = targetUrl + "?f=" + VK.ref_code;
         _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
+
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         setupSocialTrackingControllerRequest('like');
