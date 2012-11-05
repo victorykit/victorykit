@@ -165,6 +165,6 @@ describe Petition do
         and_return [nocoverage, interesting]
     end
 
-    pending { subject.find_interesting_petitions_for(member).should == [interesting] }
+    specify { subject.find_interesting_petitions_for(member).should == [interesting] }
   end
 end
