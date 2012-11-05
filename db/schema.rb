@@ -13,19 +13,19 @@
 
 ActiveRecord::Schema.define(:version => 20121029223417) do
 
+  create_table "bounced_emails", :force => true do |t|
+    t.text     "raw_content"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.integer  "sent_email_id"
+  end
+
   create_table "email_errors", :force => true do |t|
     t.integer  "member_id",  :null => false
     t.string   "email"
     t.text     "error"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-  end
-
-  create_table "bounced_emails", :force => true do |t|
-    t.text     "raw_content"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-    t.integer  "sent_email_id"
   end
 
   create_table "email_experiments", :force => true do |t|
@@ -50,7 +50,6 @@ ActiveRecord::Schema.define(:version => 20121029223417) do
 
   add_index "facebook_actions", ["member_id"], :name => "index_likes_on_member_id"
   add_index "facebook_actions", ["petition_id"], :name => "index_likes_on_petition_id"
-  add_index "facebook_actions", ["action_id"], :name => "index_facebook_actions_action_id"
 
   create_table "facebook_friends", :force => true do |t|
     t.integer  "member_id",   :null => false
@@ -96,7 +95,6 @@ ActiveRecord::Schema.define(:version => 20121029223417) do
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
-  add_index "members", ["email"], :name => "index_lower_members_on_email"
   add_index "members", ["referral_code"], :name => "index_members_on_referral_code"
 
   create_table "petition_images", :force => true do |t|
@@ -150,7 +148,6 @@ ActiveRecord::Schema.define(:version => 20121029223417) do
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
-  add_index "sent_emails", ["member_id"], :name => "sent_emails_member_id_idx"
 
   create_table "signatures", :force => true do |t|
     t.string   "email",          :null => false
@@ -172,7 +169,7 @@ ActiveRecord::Schema.define(:version => 20121029223417) do
     t.string   "state"
     t.string   "state_code"
     t.string   "country_code"
-    t.text     "http_referer"
+    t.string   "http_referer"
   end
 
   add_index "signatures", ["created_at"], :name => "index_signatures_on_created_at"
@@ -221,8 +218,9 @@ ActiveRecord::Schema.define(:version => 20121029223417) do
     t.boolean  "is_admin",        :default => false, :null => false
   end
 
-  add_foreign_key "email_errors", "members", :name => "email_errors_member_id_fk"
   add_foreign_key "bounced_emails", "sent_emails", :name => "bounced_emails_sent_email_id_fk"
+
+  add_foreign_key "email_errors", "members", :name => "email_errors_member_id_fk"
 
   add_foreign_key "facebook_friends", "members", :name => "facebook_friends_member_id_fk"
 
