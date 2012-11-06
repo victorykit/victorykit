@@ -1,7 +1,3 @@
-function inviteToShareOnTwitter() {
-  return;
-}
-
 function trackFacebookStatus(facebookStatus) {
   VK.facebook_login_status = facebookStatus.status;
   
@@ -54,7 +50,6 @@ function setupSocialTracking() {
         //Google doesn't export social event data yet, so we have to track social actions as events too
         _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
         setupSocialTrackingControllerRequest('like');
-        inviteToShareOnTwitter();
       });
       FB.Event.subscribe('edge.remove', function (targetUrl) {
         _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
@@ -136,16 +131,6 @@ function EmailSuggestions() {
   };
 }
 
-function initTwitter() {
-  var js, fjs = document.getElementsByTagName("script")[0];
-  if (!document.getElementById("twitter-wjs")) {
-    js = document.createElement("script");
-    js.id = "twitter-wjs";
-    js.src = "//platform.twitter.com/widgets.js";
-    fjs.parentNode.insertBefore(js, fjs);
-  }
-}
-
 function bindFacebookPopupButton() {
   function openPopup() {
     var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
@@ -192,14 +177,12 @@ function bindFacebookDialogButton() {
 
 
 function bindFacebookRequestButton() {
-
   function requestCallbackForSendRequest(response) {
     if(response && response.request) {
       setupSocialTrackingControllerRequest('request', '', response.request, response.to);
     }
-    inviteToShareOnTwitter();
   }
-
+  
   function sendRequestViaMultiFriendSelector() {
     FB.ui({method: 'apprequests',
       message: VK.petition_title
@@ -214,7 +197,6 @@ function bindFacebookRequestAutofillFriendsButton() {
     if(response && response.request) {
       setupSocialTrackingControllerRequest('autofill_request', '', response.request, '');
     }
-    inviteToShareOnTwitter();
   }
 
   function sendAutofillFriendRequests() {
@@ -252,10 +234,8 @@ function drawModalAfterSigning() {
   }
   
   if ($(".share_button").length > 0) {
-    
     if (VK.facebook_login_status == 'unknown') { fb_flip(); }    
     $('.fb_toggle').click(fb_flip);
-    
     if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $('.share_url').click( function() {
         $(this).select();
@@ -397,5 +377,4 @@ $(document).ready(function() {
       indicateUserSignatureFailedAfterAjax
     );
   });
-
 });
