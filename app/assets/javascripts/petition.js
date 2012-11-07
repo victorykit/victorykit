@@ -225,7 +225,6 @@ function drawModalAfterSigning() {
         $(".secondary").css("display", "block");
       });
     }
-
   }
   
   function fb_flip() {
@@ -302,7 +301,7 @@ function initSharePetition() {
   bindFacebookDialogButton();
   bindFacebookRequestButton();
   bindFacebookRequestAutofillFriendsButton();
-  bindFacebookRecommendationButton();
+  recommendation.init();
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
