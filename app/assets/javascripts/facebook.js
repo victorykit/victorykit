@@ -76,8 +76,6 @@ var facebook = (function() {
   }
 
   function sendAction() {
-    FB.login(loginCallback, { scope: 'publish_actions' });
-
     function loginCallback(res) {
       if(!res.authResponse) {
         $('.fb_share_message').hide();
@@ -92,6 +90,8 @@ var facebook = (function() {
       $('.fb_share_message').text('Please try again.') :
       socialTracking.trackSharing('share', response.id, '', '');
     }
+
+    FB.login(loginCallback, { scope: 'publish_actions' });
   }
 
   function setupShare() {
