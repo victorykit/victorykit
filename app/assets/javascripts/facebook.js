@@ -47,7 +47,7 @@ var socialTracking = (function() {
   };
 })();
 
-var facebook = (function() {
+var facebook = (function(socialTracking, recommendation) {
   function init() {
     iniApp();
     setupShare();
