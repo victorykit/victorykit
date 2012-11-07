@@ -2,8 +2,8 @@ class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   include HtmlToPlainText
 
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary
-  attr_accessible :description, :title, :facebook_description, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary, :to_send, :location, :as => :admin
+  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary
+  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary, :to_send, :location, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
@@ -12,7 +12,6 @@ class Petition < ActiveRecord::Base
   has_many :referral_codes
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
-  validates_length_of :facebook_description, :maximum => 300
   validates_length_of :short_summary, :maximum => 255
   validates_with PetitionTitlesValidator
   before_validation :strip_whitespace
