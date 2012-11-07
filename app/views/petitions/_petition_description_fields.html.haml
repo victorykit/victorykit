@@ -1,0 +1,5 @@
+.additional_title
+  - label_name = 'Facebook Description'
+  = f.text_field :facebook_description, :class => "string with_icon", :maxlength => 300
+  .btn.btn-primary{onclick: "remove_fields(this)"}
+    %i.icon-trash.icon-white= link_to_remove_fields "remove", f

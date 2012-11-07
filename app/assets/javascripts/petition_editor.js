@@ -54,10 +54,14 @@ function initEditPetition(root) {
     $('#facebook_title_link').hide();
   });
 
-  $('#facebook_description_link').click(function (evt) {
+ if ($('#facebook_description').has('.additional_title').length) {
     $('#facebook_description').show();
     $('#facebook_description_link').hide();
-    evt.preventDefault();
+  }
+
+  $('#facebook_description_link').click(function () {
+    $('#facebook_description').show();
+    $('#facebook_description_link').hide();
   });
 
   if ($('#sharing_image').has('.additional_title').length) {

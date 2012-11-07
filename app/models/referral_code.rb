@@ -39,6 +39,12 @@ class ReferralCode < ActiveRecord::Base
     end
   end
 
+  def facebook_description_for_sharing
+    facebook_descriptions = petition.petition_descriptions.map(&:facebook_description)
+    description_choice = spin! test_names[:description], :signature, facebook_descriptions if facebook_descriptions.any?
+    description_choice.present? ? description_choice : petition.default_description_for_sharing
+  end
+
   def session
     @session ||= ActiveRecordWhiplashSession.new(
       session_id: self.code, 
@@ -71,7 +77,8 @@ class ReferralCode < ActiveRecord::Base
 
   def test_names
     { :title => "petition #{petition.id} #{title_type} title",
-      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image 2" }
+      :image => petition.petition_images.any? ? "petition #{petition.id} #{title_type} image" : "default facebook image 2",
+      :description => "petition #{petition.id} #{title_type} description" }
   end
 
 end

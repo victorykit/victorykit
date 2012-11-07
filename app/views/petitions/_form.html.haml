@@ -52,13 +52,17 @@
           = link_to_add_fields "Add #{facebook_title_title}", f, :petition_titles, {:class => "string btn btn-primary add_link"}, {:title_type => "facebook", :label_name => "#{facebook_title_title}"}, "#facebook_titles"
 
     .controls.toggle
-      =link_to "Customize Facebook Description", "#", :id => "facebook_description_link"
+      = link_to_add_fields "Customize Facebook Description", f, :petition_descriptions, {:class => "string", :id => 'facebook_description_link'}, {:label_name => "Facebook Description"}, "#facebook_descriptions"
 
     #facebook_description
       .control-group.string
         .control-label Facebook Description
         .controls#facebook_descriptions
-          = f.text_area :facebook_description, :rows => 3
+          %span.description (Description can only be 300 characters long.)
+          = f.fields_for :petition_descriptions do |builder|
+            = render 'petition_description_fields', {f: builder}
+        .controls
+          = link_to_add_fields "Add Description", f, :petition_descriptions, {:class => "string btn btn-primary add_link"}, {:label_name => 'Facebook Description'}, "#facebook_descriptions"
 
     .controls.toggle
       = link_to_add_fields "Customize Image", f, :petition_images, {:class => "string", :id => 'sharing_image_link'}, {:label_name => "Image"}, "#sharing_images"

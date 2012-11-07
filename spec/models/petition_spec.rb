@@ -15,19 +15,19 @@ describe Petition do
     context 'with html' do
       let(:descr) { 'I<br>haz&nbsp;&quot;stuff&quot;' }
       its(:plain_text_description) { should == "I\nhaz \"stuff\"" }
-      its(:facebook_description_for_sharing){ should == 'Ihaz&nbsp;&quot;stuff&quot;' }
+      its(:default_description_for_sharing){ should == 'Ihaz&nbsp;&quot;stuff&quot;' }
     end
 
     context 'with quotes' do
       let(:descr) { "'\"quotes" }
       its(:plain_text_description) { should == "'\"quotes" }
-      its(:facebook_description_for_sharing) { should == '&apos;&quot;quotes' }
+      its(:default_description_for_sharing) { should == '&apos;&quot;quotes' }
     end
 
     context 'with links' do
       let(:descr) { 'a <a href="http://w.com">link</a>' }
       its(:plain_text_description) { should == 'a link ( http://w.com )' }
-      its(:facebook_description_for_sharing) { should == 'a link' }
+      its(:default_description_for_sharing) { should == 'a link' }
     end
 
     describe '#description_lsub' do
