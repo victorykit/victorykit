@@ -1,97 +1,3 @@
-function trackFacebookStatus(facebookStatus) {
-  VK.facebook_login_status = facebookStatus.status;
-  
-  $.ajax({
-    type: 'post',
-    url: VK.social_tracking_url,
-    data: {facebook_action: "status", facebook_status: facebookStatus.status}
-  });
-}
-
-function initFacebookApp() {
-  var appId = $('meta[property="fb:app_id"]').attr('content');
-  FB.init({
-    appId: appId,
-    status: true, // check login status
-    cookie: true, // enable cookies to allow the server to access the session
-    xfbml: true,  // parse XFBML
-    frictionless: true // for facebook request dialog
-  });
-
-  if (FB.getLoginStatus) { FB.getLoginStatus(trackFacebookStatus); }
-}
-
-function socialTrackingParams(facebook_action, action_id, request_id, request_to_ids) {
-  var params = { petition_id: VK.petition_id, facebook_action: facebook_action };
-
-  if (VK.signature_id !== "") { params.signature_id = VK.signature_id; }
-  if (action_id !== "")       { params.action_id = action_id; }
-  if (request_id !== "")      { params.request_id = request_id; }
-  if (request_to_ids !== "")  { params.friend_ids = request_to_ids; }
-
-  return params;
-}
-
-function setupSocialTrackingControllerRequest(facebook_action, action_id, request_id, request_to_ids) {
-  $.ajax({
-    type: 'post',
-    url: VK.social_tracking_url,
-    data: socialTrackingParams(facebook_action, action_id, request_id, request_to_ids)
-  });
-}
-
-function setupSocialTracking() {
-  try {
-    if (FB && FB.Event && FB.Event.subscribe) {
-      FB.Event.subscribe('edge.create', function (targetUrl) {
-        targetUrl = targetUrl + "?f=" + VK.ref_code;
-        _gaq.push(['_trackSocial', 'facebook', 'like', targetUrl]);
-
-        //Google doesn't export social event data yet, so we have to track social actions as events too
-        _gaq.push(['_trackEvent', 'facebook', 'like', targetUrl]);
-        setupSocialTrackingControllerRequest('like');
-      });
-      FB.Event.subscribe('edge.remove', function (targetUrl) {
-        _gaq.push(['_trackSocial', 'facebook', 'unlike', targetUrl]);
-        _gaq.push(['_trackEvent', 'facebook', 'unlike', targetUrl]);
-      });
-    }
-  } catch (e) {
-  }
-}
-
-function submitFacebookAction() {
-  FB.login(function (response) {
-    if (response.authResponse) {
-      FB.api(
-        '/me/watchdognet:sign',
-        'post',
-        {
-          petition: $('meta[property="og:url"]').attr("content")
-        },
-        function (response) {
-          if (!response || response.error) {
-            $('.fb_share_message').text("Please try again.");
-          } else {
-            setupSocialTrackingControllerRequest('share', response.id, '', '');
-          }
-        }
-      );
-    } else {
-      $('.fb_share_message').hide();
-    }
-  }, {scope: 'publish_actions'});
-}
-
-function setupShareFacebookButton() {
-  var shareButton = $('.fb_share.btn');
-  shareButton.click(function (event) {
-    $('.fb_share_message').text("Connecting to Facebook...");
-    $('.fb_share_message').show();
-    submitFacebookAction();
-  });
-}
-
 function preventWhitespaceOn(input) {
   $(input).change(function () {
     this.value = this.value.replace(/ /g, '');
@@ -129,84 +35,6 @@ function EmailSuggestions() {
       }
     });
   };
-}
-
-function bindFacebookPopupButton() {
-  function openPopup() {
-    var sharer = "https://www.facebook.com/sharer/sharer.php?u=";
-    var domain = location.href.replace(/\?.*/,"");
-    var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
-
-    var url = sharer + encodeURIComponent(domain + '?share_ref=' + referralCode);
-    window.open(url , 'sharer', 'width=626,height=436');
-  }
-
-  $('.fb_popup_btn').click(function() {
-    openPopup();
-    setupSocialTrackingControllerRequest('popup');
-    $('.giantbox').hide();
-  });
-}
-
-function bindFacebookDialogButton() {
-  function getProperty(propertyName) {
-    return encodeURIComponent($('meta[property="' + propertyName + '"]').attr('content'));
-  }
-
-  function openDialog() {
-    var domain = location.href.replace(/\?.*/,"");
-    var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
-    var link = [domain, '?fd=', referralCode].join('');
-    var dialog = "https://www.facebook.com/dialog/feed?" +
-      "app_id=" + getProperty('fb:app_id') + "&" +
-      "link=" + encodeURIComponent(link) + "&" +
-      "picture=" + getProperty('og:image') + "&" +
-      "name=" + getProperty('og:title') + "&" +
-      "description=" + getProperty('og:description') + "&" +
-      "redirect_uri=http://" + location.host + "/close.html&" +
-      "display=popup";
-    window.open(dialog , 'dialog', 'width=626,height=436');
-  }
-
-  $('.fb_dialog_btn').click(function() {
-    openDialog();
-    setupSocialTrackingControllerRequest('dialog');
-    $('.giantbox').hide();
-  });
-}
-
-
-function bindFacebookRequestButton() {
-  function requestCallbackForSendRequest(response) {
-    if(response && response.request) {
-      setupSocialTrackingControllerRequest('request', '', response.request, response.to);
-    }
-  }
-  
-  function sendRequestViaMultiFriendSelector() {
-    FB.ui({method: 'apprequests',
-      message: VK.petition_title
-    }, requestCallbackForSendRequest);
-  }
-
-  $('.fb_request_btn').click(sendRequestViaMultiFriendSelector);
-}
-
-function bindFacebookRequestAutofillFriendsButton() {
-  function requestCallbackForAutofillFriendsRequest(response) {
-    if(response && response.request) {
-      setupSocialTrackingControllerRequest('autofill_request', '', response.request, '');
-    }
-  }
-
-  function sendAutofillFriendRequests() {
-    FB.ui({method: 'apprequests',
-      message: VK.petition_title,
-      to: VK.facebook_friend_ids
-    }, requestCallbackForAutofillFriendsRequest);
-  }
-
-  $('.fb_autofill_request_btn').click(sendAutofillFriendRequests);
 }
 
 function wasSigned() {
@@ -261,7 +89,7 @@ function initShowPetition() {
   mobileSignErrorHandling();
   initMobileSign();
   preventWhitespaceOn('#signature_email');
-  setupSocialTracking();
+  socialTracking.init();
 
   $('form').on("submit", function (event) {
     if (!VK.signing_from_email) {
@@ -294,14 +122,8 @@ function updateCounter() {
 
 function initSharePetition() {
   initModalColor();
-  initFacebookApp();
-  setupSocialTracking();
-  setupShareFacebookButton();
-  bindFacebookPopupButton();
-  bindFacebookDialogButton();
-  bindFacebookRequestButton();
-  bindFacebookRequestAutofillFriendsButton();
-  recommendation.init();
+  facebook.init();
+
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
