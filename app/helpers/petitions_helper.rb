@@ -4,7 +4,7 @@ module PetitionsHelper
     {
       'og:title' => referral_code.title,
       'og:type' => 'watchdognet:petition',
-      'og:description' => petition.facebook_description_for_sharing.html_safe,
+      'og:description' => referral_code.facebook_description_for_sharing.html_safe,
       'og:image' => referral_code.image,
       'og:site_name' => social_media_config[:facebook][:site_name],
       'fb:app_id' => social_media_config[:facebook][:app_id]
