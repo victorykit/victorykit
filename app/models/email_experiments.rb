@@ -17,7 +17,7 @@ class EmailExperiments
 
   def box_location
     default_box_location = "right"
-    @email.petition.short_summary.present? ? (spin! "location of summary, image, and sign button", :signature, box_location_options) : default_box_location
+    @email.petition.petition_summaries.any? ? (spin! "location of summary, image, and sign button", :signature, box_location_options) : default_box_location
   end
 
   def demand_progress_introduction_location
@@ -47,6 +47,11 @@ class EmailExperiments
 
   def show_less_prominent_unsubscribe_link
     spin! "show less prominent unsubscribe link", :unsubscribe
+  end
+
+  def petition_short_summary
+    short_summaries = @email.petition.petition_summaries.map(&:short_summary)
+    spin! "petition #{@email.petition.id} email short summary", :signature, short_summaries if short_summaries.any?
   end
 
   def hide_demand_progress_intro?

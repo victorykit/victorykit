@@ -83,7 +83,7 @@ describe EmailExperiments do
       @experiments.box_location.should == "right"
     end
     it "should receive spin if petition summary is not nil" do
-      @email.petition.short_summary = "summary present"
+      short_summary = create(:petition_summary, petition_id: @petition.id)
       @experiments.should_receive(:super_spin!).with("location of summary, image, and sign button", :signature, ["top", "right"], anything()).and_return("top")
       @experiments.box_location.should == "top"
     end
