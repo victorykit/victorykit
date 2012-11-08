@@ -144,7 +144,8 @@ function bindFacebookPopupButton() {
   $('.fb_popup_btn').click(function() {
     openPopup();
     setupSocialTrackingControllerRequest('popup');
-    $('.giantbox').hide();
+    //$('.giantbox').hide();
+    closeThanksModal();
   });
 }
 
