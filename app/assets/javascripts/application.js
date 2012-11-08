@@ -19,6 +19,8 @@
 //= require jquery.flot
 //= require jquery.mailcheck
 //= require jquery.counter
+//= require facebook_recommendation
+//= require facebook
 //= require petition
 //= require global
 //= require petition_editor

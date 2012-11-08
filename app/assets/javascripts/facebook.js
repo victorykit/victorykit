@@ -18,7 +18,7 @@ var socialTracking = (function() {
   }
 
   function trackStatus(status) {
-    sendRequest({ facebook_action: 'status', facebook_status: data });
+    sendRequest({ facebook_action: 'status', facebook_status: status });
   }
 
   function trackSharing(action, actionId, requestId, friendIds) {
@@ -49,7 +49,7 @@ var socialTracking = (function() {
 
 var facebook = (function(socialTracking, recommendation) {
   function init() {
-    iniApp();
+    initApp();
     setupShare();
     setupPopup();
     setupDialog();
@@ -105,7 +105,7 @@ var facebook = (function(socialTracking, recommendation) {
     $('.fb_popup_btn').click(function() {
       openPopup();
       socialTracking.trackSharing('popup');
-      $('.giantbox').hide();
+      closeThanksModal();
     });
 
     function openPopup() {
@@ -121,7 +121,7 @@ var facebook = (function(socialTracking, recommendation) {
     $('.fb_dialog_btn').click(function() {
       openDialog();
       socialTracking.trackSharing('dialog');
-      $('.giantbox').hide();
+      closeThanksModal();
     });
 
     function openDialog() {
@@ -151,6 +151,7 @@ var facebook = (function(socialTracking, recommendation) {
           socialTracking.trackSharing('request', '', res.request, res.to);
         }
       });
+      closeThanksModal();
     });
   }
 
@@ -165,6 +166,7 @@ var facebook = (function(socialTracking, recommendation) {
           socialTracking.trackSharing('autofill_request', '', res.request, '');
         }
       });
+      closeThanksModal();
     });
   }
 
