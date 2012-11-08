@@ -58,6 +58,7 @@ class ScheduledEmail < ActionMailer::Base
     @box_location = email_experiment.box_location
     @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
     @show_less_prominent_unsubscribe_link = email_experiment.show_less_prominent_unsubscribe_link
+    @short_summary = email_experiment.petition_short_summary
     @font_size_of_petition_link = "font-size:#{email_experiment.font_size_of_petition_link};"
     @button_color = "background:#{email_experiment.button_color_for_petition_link};"
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"

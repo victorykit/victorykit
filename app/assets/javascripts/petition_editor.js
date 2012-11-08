@@ -4,14 +4,13 @@ function applyRichTextEditorTo(item) {
 
 function initTabIndexes() {
   $('#petition_title').attr('tabIndex', '1');
-  $('#petition_short_summary').attr('tabIndex', '2');
-  $('iframe').attr('tabIndex', '3');
+  $('iframe').attr('tabIndex', '2');
   if ($('#petition_to_send').length) {
-    $('#petition_to_send').attr('tabIndex', '4');
-    $('#petition_submit').attr('tabIndex', '5');
+    $('#petition_to_send').attr('tabIndex', '3');
+    $('#petition_submit').attr('tabIndex', '4');
   }
   else {
-    $('#petition_submit').attr('tabIndex', '4');
+    $('#petition_submit').attr('tabIndex', '3');
   }
 }
 
@@ -42,6 +41,16 @@ function initEditPetition(root) {
     $('#email_subject').show();
     $('#email_subject input').focus();
     $('#email_subject_link').hide();
+  });
+
+  if ($('#short_summary').has('.additional_title').length) {
+    $('#short_summary').show();
+    $('#short_summary_link').hide();
+  }
+
+  $('#short_summary_link').click(function () {
+    $('#short_summary').show();
+    $('#short_summary_link').hide();
   });
 
   if ($('#facebook_title').has('.additional_title').length) {
@@ -101,7 +110,6 @@ function sendEmailPreview(form, url) {
 $(document).ready(function() {
   $(".petition-form").each(function() {
     initEditPetition(this);
-    $("#petition_facebook_description").counter({ goal: 300, count: 'down' });
   });
 
   $("#email_preview_link").click(function(evt) {

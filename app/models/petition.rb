@@ -2,22 +2,23 @@ class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   include HtmlToPlainText
 
-  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary
-  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :short_summary, :to_send, :location, :as => :admin
+  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :petition_summaries_attributes
+  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :petition_summaries_attributes, :to_send, :location, :as => :admin
   has_many :signatures
   has_many :sent_emails
   has_many :petition_titles, :dependent => :destroy
   has_many :petition_images, :dependent => :destroy
   has_many :petition_descriptions, :dependent => :destroy
+  has_many :petition_summaries, :dependent => :destroy
   has_many :referral_codes
   belongs_to :owner, class_name:  "User"
   validates_presence_of :title, :description, :owner_id
-  validates_length_of :short_summary, :maximum => 255
   validates_with PetitionTitlesValidator
   before_validation :strip_whitespace
   accepts_nested_attributes_for :petition_titles, :reject_if => lambda { |a| a[:title].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :petition_images, :reject_if => lambda { |a| a[:url].blank? }, :allow_destroy => true
   accepts_nested_attributes_for :petition_descriptions, :reject_if => lambda { |a| a[:facebook_description].blank? }, :allow_destroy => true
+  accepts_nested_attributes_for :petition_summaries, :reject_if => lambda { |a| a[:short_summary].blank? }, :allow_destroy => true
 
   def has_edit_permissions(current_user)
     return false if current_user.nil?

@@ -2,8 +2,6 @@
 
 = simple_form_for(@petition, html: {class: 'form-horizontal petition-form' }) do |f|
   = f.input :title, as: :string
-  %span.summary-help-text (The summary can only be 255 characters long)
-  = f.input :short_summary, as: :string, :input_html => { :maxlength => 255 }
   = f.input :description
 
   - if is_admin
@@ -41,6 +39,19 @@
     - facebook_title_title = PetitionTitle.full_name PetitionTitle::TitleType::FACEBOOK
     .controls.toggle
       = link_to_add_fields "Customize #{facebook_title_title}", f, :petition_titles, {:class => "string", :id => 'facebook_title_link'}, {:title_type => "facebook", :label_name => "#{facebook_title_title}"}, "#facebook_titles"
+
+    .controls.toggle
+      = link_to_add_fields "Customize Short Summary", f, :petition_summaries, {:class => "string", :id => 'short_summary_link'}, {:label_name => "Short Summary"}, "#short_summaries"
+
+    #short_summary
+      .control-group.string
+        .control-label Short Summary
+        .controls#short_summaries
+          %span.description (Summary can only be 255 characters long.)
+          = f.fields_for :petition_summaries do |builder|
+            = render 'petition_summary_fields', {f: builder}
+        .controls
+          = link_to_add_fields "Add Summary", f, :petition_summaries, {:class => "string btn btn-primary add_link"}, {:label_name => 'Short Summary'}, "#short_summaries"
 
     #facebook_title
       .control-group.string

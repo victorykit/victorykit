@@ -8,7 +8,6 @@ describe 'petitions' do
       login email, pass do
         visit new_petition_path
         fill_in 'Title', with: 'I like Turtles'
-        fill_in 'Short summary', with: 'I love them'
         fill_in 'Description', with: 'Turtles are awesome!'
         click_button 'Create Petition'
 
