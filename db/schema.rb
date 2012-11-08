@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121107225527) do
+ActiveRecord::Schema.define(:version => 20121108222518) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
