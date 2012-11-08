@@ -9,7 +9,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
 
 <p><b><%=@signature.petition.title%></b></p>
 
-<%=sanitize(@signature.petition.description_lsub("<a href='#{@petition_link}'>Please, click here to sign now!</a>"))%>
+<%=sanitize(@signature.petition.description_lsub("<b><a href='#{@petition_link}'>Please, click here to sign now!</a></b>"))%>
 
 <p><b><a href="<%=@petition_link%>">Please, click here to sign now!</a></b></p>
 

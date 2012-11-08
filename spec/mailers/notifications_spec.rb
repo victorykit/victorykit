@@ -30,7 +30,7 @@ describe Notifications do
 
     it "substitutes the LINK paragraph with the petition link" do
       mail.body.encoded.should_not include "LINK"
-      mail.body.encoded.should include "<p><a href=\"#{petition_link}\">Please, click here to sign now!</a></p>"
+      mail.body.encoded.should include "<p><b><a href=\"#{petition_link}\">Please, click here to sign now!</a></b></p>"
     end
 
     it "removes the LINK paragraph in plain text part" do
