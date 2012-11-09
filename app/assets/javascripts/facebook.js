@@ -18,7 +18,11 @@ var socialTracking = (function() {
   }
 
   function trackStatus(status) {
-    sendRequest({ facebook_uid: FB.getUserID(), facebook_action: 'status', facebook_status: status });
+    sendRequest({ 
+      facebook_uid: FB.getUserID(), 
+      facebook_action: 'status', 
+      facebook_status: status 
+    });
   }
 
   function trackSharing(action, actionId, requestId, friendIds) {
@@ -172,7 +176,7 @@ var facebook = (function(socialTracking, recommendation) {
   }
 
   function setupRecommendation() {
-    recommendation.init(); 
+    recommendation.init(socialTracking); 
   }
  
   return { init: init };

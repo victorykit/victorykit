@@ -1,6 +1,7 @@
 var recommendation = (function() {
   var recommended_friends = [];
   var spinner;
+  var socialTracking;
 
   function diff(array1, array2) {
     var a1 = $.map(array1, function(item) {return item.uid;});
@@ -134,7 +135,7 @@ var recommendation = (function() {
     function proceedSharing() {
       $('#facebookFriendsModal').modal('toggle');
       if(recommended_friends.length === 0) { getFriendsWithAppInstalled(); }
-      setupSocialTrackingControllerRequest('recommend');
+      socialTracking.trackSharing('recommend');
     }
 
     function abortSharing() {
@@ -166,5 +167,11 @@ var recommendation = (function() {
     $('.fb_recommend_btn').click(submitAppRequest);
     $('#try-again').click(tryAgain);
   }
-  return { init: bind };
+
+  function init(st) {
+    socialTracking = st;
+    bind(); 
+  }
+
+  return { init: init };
 })();
