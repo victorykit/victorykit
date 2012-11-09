@@ -9,10 +9,13 @@ class SocialTrackingController < ApplicationController
       
       @petition = Petition.find params[:petition_id]
       @member = Signature.find(params[:signature_id]).member if params[:signature_id].present?
+      @facebook_uid = params[:facebook_uid]
       @action_id = params[:action_id]
       @request_id = params[:request_id]
       @friend_ids = params[:friend_ids]
       
+      record_facebook_uid
+
       send({
         'like' => :register_facebook_like,
         'share' => :register_facebook_share,
@@ -29,6 +32,21 @@ class SocialTrackingController < ApplicationController
 
   private
   
+  def record_facebook_uid
+    begin
+      if should_record_facebook_uid
+        @member.facebook_uid = @facebook_uid
+        @member.save!
+      end
+    rescue => ex
+      Rails.logger.error "error while saving facebook user id: #{ex} #{ex.backtrace.join('\n')}"
+    end
+  end
+
+  def should_record_facebook_uid
+    @member.present? and @member.facebook_uid.nil? and !@facebook_uid.blank? and @facebook_uid != '0'
+  end
+
   def register_facebook_status
     REDIS.incr("fbtrack/#{params[:facebook_status]}")
   end

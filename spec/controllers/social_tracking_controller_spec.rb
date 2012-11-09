@@ -9,7 +9,33 @@ describe SocialTrackingController do
   describe 'POST create' do
 
     let(:petition) { create(:petition) }
-    let(:signature) { create(:signature) }
+    let(:member) { create(:member) }
+    let(:signature) { create(:signature, member: member) }
+
+    context 'on any facebook action' do
+      context 'the users facebook id is available' do
+        let(:facebook_uid) { 123 }
+        before { 
+          post :create, { petition_id: petition.id, signature_id: signature.id, facebook_uid: facebook_uid, facebook_action: 'like' } 
+          member.reload
+        }
+        subject {member}
+        its(:facebook_uid) {
+          should == facebook_uid
+        }
+      end
+      context 'the users facebook id is not available' do
+        let(:facebook_uid) { 0 }
+        before { 
+          post :create, { petition_id: petition.id, signature_id: signature.id, facebook_uid: facebook_uid, facebook_action: 'like' } 
+          member.reload
+        }
+        subject {member}
+        its(:facebook_uid) {
+          should be_nil
+        }
+      end
+    end
 
     context 'when someone likes a petition' do
       
