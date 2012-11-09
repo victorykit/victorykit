@@ -18,7 +18,7 @@ var socialTracking = (function() {
   }
 
   function trackStatus(status) {
-    sendRequest({ facebook_action: 'status', facebook_status: status });
+    sendRequest({ facebook_uid: FB.getUserID(), facebook_action: 'status', facebook_status: status });
   }
 
   function trackSharing(action, actionId, requestId, friendIds) {
@@ -32,7 +32,8 @@ var socialTracking = (function() {
       action_id: actionId,
       request_id: requestId,
       friend_ids: friendIds,
-      signature_id: VK.signature_id
+      signature_id: VK.signature_id,
+      facebook_uid: FB.getUserID()
     };
   }
 
