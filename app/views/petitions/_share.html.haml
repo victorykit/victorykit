@@ -63,9 +63,6 @@
       = header_three
     .button
       .fb{ class: facebook_button[:button_class] }
-      .tw
-        %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
-
 
 - if after_share_view == "thanks_with_share_sidebar"
   - sidebar_share_messaging = spin! "change messaging in sidebar version of hero for share", :share, ["tell_your_friends", "share_with_your_friends", "send_requests_to_your_friends"]
@@ -90,11 +87,6 @@
       .fb{ class: facebook_button[:button_class] }
         .fb.icon
         .text Share
-      .tw
-        %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
-          .tw.icon
-          .text Tweet
-
 
 - if after_share_view == "img_plus_fb_ribbon"
   .img_plus_fb_ribbon
@@ -105,8 +97,6 @@
       %h3
         = header_three
     .fb{ class: facebook_button[:button_class] }
-    .tw
-      %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}
 
 
 - if after_share_view == "box_with_centered_button"
@@ -118,5 +108,3 @@
       %h3
         = header_three
     .fb{ class: facebook_button[:button_class] }
-    .tw
-      %a{:"href" => ("https://twitter.com/share?text=#{@tweetable_title}&url=" + u(@tweetable_url)), :'target' => '_blank'}

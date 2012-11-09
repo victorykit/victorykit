@@ -6,14 +6,12 @@ class PetitionTitle < ActiveRecord::Base
   module TitleType
     EMAIL = 'email'
     FACEBOOK = 'facebook'
-    TWITTER = 'twitter'
     DEFAULT = 'default'
   end
 
   @TITLE_TYPE_NAMES = {
     TitleType::EMAIL => "Email Subject",
     TitleType::FACEBOOK => "Facebook Title",
-    TitleType::TWITTER => "Twitter Title", 
     TitleType::DEFAULT => "Title"}
   @TITLE_TYPES = @TITLE_TYPE_NAMES.keys
 

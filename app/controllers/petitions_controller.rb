@@ -40,7 +40,6 @@ class PetitionsController < ApplicationController
     @signing_from_email = sent_email.present? && !@was_signed
 
     @facebook_friend_ids = facebook_friends @member
-    @tweetable_url = "http://#{request.host}#{request.fullpath}?t=#{cookies[:member_id]}"
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
 
