@@ -127,7 +127,7 @@ function updateCounter() {
 
 function initSharePetition() {
   initModalColor();
-  facebook.init();
+  facebook.init(socialTracking, recommendation);
   if ($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
