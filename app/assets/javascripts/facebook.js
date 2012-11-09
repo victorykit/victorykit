@@ -52,8 +52,13 @@ var socialTracking = (function() {
   };
 })();
 
-var facebook = (function(socialTracking, recommendation) {
-  function init() {
+var facebook = (function() {
+  var socialTracking;
+  var recommendation;
+
+  function init(st, rec) {
+    socialTracking = st;
+    recommendation = rec;
     initApp();
     setupShare();
     setupPopup();
@@ -180,5 +185,5 @@ var facebook = (function(socialTracking, recommendation) {
   }
  
   return { init: init };
-})(socialTracking, recommendation);
+})();
 
