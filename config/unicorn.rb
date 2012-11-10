@@ -1,4 +1,4 @@
-worker_processes 4 # amount of unicorn workers to spin up
+worker_processes 1 # amount of unicorn workers to spin up
 timeout 30         # restarts workers that hang for 30 seconds
               
 # combine Ruby 2.0.0dev or REE with "preload_app true" for memory savings
