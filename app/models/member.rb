@@ -24,7 +24,7 @@ class Member < ActiveRecord::Base
         FROM signatures
         WHERE created_at > now() - interval '1 week'
         AND created_member = 't'
-      ) LIMIT #{n}
+      ) ORDER BY random() LIMIT #{n}
     SQL
 
     uncontacted_members = Member.connection.execute(query).to_a
