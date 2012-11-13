@@ -105,8 +105,24 @@
     .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
     .control-group { *height: 4.5em; *width: 100%; }
   }
-}
 
+}
+.privacy_tooltip {
+  background: #F1F5FA;
+  border-radius: 5px;
+  padding: 7px 11px;
+  margin-top: 5px;
+  display: none;
+}
+.centered {
+  text-align: center;
+  .toggle_tooltip a:hover {
+    color: #3299CC;
+  }
+}
+.signature-form .privacy_tooltip {
+  color: #666;
+}
 
 .petition_content {
   .description {

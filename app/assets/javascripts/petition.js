@@ -104,6 +104,11 @@ function initShowPetition() {
       $('.petition_content').show();
     });
   }
+  if ($(".privacypolicy .centered").length > 0) {
+    $('.toggle_tooltip').hover( function() {
+      $('.privacy_tooltip').toggle();
+    });
+  }
 }
 
 function initModalColor() {

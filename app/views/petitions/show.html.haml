@@ -45,10 +45,10 @@
               = f.button :submit, :id => 'sign_petition', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign!'
         - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
           .privacypolicy{ :class => privacy_policy_position_and_color }
-            We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+            = render :partial => "privacy"
     - if !@was_signed && (privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888")
       .privacypolicy{ :class => privacy_policy_position_and_color }
-        We don't share your email address without your permission. We will send you updates on this and other important campaigns by email, but you can unsubscribe at any time.
+        = render :partial => "privacy"
     #thanks-for-signing-message
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
