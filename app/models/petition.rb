@@ -2,23 +2,43 @@ class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   include HtmlToPlainText
 
-  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :petition_summaries_attributes
-  attr_accessible :description, :title, :petition_titles_attributes, :petition_images_attributes, :petition_descriptions_attributes, :petition_summaries_attributes, :to_send, :location, :as => :admin
+  attr_accessible :description, :title, 
+    :petition_titles_attributes, :petition_images_attributes, 
+    :petition_descriptions_attributes, :petition_summaries_attributes
+
+  attr_accessible :description, :title, 
+    :petition_titles_attributes, :petition_images_attributes, 
+    :petition_descriptions_attributes, :petition_summaries_attributes, 
+    :to_send, :location, :as => :admin
+
   has_many :signatures
   has_many :sent_emails
+  has_many :referral_codes
   has_many :petition_titles, :dependent => :destroy
   has_many :petition_images, :dependent => :destroy
-  has_many :petition_descriptions, :dependent => :destroy
   has_many :petition_summaries, :dependent => :destroy
-  has_many :referral_codes
+  has_many :petition_descriptions, :dependent => :destroy
   belongs_to :owner, class_name:  "User"
+  
+  before_validation :strip_whitespace
   validates_presence_of :title, :description, :owner_id
   validates_with PetitionTitlesValidator
-  before_validation :strip_whitespace
-  accepts_nested_attributes_for :petition_titles, :reject_if => lambda { |a| a[:title].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :petition_images, :reject_if => lambda { |a| a[:url].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :petition_descriptions, :reject_if => lambda { |a| a[:facebook_description].blank? }, :allow_destroy => true
-  accepts_nested_attributes_for :petition_summaries, :reject_if => lambda { |a| a[:short_summary].blank? }, :allow_destroy => true
+ 
+  accepts_nested_attributes_for :petition_titles, 
+    :reject_if => lambda { |a| a[:title].blank? }, 
+    :allow_destroy => true
+
+  accepts_nested_attributes_for :petition_images, 
+    :reject_if => lambda { |a| a[:url].blank? }, 
+    :allow_destroy => true
+
+  accepts_nested_attributes_for :petition_descriptions, 
+    :reject_if => lambda { |a| a[:facebook_description].blank? }, 
+    :allow_destroy => true
+
+  accepts_nested_attributes_for :petition_summaries, 
+    :reject_if => lambda { |a| a[:short_summary].blank? }, 
+    :allow_destroy => true
 
   def has_edit_permissions(current_user)
     return false if current_user.nil?
@@ -32,7 +52,9 @@ class Petition < ActiveRecord::Base
   def self.find_interesting_petitions_for(member)
     signed = Signature.where(member_id: member).select(:petition_id).map(&:petition_id)
     sent = SentEmail.where(member_id: member).select(:petition_id).map(&:petition_id)
-    select([:location, :id]).where(id: (emailable_petition_ids - signed - sent)).select { |p| p.cover? member }
+    select([:location, :id]).
+      where(id: (emailable_petition_ids - signed - sent)).
+      select { |p| p.cover? member }
   end
 
   def strip_whitespace
