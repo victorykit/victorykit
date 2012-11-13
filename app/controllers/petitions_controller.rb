@@ -43,12 +43,11 @@ class PetitionsController < ApplicationController
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
 
-    @modal_position = modal_positioning
+    @petition_layout = petition_layouts
   end
 
-  def modal_positioning
-    return 'modal_centered' if ( browser.mobile? or browser.ie? )
-    spin! 'alter modal positioning and hiding of sidebar when modal is open', :share, ["modal_centered", "modal_left", "modal_sidebar", "modal_centered_hide-sidebar", "modal_sidebar_hide-sidebar", "modal_left_hide-sidebar"]
+  def petition_layouts
+    spin! 'toggle layout of position page', :sign, ['classic', 'focused']
   end
 
   def again

@@ -10,79 +10,155 @@
  *
 */
 
-@media (min-width: 481px) {
-  #testui .modal { left: 45%; }
+@import "primary_secondary";
+
+.classic {
+  h1.petition_title, .header_support, .petition_content {
+    @extend .primary;
+  }
+  .sidebar {
+    @extend .secondary;
+  }
+  #mobile_thanks {
+    &.was_signed {
+      @media (min-width: 250px) and (max-width: 767px) {
+        display: block;
+      }
+    }
+    @media (min-width: 250px) and (max-width: 767px) {
+      background: #ddd;
+      width: 100%;
+      margin-bottom: 25px;
+    }
+    .container {
+      padding: 10px;
+    }
+    .thanks {
+      padding-top: 20px;
+    }
+    .fb_popup_btn, .fb_dialog_btn, .tweet {
+      margin-top: 30px;
+    }
+  }
+  @media (min-width: 1200px) {
+    .page_content .signature-form {
+      .control-label {
+        width: 25%;
+        *width: 100%;
+        *clear: both;
+      }
+      .through_site .controls {
+        width: 72%;
+        *width:100%;
+        clear: none;
+        *clear: both;
+      }
+      .through_site .controls, .through_site .controls input {
+        float: right;
+        *float: left;
+      }
+    }
+  }
+  @media (min-width: 0px) and (max-width: 767px) {
+    body #content #petition_page .sidebar {
+      margin-top: 0;
+      margin-bottom: 0;
+      background: white;
+      display: none;
+      width: 300px;
+      .title {
+        margin: 0;
+        padding: 0;
+      }
+      .control-label {
+        margin-top: 5px !important;
+      }
+      .control-group, input {
+        margin-bottom: 4px;
+      }
+      .privacypolicy {
+        padding-bottom: 0;
+      }
+    }
+  }
+  .petition_view_toggle {
+    display: none;
+  }
+  .page_content .signature-form {
+    .control-label {
+      *clear: both;
+      padding: 0;
+      border-bottom: none;
+      margin-top: 10px;
+      text-align: left;
+      width: 100%;
+      float: left;
+    }
+    .through_site .controls {
+      text-align: left;
+      width: 100%;
+    }
+    .through_site .controls, .through_site .controls input {
+      clear: both;
+      width: 100%;
+    }
+    .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
+    .control-group { *height: 4.5em; *width: 100%; }
+  }
 }
 
-@media (min-width: 768px) and (max-width: 980px) {
-  #testui {
-    margin: 0 15px;
-  }
-}
 
-.petition {
-  padding: 0 40px;
-  hr { display: none; }
-  @media (min-width: 250px) and (max-width: 767px) {
-    padding: 0 ;
-  }
-  .header {
-    word-wrap: break-word;
-    min-height: 140px;
-    margin-bottom: 8px;
-  }
+.petition_content {
   .description {
-    margin-bottom: 10px;
     line-height: 21px;
+    @media (min-width: 0px) and (max-width: 500px) {
+      line-height: 19px;
+      clear: both;
+    }
   }
   #image {
     float: right;
     margin-left: 10px;
     max-width: 300px;
+    @media (min-width: 0px) and (max-width: 500px) {
+      margin: 0 auto 5px;
+      float: none;
+    }
   }
 }
+
+.header_support {
+  margin-bottom: 8px;
+  border-bottom: 1px dotted #ccc;
+}
+
 .progress_bar {
   float: right;
   text-align: right;
   .progress {
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     width: 300px;
-    clear: right;
-    .bar {
-      float: left;
-    }
   }
 }
+
 .social_icons {
   float: left;
-  margin: 16px 0 5px;
-  iframe {
-    height: 30px;
-    width: 275px;
-  }
-  &.tallerprogress {
-    margin-top: 33px;
-  }
+  margin: 33px 0 5px;
 }
-#thanks-for-signing-message {
-  fb\:like {
-    margin: 4px;
-    padding: 4px 10px 4px 58px;
-  }
-}
-#sign-again {
+
+form #sign-again {
+  white-space: normal;
   background: none;
   border: none;
   box-shadow: none;
-  width: 300px;
-  text-align: center;
+  width: 100%;
   margin: 10px auto;
-  font-weight: normal;
   color: #06c;
   &:hover {
     color: #08c;
   }
 }
+
 #thanksModal {
   display: none;
   border: none;
@@ -102,9 +178,6 @@
     clear: both;
     font-weight: normal;
   }
-  fb\:like {
-    margin: 5px 0 10px 50px;
-  }
 }
 
 #thanksModal, #thanks-for-signing-message, #mobile_thanks {
@@ -113,20 +186,13 @@
     padding: 0;
     box-shadow: none;
     border: none;
-    &.inspirational {
-      margin: 20px auto 15px !important;
-    }
   }
-  .larger { font-size: 150%; line-height: 130%; margin-top: -5px;}
-  .smaller {font-size: 80%; }
-}
-@media (min-width: 0) and (max-width: 700px) {
-  .signature-form { padding: 10px 0; }
 }
 
 #thanks-for-signing-message, #thanksModal {
   padding: 10px;
 }
+
 .signature-form {
   .title {
     font-size: 25px;
@@ -139,11 +205,14 @@
     color: #ccc;
     padding: 0 10px 10px;
     clear: both;
+    @media (min-width: 0) and (max-width: 500px) {
+      line-height: 16px;
+    }
   }
   .through_site {
     width: 150px;
     border-right: 1px solid #555;
-    form { padding: 10px; min-height: 160px; margin-bottom: 0; }
+    form { padding: 10px; margin-bottom: 0; }
     .control-group { *clear: both; *margin-right: 3px; }
     label {
       text-align: left;
@@ -180,19 +249,10 @@
       width: 100%;
     }
   }
-  .through_fb {
-    float: right;
-    padding: 0 9px;
-    .text {
-      margin: 25px 0 5px;
-      text-align: center;
-    }
-  }  /* Until Facebook Login works, use this */
-  .through_fb { display: none; }
   .through_site {
     width: auto;
     border-right: none;
-    .controls, input {
+    .controls input {
       width: 100%;
       padding: 5px 0;
     }
@@ -276,13 +336,6 @@
     &.text {
       width: 96%;
     }
-    &.img {
-      width: 107%;
-    }
-    &.most_share {
-      line-height: 30px;
-      font-size: 17px;
-    }
   }
 }
 #thanks-for-signing-message .remix.text {
@@ -293,12 +346,6 @@
   color: white;
 }
 
-#thanks-for-signing-message {
-  fb\:like {
-    margin: 4px;
-    padding: 4px 10px 4px 58px;
-  }
-}
 .petitionform {
   margin-top: 5% auto;
   min-height: 275px;
@@ -370,6 +417,7 @@
   }
   .form-horizontal .controls span.description {
     line-height: 28px;
+
   }
 }
 .petitionlist {
@@ -427,38 +475,14 @@
 }
 
 
-@media (min-width: 250px) and (max-width: 767px) {
-  body #content #petition_page .sidebar_test { margin-top: 0; }
-  body #content #petition_page .secondary { margin-bottom: 0; }
-  .sidebar_test {
-    background: white;
-    display: none;
-    width: 300px;
-    .title {
-      margin: 0;
-      padding: 0;
-    }
-    .control-label {
-      margin-top: 5px !important;
-    }
-    .control-group, input {
-      margin-bottom: 4px;
-    }
-    .privacypolicy {
-      padding-bottom: 0;
-    }
-  }
-}
-
 #petition_page {
   &.not_signed {
     #thanks-for-signing-message { display: none; }
-    .signature-form { display: block; }
+    .signature-form, .privacypolicy { display: block; }
   }
-
   &.was_signed {
     #thanks-for-signing-message { display: block; }
-    .signature-form { display: none; }
+    .signature-form, .privacypolicy { display: none; }
   }
 }
 
@@ -489,10 +513,10 @@
   padding: 10px 0;
 }
 
-@media (min-width: 280px) and (max-width: 767px) {
+@media (min-width: 0px) and (max-width: 767px) {
   .social_icons, .progress_bar, .mobile_signup_button {
     clear: both !important;
-    margin: 5px 0 !important;
+    margin: 10px 0 0  !important;
     float: left !important;
     text-align: left !important;
   }
@@ -602,114 +626,19 @@
     font-size: 14px;
   }
 }
-#content .secondary .sidebar_test{
+.sidebar .signature-form, .sidebar #thanks-for-signing-message {
   background: black;
   color: white;
 }
-.page_content .signature-form {
-  .control-label {
-    width: 25%;
-    *width: 100%;
-    *clear: both;
-    padding: 0;
-    border-bottom: none;
-    margin-top: 10px;
-    @media (min-width: 280px) and (max-width: 1200px) { text-align: left; width: 100%;}
-    float: left;
-  }
-  .through_site .controls {
-    width: 72%;
-    *width:100%;
-    *clear: both;
-    @media (min-width: 280px) and (max-width: 1200px) { text-align: left; width: 100%;}
-
-  }
-  .through_site .controls, .through_site .controls input {
-    float: right;
-    *float: left;
-    @media (min-width: 280px) and (max-width: 1200px) { clear: both; width: 100%; }
-  }
-  .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
-  .control-group { *height: 4.5em; *width: 100%; }
+.page_content .signature-form .control-label {
+  padding: 0;
+  margin-top: 10px;
 }
 
 #mobile_thanks {
   display: none;
-  &.was_signed {
-    @media (min-width: 250px) and (max-width: 767px) {
-      display: block;
-    }
-  }
-  @media (min-width: 250px) and (max-width: 767px) {
-    background: #ddd;
-    width: 100%;
-    margin-bottom: 25px;
-  }
-  .container {
-    padding: 10px;
-  }
-  .thanks {
-    padding-top: 20px;
-  }
-  .fb_popup_btn, .fb_dialog_btn, .tweet {
-    margin-top: 30px;
-  }
 }
 
-#facebookShareModal {
-  width: 604px;
-  height: 424px;
-  .modal-body {
-    padding: 2px;
-    i.icon-search {
-      position: absolute;
-      top: 15px;
-      left: 250px;
-      opacity: 0.4;
-    }
-    .close {
-      margin-top: 8px;
-      margin-right: 20px;
-    }
-    .facebook-share-widget {
-      .search-text {
-        float: none;
-      }
-      ul {
-        overflow-x: hidden;
-      }
-    }
-  }
-  .modal-footer {
-    .btn {
-      width: 60px;
-    }
-  }
-}
-
-#thanksModal .share.big_margin {
-  margin-top: 33px;
-}
-#thanksModal .share.two_friends {
-  margin: 30px 0 15px;
-  line-height: 40px;
-  text-align: center;
-  &.with_thanks { margin: 5px 0 15px; }
-}
-#thanks-for-signing-message .share.two_friends {
-  @media (min-width: 0) and (max-width: 800px) {
-    font-size: 17px;
-  }
-}
-#thanksModal .sandwich {
-  height: 120px;
-  .btn { margin: 5px; }
-}
-#thanksModal .share.most_share {
-  margin-top: 30px;
-  font-size: 26px;
-  line-height: 40px;
-}
 .progress_image {
   margin-top: 15px;
   .share {
@@ -729,32 +658,6 @@
 
 }
 #mobile_thanks .progress_image .share { font-size: 20px; }
-.quote {
-  font-size: 16px;
-  font-weight: bold;
-  display: inline;
-  margin-bottom: 10px;
-  .source {
-    font-size: 12px;
-    font-weight: normal;
-    font-style: italic;
-    white-space: pre-line;
-  }
-}
-
-#thanks-for-signing-message , #thanksModal, #mobile_thanks {
-  .fb {
-    .text {
-      margin: 20px 0;
-      text-align: center;
-      font-size: 22px;
-      line-height: 25px;
-    }
-  }
-}
-#thanksModal .fb .image {
-  margin: 0 0 0 -10px;
-}
 
 #location-options {
   height: 20px;
@@ -872,38 +775,120 @@
     opacity: 1;
   }
 }
-.modal_left, .modal_sidebar, .modal_left_hide-sidebar, .modal_sidebar_hide-sidebar {
-  #thanksModal.modal {
-    margin: 0;
-    left: inherit;
-    top: 38px;
-    position: absolute;
-    width: auto;
-    padding: 10px 0;
-    #thanks-for-signing-message .remix.text {
-      background: #eee;
-    }
+
+.hide { display: none; }
+
+.focused {
+  background: black;
+  .logo.brand {
+    color: #444;
   }
-}
-.modal_sidebar, .modal_sidebar_hide-sidebar {
-  #thanksModal.modal {
-    @media (min-width: 1200px) {
-      width: 25%;
-      max-width: 300px;
+  ul.nav, .mobile_nav {
+    display: none;
+  }
+  #petition_page {
+    background: white;
+    width: 70%;
+    @media (min-width: 500px) and (max-width: 1000px) {
+      width: 95%;
     }
-    @media (min-width: 1000px) and (max-width: 1199px) {
-      width: 27%;
+    @media (min-width: 0px) and (max-width: 500px) {
+      width: 100%;
     }
-    @media (min-width: 768px) and (max-width: 999px) {
-      width: 32%;
+    padding: 10px 0;
+    h1.petition_title {
+      margin: 20px auto;
+      width: 90%;
+      text-align: center;
+      @media (min-width: 0px) and (max-width: 1000px) {
+        line-height: 20px;
+        margin: 0px auto 6px;
+      }
+      @media (min-width: 0px) and (max-width: 500px) {
+        font-size: 16px;
+      }
+      @media (min-width: 501px) and (max-width: 1000px) {
+        font-size: 18px;
+      }
     }
-    .modal-body {
-      @extend #thanks-for-signing-message;
-      width: auto;
-      img {
-        margin-top: 10px;
+    .progress_box, .header_support {
+      display: none;
+    }
+    .sidebar {
+      margin: 0 auto;
+      width: 50%;
+      @media (min-width: 501px) and (max-width: 800px) {
+        width: 75%;
+      }
+      @media (min-width: 0px) and (max-width: 500px) {
+        width: 100%;
+      }
+      .signature-form {
+        width: 100%;
+        background: white;
+        color: black;
+        .title {
+          font-size: 22px;
+          color: #666;
+          padding: 15px 0 0;
+          @media (min-width: 0px) and (max-width: 1000px) {
+            font-size: 16px;
+            line-height: 16px;
+            padding: 5px 0 0;
+          }
+        }
+        label, input {
+          float: left;
+          @media (min-width: 0px) and (max-width: 1000px) {
+            margin-bottom: 3px !important;
+          }
+        }
+        label {
+          width: 85px;
+        }
+        input#sign_petition {
+          margin: 15px 0;
+          @media (min-width: 0px) and (max-width: 1000px) {
+            margin: 0 0 4px;
+          }
+        }
+        .control-label {
+          width: 30%;
+          margin-top:5px;
+          text-align: right;
+          font-weight: bold;
+        }
+        .through_site .controls {
+          width: 68%;
+          clear: none;
+        }
+        .through_site .controls, .through_site .controls input {
+          float: right;
+        }
       }
     }
   }
+  .petition_view_toggle {
+    color: blue;
+    text-align: center;
+    margin: 20px 10px 10px;
+    @media (min-width: 0px) and (max-width: 1000px) {
+      margin: 3px 0 0;
+    }
+    &.hover {
+      text-decoration: underline;
+    }
+  }
+  .petition_content {
+    display: none;
+    margin: 30px 20px 10px;
+    @media (min-width: 0px) and (max-width: 500px) {
+      margin: 10px;
+    }
+  }
+  .footer {
+    background: transparent;
+    color: #bbb;
+    text-align: center;
+  }
 }
-.hide { display: none; }

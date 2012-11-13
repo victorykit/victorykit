@@ -50,24 +50,15 @@ function drawModalAfterSigning() {
   var modal = $("#thanksModal");
   if (screen.width > 480 && modal.length && wasSigned()) {
     modal.modal('toggle');
-    if (($(".modal_centered_hide-sidebar").length > 0) || +
-        ($(".modal_left_hide-sidebar").length > 0) || +
-        ($(".modal_sidebar_hide-sidebar").length > 0)) {
-      $(".secondary").css("display", "none");
-      $('#thanksModal').on('hidden', function () {
-        $(".secondary").css("display", "block");
-      });
-    }
-
   }
-  
+
   function fb_flip() {
     $('.share_button').toggleClass("hide");
     $('.share_link').toggleClass("hide");
   }
-  
+
   if ($(".share_button").length > 0) {
-    if (VK.facebook_login_status == 'unknown') { fb_flip(); }    
+    if (VK.facebook_login_status == 'unknown') { fb_flip(); }
     $('.fb_toggle').click(fb_flip);
     if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
       $('.share_url').click( function() {
@@ -78,14 +69,15 @@ function drawModalAfterSigning() {
 }
 
 function mobileSignErrorHandling() {
-  if (($('.sidebar_test').find('.help-inline').length > 0) && (screen.width < 768)) {
-    $('.sidebar_test').show();
+  if (($('.sidebar').find('.help-inline').length > 0) && (screen.width < 768)) {
+    $('.sidebar').show();
   }
 }
 
 function initMobileSign() {
   $('.mobile_signup_button').click(function() {
-    $('.sidebar_test').show();
+    $('.sidebar').show();
+    $('.progress_box').hide();
     $('body').animate({scrollTop:'40px'}, '0');
     return false;
   });
@@ -105,6 +97,13 @@ function initShowPetition() {
     }
     return event.go;
   });
+  if ($(".focused").length > 0 && !wasSigned()) {
+    $('body').animate({ scrollTop: '-30px' }, '0');
+    $('.petition_view_toggle').click( function() {
+      $(this).hide();
+      $('.petition_content').show();
+    });
+  }
 }
 
 function initModalColor() {
@@ -133,6 +132,7 @@ function initSharePetition() {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
   if ($('.tickcounter').length > 0) { updateCounter(); }
+
 }
 
 function toggleUserCanSignPetition(enabledFlag) {

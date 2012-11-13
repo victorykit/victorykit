@@ -1,0 +1,31 @@
+#content {
+  .secondary {
+    width: 24%;
+    float: left;
+  }
+  .primary {
+    width: 75%;
+    float: right;
+  }
+  @media (min-width: 1200px) {
+    max-width: 1200px;
+    .secondary { width: 25%; max-width: 350px; }
+    .primary { width: 71%; }
+  }
+  @media (min-width: 1000px) and (max-width: 1199px) {
+    max-width: 1199px;
+    .secondary { width: 27%; }
+    .primary { width: 69%; }
+  }
+  @media (min-width: 768px) and (max-width: 999px) {
+    max-width: 999px;
+    .secondary { width: 32%; }
+    .primary { width: 67%; }
+  }
+  @media (max-width: 768px) {
+    #petition_page {
+      .secondary { display: none; width: 100%; }
+      .primary { width: 100%; }
+    }
+  }
+}
