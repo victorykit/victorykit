@@ -11,9 +11,16 @@ class Notifications < ActionMailer::Base
     @petition_link = petition_url(signature.petition, r: signature.member.to_hash)
     @signature = signature
     @unsubscribe_link = URI.join(root_url, 'unsubscribe')
-    
+
+    @image_url = signature.petition.petition_images.first.try(:url)
+    @short_summary = signature.petition.petition_summaries.first.try(:short_summary)
+
     begin
-      mail(subject: "Thanks for signing '#{signature.petition.title}'", to: signature.email).deliver
+      mail({
+        subject: "Thanks for signing '#{signature.petition.title}'", 
+        to: signature.email
+      }).deliver
+
     rescue AWS::SES::ResponseError => e
       Rails.logger.warn e
       if(e.message.match(/Address blacklisted/))
@@ -24,6 +31,9 @@ class Notifications < ActionMailer::Base
   
   def unsubscribed unsubscription
     @signup_link = URI.join(root_url, 'subscribe')
-    mail(subject:"You've successfully unsubscribed", to: unsubscription.email).deliver
+    mail({
+      subject:"You've successfully unsubscribed",
+      to: unsubscription.email
+    }).deliver
   end
 end
