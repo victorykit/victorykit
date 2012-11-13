@@ -100,6 +100,11 @@ module PetitionsHelper
     ]
   end
 
+  def privacy_text
+    return 'original' if browser.mobile?
+    spin! 'change privacy policy text', :signature, ["tooltip", "short", "original", "long"]
+  end
+
   def privacy_policy_position_and_color
     return 'inside_aaa' if browser.mobile?
     spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ["inside_ccc", "inside_aaa", "inside_888", "outside_ccc", "outside_aaa", "outside_888"]
