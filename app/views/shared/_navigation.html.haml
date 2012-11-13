@@ -2,35 +2,33 @@
   - class_toggle = 'admin'
 
 .navigation{class: [class_toggle]}
-  .secondary
-    .logo_box
-      - if should_spin_petition_options?
-        - if measure! "have logo link to home for non-admins on petition page 2", :signature
-          = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
-        - else
-          .logo.brand WATCHDOG.NET
-      - else
+  .logo_box
+    - if should_spin_petition_options?
+      - if measure! "have logo link to home for non-admins on petition page 2", :signature
         = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
+      - else
+        .logo.brand WATCHDOG.NET
+    - else
+      = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
   .mobile_nav
     .btn#nav_btn
       %i.icon-plus
-  .primary
-    %ul.nav
-      - if should_spin_petition_options?
-        - if spin! "show start a petition link to non-admins on petition page", :signature
-          %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-      - else
+  %ul.nav
+    - if should_spin_petition_options?
+      - if spin! "show start a petition link to non-admins on petition page", :signature
         %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-      - if is_admin
-        %li= link_to('View all petitions', petitions_url)
-        %li= link_to('Manage users', admin_users_url)
-        %li= link_to('Dashboard', admin_dashboard_url)
-      - if current_user
-        %li
-          %div Logged in as #{current_user.email}
-        %li= link_to('Change Password', edit_user_path(current_user))
-        %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
-      - elsif controller_name == 'petitions' && action_name == 'show'
-        .nodivider
-      - else
-        %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')
+    - else
+      %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
+    - if is_admin
+      %li= link_to('View all petitions', petitions_url)
+      %li= link_to('Manage users', admin_users_url)
+      %li= link_to('Dashboard', admin_dashboard_url)
+    - if current_user
+      %li
+        %div Logged in as #{current_user.email}
+      %li= link_to('Change Password', edit_user_path(current_user))
+      %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
+    - elsif controller_name == 'petitions' && action_name == 'show'
+      .nodivider
+    - else
+      %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')

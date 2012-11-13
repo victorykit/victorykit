@@ -21,43 +21,21 @@ html, body {
   height: 100%;
   padding: 0;
   margin: 0;
+  word-wrap: break-word;
+}
+body {
+  border-top: 40px solid black;
 }
 #content {
   min-height: 100%;
-  margin: 0 auto -2em;
+  margin: -40px auto 65px;
   padding: 0 10px;
   .page_content {
     margin: 0 auto;
     clear: both;
   }
-  .secondary {
-    width: 24%;
-    float: left;
-  }
-  .primary {
-    width: 75%;
-    float: right;
-  }
-  .primary, .secondary {
-    margin-bottom: 20px;
-  }
-
-  @media (min-width: 1200px) {
-    max-width: 1200px;
-    .secondary { width: 25%; max-width: 350px; }
-    .primary { width: 71%; }
-  }
-  @media (min-width: 1000px) and (max-width: 1199px) {
-    max-width: 1199px;
-    .secondary { width: 27%; }
-    .primary { width: 69%; }
-  }
-  @media (min-width: 768px) and (max-width: 999px) {
-    max-width: 999px;
-    .secondary { width: 32%; }
-    .primary { width: 67%; }
-  }
 }
+  .hide { display: none; }
 
 blockquote p {
   font-size: inherit;
@@ -138,6 +116,9 @@ input, textarea, .btn { border-radius: 0; }
 }
 
 .navigation {
+  margin: -40px 0 20px;
+  *margin-top: 0;
+  height: 40px;
   .row {
     li { float: right; }
   }
@@ -145,6 +126,7 @@ input, textarea, .btn { border-radius: 0; }
     height: 0;
     width: 100%;
     padding: 0;
+    margin-bottom: 0;
     .nav {
       margin: 18px 0;
       display: none;
@@ -257,8 +239,11 @@ th, td .numeric {
   @include button(#bd3c2d, #bd3c2d);
 }
 .progress_box {
-  padding: 15px 20px;
+  padding: 5px 0;
   margin-bottom: 10px;
+  > div {
+    margin: 5px 15px;
+  }
   &.yellow-bordered, &.yellow-unbordered {
     background: #FFF8DC;
     &.yellow-bordered {
@@ -300,7 +285,6 @@ th, td .numeric {
   }
 }
 @mixin progressbar($fluid, $fluid_highlight) {
-  width: 100%;
   height: 20px;
   margin: 5px 0 10px;
   border-radius: 11px;
@@ -335,4 +319,14 @@ th, td .numeric {
 }
 .progress_dark {
   @include progressbar(#8B1A1A, #CC1100);
+}
+
+@media (min-width: 250px) and (max-width: 767px) {
+  a.logo {
+    margin-top: 12px;
+  }
+}
+
+.clearfix {
+  clear: both;
 }
