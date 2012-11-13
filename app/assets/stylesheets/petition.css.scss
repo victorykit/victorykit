@@ -502,7 +502,7 @@ form #sign-again {
   }
 }
 
-@media (min-width: 768px) and (max-width: 30000px) {
+@media (min-width: 769px) {
   #sign_mobile, .mobile_signup_button {
     display: none;
   }
@@ -616,6 +616,7 @@ form #sign-again {
 }
 
 .mobile_signup_button {
+  margin: 5px 0;
   display: none \9;
   *display: none;
 }
