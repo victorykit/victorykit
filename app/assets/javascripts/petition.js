@@ -1,5 +1,6 @@
-function closeThanksModal() {
+function closeThanksModal(toggleAfterShareModal) {
   $("#thanksModal").modal('hide');
+  if (toggleAfterShareModal === undefined) { $('#thanksAfterSharingModal').modal('toggle'); }
 }
 
 function preventWhitespaceOn(input) {
