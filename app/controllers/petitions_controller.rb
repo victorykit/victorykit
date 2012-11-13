@@ -47,7 +47,7 @@ class PetitionsController < ApplicationController
   end
 
   def petition_layouts
-    spin! 'toggle layout of position page', :sign, ['classic', 'focused']
+    spin! 'toggle layout of position page', :signature, ['classic', 'focused']
   end
 
   def again
