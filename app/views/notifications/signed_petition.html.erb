@@ -7,6 +7,48 @@ Greetings VictoryKit team member. When you change this template, please test it 
 
 <p><a href="<%=@petition_link%>"><%=@petition_link%></a></p>
 
+<div>
+  <table align="right" width="210"style="align: right; width: 210px; z-index:99;">
+    <tr>
+      <td style="cell-padding: 5px; padding: 5px;">
+        <table align="right" width="200" style="align:right;border: 1px solid black;">
+          <tr>
+            <td style="padding: 10px;">
+              <table width="180"style="width:180px;max-width:180px;">
+                <tr>
+                  <td style="font-weight:bold;margin-bottom:15px;">
+                    <%=@short_summary %>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="180" style="width: 180px;">
+                    <%if(@image_url.present?)%>
+                      <img width="180" style="max-width:180px; width:180px;margin-bottom:15px;" src="<%=@image_url%>"/>
+                    <%end%>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a class="sign-petition-link" href="<%=@petition_link%>" style="text-decoration:none">
+                      <table>
+                        <tr>
+                          <td class="sign-button" width="180" align="right" style="font-weight:bold;width:180px;border-radius:5px;color:white;padding:10px;font-size:16px; cell-padding: 10px; text-align: center; background:red;">
+                            Sign the Petition!
+                          </td>
+                        </tr>
+                      </table>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+<div>
+
 <p><b><%=@signature.petition.title%></b></p>
 
 <%=sanitize(@signature.petition.description_lsub("<b><a href='#{@petition_link}'>Please, click here to sign now!</a></b>"))%>
