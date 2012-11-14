@@ -77,18 +77,6 @@ describe EmailExperiments do
     end
   end
 
-  context "box location" do
-    it "should not receive spin if petition summary is nil" do
-      @experiments.should_not_receive(:spin!)
-      @experiments.box_location.should == "right"
-    end
-    it "should receive spin if petition summary is not nil" do
-      short_summary = create(:petition_summary, petition_id: @petition.id)
-      @experiments.should_receive(:super_spin!).with("location of summary, image, and sign button", :signature, ["top", "right"], anything()).and_return("top")
-      @experiments.box_location.should == "top"
-    end
-  end
-
   context "demand progress introduction" do
 
     context "hide" do

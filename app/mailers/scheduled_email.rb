@@ -9,7 +9,7 @@ class ScheduledEmail < ActionMailer::Base
     begin
       SentEmail.transaction do
         email_record = SentEmail.create!(email: member.email, member: member, petition: petition)
-        compose(petition, member, email_record, petition_link(petition, email_record)).deliver
+        compose(petition, member, email_record, petition_link(petition, email_record), petition_link(petition, nil)).deliver
       end
     rescue AWS::SES::ResponseError => exception
       handle_aws_ses_error member, exception
@@ -26,7 +26,7 @@ class ScheduledEmail < ActionMailer::Base
           "preview"
         end
       end
-      compose(petition, member, email_record, petition_link(petition, email_record, true)).deliver
+      compose(petition, member, email_record, petition_link(petition, email_record, true), petition_link(petition, nil, true)).deliver
       # always rollback for preview
       raise ActiveRecord::Rollback
     end
@@ -38,10 +38,16 @@ class ScheduledEmail < ActionMailer::Base
     if is_preview and not petition.persisted?
       return "PETITION LINK GOES HERE"
     end
-    return petition_url petition, n: email.to_hash
+    if email
+      return petition_url petition, n: email.to_hash
+    else
+      return petition_url petition
+    end
   end
 
-  def compose petition, member, email, petition_link
+  def compose(petition, member, email, petition_link, raw_petition_link) 
+    #raw_petition_link is the url without the tracking param. There must be a nicer way to do this
+    
     email_hash = email.to_hash
     email_experiment = EmailExperiments.new(email)
 
@@ -51,16 +57,17 @@ class ScheduledEmail < ActionMailer::Base
 
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: email_hash)
     @tracking_url = new_pixel_tracking_url(n: email_hash)
+    @fb_share_url = fb_share_url(raw_petition_link, email_hash)
     @image_url = email_experiment.image_url
     @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro?
     @demand_progress_introduction_location = email_experiment.demand_progress_introduction_location
     @ask_to_sign_text = email_experiment.ask_to_sign_text
-    @box_location = email_experiment.box_location
     @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
     @show_less_prominent_unsubscribe_link = email_experiment.show_less_prominent_unsubscribe_link
     @short_summary = email_experiment.petition_short_summary
     @font_size_of_petition_link = "font-size:#{email_experiment.font_size_of_petition_link};"
     @button_color = "background:#{email_experiment.button_color_for_petition_link};"
+    @share_button_color = "background:#{email_experiment.button_color_for_share_petition_link};" #TODO: different colors for share button?
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
 
     mail = mail(
@@ -68,6 +75,12 @@ class ScheduledEmail < ActionMailer::Base
       from: Settings.email.from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
+  end
+
+  def fb_share_url(petition_link, email_hash)
+    sharer_url = 'https://www.facebook.com/sharer/sharer.php?u='
+    vk_url = "#{petition_link}?mail_share_ref=#{email_hash}"
+    url = "#{sharer_url}#{vk_url}"
   end
 
   def handle_aws_ses_error member, exception

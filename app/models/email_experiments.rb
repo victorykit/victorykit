@@ -15,11 +15,6 @@ class EmailExperiments
     spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
   end
 
-  def box_location
-    default_box_location = "right"
-    @email.petition.petition_summaries.any? ? (spin! "location of summary, image, and sign button", :signature, box_location_options) : default_box_location
-  end
-
   def demand_progress_introduction_location
     default_intro_location = "top"
     hide_demand_progress_intro? ? default_intro_location : (spin! "demand progress introduction location", :signature, intro_location_options)
@@ -35,6 +30,10 @@ class EmailExperiments
 
   def button_color_for_petition_link
     spin! "button color for sign-this-petition link", :signature, button_color_options
+  end
+
+  def button_color_for_share_petition_link
+    spin! "button color for share-this-petition link", :signature, share_button_color_options
   end
 
   def show_button_instead_of_link
@@ -70,10 +69,6 @@ class EmailExperiments
     @email.petition.petition_images
   end
 
-  def box_location_options
-    ["top", "right"]
-  end
-
   def intro_location_options
     ["top", "bottom"]
   end
@@ -93,6 +88,10 @@ class EmailExperiments
 
   def button_color_options
     ["#990000", "#308014"]
+  end
+
+  def share_button_color_options
+    ["#999999"]
   end
 
   # persisted experiments templates

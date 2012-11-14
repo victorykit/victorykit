@@ -15,6 +15,7 @@ describe ScheduledEmail do
     EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
     EmailExperiments.any_instance.stub(:font_size_of_petition_link).and_return("150%")
     EmailExperiments.any_instance.stub(:button_color_for_petition_link).and_return("#308014")
+    EmailExperiments.any_instance.stub(:button_color_for_share_petition_link).and_return("#999999")
     EmailExperiments.any_instance.stub(:show_ps_with_plain_text).and_return(true)
     EmailExperiments.any_instance.stub(:show_less_prominent_unsubscribe_link).and_return(true)
   end
@@ -26,6 +27,7 @@ describe ScheduledEmail do
     let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
+    let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{sent_email.to_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
 
@@ -84,6 +86,10 @@ describe ScheduledEmail do
       plain_text_part = mail.body.parts.find{|p|p.content_type =~ /text\/plain/}
       plain_text_part.body.should_not include "LINK"
       plain_text_part.body.should include "and more\n\nand so on"
+    end
+
+    it "includes a facebook sharing link" do
+      mail.body.encoded.should include fb_share_url
     end
   end
 
