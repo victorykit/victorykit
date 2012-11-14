@@ -27,12 +27,14 @@ describe ScheduledEmail do
     let(:mail){ ScheduledEmail.new_petition(petition, member)}
     let(:sent_email){SentEmail.find_by_member_id(member)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
-    let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{sent_email.to_hash}"}
+    let(:referral_code){"ABC_123"}
+    let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{referral_code}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
 
     before do
       stub_experiment_values
+      ReferralCode.any_instance.stub(:code).and_return(referral_code)
     end
 
     it "logs the email" do

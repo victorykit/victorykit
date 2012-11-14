@@ -57,7 +57,9 @@ class ScheduledEmail < ActionMailer::Base
 
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: email_hash)
     @tracking_url = new_pixel_tracking_url(n: email_hash)
-    @fb_share_url = fb_share_url(raw_petition_link, email_hash)
+    referral = ReferralCode.new(petition: petition, member: member)
+    referral.save
+    @fb_share_url = fb_share_url(raw_petition_link, referral.code)
     @image_url = email_experiment.image_url
     @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro?
     @demand_progress_introduction_location = email_experiment.demand_progress_introduction_location
@@ -77,9 +79,9 @@ class ScheduledEmail < ActionMailer::Base
       template_name: 'new_petition')
   end
 
-  def fb_share_url(petition_link, email_hash)
+  def fb_share_url(petition_link, referral_code)
     sharer_url = 'https://www.facebook.com/sharer/sharer.php?u='
-    vk_url = "#{petition_link}?mail_share_ref=#{email_hash}"
+    vk_url = "#{petition_link}?mail_share_ref=#{referral_code}"
     url = "#{sharer_url}#{vk_url}"
   end
 
