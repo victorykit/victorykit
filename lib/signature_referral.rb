@@ -11,6 +11,7 @@ class SignatureReferral
   FACEBOOK_REF_TYPES = {
     f:             Signature::ReferenceType::FACEBOOK_LIKE,
     share_ref:     Signature::ReferenceType::FACEBOOK_POPUP,
+    mail_share_ref:Signature::ReferenceType::FACEBOOK_POPUP,
     fd:            Signature::ReferenceType::FACEBOOK_DIALOG,
     d:             Signature::ReferenceType::FACEBOOK_REQUEST,
     autofill:      Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
