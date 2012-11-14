@@ -18,6 +18,7 @@ Victorykit::Application.routes.draw do
   end
   
   post 'social_tracking', to: 'social_tracking#create', as: 'social_tracking'
+  post 'donation_tracking', to: 'donation_tracking#create', as: 'donation_tracking'
   resources :privacy
   resources :facebook_landing_page
 
