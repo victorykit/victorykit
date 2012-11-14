@@ -97,12 +97,6 @@ class SignatureReferral
     return code, facebook_action.member
   end
 
-  def code_and_member_for_facebook_share_from_email
-    sent_email = SentEmail.find_by_hash(received_code)
-    code = ReferralCode.where(petition_id: petition.id, member_id: sent_email.member_id).first
-    return code, sent_email.member
-  end
-
   def code_and_member_for_legacy_referral_code
     member = Member.find_by_hash(received_code)
     raise "Member record not found for referral code #{received_code}" if not member
@@ -124,8 +118,6 @@ class SignatureReferral
 
     code, referring_member = if reference_type == Signature::ReferenceType::FACEBOOK_SHARE
       code_and_member_for_facebook_share_special_case
-    elsif reference_type == Signature::ReferenceType::FACEBOOK_SHARE_FROM_EMAIL
-      code_and_member_for_facebook_share_from_email
     elsif legacy_referral_code? received_code
       code_and_member_for_legacy_referral_code
     else
