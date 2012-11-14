@@ -3,6 +3,12 @@ function closeThanksModal(toggleAfterShareModal) {
   if (toggleAfterShareModal === undefined) { $('#thanksAfterSharingModal').modal('toggle'); }
 }
 
+function trackDonationClick(){
+  $.ajax({ type: 'post', 
+           url: VK.donation_tracking_url, 
+           data: { petition_id: VK.petition_id, referral_code: VK.ref_code, signature_id: VK.signature_id} });
+}
+
 function preventWhitespaceOn(input) {
   $(input).change(function () {
     this.value = this.value.replace(/ /g, '');
@@ -191,6 +197,10 @@ function indicateUserSignatureFailedAfterAjax(response) {
 
 
 $(document).ready(function() {
+  $(".donate_btn").click(function(evt){
+    trackDonationClick();
+  });
+
   $("#sign_petition, #sign_petition_and_share").click(function(evt) {
     var button = $(this),
         form = button.closest("form");

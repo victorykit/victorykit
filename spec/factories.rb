@@ -61,4 +61,9 @@ FactoryGirl.define do
   factory :referral_code do
     petition
   end
+  factory :donation_click do
+    referral_code_id { 1 }
+    petition
+    member
+  end
 end
