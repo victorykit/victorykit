@@ -19,6 +19,7 @@ class Signature < ActiveRecord::Base
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
     FACEBOOK_SHARE = 'facebook_share'
+    FACEBOOK_SHARE_FROM_EMAIL = 'facebook_share_from_email'
     FACEBOOK_POPUP = 'facebook_popup'
     FACEBOOK_DIALOG = 'facebook_dialog'
     FACEBOOK_REQUEST = 'facebook_request'
@@ -39,6 +40,7 @@ class Signature < ActiveRecord::Base
     ReferenceType::SHARED_LINK_FROM_MODAL,
     ReferenceType::FACEBOOK_LIKE, 
     ReferenceType::FACEBOOK_SHARE, 
+    ReferenceType::FACEBOOK_SHARE_FROM_EMAIL, 
     ReferenceType::FACEBOOK_POPUP, 
     ReferenceType::FACEBOOK_DIALOG,
     ReferenceType::FACEBOOK_REQUEST,
