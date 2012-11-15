@@ -1,4 +1,5 @@
 class Notifications < ActionMailer::Base
+  include PersistedExperiments
   require 'uri'
 
   default from: Settings.email.from_address
@@ -8,15 +9,15 @@ class Notifications < ActionMailer::Base
   #   en.notifications.signed_petition.subject
   #
   def signed_petition signature
-    @petition_link = petition_url(signature.petition, r: signature.member.to_hash)
-    referral = ReferralCode.new(petition: signature.petition, member: signature.member)
+    petition = signature.petition
+    @signature = signature
+    @petition_link = petition_url(petition, r: signature.member.to_hash)
+    @unsubscribe_link = URI.join(root_url, 'unsubscribe')
+    @image_url = best_image(petition)
+    @short_summary = best_summary(petition)
+    referral = ReferralCode.new(petition: petition, member: signature.member)
     referral.save
     @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{referral.code}"
-    @signature = signature
-    @unsubscribe_link = URI.join(root_url, 'unsubscribe')
-
-    @image_url = signature.petition.petition_images.first.try(:url)
-    @short_summary = signature.petition.petition_summaries.first.try(:short_summary)
 
     begin
       mail({
@@ -39,4 +40,19 @@ class Notifications < ActionMailer::Base
       to: unsubscription.email
     }).deliver
   end
+
+  private
+
+  def best_image petition
+    experiment = "petition #{petition.id} image" 
+    options = petition.petition_images.map(&:url)
+    winning_option(experiment, options) 
+  end
+
+  def best_summary petition
+    experiment = "petition #{petition.id} email short summary"
+    options = petition.petition_summaries.map(&:short_summary)
+    winning_option(experiment, options) 
+  end
+
 end

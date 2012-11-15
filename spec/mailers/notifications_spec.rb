@@ -1,6 +1,7 @@
 describe Notifications do
 
   describe '#signed_petition' do
+
     let(:petition) do
       build :petition, id: 99,
         title: 'a<br>html&nbsp;&quot;title&quot;', 
@@ -13,8 +14,8 @@ describe Notifications do
       'a<br>html&nbsp;&quot;body&quot;<p>foo</p><p>LINK</p><p>bar</p>'
     end
 
-    let(:image) { build :petition_image, url: 'url' }
-    let(:summary) { build :petition_summary, short_summary: 'foo' }
+    let(:image) { build :petition_image, url: 'image url' }
+    let(:summary) { build :petition_summary, short_summary: 'summary text' }
     let(:signature) { create :signature, petition: petition }
     let(:unsubscribe_link) { 'http://test/unsubscribe' }
     let(:referer) { signature.member.to_hash }
@@ -23,6 +24,21 @@ describe Notifications do
     subject { mail }
     its(:subject) { should match(/#{signature.petition.title}/) }
     its(:to) { should eq([signature.email]) }
+
+    context 'choosing image' do
+      before do
+        Notifications.any_instance.should_receive(:winning_option).
+          with("petition #{petition.id} image", ['image url']).
+          and_return('image url')
+        Notifications.any_instance.should_receive(:winning_option).
+          with("petition #{petition.id} email short summary", ['summary text']).
+          and_return('summary text')
+      end
+
+      subject { mail.body.encoded }
+      it { should include "image url" }
+      it { should include "summary text" }
+    end
 
     context 'html' do
       let(:entities) { 'a&lt;br&gt;html&amp;nbsp;&amp;quot;title&amp;quot;' }
