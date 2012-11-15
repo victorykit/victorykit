@@ -44,10 +44,17 @@ class PetitionsController < ApplicationController
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
 
     @petition_layout = petition_layouts
+    @progress_location = progress_locations
   end
 
   def petition_layouts
     spin! 'toggle layout of position page', :signature, ['classic', 'focused']
+  end
+
+  def progress_locations
+    if (@petition_layout == 'classic') && !browser.mobile? && !browser.ie?
+      spin! 'toggle position and rendering of progress bar', :signature, ['hide_progress', 'header_progress', 'sidebar_progress']
+    end
   end
 
   def again

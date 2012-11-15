@@ -13,11 +13,34 @@
 @import "primary_secondary";
 
 .classic {
-  h1.petition_title, .header_support, .petition_content {
+  h1.petition_title, .petition_content, .header_progress {
     @extend .primary;
   }
   .sidebar {
     @extend .secondary;
+    .fblike_progress {
+      .social_icons {
+        margin-top: 7px;
+        background: #f8f8f8;
+        outline: 1px solid #efefef;
+        width: 100%;
+        .fb_edge_widget_with_comment {
+          margin: 6px 8px 3px;
+        }
+      }
+      .progress_bar {
+        width: 100%;
+        margin-top: 10px;
+        float: left;
+        .progress {
+          width: 100%;
+        }
+        .numbers {
+          text-align: left;
+          color: black;
+        }
+      }
+    }
   }
   #mobile_thanks {
     &.was_signed {
@@ -142,11 +165,6 @@
       float: none;
     }
   }
-}
-
-.header_support {
-  margin-bottom: 8px;
-  border-bottom: 1px dotted #ccc;
 }
 
 .progress_bar {
@@ -829,7 +847,7 @@ form #sign-again {
         font-size: 18px;
       }
     }
-    .progress_box, .header_support {
+    .progress_box, .fblike_progress {
       display: none;
     }
     .sidebar {
