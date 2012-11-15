@@ -100,6 +100,7 @@
   .modal.hide#thanksAfterSharingModal
     .modal-body
       = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      - spin! "show donation modal", :donation
       %h3
         Thanks for sharing!
       %p

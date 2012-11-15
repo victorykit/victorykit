@@ -1,6 +1,7 @@
 class DonationTrackingController < ApplicationController
 
   def create
+    win! :donation
     @petition = Petition.find params[:petition_id]
     @member = Signature.find(params[:signature_id]).member if params[:signature_id].present?
     referral_code = ReferralCode.find_by_code(params[:referral_code]) if params[:referral_code].present?
