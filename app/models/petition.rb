@@ -106,6 +106,14 @@ class Petition < ActiveRecord::Base
     Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count }
   end
 
+  def image_urls
+    petition_images.map(&:url)
+  end
+
+  def summary_texts
+    petition_summaries.map(&:short_summary)
+  end
+
   private
 
   def location_patterns
