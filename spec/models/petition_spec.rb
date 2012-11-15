@@ -9,6 +9,18 @@ describe Petition do
   its(:title) { should_not start_or_end_with_whitespace }
   its(:experiments) { should_not be_nil }
 
+  describe '#image_urls' do
+    let(:image) { build :petition_image, :url => 'www.img.com' }
+    before { petition.petition_images << image }
+    its(:image_urls) { should == ['www.img.com'] }
+  end
+
+  describe '#summary_texts' do
+    let(:summary) { build :petition_summary, :short_summary => 'dinossaur' }
+    before { petition.petition_summaries << summary }
+    its(:summary_texts) { should == ['dinossaur'] }
+  end
+
   context 'descriptions' do
     before { petition.description = descr } 
 
@@ -33,8 +45,12 @@ describe Petition do
     describe '#description_lsub' do
       context 'between br tags' do
         let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
-        specify { petition.description_lsub('subs').should == 'a<br><br>subs<br><br>paragraph' }
-        specify { petition.description_lsub('').should == 'a<br><br>paragraph' }
+        specify do
+          petition.description_lsub('subs').should=='a<br><br>subs<br><br>paragraph' 
+        end
+        specify do
+          petition.description_lsub('').should == 'a<br><br>paragraph'
+        end
       end
 
       context 'inside p tag' do
@@ -167,4 +183,5 @@ describe Petition do
 
     specify { subject.find_interesting_petitions_for(member).should == [interesting] }
   end
+
 end
