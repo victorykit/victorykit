@@ -1,0 +1,11 @@
+.fblike_progress
+  .clearfix
+  .social_icons
+    = fb_like petition_url(params[:id]), @signer_code.code
+  .progress_bar
+    .numbers
+      %div{ :class => progress[:classes] }
+        = raw progress[:text]
+    .progress
+      .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+        .clearfix
