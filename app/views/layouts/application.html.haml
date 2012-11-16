@@ -18,6 +18,7 @@
     <![endif]-->
     = configure_google_analytics
     %meta{property:'fb:app_id', content:social_media_config[:facebook][:app_id]}
+    %meta{property:'fb:admins', content:social_media_config[:facebook][:app_id]}
 
   - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
     - admin_toggle = 'admin'
