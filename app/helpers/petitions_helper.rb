@@ -6,9 +6,8 @@ module PetitionsHelper
       'og:type' => 'watchdognet:petition',
       'og:description' => referral_code.facebook_description_for_sharing.html_safe,
       'og:image' => referral_code.image,
-      'og:site_name' => social_media_config[:facebook][:site_name],
-      'fb:app_id' => social_media_config[:facebook][:app_id]
-    }
+      'og:site_name' => social_media_config[:facebook][:site_name]
+    } # you must be asking: where is fb:app_id? that's in the base layout.
   end
 
   def counter_size(signature_count)

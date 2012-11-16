@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PetitionsHelper do
   let(:browser) { mock }
   before { helper.stub!(:browser).and_return browser }
@@ -28,7 +26,6 @@ describe PetitionsHelper do
       Rails.configuration.social_media[:facebook][:images].should include subject['og:image']
     end
     it { should include('og:site_name' => 'My Super Petitions') }
-    it { should include('fb:app_id' => 12345) }
   end
 
   describe '#open_graph_for where alternate title exists' do
