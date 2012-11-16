@@ -347,9 +347,9 @@ describe PetitionsController do
     context 'mobile' do
       let(:is_mobile) { true }
 
-      it 'renders classic' do
+      it 'renders focused' do
         controller.should_not_receive(:spin!)
-        controller.petition_layouts.should == 'classic'
+        controller.petition_layouts.should == 'focused'
       end
     end
 
