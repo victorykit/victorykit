@@ -13,6 +13,7 @@ describe ScheduledEmail do
     EmailExperiments.any_instance.stub(:box_location).and_return("top")
     EmailExperiments.any_instance.stub(:demand_progress_introduction_location).and_return("top")
     EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
+    EmailExperiments.any_instance.stub(:show_facebook_share_button).and_return(true)
     EmailExperiments.any_instance.stub(:font_size_of_petition_link).and_return("150%")
     EmailExperiments.any_instance.stub(:button_color_for_petition_link).and_return("#308014")
     EmailExperiments.any_instance.stub(:button_color_for_share_petition_link).and_return("#999999")

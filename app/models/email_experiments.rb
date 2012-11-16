@@ -40,6 +40,10 @@ class EmailExperiments
     spin! "show button instead of link", :signature
   end
 
+  def show_facebook_share_button
+    spin! "show facebook share button", :signature
+  end
+
   def show_ps_with_plain_text
     (spin! "show ps with plain text", :signature, display_options) == "show" || false
   end
