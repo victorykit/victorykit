@@ -48,6 +48,7 @@ class PetitionsController < ApplicationController
   end
 
   def petition_layouts
+    return 'classic' if browser.mobile?
     spin! 'toggle layout of position page', :signature, ['classic', 'focused']
   end
 
