@@ -1,6 +1,7 @@
 production: &default
   facebook:
     app_id: <%= ENV["FACEBOOK_APP_ID"] %>
+    admins: 686554820
     secret: <%= ENV["FACEBOOK_SECRET"] %>
     site_name: Victory Kit
     images:
