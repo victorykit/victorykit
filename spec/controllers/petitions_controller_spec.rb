@@ -331,4 +331,28 @@ describe PetitionsController do
       response.should redirect_to '/petitions/42?l=281._4oBaT'
     end
   end
+
+  describe '#petition_layouts' do
+    before { controller.stub_chain(:browser, :mobile?).and_return(is_mobile) }
+
+    context 'regular browser' do
+      let(:is_mobile) { false }
+
+      it 'spins to choose a layout' do
+        controller.should_receive(:spin!).and_return('some layout')
+        controller.petition_layouts.should == 'some layout'
+      end
+    end
+
+    context 'mobile' do
+      let(:is_mobile) { true }
+
+      it 'renders classic' do
+        controller.should_not_receive(:spin!)
+        controller.petition_layouts.should == 'classic'
+      end
+    end
+
+  end
+
 end
