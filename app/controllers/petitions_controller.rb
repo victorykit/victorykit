@@ -54,7 +54,7 @@ class PetitionsController < ApplicationController
 
   def progress_locations
     if (@petition_layout == 'classic') && !browser.mobile? && !browser.ie?
-      spin! 'toggle position and rendering of progress bar', :signature, ['hide_progress', 'header_progress', 'sidebar_progress']
+      spin! 'toggle position and rendering of progress bar 2', :signature, ['hide_progress', 'header_progress', 'sidebar_progress']
     end
   end
 
