@@ -1,3 +1,5 @@
+require 'json'
+
 class DonationTrackingController < ApplicationController
 
   def create
@@ -12,4 +14,31 @@ class DonationTrackingController < ApplicationController
     render :text => ''
   end
 
+  def show
+    transaction_id = params[:tx]
+    authToken = "NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"
+    if transaction_id.present?
+      Rails.logger.info "*** Received transaction #{transaction_id} ***"
+      
+      uri = URI.parse('https://www.sandbox.paypal.com/cgi-bin/webscr')
+      
+      # params = "ccmd=_notify-synch&tx=#{transaction_id}&at=#{authToken}"        
+      post_params = { 
+        :ccmd => "_notify-synch",
+        :tx => "#{transaction_id}",
+        :at => "#{authToken}",
+      }
+      
+      req = Net::HTTP::Post.new(uri.path)
+      req.body = JSON.generate(post_params)
+      req["Content-Type"] = "application/json"
+  
+      http = Net::HTTP.new(uri.host)
+      response = http.start {|htt| htt.request(req)}
+      Rails.logger.info "*** Received post response #{response.inspect} ***"
+    else
+      Rails.logger.info "*** Received nothing!!! ***"
+    end
+    render :text => ''
+  end
 end
