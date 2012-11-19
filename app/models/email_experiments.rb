@@ -41,11 +41,11 @@ class EmailExperiments
   end
 
   def show_facebook_share_button
-    spin! "show facebook share button", :signature
+    spin!("show facebook share button", :signature, display_options) == "show"
   end
 
   def show_ps_with_plain_text
-    (spin! "show ps with plain text", :signature, display_options) == "show" || false
+    spin!("show ps with plain text", :signature, display_options) == "show"
   end
 
   def show_less_prominent_unsubscribe_link
