@@ -29,7 +29,7 @@ describe ScheduledEmail do
     let(:sent_email){SentEmail.find_by_member_id(member)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
     let(:referral_code){"ABC_123"}
-    let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{referral_code}"}
+    let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{sent_email.to_hash}"}
     let(:unsubscribe_link){"http://test/unsubscribes/new?n=#{sent_email.to_hash}"}
     let(:pixel_tracking_link){"http://test/pixel_tracking/new?n=#{sent_email.to_hash}"}
 

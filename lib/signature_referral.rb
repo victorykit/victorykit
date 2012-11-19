@@ -3,6 +3,7 @@ class SignatureReferral
   REF_TYPES = {
     n:             Signature::ReferenceType::EMAIL,
     r:             Signature::ReferenceType::FORWARDED_NOTIFICATION,
+    mail_share_ref:Signature::ReferenceType::FACEBOOK_SHARE_FROM_EMAIL,
     l:             Signature::ReferenceType::SHARED_LINK,
     ls:            Signature::ReferenceType::SHARED_LINK_FROM_MODAL,
     t:             Signature::ReferenceType::TWITTER
@@ -11,7 +12,6 @@ class SignatureReferral
   FACEBOOK_REF_TYPES = {
     f:             Signature::ReferenceType::FACEBOOK_LIKE,
     share_ref:     Signature::ReferenceType::FACEBOOK_POPUP,
-    mail_share_ref:Signature::ReferenceType::FACEBOOK_SHARE_FROM_EMAIL,
     fd:            Signature::ReferenceType::FACEBOOK_DIALOG,
     d:             Signature::ReferenceType::FACEBOOK_REQUEST,
     autofill:      Signature::ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
@@ -58,7 +58,7 @@ class SignatureReferral
   private
 
   def track_regular_referral
-    if reference_type == Signature::ReferenceType::EMAIL
+    if reference_type == Signature::ReferenceType::EMAIL or reference_type == Signature::ReferenceType::FACEBOOK_SHARE_FROM_EMAIL
       sent_email = SentEmail.find_by_hash(received_code)
       raise "SentEmail record not found for referral code #{received_code}" if not sent_email
 
