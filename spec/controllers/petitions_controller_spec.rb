@@ -137,14 +137,20 @@ describe PetitionsController do
 
       context "email hash is present" do
         context "the petition was signed from this email" do
-          let(:signature) { create :signature }
-          let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
+          let(:signature) { create :signature, petition: petition, member: member_sven }
+          let(:sent_email) { create :sent_email, member: member_sven, signature: signature}
           it "should assign name and email to the form from member cookies" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
 
             assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
+          end
+          it "should run an experiment for classic vs focused layout" do
+            controller.stub(cookies: {member_id: member_bob.to_hash})
+            controller.should_receive(:spin!).with('toggle layout of position page for email referrals', :signature, ['classic', 'focused']).and_return('focused')
+            get :show, :id => petition.id, :n => sent_email.to_hash
+            assigns(:petition_layout).should == 'focused'
           end
         end
         context "the petition was not signed from this email" do
