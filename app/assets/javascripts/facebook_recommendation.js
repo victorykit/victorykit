@@ -55,17 +55,18 @@ var recommendation = (function() {
     var url = [domain, '?recommend_ref=', referralCode].join('');
     var message = $('#message-to-friends').val();
 
-    var friends = (function() {
-      return $('.friend_lists input[type="checkbox"]')
+    var friends = 
+      $('.friend_lists input[type="checkbox"]')
         .filter(function() { return $(this).attr('checked'); })
-        .map(function() { return $(this).val(); });
-    })().toArray().concat(['me']);
+        .map(function() { return $(this).val(); })
+        .toArray().concat(['me']);
 
     (function send(i) {
       if(!(uid = friends[i])) { return; } 
-      FB.api('/'+uid+'/feed', 'post', {link: url, message: message}, function(res){
-        send(i+1);
-      });
+      FB.api('/'+uid+'/feed', 'post', 
+        { link: url, message: message }, 
+        function(res){ send(i+1); }
+      );
     })(0);
 
     $('#facebookFriendsModal').modal('toggle');
