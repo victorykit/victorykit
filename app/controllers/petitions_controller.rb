@@ -49,7 +49,9 @@ class PetitionsController < ApplicationController
 
   def petition_layouts
     return 'focused' if browser.mobile?
-    spin! 'toggle layout of position page', :signature, ['classic', 'focused']
+    experiment = 'toggle layout of position page'
+    experiment << ' for email referrals' if @signing_from_email
+    spin! experiment, :signature, ['classic', 'focused']
   end
 
   def progress_locations
