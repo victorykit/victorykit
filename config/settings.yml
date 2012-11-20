@@ -9,6 +9,7 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: Melanie Jones <info@watchdog.net>
+  from_address2: Melanie J. Watchdog.net <info@watchdog.net>
 dp_connection:
   host: OVERRIDE_ME
   username: OVERRIDE_ME

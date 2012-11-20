@@ -74,7 +74,7 @@ class ScheduledEmail < ActionMailer::Base
 
     mail = mail(
       subject: email_experiment.subject,
-      from: Settings.email.from_address,
+      from: email_experiment.from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
   end

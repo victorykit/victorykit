@@ -52,6 +52,10 @@ class EmailExperiments
     spin! "show less prominent unsubscribe link", :unsubscribe
   end
 
+  def from_address
+    spin! "from address", :signature, from_address_options
+  end
+
   def petition_short_summary
     short_summaries = @email.petition.petition_summaries.map(&:short_summary)
     spin! "petition #{@email.petition.id} email short summary", :signature, short_summaries if short_summaries.any?
@@ -96,6 +100,10 @@ class EmailExperiments
 
   def share_button_color_options
     ["#999999"]
+  end
+
+  def from_address_options
+    [Settings.email.from_address, Settings.email.from_address2]
   end
 
   # persisted experiments templates
