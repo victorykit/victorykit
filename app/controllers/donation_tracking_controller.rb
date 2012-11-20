@@ -22,11 +22,11 @@ class DonationTrackingController < ApplicationController
       
       uri = URI.parse('https://www.sandbox.paypal.com/cgi-bin/webscr')
       
-      # params = "ccmd=_notify-synch&tx=#{transaction_id}&at=#{authToken}"        
+      # params = "ccmd=_notify-synch&tx=#{9HY90342DB489630T}&at=NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"        
       post_params = { 
-        :ccmd => "_notify-synch",
-        :tx => "#{transaction_id}",
-        :at => "#{authToken}",
+        "ccmd" => "_notify-synch",
+        "tx" => "#{transaction_id}",
+        "at" => "#{authToken}",
       }
       
       req = Net::HTTP::Post.new(uri.path)
@@ -34,11 +34,12 @@ class DonationTrackingController < ApplicationController
       req["Content-Type"] = "application/json"
   
       http = Net::HTTP.new(uri.host)
-      response = http.start {|htt| htt.request(req)}
-      Rails.logger.info "*** Received post response #{response.inspect} ***"
+      paypal_response = http.start {|htt| htt.request(req)}
+      # redirectLocation = URI.parse(paypal_response['location'])
+      render :text => ''
     else
-      Rails.logger.info "*** Received nothing!!! ***"
+      Rails.logger.info "*** Did not receive transaction id ***"
+      render :text => ''
     end
-    render :text => ''
   end
 end
