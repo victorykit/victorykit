@@ -27,7 +27,7 @@ class PetitionStatistics
   end
 
   def likes_count
-    Like.where(:petition_id => p).count
+    FacebookAction.where(:petition_id => p).count
   end
 
 end

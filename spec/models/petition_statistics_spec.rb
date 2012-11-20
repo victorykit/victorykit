@@ -25,7 +25,7 @@ describe PetitionStatistics do
 
   describe '#likes_count' do
     before do
-      Like.stub(:where).
+      FacebookAction.stub(:where).
         with(:petition_id => petition).
         and_return(3.times.map{ stub })
     end
