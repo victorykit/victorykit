@@ -10,7 +10,6 @@ class PetitionStatistics
   def clicked_emails_count; @local_stats.clicked_emails end
   def signature_count; @local_stats.signatures end
   def email_signature_count; @local_stats.signed_from_emails end
-  def likes_count; @analytics_data.nil? ? 0 : @analytics_data.likes.to_i end
   def hit_count; @analytics_data.nil? ? 0 : @analytics_data.unique_pageviews.to_i end
   def new_member_count; @local_stats.new_members end
   def unsubscribe_count; @local_stats.unsubscribes end
@@ -26,4 +25,9 @@ class PetitionStatistics
   def divide_safe(numerator, denominator)
     denominator.nonzero? ? numerator / denominator.to_f : 0.0
   end
+
+  def likes_count
+    Like.where(:petition_id => p).count
+  end
+
 end
