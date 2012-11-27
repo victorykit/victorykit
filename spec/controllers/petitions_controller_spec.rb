@@ -336,6 +336,10 @@ describe PetitionsController do
       post(:again, id: 42, l: '281._4oBaT')
       response.should redirect_to '/petitions/42?l=281._4oBaT'
     end
+
+    it 'should increment a statsd counter' do
+      expect { post(:again, id: 42, l: '281._4oBaT')}.to change{ $statsd.value_of("same_browser_signatures.count") }.from(0).to(1)
+    end
   end
 
   describe '#petition_layouts' do

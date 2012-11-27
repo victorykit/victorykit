@@ -63,6 +63,7 @@ class PetitionsController < ApplicationController
   def again
     cookies.delete :member_id
     cookies.delete :ref_code
+    $statsd.increment "same_browser_signatures.count"
     redirect_to petition_path(params[:id], request.query_parameters)
   end
 
