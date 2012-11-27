@@ -46,13 +46,13 @@ class Notifications < ActionMailer::Base
   def best_image petition
     experiment = "petition #{petition.id} image" 
     options = petition.petition_images.map(&:url)
-    winning_option(experiment, options) 
+    winning_option(experiment, options) unless options.empty?
   end
 
   def best_summary petition
     experiment = "petition #{petition.id} email short summary"
     options = petition.petition_summaries.map(&:short_summary)
-    winning_option(experiment, options) 
+    winning_option(experiment, options) unless options.empty? 
   end
 
 end
