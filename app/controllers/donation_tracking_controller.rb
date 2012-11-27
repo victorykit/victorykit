@@ -15,6 +15,7 @@ class DonationTrackingController < ApplicationController
   end
 
   def show
+    # should we move token and uri to env variables?
     token = "NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"
     uri = URI('https://www.sandbox.paypal.com/cgi-bin/webscr')
 
@@ -30,7 +31,7 @@ class DonationTrackingController < ApplicationController
       req['content-type'] = 'application/x-www-form-urlencoded'
 
       res = http.request(req) # Net::HTTPResponse object
-      Rails.logger.info ">>> #{res.body} <<<"
+      Rails.logger.info(res.body)
     end
 
     render :text => 'OK'
