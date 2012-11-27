@@ -107,7 +107,7 @@ describe PetitionsController do
           end
 
           it "should run an experiment for classic vs focused layout" do
-            controller.should_receive(:spin!).with('toggle layout of position page for email referrals', :signature, ['classic', 'focused']).and_return('focused')
+            controller.should_receive(:spin!).with('toggle layout of position page 2 for email referrals', :signature, ['classic', 'focused']).and_return('focused')
             get :show, :id => petition.id, :n => sent_email.to_hash
             assigns(:petition_layout).should == 'focused'
           end
@@ -116,7 +116,7 @@ describe PetitionsController do
 
       context "no email hash" do
         it "should run an experiment for classic vs focused layout" do
-          controller.should_receive(:spin!).with('toggle layout of position page', :signature, ['classic', 'focused']).and_return('focused')
+          controller.should_receive(:spin!).with('toggle layout of position page 2', :signature, ['classic', 'focused']).and_return('focused')
           get :show, :id => petition.id
           assigns(:petition_layout).should == 'focused'
         end
@@ -148,7 +148,7 @@ describe PetitionsController do
           end
           it "should run an experiment for classic vs focused layout" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
-            controller.should_receive(:spin!).with('toggle layout of position page for email referrals', :signature, ['classic', 'focused']).and_return('focused')
+            controller.should_receive(:spin!).with('toggle layout of position page 2 for email referrals', :signature, ['classic', 'focused']).and_return('focused')
             get :show, :id => petition.id, :n => sent_email.to_hash
             assigns(:petition_layout).should == 'focused'
           end
@@ -191,7 +191,7 @@ describe PetitionsController do
 
     context 'user logged in' do
       let(:us) do
-        stub(subregions: 
+        stub(subregions:
           [stub(code: 'CA', name: 'California'),
            stub(code: 'NV', name: 'Nevada')])
       end
