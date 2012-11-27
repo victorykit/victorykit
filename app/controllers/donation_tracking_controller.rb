@@ -15,31 +15,22 @@ class DonationTrackingController < ApplicationController
   end
 
   def show
-    transaction_id = params[:tx]
-    authToken = "NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"
-    if transaction_id.present?
-      Rails.logger.info "*** Received transaction #{transaction_id} ***"
-      
-      uri = URI.parse('https://www.sandbox.paypal.com/cgi-bin/webscr')
-      
-      # params = "ccmd=_notify-synch&tx=#{9HY90342DB489630T}&at=NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"        
-      post_params = { 
-        "ccmd" => "_notify-synch",
-        "tx" => "#{transaction_id}",
-        "at" => "#{authToken}",
-      }
-      
-      req = Net::HTTP::Post.new(uri.path)
-      req.body = JSON.generate(post_params)
-      req["Content-Type"] = "application/json"
-  
-      http = Net::HTTP.new(uri.host)
-      paypal_response = http.start {|htt| htt.request(req)}
-      # redirectLocation = URI.parse(paypal_response['location'])
-      render :text => ''
-    else
-      Rails.logger.info "*** Did not receive transaction id ***"
-      render :text => ''
+    token = "NJxH2Yzm_ONgyOOzgyHBSwBrq72X_KltZF1_QutkfBvQMmaJr4OuVz9uz-G"
+    uri = URI('https://www.sandbox.paypal.com/cgi-bin/webscr')
+
+    Net::HTTP.start(uri.host, uri.port, :use_ssl => true) do |http|
+      req = Net::HTTP::Post.new(uri.request_uri)
+
+      req.set_form_data(
+        'cmd' => '_notify-synch', 
+        'tx' => params[:tx], 
+        'at' => token)
+      req['Host'] = uri.host
+
+      res = http.request(req) # Net::HTTPResponse object
+      Rails.logger.info ">>> #{res.body} <<<"
     end
+
+    render :text => 'OK'
   end
 end
