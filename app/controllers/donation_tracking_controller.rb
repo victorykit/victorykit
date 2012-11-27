@@ -19,13 +19,15 @@ class DonationTrackingController < ApplicationController
     uri = URI('https://www.sandbox.paypal.com/cgi-bin/webscr')
 
     Net::HTTP.start(uri.host, uri.port, :use_ssl => true) do |http|
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
       req = Net::HTTP::Post.new(uri.request_uri)
 
       req.set_form_data(
         'cmd' => '_notify-synch', 
         'tx' => params[:tx], 
         'at' => token)
-      req['Host'] = uri.host
+      req['host'] = uri.host
+      req['content-type'] = 'application/x-www-form-urlencoded'
 
       res = http.request(req) # Net::HTTPResponse object
       Rails.logger.info ">>> #{res.body} <<<"
