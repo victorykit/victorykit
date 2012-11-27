@@ -5,10 +5,17 @@ class Admin::DashboardController < ApplicationController
   newrelic_ignore
 
   helper_method :heartbeat, :nps_summary, :petition_extremes,
-    :nps_chart, :emails_sent_chart, :unsubscribes_chart, :facebook_actions_chart, :facebook_referrals_chart,
+    :nps_chart, :emails_sent_chart, :emails_opened_chart, :emails_clicked_chart, :unsubscribes_chart,
+    :facebook_actions_chart, :facebook_referrals_chart, :facebook_action_per_signature_chart, :signatures_from_email_chart,
     :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
+    timeframe.verify.tap {|error| flash.now[:error] = error unless not error }
+    extremes_count.verify.tap {|error| flash.now[:error] = error unless not error }
+    extremes_threshold.verify.tap {|error| flash.now[:error] = error unless not error }
+  end
+
+  def funnel
     timeframe.verify.tap {|error| flash.now[:error] = error unless not error }
     extremes_count.verify.tap {|error| flash.now[:error] = error unless not error }
     extremes_threshold.verify.tap {|error| flash.now[:error] = error unless not error }
@@ -72,12 +79,47 @@ class Admin::DashboardController < ApplicationController
     strip_chart timeframe.value, "stats_counts.victorykit.emails_sent.count", 60, thresholds
   end
 
+  def emails_opened_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_email_rate("stats_counts.victorykit.emails_opened.count"), averaging_window, thresholds
+  end
+
+  def emails_clicked_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_email_open_rate("stats_counts.victorykit.emails_clicked.count"), averaging_window, thresholds
+  end
+
+  def signatures_from_email_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_email_click_rate("stats_counts.victorykit.signatures_from_emails.count"), averaging_window, thresholds
+  end
+
+  def facebook_action_per_signature_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_signature_rate("stats_counts.victorykit.facebook_actions.count"), averaging_window, thresholds
+  end
+
+  # loads of a petition page not off an email
+  # signatures divided by the above
+
   def averaging_window
     { "month" => 120, "week" => 120, "day" => 60, "hour" => 60}[timeframe.value]
   end
 
   def series_as_email_rate series
     "divideSeries(#{series}, stats_counts.victorykit.emails_sent.count)"
+  end
+
+  def series_as_email_open_rate series
+    "divideSeries(#{series}, stats_counts.victorykit.emails_opened.count)"
+  end
+
+  def series_as_email_click_rate series
+    "divideSeries(#{series}, stats_counts.victorykit.emails_clicked.count)"
+  end
+
+  def series_as_signature_rate series
+    "divideSeries(#{series}, stats_counts.victorykit.signatures.count)"
   end
 
   def strip_chart timeframe, gauge, averaging_window, thresholds=[]

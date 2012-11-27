@@ -47,6 +47,7 @@ Victorykit::Application.routes.draw do
     end
 
     get 'dashboard', to: 'dashboard#index'
+    get 'funnel', to: 'dashboard#funnel', as: 'funnel'
     resources :experiments, only: [:index]
     resources :hottest
     resources :on_demand_email
