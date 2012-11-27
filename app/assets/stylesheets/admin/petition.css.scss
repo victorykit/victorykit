@@ -1,0 +1,147 @@
+#location-options {
+  height: 20px;
+  span {
+    input {
+      margin: 0;
+      width: 20px;
+      float: left;
+    }
+    label {
+      margin: 0;
+      padding: 0;
+      margin: -3px 20px 0 5px;
+    }
+  }
+}
+#location-options, #countries, #states {
+  margin-left: 160px;
+  margin-bottom: 20px;
+}
+
+.petitionform {
+  margin-top: 5% auto;
+  min-height: 275px;
+  form {
+    max-width: 830px;
+  }
+  input, textarea, .controls {
+    @media (min-width: 1200px) { width: 770px; }
+    @media (min-width: 980px) and (max-width: 1199px) { width: 620px; }
+    @media (min-width: 770px) and (max-width: 979px) { width: 100%; }
+    *width: 450px;
+    .btn { width: auto; }
+  }
+  .with_icon {
+    width: 90%;
+  }
+  h1, h3 {
+    margin: 0 0 20px 15px;
+  }
+
+  textarea#petition_description {
+    min-height: 200px;
+  }
+  .btn {
+    float: right;
+    &.add_link {
+      float: left;
+    }
+  }
+  .additional_title {
+    height: 3em;
+  }
+  .control-group {
+    .controls {
+      &.description_text { padding-top: 5px; }
+      .btn { width: auto; }
+      iframe { margin-left: 0 !important; }
+    }
+  }
+  input.btn.btn-primary { width: 150px\9; }
+  .modal {
+    input {
+      width: 520px;
+    }
+    .btn {
+      float: none;
+      margin-left: 5px;
+    }
+    .btn-primary {
+      float: right;
+    }
+  }
+  .modal.bootstrap-wysihtml5-insert-link-modal, .modal.bootstrap-wysihtml5-insert-image-modal {
+    input {
+      width: 480px;
+    }
+    a.btn {
+      color: #333;
+    }
+    a.btn.btn-primary {
+      color: #fff;
+    }
+  }
+  .checkbox input {
+    width: auto;
+  }
+  .summary-help-text {
+    margin-left: 160px;
+  }
+  .form-horizontal .controls span.description {
+    line-height: 28px;
+
+  }
+}
+.petitionlist {
+  .petition {
+    width: 80%;
+    min-height: 80px;
+    padding: 10px;
+    padding-bottom: 5em;
+    &:last-of-type {
+      border-bottom: none;
+    }
+    .about_petition {
+      padding-left: 20px;
+      float: left;
+      a.title {
+        font-size: 16px;
+        font-weight: bold;
+        color: navy;
+      }
+      .description {
+        word-wrap: break-word;
+        color: #666;
+      }
+    }
+    .feature {
+      margin-top: 10px;
+    }
+    .signature {
+      float: left;
+      margin: 10px 0;
+      .btn {
+        clear: left;
+        margin-top: 15px;
+        width: 102px;
+      }
+      .btn:first-child { margin-top: 0; }
+      .btn:only-child { margin-top: 7px; }
+    }
+  }
+}
+
+/* for ff on start a petition page */
+.current-font { color: #333; }
+
+#email_subject, #facebook_title, #sharing_image, #facebook_description, #short_summary {
+  display: none;
+  padding: 10px 0;
+}
+
+.controls .icon-trash a {
+  width: 30px;
+  height: 30px;
+}
+
+

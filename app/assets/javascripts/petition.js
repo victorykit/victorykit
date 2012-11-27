@@ -4,8 +4,8 @@ function closeThanksModal(toggleAfterShareModal) {
 }
 
 function trackDonationClick(){
-  $.ajax({ type: 'post', 
-           url: VK.donation_tracking_url, 
+  $.ajax({ type: 'post',
+           url: VK.donation_tracking_url,
            data: { petition_id: VK.petition_id, referral_code: VK.ref_code, signature_id: VK.signature_id} });
 }
 
@@ -107,7 +107,7 @@ function initShowPetition() {
     $('body').animate({ scrollTop: '-30px' }, '0');
     $('.petition_view_toggle').click( function() {
       $(this).hide();
-      $('.petition_content').show();
+      $('.petition_body').show();
     });
   }
   if ($(".privacypolicy .centered").length > 0) {

@@ -46,6 +46,8 @@
         - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
           .privacypolicy{ :class => privacy_policy_position_and_color }
             = render :partial => "privacy"
+          - if @progress_location == "sidebar_progress"
+            = render :partial => "fblike_progress"
 
     - if !@was_signed && (privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888")
       .privacypolicy{ :class => privacy_policy_position_and_color }
@@ -65,8 +67,9 @@
     = link_to('Sign this Petition!', '', :class => "btn btn-primary #{sign_button_color}")
 
   .petition_view_toggle
-    Learn more
-  .petition_content
+    .btn
+      Learn more
+  .petition_body
     %hr
     - petitiontext = @petition.description_lsub
     - if @petition.to_send != true

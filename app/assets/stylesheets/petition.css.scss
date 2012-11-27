@@ -13,7 +13,7 @@
 @import "primary_secondary";
 
 .classic {
-  h1.petition_title, .petition_content, .header_progress {
+  h1.petition_title, .petition_body, .header_progress {
     @extend .primary;
   }
   .sidebar {
@@ -44,64 +44,17 @@
   }
   #mobile_thanks {
     &.was_signed {
-      @media (min-width: 250px) and (max-width: 767px) {
+      @media (max-width: 767px) {
         display: block;
       }
     }
-    @media (min-width: 250px) and (max-width: 767px) {
+    @media (max-width: 767px) {
       background: #ddd;
       width: 100%;
       margin-bottom: 25px;
     }
     .container {
       padding: 10px;
-    }
-    .thanks {
-      padding-top: 20px;
-    }
-    .fb_popup_btn, .fb_dialog_btn, .tweet {
-      margin-top: 30px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .page_content .signature-form {
-      .control-label {
-        width: 25%;
-        *width: 100%;
-        *clear: both;
-      }
-      .through_site .controls {
-        width: 72%;
-        *width:100%;
-        clear: none;
-        *clear: both;
-      }
-      .through_site .controls, .through_site .controls input {
-        float: right;
-        *float: left;
-      }
-    }
-  }
-  @media (min-width: 0px) and (max-width: 767px) {
-    body #content #petition_page .sidebar {
-      margin-top: 0;
-      margin-bottom: 0;
-      background: white;
-      display: none;
-      width: 300px;
-      .title {
-        margin: 0;
-        padding: 0;
-      }
-      .control-label {
-        margin-top: 5px !important;
-      }
-      .control-group, input {
-        margin-bottom: 4px;
-      }
-      .privacypolicy {
-        padding-bottom: 0;
-      }
     }
   }
   .petition_view_toggle {
@@ -128,7 +81,6 @@
     .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
     .control-group { *height: 4.5em; *width: 100%; }
   }
-
 }
 .privacy_tooltip {
   background: #F1F5FA;
@@ -136,22 +88,21 @@
   padding: 7px 11px;
   margin-top: 5px;
   display: none;
-}
-.centered {
-  clear: both;
-  text-align: center;
-  .toggle_tooltip a:hover {
-    color: #3299CC;
+  &.centered {
+    clear: both;
+    text-align: center;
+    .toggle_tooltip a:hover {
+      color: #3299CC;
+    }
   }
 }
 .signature-form .privacy_tooltip {
   color: #666;
 }
-
-.petition_content {
+.petition_body {
   .description {
     line-height: 21px;
-    @media (min-width: 0px) and (max-width: 500px) {
+    @media (max-width: 500px) {
       line-height: 19px;
       clear: both;
     }
@@ -160,13 +111,12 @@
     float: right;
     margin-left: 10px;
     max-width: 300px;
-    @media (min-width: 0px) and (max-width: 500px) {
+    @media (max-width: 500px) {
       margin: 0 auto 5px;
       float: none;
     }
   }
 }
-
 .progress_bar {
   float: right;
   text-align: right;
@@ -175,12 +125,10 @@
     width: 300px;
   }
 }
-
 .social_icons {
   float: left;
   margin: 33px 0 5px;
 }
-
 form #sign-again {
   white-space: normal;
   background: none;
@@ -240,13 +188,13 @@ form #sign-again {
     color: #ccc;
     padding: 0 10px 10px;
     clear: both;
-    @media (min-width: 0) and (max-width: 500px) {
+    @media (max-width: 500px) {
       line-height: 16px;
     }
   }
   .through_site {
-    width: 150px;
-    border-right: 1px solid #555;
+    width: auto;
+    border-right: none;
     form { padding: 10px; margin-bottom: 0; }
     .control-group { *clear: both; *margin-right: 3px; }
     label {
@@ -254,17 +202,16 @@ form #sign-again {
       abbr { border-bottom: none; }
     }
     input {
+      width: 100%;
+      padding: 5px 0;
       margin-left: 0;
       &.btn { width: 100%; text-align: center; *clear: left; *margin-top: 20px; }
-
       &#sign_petition_and_share, &#sign_petition {
         clear: none;
       }
-
       &#sign_petition.no_share {
         width: 28%;
       }
-
       &#sign_petition_and_share {
         width: 68%;
         margin-right: 10px;
@@ -284,14 +231,6 @@ form #sign-again {
       width: 100%;
     }
   }
-  .through_site {
-    width: auto;
-    border-right: none;
-    .controls input {
-      width: 100%;
-      padding: 5px 0;
-    }
-  }
 }
 #thanks-for-signing-message, #thanksModal, #mobile_thanks {
   font-size: 14px;
@@ -301,13 +240,6 @@ form #sign-again {
     font-size: 20px;
     line-height: 25px;
     padding: 15px;
-    &.img {
-      padding: 0;
-    }
-    &.two_friends {
-      line-height: 27px;
-    }
-
   }
   .share {
     clear: both;
@@ -316,19 +248,6 @@ form #sign-again {
     margin: 15px 0 25px;
     &.remixed {
       font-size: 22px;
-    }
-    &.two_friends {
-      font-size: 22px;
-      padding-left: .2em;
-      text-align: left;
-    }
-    &.sidebar_plea {
-      font-weight: normal;
-      color: #fefefe;
-      margin: 25px 0 0;
-      padding-left: 25px;
-      font-size: 29px;
-      text-align: left;
     }
     &.margin-bottom-ten {
       margin-bottom: 10px;
@@ -346,156 +265,25 @@ form #sign-again {
     width: 75%;
   }
 }
-
 #thanksModal {
   .remix {
-    margin: 0 0 15px -16px;
     padding: 15px;
-    &.img {
-      width: 108%;
-    }
-    &.text {
-      margin: 0 0 15px -15px;
-      width: 100%;
-      background: none repeat scroll 0 0 #EEEEEE;
-    }
-    &.most_share {
-      line-height: 35px;
-    }
+    margin: 0 0 15px -15px;
+    width: 100%;
+    background: none repeat scroll 0 0 #EEEEEE;
   }
 }
 #thanks-for-signing-message, #mobile_thanks {
   .remix {
     background: none;
     margin: 0 0 15px -10px;
-    &.text {
-      width: 96%;
-    }
+    width: 96%;
+    background: #444;
   }
-}
-#thanks-for-signing-message .remix.text {
-  background: #444;
 }
 #mobile_thanks .remix.text {
-  background: #444;
   color: white;
 }
-
-.petitionform {
-  margin-top: 5% auto;
-  min-height: 275px;
-  form {
-    max-width: 830px;
-  }
-  input, textarea, .controls {
-    @media (min-width: 1200px) { width: 770px; }
-    @media (min-width: 980px) and (max-width: 1199px) { width: 620px; }
-    @media (min-width: 770px) and (max-width: 979px) { width: 100%; }
-    *width: 450px;
-    .btn { width: auto; }
-  }
-  .with_icon {
-    width: 90%;
-  }
-  h1, h3 {
-    margin: 0 0 20px 15px;
-  }
-
-  textarea#petition_description {
-    min-height: 200px;
-  }
-  .btn {
-    float: right;
-    &.add_link {
-      float: left;
-    }
-  }
-  .additional_title {
-    height: 3em;
-  }
-  .control-group {
-    .controls {
-      &.description_text { padding-top: 5px; }
-      .btn { width: auto; }
-      iframe { margin-left: 0 !important; }
-    }
-  }
-  input.btn.btn-primary { width: 150px\9; }
-  .modal {
-    input {
-      width: 520px;
-    }
-    .btn {
-      float: none;
-      margin-left: 5px;
-    }
-    .btn-primary {
-      float: right;
-    }
-  }
-  .modal.bootstrap-wysihtml5-insert-link-modal, .modal.bootstrap-wysihtml5-insert-image-modal {
-    input {
-      width: 480px;
-    }
-    a.btn {
-      color: #333;
-    }
-    a.btn.btn-primary {
-      color: #fff;
-    }
-  }
-  .checkbox input {
-    width: auto;
-  }
-  .summary-help-text {
-    margin-left: 160px;
-  }
-  .form-horizontal .controls span.description {
-    line-height: 28px;
-
-  }
-}
-.petitionlist {
-  .petition {
-    width: 80%;
-    min-height: 80px;
-    padding: 10px;
-    padding-bottom: 5em;
-    &:last-of-type {
-      border-bottom: none;
-    }
-    .about_petition {
-      padding-left: 20px;
-      float: left;
-      a.title {
-        font-size: 16px;
-        font-weight: bold;
-        color: navy;
-      }
-      .description {
-        word-wrap: break-word;
-        color: #666;
-      }
-    }
-    .feature {
-      margin-top: 10px;
-    }
-    .signature {
-      float: left;
-      margin: 10px 0;
-      .btn {
-        clear: left;
-        margin-top: 15px;
-        width: 102px;
-      }
-      .btn:first-child { margin-top: 0; }
-      .btn:only-child { margin-top: 7px; }
-    }
-  }
-}
-
-/* for ff on start a petition page */
-.current-font { color: #333; }
 
 
 .numbers {
@@ -538,28 +326,16 @@ form #sign-again {
     float: left;
   }
 }
-.controls .icon-trash a {
-  width: 30px;
-  height: 30px;
-}
-
-#email_subject, #facebook_title, #sharing_image, #facebook_description, #short_summary {
-  display: none;
-  padding: 10px 0;
-}
-
-@media (min-width: 0px) and (max-width: 767px) {
+@media (max-width: 767px) {
   .social_icons, .progress_bar, .mobile_signup_button {
     clear: both !important;
     margin: 10px 0 0  !important;
     float: left !important;
     text-align: left !important;
   }
-
   .was_signed .mobile_signup_button {
     display: none;
   }
-
   .container h1 { margin-left: 0; }
   .petitionform {
     width: 95%;
@@ -626,10 +402,6 @@ form #sign-again {
   }
 }
 
-.petitionform .btn.email_subject_add_link {
-  float: left;
-}
-
 .fb_share.btn {
   margin-bottom: 10px;
 }
@@ -694,28 +466,6 @@ form #sign-again {
 
 }
 #mobile_thanks .progress_image .share { font-size: 20px; }
-
-#location-options {
-  height: 20px;
-  span {
-    input {
-      margin: 0;
-      width: 20px;
-      float: left;
-    }
-    label {
-      margin: 0;
-      padding: 0;
-      margin: -3px 20px 0 5px;
-    }
-  }
-}
-#location-options, #countries, #states {
-  margin-left: 160px;
-  margin-bottom: 20px;
-}
-
-
 #facebookFriendsModal.modal {
   margin-left: -281px;
   .modal-body {
@@ -811,9 +561,6 @@ form #sign-again {
     opacity: 1;
   }
 }
-
-.hide { display: none; }
-
 .focused {
   background: black;
   .logo.brand {
@@ -828,7 +575,7 @@ form #sign-again {
     @media (min-width: 500px) and (max-width: 1000px) {
       width: 95%;
     }
-    @media (min-width: 0px) and (max-width: 500px) {
+    @media (max-width: 500px) {
       width: 100%;
     }
     padding: 10px 0;
@@ -836,11 +583,11 @@ form #sign-again {
       margin: 20px auto;
       width: 90%;
       text-align: center;
-      @media (min-width: 0px) and (max-width: 1000px) {
+      @media (max-width: 1000px) {
         line-height: 20px;
         margin: 0px auto 6px;
       }
-      @media (min-width: 0px) and (max-width: 500px) {
+      @media (max-width: 500px) {
         font-size: 16px;
       }
       @media (min-width: 501px) and (max-width: 1000px) {
@@ -856,7 +603,7 @@ form #sign-again {
       @media (min-width: 501px) and (max-width: 800px) {
         width: 75%;
       }
-      @media (min-width: 0px) and (max-width: 500px) {
+      @media (max-width: 500px) {
         width: 100%;
       }
       .signature-form {
@@ -867,7 +614,7 @@ form #sign-again {
           font-size: 22px;
           color: #666;
           padding: 15px 0 0;
-          @media (min-width: 0px) and (max-width: 1000px) {
+          @media (max-width: 1000px) {
             font-size: 16px;
             line-height: 16px;
             padding: 5px 0 0;
@@ -875,7 +622,7 @@ form #sign-again {
         }
         label, input {
           float: left;
-          @media (min-width: 0px) and (max-width: 1000px) {
+          @media (max-width: 1000px) {
             margin-bottom: 3px !important;
           }
         }
@@ -884,7 +631,7 @@ form #sign-again {
         }
         input#sign_petition {
           margin: 15px 0;
-          @media (min-width: 0px) and (max-width: 1000px) {
+          @media (max-width: 1000px) {
             margin: 0 0 4px;
           }
         }
@@ -908,17 +655,17 @@ form #sign-again {
     color: blue;
     text-align: center;
     margin: 20px 10px 10px;
-    @media (min-width: 0px) and (max-width: 1000px) {
+    @media (max-width: 1000px) {
       margin: 3px 0 0;
     }
     &.hover {
       text-decoration: underline;
     }
   }
-  .petition_content {
+  .petition_body {
     display: none;
     margin: 30px 20px 10px;
-    @media (min-width: 0px) and (max-width: 500px) {
+    @media (max-width: 500px) {
       margin: 10px;
     }
   }
