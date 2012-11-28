@@ -8,11 +8,11 @@ class EmailExperiments
   def subject
     default = @email.petition.title
     test_name = "petition #{@email.petition.id} #{PetitionTitle::TitleType::EMAIL} title"
-    spin!(test_name, :signature, title_options.map{|opt| opt.title}, default)
+    spin!(test_name, :signature, title_options.map(& :title), default)
   end
 
   def image_url
-    spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
+    spin!("petition #{@email.petition.id} image", :signature, image_url_options)
   end
 
   def demand_progress_introduction_location
@@ -74,7 +74,7 @@ class EmailExperiments
   end
 
   def image_url_options
-    @email.petition.petition_images
+    @email.petition.petition_images.map(& :url)
   end
 
   def intro_location_options
