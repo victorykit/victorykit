@@ -658,7 +658,7 @@ form #sign-again {
     @media (max-width: 1000px) {
       margin: 3px 0 0;
     }
-    &.hover {
+    .link:hover {
       text-decoration: underline;
     }
   }
