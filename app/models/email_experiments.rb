@@ -8,11 +8,11 @@ class EmailExperiments
   def subject
     default = @email.petition.title
     test_name = "petition #{@email.petition.id} #{PetitionTitle::TitleType::EMAIL} title"
-    spin!(test_name, :signature, title_options.map{|opt| opt.title}, default)
+    spin!(test_name, :signature, title_options, default)
   end
 
   def image_url
-    url = spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
+    url = spin!("petition #{@email.petition.id} image", :signature, image_url_options)
     url ? PetitionImage.find_by_url(url).public_url : url
   end
 
@@ -60,11 +60,11 @@ class EmailExperiments
   private
 
   def title_options
-    PetitionTitle.find_all_by_petition_id_and_title_type(@email.petition.id, PetitionTitle::TitleType::EMAIL)
+    PetitionTitle.find_all_by_petition_id_and_title_type(@email.petition.id, PetitionTitle::TitleType::EMAIL).map(& :title)
   end
 
   def image_url_options
-    @email.petition.petition_images
+    @email.petition.petition_images.map(& :url)
   end
 
   def display_options
