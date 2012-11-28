@@ -168,6 +168,7 @@ ActiveRecord::Schema.define(:version => 20121206152505) do
     t.integer  "signature_id"
     t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.string   "type"
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
