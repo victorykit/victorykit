@@ -197,9 +197,7 @@ function indicateUserSignatureFailedAfterAjax(response) {
 
 
 $(document).ready(function() {
-  $(".donate_btn").click(function(evt){
-    trackDonationClick();
-  });
+  $(".donate_btn").click(trackDonationClick);
 
   $("#sign_petition, #sign_petition_and_share").click(function(evt) {
     var button = $(this),
