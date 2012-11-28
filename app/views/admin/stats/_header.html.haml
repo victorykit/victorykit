@@ -1,0 +1,10 @@
+.span12
+  %h1 Statistics
+  %p
+    %i
+      currently showing:
+      = link_to_unless_current("metrics", metrics_admin_stats_path) { |x| content_tag(:b, x) }
+      &nbsp;&nbsp;
+      = link_to_unless_current("browser usage", browser_usage_admin_stats_path) { |x| content_tag(:b, x) }
+      &nbsp;&nbsp;
+      = link_to_unless_current("facebook", facebook_admin_stats_path) { |x| content_tag(:b, x) }
