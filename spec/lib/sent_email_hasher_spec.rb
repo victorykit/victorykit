@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'sent_email_hasher'
 
 describe SentEmailHasher do

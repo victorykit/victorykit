@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'member_hasher'
 
 describe MemberHasher do

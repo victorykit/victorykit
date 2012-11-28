@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PixelTrackingController do
 
   describe "GET new" do

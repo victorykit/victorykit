@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ApplicationHelper do
 
   describe 'float_to_percentage' do

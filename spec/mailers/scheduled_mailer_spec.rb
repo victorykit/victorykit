@@ -1,7 +1,6 @@
 require "spec_helper"
 
 describe ScheduledMailer do
-
   before(:each) do
     guard_against_spins EmailExperiments
   end

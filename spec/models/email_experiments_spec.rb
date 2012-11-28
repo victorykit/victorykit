@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe EmailExperiments do
 
   before :each do

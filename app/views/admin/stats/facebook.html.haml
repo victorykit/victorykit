@@ -1,0 +1,24 @@
+= render 'header'
+
+%h2
+  Facebook actions by day
+
+%table
+  %tr
+    %th
+      Shares
+  %tr
+    %td
+      .plot-container#facebook-shares{style: "width:800px;height:300px", data: { "query-url" => data_daily_facebook_insight_admin_stats_path(:metrics => 'domain_stories'), "mode" => "time" } }
+  %tr
+    %th
+      Views
+  %tr
+    %td
+      .plot-container#facebook-views{style: "width:800px;height:300px", data: { "query-url" => data_daily_facebook_insight_admin_stats_path(:metrics => 'domain_feed_views'), "mode" => "time" } }
+  %tr
+    %th
+      Clicks
+  %tr
+    %td
+      .plot-container#facebook-clicks{style: "width:800px;height:300px", data: { "query-url" => data_daily_facebook_insight_admin_stats_path(:metrics => 'domain_feed_clicks'), "mode" => "time" } }

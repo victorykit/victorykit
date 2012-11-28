@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe BouncesController do
   describe "create" do
     def unsubscribes_the_recipient_because_of cause

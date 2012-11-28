@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe PetitionsController do
   describe "routing" do
 

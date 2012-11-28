@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SocialTrackingController do
 
   before(:each) do
