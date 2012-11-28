@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114190641) do
+ActiveRecord::Schema.define(:version => 20121128165944) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -166,6 +166,7 @@ ActiveRecord::Schema.define(:version => 20121114190641) do
     t.integer  "signature_id"
     t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.string   "type"
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
