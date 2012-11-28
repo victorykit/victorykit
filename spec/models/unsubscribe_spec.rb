@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Unsubscribe do
   describe "unsubscribe_member" do
     subject { build(:unsubscribe) }

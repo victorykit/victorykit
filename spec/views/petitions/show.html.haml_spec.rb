@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe "petitions/show.html.haml" do
   
   let(:petition) { create(:petition) }

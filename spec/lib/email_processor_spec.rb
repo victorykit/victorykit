@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe EmailProcessor do
   let!(:sent_email) {create :sent_email}
   let!(:member) {create :member, email: sent_email.email}

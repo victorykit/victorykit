@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ReferralCode do
   let(:rc) { build :referral_code }
   subject { rc }

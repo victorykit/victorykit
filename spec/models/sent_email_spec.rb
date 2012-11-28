@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SentEmail do
   describe "analytics" do
     it "should increment unsubscribe count on create" do

@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PetitionStatisticsBuilder do
   describe "when no date is given" do
     it "should find all statistics since analytics began" do
