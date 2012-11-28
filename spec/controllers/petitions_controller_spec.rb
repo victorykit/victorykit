@@ -300,20 +300,20 @@ describe PetitionsController do
 
     it "should update clicked_at with the current time if email hash and corresponding sent_email are present" do
       get :show, id: petition.id, n: sent_email.to_hash
-      (SentEmail.find(sent_email.id).clicked_at + 1.minute).should be > Time.now
+      (ScheduledEmail.find(sent_email.id).clicked_at + 1.minute).should be > Time.now
     end
 
     it "should not do anything if the email hash is invalid" do
       get :show, id: petition.id, n: "invalid"
-      (SentEmail.find(sent_email.id).clicked_at).should be nil
-      SentEmail.count.should == 1
+      (ScheduledEmail.find(sent_email.id).clicked_at).should be nil
+      ScheduledEmail.count.should == 1
     end
 
     it "should not update clicked_at date if it`s not empty" do
       get :show, id: petition.id, n: sent_email.to_hash
-      first_time = SentEmail.find(sent_email.id).clicked_at
+      first_time = ScheduledEmail.find(sent_email.id).clicked_at
       get :show, id: petition.id, n: sent_email.to_hash
-      SentEmail.find(sent_email.id).clicked_at.should == first_time
+      ScheduledEmail.find(sent_email.id).clicked_at.should == first_time
     end
   end
 

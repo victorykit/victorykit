@@ -1,4 +1,4 @@
-require 'scheduled_email'
+require 'scheduled_mailer'
 require 'petition_emailer'
 
 WEEK = 60*60*24*7

@@ -40,7 +40,7 @@ describe SignatureReferral do
 
   it "finds email using hash given referral code having trailing punctuation" do
     sent_email = create :sent_email
-    SentEmail.stub(:find_by_hash).with(received_code).and_return(sent_email)
+    ScheduledEmail.stub(:find_by_hash).with(received_code).and_return(sent_email)
     params = {referer_ref_code: "#{received_code}!", referer_ref_type: Signature::ReferenceType::EMAIL}.with_indifferent_access
     referral = SignatureReferral.new(petition, signature, params).referral
     referral[:referer].should eq sent_email.member
@@ -50,7 +50,7 @@ describe SignatureReferral do
   context "unresolvable referral codes" do
 
     it "logs warning and returns default for email referral when email unresolved" do
-      SentEmail.stub(:find_by_hash).with(received_code).and_return(nil)
+      ScheduledEmail.stub(:find_by_hash).with(received_code).and_return(nil)
       Rails.logger.should_receive(:warn).with(/SentEmail record not found for referral code 1a2b3c/)
       params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::EMAIL}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral

@@ -34,7 +34,7 @@ describe PetitionEmailer do
       end
 
       it 'should not send any email' do
-        ScheduledEmail.should_not_receive :new_petition
+        ScheduledMailer.should_not_receive :new_petition
         PetitionEmailer.send_to member
       end
     end
@@ -50,12 +50,12 @@ describe PetitionEmailer do
 
       it 'should send an email to the member' do
         PetitionEmailer.stub!(:spin_for).and_return chosen.id
-        ScheduledEmail.should_receive(:new_petition).with(chosen, member)
+        ScheduledMailer.should_receive(:new_petition).with(chosen, member)
         PetitionEmailer.send_to member
       end
 
       it 'should spin for a petition to send' do
-        ScheduledEmail.stub!(:new_petition)
+        ScheduledMailer.stub!(:new_petition)
 
         experiment = 'email_scheduler_nps'
         goal = :signatures_off_email

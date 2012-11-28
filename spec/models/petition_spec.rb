@@ -168,7 +168,7 @@ describe Petition do
       nocoverage.stub(:cover?).with(member).and_return false
       interesting.stub(:cover?).with(member).and_return true
 
-      SentEmail.stub_chain(:where, :select).
+      ScheduledEmail.stub_chain(:where, :select).
         and_return [stub(petition_id: sent.id)]
 
       Signature.stub_chain(:where, :select).

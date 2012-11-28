@@ -13,11 +13,11 @@ class PetitionStatisticsBuilder
     date ||= ANALYTICS_START_DATE
     analytics_report_data = AnalyticsGateway.fetch_report_results(date)
 
-    sent_emails = SentEmail.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
-    opened_emails = SentEmail.count(:conditions => ['created_at >= ? and opened_at is not null', date], :group => 'petition_id')
-    clicked_emails = SentEmail.count(:conditions => ['created_at >= ? and clicked_at is not null', date], :group => 'petition_id')
-    signed_emails = SentEmail.count(:conditions => ['created_at >= ? and signature_id is not null', date], :group => 'petition_id')
-    unsubscribes = SentEmail.count(:conditions => ['unsubscribes.created_at >=?', date], :joins => :unsubscribe, :group => 'petition_id')
+    sent_emails = ScheduledEmail.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
+    opened_emails = ScheduledEmail.count(:conditions => ['created_at >= ? and opened_at is not null', date], :group => 'petition_id')
+    clicked_emails = ScheduledEmail.count(:conditions => ['created_at >= ? and clicked_at is not null', date], :group => 'petition_id')
+    signed_emails = ScheduledEmail.count(:conditions => ['created_at >= ? and signature_id is not null', date], :group => 'petition_id')
+    unsubscribes = ScheduledEmail.count(:conditions => ['unsubscribes.created_at >=?', date], :joins => :unsubscribe, :group => 'petition_id')
     signatures = Signature.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
     new_members = Signature.count(:conditions => ['created_at >= ? and created_member is true', date], :group => 'petition_id')
 

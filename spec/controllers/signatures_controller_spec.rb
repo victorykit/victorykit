@@ -173,7 +173,7 @@ describe SignaturesController do
 
         it 'should update sent email record with the signature_id value' do
           sign_petition params
-          SentEmail.last.signature_id.should == Signature.last.id
+          ScheduledEmail.last.signature_id.should == Signature.last.id
         end
 
         context 'referer and reference type for the signature are persisted' do

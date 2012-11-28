@@ -1,0 +1,3 @@
+class ScheduledEmail < SentEmail
+
+end

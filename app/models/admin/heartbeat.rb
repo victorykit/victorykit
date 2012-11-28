@@ -1,7 +1,7 @@
 class Admin::Heartbeat
 
   def last_sent_email
-    SentEmail.last.created_at
+    ScheduledEmail.last.created_at
   end
 
   def last_signature
@@ -9,7 +9,7 @@ class Admin::Heartbeat
   end
 
   def emails_sent_since date_time
-    SentEmail.where("created_at > ?", date_time).count
+    ScheduledEmail.where("created_at > ?", date_time).count
   end
 
   def emailable_members

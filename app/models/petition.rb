@@ -51,7 +51,7 @@ class Petition < ActiveRecord::Base
 
   def self.find_interesting_petitions_for(member)
     signed = Signature.where(member_id: member).select(:petition_id).map(&:petition_id)
-    sent = SentEmail.where(member_id: member).select(:petition_id).map(&:petition_id)
+    sent = ScheduledEmail.where(member_id: member).select(:petition_id).map(&:petition_id)
     select([:location, :id]).
       where(id: (emailable_petition_ids - signed - sent)).
       select { |p| p.cover? member }
