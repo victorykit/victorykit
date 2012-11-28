@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121114190641) do
+ActiveRecord::Schema.define(:version => 20121128192958) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20121114190641) do
     t.integer  "referral_code_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.float    "amount"
   end
 
   create_table "email_errors", :force => true do |t|
