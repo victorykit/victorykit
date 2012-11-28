@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe PetitionTitlesValidator do
 
   it "should be valid with two different title types having same title" do

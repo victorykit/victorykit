@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe MembersController do
   it "creates a member" do
     post :create, {:member => {:email => "foo@bar.com", first_name: "Foobar", last_name: "Saunders"}}

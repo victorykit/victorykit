@@ -1,5 +1,3 @@
-require "spec_helper"
-
 describe ScheduledEmail do
 
   before(:each) do

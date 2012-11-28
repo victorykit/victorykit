@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe SignatureReferral do
 
   let(:petition) { create :petition }

@@ -1,4 +1,3 @@
-require 'spec_helper'
 require 'mail'
 
 describe IncomingMailsController do

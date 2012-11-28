@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe FacebookLandingPageController do
 	describe "GET new" do
 		it "should redirect to home page if there is no facebook request" do

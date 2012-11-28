@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe UnsubscribeRequest do
   describe "unsubscribe_members" do
     it "should unsubscribe members in the request" do

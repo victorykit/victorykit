@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe ApplicationController do
   describe "Current User" do
     context "user is in session" do
