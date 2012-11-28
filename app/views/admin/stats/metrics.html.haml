@@ -1,51 +1,44 @@
-.span12
-  %h1 Statistics
-  %p
-    %i
-      currently showing:
-      = link_to_unless_current("metrics", metrics_admin_stats_path) { |x| content_tag(:b, x) }
-      &nbsp;&nbsp;
-      = link_to_unless_current("browser usage", browser_usage_admin_stats_path) { |x| content_tag(:b, x) }
+= render 'header'
 
-  %h2
-    Email response by hour
+%h2
+  Email response by hour
 
-  %table
-    %tr
-      %th{colspan: 2}
-        New members per email sent since the beginning
-    %tr
-      %td{colspan: 2}
-        .plot-container#npschart{style: "width:1200px;height:300px", data: { "query-url" => data_nps_by_day_admin_stats_path } }
-    %tr
-      %th
-        Response rate to emails by hour sent
-      %th
-        Signatures on emails sent by hour signed
-    %tr
-      %td
-        .plot-container#email-response-rate-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "hour") } }
-      %td
-        .plot-container#email-signatures-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "hour") } }
-    %tr
-      %th
-        Response rate to emails by day of week sent (Sunday = 0)
-      %th
-        Signatures on emails sent by day of week signed
-    %tr
-      %td
-        .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow") } }
-      %td
-        .plot-container#email-signatures-by-day{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "dow") } }
-    %tr
-      %th{colspan: 2}
-        Percentage of emails opened during a past week
-    %tr
-      %td{colspan: 2}
-        .plot-container#opened-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_opened_emails_admin_stats_path } }
-    %tr
-      %th{colspan: 2}
-        Percentage of emails with the link clicked during a past week
-    %tr
-      %td{colspan: 2}
-        .plot-container#clicked-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_clicked_emails_admin_stats_path } }
+%table
+  %tr
+    %th{colspan: 2}
+      New members per email sent since the beginning
+  %tr
+    %td{colspan: 2}
+      .plot-container#npschart{style: "width:1200px;height:300px", data: { "query-url" => data_nps_by_day_admin_stats_path } }
+  %tr
+    %th
+      Response rate to emails by hour sent
+    %th
+      Signatures on emails sent by hour signed
+  %tr
+    %td
+      .plot-container#email-response-rate-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "hour") } }
+    %td
+      .plot-container#email-signatures-by-hour{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "hour") } }
+  %tr
+    %th
+      Response rate to emails by day of week sent (Sunday = 0)
+    %th
+      Signatures on emails sent by day of week signed
+  %tr
+    %td
+      .plot-container#email-response-rate-per-day{style: "width:600px;height:300px", data: { "query-url" => data_email_response_rate_admin_stats_path(date_part: "dow") } }
+    %td
+      .plot-container#email-signatures-by-day{style: "width:600px;height:300px", data: { "query-url" => data_signature_activity_admin_stats_path(date_part: "dow") } }
+  %tr
+    %th{colspan: 2}
+      Percentage of emails opened during a past week
+  %tr
+    %td{colspan: 2}
+      .plot-container#opened-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_opened_emails_admin_stats_path } }
+  %tr
+    %th{colspan: 2}
+      Percentage of emails with the link clicked during a past week
+  %tr
+    %td{colspan: 2}
+      .plot-container#clicked-emails-percentage{style: "width:1200px;height:300px", data: { "query-url" => data_clicked_emails_admin_stats_path } }
