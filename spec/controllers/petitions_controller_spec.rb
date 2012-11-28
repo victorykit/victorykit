@@ -86,7 +86,7 @@ describe PetitionsController do
       context "email hash is present" do
         context "the petition was already signed from this email" do
           let(:signature) { create :signature, member: member_sven, petition: petition }
-          let(:sent_email) { create :sent_email, member: member_sven, signature_id: signature.id}
+          let(:sent_email) { create :scheduled_email, member: member_sven, signature_id: signature.id}
 
           it "should not populate name and email from email_hash" do
             get :show, :id => petition.id, :n => sent_email.to_hash
@@ -138,7 +138,7 @@ describe PetitionsController do
       context "email hash is present" do
         context "the petition was signed from this email" do
           let(:signature) { create :signature, petition: petition, member: member_sven }
-          let(:sent_email) { create :sent_email, member: member_sven, signature: signature}
+          let(:sent_email) { create :scheduled_email, member: member_sven, signature: signature}
           it "should assign name and email to the form from member cookies" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
@@ -154,7 +154,7 @@ describe PetitionsController do
           end
         end
         context "the petition was not signed from this email" do
-          let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
+          let(:sent_email) { create :scheduled_email, member: member_sven, :signature_id => nil}
           it "should assign name and email to the form from cookies" do
             controller.stub(cookies: {member_id: member_bob.to_hash})
             get :show, {:id => petition.id, :n => sent_email.to_hash}
