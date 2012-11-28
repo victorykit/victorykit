@@ -67,8 +67,12 @@
     = link_to('Sign this Petition!', '', :class => "btn btn-primary #{sign_button_color}")
 
   .petition_view_toggle
-    .btn
-      Learn more
+    - if learn_more_button_color == "grey"
+      .btn Learn more
+    - if learn_more_button_color == "blue"
+      .btn.btn-primary Learn More
+    - if learn_more_button_color == "link"
+      .link Learn More
   .petition_body
     %hr
     - petitiontext = @petition.description_lsub
