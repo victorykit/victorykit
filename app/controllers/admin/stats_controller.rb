@@ -12,6 +12,9 @@ class Admin::StatsController < ApplicationController
   def metrics
   end
 
+  def facebook
+  end
+
   def nps_by_day
     render json: [{data: nps.each_with_index.map{|h, i| [i, h]}.select{|i, h| h < 1 and not [102,103,104].include?(i) }}]
   end
@@ -40,6 +43,24 @@ class Admin::StatsController < ApplicationController
                   .order(:created_date)
     data = signatures.group_by(&:browser_name).map do |browser, signatures|
       { label: browser, data: signatures.map {|s| [ js_timestamp(s.created_date), s.count_all ]} }
+    end
+
+    render json: data
+  end
+
+  def daily_facebook_insight
+    social_media_config = Rails.configuration.social_media
+    fb_app = FbGraph::Application.new(social_media_config[:facebook][:app_id], :secret => social_media_config[:facebook][:secret])
+    domain = FbGraph::Domain.search('act.watchdog.net').first
+    domain.access_token = fb_app.access_token
+
+    metrics = params[:metrics].split(',')
+    start_time = 45.days.ago.beginning_of_day.to_i
+    end_time   = 1.day.ago.end_of_day.to_i
+
+    insights = domain.insights(:metric => metrics, :period => :day, :since => start_time, :until => end_time)
+    data = insights.map do |i|
+      {label: i.name.titleize, data: i.values.map {|v| [js_timestamp(v['end_time']), v['value']] }}
     end
 
     render json: data
