@@ -56,6 +56,11 @@ FactoryGirl.define do
     member
     email {Faker::Internet.email}
   end
+  factory :signature_email do
+    petition
+    member
+    email {Faker::Internet.email}
+  end
   factory :social_media_trial do
     petition
     member

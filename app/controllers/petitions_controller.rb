@@ -139,7 +139,7 @@ class PetitionsController < ApplicationController
   end
 
   def sent_email
-    ScheduledEmail.find_by_hash(params[:n])
+    SentEmail.find_by_hash(params[:n])
   end
   memoize :sent_email
 

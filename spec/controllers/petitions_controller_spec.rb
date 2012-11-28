@@ -98,7 +98,7 @@ describe PetitionsController do
         end
 
         context "the petition was not signed from this email" do
-          let(:sent_email) { create :sent_email, member: member_sven, :signature_id => nil}
+          let(:sent_email) { create :scheduled_email, member: member_sven, :signature_id => nil}
           it "should assign name and email to the form from email hash" do
             get :show, :id => petition.id, :n => sent_email.to_hash
 
@@ -295,7 +295,7 @@ describe PetitionsController do
   end
 
   describe "track_visit" do
-    let(:sent_email) { create :sent_email }
+    let(:sent_email) { create :scheduled_email }
     let(:petition) { create :petition }
 
     it "should update clicked_at with the current time if email hash and corresponding sent_email are present" do

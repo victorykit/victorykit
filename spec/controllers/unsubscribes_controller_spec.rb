@@ -18,7 +18,7 @@ describe UnsubscribesController do
     end
     
     context 'with email hash' do
-      let(:sent_email) { create :sent_email }
+      let(:sent_email) { create :scheduled_email }
       let(:email) { sent_email.email }
       let(:hash) { SentEmailHasher.generate(sent_email.id) }
 
@@ -77,7 +77,7 @@ describe UnsubscribesController do
     end
     
     context 'referred from an email' do
-      let(:sent_email) {create :sent_email, member: member}
+      let(:sent_email) {create :scheduled_email, member: member}
       
       before :each do
         post :create, unsubscribe: { email: member.email }, email_hash: sent_email.to_hash

@@ -18,10 +18,10 @@ describe Metrics::Nps do
     @member_z = create(:member)
 
     # petition_a: send, sign, unsubscribe
-    @sent_aold = create(:sent_email, member: @member_old, petition: @petition_a, created_at: @month)
-    @sent_ax = create(:sent_email, petition: @petition_a, member: @member_x, created_at: @month)
-    @sent_ay = create(:sent_email, petition: @petition_a, member: @member_y, created_at: @month)
-    @sent_az = create(:sent_email, petition: @petition_a, member: @member_z, created_at: @week)
+    @sent_aold = create(:scheduled_email, member: @member_old, petition: @petition_a, created_at: @month)
+    @sent_ax = create(:scheduled_email, petition: @petition_a, member: @member_x, created_at: @month)
+    @sent_ay = create(:scheduled_email, petition: @petition_a, member: @member_y, created_at: @month)
+    @sent_az = create(:scheduled_email, petition: @petition_a, member: @member_z, created_at: @week)
 
     @signature_aold = create(:signature, petition: @petition_a, member: @member_old, created_member: false, created_at: @month)
     @signature_ax = create(:signature, petition: @petition_a, member: @member_x, created_member: true, created_at: @month)
@@ -30,13 +30,13 @@ describe Metrics::Nps do
     @unsubscribe_az = create(:unsubscribe, member: @member_z, sent_email: @sent_az, created_at: @day, cause: "unsubscribed")
 
     # petition_b: send, sign, unsubscribe
-    @sent_bx = create(:sent_email, petition: @petition_b, member: @member_x, created_at: @week)
+    @sent_bx = create(:scheduled_email, petition: @petition_b, member: @member_x, created_at: @week)
     @signature_bx = create(:signature, petition: @petition_b, member: @member_x, created_member: true, created_at: @day)
 
     # petition_unfeatured: send, sign, unsubscribe
     # petition could have been featured, then un-featured. 
     # could have led to a new member signature, but should still be excluded from timeframe queries
-    @sent_unfeaturedold = create(:sent_email, petition: @petition_unfeatured, member: @member_old, created_at: @month)
+    @sent_unfeaturedold = create(:scheduled_email, petition: @petition_unfeatured, member: @member_old, created_at: @month)
     @signature_unfeaturedold = create(:signature, petition: @petition_unfeatured, member: @member_old, created_member: true, created_at: @month)
     
   end
