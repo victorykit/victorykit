@@ -57,14 +57,24 @@ class EmailExperiments
   end
 
   def petition_short_summary
-    short_summaries = @email.petition.petition_summaries.map(&:short_summary)
-    spin! "petition #{@email.petition.id} email short summary", :signature, short_summaries if short_summaries.any?
+    options = short_summaries
+    spin! "petition #{@email.petition.id} email short summary", :signature, options if options.any?
   end
 
   def hide_demand_progress_intro?
     previously_signed = Signature.where("member_id = ?", @email.member_id).present?
     previously_opened_or_clicked_email = SentEmail.where("member_id = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.member_id, nil, nil).present?
     previously_signed || previously_opened_or_clicked_email
+  end
+
+  def best_image
+    options = image_url_options
+    winning_option(image_experiment_key, options) unless options.empty?
+  end
+
+  def best_summary
+    options = short_summaries
+    winning_option(summary_experiment_key, options) unless options.empty?
   end
 
   private
@@ -75,6 +85,18 @@ class EmailExperiments
 
   def image_url_options
     @email.petition.petition_images.map(& :url)
+  end
+
+  def image_experiment_key
+    "petition #{@email.petition.id} image"
+  end
+
+  def short_summaries
+    @email.petition.petition_summaries.map(& :short_summary)
+  end
+
+  def summary_experiment_key
+    "petition #{@email.petition.id} email short summary"
   end
 
   def intro_location_options

@@ -27,10 +27,10 @@ describe Notifications do
 
     context 'choosing image' do
       before do
-        Notifications.any_instance.should_receive(:winning_option).
+        EmailExperiments.any_instance.should_receive(:winning_option).
           with("petition #{petition.id} image", ['image url']).
           and_return('image url')
-        Notifications.any_instance.should_receive(:winning_option).
+        EmailExperiments.any_instance.should_receive(:winning_option).
           with("petition #{petition.id} email short summary", ['summary text']).
           and_return('summary text')
       end

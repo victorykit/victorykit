@@ -1,5 +1,4 @@
 class Notifications < ActionMailer::Base
-  include PersistedExperiments
   require 'uri'
 
   default from: Settings.email.from_address
@@ -13,11 +12,11 @@ class Notifications < ActionMailer::Base
     @signature = signature
     @petition_link = petition_url(petition, r: signature.member.to_hash)
     @unsubscribe_link = URI.join(root_url, 'unsubscribe')
-    @image_url = best_image(petition)
-    @short_summary = best_summary(petition)
-    referral = ReferralCode.new(petition: petition, member: signature.member)
-    referral.save
-    @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{referral.code}"
+    email = SignatureEmail.create!(email: signature.member.email, member: signature.member, petition: signature.petition)
+    experiments = EmailExperiments.new(email)
+    @image_url = experiments.best_image
+    @short_summary = experiments.best_summary
+    @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{email.to_hash}"
 
     begin
       mail({
@@ -40,19 +39,4 @@ class Notifications < ActionMailer::Base
       to: unsubscription.email
     }).deliver
   end
-
-  private
-
-  def best_image petition
-    experiment = "petition #{petition.id} image" 
-    options = petition.petition_images.map(&:url)
-    winning_option(experiment, options) unless options.empty?
-  end
-
-  def best_summary petition
-    experiment = "petition #{petition.id} email short summary"
-    options = petition.petition_summaries.map(&:short_summary)
-    winning_option(experiment, options) unless options.empty? 
-  end
-
 end
