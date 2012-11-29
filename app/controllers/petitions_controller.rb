@@ -42,6 +42,7 @@ class PetitionsController < ApplicationController
     @facebook_friend_ids = facebook_friends @member
     @query = request.query_parameters
     @share_count = FacebookAction.count # used in _thanks_for_signing experiment
+    track_petition_page_load
 
     @petition_layout = petition_layouts
     @progress_location = progress_locations
@@ -169,5 +170,11 @@ class PetitionsController < ApplicationController
 
   def track_visit
     sent_email.track_visit! if sent_email.present?
+  end
+
+  def track_petition_page_load
+    if @referer_ref_type != "email"
+      $statsd.increment "petition_page_load_non_email.count"
+    end
   end
 end
