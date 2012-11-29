@@ -120,8 +120,10 @@ var recommendation = (function() {
     };
 
     var query = {
-      "interacted":"select fromid from comment where post_id in "+
-        "(select post_id from stream where source_id = me() limit 200) limit 25",
+      "interacted": (VK.prefer_commenters_to_likers ?
+          "select fromid from comment where post_id in " :
+          "select user_id from like where post_id in ") +
+            "(select post_id from stream where source_id = me() limit 200) limit 25",
       "friend_ids":"select uid2 from friend where uid1 = me()",
       "sympathetic":"select user_id from url_like where user_id in "+
         "(select uid2 from #friend_ids) and strpos(url, \"watchdog.net\") > 0",

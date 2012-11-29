@@ -23,7 +23,6 @@ class PetitionsController < ApplicationController
     @was_signed = member_from_cookies.present? && member_from_cookies.has_signed?(@petition)
 
     @referer_code = ReferralCode.where(code: @referer_ref_code).first if @referer_ref_code.present?
-
     @signer_code = if @member.present?
       @member.referral_codes.where(petition_id: @petition.id).first || @member.referral_codes.build(petition_id: @petition.id)
     else
@@ -47,6 +46,7 @@ class PetitionsController < ApplicationController
     @petition_layout = petition_layouts
     @progress_location = progress_locations
     @signatures_progress_aesthetic = signatures_progress_aesthetics
+    @prefer_commenters_to_likers = @signer_code.prefer_commenters_to_likers
   end
 
   def petition_layouts
