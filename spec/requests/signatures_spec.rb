@@ -1,14 +1,13 @@
 describe 'signatures' do
   let(:petition) { create :petition }
-  let(:code) { ReferralCode.last.code }
+  let(:initial_signers_referal_code) { ReferralCode.first.code } #there will be two referral codes - one for the first signer, one for the second.
 
   context 'a user' do
-    let(:member) { create :member }
 
     it 'should sign a petition' do
       sign petition
       page.should have_selector('#petition_page.was_signed')
-      page.current_url.should include "l=#{code}"
+      page.current_url.should include "l=#{initial_signers_referal_code}"
     end
 
     it 'should provide his info' do
@@ -30,7 +29,7 @@ describe 'signatures' do
       find_field('First name').value.should be_blank
       find_field('Last name').value.should be_blank
       find_field('Email').value.should be_blank
-      page.current_url.should include "l=#{code}"
+      page.current_url.should include "l=#{initial_signers_referal_code}"
     end
   end
 

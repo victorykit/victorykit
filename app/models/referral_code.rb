@@ -39,6 +39,10 @@ class ReferralCode < ActiveRecord::Base
     end
   end
 
+  def prefer_commenters_to_likers
+    spin!('prefer_commenters_to_likers', :signature, ['commenters', 'likers']) == 'commenters'
+  end
+
   def facebook_description_for_sharing
     facebook_descriptions = petition.petition_descriptions.map(&:facebook_description)
     description_choice = spin! test_names[:description], :signature, facebook_descriptions if facebook_descriptions.any?
