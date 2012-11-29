@@ -19,7 +19,15 @@ describe Notifications do
     let(:signature) { create :signature, petition: petition }
     let(:unsubscribe_link) { 'http://test/unsubscribe' }
     let(:referer) { signature.member.to_hash }
-    let(:mail) { Notifications.signed_petition(signature) }
+    let(:mail) {Notifications.signed_petition(signature)}
+    let(:sent_email) do
+      mail
+      SignatureEmail.last
+    end
+
+    before do
+      EmailExperiments.any_instance.stub(:show_facebook_share_button).and_return(true)
+    end
 
     subject { mail }
     its(:subject) { should match(/#{signature.petition.title}/) }
@@ -43,9 +51,8 @@ describe Notifications do
     context 'html' do
       let(:entities) { 'a&lt;br&gt;html&amp;nbsp;&amp;quot;title&amp;quot;' }
       let(:link) { "http://test/petitions/#{signature.petition.id}?r=#{referer}" }
-      let(:paragraph) do
-        "<p><b><a href=\"#{link}\">Please, click here to sign now!</a></b></p>"
-      end
+      let(:paragraph) {"<p><b><a href=\"#{link}\">Please, click here to sign now!</a></b></p>"}
+      let(:fb_share_url) {"http://test/petitions/#{signature.petition.id}?mail_share_ref=#{sent_email.to_hash}"}
 
       subject { mail.body.encoded }
       it { should include unsubscribe_link }
@@ -53,6 +60,7 @@ describe Notifications do
       it { should include entities }
       it { should include link }
       it { should_not include 'LINK' }
+      it { should include fb_share_url }
     end
 
     context 'plain text' do
