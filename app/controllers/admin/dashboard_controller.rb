@@ -6,7 +6,8 @@ class Admin::DashboardController < ApplicationController
 
   helper_method :heartbeat, :nps_summary, :petition_extremes,
     :nps_chart, :emails_sent_chart, :emails_opened_chart, :emails_clicked_chart, :unsubscribes_chart,
-    :facebook_actions_chart, :facebook_referrals_chart, :facebook_action_per_signature_chart, :signatures_from_email_chart,
+    :facebook_actions_chart, :facebook_referrals_chart, :facebook_action_per_signature_chart,
+    :signatures_from_email_chart, :petition_page_load_chart, :signature_per_petition_page_load_chart,
     :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold
 
   def index
@@ -99,8 +100,15 @@ class Admin::DashboardController < ApplicationController
     strip_chart timeframe.value, series_as_signature_rate("stats_counts.victorykit.facebook_actions.count"), averaging_window, thresholds
   end
 
-  # loads of a petition page not off an email
-  # signatures divided by the above
+  def petition_page_load_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, "stats_counts.victorykit.petition_page_load_non_email.count", 60, thresholds
+  end
+
+  def signature_per_petition_page_load_chart
+    thresholds = [ThresholdLine.good(0), ThresholdLine.bad(0.02)]
+    strip_chart timeframe.value, series_as_petition_load_rate("stats_counts.victorykit.signatures.count"), averaging_window, thresholds
+  end
 
   def averaging_window
     { "month" => 120, "week" => 120, "day" => 60, "hour" => 60}[timeframe.value]
@@ -120,6 +128,10 @@ class Admin::DashboardController < ApplicationController
 
   def series_as_signature_rate series
     "divideSeries(#{series}, stats_counts.victorykit.signatures.count)"
+  end
+
+  def series_as_petition_load_rate series
+    "divideSeries(#{series}, stats_counts.victorykit.petition_page_load_non_email.count)"
   end
 
   def strip_chart timeframe, gauge, averaging_window, thresholds=[]
