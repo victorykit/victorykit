@@ -301,7 +301,7 @@ form #sign-again {
 #petition_page {
   &.not_signed {
     #thanks-for-signing-message { display: none; }
-    .signature-form, .privacypolicy { display: block; }
+    .signature-form, .privacypolicy { display: block; clear: both; }
   }
   &.was_signed {
     #thanks-for-signing-message { display: block; }
