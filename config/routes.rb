@@ -16,12 +16,12 @@ Victorykit::Application.routes.draw do
     member { post 'again'; put 'send_email_preview' }
     collection { post 'send_email_preview' }
   end
-  
-  post 'social_tracking', to: 'social_tracking#create', as: 'social_tracking'
-  post 'donation_tracking', to: 'donation_tracking#create', as: 'donation_tracking'
-  get 'donation_tracking', to: 'donation_tracking#show', as: 'donation_tracking'
   resources :privacy
   resources :facebook_landing_page
+
+  post 'social_tracking', to: 'social_tracking#create', as: 'social_tracking'
+  post 'donation_tracking', to: 'donation_tracking#create', as: 'donation_tracking'
+  post 'paypal', to: 'donation_tracking#paypal', as: 'paypal'
 
   get 'login', to: 'users#new', as: 'login'
   get 'subscribe', to: 'members#new', as: 'subscribe'

@@ -12,3 +12,5 @@ google_analytics:
      client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
      token: <%= ENV["OAUTH_TOKEN"] %>
      secret: <%= ENV["OAUTH_SECRET"] %>
+paypal:
+  uri: 'https://www.sandbox.paypal.com/cgi-bin/webscr'
