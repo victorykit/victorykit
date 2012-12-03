@@ -69,6 +69,8 @@ class SignaturesController < ApplicationController
   private
   
   def nps_win signature
+    $statsd.increment "signatures_from_emails.count" if signature.reference_type == "email"
+
     return unless signature.created_member
     win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
   
