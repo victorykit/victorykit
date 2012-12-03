@@ -5,4 +5,7 @@ describe DonationClick do
   it { should allow_mass_assignment_of :petition }
   it { should allow_mass_assignment_of :referral_code_id }
   it { should allow_mass_assignment_of :amount }
+  it { should validate_presence_of :petition }
+  it { should validate_presence_of :member }
+  it { should validate_presence_of :referral_code_id }
 end
