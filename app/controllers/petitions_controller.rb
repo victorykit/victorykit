@@ -47,6 +47,7 @@ class PetitionsController < ApplicationController
     @progress_location = progress_locations
     @signatures_progress_aesthetic = signatures_progress_aesthetics
     @prefer_commenters_to_likers = @signer_code.prefer_commenters_to_likers
+    placebo_test
   end
 
   def petition_layouts
@@ -123,6 +124,10 @@ class PetitionsController < ApplicationController
   end
 
   private
+
+  def placebo_test
+    spin! "placebo test", :signature
+  end
 
   def hash_states_and_countries
     us = Country.coded 'US'
