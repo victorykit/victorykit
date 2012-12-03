@@ -15,6 +15,5 @@ class AnalyticsObserver < ActiveRecord::Observer
 
     $statsd.increment stat_name
     $statsd.increment "members_joined.count" if record.is_a?(Signature) && record.created_member?
-    $statsd.increment "signatures_from_emails.count" if record.is_a?(Signature) && record.reference_type == "email"
   end
 end
