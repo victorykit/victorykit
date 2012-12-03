@@ -4,9 +4,11 @@ function closeThanksModal(toggleAfterShareModal) {
 }
 
 function trackDonationClick(){
-  $.ajax({ type: 'post',
-           url: VK.donation_tracking_url,
-           data: { petition_id: VK.petition_id, referral_code: VK.ref_code, signature_id: VK.signature_id} });
+  $.post(VK.donation_tracking_url, {
+    petition_id: VK.petition_id, 
+    referral_code: VK.ref_code,
+    signature_id: VK.signature_id
+  });
 }
 
 function preventWhitespaceOn(input) {
