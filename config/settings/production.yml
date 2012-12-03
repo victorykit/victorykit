@@ -16,4 +16,5 @@ dp_connection:
    username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
    password: <%= ENV["AK_IMPORT_DB_PWD"] %>
    database: <%= ENV["AK_IMPORT_DB"] %>
-    
+paypal:
+  uri: 'https://www.paypal.com/cgi-bin/webscr'
