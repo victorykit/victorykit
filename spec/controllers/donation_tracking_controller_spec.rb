@@ -1,43 +1,49 @@
 describe DonationTrackingController do
 
   describe '#create' do
-    let(:referral_code) { build :referral_code }
     let(:petition) { create(:petition) }
-    let(:member) { create(:member) }
-    let(:signature) { create(:signature, member: member) }
+    let(:signature) { create(:signature, :member => create(:member)) }
+    let(:referral_code) { create(:referral_code) }
 
-    shared_examples 'tracking petition and referral' do
-      its(:referral_code_id) { should == referral_code.id }
-      its(:petition) { should == petition }
-    end
-
-    context 'before signing' do
+    context 'all required params provided' do
       before do
-        post(:create, { 
-          referral_code: referral_code.code, 
-          petition_id: petition.id 
+        post(:create, {
+          :petition_id => petition.id,
+          :signature_id => signature.id,
+          :referral_code => referral_code.code
         })
       end
-      
-      subject { DonationClick.last }
-      
-      it_behaves_like 'tracking petition and referral'
-      its(:member) { should be_nil }
+      it { should respond_with 200 }
     end
 
-    context 'after signing' do
+    context 'no petition_id' do
       before do
-        post(:create, { 
-          referral_code: referral_code.code,
-          petition_id: petition.id,
-          signature_id: signature.id 
+        post(:create, {
+          :signature_id => signature.id,
+          :referral_code => referral_code
         })
       end
+      it { should respond_with 500 }
+    end
+    
+    context 'no signature_id' do
+      before do
+        post(:create, {
+          :petition_id => petition.id,
+          :referral_code => referral_code
+        })
+      end
+      it { should respond_with 500 }
+    end
 
-      subject { DonationClick.last }
-      
-      it_behaves_like 'tracking petition and referral'
-      its(:member) { should == signature.member }
+    context 'no referral_code' do
+      before do
+        post(:create, {
+          :signature_id => signature.id,
+          :petition_id => petition.id
+        })
+      end
+      it { should respond_with 500 }
     end
   end
 
