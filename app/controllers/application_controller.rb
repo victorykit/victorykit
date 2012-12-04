@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   def add_environment_to_title
     @title = "Watchdog.net"
     @title << " - #{Rails.env}" unless Rails.env.production? 
+    @contact_url = "mailto:info@watchdog.net"
   end
   
   def connecting_ip
