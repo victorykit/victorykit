@@ -6,7 +6,7 @@ describe PetitionsController do
     stub_bandit controller
     class Petition
       def sigcount
-        signatures.count
+        signatures.count('email', :distinct => true)
       end
     end
   end
@@ -38,7 +38,7 @@ describe PetitionsController do
 
     it "should assign sigcount variable" do
       get :show, {:id => petition.id}
-      assigns(:sigcount).should == petition.signatures.count
+      assigns(:sigcount).should == petition.signatures.count('email', :distinct => true)
     end
 
     it "should assign email_hash variable" do
