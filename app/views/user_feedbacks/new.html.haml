@@ -6,7 +6,8 @@
         - @feedback.errors.full_messages.each do |message|
           %li= message
 %h1 Send us a message:
-
+%h4 (Or if you prefer, email us directly at <a href='mailto:info@actwatchdog.net'>info@watchdog.net</a>)
+<br/>
 .feedback_form
   = simple_form_for @feedback do |f|
     = f.input :name, :error => false, :input_html => { :autocomplete => "off" }
