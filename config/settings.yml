@@ -15,3 +15,5 @@ dp_connection:
   username: OVERRIDE_ME
   password: OVERRIDE_ME
   database: OVERRIDE_ME
+cloudmailin:
+  token: <%= ENV["CLOUDMAILIN_TOKEN"] %>
