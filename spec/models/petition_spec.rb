@@ -196,6 +196,7 @@ describe Petition do
 
       its(:sigcount) { should == 2 }
     end
+    
     context 'should count signatures with unique email addresses only' do
       let(:signature1) { create(:signature, petition: subject, email: "test@test.com") }
       let(:signature2) { create(:signature, petition: subject, email: "test@test.com") }
