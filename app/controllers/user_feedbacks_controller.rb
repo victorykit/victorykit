@@ -5,8 +5,8 @@ class UserFeedbacksController < ApplicationController
   
   def create
     @feedback = UserFeedback.new(params[:user_feedback])
-    puts @feedback.inspect
     if @feedback.save
+      UserFeedbackMailer.new_message(@feedback)
       redirect_url = session['redirect_url'] || root_path
       redirect_to redirect_url, notice: "Thank you for contacting us. We'll try to reply soon."
     else
