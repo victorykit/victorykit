@@ -3,7 +3,7 @@ require 'json'
 class DonationTrackingController < ApplicationController
 
   def create
-    win! :donation
+    win!(:donation)
     render(:nothing => true, :status => DonationClick.create({
       referral_code: ReferralCode.find_by_code(params[:referral_code]),
       member: Signature.find_by_id(params[:signature_id]).try(:member),
@@ -21,6 +21,6 @@ class DonationTrackingController < ApplicationController
       res = http.request(req) 
       Rails.logger.info(res.body)
     end
-    render :text => 'OK'
+    render(:text => 'OK')
   end
 end
