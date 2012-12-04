@@ -3,6 +3,7 @@ redis:
 aws:
    access_key_id: <%= ENV["AWS_ACCESS_KEY_ID"] %>
    secret_access_key: <%= ENV["AWS_SECRET_ACCESS_KEY"] %>
+   petition_images_bucket: <%= ENV["AWS_PETITION_IMAGES_BUCKET"] %>
 hasher:
    secret_key: <%= ENV["HASHER_SECRET_KEY"] %>
 google_analytics:
