@@ -106,7 +106,7 @@ describe Petition do
       it { should_not cover delocalized }
     end
 
-    context 'newyorkers ans californians' do
+    context 'newyorkers and californians' do
       let(:location) { 'us/CA,us/NY' }
       its(:location_type) { should == 'us' }
       its(:location_details) { should == 'CA,NY' }
@@ -182,6 +182,31 @@ describe Petition do
     end
 
     specify { subject.find_interesting_petitions_for(member).should == [interesting] }
+  end
+
+  describe 'sigcount' do
+    context 'should show signature count' do
+      let(:signature1) { create(:signature, petition: subject, email: "test@test.com") }
+      let(:signature2) { create(:signature, petition: subject, email: "different@test.com") }
+
+      before do
+        subject.signatures.push signature1
+        subject.signatures.push signature2
+      end
+
+      its(:sigcount) { should == 2 }
+    end
+    context 'should count signatures with unique email addresses only' do
+      let(:signature1) { create(:signature, petition: subject, email: "test@test.com") }
+      let(:signature2) { create(:signature, petition: subject, email: "test@test.com") }
+
+      before do
+        subject.signatures.push signature1
+        subject.signatures.push signature2
+      end
+
+      its(:sigcount) { should == 1 }
+    end
   end
 
 end

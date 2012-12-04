@@ -103,7 +103,7 @@ class Petition < ActiveRecord::Base
   end
   
   def sigcount
-    Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count }
+    Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count('email', :distinct => true) }
   end
 
   def image_urls
