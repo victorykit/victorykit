@@ -11,6 +11,7 @@ Victorykit::Application.routes.draw do
   resources :unsubscribes
   resources :pixel_tracking
   resources :incoming_mails
+  resources :user_feedbacks
   resources :petitions do
     resources :signatures
     member { post 'again'; put 'send_email_preview' }
@@ -28,6 +29,7 @@ Victorykit::Application.routes.draw do
   get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
   get 'logout', to: 'sessions#destroy', as: 'logout'
   get 'test_resque', to: 'signatures#test_resque', as:'test_resque'
+  get 'contact', to: 'user_feedbacks#new', as: 'contact'
 
   namespace(:admin) do
     resources :petitions

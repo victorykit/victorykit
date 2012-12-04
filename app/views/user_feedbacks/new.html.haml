@@ -1,0 +1,21 @@
+.page_content.feedback
+  - if @feedback.errors.any?
+    .alert.alert-error
+      Form is invalid
+      %ul
+        - @feedback.errors.full_messages.each do |message|
+          %li= message
+%h1 Send us a message:
+
+.feedback_form
+  = simple_form_for @feedback do |f|
+    = f.input :name, :error => false, :input_html => { :autocomplete => "off" }
+    = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
+    = f.input :message, :label => false, :error => false, :required => true, :input_html => { :autocomplete => "off", :cols => 80, :rows => 10 }
+    = f.button :submit, :class => 'btn btn-primary', :id => 'feedback-submit', :value => 'Send'
+
+  .privacypolicy
+    We don't share your email address without your permission. We will send you updates on important campaigns by email, but you can unsubscribe at any time.
+
+
+

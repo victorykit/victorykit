@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :win!, :spin!, :spin_if_cool_browser!, :measure!, :is_admin
   
   protect_from_forgery
-  before_filter :add_environment_to_title, :stash_http_referer
+  before_filter :add_environment_to_title, :stash_http_referer, :add_contact_url_to_footer
 
   def stash_http_referer
     session['http_referer'] = request.referer || "none" unless session['http_referer']
@@ -17,9 +17,12 @@ class ApplicationController < ActionController::Base
   def add_environment_to_title
     @title = "Watchdog.net"
     @title << " - #{Rails.env}" unless Rails.env.production? 
-    @contact_url = "mailto:info@watchdog.net"
   end
   
+  def add_contact_url_to_footer
+    @contact_url = contact_path
+  end
+
   def connecting_ip
     request.env["HTTP_CF_CONNECTING_IP"] || request.remote_ip
   end
