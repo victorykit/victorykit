@@ -4,12 +4,11 @@ class DonationTrackingController < ApplicationController
 
   def create
     win! :donation
-    status = DonationClick.create({
-      petition: Petition.find_by_id(params[:petition_id]),
+    render(:nothing => true, :status => DonationClick.create({
+      referral_code: ReferralCode.find_by_code(params[:referral_code]),
       member: Signature.find_by_id(params[:signature_id]).try(:member),
-      referral_code: ReferralCode.find_by_code(params[:referral_code])
-    }).valid? ? 200 : 500
-    render(:nothing => true, :status => status)
+      petition: Petition.find_by_id(params[:petition_id])
+    }).valid? ? 200 : 500)
   end
 
   def paypal
