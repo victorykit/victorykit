@@ -40,7 +40,6 @@ class PetitionsController < ApplicationController
 
     @facebook_friend_ids = facebook_friends @member
     @query = request.query_parameters
-    @share_count = FacebookAction.count # used in _thanks_for_signing experiment
     track_petition_page_load
 
     @petition_layout = petition_layouts
