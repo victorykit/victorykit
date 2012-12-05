@@ -1,11 +1,10 @@
 class UserFeedbackMailer < ActionMailer::Base
-  default from: Settings.email.from_address
-
   def new_message(feedback)
     @feedback = feedback
     mail({
-      subject: "Feedback about act.watchdog.net",
-      to: "Info <info@watchdog.net>",
+      from: "#{feedback.name} <info@watchdog.net>",
+      subject: "Feedback from #{feedback.email || feedback.name || 'anon'} about act.watchdog.net",
+      to: "me+watchdog@aaronsw.com",
       template_name: 'new_message'}).deliver
   end
 end

@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :user_feedback do
-    name "MyString"
-    email "MyString"
-    message "MyText"
+    name "I Havefeedback"
+    email "me@my.com"
+    message "I hate EVERYTHING"
   end
 end
