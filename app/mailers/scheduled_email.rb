@@ -61,8 +61,6 @@ class ScheduledEmail < ActionMailer::Base
       @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{raw_petition_link}?mail_share_ref=#{email_hash}"
     end
     @image_url = email_experiment.image_url
-    @hide_demand_progress_introduction = email_experiment.hide_demand_progress_intro?
-    @demand_progress_introduction_location = email_experiment.demand_progress_introduction_location
     @ask_to_sign_text = email_experiment.ask_to_sign_text
     @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
     @show_less_prominent_unsubscribe_link = email_experiment.show_less_prominent_unsubscribe_link

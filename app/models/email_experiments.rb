@@ -15,11 +15,6 @@ class EmailExperiments
     spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
   end
 
-  def demand_progress_introduction_location
-    default_intro_location = "top"
-    hide_demand_progress_intro? ? default_intro_location : (spin! "demand progress introduction location", :signature, intro_location_options)
-  end
-  
   def ask_to_sign_text
     spin! "ask to sign text", :signature, ask_to_sign_text_options
   end
@@ -61,12 +56,6 @@ class EmailExperiments
     spin! "petition #{@email.petition.id} email short summary", :signature, short_summaries if short_summaries.any?
   end
 
-  def hide_demand_progress_intro?
-    previously_signed = Signature.where("member_id = ?", @email.member_id).present?
-    previously_opened_or_clicked_email = SentEmail.where("member_id = ? AND (opened_at IS NOT ? OR clicked_at IS NOT ?)", @email.member_id, nil, nil).present?
-    previously_signed || previously_opened_or_clicked_email
-  end
-
   private
 
   def title_options
@@ -75,10 +64,6 @@ class EmailExperiments
 
   def image_url_options
     @email.petition.petition_images
-  end
-
-  def intro_location_options
-    ["top", "bottom"]
   end
 
   def display_options

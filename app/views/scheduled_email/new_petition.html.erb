@@ -58,9 +58,6 @@ Greetings VictoryKit team member. When you change this template, please test it 
     </tr>
   </table>
   <div>
-    <%if(!@hide_demand_progress_introduction && @demand_progress_introduction_location == "top")%>
-      <p><font color="#888888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.</i></font></p>
-    <%end%>
     <p>Dear <%=@member.full_name%>,</p>
 
     <p>
@@ -77,10 +74,6 @@ Greetings VictoryKit team member. When you change this template, please test it 
 </div>
 
 <hr style="clear:both;"/>
-
-<%if(!@hide_demand_progress_introduction && @demand_progress_introduction_location == "bottom")%>
-<p><font color="#888888"><i>Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic.</i></font></p>
-<%end%>
 
 <%if(@show_less_prominent_unsubscribe_link)%>
   <p style="font-size:50%">This email was sent by watchdog.net. To remove yourself from this list, <a href="<%=@unsubscribe_link%>">click here</a>.</p>
