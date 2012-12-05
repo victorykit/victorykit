@@ -4,7 +4,7 @@ class PetitionImage < ActiveRecord::Base
   belongs_to :petition
 
   def s3_object_key
-    hash = Digest::MD5.hexdigest("#{id} #{url}")
+    hash = Digest::MD5.hexdigest("#{url}")
     extension = url.split('.').last
     [hash, extension].join('.')
   end
