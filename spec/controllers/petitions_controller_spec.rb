@@ -257,6 +257,16 @@ describe PetitionsController do
         response.should render_template("new")
       end
     end
+
+    describe "with petition images" do
+      before { @logged_in_user = create(:user) }
+
+      it "persists images" do
+        image_attributes = { "petition_images_attributes" => { "1354739331381" => {"url" => "image.jpg"} } }
+        PetitionImageDownloader.should_receive(:download) {|image| image.url.should == 'image.jpg' }
+        post :create, {petition: valid_attributes.merge(image_attributes)}, {user_id: @logged_in_user.id}
+      end
+    end
   end
 
   describe "PUT update" do
@@ -290,6 +300,19 @@ describe PetitionsController do
 
       it "re-renders the 'edit' template" do
         response.should render_template("edit")
+      end
+    end
+
+    describe "with petition images" do
+      before do
+        image = create(:petition_image, url: 'foo.jpg')
+        petition.petition_images << image
+      end
+
+      it "persists images" do
+        image_attributes = { "petition_images_attributes" => { "0" => {"url" => "bar.jpg"} } }
+        PetitionImageDownloader.should_receive(:download) {|image| image.url.should == 'bar.jpg' }
+        post :update, {id: petition.to_param, petition: image_attributes}, valid_super_user_session
       end
     end
   end

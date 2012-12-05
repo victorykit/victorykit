@@ -91,6 +91,7 @@ class PetitionsController < ApplicationController
     @petition.owner = current_user
     @petition.ip_address = connecting_ip
     if @petition.save
+      @petition.petition_images.each {|i| PetitionImageDownloader.download(i) }
       redirect_to @petition, notice: 'Petition was successfully created.'
     else
       @states, @countries = hash_states_and_countries
@@ -103,6 +104,7 @@ class PetitionsController < ApplicationController
     return render_403 unless @petition.has_edit_permissions(current_user)
     compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
+      @petition.petition_images.each {|i| PetitionImageDownloader.download(i) }
       redirect_to @petition, notice: 'Petition was successfully updated.'
     else
       @states, @countries = hash_states_and_countries
