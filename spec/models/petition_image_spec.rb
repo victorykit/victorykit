@@ -1,8 +1,21 @@
 describe PetitionImage do
-  describe "s3 object name" do
+  describe "s3 object key" do
     it "is a hash of id and url with a file extension" do
-      pi = create(:petition_image, :url => 'foo.jpg')
-      pi.s3_object_name.should == Digest::MD5.hexdigest("#{pi.id} foo.jpg") + ".jpg"
+      image = create(:petition_image, :url => 'foo.jpg')
+      image.s3_object_key.should == Digest::MD5.hexdigest("#{image.id} foo.jpg") + ".jpg"
+    end
+  end
+
+  describe "public url" do
+    context "when image has been stored" do
+      before { AWS::S3.stub_chain(:new, :buckets, :[], :objects, :[], :public_url).and_return('aws url') }
+      subject(:image) { build(:petition_image, url: 'foo.jpg', stored: true) }
+      its(:public_url) { should == 'aws url' }
+    end
+
+    context "when image has not been stored" do
+      subject(:image) { build(:petition_image, url: 'foo.jpg', stored: false) }
+      its(:public_url) { should == 'foo.jpg' }
     end
   end
 end
