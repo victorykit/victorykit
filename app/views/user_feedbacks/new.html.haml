@@ -6,7 +6,6 @@
         - @feedback.errors.full_messages.each do |message|
           %li= message
 %h1 Send us a message:
-%h4 (Or if you prefer, email us directly at <a href='mailto:info@actwatchdog.net'>info@watchdog.net</a>)
 <br/>
 .feedback_form
   = simple_form_for @feedback do |f|
@@ -14,9 +13,3 @@
     = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
     = f.input :message, :label => false, :error => false, :required => true, :input_html => { :autocomplete => "off", :cols => 80, :rows => 10 }
     = f.button :submit, :class => 'btn btn-primary', :id => 'feedback-submit', :value => 'Send'
-
-  .privacypolicy
-    We don't share your email address without your permission. We will send you updates on important campaigns by email, but you can unsubscribe at any time.
-
-
-
