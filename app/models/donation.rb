@@ -1,4 +1,4 @@
-class DonationClick < ActiveRecord::Base
+class Donation < ActiveRecord::Base
   belongs_to :member
   belongs_to :petition
   belongs_to :referral_code
@@ -7,7 +7,7 @@ class DonationClick < ActiveRecord::Base
 
   def self.confirm_payment(amount, email)
     donator = Member.where(:email => email).first
-    donation = DonationClick.where(:member_id => donator, :amount => nil).last
+    donation = Donation.where(:member_id => donator, :amount => nil).last
     donation.update_attributes(:amount => amount)
   end
 
