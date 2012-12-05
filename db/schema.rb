@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121204152700) do
+ActiveRecord::Schema.define(:version => 20121205153530) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(:version => 20121204152700) do
     t.integer  "petition_id", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.boolean  "stored"
   end
 
   create_table "petition_summaries", :force => true do |t|
