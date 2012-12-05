@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205153530) do
+ActiveRecord::Schema.define(:version => 20121205220148) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(:version => 20121205153530) do
     t.integer  "sent_email_id"
   end
 
-  create_table "donation_clicks", :force => true do |t|
+  create_table "donations", :force => true do |t|
     t.integer  "petition_id"
     t.integer  "member_id"
     t.integer  "referral_code_id"
