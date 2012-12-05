@@ -26,4 +26,22 @@ describe DonationTrackingController do
 
   end
 
+  describe '#paypal' do
+    before do
+      Paypal.stub(:verify_payment).and_return(verified)
+      DonationClick.stub(:confirm_payment).with('30', 'bob@gmail.com')
+      post(:paypal, :payment_gross => '30', :payer_email => 'bob@gmail.com')
+    end
+
+    context 'payment succesfully verified' do
+      let(:verified) { true }
+      it { should respond_with 200 }
+    end
+
+    context 'payment verification failed' do
+      let(:verified) { false }
+      it { should respond_with 500 }
+    end
+  end
+
 end
