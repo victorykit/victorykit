@@ -80,7 +80,7 @@
       - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
     - if @petition.petition_images.any?
       #image
-        %img{ src: @petition.petition_images.first.url }
+        %img{ src: @petition.petition_images.first.public_url }
     .description= petitiontext.html_safe
     .mobile_signup_button
       = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
