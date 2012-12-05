@@ -11,7 +11,11 @@
   VK.facebook_sharing_type = '#{facebook_sharing_option}';
   VK.facebook_friend_ids = '#{j @facebook_friend_ids}';
   VK.ref_code = '#{j @signer_code.code}';
-  VK.prefer_commenters_to_likers = #{@prefer_commenters_to_likers};
+
+  -#We only want to run this experiment if we're using the recommendation dialog
+  - if facebook_sharing_option == 'facebook_recommendation'
+    VK.prefer_commenters_to_likers = #{@signer_code.prefer_commenters_to_likers};
+
   VK.paypal_uri = '#{Settings.paypal.uri}';
   - if @was_signed
     $(document).ready(function() { initSharePetition(); drawModalAfterSigning() });

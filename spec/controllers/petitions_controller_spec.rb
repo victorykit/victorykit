@@ -61,12 +61,6 @@ describe PetitionsController do
       assigns(:was_signed).should == true
     end
 
-    it 'should specify commenters or likers for facebook recommendations' do
-      ReferralCode.any_instance.stub(:prefer_commenters_to_likers).and_return(true)
-      get :show, {:id => petition.id}
-      assigns(:prefer_commenters_to_likers).should == true
-    end
-
     context "the user has already signed the petition" do
       let(:member) { create(:member) }
 

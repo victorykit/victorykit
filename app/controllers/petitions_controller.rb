@@ -45,7 +45,6 @@ class PetitionsController < ApplicationController
     @petition_layout = petition_layouts
     @progress_location = progress_locations
     @signatures_progress_aesthetic = signatures_progress_aesthetics
-    @prefer_commenters_to_likers = @signer_code.prefer_commenters_to_likers
     placebo_test
   end
 

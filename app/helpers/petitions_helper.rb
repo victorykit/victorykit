@@ -23,7 +23,7 @@ module PetitionsHelper
   end
 
   def facebook_sharing_option
-    FacebookSharingOptionsExperiment.new(self).spin! @member, browser
+    @facebook_sharing_option ||= FacebookSharingOptionsExperiment.new(self).spin! @member, browser
   end
 
   def facebook_button
