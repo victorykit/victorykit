@@ -1,7 +1,3 @@
-<%if(!@hide_demand_progress_introduction && @demand_progress_introduction_location == "top")%>
-Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic. Here's one we think you might be interested in.
-<%end%>
-
 Dear <%=@member.full_name%>,
 
 <%=@petition.plain_text_description.html_safe%>
@@ -12,9 +8,5 @@ Thanks,
  -- The folks at Watchdog.net
 
 -----------------------------
-
-<%if(!@hide_demand_progress_introduction && @demand_progress_introduction_location == "bottom")%>
-Demand Progress has teamed up with Watchdog.net, a new site where you can start a petition on any topic.
-<%end%>
 
 To stop receiving emails from us, go to: <%=@unsubscribe_link%>
