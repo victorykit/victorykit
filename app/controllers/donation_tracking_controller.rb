@@ -13,8 +13,9 @@ class DonationTrackingController < ApplicationController
   end
 
   def paypal
+    Rails.logger.info(">>> PARAMS FROM PAYPAL: #{params}")
     if Paypal.verify_payment(params)
-      Donation.confirm_payment(params[:payment_gross], params[:payer_email])
+      Donation.confirm_payment(params[:payment_gross], params[:item_number])
       render(:nothing => true, :status => 200)
     else
       render(:nothing => true, :status => 500)

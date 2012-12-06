@@ -15,14 +15,14 @@ describe Donation do
     let(:donator) { stub }
 
     before do
-      Member.stub(:where).with(:email => 'bob@gmail.com').and_return([donator])
+      Member.stub(:find_by_hash).with('123.abc').and_return([donator])
       Donation.stub(:where).with(:member_id => donator, :amount => nil).
         and_return([donation])
     end
     
     it 'updates amount' do
       donation.should_receive(:update_attributes).with(:amount => 30.0)
-      Donation.confirm_payment(30.0, 'bob@gmail.com')
+      Donation.confirm_payment(30.0, '123.abc')
     end
   end
 end
