@@ -1,6 +1,6 @@
 describe 'signatures' do
   let(:petition) { create :petition }
-  let(:initial_signers_referal_code) { ReferralCode.first.code } #there will be two referral codes - one for the first signer, one for the second.
+  let(:initial_signers_referal_code) { Referral.first.code } #there will be two referral codes - one for the first signer, one for the second.
 
   context 'a user' do
 
@@ -36,7 +36,7 @@ describe 'signatures' do
   context 'a facebook share' do
     let(:old_petition) { create :petition }
     let(:member) { create :member }
-    let(:code) { create(:referral_code, petition: petition, member: member).code }
+    let(:code) { create(:referral, petition: petition, member: member).code }
     let(:petition_fb_title) { "petition #{petition.id} #{PetitionTitle::TitleType::FACEBOOK} title" }
 
     before {

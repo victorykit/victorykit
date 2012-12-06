@@ -5,7 +5,7 @@ describe 'facebook experiments' do
     let(:member) { create :member }
     let(:image ) { 'http://wow.com/image.png' }
     let(:petition) { create_petition(images: [image]) }
-    let(:code)   { create :referral_code, petition: petition, member: member }
+    let(:code)   { create :referral, petition: petition, member: member }
 
     it 'should use the petition`s image if available' do
       PetitionImageDownloader.stub!(:download)

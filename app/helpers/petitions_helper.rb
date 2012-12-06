@@ -1,11 +1,11 @@
 module PetitionsHelper
 
-  def open_graph_for(petition, referral_code)
+  def open_graph_for(petition, referral)
     {
-      'og:title' => referral_code.title,
+      'og:title' => referral.title,
       'og:type' => 'watchdognet:petition',
-      'og:description' => referral_code.facebook_description_for_sharing.html_safe,
-      'og:image' => referral_code.image,
+      'og:description' => referral.facebook_description_for_sharing.html_safe,
+      'og:image' => referral.image,
       'og:site_name' => social_media_config[:facebook][:site_name]
     } # you must be asking: where is fb:app_id? that's in the base layout.
   end
@@ -67,50 +67,53 @@ module PetitionsHelper
     spin! 'learn more button color', :signature, ["grey", "blue", "link"]
   end
 
-def progress_bar_color
-    measure! 'change progress bar brightness above sign box (number goes bright to dull, 0 being brightest) 2', :signature, ["progress_bright", "progress_dull", "progress_dark"]
+  def progress_bar_color
+    measure!('change progress bar brightness above sign box '+
+      '(number goes bright to dull, 0 being brightest) 2',
+      :signature, ['progress_bright', 'progress_dull', 'progress_dark'])
   end
 
   def progress_box_aesthetic
     spin! 'change background and border of progress box', :signature, [
-      "yellow-unbordered",
-      "blue-unbordered",
-      "green-unbordered",
-      "grey-unbordered",
-      "red-unbordered",
-      "yellow-bordered",
-      "blue-bordered",
-      "green-bordered",
-      "grey-bordered",
-      "red-bordered"
+      'yellow-unbordered',
+      'blue-unbordered',
+      'green-unbordered',
+      'grey-unbordered',
+      'red-unbordered',
+      'yellow-bordered',
+      'blue-bordered',
+      'green-bordered',
+      'grey-bordered',
+      'red-bordered'
     ]
   end
 
   def sign_button_color
     measure! 'change button brightness and gradient use for sign button (number goes bright to dull, 0 being brightest, flat indicates no gradient) 2', :signature, [
-      "btn-red1",
-      "btn-red2",
-      "btn-red3",
-      "btn-red4_with-gradient",
-      "btn-red5",
-      "btn-red0_flat",
-      "btn-red1_flat",
-      "btn-red2_flat",
-      "btn-red3_flat",
-      "btn-red4_flat",
-      "btn-red5_flat",
-      "btn-danger"
+      'btn-red1',
+      'btn-red2',
+      'btn-red3',
+      'btn-red4_with-gradient',
+      'btn-red5',
+      'btn-red0_flat',
+      'btn-red1_flat',
+      'btn-red2_flat',
+      'btn-red3_flat',
+      'btn-red4_flat',
+      'btn-red5_flat',
+      'btn-danger'
     ]
   end
 
   def privacy_text
     return 'original' if browser.mobile?
-    spin! 'change privacy policy text', :signature, ["tooltip", "short", "original", "long"]
+    spin!('change privacy policy text', :signature, 
+      ['tooltip', 'short', 'original', 'long'])
   end
 
   def privacy_policy_position_and_color
     return 'inside_aaa' if browser.mobile?
-    spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ["inside_ccc", "inside_aaa", "inside_888", "outside_ccc", "outside_aaa", "outside_888"]
+    spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ['inside_ccc', 'inside_aaa', 'inside_888', 'outside_ccc', 'outside_aaa', 'outside_888']
   end
 
   def progress_option

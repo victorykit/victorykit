@@ -19,7 +19,7 @@ class SignaturesController < ApplicationController
     signature.created_member = signature.member.new_record?
     signature.member.save
     signature.http_referer = retrieve_http_referer
-    ref_code = ReferralCode.where(code: params[:signer_ref_code]).first || ReferralCode.new(code: params[:signer_ref_code])
+    ref_code = Referral.where(code: params[:signer_ref_code]).first || Referral.new(code: params[:signer_ref_code])
     if signature.valid?
       begin
         petition.signatures.push signature

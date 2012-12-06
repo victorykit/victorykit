@@ -4,7 +4,7 @@ describe "petitions/show.html.haml" do
   let(:signature) { create(:signature) }
   let(:user) { create(:user) }
   let(:member) { create(:member) }
-  let(:signer_code) { create(:referral_code, member: member, petition: petition) }
+  let(:signer_code) { create(:referral, member: member, petition: petition) }
   
   before do
     view.stub(:current_user) { user }

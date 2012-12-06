@@ -116,7 +116,7 @@ class Signature < ActiveRecord::Base
     Rails.cache.delete('signature_count_' + self.petition_id.to_s)
   end
 
-  def referral_code
-    ReferralCode.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
+  def referral
+    Referral.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
   end
 end

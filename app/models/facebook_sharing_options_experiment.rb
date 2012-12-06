@@ -45,11 +45,13 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
   end
 
   def name_as_of_referral signature
-    referral_code = signature.referral_code
-    referral_time = referral_code.created_at if referral_code
+    referral = signature.referral
+    referral_time = referral.created_at if referral
     name = name_as_of referral_time
     if not referral_time
-      Rails.logger.debug "Referral time unknown: no referer_id for signature #{signature.id}. Awarding win for #{signature.reference_type} to default test: #{name}"
+      Rails.logger.debug("Referral time unknown: '+
+        'no referer_id for signature #{signature.id}. '+
+        'Awarding win for #{signature.reference_type} to default test: #{name}")
     end
     name
   end
