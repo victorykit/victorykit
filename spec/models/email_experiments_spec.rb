@@ -48,6 +48,11 @@ describe EmailExperiments do
       @experiments.image_url.should eq image.url
     end
 
+    it "should return image public url when image is stored" do
+      image = create(:petition_image, petition_id: @petition.id, stored: true)
+      @experiments.image_url.should eq image.public_url
+    end
+
     it "should return nil when no images exist" do
       @experiments.image_url.should be_nil
     end

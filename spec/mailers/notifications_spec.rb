@@ -38,6 +38,11 @@ describe Notifications do
       subject { mail.body.encoded }
       it { should include "image url" }
       it { should include "summary text" }
+
+      context 'when image is stored' do
+        let(:image) { build :petition_image, url: 'image url', stored: true }
+        it { should include image.public_url }
+      end
     end
 
     context 'html' do
