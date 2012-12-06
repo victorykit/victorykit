@@ -46,7 +46,10 @@ class Notifications < ActionMailer::Base
   def best_image petition
     experiment = "petition #{petition.id} image" 
     options = petition.petition_images.map(&:url)
-    winning_option(experiment, options) unless options.empty?
+    unless options.empty?
+      url = winning_option(experiment, options)
+      url ? PetitionImage.find_by_url(url).public_url : url
+    end
   end
 
   def best_summary petition

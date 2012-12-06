@@ -26,5 +26,20 @@ describe ReferralCode do
     let(:member) { create(:member) }
     subject { ReferralCode.new member: member }
     its(:code) { should_not be_nil }
+
+    context "with petition images" do
+      let(:petition) { create(:petition, petition_images: [petition_image]) }
+      subject { ReferralCode.new member: member, petition: petition }
+
+      context "not stored" do
+        let(:petition_image) { create(:petition_image, stored: false) }
+        its(:image) { should eq petition_image.public_url }
+      end
+
+      context "stored" do
+        let(:petition_image) { create(:petition_image, stored: true) }
+        its(:image) { should eq petition_image.public_url }
+      end
+    end
   end
 end

@@ -8,6 +8,7 @@ describe 'facebook experiments' do
     let(:code)   { create :referral_code, petition: petition, member: member }
 
     it 'should use the petition`s image if available' do
+      PetitionImageDownloader.stub!(:download)
       login user.email, user.password do
         visit petition_path(petition, r: code.code)
         opengraph_image.should eq image

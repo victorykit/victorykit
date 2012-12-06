@@ -35,7 +35,8 @@ class ReferralCode < ActiveRecord::Base
       petition_images = petition.petition_images.map(&:url)
       images_to_use = petition_images.any? ? petition_images : defaults
 
-      spin! test_names[:image], :signature, images_to_use
+      url = spin!(test_names[:image], :signature, images_to_use)
+      PetitionImage.find_by_url(url).public_url rescue url
     end
   end
 

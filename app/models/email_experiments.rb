@@ -12,7 +12,8 @@ class EmailExperiments
   end
 
   def image_url
-    spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
+    url = spin!("petition #{@email.petition.id} image", :signature, image_url_options.map{|opt| opt.url})
+    url ? PetitionImage.find_by_url(url).public_url : url
   end
 
   def ask_to_sign_text
