@@ -3,14 +3,6 @@ function closeThanksModal(toggleAfterShareModal) {
   if (toggleAfterShareModal === undefined) { $('#thanksAfterSharingModal').modal('toggle'); }
 }
 
-function trackDonationClick(){
-  $.post(VK.donation_tracking_url, {
-    petition_id: VK.petition_id, 
-    referral_code: VK.ref_code,
-    signature_id: VK.signature_id
-  });
-}
-
 function preventWhitespaceOn(input) {
   $(input).change(function () {
     this.value = this.value.replace(/ /g, '');
@@ -141,11 +133,13 @@ function updateCounter() {
 function initSharePetition() {
   initModalColor();
   facebook.init(socialTracking, recommendation);
-  if ($("#mobile_thanks").length > 0 && wasSigned()) {
+  if($("#mobile_thanks").length > 0 && wasSigned()) {
     $('body').animate({ scrollTop: '-40px' }, '0');
   }
-  if ($('.tickcounter').length > 0) { updateCounter(); }
-
+  if($('.tickcounter').length > 0) {
+    updateCounter(); 
+  }
+  setupDonation();
 }
 
 function toggleUserCanSignPetition(enabledFlag) {
@@ -197,13 +191,22 @@ function indicateUserSignatureFailedAfterAjax(response) {
   toggleUserCanSignPetition(true);
 }
 
+function trackDonationClick(){
+  $.post(VK.donation_tracking_url, {
+    petition_id: VK.petition_id, 
+    referral_code: VK.ref_code,
+    signature_id: VK.signature_id
+  });
+}
+
 function setupDonation() {
+  alert($.cookie('member_id'));
   var params = [
     'cmd=_donations',
     'business=info@demandprogress.org',
     'lc=US',
     'item_name=Support%20Watchdog.net',
-    'item_number='+$.cookie('member_id')+','+
+    'item_number='+$.cookie('member_id'),
     'no_note=1',
     'no_shipping=1',
     'currency_code=USD',
@@ -215,8 +218,6 @@ function setupDonation() {
 }
 
 $(document).ready(function() {
-  setupDonation();
-
   $("#sign_petition, #sign_petition_and_share").click(function(evt) {
     var button = $(this),
         form = button.closest("form");
