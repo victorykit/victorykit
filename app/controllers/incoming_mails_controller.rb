@@ -10,10 +10,11 @@ class IncomingMailsController < ApplicationController
       else
         message = Mail.new(params[:message])
         to_address = params[:to].to_s.gsub(/[<>]/, '')
+        from_address = params[:from]
 
-        if (to_address and to_address.to_s.start_with? 'unsubscribe')
+        if (to_address and to_address.start_with? 'unsubscribe')
           Rails.logger.info "Received unsubscribe email"
-          EmailProcessor.handle_exceptional_email(message.to_s, to_address.to_s, 'unsubscribe')
+          EmailProcessor.handle_exceptional_email(message.to_s, from_address, to_address, 'unsubscribe')
           render :text => 'success', :status => 200
         else
           Rails.logger.info "Message failed #{message} from incorrect to address: #{to_address}"

@@ -5,9 +5,9 @@ describe IncomingMailsController do
   describe "create" do
     it "should call MailReceiver.receive_unsubscribe_email if to field starts with 'unsubscribe'" do
       Mail::Message.any_instance.stub(to_s: 'email_to_s')
-      EmailProcessor.should_receive(:handle_exceptional_email).with('email_to_s', 'unsubscribe+hash@appmail.watchdog.net', 'unsubscribe')
+      EmailProcessor.should_receive(:handle_exceptional_email).with('email_to_s', 'me@my.com', 'unsubscribe+hash@appmail.watchdog.net', 'unsubscribe')
 
-      get :create, {to: "unsubscribe+hash@appmail.watchdog.net", message: "email"}
+      get :create, {from: 'me@my.com', to: 'unsubscribe+hash@appmail.watchdog.net', message: 'email'}
     end
 
 
