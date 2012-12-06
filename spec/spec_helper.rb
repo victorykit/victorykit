@@ -40,6 +40,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     REDIS.flushdb
+    AWS.stub!
 
     location = stub
     location.stub(:city).and_return 'New York'
