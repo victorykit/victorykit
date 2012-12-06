@@ -203,6 +203,7 @@ function setupDonation() {
     'business=info@demandprogress.org',
     'lc=US',
     'item_name=Support%20Watchdog.net',
+    'item_number='+$.cookie('member_id')+','+
     'no_note=1',
     'no_shipping=1',
     'currency_code=USD',
