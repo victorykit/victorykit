@@ -36,8 +36,8 @@ group :test, :development do
   gem 'debugger'
   gem 'shoulda-matchers'
   gem 'nokogiri'
-  gem 'geocoder'
 end
+gem 'geocoder'
 
 gem 'haml'
 gem 'simple_form'
