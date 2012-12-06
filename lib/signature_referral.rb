@@ -75,8 +75,8 @@ class SignatureReferral
         referring_member = Member.find_by_hash(received_code)
         raise "Member record not found for referral code #{received_code}" if not referring_member
       else
-        code = ReferralCode.where("code = '#{received_code}'").first
-        raise "Neither member nor ReferralCode record not found for referral code #{received_code}" if not code
+        code = Referral.where("code = '#{received_code}'").first
+        raise "Neither member nor Referral record not found for referral code #{received_code}" if not code
         referring_member = Member.find(code.member_id)
       end
 
@@ -92,7 +92,7 @@ class SignatureReferral
     facebook_action = Share.find_by_action_id(received_code.to_s)
     raise "FacebookAction record not found for referral code #{received_code}" if not facebook_action
 
-    code = ReferralCode.where(petition_id: petition.id, member_id: facebook_action.member_id).first
+    code = Referral.where(petition_id: petition.id, member_id: facebook_action.member_id).first
 
     return code, facebook_action.member
   end
@@ -101,14 +101,14 @@ class SignatureReferral
     member = Member.find_by_hash(received_code)
     raise "Member record not found for referral code #{received_code}" if not member
 
-    code = ReferralCode.where(petition_id: petition.id, member_id: member.id).first
+    code = Referral.where(petition_id: petition.id, member_id: member.id).first
 
     return code, member
   end
 
   def code_and_member_for_generated_referral_code
-    code = ReferralCode.where(code: received_code).first
-    raise "ReferralCode record not found for referral code #{received_code}" if not code
+    code = Referral.where(code: received_code).first
+    raise "Referral record not found for referral code #{received_code}" if not code
 
     return code, code.try(:member)
   end

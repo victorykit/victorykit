@@ -5,7 +5,7 @@ describe PetitionsHelper do
   describe '#open_graph_for' do
     let(:petition) { create(:petition) }
     let(:member) { create(:member) }
-    let(:signer_code) { create(:referral_code, member: member, petition: petition) }
+    let(:signer_code) { create(:referral, member: member, petition: petition) }
     let(:config) {{
       facebook: {
         site_name: 'My Super Petitions',
@@ -31,7 +31,7 @@ describe PetitionsHelper do
   describe '#open_graph_for where alternate title exists' do
     let(:petition) { create(:petition) }
     let(:member) { create(:member) }
-    let(:signer_code) { create(:referral_code, member: member, petition: petition) }
+    let(:signer_code) { create(:referral, member: member, petition: petition) }
     let(:alt_title) { create(:petition_title, petition: petition, title_type: PetitionTitle::TitleType::FACEBOOK)}
 
     context "member hash is valid" do

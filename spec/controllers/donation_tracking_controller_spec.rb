@@ -3,7 +3,7 @@ describe DonationTrackingController do
   describe '#create' do
     let(:petition_id) { create(:petition).id }
     let(:signature_id) { create(:signature, :member => create(:member)).id }
-    let(:referral_code) { create(:referral_code).code }
+    let(:referral_code) { create(:referral).code }
     
     let(:params) {{
       :petition_id => petition_id,

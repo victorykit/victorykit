@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121205220148) do
+ActiveRecord::Schema.define(:version => 20121206152505) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -23,9 +23,9 @@ ActiveRecord::Schema.define(:version => 20121205220148) do
   create_table "donations", :force => true do |t|
     t.integer  "petition_id"
     t.integer  "member_id"
-    t.integer  "referral_code_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.integer  "referral_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.float    "amount"
   end
 
@@ -148,7 +148,7 @@ ActiveRecord::Schema.define(:version => 20121205220148) do
     t.string   "location"
   end
 
-  create_table "referral_codes", :force => true do |t|
+  create_table "referrals", :force => true do |t|
     t.string   "code"
     t.integer  "member_id"
     t.integer  "petition_id"
@@ -156,8 +156,8 @@ ActiveRecord::Schema.define(:version => 20121205220148) do
     t.datetime "updated_at"
   end
 
-  add_index "referral_codes", ["code"], :name => "index_referral_codes_on_code"
-  add_index "referral_codes", ["member_id"], :name => "index_referral_codes_on_member_id"
+  add_index "referrals", ["code"], :name => "index_referral_codes_on_code"
+  add_index "referrals", ["member_id"], :name => "index_referral_codes_on_member_id"
 
   create_table "sent_emails", :force => true do |t|
     t.string   "email",        :null => false
@@ -204,14 +204,14 @@ ActiveRecord::Schema.define(:version => 20121205220148) do
     t.string   "goal"
     t.string   "key"
     t.string   "choice"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
     t.string   "referral_code"
-    t.integer  "referral_code_id"
+    t.integer  "referral_id"
   end
 
   add_index "social_media_trials", ["referral_code"], :name => "index_social_media_trials_on_referral_code"
-  add_index "social_media_trials", ["referral_code_id"], :name => "index_social_media_trials_on_referral_code_id"
+  add_index "social_media_trials", ["referral_id"], :name => "index_social_media_trials_on_referral_code_id"
 
   create_table "subscribes", :force => true do |t|
     t.integer  "member_id"

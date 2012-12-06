@@ -13,7 +13,7 @@ class Petition < ActiveRecord::Base
 
   has_many :signatures
   has_many :sent_emails
-  has_many :referral_codes
+  has_many :referrals
   has_many :petition_titles, :dependent => :destroy
   has_many :petition_images, :dependent => :destroy
   has_many :petition_summaries, :dependent => :destroy

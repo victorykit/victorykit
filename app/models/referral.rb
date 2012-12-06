@@ -1,4 +1,4 @@
-class ReferralCode < ActiveRecord::Base
+class Referral < ActiveRecord::Base
   include Whiplash
   attr_accessible :code, :member_id, :petition_id, :member, :petition
 

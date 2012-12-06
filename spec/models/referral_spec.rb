@@ -1,5 +1,5 @@
-describe ReferralCode do
-  let(:rc) { build :referral_code }
+describe Referral do
+  let(:rc) { build :referral }
   subject { rc }
 
   its(:code) { should_not be_blank }
@@ -24,12 +24,12 @@ describe ReferralCode do
 
   context "with a member" do
     let(:member) { create(:member) }
-    subject { ReferralCode.new member: member }
+    subject { Referral.new member: member }
     its(:code) { should_not be_nil }
 
     context "with petition images" do
       let(:petition) { create(:petition, petition_images: [petition_image]) }
-      subject { ReferralCode.new member: member, petition: petition }
+      subject { Referral.new member: member, petition: petition }
 
       context "not stored" do
         let(:petition_image) { create(:petition_image, stored: false) }

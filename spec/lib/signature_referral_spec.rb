@@ -57,15 +57,15 @@ describe SignatureReferral do
 
     it "logs warning and returns default for legacy shared link referral when member unresolved" do
       Member.stub(:find_by_hash).with(legacy_received_code).and_return(nil)
-      Rails.logger.should_receive(:warn).with(/Neither member nor ReferralCode record not found for referral code 1a2b3c/)
+      Rails.logger.should_receive(:warn).with(/Neither member nor Referral record not found for referral code 1a2b3c/)
       params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::SHARED_LINK}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral
       referral.should be_empty
     end
 
     it "logs warning and returns default for shared link referral when member and referral code unresolved" do
-      ReferralCode.stub(:where).with("code = '1a2b3c'").and_return([])
-      Rails.logger.should_receive(:warn).with(/Neither member nor ReferralCode record not found for referral code 1a2b3c/)
+      Referral.stub(:where).with("code = '1a2b3c'").and_return([])
+      Rails.logger.should_receive(:warn).with(/Neither member nor Referral record not found for referral code 1a2b3c/)
       params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::SHARED_LINK}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral
       referral.should be_empty
@@ -88,8 +88,8 @@ describe SignatureReferral do
     end
 
     it "logs warning and returns default for generated facebook referral when referral unresolved" do
-      ReferralCode.stub(:where).with(code: received_code).and_return([])
-      Rails.logger.should_receive(:warn).with(/ReferralCode record not found for referral code 1a2b3c/)
+      Referral.stub(:where).with(code: received_code).and_return([])
+      Rails.logger.should_receive(:warn).with(/Referral record not found for referral code 1a2b3c/)
       params = {referer_ref_code: received_code, referer_ref_type: Signature::ReferenceType::FACEBOOK_LIKE}.with_indifferent_access
       referral = SignatureReferral.new(petition, signature, params).referral
       referral.should be_empty

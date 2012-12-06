@@ -5,7 +5,7 @@ class DonationTrackingController < ApplicationController
   def create
     win!(:donation)
     donation = Donation.create({
-      referral_code: ReferralCode.find_by_code(params[:referral_code]),
+      referral: Referral.find_by_code(params[:referral_code]),
       member: Signature.find_by_id(params[:signature_id]).try(:member),
       petition: Petition.find_by_id(params[:petition_id])
     })

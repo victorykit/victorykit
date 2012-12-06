@@ -3,7 +3,7 @@ class Member < ActiveRecord::Base
   has_many :unsubscribes
   has_many :sent_emails
   has_many :signatures
-  has_many :referral_codes, autosave: true
+  has_many :referrals, autosave: true
 
   attr_accessible :first_name, :last_name, :email
   attr_accessible :country_code, :state_code

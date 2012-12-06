@@ -56,7 +56,7 @@ describe FacebookSharingOptionsExperiment do
       it "should win using default test name where no referral code found" do
         default_test_name = "facebook sharing options"
         referral_type = "some option"
-        signature = stub("signature", :id => 5, :reference_type => referral_type, :referral_code => nil)
+        signature = stub("signature", :id => 5, :reference_type => referral_type, :referral => nil)
         whiplash.should_receive(:win_on_option!).with(default_test_name, referral_type)
         @experiment.win!(signature)
       end
@@ -136,8 +136,8 @@ describe FacebookSharingOptionsExperiment do
   end
 
   def stub_signature_for_referral referral_type, referral_time
-    referral_code = stub("ref code", :created_at => referral_time)
-    signature = stub("signature", :id => 5, :reference_type => referral_type, :referral_code => referral_code)
+    referral = stub("ref code", :created_at => referral_time)
+    stub("signature", :id => 5, :reference_type => referral_type, :referral => referral)
   end
 
 end

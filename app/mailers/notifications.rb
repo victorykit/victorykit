@@ -15,7 +15,7 @@ class Notifications < ActionMailer::Base
     @unsubscribe_link = URI.join(root_url, 'unsubscribe')
     @image_url = best_image(petition)
     @short_summary = best_summary(petition)
-    referral = ReferralCode.new(petition: petition, member: signature.member)
+    referral = Referral.new(petition: petition, member: signature.member)
     referral.save
     @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{referral.code}"
 

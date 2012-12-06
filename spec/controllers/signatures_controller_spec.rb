@@ -84,7 +84,7 @@ describe SignaturesController do
       end
 
       shared_examples 'the event is tracked' do
-        before { create :referral_code, code: member.to_hash, member: member, petition: petition }
+        before { create :referral, code: member.to_hash, member: member, petition: petition }
         before { sign_petition params }
         subject { Signature.last }
         its(:reference_type) { should == type }
@@ -194,7 +194,7 @@ describe SignaturesController do
 
     context 'with social tracking parameters' do
       let(:member) { create :member }
-      let(:code)   { create :referral_code, member: member, petition: petition }
+      let(:code)   { create :referral, member: member, petition: petition }
       let(:params) { { referer_ref_type: Signature::ReferenceType::FACEBOOK_REQUEST, referer_ref_code: ref_code } }
 
       shared_examples 'the social media trial wins' do
