@@ -15,7 +15,7 @@ describe Donation do
     let(:donator) { stub }
 
     before do
-      Member.stub(:find_by_hash).with('123.abc').and_return([donator])
+      Member.stub(:find_by_hash).with('123.abc').and_return(donator)
       Donation.stub(:where).with(:member_id => donator, :amount => nil).
         and_return([donation])
     end
