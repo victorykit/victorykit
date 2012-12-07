@@ -2,15 +2,16 @@ class Petition < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   include HtmlToPlainText
 
-  attr_accessible :description, :title, 
+  attr_accessible :description, :title, :petition_versions_attributes,
     :petition_titles_attributes, :petition_images_attributes, 
     :petition_descriptions_attributes, :petition_summaries_attributes
 
-  attr_accessible :description, :title, 
+  attr_accessible :description, :title, :petition_versions_attributes,
     :petition_titles_attributes, :petition_images_attributes, 
     :petition_descriptions_attributes, :petition_summaries_attributes, 
     :to_send, :location, :as => :admin
 
+  has_many :petition_versions
   has_many :signatures
   has_many :sent_emails
   has_many :referrals
@@ -55,6 +56,14 @@ class Petition < ActiveRecord::Base
     select([:location, :id]).
       where(id: (emailable_petition_ids - signed - sent)).
       select { |p| p.cover? member }
+  end
+
+   def update_petition_version
+    if petition_versions.first.present?
+      petition_versions.first.update_attributes(title: title, description: description)
+    else
+      PetitionVersion.create(title: title, description: description, petition_id: id)
+    end
   end
 
   def strip_whitespace
