@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207001508) do
+ActiveRecord::Schema.define(:version => 20121207204236) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -168,14 +168,15 @@ ActiveRecord::Schema.define(:version => 20121207001508) do
   add_index "referrals", ["member_id"], :name => "index_referral_codes_on_member_id"
 
   create_table "sent_emails", :force => true do |t|
-    t.string   "email",        :null => false
-    t.integer  "member_id",    :null => false
-    t.integer  "petition_id",  :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.string   "email",                                 :null => false
+    t.integer  "member_id",                             :null => false
+    t.integer  "petition_id",                           :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "signature_id"
     t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.string   "type",         :default => "SentEmail"
   end
 
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
