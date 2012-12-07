@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121206152505) do
+ActiveRecord::Schema.define(:version => 20121207001508) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -132,6 +132,14 @@ ActiveRecord::Schema.define(:version => 20121206152505) do
   create_table "petition_titles", :force => true do |t|
     t.text     "title",       :null => false
     t.string   "title_type",  :null => false
+    t.integer  "petition_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "petition_versions", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
     t.integer  "petition_id", :null => false
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -263,6 +271,8 @@ ActiveRecord::Schema.define(:version => 20121206152505) do
   add_foreign_key "petition_summaries", "petitions", :name => "petition_summaries_petition_id_fk"
 
   add_foreign_key "petition_titles", "petitions", :name => "petition_titles_petition_id_fk"
+
+  add_foreign_key "petition_versions", "petitions", :name => "petition_versions_petition_id_fk"
 
   add_foreign_key "petitions", "users", :name => "petitions_owner_id_fk", :column => "owner_id"
 
