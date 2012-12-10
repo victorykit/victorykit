@@ -7,7 +7,7 @@ class AnalyticsObserver < ActiveRecord::Observer
       "signatures.count"
     when Unsubscribe
       "unsubscribes.count"
-    when SentEmail
+    when ScheduledEmail
       "emails_sent.count"
     when FacebookAction
       "facebook_actions.count"

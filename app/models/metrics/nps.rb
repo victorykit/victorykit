@@ -7,21 +7,21 @@ class Metrics::Nps
 
   def single petition
     petition_id = as_id petition
-    sent = SentEmail.where(petition_id: petition_id).count
+    sent = ScheduledEmail.where(petition_id: petition_id).count
     subscribes = Signature.where(petition_id: petition_id).where(created_member: true).where(@signature_referer_filter).count
     unsubscribes = Unsubscribe.joins(:sent_email).where("sent_emails.petition_id = #{petition_id}").count      
     assemble petition_id, sent, subscribes, unsubscribes
   end
 
   def multiple petitions
-    sent = SentEmail.group(:petition_id).count
+    sent = ScheduledEmail.group(:petition_id).count
     subscribes = Signature.where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
     unsubscribes = Unsubscribe.joins(:sent_email).group(:petition_id).count
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
 
   def timespan range, sent_threshold=1000
-    sent = SentEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
+    sent = ScheduledEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
     subscribes = Signature.where(created_at: range).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
     unsubscribes = Unsubscribe.joins(:sent_email).where(created_at: range).group(:petition_id).count
     petitions = sent.reject{ |k,v| v < sent_threshold }.keys
@@ -29,7 +29,7 @@ class Metrics::Nps
   end
 
   def aggregate since
-    sent = SentEmail.where("created_at > ?", since).count
+    sent = ScheduledEmail.where("created_at > ?", since).count
     subscribes = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
     unsubscribes  = Unsubscribe.where("cause='unsubscribed' and created_at > ?", since).count
     rates = calculate_rates sent, subscribes, unsubscribes

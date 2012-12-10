@@ -24,7 +24,7 @@ class PetitionEmailer
     
     id = self.spin_for interesting, member
     petition = Petition.find_by_id(id)
-    ScheduledEmail.new_petition(petition, member)
+    ScheduledMailer.new_petition(petition, member)
   end
 
   private

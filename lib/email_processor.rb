@@ -11,7 +11,7 @@ class EmailProcessor < ActionMailer::Base
           bounced_email = BouncedEmail.new(raw_content: email.to_s, sent_email: sent_email)
           bounced_email.save!
         else
-          Rails.logger.warn "Failed to find a SentEmail for hash #{hash}. Possibly lowercased?"
+          Rails.logger.warn "Failed to find a ScheduledEmail for hash #{hash}. Possibly lowercased?"
         end
         unsubscribe = Unsubscribe.new(email: from_address, cause: cause)
         unsubscribe.member = Member.find_by_email(from_address)

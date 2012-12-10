@@ -10,7 +10,7 @@ class Admin::HottestController < ApplicationController
     #include Whiplash
     #redis_data = data_for_options("email_scheduler_nps", options)
 
-    sent_data = SentEmail.group(:petition_id).count
+    sent_data = ScheduledEmail.group(:petition_id).count
     new_data = Signature.where(created_member: true).where('(referer_id != 79459 or referer_id is null)').group(:petition_id).count
     unsub_data = Unsubscribe.joins(:sent_email).group(:petition_id).count
     sent_data.default, new_data.default, unsub_data.default = 0, 0, 0
@@ -30,7 +30,7 @@ class Admin::HottestController < ApplicationController
       when 'mine'
         Petition.select(:id).where(owner_id: params[:id] || current_user.id).order("created_at desc").limit(50).map{|x| x.id }
       else
-        t1k_sent = SentEmail.last(1000).map {|x| x.petition_id}
+        t1k_sent = ScheduledEmail.last(1000).map {|x| x.petition_id}
     end
   end
   

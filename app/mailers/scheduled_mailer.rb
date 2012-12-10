@@ -1,4 +1,4 @@
-class ScheduledEmail < ActionMailer::Base
+class ScheduledMailer < ActionMailer::Base
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -7,8 +7,8 @@ class ScheduledEmail < ActionMailer::Base
 
   def new_petition(petition, member)
     begin
-      SentEmail.transaction do
-        email_record = SentEmail.create!(email: member.email, member: member, petition: petition)
+      ScheduledEmail.transaction do
+        email_record = ScheduledEmail.create!(email: member.email, member: member, petition: petition)
         compose(petition, member, email_record, petition_link(petition, email_record), petition_link(petition, nil)).deliver
       end
     rescue AWS::SES::ResponseError => exception
@@ -19,8 +19,8 @@ class ScheduledEmail < ActionMailer::Base
   end
 
   def send_preview(petition, member)
-    SentEmail.transaction do
-      email_record = SentEmail.new(email: member.email, member: member, petition: petition)
+    ScheduledEmail.transaction do
+      email_record = ScheduledEmail.new(email: member.email, member: member, petition: petition)
       class <<email_record
         def to_hash
           "preview"

@@ -73,8 +73,8 @@ class Admin::StatsController < ApplicationController
   end
 
   def email_response_rate_by_part part
-    sent_emails_by_time = SentEmail.count(:group => "date_part('#{part}', created_at)")
-    signed_emails_by_part = SentEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
+    sent_emails_by_time = ScheduledEmail.count(:group => "date_part('#{part}', created_at)")
+    signed_emails_by_part = ScheduledEmail.count(:group => "date_part('#{part}', created_at)", :conditions => ['signature_id is not null'])
 
     spins = sent_emails_by_time.map{|k,v|[k.to_i,v]}.sort_by &:first
     wins = signed_emails_by_part.map{|k,v|[k.to_i,v]}.sort_by &:first
@@ -89,7 +89,7 @@ class Admin::StatsController < ApplicationController
   end
 
   def nps
-    sent = Hash[SentEmail.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
+    sent = Hash[ScheduledEmail.count(group: 'date(created_at)').map {|(k,v)| [k.to_date, v.to_f]}]
     sent.default = 1
 
     chart_for_table = Proc.new do |table, conditions=nil, subtract_unsubs=false|
@@ -108,9 +108,9 @@ class Admin::StatsController < ApplicationController
       end
     end
 
-    #chart_for_table.call SentEmail, 'opened_at is not null'
-    #chart_for_table.call SentEmail, 'clicked_at is not null'
-    #chart_for_table.call SentEmail, 'signature_id is not null'
+    #chart_for_table.call ScheduledEmail, 'opened_at is not null'
+    #chart_for_table.call ScheduledEmail, 'clicked_at is not null'
+    #chart_for_table.call ScheduledEmail, 'signature_id is not null'
     #chart_for_table.call Signature, 'referer_id != member_id'
     #chart_for_table.call Signature, "user_agent like '%MSIE%'"
     #chart_for_table.call Signature

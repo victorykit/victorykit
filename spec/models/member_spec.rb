@@ -142,7 +142,7 @@ describe Member do
       end
 
       context 'for recently contacted members' do
-        before { create :sent_email, member: member }
+        before { create :scheduled_email, member: member }
         it_behaves_like 'ignoring them'
       end
 
@@ -152,7 +152,7 @@ describe Member do
       end
 
       context 'for members contacted more than a week ago' do
-        before { create :sent_email, created_at: 8.days.ago, member: member }
+        before { create :scheduled_email, created_at: 8.days.ago, member: member }
         
         context 'and never unsubscribed' do
           it_behaves_like 'finding them'
