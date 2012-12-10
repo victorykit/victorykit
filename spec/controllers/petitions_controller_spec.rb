@@ -105,20 +105,6 @@ describe PetitionsController do
             assigns(:signature).first_name.should == "Sven"
             assigns(:signature).email.should == "sven@svenland.se"
           end
-
-          it "should run an experiment for classic vs focused layout" do
-            controller.should_receive(:measure!).with('toggle layout of position page 3 for email referrals', :signature, ['classic', 'focused']).and_return('focused')
-            get :show, :id => petition.id, :n => sent_email.to_hash
-            assigns(:petition_layout).should == 'focused'
-          end
-        end
-      end
-
-      context "no email hash" do
-        it "should run an experiment for classic vs focused layout" do
-          controller.should_receive(:measure!).with('toggle layout of position page 3', :signature, ['classic', 'focused']).and_return('focused')
-          get :show, :id => petition.id
-          assigns(:petition_layout).should == 'focused'
         end
       end
     end
@@ -145,12 +131,6 @@ describe PetitionsController do
 
             assigns(:signature).first_name.should == "Bob"
             assigns(:signature).email.should == "bob@bob.com"
-          end
-          it "should run an experiment for classic vs focused layout" do
-            controller.stub(cookies: {member_id: member_bob.to_hash})
-            controller.should_receive(:measure!).with('toggle layout of position page 3 for email referrals', :signature, ['classic', 'focused']).and_return('focused')
-            get :show, :id => petition.id, :n => sent_email.to_hash
-            assigns(:petition_layout).should == 'focused'
           end
         end
         context "the petition was not signed from this email" do
@@ -363,29 +343,6 @@ describe PetitionsController do
     it 'should increment a statsd counter' do
       expect { post(:again, id: 42, l: '281._4oBaT')}.to change{ $statsd.value_of("same_browser_signatures.count") }.from(0).to(1)
     end
-  end
-
-  describe '#petition_layouts' do
-    before { controller.stub_chain(:browser, :mobile?).and_return(is_mobile) }
-
-    context 'regular browser' do
-      let(:is_mobile) { false }
-
-      it 'spins to choose a layout' do
-        controller.should_receive(:spin!).and_return('some layout')
-        controller.petition_layouts.should == 'some layout'
-      end
-    end
-
-    context 'mobile' do
-      let(:is_mobile) { true }
-
-      it 'renders focused' do
-        controller.should_not_receive(:spin!)
-        controller.petition_layouts.should == 'focused'
-      end
-    end
-
   end
 
 end

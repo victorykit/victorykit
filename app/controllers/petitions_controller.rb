@@ -42,17 +42,9 @@ class PetitionsController < ApplicationController
     @query = request.query_parameters
     track_petition_page_load
 
-    @petition_layout = petition_layouts
     @progress_location = progress_locations
     @signatures_progress_aesthetic = signatures_progress_aesthetics
     placebo_test
-  end
-
-  def petition_layouts
-    return 'focused' if browser.mobile?
-    experiment = 'toggle layout of position page 3'
-    experiment << ' for email referrals' if sent_email.present?
-    measure! experiment, :signature, ['classic', 'focused']
   end
 
   def progress_locations
