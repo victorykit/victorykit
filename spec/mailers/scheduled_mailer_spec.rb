@@ -1,4 +1,4 @@
-describe ScheduledEmail do
+describe ScheduledMailer do
 
   before(:each) do
     guard_against_spins EmailExperiments
@@ -23,8 +23,8 @@ describe ScheduledEmail do
     let(:member){ create(:member)}
     let(:petition){ create(:petition, description: "an<br>html&nbsp;&quot;body&quot;and more<br><br>LINK<br><br>and so on")}
     let(:petition_image) {create(:petition_image, petition: petition)}
-    let(:mail){ ScheduledEmail.new_petition(petition, member)}
-    let(:sent_email){SentEmail.find_by_member_id(member)}
+    let(:mail){ ScheduledMailer.new_petition(petition, member)}
+    let(:sent_email){ScheduledEmail.find_by_member_id(member)}
     let(:petition_link){"http://test/petitions/#{petition.id}?n=#{sent_email.to_hash}"}
     let(:referral){"ABC_123"}
     let(:fb_share_url){"http://test/petitions/#{petition.id}?mail_share_ref=#{sent_email.to_hash}"}
@@ -103,8 +103,8 @@ describe ScheduledEmail do
     end
 
     it "rolls back transaction" do
-      ScheduledEmail.any_instance.stub(:mail).and_raise("stuff")
-      ScheduledEmail.new_petition(petition, member)
+      ScheduledMailer.any_instance.stub(:mail).and_raise("stuff")
+      ScheduledMailer.new_petition(petition, member)
       SentEmail.last.should be_nil
     end
   end

@@ -3,7 +3,7 @@ describe EmailExperiments do
   before :each do
     @default_title = "my petition title"
     @petition = create(:petition, title: @default_title)
-    @email = create(:sent_email, petition: @petition)
+    @email = create(:scheduled_email, petition: @petition)
     @experiments = EmailExperiments.new(@email)
 
     stub_bandit_super_spins @experiments
@@ -111,7 +111,7 @@ describe EmailExperiments do
       test_name = "petition #{@petition.id} email title"
       trial_a = create(:email_experiment, sent_email_id: @email.id, goal: :signature, key: test_name, choice: "walnuts")
       trial_b = create(:email_experiment, sent_email_id: @email.id, goal: :something_else, key: test_name, choice: "pecans")
-      other_email = create(:sent_email)
+      other_email = create(:scheduled_email)
       trial_c = create(:email_experiment, sent_email_id: other_email.id, goal: :signature, key: test_name, choice: "whatever")
       trial_d = create(:email_experiment, sent_email: @email, goal: :signature, key: "different from lines for scheduled emails", choice: "choice")
 

@@ -162,7 +162,7 @@ describe SignaturesController do
       end
 
       context 'an emailed link' do
-        let(:email) { create :sent_email }
+        let(:email) { create :scheduled_email }
         let(:ref_code) { email.to_hash }
         let(:type) { Signature::ReferenceType::EMAIL }
 
@@ -173,7 +173,7 @@ describe SignaturesController do
 
         it 'should update sent email record with the signature_id value' do
           sign_petition params
-          SentEmail.last.signature_id.should == Signature.last.id
+          ScheduledEmail.last.signature_id.should == Signature.last.id
         end
 
         context 'referer and reference type for the signature are persisted' do

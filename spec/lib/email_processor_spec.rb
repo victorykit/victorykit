@@ -1,5 +1,5 @@
 describe EmailProcessor do
-  let!(:sent_email) {create :sent_email}
+  let!(:sent_email) {create :scheduled_email}
   let!(:member) {create :member, email: sent_email.email}
 
   it "should create a record in bounced_emails table" do

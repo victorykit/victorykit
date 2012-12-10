@@ -37,7 +37,7 @@ describe SignatureReferral do
   end
 
   it "finds email using hash given referral code having trailing punctuation" do
-    sent_email = create :sent_email
+    sent_email = create :scheduled_email
     SentEmail.stub(:find_by_hash).with(received_code).and_return(sent_email)
     params = {referer_ref_code: "#{received_code}!", referer_ref_type: Signature::ReferenceType::EMAIL}.with_indifferent_access
     referral = SignatureReferral.new(petition, signature, params).referral
