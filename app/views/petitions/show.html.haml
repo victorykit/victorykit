@@ -16,14 +16,13 @@
 
   .sidebar
     - if !@was_signed and !browser.mobile?
-      - if spin! "show progress box above sign petition", :signature
-        .progress_box{ :class => progress_box_aesthetic }
-          .progress_text.plain
-            Step 1 of 3 complete...
-          .progressbar{class: progress_bar_color}
-            .fluid
-          .progress_text
-            You've made it this far.  Please sign!
+      .progress_box{ :class => progress_box_aesthetic }
+        .progress_text.plain
+          Step 1 of 3 complete...
+        .progressbar{class: progress_bar_color}
+          .fluid
+        .progress_text
+          You've made it this far.  Please sign!
     .clearfix
     .signature-form
       .title
