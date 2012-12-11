@@ -22,7 +22,6 @@ class SocialTrackingController < ApplicationController
         'popup' => :register_facebook_popup_opened,
         'dialog' => :register_facebook_dialog,
         'request' => :register_facebook_request,
-        'autofill_request' => :register_autofill_request,
         'recommend' => :register_recommendation
       }[action])
     end
@@ -93,14 +92,6 @@ class SocialTrackingController < ApplicationController
         new_facebook_friend.save! if new_facebook_friend.present?    
       end
     end
-  end
-
-  def register_autofill_request
-    request = FacebookAutofillRequest.new
-    request.petition = @petition
-    request.action_id = @request_id if @request_id.present?
-    request.member = @member if @member.present?
-    request.save!
   end
 
   def register_recommendation
