@@ -23,7 +23,7 @@
   - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
     - admin_toggle = 'admin'
 
-  %body{ :class => [admin_toggle, @petition_layout] }
+  %body.classic{ :class => @petition_layout }
     #left
     #right
     #top
