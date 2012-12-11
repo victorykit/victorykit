@@ -75,14 +75,7 @@ describe EmailExperiments do
       @experiments.show_ps_with_plain_text.should == false
     end
   end
-
-  context "show less prominent unsubscribe link" do
-    it "should return true if choice is true" do
-      @experiments.should_receive(:super_spin!).with("show less prominent unsubscribe link", :unsubscribe, [true, false], anything()).and_return(true)
-      @experiments.show_less_prominent_unsubscribe_link.should == true
-    end
-  end
-
+  
   context "from address" do
     it "should spin and return selected address" do
       @experiments.should_receive(:super_spin!).with("from address", :signature, ["Melanie Jones <info@watchdog.net>", "Melanie J. Watchdog.net <info@watchdog.net>"], anything()).and_return("Melanie Jones <info@watchdog.net>")

@@ -14,7 +14,6 @@ class UnsubscribesController < ApplicationController
     
     if @unsubscribe.member && @unsubscribe.save
       nps_lose @unsubscribe.sent_email.petition_id if @unsubscribe.sent_email.present?
-      win_for_unsubscribe_email_experiment @unsubscribe.sent_email.id if @unsubscribe.sent_email.present?
       Notifications.unsubscribed @unsubscribe
       redirect_to root_url, notice: 'You have successfully unsubscribed.'
     else
@@ -35,10 +34,4 @@ class UnsubscribesController < ApplicationController
     lose_on_option!("email_scheduler_nps", petition_id)
   end
 
-  def win_for_unsubscribe_email_experiment sent_email_id
-    e = EmailExperiment.find_by_sent_email_id_and_goal_and_key(sent_email_id, :unsubscribe, "show less prominent unsubscribe link")
-    # The line below is monkey-patch code, so that the loser (which causes less unsubscribes) gets picked more often
-    win_on_option!("show less prominent unsubscribe link", e.choice == 't' ? false : true) if e.present?
-  end
-  
 end
