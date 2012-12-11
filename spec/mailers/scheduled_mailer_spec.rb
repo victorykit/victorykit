@@ -6,7 +6,6 @@ describe ScheduledMailer do
 
   def stub_experiment_values
     EmailExperiments.any_instance.stub(:subject).and_return("some subject")
-    EmailExperiments.any_instance.stub(:ask_to_sign_text).and_return("SIGN THIS PETITION")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
     EmailExperiments.any_instance.stub(:box_location).and_return("top")
     EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
@@ -80,7 +79,7 @@ describe ScheduledMailer do
 
     it "substitutes the LINK paragraph with the petition link" do
       mail.body.encoded.should_not include "LINK"
-      mail.body.encoded.should include "<br><br><b><a href=\"#{petition_link}\">SIGN THIS PETITION</a></b><br><br>"
+      mail.body.encoded.should include "<br><br><b><a href=\"#{petition_link}\">Click here to sign -- it just takes a second.</a></b><br><br>"
     end
 
     it "removes the LINK paragraph in plain text part" do

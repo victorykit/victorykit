@@ -58,14 +58,6 @@ describe EmailExperiments do
     end
   end
 
-  context "sign ask text" do
-    it "should spin and return selected text" do
-      @experiments.should_receive(:super_spin!).with("ask to sign text", :signature, ["Click here to sign -- it just takes a second.", "Sign this petition now.",
-      "SIGN THIS PETITION", "Please, click here to sign now!"], anything()).and_return("Sign this petition now.")
-      @experiments.ask_to_sign_text.should == "Sign this petition now."
-    end
-  end
-
   context "button color for sign-this-petition link" do
     it "should spin and return selected button color" do
       @experiments.should_receive(:super_spin!).with("button color for sign-this-petition link", :signature, ["#990000", "#308014"], anything()).and_return("#308014")
