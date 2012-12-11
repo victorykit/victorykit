@@ -75,10 +75,6 @@ Greetings VictoryKit team member. When you change this template, please test it 
 
 <hr style="clear:both;"/>
 
-<%if(@show_less_prominent_unsubscribe_link)%>
-  <p style="font-size:50%">This email was sent by watchdog.net. To remove yourself from this list, <a href="<%=@unsubscribe_link%>">click here</a>.</p>
-<%else%>
-  <p><a href="<%=@unsubscribe_link%>">To stop receiving emails from us, click here to unsubscribe.</a></p>
-<%end%>
+<p style="font-size:50%">This email was sent by watchdog.net. To remove yourself from this list, <a href="<%=@unsubscribe_link%>">click here</a>.</p>
 
 <img src="<%=@tracking_url%>" />

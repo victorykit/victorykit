@@ -62,7 +62,6 @@ class ScheduledMailer < ActionMailer::Base
     end
     @image_url = email_experiment.image_url
     @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
-    @show_less_prominent_unsubscribe_link = email_experiment.show_less_prominent_unsubscribe_link
     @short_summary = email_experiment.petition_short_summary
     @button_color = "background:#{email_experiment.button_color_for_petition_link};"
     @share_button_color = "background:#{email_experiment.button_color_for_share_petition_link};" #TODO: different colors for share button?

@@ -36,10 +36,6 @@ class EmailExperiments
     spin!("show ps with plain text", :signature, display_options) == "show"
   end
 
-  def show_less_prominent_unsubscribe_link
-    spin! "show less prominent unsubscribe link", :unsubscribe
-  end
-
   def from_address
     spin! "from address", :signature, from_address_options
   end
