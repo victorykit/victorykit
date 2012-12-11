@@ -32,10 +32,6 @@ class EmailExperiments
     spin!("show facebook share button", :signature, display_options) == "show"
   end
 
-  def show_ps_with_plain_text
-    spin!("show ps with plain text", :signature, display_options) == "show"
-  end
-
   def from_address
     spin! "from address", :signature, from_address_options
   end

@@ -65,17 +65,6 @@ describe EmailExperiments do
     end
   end
 
-  context "show ps with plain text" do
-    it "should return true if choice is show" do
-      @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("show")
-      @experiments.show_ps_with_plain_text.should == true
-    end
-    it "should return false if choice is hide" do
-      @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("hide")
-      @experiments.show_ps_with_plain_text.should == false
-    end
-  end
-  
   context "from address" do
     it "should spin and return selected address" do
       @experiments.should_receive(:super_spin!).with("from address", :signature, ["Melanie Jones <info@watchdog.net>", "Melanie J. Watchdog.net <info@watchdog.net>"], anything()).and_return("Melanie Jones <info@watchdog.net>")
