@@ -16,10 +16,6 @@ class EmailExperiments
     url ? PetitionImage.find_by_url(url).public_url : url
   end
 
-  def ask_to_sign_text
-    spin! "ask to sign text", :signature, ask_to_sign_text_options
-  end
-
   def font_size_of_petition_link
     spin! "font size of sign-this-petition link", :signature, font_size_options
   end
@@ -94,11 +90,6 @@ class EmailExperiments
   
   def display_options
     ["show", "hide"]
-  end
-
-  def ask_to_sign_text_options
-    ["Click here to sign -- it just takes a second.", "Sign this petition now.",
-      "SIGN THIS PETITION", "Please, click here to sign now!"]
   end
 
   def font_size_options

@@ -61,9 +61,9 @@ Greetings VictoryKit team member. When you change this template, please test it 
     <p>Dear <%=@member.full_name%>,</p>
 
     <p>
-    <%=sanitize(@petition.description_lsub("<b><a href='#{@petition_link}'>#{@ask_to_sign_text}</a></b>"))%>
+    <%=sanitize(@petition.description_lsub("<b><a href='#{@petition_link}'>Click here to sign -- it just takes a second.</a></b>"))%>
     </p>
-    <p><b><a style="<%=@font_size_of_petition_link%>" href="<%=@petition_link%>"><%= @ask_to_sign_text %></a></b></p>
+    <p><b><a style="<%=@font_size_of_petition_link%>" href="<%=@petition_link%>">Click here to sign -- it just takes a second.</a></b></p>
     <p>Thanks,<br/>
     -- The folks at Watchdog.net</p>
 
