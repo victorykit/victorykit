@@ -65,13 +65,6 @@ describe EmailExperiments do
     end
   end
 
-  context "font size of sign-this-petition link" do
-    it "should spin and return selected button color" do
-      @experiments.should_receive(:super_spin!).with("font size of sign-this-petition link", :signature, ["100%", "125%", "150%", "200%"], anything()).and_return("150%")
-      @experiments.font_size_of_petition_link.should == "150%"
-    end
-  end
-
   context "show ps with plain text" do
     it "should return true if choice is show" do
       @experiments.should_receive(:super_spin!).with("show ps with plain text", :signature, ["show", "hide"], anything()).and_return("show")
