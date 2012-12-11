@@ -1,0 +1,3 @@
+class SignatureEmail < SentEmail
+
+end

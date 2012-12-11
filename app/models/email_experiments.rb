@@ -12,7 +12,7 @@ class EmailExperiments
   end
 
   def image_url
-    url = spin!("petition #{@email.petition.id} image", :signature, image_url_options)
+    url = spin!(image_experiment_key, :signature, image_url_options)
     url ? PetitionImage.find_by_url(url).public_url : url
   end
 
@@ -53,8 +53,21 @@ class EmailExperiments
   end
 
   def petition_short_summary
-    short_summaries = @email.petition.petition_summaries.map(&:short_summary)
-    spin! "petition #{@email.petition.id} email short summary", :signature, short_summaries if short_summaries.any?
+    short_summaries = short_summary_options
+    spin!(summary_experiment_key, :signature, short_summaries) if short_summaries.any?
+  end
+
+  def best_image petition
+    options = image_url_options
+    unless options.empty?
+      url = winning_option(image_experiment_key, options)
+      url ? PetitionImage.find_by_url(url).public_url : url
+    end
+  end
+
+  def best_summary petition
+    options = short_summary_options
+    winning_option(summary_experiment_key, options) unless options.empty? 
   end
 
   private
@@ -67,6 +80,18 @@ class EmailExperiments
     @email.petition.petition_images.map(& :url)
   end
 
+  def short_summary_options
+    @email.petition.petition_summaries.map(&:short_summary)
+  end
+
+  def image_experiment_key
+    "petition #{@email.petition.id} image"
+  end
+
+  def summary_experiment_key
+    "petition #{@email.petition.id} email short summary"
+  end
+  
   def display_options
     ["show", "hide"]
   end
