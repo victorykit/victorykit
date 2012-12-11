@@ -61,5 +61,9 @@ module Victorykit
     
     # so changes to .rb files in lib get picked up without restarting server
     config.watchable_dirs['lib'] = [:rb]
+
+    # case insensitive routes
+    config.autoload_paths << "#{config.root}/app/middleware"
+    config.middleware.use 'DowncaseRouteMiddleware'
   end
 end
