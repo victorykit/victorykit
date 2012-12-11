@@ -81,58 +81,7 @@ describe FacebookSharingOptionsExperiment do
         whiplash.should_receive(:win_on_option!).with(test_name_as_of_tomorrow, referral_type)
         @experiment.win!(signature)
       end
-
     end
-
-    describe "request pick vs autofill" do
-
-      it "should skip request pick/autofill subexperiment for spin not yielding facebook_request" do
-        FacebookFriend.any_instance.should_not_receive("find_by_member_id")
-        whiplash.stub(:spin!).and_return("facebook_popup")
-        @experiment.spin!(member, browser).should eq "facebook_popup"
-      end
-
-      context "spin yielding facebook request" do
-        it "should remain facebook_request when no member given" do
-          member = nil
-          FacebookFriend.any_instance.should_not_receive("find_by_member_id")
-          whiplash.stub(:spin!).and_return("facebook_request")
-          @experiment.spin!(member, browser).should eq "facebook_request"
-        end
-
-        it "should remain facebook_request when no facebook friend exists for member" do
-          FacebookFriend.stub("find_by_member_id").and_return nil
-          whiplash.stub(:spin!).and_return("facebook_request")
-          @experiment.spin!(member, browser).should eq "facebook_request"
-        end
-
-        it "should spin between request pick and autofill when facebook friend exists for member" do
-          FacebookFriend.stub("find_by_member_id").with(member.id).and_return FacebookFriend.new
-          whiplash.should_receive(:spin!).with(/facebook sharing options/, anything, anything).and_return("facebook_request")
-          whiplash.should_receive(:spin!).with("facebook request pick vs autofill", anything, anything).and_return("facebook_autofill_request")
-          @experiment.spin!(member, browser).should eq "facebook_autofill_request"
-        end
-      end
-
-      context "win for request pick/autofill subexperiment" do
-
-        it "should record win for facebook request against subexperiment as well as main experiment" do
-          signature = stub_signature_for_referral "facebook_request", 1.month.ago.to_time
-          whiplash.should_receive(:win_on_option!).with("facebook request pick vs autofill", "facebook_request")
-          whiplash.should_receive(:win_on_option!).with(/facebook sharing options/, "facebook_request")
-          @experiment.win!(signature)
-        end
-
-        it "should record win for autofill against subexperiment but as generic facebook request for main experiment" do
-          signature = stub_signature_for_referral "facebook_autofill_request", 1.month.ago.to_time
-          whiplash.should_receive(:win_on_option!).with("facebook request pick vs autofill", "facebook_autofill_request")
-          whiplash.should_receive(:win_on_option!).with(/facebook sharing options/, "facebook_request")
-          @experiment.win!(signature)
-        end
-      end
-
-    end
-
   end
 
   def stub_signature_for_referral referral_type, referral_time

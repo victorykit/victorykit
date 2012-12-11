@@ -11,7 +11,6 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
     return 'facebook_popup' if browser.ie7?
 
     sharing_option = @whiplash.spin! name_as_of(Time.now), :referred_member, @options
-    spin_request_subexperiment sharing_option, member
   end
 
   def self.applicable_to? signature
@@ -20,29 +19,10 @@ class FacebookSharingOptionsExperiment < TimeBandedExperiment
   end
 
   def win! signature
-    referral_type = win_request_pick_vs_autofill signature.reference_type
-    @whiplash.win_on_option! name_as_of_referral(signature), referral_type
+    @whiplash.win_on_option! name_as_of_referral(signature), signature.reference_type
   end
 
   private
-
-  def spin_request_subexperiment sharing_option, member
-    request_default = "facebook_request"
-    return sharing_option unless sharing_option == request_default
-    return request_default unless member.present?
-    fb_friend = FacebookFriend.find_by_member_id(member.id)
-    fb_friend.present? ?
-      (@whiplash.spin! 'facebook request pick vs autofill', :referred_member, [request_default, 'facebook_autofill_request']) :
-      request_default
-  end
-
-  def win_request_pick_vs_autofill referral_type
-    if(referral_type == 'facebook_request' || referral_type == 'facebook_autofill_request')
-      @whiplash.win_on_option! 'facebook request pick vs autofill', referral_type
-      referral_type = 'facebook_request'
-    end
-    referral_type
-  end
 
   def name_as_of_referral signature
     referral = signature.referral

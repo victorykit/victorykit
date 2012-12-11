@@ -64,7 +64,6 @@ var facebook = (function() {
     setupPopup();
     setupDialog();
     setupRequest();
-    setupAutofill();
     setupRecommendation();
   }
 
@@ -159,21 +158,6 @@ var facebook = (function() {
       FB.ui({ method: 'apprequests', message: VK.petition_title }, function(res) {
         if(res && res.request) {
           socialTracking.trackSharing('request', '', res.request, res.to);
-        }
-      });
-      closeThanksModal();
-    });
-  }
-
-  function setupAutofill() {
-    $('.fb_autofill_request_btn').click(function() {
-      FB.ui({ 
-        method: 'apprequests',
-        message: VK.petition_title,
-        to: VK.facebook_friend_ids
-      }, function(res) {
-        if(res && res.request) {
-          socialTracking.trackSharing('autofill_request', '', res.request, '');
         }
       });
       closeThanksModal();

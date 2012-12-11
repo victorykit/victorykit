@@ -22,23 +22,5 @@ describe FacebookLandingPageController do
 
 	      should redirect_to petition_url(petition, d: member.to_hash)
 	    end
-	    it "should populate a facebook autofill request with petition and member" do
-	      petition = create(:petition)
-	      member = create(:member)
-	      facebook_autofill_request = create(:facebook_autofill_request, petition: petition, member: member)
-	      post(:create, {request_ids: '1234'})
-
-	      facebook_autofill_request.should_not be_nil
-	      facebook_autofill_request.petition.should == petition
-	      facebook_autofill_request.member.should == member
-	    end
-	    it "should redirect a petition page when there is a facebook request" do
-	      petition = create(:petition)
-	      member = create(:member)
-	      facebook_autofill_request = create(:facebook_autofill_request, petition: petition, member: member, action_id: '1234')
-	      post(:create, {request_ids: '1234'})
-
-	      should redirect_to petition_url(petition, autofill: member.to_hash)
-	    end
 	end
 end
