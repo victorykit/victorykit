@@ -12,7 +12,6 @@ describe ScheduledMailer do
     EmailExperiments.any_instance.stub(:show_facebook_share_button).and_return(true)
     EmailExperiments.any_instance.stub(:button_color_for_petition_link).and_return("#308014")
     EmailExperiments.any_instance.stub(:button_color_for_share_petition_link).and_return("#999999")
-    EmailExperiments.any_instance.stub(:show_ps_with_plain_text).and_return(true)
     EmailExperiments.any_instance.stub(:from_address).and_return("Melanie Jones <info@watchdog.net>")
   end
 

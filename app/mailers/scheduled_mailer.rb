@@ -61,7 +61,6 @@ class ScheduledMailer < ActionMailer::Base
       @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{raw_petition_link}?mail_share_ref=#{email_hash}"
     end
     @image_url = email_experiment.image_url
-    @show_ps_with_plain_text = email_experiment.show_ps_with_plain_text
     @short_summary = email_experiment.petition_short_summary
     @button_color = "background:#{email_experiment.button_color_for_petition_link};"
     @share_button_color = "background:#{email_experiment.button_color_for_share_petition_link};" #TODO: different colors for share button?
