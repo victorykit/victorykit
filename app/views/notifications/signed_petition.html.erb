@@ -40,6 +40,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
                     </a>
                   </td>
                 </tr>
+                <%if(@fb_share_url.present?)%>
                 <tr>
                   <td align="center">
                     <a href="<%=@fb_share_url%>" style="text-decoration:none">
@@ -53,6 +54,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
                     </a>
                   </td>
                 </tr>
+              <%end%>
               </table>
             </td>
           </tr>

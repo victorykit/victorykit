@@ -59,15 +59,15 @@ class SignatureReferral
 
   def track_regular_referral
     if reference_type == Signature::ReferenceType::EMAIL or reference_type == Signature::ReferenceType::FACEBOOK_SHARE_FROM_EMAIL
-      sent_email = SentEmail.find_by_hash(received_code)
-      raise "SentEmail record not found for referral code #{received_code}" if not sent_email
+      email = SentEmail.find_by_hash(received_code)
+      raise "SentEmail record not found for referral code #{received_code}" if not email
 
-      sent_email.signature ||= signature
-      sent_email.save!
-      petition.experiments.email(sent_email).win!(:signature)
+      email.signature ||= signature
+      email.save!
+      petition.experiments.email(email).win!(:signature)
 
       {
-        referer: sent_email.member,
+        referer: email.member,
         reference_type: reference_type
       }
     else
