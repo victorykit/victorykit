@@ -327,6 +327,33 @@ describe PetitionsController do
     end
   end
 
+  describe "DELETE destroy" do
+    let(:petition) { create(:petition, deleted: false) }
+
+    let(:action) { delete :destroy, id: petition.id }
+    it_behaves_like "an admin only resource page"
+
+    context "with active petition" do
+      before { delete :destroy, {id: petition.id}, valid_super_user_session }
+
+      it "deletes the petition" do
+        petition.reload.should be_deleted
+      end
+
+      it "redirects to index" do
+        response.should redirect_to petitions_path
+      end
+    end
+
+    context "with deleted petition" do
+      before { petition.update_attribute(:deleted, true) }
+
+      it "does not find the petition" do
+        lambda { delete :destroy, {id: petition.id}, valid_super_user_session }.should raise_error
+      end
+    end
+  end
+
   describe "track_visit" do
     let(:sent_email) { create :scheduled_email }
     let(:petition) { create :petition }
