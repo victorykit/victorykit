@@ -12,4 +12,10 @@ describe PetitionStatisticsBuilder do
       stats.first.signature_count.should == 2
     end
   end
+
+  it "does not return deleted petitions" do
+    petition = create(:petition, deleted: true)
+    stats = PetitionStatisticsBuilder.new.all_since_and_ordered(nil, "petition_title", :asc)
+    stats.size.should == 0
+  end
 end
