@@ -10,6 +10,19 @@ describe Petition do
   its(:title) { should_not start_or_end_with_whitespace }
   its(:experiments) { should_not be_nil }
 
+  describe 'not_deleted' do
+    it 'returns petitions that have not been deleted' do
+      petition1 = create(:petition, :deleted => false)
+      petition2 = create(:petition, :deleted => nil)
+      Petition.not_deleted.should eq [petition1, petition2]
+    end
+
+    it 'does not return deleted petitions' do
+      petition = create(:petition, :deleted => true)
+      Petition.not_deleted.should be_empty
+    end
+  end
+
   describe '#image_urls' do
     let(:image) { build :petition_image, :url => 'www.img.com' }
     before { petition.petition_images << image }

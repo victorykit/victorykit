@@ -19,10 +19,16 @@ describe PetitionsController do
   end
 
   describe "GET index" do
-    it "assigns all petitions as @petitions" do
+    it "assigns all non-deleted petitions as @petitions" do
       petition = create(:petition)
       get :index, {}, valid_admin_session
       assigns(:petitions).should eq([petition])
+    end
+
+    it "does not assign deleted petitions as @petitions" do
+      petition = create(:petition, deleted: true)
+      get :index, {}, valid_admin_session
+      assigns(:petitions).should be_empty
     end
 
     let(:action){ get :index }
@@ -76,6 +82,13 @@ describe PetitionsController do
       it "sets facebook ref hash to nil" do
         get :show, {:id => petition.id}
         assigns(:current_member_hash).should be_nil
+      end
+    end
+
+    context 'for deleted petition' do
+      it "does not find the petition" do
+        deleted_petition = create(:petition, deleted: true)
+        lambda { get :show, {id: deleted_petition.id} }.should raise_error
       end
     end
 
@@ -199,9 +212,17 @@ describe PetitionsController do
     let(:petition){ create(:petition) }
     let(:action){ get :edit, {id: petition} }
     it_behaves_like "a user with edit permissions resource page"
+
     it "assigns the requested petition as @petition" do
       get :edit, {:id => petition.to_param}, valid_session
       assigns(:petition).should eq(petition)
+    end
+
+    context 'for deleted petition' do
+      it "does not find the petition" do
+        deleted_petition = create(:petition, deleted: true)
+        lambda { get :edit, {id: deleted_petition.id}, valid_session }.should raise_error
+      end
     end
   end
 
@@ -280,6 +301,15 @@ describe PetitionsController do
 
       it "re-renders the 'edit' template" do
         response.should render_template("edit")
+      end
+    end
+
+    context "for deleted petition" do
+      it "does not find the petition" do
+        deleted_petition = create(:petition, deleted: true)
+        put :update, {id: deleted_petition.id, petition: {title: nil}}
+        assigns(:petition).should be_nil
+        response.should_not be_success
       end
     end
 

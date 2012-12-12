@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(:version => 20121207215431) do
     t.boolean  "to_send",     :default => false
     t.string   "ip_address"
     t.string   "location"
+    t.boolean  "deleted"
   end
 
   create_table "referrals", :force => true do |t|

@@ -41,6 +41,8 @@ class Petition < ActiveRecord::Base
     :reject_if => lambda { |a| a[:short_summary].blank? }, 
     :allow_destroy => true
 
+  scope :not_deleted, where('deleted is not true')
+
   def has_edit_permissions(current_user)
     return false if current_user.nil?
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
