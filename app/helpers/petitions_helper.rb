@@ -80,8 +80,17 @@ module PetitionsHelper
 
   def privacy_text
     return 'original' if browser.mobile?
-    spin!('change privacy policy text', :signature,
-      ['tooltip', 'short', 'original', 'long'])
+    measure! 'change privacy policy text 2', :signature, [
+      'tooltip',
+      'short',
+      'short_never-share_just-permission',
+      'short_just-permission',
+      'short_never-share',
+      'short_our-campaigns',
+      'short_never-share_our-campaigns',
+      'original',
+      'long'
+    ]
   end
 
   def privacy_policy_position_and_color
