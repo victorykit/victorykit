@@ -244,30 +244,6 @@ th, td .numeric {
   > div {
     margin: 5px 15px;
   }
-  &.yellow-bordered, &.yellow-unbordered {
-    background: #FFF8DC;
-    &.yellow-bordered {
-      border: 1px solid #FFE303;
-    }
-  }
-  &.green-bordered, &.green-unbordered {
-    background: #f1faf1;
-    &.green-bordered {
-      border: 1px solid #C5E3BF;
-    }
-  }
-  &.blue-bordered, &.blue-unbordered {
-    background: #f1f5fa;
-    &.blue-bordered {
-      border: 1px solid #dfe7f1;
-    }
-  }
-  &.grey-bordered, &.grey-unbordered {
-    background: #f6f6f6;
-    &.grey-bordered {
-      border: 1px solid #ececec;
-    }
-  }
   &.red-bordered, &.red-unbordered {
     background: #fdf6f6;
     &.red-bordered {

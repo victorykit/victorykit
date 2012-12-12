@@ -73,16 +73,8 @@ module PetitionsHelper
   end
 
   def progress_box_aesthetic
-    spin! 'change background and border of progress box', :signature, [
-      'yellow-unbordered',
-      'blue-unbordered',
-      'green-unbordered',
-      'grey-unbordered',
+    spin! 'toggle border of progress box', :signature, [
       'red-unbordered',
-      'yellow-bordered',
-      'blue-bordered',
-      'green-bordered',
-      'grey-bordered',
       'red-bordered'
     ]
   end
@@ -106,7 +98,7 @@ module PetitionsHelper
 
   def privacy_text
     return 'original' if browser.mobile?
-    spin!('change privacy policy text', :signature, 
+    spin!('change privacy policy text', :signature,
       ['tooltip', 'short', 'original', 'long'])
   end
 
