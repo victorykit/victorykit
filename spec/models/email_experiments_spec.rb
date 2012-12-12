@@ -58,21 +58,6 @@ describe EmailExperiments do
     end
   end
 
-  context "button color for sign-this-petition link" do
-    it "should spin and return selected button color" do
-      @experiments.should_receive(:super_spin!).with("button color for sign-this-petition link", :signature, ["#990000", "#308014"], anything()).and_return("#308014")
-      @experiments.button_color_for_petition_link.should == "#308014"
-    end
-  end
-
-  context "from address" do
-    it "should spin and return selected address" do
-      @experiments.should_receive(:super_spin!).with("from address", :signature, ["Melanie Jones <info@watchdog.net>", "Melanie J. Watchdog.net <info@watchdog.net>"], anything()).and_return("Melanie Jones <info@watchdog.net>")
-      @experiments.from_address.should == "Melanie Jones <info@watchdog.net>"
-    end
-  end
-
-
   context "win" do
     it "should win for all its trials" do
       test_name = "petition #{@petition.id} email title"

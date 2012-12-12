@@ -7,12 +7,6 @@ describe ScheduledMailer do
   def stub_experiment_values
     EmailExperiments.any_instance.stub(:subject).and_return("some subject")
     EmailExperiments.any_instance.stub(:image_url).and_return("petition image url")
-    EmailExperiments.any_instance.stub(:box_location).and_return("top")
-    EmailExperiments.any_instance.stub(:show_button_instead_of_link).and_return(true)
-    EmailExperiments.any_instance.stub(:show_facebook_share_button).and_return(true)
-    EmailExperiments.any_instance.stub(:button_color_for_petition_link).and_return("#308014")
-    EmailExperiments.any_instance.stub(:button_color_for_share_petition_link).and_return("#999999")
-    EmailExperiments.any_instance.stub(:from_address).and_return("Melanie Jones <info@watchdog.net>")
   end
 
   describe "sending an email" do
