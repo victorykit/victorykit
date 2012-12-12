@@ -6,11 +6,11 @@ class PetitionsController < ApplicationController
   before_filter :require_admin, only: :index
 
   def index
-    @petitions = Petition.order('created_at DESC').limit(50)
+    @petitions = Petition.not_deleted.order('created_at DESC').limit(50)
   end
 
   def show
-    @petition = Petition.find(params[:id])
+    @petition = Petition.not_deleted.find(params[:id])
     @sigcount = @petition.sigcount
 
     @referring_url = request.original_url
@@ -59,7 +59,7 @@ class PetitionsController < ApplicationController
 
   def edit
     @states, @countries = hash_states_and_countries
-    @petition = Petition.find(params[:id])
+    @petition = Petition.not_deleted.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
   end
 
@@ -79,7 +79,7 @@ class PetitionsController < ApplicationController
   end
 
   def update
-    @petition = Petition.find(params[:id])
+    @petition = Petition.not_deleted.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
     compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
