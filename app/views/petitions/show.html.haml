@@ -30,7 +30,7 @@
       .through_site
         = form_tag [@petition, @signature] do |form|
           = simple_fields_for :signature, @signature do |f|
-            = f.input :first_name, :hint => false
+            = f.input :first_name, :hint => false, :autofocus => true
             = f.input :last_name, :hint => false
             = f.input :email
             = hidden_field_tag :referer_ref_code, @referer_ref_code
