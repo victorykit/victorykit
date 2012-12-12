@@ -42,21 +42,7 @@ class PetitionsController < ApplicationController
     @query = request.query_parameters
     track_petition_page_load
 
-    @progress_location = progress_locations
-    @signatures_progress_aesthetic = signatures_progress_aesthetics
     placebo_test
-  end
-
-  def progress_locations
-    if (@petition_layout == 'classic') && !browser.mobile? && !browser.ie?
-      spin! 'toggle position and rendering of progress bar 2', :signature, ['hide_progress', 'header_progress', 'sidebar_progress']
-    end
-  end
-
-  def signatures_progress_aesthetics
-    if (@progress_location == 'sidebar_progress') or (@progress_location == 'header_progress')
-      spin! 'signatures progress bar aesthetic', :signature, ['bootstrap', 'custom']
-    end
   end
 
   def again
