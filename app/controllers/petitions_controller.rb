@@ -3,7 +3,7 @@ class PetitionsController < ApplicationController
 
   before_filter :require_login, except: [:show, :again]
   before_filter :track_visit, only: :show
-  before_filter :require_admin, only: :index
+  before_filter :require_admin, only: [:index, :destroy]
 
   def index
     @petitions = Petition.not_deleted.order('created_at DESC').limit(50)
@@ -90,6 +90,12 @@ class PetitionsController < ApplicationController
       @states, @countries = hash_states_and_countries
       refresh "edit"
     end
+  end
+
+  def destroy
+    petition = Petition.not_deleted.find(params[:id])
+    petition.update_attribute(:deleted, true)
+    redirect_to petitions_path, notice: 'Petition was successfully deleted.'
   end
 
   def send_email_preview
