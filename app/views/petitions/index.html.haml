@@ -16,7 +16,9 @@
             - else
               %i.icon-remove
               This petition is not featured.
-              = link_to('(Change)', edit_petition_path(petition))
+              = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
+                %i.icon-edit
+                Edit
         .signature.span2
           .btn-toolbar
             .btn-group
