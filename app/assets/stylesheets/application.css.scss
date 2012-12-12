@@ -180,13 +180,16 @@ th, td .numeric {
 }
 
 @mixin button($color1, $color2) {
+  color: white;
+  font-weight: 400;
+  padding: 4px 10px;
   background: $color1; /* Old browsers */
-  background: -moz-linear-gradient(90deg,  $color1 0%, $color2 100%); /* FF3.6+ */
+  background: -moz-linear-gradient(1deg,  $color1 0%, $color2 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(90deg,  $color1 0%,$color2 100%); /* IE10+ */
-  background: linear-gradient(90deg,  $color1 0%,$color2 100%); /* W3C */
+  background: -webkit-linear-gradient(1deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(1deg,  $color1 0%,$color2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(1deg,  $color1 0%,$color2 100%); /* IE10+ */
+  background: linear-gradient(1deg,  $color1 0%,$color2 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
   border: {
     width: 1px;
@@ -195,49 +198,16 @@ th, td .numeric {
   }
   &:hover {
     background: $color2; /* Old browsers */
-    background: -moz-linear-gradient(90deg,  $color2 0%, $color1 100%); /* FF3.6+ */
+    background: -moz-linear-gradient(1deg,  $color2 0%, $color1 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, $color2), color-stop(100%,$color1)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(90deg,  $color2 0%,$color1 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(90deg,  $color2 0%,$color1 100%); /* IE10+ */
-    background: linear-gradient(90deg,  $color2 0%,$color1 100%); /* W3C */
+    background: -webkit-linear-gradient(1deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(1deg,  $color2 0%,$color1 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(1deg,  $color2 0%,$color1 100%); /* IE10+ */
+    background: linear-gradient(1deg,  $color2 0%,$color1 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
   }
 }
 
-.btn.btn-red0_flat {
-  @include button(#ff0000, #ff0000);
-}
-.btn.btn-red1 {
-  @include button(#cd1100, #ff0000);
-}
-.btn.btn-red2 {
-  @include button(#CD0000, #E3170D);
-}
-.btn.btn-red3 {
-  @include button(#B22222, #CD2626);
-}
-.btn.btn-red4_with-gradient {
-  @include button(#b11c1c, #CC3232);
-}
-.btn.btn-red5 {
-  @include button(#bd3c2d, #ea6156);
-}
-.btn.btn-red1_flat {
-  @include button(#cd1100, #cd1100);
-}
-.btn.btn-red2_flat {
-  @include button(#CD0000, #CD0000);
-}
-.btn.btn-red3_flat {
-  @include button(#B22222, #B22222);
-}
-.btn.btn-red4_flat {
-  @include button(#CD3333, #CD3333);
-}
-.btn.btn-red5_flat {
-  @include button(#bd3c2d, #bd3c2d);
-}
 .progress_box {
   padding: 5px 0;
   margin-bottom: 10px;
@@ -262,7 +232,7 @@ th, td .numeric {
 }
 @mixin progressbar($fluid, $fluid_highlight) {
   height: 20px;
-  margin: 5px 0 10px;
+  margin: 5px 13px 10px;
   border-radius: 11px;
   -moz-box-shadow: inset 0 0 5px #ddd;
   -webkit-box-shadow: inset 0 0 5px #ddd;
@@ -287,14 +257,29 @@ th, td .numeric {
     border-radius: 11px;
   }
 }
-.progress_bright {
-  @include progressbar(#E3170D, #ff0000);
+.bright_red {
+  .progressbar {
+    @include progressbar(#E3170D, #ff0000);
+  }
+  .button {
+    @include button(#E3170D, #ff0000);
+  }
 }
-.progress_dull {
-  @include progressbar(#C67171, #cd9b9b);
+.dull_red {
+  .progressbar {
+    @include progressbar(#C67171, #cd9b9b);
+  }
+  .button {
+    @include button(#C67171, #cd9b9b);
+  }
 }
-.progress_dark {
-  @include progressbar(#8B1A1A, #CC1100);
+.dark_red {
+  .progressbar {
+    @include progressbar(#8B1A1A, #CC1100);
+  }
+  .button {
+    @include button(#8B1A1A, #CC1100);
+  }
 }
 
 @media (min-width: 250px) and (max-width: 767px) {

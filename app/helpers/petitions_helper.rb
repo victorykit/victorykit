@@ -66,33 +66,15 @@ module PetitionsHelper
     spin! 'learn more button color', :signature, ["grey", "blue", "link"]
   end
 
-  def progress_bar_color
-    measure!('change progress bar brightness above sign box '+
-      '(number goes bright to dull, 0 being brightest) 2',
-      :signature, ['progress_bright', 'progress_dull', 'progress_dark'])
+  def accent_red
+    measure!('toggle red for buttons and progress bar',
+      :signature, ['bright_red', 'dull_red', 'dark_red'])
   end
 
-  def progress_box_aesthetic
+  def progress_box_border
     spin! 'toggle border of progress box', :signature, [
       'red-unbordered',
       'red-bordered'
-    ]
-  end
-
-  def sign_button_color
-    measure! 'change button brightness and gradient use for sign button (number goes bright to dull, 0 being brightest, flat indicates no gradient) 2', :signature, [
-      'btn-red1',
-      'btn-red2',
-      'btn-red3',
-      'btn-red4_with-gradient',
-      'btn-red5',
-      'btn-red0_flat',
-      'btn-red1_flat',
-      'btn-red2_flat',
-      'btn-red3_flat',
-      'btn-red4_flat',
-      'btn-red5_flat',
-      'btn-danger'
     ]
   end
 
