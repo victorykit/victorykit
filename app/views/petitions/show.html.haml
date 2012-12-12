@@ -14,12 +14,12 @@
   - else
     %h1.petition_title= @petition.title
 
-  .sidebar
+  .sidebar{ :class => accent_red }
     - if !@was_signed and !browser.mobile?
-      .progress_box{ :class => progress_box_aesthetic }
+      .progress_box{ :class => progress_box_border }
         .progress_text.plain
           Step 1 of 3 complete...
-        .progressbar{class: progress_bar_color}
+        .progressbar
           .fluid
         .progress_text
           You've made it this far.  Please sign!
@@ -38,10 +38,10 @@
             = hidden_field_tag :signer_ref_code, @signer_code.code
             #hint.alert.alert-error
             - if sign_petition_option == 'sign_and_share'
-              = f.button :submit, :id => 'sign_petition_and_share', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign and Share'
+              = f.button :submit, :id => 'sign_petition_and_share', :class => "button", :value => 'Sign and Share'
               = f.button :submit, :id => 'sign_petition', :class => 'btn no_share', :value => 'Sign'
             - else
-              = f.button :submit, :id => 'sign_petition', :class => "btn btn-primary #{sign_button_color}", :value => 'Sign!'
+              = f.button :submit, :id => 'sign_petition', :class => "button", :value => 'Sign!'
         - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
           .privacypolicy{ :class => privacy_policy_position_and_color }
             = render :partial => "privacy"
@@ -62,8 +62,8 @@
   - if @progress_location == 'header_progress'
     .header_progress= render :partial => "fblike_progress"
 
-  .mobile_signup_button
-    = link_to('Sign this Petition!', '', :class => "btn btn-primary #{sign_button_color}")
+  .mobile_signup_button{ :class => accent_red }
+    = link_to('Sign this Petition!', '', :class => "button")
 
   .petition_view_toggle
     - if learn_more_button_color == "grey"
@@ -81,8 +81,8 @@
       #image
         %img{ src: @petition.petition_images.first.public_url }
     .description= petitiontext.html_safe
-    .mobile_signup_button
-      = link_to('Sign this Petition!', '', :class => 'mobile_sign btn btn-primary btn-danger', :style => ( @was_signed ? 'display:none' : ''))
+    .mobile_signup_button{ :class => accent_red }
+      = link_to('Sign this Petition!', '', :class => 'mobile_sign button', :style => ( @was_signed ? 'display:none' : ''))
     .clearfix
 
   - content_for(:meta_tags) do
@@ -121,6 +121,6 @@
         Hey &mdash; we need those permissions in order to share!
       %h4
         Sorry, but Facebook won't let us share this unless you grant us those permissions.  We promise we won't abuse them for anything else.
-      %p
-        %a.btn.btn-primary.btn-large.share#try-again{ :class => sign_button_color }
+      %p{ :class => accent_red }
+        %a.btn.btn-primary.button.btn-large.share#try-again
           Try again!
