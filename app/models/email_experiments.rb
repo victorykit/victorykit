@@ -16,26 +16,6 @@ class EmailExperiments
     url ? PetitionImage.find_by_url(url).public_url : url
   end
 
-  def button_color_for_petition_link
-    spin! "button color for sign-this-petition link", :signature, button_color_options
-  end
-
-  def button_color_for_share_petition_link
-    spin! "button color for share-this-petition link", :signature, share_button_color_options
-  end
-
-  def show_button_instead_of_link
-    spin! "show button instead of link", :signature
-  end
-
-  def show_facebook_share_button
-    spin!("show facebook share button", :signature, display_options) == "show"
-  end
-
-  def from_address
-    spin! "from address", :signature, from_address_options
-  end
-
   def petition_short_summary
     short_summaries = short_summary_options
     spin!(summary_experiment_key, :signature, short_summaries) if short_summaries.any?
@@ -74,22 +54,6 @@ class EmailExperiments
 
   def summary_experiment_key
     "petition #{@email.petition.id} email short summary"
-  end
-  
-  def display_options
-    ["show", "hide"]
-  end
-
-  def button_color_options
-    ["#990000", "#308014"]
-  end
-
-  def share_button_color_options
-    ["#999999"]
-  end
-
-  def from_address_options
-    [Settings.email.from_address, Settings.email.from_address2]
   end
 
   # persisted experiments templates

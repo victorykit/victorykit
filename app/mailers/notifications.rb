@@ -16,9 +16,7 @@ class Notifications < ActionMailer::Base
     experiments = EmailExperiments.new(email)
     @image_url = experiments.best_image(petition)
     @short_summary = experiments.best_summary(petition)
-    if experiments.show_facebook_share_button
-      @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{email.to_hash}"
-    end
+    @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{petition_url(signature.petition)}?mail_share_ref=#{email.to_hash}"
 
     begin
       mail({

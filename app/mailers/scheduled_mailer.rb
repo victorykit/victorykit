@@ -57,18 +57,14 @@ class ScheduledMailer < ActionMailer::Base
 
     @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new, n: email_hash)
     @tracking_url = new_pixel_tracking_url(n: email_hash)
-    if email_experiment.show_facebook_share_button
-      @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{raw_petition_link}?mail_share_ref=#{email_hash}"
-    end
+    @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{raw_petition_link}?mail_share_ref=#{email_hash}"
     @image_url = email_experiment.image_url
     @short_summary = email_experiment.petition_short_summary
-    @button_color = "background:#{email_experiment.button_color_for_petition_link};"
-    @share_button_color = "background:#{email_experiment.button_color_for_share_petition_link};" #TODO: different colors for share button?
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
 
     mail = mail(
       subject: email_experiment.subject,
-      from: email_experiment.from_address,
+      from: Settings.email.from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
   end

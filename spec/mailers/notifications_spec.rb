@@ -25,10 +25,6 @@ describe Notifications do
       SignatureEmail.last
     end
 
-    before do
-      EmailExperiments.any_instance.stub(:show_facebook_share_button).and_return(true)
-    end
-
     subject { mail }
     its(:subject) { should match(/#{signature.petition.title}/) }
     its(:to) { should eq([signature.email]) }
