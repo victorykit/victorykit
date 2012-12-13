@@ -6,9 +6,10 @@ class Donation < ActiveRecord::Base
   validates_presence_of :petition, :member, :referral
 
   def self.confirm_payment(amount, hash)
-    donator = Member.find_by_hash(hash)
-    donation = Donation.where(:member_id => donator, :amount => nil).last
+    donor = Member.find_by_hash(hash)
+    donation = Donation.where(:member_id => donor, :amount => nil).last
     donation.update_attributes(:amount => amount)
+
   end
 
 end
