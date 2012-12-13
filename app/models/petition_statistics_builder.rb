@@ -21,7 +21,7 @@ class PetitionStatisticsBuilder
     signatures = Signature.count(:conditions => ['created_at >= ?', date], :group => 'petition_id')
     new_members = Signature.count(:conditions => ['created_at >= ? and created_member is true', date], :group => 'petition_id')
 
-    Petition.not_deleted.map do |p|
+    Petition.all.map do |p|
       local_stats = OpenStruct.new(
         sent_emails: sent_emails[p.id] || 0, 
         opened_emails: opened_emails[p.id] || 0, 
