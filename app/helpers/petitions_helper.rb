@@ -71,6 +71,14 @@ module PetitionsHelper
       :signature, ['bright_red', 'dull_red', 'dark_red'])
   end
 
+  def x_of_y_styling
+    spin! 'styling of x signatures of y', :signature, [
+      'plain',
+      'bold',
+      'large_and_bold'
+    ]
+  end
+
   def progress_box_border
     spin! 'toggle border of progress box', :signature, [
       'red-unbordered',
@@ -98,14 +106,6 @@ module PetitionsHelper
     spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ['inside_ccc', 'inside_aaa', 'inside_888', 'outside_ccc', 'outside_aaa', 'outside_888']
   end
 
-  def progress_option
-    spin! 'test different messaging on progress bar', :signature, progress_options_config.keys
-  end
-
-  def progress
-    progress_options_config[progress_option] || {text: '', classes: ''}
-  end
-
   def sign_petition_option
     #spin! 'test different ways to sign and share', :share, ['just_sign', 'sign_and_share']
     'just_sign'
@@ -119,51 +119,6 @@ module PetitionsHelper
 
   def social_media_config
     Rails.configuration.social_media
-  end
-
-  def progress_options_config
-    total = number_with_delimiter(@sigcount, delimiter: ",")
-    goal  = number_with_delimiter(counter_size(@sigcount), delimiter: ",")
-    reach = number_with_delimiter(counter_size(@sigcount)-@sigcount, delimiter: ",")
-
-    signatures = "signature".pluralize(@sigcount)
-    supporters = @sigcount == 1 ? "supporter has" : "supporters have"
-    goal_supporters = counter_size(@sigcount) == 1 ? "supporter has" : "supporters have"
-
-    {
-      'x_signatures_of_y' => {
-        text: "#{total} #{signatures}<br>of #{goal}",
-        classes: 'highlight_text'
-      },
-      'x_y_to_next_goal' => {
-        text: "#{total} #{signatures}<br>Only #{reach} more to reach our next goal!",
-        classes: 'highlight_text break'
-      },
-      'x_y_to_goal' => {
-        text: "#{total} #{signatures}<br>Only #{reach} more to reach our goal!",
-        classes: 'highlight_text break'
-      },
-      'x_y_to_go_of_z' => {
-        text: "#{total} #{signatures}<br>Only #{reach} more to reach our goal of #{goal}!",
-        classes: 'highlight_text break'
-      },
-      'x_supporters_y_to_next_goal' => {
-        text: "#{total} #{supporters} signed<br>Only #{reach} more to reach our next goal!",
-        classes: 'highlight_text break'
-      },
-      'x_supporters_y_to_goal' => {
-        text: "#{total} #{supporters} signed<br>Only #{reach} more to reach our goal!",
-        classes: 'highlight_text break'
-      },
-      'x_supporters_help_us' => {
-        text: "#{total} #{supporters} signed<br>Sign now to help us reach our goal of #{goal}!",
-        classes: 'highlight_text break'
-      },
-      'x_of_y_supporters' => {
-        text: "#{total} of #{goal} #{goal_supporters} signed",
-        classes: ''
-      }
-    }
   end
 
 end

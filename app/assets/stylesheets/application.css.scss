@@ -264,6 +264,9 @@ th, td .numeric {
   .button {
     @include button(#E3170D, #ff0000);
   }
+  .numbers .large_and_bold .signatures {
+    color: #E3170D;
+  }
 }
 .dull_red {
   .progressbar {
@@ -272,6 +275,9 @@ th, td .numeric {
   .button {
     @include button(#C67171, #cd9b9b);
   }
+  .numbers .large_and_bold .signatures {
+    color: #C67171;
+  }
 }
 .dark_red {
   .progressbar {
@@ -279,6 +285,9 @@ th, td .numeric {
   }
   .button {
     @include button(#8B1A1A, #CC1100);
+  }
+  .numbers .large_and_bold .signatures {
+    color: #8B1A1A;
   }
 }
 

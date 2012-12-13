@@ -154,38 +154,4 @@ describe PetitionsHelper do
     end
   end
 
-  describe '#progress_option' do
-    let(:exp) { 'test different messaging on progress bar' }
-    let(:goal) { :signature }
-    let(:options) { ['foo', 'bar'] }
-    let(:config) { { 'foo' => {}, 'bar' => {} } }
-
-    before { helper.stub!(:progress_options_config).and_return config }
-
-    it 'should spin for an option' do
-      helper.should_receive(:spin!).with(exp, goal, options)
-      helper.progress_option
-    end
-  end
-
-  describe '#progress' do
-    let(:config) {{
-      'foo' => { :text => 'Sign it dude!', :classes => 'highlight' },
-      'bar' => { :text => 'Please, sign!', :classes => 'downfade' }
-    }}
-
-    before { helper.stub!(:progress_options_config).and_return config }
-
-    context 'for successful spin' do
-      before { helper.stub!(:progress_option).and_return 'bar' }
-      specify { helper.progress[:text].should == 'Please, sign!' }
-      specify { helper.progress[:classes].should == 'downfade' }
-    end
-
-    context 'for failed spin' do
-      before { helper.stub!(:progress_option).and_return false }
-      specify { helper.progress[:text].should be_empty }
-      specify { helper.progress[:classes].should be_empty }
-    end
-  end
 end

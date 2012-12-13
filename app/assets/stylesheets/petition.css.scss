@@ -42,6 +42,17 @@
         .numbers {
           text-align: left;
           color: black;
+          .bold, .large_and_bold {
+            .signatures, .goal {
+              font-weight: bold;
+            }
+          }
+          .large_and_bold {
+            .signatures {
+              font-size: 200%;
+              font-style: italic;
+            }
+          }
         }
       }
     }
