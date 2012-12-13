@@ -5,7 +5,9 @@ class DowncaseRouteMiddleware
   end
 
   def call(env)
-    env['PATH_INFO'] = env['PATH_INFO'].downcase
+    unless env['PATH_INFO'].match(/^\/assets\/.+/)
+      env['PATH_INFO'] = env['PATH_INFO'].downcase
+    end
     @app.call(env)
   end
 
