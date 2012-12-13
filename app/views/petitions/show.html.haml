@@ -45,22 +45,16 @@
         - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
           .privacypolicy{ :class => privacy_policy_position_and_color }
             = render :partial => "privacy"
-          - if @progress_location == "sidebar_progress"
-            = render :partial => "fblike_progress"
 
     - if !@was_signed && (privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888")
       .privacypolicy{ :class => privacy_policy_position_and_color }
         = render :partial => "privacy"
-      - if @progress_location == "sidebar_progress"
-        = render :partial => "fblike_progress"
+    = render :partial => "fblike_progress"
     #thanks-for-signing-message
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
     - if @was_signed
       = button_to 'Does someone else want to sign? Click here.', again_petition_path(@petition, @query), id: 'sign-again', method: :post
-
-  - if @progress_location == 'header_progress'
-    .header_progress= render :partial => "fblike_progress"
 
   .mobile_signup_button{ :class => accent_red }
     = link_to('Sign this Petition!', '', :class => "button")
