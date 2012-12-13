@@ -105,6 +105,12 @@
           Total net new members:
         %td.numeric
           = number_with_delimiter heartbeat[:new_members]
+    %table.table.table-condensed.bordered-table.table-striped
+      %tr
+        %td
+          Avg donations per day (last 7 days)
+        %td
+          = "$#{average_donations_per_day.round}"
 
   #main_content{style: "margin-left:275px;padding-left:25px"}
     #charts
