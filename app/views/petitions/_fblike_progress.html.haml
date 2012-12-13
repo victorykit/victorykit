@@ -6,11 +6,6 @@
     .numbers
       %div{ :class => progress[:classes] }
         = raw progress[:text]
-    - if @signatures_progress_aesthetic == "bootstrap"
-      .progress
-        .bar{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-          .clearfix
-    - if @signatures_progress_aesthetic == "custom"
-      .progressbar{class: progress_bar_color}
-        .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-          .clearfix
+    .progressbar
+      .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
+        .clearfix
