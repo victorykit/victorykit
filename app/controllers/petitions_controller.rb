@@ -41,8 +41,6 @@ class PetitionsController < ApplicationController
     @facebook_friend_ids = facebook_friends @member
     @query = request.query_parameters
     track_petition_page_load
-
-    placebo_test
   end
 
   def again
@@ -110,10 +108,6 @@ class PetitionsController < ApplicationController
   end
 
   private
-
-  def placebo_test
-    spin! "placebo test", :signature
-  end
 
   def hash_states_and_countries
     us = Country.coded 'US'
