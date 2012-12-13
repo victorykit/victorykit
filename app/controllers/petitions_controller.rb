@@ -6,7 +6,7 @@ class PetitionsController < ApplicationController
   before_filter :require_admin, only: [:index, :destroy]
 
   def index
-    @petitions = Petition.not_deleted.order('created_at DESC').limit(50)
+    @petitions = Petition.not_deleted.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
   end
 
   def show

@@ -2,6 +2,7 @@
   %h1
     View all petitions
 
+  = will_paginate @petitions, :container => false
   .petitionlist
     - @petitions.each do |petition|
       .petition
@@ -29,3 +30,4 @@
                 %i.icon-edit
               = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
                 %i.icon-trash.icon-white
+  = will_paginate @petitions, :container => false
