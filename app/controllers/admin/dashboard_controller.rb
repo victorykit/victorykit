@@ -156,8 +156,9 @@ target=color(lineWidth(#{main}, 2), 'blue')&\
 #{thresholds.join('&')}&\
 from=-#{from}&\
 bgcolor=white&fgcolor=black&\
-graphOnly=true&\
-height=50&width=600&\
+graphOnly=false&\
+height=180&width=600&\
+hideLegend=true&\
 format=svg
 url
 u.strip
