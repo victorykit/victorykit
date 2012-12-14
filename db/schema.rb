@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207215431) do
+ActiveRecord::Schema.define(:version => 20121214220106) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(:version => 20121207215431) do
     t.string   "ip_address"
     t.string   "location"
     t.boolean  "deleted"
+    t.datetime "featured_on"
   end
 
   create_table "referrals", :force => true do |t|
