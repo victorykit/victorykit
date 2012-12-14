@@ -7,6 +7,9 @@ class PetitionsController < ApplicationController
 
   def index
     @petitions = Petition.not_deleted.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
+    if params[:featured].present?
+      @petitions = Petition.not_deleted.recently_featured.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
+    end
   end
 
   def show
@@ -66,6 +69,7 @@ class PetitionsController < ApplicationController
     @petition = Petition.new(params[:petition], as: role)
     @petition.owner = current_user
     @petition.ip_address = connecting_ip
+    @petition.featured_on = Time.now if @petition.to_send
     if @petition.save
       @petition.update_petition_version
       @petition.petition_images.each {|i| PetitionImageDownloader.download(i) }
@@ -79,6 +83,8 @@ class PetitionsController < ApplicationController
   def update
     @petition = Petition.not_deleted.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
+    was_featured = @petition.to_send
+    @petition.featured_on = Time.now if params[:petition][:to_send] && !was_featured
     compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
       @petition.update_petition_version

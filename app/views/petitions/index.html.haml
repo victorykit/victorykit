@@ -1,8 +1,14 @@
 .page_content
   %h1
-    View all petitions
+    View petitions
 
+  = link_to 'All', petitions_path
+  |
+  = link_to 'Recently featured', petitions_path(:featured => 'true')
+  %br
+  %br
   .pagination_gem= will_paginate @petitions, :container => false
+  %br
   .petitionlist
     - @petitions.each do |petition|
       .petition
@@ -14,6 +20,9 @@
             - if petition.to_send?
               %i.icon-ok
               %b This petition is featured.
+              - if petition.featured_on.present?
+                Since
+                = time_ago_in_words petition.featured_on
             - else
               %i.icon-remove
               This petition is not featured.
