@@ -9,7 +9,7 @@
           #{number_with_delimiter(@sigcount, delimiter: ",")}
         #{"signature".pluralize(@sigcount)} of
         %span.goal
-          #{number_with_delimiter(counter_size(@sigcount)-@sigcount, delimiter: ",")}
+          #{number_with_delimiter(counter_size(@sigcount), delimiter: ",")}
 
     .progressbar
       .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
