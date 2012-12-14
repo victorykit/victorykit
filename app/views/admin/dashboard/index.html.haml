@@ -108,6 +108,11 @@
     %table.table.table-condensed.bordered-table.table-striped
       %tr
         %td
+          Total donations
+        %td
+          = "$#{total_donations}"
+      %tr
+        %td
           Avg donations per day (last 7 days)
         %td
           = "$#{average_donations_per_day.round}"

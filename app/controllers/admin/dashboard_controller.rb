@@ -8,7 +8,8 @@ class Admin::DashboardController < ApplicationController
     :nps_chart, :emails_sent_chart, :emails_opened_chart, :emails_clicked_chart, :unsubscribes_chart,
     :facebook_actions_chart, :facebook_referrals_chart, :facebook_action_per_signature_chart,
     :signatures_from_email_chart, :petition_page_load_chart, :signature_per_petition_page_load_chart,
-    :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold, :average_donations_per_day
+    :timeframe, :extremes_count, :extremes_threshold, :nps_thresholds, :map_to_threshold, 
+    :total_donations, :average_donations_per_day
 
   def index
     verify
@@ -38,6 +39,10 @@ class Admin::DashboardController < ApplicationController
 
   def average_donations_per_day
     Donation.where("created_at BETWEEN now() - interval'8 days' AND now() - interval'1 day'").group('DATE(created_at)').sum('amount').map { |d| d[1] }.inject(0.0) { |sum, n| sum + n } / 7
+  end
+
+  def total_donations
+    Donation.sum('amount')
   end
 
   def nps_summary

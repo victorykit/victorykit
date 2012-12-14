@@ -9,5 +9,6 @@ describe Admin::DashboardController do
     create(:donation, amount: 10.0, created_at: 8.days.ago)
   end
 
+  its(:total_donations) {should eq 70.0}
   its(:average_donations_per_day) {should eq 10.0}
 end
