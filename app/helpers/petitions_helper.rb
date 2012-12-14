@@ -72,7 +72,7 @@ module PetitionsHelper
   end
 
   def x_of_y_styling
-    spin! 'styling of x signatures of y', :signature, [
+    measure! 'styling of x signatures of y (measure)', :signature, [
       'plain',
       'bold',
       'large_and_bold'
