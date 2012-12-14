@@ -86,3 +86,26 @@ body.admin {
   }
   border-top: 80px solid black;
 }
+.pagination_gem {
+  font-family: lucida grande;
+  * {
+    padding: 5px 9px;
+    background: #efefef;
+    border-radius: 15px;
+  }
+  a:hover {
+    background: #ededed;
+  }
+  .disabled {
+    color: #888;
+  }
+  .current {
+    background: #999;
+    color: white;
+    font-weight: bold;
+    font-style: normal;
+  }
+  .gap {
+    background: none;
+  }
+}
