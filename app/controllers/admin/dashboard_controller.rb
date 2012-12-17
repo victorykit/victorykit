@@ -117,8 +117,10 @@ class Admin::DashboardController < ApplicationController
   end
 
   def signature_per_petition_page_load_chart
-    thresholds = [ThresholdLine.good(0.75), ThresholdLine.bad(0.5)]
-    strip_chart timeframe.value, series_as_petition_load_rate("stats_counts.victorykit.signatures.count"), averaging_window, thresholds
+    #sometimes graphite screws the chart's scale, causing the graph to appear near-zero relative to the threshold numbers.
+    #removing the threshold until we have a better fix
+    #thresholds = [ThresholdLine.good(0.75), ThresholdLine.bad(0.5)]
+    strip_chart timeframe.value, series_as_petition_load_rate("stats_counts.victorykit.signatures.count"), averaging_window #, thresholds
   end
 
   def averaging_window
