@@ -1,47 +1,55 @@
 %h1 Funnel Stats
-
-#main_content{style: "margin-left:275px;padding-left:25px"}
-  #charts
-    %span
-      = link_to_self_with_param timeframe.key, timeframe.options, " | "
-      %span{style:"padding-left:350px"}
-        %span{style:"color:blue;font-weight:bold"}
-          &#x2015;
-        %span
-          current
-        %span{style:"color:#dddddd;font-weight:bold"}
-          &#x2015;
-        %span
-          prior
-    %br
-    %table
-      %tr
-        %td
-          Email Opened Per Email Sent
-          %br
-          %iframe{ src: emails_opened_chart, style: "border:none", height: "180px" }
-      %tr
-        %td
-          Email Clicked Per Email Opened
-          %br
-          %iframe{ src: emails_clicked_chart, style: "border:none", height: "180px" }
-      %tr
-        %td
-          Signature From Email Per Email Clicked
-          %br
-          %iframe{ src: signatures_from_email_chart, style: "border:none", height: "180px" }
-      %tr
-        %td
-          Facebook Action Per Signature
-          %br
-          %iframe{ src: facebook_action_per_signature_chart, style: "border:none", height: "180px" }
-      %tr
-        %td
-          Petition Page Load Not Off Email
-          %br
-          %iframe{ src: petition_page_load_chart, style: "border:none", height: "180px" }
-      %tr
-        %td
-          Signature Per Petition Page Load Not Off Email
-          %br
-          %iframe{ src: signature_per_petition_page_load_chart, style: "border:none", height: "180px" }
+#dashboard
+  #sidebar_summary{style: "float:left;width:275px" }
+    = link_to("petitions", "petitions")
+    |
+    = link_to("experiments", "experiments")
+    |
+    = link_to("statistics", "stats")
+    |
+    = link_to("dashboard", "dashboard")
+  #main_content{style: "margin-left:275px;padding-left:25px"}
+    #charts
+      %span
+        = link_to_self_with_param timeframe.key, timeframe.options, " | "
+        %span{style:"padding-left:350px"}
+          %span{style:"color:blue;font-weight:bold"}
+            &#x2015;
+          %span
+            current
+          %span{style:"color:#dddddd;font-weight:bold"}
+            &#x2015;
+          %span
+            prior
+      %br
+      %table
+        %tr
+          %td
+            Email Opened Per Email Sent
+            %br
+            %iframe{ src: emails_opened_chart, style: "border:none", height: "180px" }
+        %tr
+          %td
+            Email Clicked Per Email Opened
+            %br
+            %iframe{ src: emails_clicked_chart, style: "border:none", height: "180px" }
+        %tr
+          %td
+            Signature From Email Per Email Clicked
+            %br
+            %iframe{ src: signatures_from_email_chart, style: "border:none", height: "180px" }
+        %tr
+          %td
+            Facebook Action Per Signature
+            %br
+            %iframe{ src: facebook_action_per_signature_chart, style: "border:none", height: "180px" }
+        %tr
+          %td
+            Petition Page Load Not Off Email
+            %br
+            %iframe{ src: petition_page_load_chart, style: "border:none", height: "180px" }
+        %tr
+          %td
+            Signature Per Petition Page Load Not Off Email
+            %br
+            %iframe{ src: signature_per_petition_page_load_chart, style: "border:none", height: "180px" }
