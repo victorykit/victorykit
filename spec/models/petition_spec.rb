@@ -23,6 +23,24 @@ describe Petition do
     end
   end
 
+  describe 'recently_featured' do
+    it 'returns petitions that have have been recently featured' do
+      petition1 = create(:petition, :to_send => true, :featured_on => 1.day.ago)
+      petition2 = create(:petition, :to_send => true, :featured_on => 2.days.ago)
+      Petition.recently_featured.should eq [petition1, petition2]
+    end
+
+    it 'does not return petitions that were not recently featured' do
+      petition = create(:petition, :to_send => true, :featured_on => 10.days.ago)
+      Petition.recently_featured.should be_empty
+    end
+
+    it 'does not return petitions if none were featured' do
+      petition = create(:petition, :to_send => false)
+      Petition.recently_featured.should be_empty
+    end
+  end
+
   describe '#image_urls' do
     let(:image) { build :petition_image, :url => 'www.img.com' }
     before { petition.petition_images << image }

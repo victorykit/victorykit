@@ -83,8 +83,7 @@ class PetitionsController < ApplicationController
   def update
     @petition = Petition.not_deleted.find(params[:id])
     return render_403 unless @petition.has_edit_permissions(current_user)
-    was_featured = @petition.to_send
-    @petition.featured_on = Time.now if params[:petition][:to_send] && !was_featured
+    @petition.featured_on = Time.now if params[:petition][:to_send] && @petition.previously_not_featured
     compress_location params[:petition]
     if @petition.update_attributes(params[:petition], as: role)
       @petition.update_petition_version

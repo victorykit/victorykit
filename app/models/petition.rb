@@ -42,7 +42,11 @@ class Petition < ActiveRecord::Base
     :allow_destroy => true
 
   scope :not_deleted, where('deleted is not true')
-  scope :recently_featured, where('to_send and featured_on > ?', 1.day.ago)
+  scope :recently_featured, where('to_send and featured_on > ?', 3.days.ago)
+
+  def previously_not_featured
+    !to_send
+  end
 
   def has_edit_permissions(current_user)
     return false if current_user.nil?
