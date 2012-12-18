@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121214220106) do
+ActiveRecord::Schema.define(:version => 20121217232901) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -122,6 +122,112 @@ ActiveRecord::Schema.define(:version => 20121214220106) do
     t.boolean  "stored"
   end
 
+  create_table "petition_reports", :force => true do |t|
+    t.integer  "petition_id"
+    t.text     "petition_title"
+    t.datetime "petition_created_at"
+    t.integer  "sent_emails_count_day"
+    t.integer  "signatures_count_day"
+    t.integer  "opened_emails_count_day"
+    t.integer  "clicked_emails_count_day"
+    t.integer  "signed_from_emails_count_day"
+    t.integer  "new_members_count_day"
+    t.integer  "unsubscribes_count_day"
+    t.integer  "like_count_day"
+    t.integer  "hit_count_day"
+    t.float    "opened_emails_rate_day"
+    t.float    "clicked_emails_rate_day"
+    t.float    "signed_from_emails_rate_day"
+    t.float    "new_members_rate_day"
+    t.float    "unsubscribes_rate_day"
+    t.float    "like_rate_day"
+    t.float    "hit_rate_day"
+    t.integer  "sent_emails_count_week"
+    t.integer  "signatures_count_week"
+    t.integer  "opened_emails_count_week"
+    t.integer  "clicked_emails_count_week"
+    t.integer  "signed_from_emails_count_week"
+    t.integer  "new_members_count_week"
+    t.integer  "unsubscribes_count_week"
+    t.integer  "like_count_week"
+    t.integer  "hit_count_week"
+    t.float    "opened_emails_rate_week"
+    t.float    "clicked_emails_rate_week"
+    t.float    "signed_from_emails_rate_week"
+    t.float    "new_members_rate_week"
+    t.float    "unsubscribes_rate_week"
+    t.float    "like_rate_week"
+    t.float    "hit_rate_week"
+    t.integer  "sent_emails_count_month"
+    t.integer  "signatures_count_month"
+    t.integer  "opened_emails_count_month"
+    t.integer  "clicked_emails_count_month"
+    t.integer  "signed_from_emails_count_month"
+    t.integer  "new_members_count_month"
+    t.integer  "unsubscribes_count_month"
+    t.integer  "like_count_month"
+    t.integer  "hit_count_month"
+    t.float    "opened_emails_rate_month"
+    t.float    "clicked_emails_rate_month"
+    t.float    "signed_from_emails_rate_month"
+    t.float    "new_members_rate_month"
+    t.float    "unsubscribes_rate_month"
+    t.float    "like_rate_month"
+    t.float    "hit_rate_month"
+    t.integer  "sent_emails_count_year"
+    t.integer  "signatures_count_year"
+    t.integer  "opened_emails_count_year"
+    t.integer  "clicked_emails_count_year"
+    t.integer  "signed_from_emails_count_year"
+    t.integer  "new_members_count_year"
+    t.integer  "unsubscribes_count_year"
+    t.integer  "like_count_year"
+    t.integer  "hit_count_year"
+    t.float    "opened_emails_rate_year"
+    t.float    "clicked_emails_rate_year"
+    t.float    "signed_from_emails_rate_year"
+    t.float    "new_members_rate_year"
+    t.float    "unsubscribes_rate_year"
+    t.float    "like_rate_year"
+    t.float    "hit_rate_year"
+  end
+
+  add_index "petition_reports", ["clicked_emails_rate_day"], :name => "index_petition_reports_on_clicked_emails_rate_day"
+  add_index "petition_reports", ["clicked_emails_rate_month"], :name => "index_petition_reports_on_clicked_emails_rate_month"
+  add_index "petition_reports", ["clicked_emails_rate_week"], :name => "index_petition_reports_on_clicked_emails_rate_week"
+  add_index "petition_reports", ["clicked_emails_rate_year"], :name => "index_petition_reports_on_clicked_emails_rate_year"
+  add_index "petition_reports", ["hit_rate_day"], :name => "index_petition_reports_on_hit_rate_day"
+  add_index "petition_reports", ["hit_rate_month"], :name => "index_petition_reports_on_hit_rate_month"
+  add_index "petition_reports", ["hit_rate_week"], :name => "index_petition_reports_on_hit_rate_week"
+  add_index "petition_reports", ["hit_rate_year"], :name => "index_petition_reports_on_hit_rate_year"
+  add_index "petition_reports", ["like_rate_day"], :name => "index_petition_reports_on_like_rate_day"
+  add_index "petition_reports", ["like_rate_month"], :name => "index_petition_reports_on_like_rate_month"
+  add_index "petition_reports", ["like_rate_week"], :name => "index_petition_reports_on_like_rate_week"
+  add_index "petition_reports", ["like_rate_year"], :name => "index_petition_reports_on_like_rate_year"
+  add_index "petition_reports", ["new_members_rate_day"], :name => "index_petition_reports_on_new_members_rate_day"
+  add_index "petition_reports", ["new_members_rate_month"], :name => "index_petition_reports_on_new_members_rate_month"
+  add_index "petition_reports", ["new_members_rate_week"], :name => "index_petition_reports_on_new_members_rate_week"
+  add_index "petition_reports", ["new_members_rate_year"], :name => "index_petition_reports_on_new_members_rate_year"
+  add_index "petition_reports", ["opened_emails_rate_day"], :name => "index_petition_reports_on_opened_emails_rate_day"
+  add_index "petition_reports", ["opened_emails_rate_month"], :name => "index_petition_reports_on_opened_emails_rate_month"
+  add_index "petition_reports", ["opened_emails_rate_week"], :name => "index_petition_reports_on_opened_emails_rate_week"
+  add_index "petition_reports", ["opened_emails_rate_year"], :name => "index_petition_reports_on_opened_emails_rate_year"
+  add_index "petition_reports", ["petition_created_at"], :name => "index_petition_reports_on_petition_created_at"
+  add_index "petition_reports", ["petition_id"], :name => "index_petition_reports_on_petition_id"
+  add_index "petition_reports", ["petition_title"], :name => "index_petition_reports_on_petition_title"
+  add_index "petition_reports", ["sent_emails_count_day"], :name => "index_petition_reports_on_sent_emails_count_day"
+  add_index "petition_reports", ["sent_emails_count_month"], :name => "index_petition_reports_on_sent_emails_count_month"
+  add_index "petition_reports", ["sent_emails_count_week"], :name => "index_petition_reports_on_sent_emails_count_week"
+  add_index "petition_reports", ["sent_emails_count_year"], :name => "index_petition_reports_on_sent_emails_count_year"
+  add_index "petition_reports", ["signed_from_emails_rate_day"], :name => "index_petition_reports_on_signed_from_emails_rate_day"
+  add_index "petition_reports", ["signed_from_emails_rate_month"], :name => "index_petition_reports_on_signed_from_emails_rate_month"
+  add_index "petition_reports", ["signed_from_emails_rate_week"], :name => "index_petition_reports_on_signed_from_emails_rate_week"
+  add_index "petition_reports", ["signed_from_emails_rate_year"], :name => "index_petition_reports_on_signed_from_emails_rate_year"
+  add_index "petition_reports", ["unsubscribes_rate_day"], :name => "index_petition_reports_on_unsubscribes_rate_day"
+  add_index "petition_reports", ["unsubscribes_rate_month"], :name => "index_petition_reports_on_unsubscribes_rate_month"
+  add_index "petition_reports", ["unsubscribes_rate_week"], :name => "index_petition_reports_on_unsubscribes_rate_week"
+  add_index "petition_reports", ["unsubscribes_rate_year"], :name => "index_petition_reports_on_unsubscribes_rate_year"
+
   create_table "petition_summaries", :force => true do |t|
     t.text     "short_summary", :null => false
     t.integer  "petition_id",   :null => false
@@ -158,6 +264,8 @@ ActiveRecord::Schema.define(:version => 20121214220106) do
     t.datetime "featured_on"
   end
 
+  add_index "petitions", ["title"], :name => "index_petitions_on_title"
+
   create_table "referrals", :force => true do |t|
     t.string   "code"
     t.integer  "member_id"
@@ -181,7 +289,11 @@ ActiveRecord::Schema.define(:version => 20121214220106) do
     t.string   "type",         :default => "SentEmail"
   end
 
+  add_index "sent_emails", ["clicked_at"], :name => "index_sent_emails_on_clicked_at"
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
+  add_index "sent_emails", ["opened_at"], :name => "index_sent_emails_on_opened_at"
+  add_index "sent_emails", ["petition_id"], :name => "index_sent_emails_on_petition_id"
+  add_index "sent_emails", ["signature_id"], :name => "index_sent_emails_on_signature_id"
 
   create_table "signatures", :force => true do |t|
     t.string   "email",          :null => false
