@@ -1,0 +1,6 @@
+= render 'header'
+
+%h2
+  Emails Sent by Time of Day
+
+.plot-container#emails-by-hour{style: "width:800px;height:300px", data: { "query-url" => data_email_by_time_of_day_admin_stats_path } }

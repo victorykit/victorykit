@@ -20,4 +20,9 @@ describe Admin::StatsController do
       metric['data'].should == [[1353312000000, 300], [1353398400000, 200]]
     end
   end
+
+  context "GET email_by_time_of_day" do
+    let(:action) { get :email_by_time_of_day }
+    it_behaves_like "a super-user only resource page"
+  end
 end
