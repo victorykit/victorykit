@@ -37,7 +37,7 @@ Victorykit::Application.routes.draw do
 
     resource :stats do
       member do
-        get :metrics, :browser_usage, :facebook
+        get :metrics, :browser_usage, :facebook, :emails
         get :index, to: "stats#metrics"
         get 'data/daily_browser_usage', to: "stats#daily_browser_usage"
         get 'data/daily_facebook_insight', to: "stats#daily_facebook_insight"
@@ -47,6 +47,7 @@ Victorykit::Application.routes.draw do
         get 'data/opened_emails', to: "stats#opened_emails"
         get 'data/clicked_emails', to: "stats#clicked_emails"
         get 'data/nps_by_day', to: "stats#nps_by_day"
+        get 'data/email_by_time_of_day', to: "stats#email_by_time_of_day"
       end
     end
 

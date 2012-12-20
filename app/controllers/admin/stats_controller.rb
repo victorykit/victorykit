@@ -66,6 +66,17 @@ class Admin::StatsController < ApplicationController
     render json: data
   end
 
+  def email_by_time_of_day
+    sent_emails = ScheduledEmail.joins('INNER JOIN signatures ON sent_emails.member_id = signatures.referer_id AND signatures.petition_id = sent_emails.petition_id')
+    signatures_by_hour = []
+
+    (0..23).each do |h|
+      signatures_by_hour << [h, sent_emails.collect{ |se| se.id if se.created_at.hour <= h and se.created_at.hour >= h }.compact.count]
+    end
+
+    render json: [{data: signatures_by_hour}]
+  end
+
   private
 
   def js_timestamp(date_string)
@@ -80,6 +91,7 @@ class Admin::StatsController < ApplicationController
     wins = signed_emails_by_part.map{|k,v|[k.to_i,v]}.sort_by &:first
     response_rates = []
     spins.zip(wins) {|spin, win| response_rates << [spin[0], win[1].to_f / spin[1].to_f]}
+
     [{ data: response_rates }]
   end
 
