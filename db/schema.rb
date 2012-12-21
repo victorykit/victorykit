@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221190432) do
+ActiveRecord::Schema.define(:version => 20121221195144) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -291,6 +291,7 @@ ActiveRecord::Schema.define(:version => 20121221190432) do
 
   add_index "sent_emails", ["clicked_at"], :name => "index_sent_emails_on_clicked_at"
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
+  add_index "sent_emails", ["member_id"], :name => "index_sent_emails_on_member_id"
   add_index "sent_emails", ["opened_at"], :name => "index_sent_emails_on_opened_at"
   add_index "sent_emails", ["petition_id"], :name => "index_sent_emails_on_petition_id"
   add_index "sent_emails", ["signature_id"], :name => "index_sent_emails_on_signature_id"
