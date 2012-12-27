@@ -9,7 +9,6 @@ class Donation < ActiveRecord::Base
     donor = Member.find_by_hash(hash)
     donation = Donation.where(:member_id => donor, :amount => nil).last
     donation.update_attributes(:amount => amount)
-
   end
 
 end
