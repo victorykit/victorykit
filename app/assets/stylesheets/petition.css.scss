@@ -55,6 +55,19 @@
           }
         }
       }
+      @media (min-width: 600px) and (max-width: 768px) {
+        .progress_bar, .social_icons {
+          clear: none;
+          width: 49%;
+        }
+        .progress_bar {
+          float: right !important;
+          margin-top: 4px;
+          .progressbar {
+            margin-top: -2px;
+          }
+        }
+      }
     }
   }
   #mobile_thanks {
@@ -372,8 +385,6 @@ form #sign-again {
 }
 @media (max-width: 767px) {
   .social_icons, .progress_bar, .mobile_signup_button {
-    clear: both !important;
-    margin: 10px 0 0  !important;
     float: left !important;
     text-align: left !important;
   }
