@@ -43,7 +43,7 @@ class PetitionsDatatable
   def data
     petitions.map do |petition|
       [
-        link_to(petition.p.title, petition.p),
+        link_to(petition.petition_title, petition.p),
         h(petition.email_count),
         dpct(petition.opened_emails_count, petition.email_count),
         dpct(petition.clicked_emails_count, petition.email_count),
@@ -52,7 +52,7 @@ class PetitionsDatatable
         dpct(petition.hit_count, petition.email_count, false),
         dpct(petition.new_member_count, petition.email_count),
         dpct(petition.unsubscribe_count, petition.email_count),
-        h(format_date_time(petition.p.created_at)),
+        h(format_date_time(petition.petition_created_at)),
       ]
     end
   end
@@ -78,9 +78,14 @@ class PetitionsDatatable
     columns[params[:iSortCol_0].to_i]
   end
 
+  # Eliminate this method once previous dashboard is removed
   def analytics_since
-    since = params[:since]
-    since.nil? ? nil : since.to_date
+    begin
+      since = params[:since]
+      since.nil? ? nil : since.to_date
+    rescue
+      params[:since]
+    end
   end
   
   def page
