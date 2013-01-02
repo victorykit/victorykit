@@ -91,6 +91,8 @@
     }
     .through_site .controls, .through_site .controls input {
       clear: both;
+      border: none;
+      border-radius: 0;
       width: 100%;
     }
     .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
@@ -196,7 +198,7 @@ form #sign-again {
     font-size: 25px;
     text-align: center;
     font-weight: bold;
-    padding: 15px;
+    padding: 15px 15px 0;
     line-height: 30px;
   }
   .privacypolicy {
