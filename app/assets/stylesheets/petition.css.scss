@@ -97,6 +97,33 @@
     }
     .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
     .control-group { *height: 4.5em; *width: 100%; }
+    @media (min-width: 470px) and (max-width: 768px) {
+      .control-label {
+        text-align: right;
+        margin: 3px 13px 0 0;
+        float: left;
+      }
+      .through_site .controls {
+        float: right;
+        clear: none;
+      }
+    }
+    @media (min-width: 670px) and (max-width: 768px) {
+      .control-label {
+        width: 13%;
+      }
+      .through_site .controls {
+        width: 84%;
+      }
+    }
+    @media (min-width: 470px) and (max-width: 669px) {
+      .control-label {
+        width: 18%;
+      }
+      .through_site .controls {
+        width: 77%;
+      }
+    }
   }
 }
 .privacy_tooltip {
