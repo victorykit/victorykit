@@ -18,6 +18,7 @@
   }
   .sidebar {
     @extend .secondary;
+    min-width: 287px;
     .progress_box .progressbar {
       margin: auto 13px;
     }

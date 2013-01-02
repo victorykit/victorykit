@@ -20,7 +20,18 @@
   @media (min-width: 768px) and (max-width: 999px) {
     max-width: 999px;
     .secondary { width: 32%; }
+  }
+  @media (min-width: 911px) and (max-width: 999px) {
     .primary { width: 67%; }
+  }
+  @media (min-width: 861px) and (max-width: 910px) {
+    .primary { width: 65%; }
+  }
+  @media (min-width: 811px) and (max-width: 860px) {
+    .primary { width: 63%; }
+  }
+  @media (min-width: 768px) and (max-width: 810px) {
+    .primary { width: 60%; }
   }
   @media (max-width: 768px) {
     #petition_page {
