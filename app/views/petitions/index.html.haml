@@ -19,13 +19,13 @@
           .feature
             - if petition.to_send?
               %i.icon-ok
-              %b This petition is featured.
               - if petition.featured_on.present?
-                Since
-                = time_ago_in_words petition.featured_on
+                %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
+              - else
+                %b This petition is featured
             - else
               %i.icon-remove
-              This petition is not featured.
+              This petition is not featured
               = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
                 %i.icon-edit
                 Edit
