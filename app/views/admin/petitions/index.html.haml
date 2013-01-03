@@ -6,8 +6,6 @@
     - options = Hash[labels.zip(labels)]
     Activity in the last #{link_to_self_with_param :time_span, options, " | "}
 
-  <button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
-
   %table#petitions.bordered-table.table-striped.dataTable{"data-source" => admin_petitions_url(format: "json", time_span: params[:time_span])}
     %thead
       %tr
