@@ -34,50 +34,17 @@ class PetitionsDatatable
     }
   end
   
-  def dpct(numerator, denominator, percentify=true)
-    fn = lambda {|x| percentify ? float_to_percentage(x) : x.to_s[0..4]}
-    n = denominator.nonzero? ? numerator / denominator.to_f : 0.0
-    "<span title='#{numerator}'>" + fn.call(n) + "</span>"
-  end
-
-  def format_rate(petition_report, property, percentify=true)
-    count = petition_report.send(:"#{property}_count")
-    rate  = petition_report.send(:"#{property}_rate")
-    display_rate = percentify ? float_to_percentage(rate) : rate.round(3).to_s
-    "<span title='#{count}'>#{display_rate}</span>"
-  end
+  private
 
   def data
     petitions.map do |petition|
-      [
-        link_to(petition.petition_title, petition_path(petition.petition_id)),
-        h(petition.sent_emails_count).to_i,
-        format_rate(petition, :opened_emails),
-        format_rate(petition, :clicked_emails),
-        format_rate(petition, :signed_from_emails),
-        format_rate(petition, :like),
-        format_rate(petition, :hit, false),
-        format_rate(petition, :new_members),
-        format_rate(petition, :unsubscribes),
-        h(format_date_time(petition.petition_created_at)),
-      ]
+      format_row(petition)
     end
   end
   
   def totals
-    petition = PetitionStatisticsTotals.new(petitions)
-    [
-      'All petitions',
-      h(petition.sent_emails_count).to_i,
-      dpct(petition.opened_emails_count, petition.sent_emails_count),
-      dpct(petition.clicked_emails_count, petition.sent_emails_count),
-      dpct(petition.signed_from_emails_count, petition.sent_emails_count),
-      dpct(petition.like_count, petition.sent_emails_count),
-      dpct(petition.hit_count, petition.sent_emails_count, false),
-      dpct(petition.new_members_count, petition.sent_emails_count),
-      dpct(petition.unsubscribes_count, petition.sent_emails_count),
-      '',
-    ]
+    petition = @statistics_builder.totals(time_span)
+    format_row(petition)
   end
 
   def sort_column
@@ -99,5 +66,27 @@ class PetitionsDatatable
 
   def sort_direction
     params[:sSortDir_0] == "desc" ? :desc : :asc
+  end
+
+  def format_row(report)
+    [
+      report.petition_id ? link_to(report.petition_title, petition_path(report.petition_id)) : report.petition_title,
+      h(report.sent_emails_count).to_i,
+      format_rate(report, :opened_emails),
+      format_rate(report, :clicked_emails),
+      format_rate(report, :signed_from_emails),
+      format_rate(report, :like),
+      format_rate(report, :hit, false),
+      format_rate(report, :new_members),
+      format_rate(report, :unsubscribes),
+      report.petition_created_at ? h(format_date_time(report.petition_created_at)) : '',
+    ]
+  end
+
+  def format_rate(report, property, percentify=true)
+    count = report.send(:"#{property}_count")
+    rate  = report.send(:"#{property}_rate")
+    display_rate = percentify ? float_to_percentage(rate) : rate.to_s[0..4]
+    "<span title='#{count}'>#{display_rate}</span>"
   end
 end
