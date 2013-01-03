@@ -32,9 +32,7 @@ Victorykit::Application.routes.draw do
   get 'contact', to: 'user_feedbacks#new', as: 'contact'
 
   namespace(:admin) do
-    resources :petitions do
-      collection { get 'new_dashboard' }
-    end
+    resources :petitions
     resources :users
 
     resource :stats do

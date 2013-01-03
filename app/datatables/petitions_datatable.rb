@@ -12,7 +12,7 @@ HOW TO EDIT THE DATATABLE
 =end
 
 class PetitionsDatatable
-  delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, to: :@view
+  delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, :petition_path, to: :@view
     
   def initialize(view, statistics_builder)
     @view = view
@@ -43,7 +43,7 @@ class PetitionsDatatable
   def data
     petitions.map do |petition|
       [
-        link_to(petition.petition_title, petition.p),
+        link_to(petition.petition_title, petition_path(petition.petition_id)),
         h(petition.email_count),
         dpct(petition.opened_emails_count, petition.email_count),
         dpct(petition.clicked_emails_count, petition.email_count),
