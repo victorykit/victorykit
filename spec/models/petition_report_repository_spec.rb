@@ -22,24 +22,24 @@ describe PetitionReportRepository do
 
   context "when property has time span" do
     it "retrieves petitions sorted by property" do
-      petitions = repository.all_since_and_ordered('month', 'like_rate', :asc)
+      petitions = repository.reports('month', 'like_rate', :asc)
       petitions.map(&:petition_id).should eq [@petition_with_less_likes.petition_id, @petition_with_more_likes.petition_id]
     end
 
     it "retrieves petitions sorted by property descending" do
-      petitions = repository.all_since_and_ordered('month', 'like_rate', :desc)
+      petitions = repository.reports('month', 'like_rate', :desc)
       petitions.map(&:petition_id).should eq [@petition_with_more_likes.petition_id, @petition_with_less_likes.petition_id]
     end
   end
 
   context "when property does not have time span" do
     it "retrieves petitions sorted by property" do
-      petitions = repository.all_since_and_ordered('month', 'petition_title', :asc)
+      petitions = repository.reports('month', 'petition_title', :asc)
       petitions.map(&:petition_id).should eq [@petition_with_less_likes.petition_id, @petition_with_more_likes.petition_id]
     end
 
     it "retrieves petitions sorted by property descending" do
-      petitions = repository.all_since_and_ordered('month', 'petition_title', :desc)
+      petitions = repository.reports('month', 'petition_title', :desc)
       petitions.map(&:petition_id).should eq [@petition_with_more_likes.petition_id, @petition_with_less_likes.petition_id]
     end
   end
