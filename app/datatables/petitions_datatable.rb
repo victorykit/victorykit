@@ -32,7 +32,7 @@ class PetitionsDatatable
 
   def formatted_data
     unless @formatted_data
-      reports = @repository.all_since_and_ordered(time_span, sort_column, sort_direction, page, per_page)
+      reports = @repository.reports(time_span, sort_column, sort_direction, page, per_page)
       totals  = @repository.totals(time_span)
       @formatted_data = (reports << totals).map {|r| format_row(r) }
     end
@@ -49,7 +49,7 @@ class PetitionsDatatable
   end
 
   def time_span
-    params[:since] || 'year'
+    params[:time_span] || 'month'
   end
 
   def page

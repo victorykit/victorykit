@@ -1,15 +1,14 @@
 .page_content
-  %h1 Petitions dashboard
+  %h1 Petitions Dashboard
 
   %p
     - labels  = 'day', 'week', 'month', 'year'
     - options = Hash[labels.zip(labels)]
-    - params[:since] ||= 'year'
-    Activity since last #{link_to_self_with_param :since, options, " | "}
+    Activity in the last #{link_to_self_with_param :time_span, options, " | "}
 
   <button style="float: right" class="btn btn-success" onClick="$('table').dataTable().fnDraw()">Reload</button>
 
-  %table#petitions.bordered-table.table-striped.dataTable{"data-source" => admin_petitions_url(format: "json", since: params[:since])}
+  %table#petitions.bordered-table.table-striped.dataTable{"data-source" => admin_petitions_url(format: "json", time_span: params[:time_span])}
     %thead
       %tr
         %th Title
