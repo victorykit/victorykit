@@ -7,6 +7,13 @@ class PetitionReportPresenter
   end
 
   def method_missing(method)
-    @report.send(:"#{method}_#{@time_span}") || 0.0
+    value = @report.send(:"#{method}_#{@time_span}")
+    if value
+      value
+    elsif method =~ /rate/
+      0.0
+    else
+      0
+    end
   end
 end
