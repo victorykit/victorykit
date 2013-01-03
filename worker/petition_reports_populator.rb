@@ -24,13 +24,26 @@ class PetitionReportsPopulator
         db = ActiveRecord::Base.connection
         db.execute create_reports_query
 
+        analytics_data_per_period = {}
         PERIODS.each do |period, starting_time|
+          analytics_data_per_period[period] = AnalyticsGateway.fetch_report_results(starting_time)
+
           METRICS.each do |metric, metric_sql|
             column_name  = "#{metric}_#{period}"
             select_query = metric_sql.call(starting_time)
 
             db.execute update_count_query(column_name, select_query)
           end
+        end
+
+        PetitionReport.all.each do |report|
+          petition_path = Rails.application.routes.url_helpers.petition_path(report.petition_id)
+          PERIODS.each do |period, _|
+            method = :"hit_count_#{period}="
+            pageviews = analytics_data_per_period[period][petition_path].try(:unique_pageviews).try(:to_i)
+            report.send(method, pageviews)
+          end
+          report.save if report.changed?
         end
 
         rate_columns = PetitionReport.column_names.select {|name| name =~ /rate/ }
