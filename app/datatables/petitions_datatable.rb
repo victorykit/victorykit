@@ -1,15 +1,4 @@
 # see http://datatables.net/usage/server-side for details on how datatables work, params, etc
-=begin
-HOW TO EDIT THE DATATABLE
-
-1. Update index.html.haml
-2. Update PetitionsDataTable.data
-  a. This may require updating PetitionStatistics
-3. Update PetitionsDataTable.totals
-4. Update PetitionsDataTable.sort_column.columns
-  a. This may require updating PetitionStatistics
-5. Add/remove a sorting column from petitions.js.coffee if required
-=end
 
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, :petition_path, to: :@view
