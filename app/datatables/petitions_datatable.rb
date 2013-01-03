@@ -56,7 +56,7 @@ class PetitionsDatatable
   def format_row(report)
     [
       report.petition_id ? link_to(report.petition_title, petition_path(report.petition_id)) : report.petition_title,
-      h(report.sent_emails_count).to_i,
+      h(report.sent_emails_count),
       format_rate(report, :opened_emails),
       format_rate(report, :clicked_emails),
       format_rate(report, :signed_from_emails),
