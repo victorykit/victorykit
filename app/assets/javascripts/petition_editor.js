@@ -23,7 +23,7 @@ function add_fields(link, association, content, where_selector) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   $(where_selector).append(content.replace(regexp, new_id));
-  var full_id = "#petition_#{association}_attributes_" + new_id + "_title";
+  var full_id = "#petition_" + association + "_attributes_" + new_id + "_title";
   $(full_id).focus();
 }
 
