@@ -59,7 +59,7 @@ end
 
 Capybara.default_wait_time = 5
 Capybara.register_driver :webkit do |app| 
-  Capybara::Driver::Webkit.new(app, :stdout => nil) 
+  Capybara::Webkit::Driver.new(app, :stdout => nil) 
 end 
 
 class ActiveRecord::Base

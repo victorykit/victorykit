@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.10'
 gem 'pg'
 gem 'foreigner'
 
@@ -15,7 +15,7 @@ end
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
-  gem 'anjlab-bootstrap-rails', '>= 2.0', :require => 'bootstrap-rails'
+  gem 'anjlab-bootstrap-rails', '>= 2.2', :require => 'bootstrap-rails'
   gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails'
   gem 'jquery-rails'
@@ -76,7 +76,7 @@ gem 'truncate_html'
 gem 'memoist', :github => 'matthewrudy/memoist'
 gem 'premailer'
 gem 'whiplash', :github => 'victorykit/whiplash'
-gem 'carmen'
+gem 'carmen-rails'
 gem 'statsd-ruby', :require => 'statsd'
 gem 'bumbler'
 gem 'fb_graph'
