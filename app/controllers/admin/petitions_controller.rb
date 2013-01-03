@@ -4,13 +4,6 @@ class Admin::PetitionsController < ApplicationController
 
   def index
     respond_to do |format|
-      format.html { }
-      format.json { render json: PetitionsDatatable.new(view_context, PetitionStatisticsBuilder.new) }
-    end
-  end
-
-  def new_dashboard
-    respond_to do |format|
       format.html {}
       format.json { render json: PetitionsDatatable.new(view_context, PetitionReportRepository.new) }
     end
