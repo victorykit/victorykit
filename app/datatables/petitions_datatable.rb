@@ -20,7 +20,7 @@ class PetitionsDatatable
   end
   
   def petitions
-    @petitions ||= @statistics_builder.all_since_and_ordered(analytics_since, sort_column, sort_direction) 
+    @petitions ||= @statistics_builder.all_since_and_ordered(time_span, sort_column, sort_direction)
   end
   
   def as_json(options = {})
@@ -44,14 +44,14 @@ class PetitionsDatatable
     petitions.map do |petition|
       [
         link_to(petition.petition_title, petition_path(petition.petition_id)),
-        h(petition.email_count),
-        dpct(petition.opened_emails_count, petition.email_count),
-        dpct(petition.clicked_emails_count, petition.email_count),
-        dpct(petition.email_signature_count, petition.email_count),
-        dpct(petition.likes_count, petition.email_count),
-        dpct(petition.hit_count, petition.email_count, false),
-        dpct(petition.new_member_count, petition.email_count),
-        dpct(petition.unsubscribe_count, petition.email_count),
+        h(petition.sent_emails_count).to_i,
+        dpct(petition.opened_emails_count, petition.sent_emails_count),
+        dpct(petition.clicked_emails_count, petition.sent_emails_count),
+        dpct(petition.signed_from_emails_count, petition.sent_emails_count),
+        dpct(petition.like_count, petition.sent_emails_count),
+        dpct(petition.hit_count, petition.sent_emails_count, false),
+        dpct(petition.new_members_count, petition.sent_emails_count),
+        dpct(petition.unsubscribes_count, petition.sent_emails_count),
         h(format_date_time(petition.petition_created_at)),
       ]
     end
@@ -61,31 +61,25 @@ class PetitionsDatatable
     petition = PetitionStatisticsTotals.new(petitions)
     [
       'All petitions',
-      h(petition.email_count),
-      dpct(petition.opened_emails_count, petition.email_count),
-      dpct(petition.clicked_emails_count, petition.email_count),
-      dpct(petition.email_signature_count, petition.email_count),
-      dpct(petition.likes_count, petition.email_count),
-      dpct(petition.hit_count, petition.email_count, false),
-      dpct(petition.new_member_count, petition.email_count),
-      dpct(petition.unsubscribe_count, petition.email_count),
+      h(petition.sent_emails_count).to_i,
+      dpct(petition.opened_emails_count, petition.sent_emails_count),
+      dpct(petition.clicked_emails_count, petition.sent_emails_count),
+      dpct(petition.signed_from_emails_count, petition.sent_emails_count),
+      dpct(petition.like_count, petition.sent_emails_count),
+      dpct(petition.hit_count, petition.sent_emails_count, false),
+      dpct(petition.new_members_count, petition.sent_emails_count),
+      dpct(petition.unsubscribes_count, petition.sent_emails_count),
       '',
     ]
   end
 
   def sort_column
-    columns = %w[petition_title email_count open_rate clicked_rate sign_rate like_rate hit_rate new_rate unsub_rate petition_created_at]
+    columns = %w[petition_title sent_emails_count opened_emails_rate clicked_emails_rate signed_from_emails_rate like_rate hit_rate new_members_rate unsubscribes_rate petition_created_at]
     columns[params[:iSortCol_0].to_i]
   end
 
-  # Eliminate this method once previous dashboard is removed
-  def analytics_since
-    begin
-      since = params[:since]
-      since.nil? ? nil : since.to_date
-    rescue
-      params[:since]
-    end
+  def time_span
+    params[:since] || 'year'
   end
   
   def page
