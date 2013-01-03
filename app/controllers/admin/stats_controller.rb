@@ -68,6 +68,7 @@ class Admin::StatsController < ApplicationController
 
   def email_by_time_of_day
     sent_emails = ScheduledEmail.joins('INNER JOIN signatures ON sent_emails.member_id = signatures.referer_id AND signatures.petition_id = sent_emails.petition_id')
+                  .where('sent_emails.created_at > ?', 10.days.ago)
     signatures_by_hour = []
 
     (0..23).each do |h|

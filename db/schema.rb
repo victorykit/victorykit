@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221195144) do
+ActiveRecord::Schema.define(:version => 20130103213214) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20121221195144) do
     t.string   "action_id"
   end
 
+  add_index "facebook_actions", ["action_id"], :name => "index_facebook_actions_action_id"
   add_index "facebook_actions", ["member_id"], :name => "index_likes_on_member_id"
   add_index "facebook_actions", ["petition_id"], :name => "index_likes_on_petition_id"
 
@@ -80,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20121221195144) do
 
   add_index "facebook_share_widget_shares", ["user_facebook_id", "friend_facebook_id", "url"], :name => "unique_share", :unique => true
 
+  create_table "ip_locations", :id => false, :force => true do |t|
+    t.integer "ip_from",      :limit => 8
+    t.integer "ip_to",        :limit => 8
+    t.string  "country_code", :limit => 2
+    t.text    "country_name"
+    t.text    "region"
+    t.text    "city"
+    t.string  "state_code",   :limit => 2
+  end
+
   create_table "last_updated_unsubscribes", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -90,18 +101,22 @@ ActiveRecord::Schema.define(:version => 20121221195144) do
     t.boolean  "is_locked"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.text     "uuid"
   end
 
   create_table "members", :force => true do |t|
     t.string   "email"
-    t.datetime "created_at",                 :null => false
-    t.datetime "updated_at",                 :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "referral_code"
     t.string   "country_code"
     t.string   "state_code"
-    t.integer  "facebook_uid",  :limit => 8
+    t.boolean  "null_last_name"
+    t.boolean  "blank_last_name"
+    t.boolean  "blank_first_name"
+    t.integer  "facebook_uid",     :limit => 8
   end
 
   add_index "members", ["email"], :name => "index_members_on_email", :unique => true
@@ -284,14 +299,16 @@ ActiveRecord::Schema.define(:version => 20121221195144) do
     t.datetime "created_at",                            :null => false
     t.datetime "updated_at",                            :null => false
     t.integer  "signature_id"
-    t.datetime "opened_at"
     t.datetime "clicked_at"
+    t.datetime "opened_at"
     t.string   "type",         :default => "SentEmail"
   end
 
   add_index "sent_emails", ["clicked_at"], :name => "index_sent_emails_on_clicked_at"
   add_index "sent_emails", ["created_at"], :name => "index_sent_emails_on_created_at"
+  add_index "sent_emails", ["created_at"], :name => "sent_emails_created_idx"
   add_index "sent_emails", ["member_id"], :name => "index_sent_emails_on_member_id"
+  add_index "sent_emails", ["member_id"], :name => "sent_emails_member_id_idx"
   add_index "sent_emails", ["opened_at"], :name => "index_sent_emails_on_opened_at"
   add_index "sent_emails", ["petition_id"], :name => "index_sent_emails_on_petition_id"
   add_index "sent_emails", ["signature_id"], :name => "index_sent_emails_on_signature_id"
@@ -316,12 +333,12 @@ ActiveRecord::Schema.define(:version => 20121221195144) do
     t.string   "state"
     t.string   "state_code"
     t.string   "country_code"
-    t.string   "http_referer"
+    t.text     "http_referer"
   end
 
   add_index "signatures", ["created_at"], :name => "index_signatures_on_created_at"
   add_index "signatures", ["petition_id", "member_id"], :name => "index_signatures_on_petition_id_and_member_id"
-  add_index "signatures", ["referer_id"], :name => "index_signatures_on_referer_id"
+  add_index "signatures", ["referer_id", "petition_id"], :name => "index_signatures_on_referer_id_and_petition_id"
 
   create_table "social_media_trials", :force => true do |t|
     t.integer  "member_id"
