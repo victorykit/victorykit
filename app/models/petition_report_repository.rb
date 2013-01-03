@@ -1,9 +1,9 @@
 class PetitionReportRepository
-  def all_since_and_ordered(time_span, property, direction)
+  def all_since_and_ordered(time_span, property, direction, page=1, per_page=10)
     direction = direction == :asc ? 'ASC NULLS FIRST' : 'DESC NULLS LAST'
     column    = property =~ /(count|rate)/ ? "#{property}_#{time_span}" : property
 
-    PetitionReport.order("#{column} #{direction}").map do |report|
+    PetitionReport.paginate(:page => page, :per_page => per_page).order("#{column} #{direction}").map do |report|
       PetitionReportPresenter.new(report, time_span)
     end
   end

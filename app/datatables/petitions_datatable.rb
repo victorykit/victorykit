@@ -13,38 +13,34 @@ HOW TO EDIT THE DATATABLE
 
 class PetitionsDatatable
   delegate :params, :h, :float_to_percentage, :format_date_time, :link_to, :petition_path, to: :@view
-    
-  def initialize(view, statistics_builder)
+
+  def initialize(view, report_repository)
     @view = view
-    @statistics_builder = statistics_builder
+    @repository = report_repository
   end
-  
-  def petitions
-    @petitions ||= @statistics_builder.all_since_and_ordered(time_span, sort_column, sort_direction)
-  end
-  
+
   def as_json(options = {})
-    formatted_data = Kaminari.paginate_array(data).page(page).per(per_page)
-    count = petitions.count
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: count,
-      iTotalDisplayRecords: count,
-      aaData: formatted_data + [totals]
+      iTotalRecords: report_count,
+      iTotalDisplayRecords: report_count,
+      aaData: formatted_data
     }
   end
-  
+
   private
 
-  def data
-    petitions.map do |petition|
-      format_row(petition)
+  def formatted_data
+    unless @formatted_data
+      reports = @repository.all_since_and_ordered(time_span, sort_column, sort_direction, page, per_page)
+      totals  = @repository.totals(time_span)
+      @formatted_data = (reports << totals).map {|r| format_row(r) }
     end
+    @formatted_data
   end
-  
-  def totals
-    petition = @statistics_builder.totals(time_span)
-    format_row(petition)
+
+  def report_count
+    @report_count ||= PetitionReport.count
   end
 
   def sort_column
@@ -55,7 +51,7 @@ class PetitionsDatatable
   def time_span
     params[:since] || 'year'
   end
-  
+
   def page
     params[:iDisplayStart].to_i/per_page + 1
   end
