@@ -39,19 +39,26 @@ class PetitionsDatatable
     n = denominator.nonzero? ? numerator / denominator.to_f : 0.0
     "<span title='#{numerator}'>" + fn.call(n) + "</span>"
   end
-  
+
+  def format_rate(petition_report, property, percentify=true)
+    count = petition_report.send(:"#{property}_count")
+    rate  = petition_report.send(:"#{property}_rate")
+    display_rate = percentify ? float_to_percentage(rate) : rate.round(3).to_s
+    "<span title='#{count}'>#{display_rate}</span>"
+  end
+
   def data
     petitions.map do |petition|
       [
         link_to(petition.petition_title, petition_path(petition.petition_id)),
         h(petition.sent_emails_count).to_i,
-        dpct(petition.opened_emails_count, petition.sent_emails_count),
-        dpct(petition.clicked_emails_count, petition.sent_emails_count),
-        dpct(petition.signed_from_emails_count, petition.sent_emails_count),
-        dpct(petition.like_count, petition.sent_emails_count),
-        dpct(petition.hit_count, petition.sent_emails_count, false),
-        dpct(petition.new_members_count, petition.sent_emails_count),
-        dpct(petition.unsubscribes_count, petition.sent_emails_count),
+        format_rate(petition, :opened_emails),
+        format_rate(petition, :clicked_emails),
+        format_rate(petition, :signed_from_emails),
+        format_rate(petition, :like),
+        format_rate(petition, :hit, false),
+        format_rate(petition, :new_members),
+        format_rate(petition, :unsubscribes),
         h(format_date_time(petition.petition_created_at)),
       ]
     end
