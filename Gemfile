@@ -31,7 +31,7 @@ group :test, :development do
   gem 'selenium-webdriver'
   gem 'hirb'
   gem 'jslint_on_rails'
-  gem 'capybara'
+  gem 'capybara', '>= 2.0.2'
   gem 'capybara-webkit'
   gem 'debugger'
   gem 'shoulda-matchers'

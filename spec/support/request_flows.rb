@@ -3,8 +3,8 @@ def signin email, pass
   click_link 'Sign Up or Log In'
   within '#new_user' do
     fill_in 'Email', with: email
-    fill_in 'Password', with: pass
-    fill_in 'Password confirmation', with: pass
+    fill_in 'user_password', with: pass
+    fill_in 'user_password_confirmation', with: pass
     click_button 'Sign Up'
   end
   yield
@@ -42,15 +42,14 @@ end
 def create_petition params={}
   params = petition_defaults.merge params
   visit new_petition_path
+  #page.driver.resize_window(1680, 1050)
   fill_in 'Title', with: params[:title]
   fill_in_description_with params[:description]
   fill_in_subjects params[:subjects]
   fill_in_fb_titles params[:fb_titles]
   fill_in_images params[:images]
   click_button 'Create Petition'
-  wait_until do
-    page.has_content? 'Petition was successfully created'
-  end
+  page.should have_content 'Petition was successfully created'
   Petition.last
 end
 
