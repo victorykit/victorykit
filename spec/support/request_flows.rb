@@ -49,7 +49,9 @@ def create_petition params={}
   fill_in_fb_titles params[:fb_titles]
   fill_in_images params[:images]
   click_button 'Create Petition'
-  page.should have_content 'Petition was successfully created'
+  wait_until do
+    page.has_content? 'Petition was successfully created'
+  end
   Petition.last
 end
 
