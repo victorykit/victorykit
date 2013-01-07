@@ -6,10 +6,10 @@ describe 'dashboard' do
     it 'should see stats for a petition', js: true, driver: :webkit do
       login user.email, user.password do
         visit '/admin/petitions'
-        find('tbody').text.should_not be_empty
+        wait_until do
+          not find('tbody').text.empty?
+        end  
       end
     end
-
   end
-
 end
