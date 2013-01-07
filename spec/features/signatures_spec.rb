@@ -45,7 +45,7 @@ describe 'signatures' do
       petition.save
     }
 
-    it 'should register a spin and a win', js: true, driver: :webkit do
+    it 'should register a spin and a win', js: true, driver: :selenium do
       admin_user = create :admin_user
 
       visit petition_path(petition, r: code)
