@@ -14,7 +14,7 @@
 //= require jquery_ujs
 //= require dataTables/jquery.dataTables
 //= require dataTables/jquery.dataTables.bootstrap
-//= require bootstrap
+//= require twitter/bootstrap
 //= require bootstrap-wysihtml5-all
 //= require jquery.flot
 //= require jquery.mailcheck
