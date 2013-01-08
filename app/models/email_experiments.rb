@@ -8,7 +8,9 @@ class EmailExperiments
   def subject
     default = @email.petition.title
     test_name = "petition #{@email.petition.id} #{PetitionTitle::TitleType::EMAIL} title"
-    spin!(test_name, :signature, title_options, default)
+    r = spin!(test_name, :signature, title_options, default)
+    puts ">>> spin: #{test_name} => #{r}"
+    r
   end
 
   def image_url

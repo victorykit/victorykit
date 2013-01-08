@@ -51,7 +51,6 @@ def create_petition params={}
   wait_until do
     page.current_path.match(/\/petitions\/\d+/) # redirected to the petition page
   end
-  sleep 1
   Petition.last
 end
 
