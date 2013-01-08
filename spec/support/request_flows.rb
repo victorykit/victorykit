@@ -52,8 +52,9 @@ def create_petition params={}
   click_button 'Create Petition'
   puts "#{Time.now.to_i} => button was clicked"
   wait_until do
-    puts ">>> #{page.find('.flash_message').text}"
-    page.has_content? 'Petition was successfully created'
+    puts ">>> #{page.current_path}"
+    #page.has_content? 'Petition was successfully created'
+    page.current_path.match(/\/petitions\/\d+/) # redirected to the petition page
   end
   puts "#{Time.now.to_i} => message was seen"
   Petition.last
