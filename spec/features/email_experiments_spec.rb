@@ -11,10 +11,6 @@ describe 'email experiments' do
           create_petition(subjects: ['tutles 1', 'tutles 2'])
         end
 
-        puts
-        puts ">>> petitions created: #{petitions.size}"
-        puts ">>> petition ids: #{petitions.map(&:id)}"
-
         # send emails for them
         info = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
@@ -27,6 +23,9 @@ describe 'email experiments' do
         # check results
         petitions.each do |petition|
           results = email_experiment_results_for(petition)[info[petition][:subject]]
+          puts
+          puts "BEFORE"
+          puts ">>> results for #{petition.id}: #{results}"
           results[:spins].should == 1
           results[:wins ].should == 0
         end
@@ -36,6 +35,9 @@ describe 'email experiments' do
           sign petition, { n: info[petition][:hash] }
           sleep 1
           results = email_experiment_results_for(petition)[info[petition][:subject]]
+          puts
+          puts "AFTER"
+          puts ">>> results for #{petition.id}: #{results}"
           results[:spins].should == 1
           results[:wins ].should == 1
         end
