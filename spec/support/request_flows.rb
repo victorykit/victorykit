@@ -51,7 +51,9 @@ def create_petition params={}
   wait_until do
     page.current_path.match(/\/petitions\/\d+/) # redirected to the petition page
   end
-  Petition.last
+  last = Petition.last
+  puts ">>> petition #{last.id} was created"
+  last
 end
 
 def petition_defaults
