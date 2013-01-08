@@ -48,7 +48,6 @@ def create_petition params={}
   fill_in_fb_titles params[:fb_titles]
   fill_in_images params[:images]
   puts
-  puts "#{Time.now.to_i} => form was filled"
   click_button 'Create Petition'
   puts "#{Time.now.to_i} => button was clicked"
   wait_until do
@@ -56,7 +55,7 @@ def create_petition params={}
     #page.has_content? 'Petition was successfully created'
     page.current_path.match(/\/petitions\/\d+/) # redirected to the petition page
   end
-  puts "#{Time.now.to_i} => message was seen"
+  puts "#{Time.now.to_i} => redirection done"
   Petition.last
 end
 
