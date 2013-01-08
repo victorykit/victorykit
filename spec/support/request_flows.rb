@@ -47,15 +47,10 @@ def create_petition params={}
   fill_in_subjects params[:subjects]
   fill_in_fb_titles params[:fb_titles]
   fill_in_images params[:images]
-  puts
   click_button 'Create Petition'
-  puts "#{Time.now.to_i} => button was clicked"
   wait_until do
-    puts ">>> #{page.current_path}"
-    #page.has_content? 'Petition was successfully created'
     page.current_path.match(/\/petitions\/\d+/) # redirected to the petition page
   end
-  puts "#{Time.now.to_i} => redirection done"
   Petition.last
 end
 
@@ -123,10 +118,11 @@ def experiment_results_for test_name, filter=nil
   url = "/admin/experiments"
   url << "?f=#{filter}" if filter
   visit url
-
   selector = "table[data-title='#{test_name}']"
-
+  puts
+  puts ">>> selector: #{selector}"
   all("#{selector} tbody tr").inject({}) do |out, e|
+    puts ">>> e: #{e.text}"
     out.merge e.find("td.name").text => {
       spins: e.find("td.spins").text.to_i, 
       wins:  e.find("td.wins").text.to_i

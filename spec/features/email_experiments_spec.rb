@@ -6,7 +6,6 @@ describe 'email experiments' do
 
     it 'should win after signature from email', js: true, driver: :webkit do
       login user.email, user.password do
-        # create two petitions
         petitions = 2.times.map do
           create_petition(subjects: ['tutles 1', 'tutles 2'])
         end
@@ -23,9 +22,6 @@ describe 'email experiments' do
         # check results
         petitions.each do |petition|
           results = email_experiment_results_for(petition)[info[petition][:subject]]
-          puts
-          puts "BEFORE"
-          puts ">>> results for #{petition.id}: #{results}"
           results[:spins].should == 1
           results[:wins ].should == 0
         end
@@ -35,9 +31,6 @@ describe 'email experiments' do
           sign petition, { n: info[petition][:hash] }
           sleep 1
           results = email_experiment_results_for(petition)[info[petition][:subject]]
-          puts
-          puts "AFTER"
-          puts ">>> results for #{petition.id}: #{results}"
           results[:spins].should == 1
           results[:wins ].should == 1
         end
