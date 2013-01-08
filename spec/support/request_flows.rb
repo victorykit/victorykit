@@ -122,6 +122,9 @@ def experiment_results_for test_name, filter=nil
   url = "/admin/experiments"
   url << "?f=#{filter}" if filter
   visit url
+  puts '=========='
+  puts page.body
+  puts '=========='
   selector = "table[data-title='#{test_name}']"
   all("#{selector} tbody tr").inject({}) do |out, e|
     puts ">>> td.name: #{e.find("td.name").text}"
