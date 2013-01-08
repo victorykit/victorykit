@@ -7,7 +7,7 @@ describe 'email experiments' do
     it 'should win after signature from email', js: true, driver: :webkit do
       login user.email, user.password do
         petitions = 2.times.map do
-          create_petition(subjects: ['tutles 1', 'tutles 2'])
+          create_petition(subjects: ['turtles 1', 'turtles 2'])
         end
 
         # send emails for them
