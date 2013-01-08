@@ -7,7 +7,7 @@ describe 'facebook experiments' do
     let(:petition) { create_petition(images: [image]) }
     let(:code)   { create :referral, petition: petition, member: member }
 
-    it 'should use the petition`s image if available' do
+    pending 'should use the petition`s image if available' do
       PetitionImageDownloader.stub!(:download)
       login user.email, user.password do
         visit petition_path(petition, r: code.code)
@@ -15,7 +15,7 @@ describe 'facebook experiments' do
       end
     end
 
-    it 'should use a default image when no alternative specified' do
+    pending 'should use a default image when no alternative specified' do
       login user.email, user.password do
         petition = create_petition
         visit petition_path(petition, { r: member.to_hash })
