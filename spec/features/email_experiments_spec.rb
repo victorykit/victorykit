@@ -11,6 +11,10 @@ describe 'email experiments' do
           create_petition(subjects: ['tutles 1', 'tutles 2'])
         end
 
+        puts
+        puts ">>> petitions created: #{petitions.size}"
+        puts ">>> petition ids: #{petitions.map(&:id)}"
+
         # send emails for them
         info = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
