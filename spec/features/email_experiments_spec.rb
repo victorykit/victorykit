@@ -4,7 +4,7 @@ describe 'email experiments' do
     let(:member) { create :member }
     let(:user  ) { create :admin_user }
 
-    it 'should win after signature from email', js: true, driver: :selenium do
+    it 'should win after signature from email', js: true, driver: :webkit do
       login user.email, user.password do
         # create two petitions
         petitions = 2.times.map do

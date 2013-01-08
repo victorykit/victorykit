@@ -48,10 +48,13 @@ def create_petition params={}
   fill_in_subjects params[:subjects]
   fill_in_fb_titles params[:fb_titles]
   fill_in_images params[:images]
+  puts "#{Time.now.to_i} => form was filled"
   click_button 'Create Petition'
+  puts "#{Time.now.to_i} => button was clicked"
   wait_until do
     page.has_content? 'Petition was successfully created'
   end
+  puts "#{Time.now.to_i} => message was seen"
   Petition.last
 end
 
