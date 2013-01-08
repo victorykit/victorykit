@@ -1,6 +1,7 @@
 describe 'signatures' do
   let(:petition) { create :petition }
-  let(:initial_signers_referal_code) { Referral.first.code } #there will be two referral codes - one for the first signer, one for the second.
+  let(:initial_signers_referal_code) { Referral.first.code } 
+  #there will be two referral codes - one for the first signer, one for the second.
 
   context 'a user' do
 
@@ -37,15 +38,23 @@ describe 'signatures' do
     let(:old_petition) { create :petition }
     let(:member) { create :member }
     let(:code) { create(:referral, petition: petition, member: member).code }
-    let(:petition_fb_title) { "petition #{petition.id} #{PetitionTitle::TitleType::FACEBOOK} title" }
+    let(:petition_fb_title) do
+      "petition #{petition.id} #{PetitionTitle::TitleType::FACEBOOK} title"
+    end
 
-    before {
-      petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "better title"
-      petition.petition_titles.build title_type: PetitionTitle::TitleType::FACEBOOK, title: "worse title"
+    before do
+      petition.petition_titles.build({
+        title_type: PetitionTitle::TitleType::FACEBOOK, 
+        title: "better title"
+      })
+      petition.petition_titles.build({
+        title_type: PetitionTitle::TitleType::FACEBOOK, 
+        title: "worse title"
+      })
       petition.save
-    }
+    end
 
-    it 'should register a spin and a win', js: true, driver: :selenium do
+    pending 'should register a spin and a win', js: true, driver: :selenium do
       admin_user = create :admin_user
 
       visit petition_path(petition, r: code)
