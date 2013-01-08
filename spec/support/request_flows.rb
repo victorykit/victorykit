@@ -115,14 +115,16 @@ def on_demand_email_path petition, member
 end
 
 def experiment_results_for test_name, filter=nil
+  puts
+  puts ">>> calling for #{test_name}"
   url = "/admin/experiments"
   url << "?f=#{filter}" if filter
   visit url
   selector = "table[data-title='#{test_name}']"
-  puts
-  puts ">>> selector: #{selector}"
   all("#{selector} tbody tr").inject({}) do |out, e|
-    puts ">>> e: #{e.text}"
+    puts ">>> td.name: #{e.find("td.name").text}"
+    puts ">>> td.spins: #{e.find("td.spins").text}"
+    puts ">>> td.wins: #{e.find("td.wins").text}"
     out.merge e.find("td.name").text => {
       spins: e.find("td.spins").text.to_i, 
       wins:  e.find("td.wins").text.to_i
