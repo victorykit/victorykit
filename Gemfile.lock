@@ -345,8 +345,8 @@ DEPENDENCIES
   bootstrap-wysihtml5-rails!
   browser
   bumbler
-  capybara (>= 2.0.2)
-  capybara-webkit (>= 0.14.0)
+  capybara
+  capybara-webkit
   carmen-rails
   debugger
   dkim
@@ -370,7 +370,7 @@ DEPENDENCIES
   mysql2
   newrelic-redis
   newrelic_rpm
-  nokogiri (>= 1.5.6)
+  nokogiri
   oauth
   pg
   premailer

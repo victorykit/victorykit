@@ -31,9 +31,9 @@ group :test, :development do
   gem 'selenium-webdriver'
   gem 'hirb'
   gem 'jslint_on_rails'
-  gem 'nokogiri', '>= 1.5.6'
-  gem 'capybara', '>= 2.0.2'
-  gem 'capybara-webkit', '>= 0.14.0'
+  gem 'nokogiri'
+  gem 'capybara'
+  gem 'capybara-webkit'
   gem 'debugger'
   gem 'shoulda-matchers'
 end
