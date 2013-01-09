@@ -346,7 +346,7 @@ DEPENDENCIES
   browser
   bumbler
   capybara (>= 2.0.2)
-  capybara-webkit
+  capybara-webkit (>= 0.14.0)
   carmen-rails
   debugger
   dkim
@@ -370,7 +370,7 @@ DEPENDENCIES
   mysql2
   newrelic-redis
   newrelic_rpm
-  nokogiri
+  nokogiri (>= 1.5.6)
   oauth
   pg
   premailer
