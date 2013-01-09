@@ -58,9 +58,10 @@ RSpec.configure do |config|
 end
 
 Capybara.default_wait_time = 5
-Capybara.register_driver :webkit do |app| 
-  Capybara::Webkit::Driver.new(app, :stdout => nil) 
-end 
+#Capybara.register_driver :webkit do |app| 
+#  Capybara::Webkit::Driver.new(app, :stdout => nil) 
+#end 
+Capybara.javascript_driver = :webkit
 
 class ActiveRecord::Base
   mattr_accessor :shared_connection
