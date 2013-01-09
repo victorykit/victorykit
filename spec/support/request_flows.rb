@@ -118,15 +118,13 @@ end
 
 def experiment_results_for test_name, filter=nil
   puts
-  puts ">>> calling for #{test_name}"
+  puts ">>> experiment_results_for #{test_name}"
   url = "/admin/experiments"
   url << "?f=#{filter}" if filter
   visit url
-  puts '=========='
-  puts page.body
-  puts '=========='
   selector = "table[data-title='#{test_name}']"
   all("#{selector} tbody tr").inject({}) do |out, e|
+    puts ">>> tr: #{e.text}"
     puts ">>> td.name: #{e.find("td.name").text}"
     puts ">>> td.spins: #{e.find("td.spins").text}"
     puts ">>> td.wins: #{e.find("td.wins").text}"
