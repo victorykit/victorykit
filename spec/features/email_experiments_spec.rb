@@ -11,7 +11,7 @@ describe 'email experiments' do
           create_petition(subjects: ['turtles 1', 'turtles 2'])
         end
 
-        # send emails for them
+        # send emails
         info = petitions.reduce({}) do |result, petition|
           visit on_demand_email_path(petition, member)
           link = find('.sign-petition-link')[:href]
