@@ -104,7 +104,7 @@ GEM
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
     columnize (0.3.6)
-    connection_pool (0.9.3)
+    connection_pool (1.0.0)
     crack (0.3.1)
     css_parser (1.2.6)
       addressable
@@ -144,8 +144,8 @@ GEM
       activesupport (>= 2.2.0)
       crack (>= 0.1.6)
     geocoder (1.1.6)
-    girl_friday (0.11.1)
-      connection_pool (~> 0.9.0)
+    girl_friday (0.11.2)
+      connection_pool (~> 1.0)
       rubinius-actor
     haml (3.1.7)
     hike (1.2.1)
