@@ -327,7 +327,7 @@ GEM
     vegas (0.1.11)
       rack (>= 1.0.0)
     websocket (1.0.6)
-    will_paginate (3.0.3)
+    will_paginate (3.0.4)
     xml-simple (1.1.2)
     xpath (1.0.0)
       nokogiri (~> 1.3)
