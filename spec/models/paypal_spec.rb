@@ -1,8 +1,7 @@
 describe Paypal do
   describe '.verify_payment' do
     before do
-      Net::HTTP::Post.stub(:new).and_return(Net::HTTPResponse.new('1.1', 200, ''))
-      Net::HTTP.any_instance.stub(:request).and_return(stub(:body => result))
+      Paypal.stub(:send_post).and_return(result)
     end
 
     context 'success' do
