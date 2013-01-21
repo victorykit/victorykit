@@ -49,7 +49,8 @@
     - if !@was_signed && (privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888")
       .privacypolicy{ :class => privacy_policy_position_and_color }
         = render :partial => "privacy"
-    = render :partial => "fblike_progress"
+    - if !@was_signed
+      = render :partial => "fblike_progress"
     #thanks-for-signing-message
       = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
