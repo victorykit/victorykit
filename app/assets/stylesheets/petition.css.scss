@@ -16,6 +16,10 @@
   h1.petition_title, .petition_body, .header_progress {
     @extend .primary;
   }
+  h1.petition_title {
+    margin-top: 0;
+    font-size: 35px;
+  }
   .sidebar {
     @extend .secondary;
     min-width: 287px;
