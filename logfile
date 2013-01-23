@@ -1,0 +1,9 @@
+LOG:  database system was shut down at 2013-01-21 10:30:13 EST
+LOG:  database system is ready to accept connections
+LOG:  autovacuum launcher started
+FATAL:  database "victorykit_development" does not exist
+FATAL:  database "victorykit_development" does not exist
+FATAL:  database "victorykit_development" does not exist
+FATAL:  database "victorykit_test" does not exist
+FATAL:  database "victorykit_test" does not exist
+FATAL:  database "victorykit_test" does not exist
