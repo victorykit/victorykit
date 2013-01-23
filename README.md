@@ -27,11 +27,26 @@ To confirm you have the appropriate requirements:
 
 ## Usage
 
-Make sure the tests pass:
+* Make sure gems are up to date:
+
+    $ bundle
+
+* Make sure Postgres is running
+
+* Make sure the database exists and is migrated
+
+    $ rake db:create
+    $ rake db:migrate
+
+* Make sure the tests pass:
 
     $ rake
 
 To get the smoke tests to pass, you'll need to have the right OAUTH variables, either by running `./script/gen_google_oauth` or getting the right variables from a friend and then setting them in your environment. You'll also need to be running the local server:
+
+* Make sure Redis is running
+
+Run the app locally
 
     $ rails server
 
