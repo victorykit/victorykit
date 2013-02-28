@@ -38,7 +38,7 @@ describe 'petitions' do
 
     it_behaves_like 'an author'
 
-    it 'can send a preview email to herself', js: true, driver: :selenium do
+    it 'can send a preview email to herself', :js => true, :driver => :webkit do
       login email, pass do
         visit new_petition_path
         page.should have_content "Email a preview to #{email}"

@@ -1,7 +1,7 @@
 describe 'facebook experiments' do
   let(:user) { create :admin_user }
 
-  context 'image on opengraph metadata', js: true, driver: :selenium do
+  context 'image on opengraph metadata', :js => true, :driver => :webkit do
     let(:member) { create :member }
     let(:image ) { 'http://wow.com/image.png' }
     let(:petition) { create_petition(images: [image]) }
