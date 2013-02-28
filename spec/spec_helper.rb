@@ -55,14 +55,12 @@ RSpec.configure do |config|
   config.after(:each) do
     ActionMailer::Base.deliveries.clear
   end
-
-  Capybara.javascript_driver = :webkit
 end
 
-#Capybara.default_wait_time = 5
-#Capybara.register_driver :webkit do |app| 
-#  Capybara::Webkit::Driver.new(app, :stdout => nil) 
-#end 
+Capybara.default_wait_time = 5
+Capybara.register_driver :webkit do |app| 
+  Capybara::Webkit::Driver.new(app, :stdout => nil) 
+end 
 
 class ActiveRecord::Base
   mattr_accessor :shared_connection
