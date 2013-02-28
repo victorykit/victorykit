@@ -13,7 +13,7 @@ describe 'facebook sharing experiments' do
   let(:admin) { create :admin_user }
 
   context 'when sharing via facebook_popup' do
-    it 'awards wins when shared link leads to signature', js: true, driver: :selenium do
+    it 'awards wins when shared link leads to signature', :js => true, :driver => :weblit do
 
       pending "fix config issues"
 
@@ -60,7 +60,7 @@ describe 'facebook sharing experiments' do
   end
 
   context 'when sharing via facebook_request' do
-    it 'facebook_request registers wins when shared link leads to signature', js: true, driver: :selenium do
+    it 'facebook_request registers wins when shared link leads to signature', :js => true, :driver => :webkit do
 
       pending 'handle/simulate fb request loading app for localhost'
 
