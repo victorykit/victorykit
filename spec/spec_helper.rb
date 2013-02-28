@@ -42,13 +42,16 @@ RSpec.configure do |config|
     REDIS.flushdb
     AWS.stub!
 
-    location = stub
-    location.stub(:city).and_return 'New York'
-    location.stub(:metrocode).and_return '1234'
-    location.stub(:state).and_return 'New York'
-    location.stub(:state_code).and_return 'NY'
-    location.stub(:country_code).and_return 'US'
-    Geocoder.stub(:search).and_return [location]
+    Geocoder.stub(:search).and_return([
+      stub.tap do |location|
+        location.stub(:city).and_return 'New York'
+        location.stub(:metrocode).and_return '1234'
+        location.stub(:state).and_return 'New York'
+        location.stub(:state_code).and_return 'NY'
+        location.stub(:country_code).and_return 'US'
+      end
+    ])
+
     $statsd = FakeStatsd.new
   end
 
