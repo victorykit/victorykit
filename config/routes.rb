@@ -57,6 +57,7 @@ Victorykit::Application.routes.draw do
     resources :hottest
     resources :on_demand_email
     resources :heartbeat
+    resources :unsubscribes, only: [:index]
   end
   root :to => "site#index"
 end
