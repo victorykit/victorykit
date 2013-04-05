@@ -104,7 +104,6 @@ GEM
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
     columnize (0.3.6)
-    comma (3.0.4)
     connection_pool (1.0.0)
     crack (0.3.2)
     css_parser (1.2.6)
@@ -350,7 +349,6 @@ DEPENDENCIES
   capybara (>= 2.0.2)
   capybara-webkit
   carmen-rails
-  comma
   debugger
   dkim
   factory_girl_rails (~> 3.0)
