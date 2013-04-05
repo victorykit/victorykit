@@ -5,6 +5,6 @@ class Unsubscribe < ActiveRecord::Base
   validates_presence_of :email
   
   def self.unsubscribe_member(member)
-    Unsubscribe.create(email: member.email, cause: "unsubscribed", member: member)
+    Unsubscribe.create(email: member.email, cause: 'unsubscribed', member: member)
   end
 end
