@@ -28,7 +28,7 @@ describe Member do
     describe '#to_hash' do
       let(:id) { subject.id }
       before { MemberHasher.stub(:generate).with(id).and_return 'foo' }
-      specify { subject.to_hash.should eql 'foo' }
+      its(:to_hash) { should eql 'foo' }
     end
 
     describe '#full_name' do
