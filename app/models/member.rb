@@ -67,6 +67,11 @@ class Member < ActiveRecord::Base
     signatures.where(petition_id: petition.try(:id)).first
   end
 
+  comma do
+    full_name
+    email
+  end
+
   private
   
   def self.active_subscription?(subscribe_date, unsubscribe_date)
