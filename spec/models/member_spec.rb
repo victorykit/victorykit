@@ -83,14 +83,6 @@ describe Member do
         end
       end
     end
-
-    describe '#to_comma' do
-      subject do
-        build :member, :email => 'john@gmail.com',
-          :first_name => 'John', :last_name => 'Doe'
-      end
-      its(:to_comma) { should == ['John Doe', 'john@gmail.com'] }
-    end
   end
 
   describe 'class' do
