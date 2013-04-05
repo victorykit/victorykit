@@ -1,0 +1,5 @@
+%h1 UNSUBSCRIBES
+%ul
+  - @unsubscribes.each do |u|
+    %li
+      = "#{u.member.full_name} - #{u.member.email}"
