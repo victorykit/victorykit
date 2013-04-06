@@ -1,6 +1,11 @@
 /encoding: utf-8
 %h1 UNSUBSCRIBES ☠
+
+.pagination_gem= will_paginate @unsubscribes, :container => false
+
 %ul
   - @unsubscribes.each do |u|
     %li
       = "#{u.member.email} - #{u.member.full_name}"
+
+.pagination_gem= will_paginate @unsubscribes, :container => false
