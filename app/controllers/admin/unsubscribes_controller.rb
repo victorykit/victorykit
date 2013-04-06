@@ -3,6 +3,6 @@ class Admin::UnsubscribesController < ApplicationController
   before_filter :require_admin
 
   def index
-    @unsubscribes = Unsubscribe.paginate(:page => params[:page], :per_page => 100)
+    @unsubscribes = Unsubscribe.recent_first.paginate(:page => params[:page], :per_page => 100)
   end
 end

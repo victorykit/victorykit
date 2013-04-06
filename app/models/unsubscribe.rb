@@ -4,7 +4,10 @@ class Unsubscribe < ActiveRecord::Base
   belongs_to :sent_email
   validates_presence_of :email
   
+  scope :recent_first, order('created_at DESC')
+
   def self.unsubscribe_member(member)
     Unsubscribe.create(email: member.email, cause: 'unsubscribed', member: member)
   end
+
 end
