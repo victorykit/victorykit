@@ -1,6 +1,8 @@
 class Admin::UnsubscribesController < ApplicationController
+  newrelic_ignore
+  before_filter :require_admin
+
   def index
-    u = Unsubscribe.paginate(:page => params[:page], :per_page => 100)
-    @unsubscribes = u
+    @unsubscribes = Unsubscribe.paginate(:page => params[:page], :per_page => 100)
   end
 end
