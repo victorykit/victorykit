@@ -1,11 +1,13 @@
 /encoding: utf-8
-%h1 UNSUBSCRIBES ☠
+%h1 BASTARDS ☠
 
-.pagination_gem= will_paginate @unsubscribes, :container => false
+= form_tag('/admin/unsubscribes', :method => 'get') do
+  %p
+    %label{:for => 'from'} From:
+    %input#from{:type => 'date', :name=>'from'}
+  %p
+    %label{:for => 'from'} To:
+    %input#to{:type => 'date', :name=>'to'}
+  %p
+    = submit_tag 'Download CSV'
 
-%ul
-  - @unsubscribes.each do |u|
-    %li
-      = "#{u.member.email} - #{u.member.full_name}"
-
-.pagination_gem= will_paginate @unsubscribes, :container => false
