@@ -1,6 +1,10 @@
 worker_processes 1 # amount of unicorn workers to spin up
-timeout 30         # restarts workers that hang for 30 seconds
-              
+timeout 120         # restarts workers that hang for 30 seconds
+
+# Enable streaming (for CSV downloads)
+port = ENV["PORT"].to_i
+listen port, :tcp_nopush => false
+
 # combine Ruby 2.0.0dev or REE with "preload_app true" for memory savings
 # http://rubyenterpriseedition.com/faq.html#adapt_apps_for_cow
 preload_app true
