@@ -119,31 +119,43 @@ describe PetitionsHelper do
 
   describe '#after_share_view' do
 
-    context 'for a regular browser user' do
-      let(:exp) { 'after share view 7' }
+    context 'for a regular browser user on a petition with over 10k signatures' do
+      let(:exp) { 'after share view 8' }
       let(:goal) { :share }
       let(:options) { [
         "button_is_most_effective_tool-progress_bar",
-        "almost_there_only_one_thing_left_to_do",
-        "almost_done_only_one_thing_left_to_do",
         "almost_finished_only_one_thing_left_to_do",
-        "almost_there_just_one_thing_left_to_do",
-        "almost_there_just_one_last_thing_to_do",
-        "almost_there_just_one_more_thing_to_do",
-        "almost_there_only_one_thing_left_to_do-top_arrow",
         "almost_there_only_one_thing_left_to_do-bottom_arrow",
-        "almost_there_only_one_thing_left_to_do-85",
-        "almost_there_only_one_thing_left_to_do-85_top_arrow",
-        "almost_there_only_one_thing_left_to_do-85_bottom_arrow",
-        "almost_there_only_one_thing_left_to_do_or_share_link"
+        "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
       ]
    }
 
       it 'should spin for an option' do
         helper.should_receive(:measure!).with(exp, goal, options)
-        helper.after_share_view
+        helper.after_share_view(10001)
       end
     end
+
+    context 'for a regular browser user on a petition with under 10k signatures' do
+      let(:exp) { 'after share view under 10k' }
+      let(:goal) { :share }
+      let(:options) { [
+        "button_is_most_effective_tool-progress_bar",
+        "almost_finished_only_one_thing_left_to_do",
+        "almost_there_only_one_thing_left_to_do-bottom_arrow",
+        "almost_there_only_one_thing_left_to_do-85_bottom_arrow",
+        "can_you_help_us_reach_10k",
+        "button_is_most_effective_to_10k",
+        "button_is_going_to_get_us_to_10k"
+     ]
+   }
+
+      it 'should spin for an option' do
+        helper.should_receive(:measure!).with(exp, goal, options)
+        helper.after_share_view(1001)
+      end
+    end
+
   end
 
   describe '#counter_size' do
