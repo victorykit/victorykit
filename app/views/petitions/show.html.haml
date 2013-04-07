@@ -16,13 +16,27 @@
 
   .sidebar{ :class => accent_red }
     - if !@was_signed and !browser.mobile?
-      .progress_box{ :class => progress_box_border }
-        .progress_text.plain
-          Step 1 of 3 complete...
-        .progressbar
-          .fluid
-        .progress_text
-          You've made it this far.  Please sign!
+      - if (@sigcount < 10000)
+        - if under_10k_message == "10k_message"
+          .progress_box{ :class => progress_box_border }
+            .progress_text
+              We send every petition that gets 10,000 signatures or more.
+        - if under_10k_message == "default"
+          .progress_box{ :class => progress_box_border }
+            .progress_text.plain
+              Step 1 of 3 complete...
+            .progressbar
+              .fluid
+            .progress_text
+              You've made it this far.  Please sign!
+      - else
+        .progress_box{ :class => progress_box_border }
+          .progress_text.plain
+            Step 1 of 3 complete...
+          .progressbar
+            .fluid
+          .progress_text
+            You've made it this far.  Please sign!
     .clearfix
     .signature-form
       .title

@@ -44,22 +44,30 @@ module PetitionsHelper
     tag "fb:like", {data: attributes, class: classes}, false, true
   end
 
-  def after_share_view
-    measure! 'after share view 7', :share, [
+  def after_share_view(sigcount)
+    return after_share_view_under_10k if sigcount < 10000
+    measure! 'after share view 8', :share, [
        "button_is_most_effective_tool-progress_bar",
-       "almost_there_only_one_thing_left_to_do",
-       "almost_done_only_one_thing_left_to_do",
        "almost_finished_only_one_thing_left_to_do",
-       "almost_there_just_one_thing_left_to_do",
-       "almost_there_just_one_last_thing_to_do",
-       "almost_there_just_one_more_thing_to_do",
-       "almost_there_only_one_thing_left_to_do-top_arrow",
        "almost_there_only_one_thing_left_to_do-bottom_arrow",
-       "almost_there_only_one_thing_left_to_do-85",
-       "almost_there_only_one_thing_left_to_do-85_top_arrow",
-       "almost_there_only_one_thing_left_to_do-85_bottom_arrow",
-       "almost_there_only_one_thing_left_to_do_or_share_link"
+       "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
     ]
+  end
+
+  def after_share_view_under_10k
+    measure! 'after share view under 10k', :share, [
+      "button_is_most_effective_tool-progress_bar",
+      "almost_finished_only_one_thing_left_to_do",
+      "almost_there_only_one_thing_left_to_do-bottom_arrow",
+      "almost_there_only_one_thing_left_to_do-85_bottom_arrow",
+      "can_you_help_us_reach_10k",
+      "button_is_most_effective_to_10k",
+      "button_is_going_to_get_us_to_10k"
+    ]
+  end
+
+  def under_10k_message
+    spin! 'under 10k messaging', :signature, ["10k_message", "default"]
   end
 
   def learn_more_button_color

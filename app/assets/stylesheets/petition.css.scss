@@ -218,6 +218,9 @@ form #sign-again {
     margin: 0 auto;
     overflow: visible;
     width: 400px;
+    .progressbar {
+      margin-top: 25px;
+    }
   }
   a {
     clear: both;
