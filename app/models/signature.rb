@@ -123,7 +123,7 @@ class Signature < ActiveRecord::Base
     Referral.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
   end
 
-  def csv_headers
+  def csv_header
     CSV_COLUMNS.map { |c| c.to_s.titleize }
   end
 
