@@ -154,7 +154,7 @@ describe Signature do
     let(:signature_time) { 2.days.ago }
     subject { build(:signature, first_name: 'Banana', last_name: 'Bread', email: 'b@nana.com', city: 'New York', state_code: 'NY', country_code: 'US', created_at: signature_time) }
 
-    its(:csv_headers) { should == ['First Name', 'Last Name', 'Email', 'City', 'State Code', 'Country Code', 'Created At'] }
+    its(:csv_header) { should == ['First Name', 'Last Name', 'Email', 'City', 'State Code', 'Country Code', 'Created At'] }
     its(:csv_values) { should == ['Banana', 'Bread', 'b@nana.com', 'New York', 'NY', 'US', signature_time] }
   end
 end
