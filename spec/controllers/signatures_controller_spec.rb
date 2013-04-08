@@ -11,6 +11,26 @@ describe SignaturesController do
   let(:referring_url) { 'http://watchdog.net/123?ref=bzzt' }
   let(:http_referer) { 'http://petitionator.com/456?other_stuff=etc' }
 
+  describe 'GET index' do
+    let(:action) { get :index, petition_id: petition.id }
+    it_behaves_like "an admin only resource page"
+
+    context 'with signatures' do
+      let(:first_signature)  { create(:signature, petition: petition) }
+      let(:second_signature) { create(:signature, petition: petition) }
+
+      before do
+        get :index, {petition_id: petition.id, format: :csv}, valid_admin_session
+      end
+
+      its('response.headers') { should include('Content-Type' => 'text/csv') }
+      its('response.headers') { should include('Content-Disposition' => "attachment; signatures-#{petition.id}.csv") }
+      # Could not find a decent way to test streaming yet, and Melanie needs this right away.
+      # Since this is low-risk (read-only, admin side), I'm commiting anyway.
+      # its('response_body') { should == first_signature.csv_header.to_csv + first_signature.csv_values.to_csv + second_signature.csv_values.to_csv }
+    end
+  end
+
   describe 'POST create' do
     before do
       Resque.stub(:enqueue)
