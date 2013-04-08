@@ -14,7 +14,9 @@ describe Petition do
     it 'returns petitions that have not been deleted' do
       petition1 = create(:petition, :deleted => false)
       petition2 = create(:petition, :deleted => nil)
-      Petition.not_deleted.should eq [petition1, petition2]
+      Petition.not_deleted.should include(petition1)
+      Petition.not_deleted.should include(petition2)
+      Petition.not_deleted.size.should == 2
     end
 
     it 'does not return deleted petitions' do
