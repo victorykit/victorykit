@@ -37,6 +37,8 @@
                 View
               = link_to(edit_petition_path(petition), title: 'Edit', class: 'btn') do
                 %i.icon-edit
+              = link_to(petition_signatures_path(petition, format: :csv), title: 'Export signatures', class: 'btn') do
+                %i.icon-download
               = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
                 %i.icon-trash.icon-white
   .pagination_gem= will_paginate @petitions, :container => false
