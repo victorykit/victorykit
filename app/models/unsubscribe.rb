@@ -5,17 +5,19 @@ class Unsubscribe < ActiveRecord::Base
   validates_presence_of :email
   
   scope :between, ->(from, to) { where(:created_at => from..to) }
+  delegate :full_name, to: :member
+
+  CSV_COLUMNS = [:email, :full_name]
 
   def self.unsubscribe_member(member)
     Unsubscribe.create(email: member.email, cause: 'unsubscribed', member: member)
   end
 
-  def self.to_csv(options = {})
-    CSV.generate(options) do |csv|
-      csv << %w{ Email Name }
-      all.each do |u|
-        csv << [u.member.email, u.member.full_name]
-      end
-    end
+  def csv_header
+    CSV_COLUMNS.map { |c| c.to_s.titleize }
+  end
+
+  def csv_values
+    CSV_COLUMNS.map { |c| self.send(c) }
   end
 end
