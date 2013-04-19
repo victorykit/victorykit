@@ -14,17 +14,4 @@ describe Unsubscribe do
       to change{ $statsd.value_of('unsubscribes.count') }.from(0).to(1)
     end
   end
-
-  describe '.to_csv' do
-    let(:john) do
-      create :member, 
-        :first_name => 'John', 
-        :last_name => 'Doe', 
-        :email => 'jd@gmail.com'
-    end
-    let(:unsubscription) { Unsubscribe.new(:member => john) }
-    before { Unsubscribe.stub(:all).and_return [unsubscription] }
-    subject { Unsubscribe.to_csv }
-    it { should == "Email,Name\njd@gmail.com,John Doe\n" }
-  end
 end
