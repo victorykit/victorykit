@@ -38,6 +38,11 @@ group :test, :development do
   gem 'shoulda-matchers'
   gem 'nokogiri'
 end
+
+group :development do
+  gem 'hitch'
+end
+
 gem 'geocoder'
 
 gem 'haml'
