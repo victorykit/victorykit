@@ -1,4 +1,4 @@
-task :unsubthem do
+task :unsubthem => :environment do
   puts "I'll unsubscribe a bunch of people."
   them.each do |email|
     member = Member.where(:email => email).first
