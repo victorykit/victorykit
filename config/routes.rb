@@ -34,6 +34,7 @@ Victorykit::Application.routes.draw do
   namespace(:admin) do
     resources :petitions
     resources :users
+    resources :members, only: [:index]
 
     resource :stats do
       member do

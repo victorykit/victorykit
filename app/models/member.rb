@@ -11,6 +11,8 @@ class Member < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
 
+  scope :active, -> { where('id not in (select member_id from unsubscribes)') }
+
   def self.random_and_not_recently_contacted(n)
     query = <<-SQL
       SELECT members.id
@@ -37,7 +39,7 @@ class Member < ActiveRecord::Base
     return [] if receiver_ids.empty?
     Member.find_all_by_id(receiver_ids.sample(n).collect{|x| x['id']})
   end
-
+  
   def full_name
     [self.first_name,self.last_name].join " "
   end

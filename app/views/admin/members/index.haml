@@ -1,0 +1,10 @@
+%h1 Members
+%h2 Sorted by recent first
+
+.pagination_gem= will_paginate @members, :container => false
+
+%ul
+  - @members.each do |member|
+    %li #{member.email}
+
+.pagination_gem= will_paginate @members, :container => false
