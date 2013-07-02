@@ -13,6 +13,8 @@ class Member < ActiveRecord::Base
 
   scope :active, -> { where('id not in (select member_id from unsubscribes)') }
 
+  CSV_COLUMNS = [:first_name, :last_name, :email, :state_code]
+
   def self.random_and_not_recently_contacted(n)
     query = <<-SQL
       SELECT members.id
@@ -67,6 +69,14 @@ class Member < ActiveRecord::Base
 
   def signature_for(petition)
     signatures.where(petition_id: petition.try(:id)).first
+  end
+
+  def csv_header
+    CSV_COLUMNS.map { |c| c.to_s.titleize }
+  end
+
+  def csv_values
+    CSV_COLUMNS.map { |c| self.send(c) }
   end
 
   private
