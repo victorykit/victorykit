@@ -1,10 +1,19 @@
-%h1 Members
+%h1 Active Members (#{@members.count})
 %h2 Sorted by recent first
 
 .pagination_gem= will_paginate @members, :container => false
 
-%ul
-  - @members.each do |member|
-    %li #{member.email}
+%table.table.table-striped.table-condensed.sortable
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th State
+  %tbody
+    - @members.each do |member|
+      %tr
+        %td #{member.full_name}
+        %td #{member.email}
+        %td #{member.state_code}
 
 .pagination_gem= will_paginate @members, :container => false
