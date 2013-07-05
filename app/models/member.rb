@@ -79,8 +79,29 @@ class Member < ActiveRecord::Base
     CSV_COLUMNS.map { |c| self.send(c) }
   end
 
+
+  def previous_petition_ids
+    if REDIS.exists previous_petition_ids_key
+      previous_petition_ids = REDIS.smembers previous_petition_ids_key
+    else
+      signed = Signature.where(member_id: id).select(:petition_id).map(&:petition_id)
+      sent = ScheduledEmail.where(member_id: id).select(:petition_id).map(&:petition_id)
+      previous_petition_ids = signed + sent
+      REDIS.sadd previous_petition_ids_key, previous_petition_ids if previous_petition_ids.any?
+    end
+    previous_petition_ids
+  end
+
+  def add_petition_id(id)
+    REDIS.sadd previous_petition_ids_key, id
+  end
+
   private
-  
+
+  def previous_petition_ids_key
+    "member/#{id}/previous_petition_ids"
+  end
+
   def self.active_subscription?(subscribe_date, unsubscribe_date)
     return true if unsubscribe_date.nil?
     return false if subscribe_date.nil?
