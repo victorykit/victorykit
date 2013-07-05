@@ -83,6 +83,59 @@ describe Member do
         end
       end
     end
+
+    describe "#previous_petition_ids" do
+      let(:member) { create(:member) }
+      let(:petitions_cache_key) { member.send(:previous_petition_ids_key) }
+
+      context "values are not cached in Redis" do
+        let(:sent_petition) { create(:petition) }
+        let(:signed_petition) { create(:petition) }
+        let!(:other_petition) { create(:petition) }
+        let!(:scheduled_email) { create(:scheduled_email, petition: sent_petition, member: member) }
+        let!(:signature) { create(:signature, petition: signed_petition, member: member) }
+
+        subject { member.previous_petition_ids }
+
+        it { should include sent_petition.id.to_s }
+        it { should include signed_petition.id.to_s }
+        it { should_not include other_petition.id.to_s }
+
+        describe "cache values" do
+          before(:each) { member.previous_petition_ids }
+
+          subject { REDIS.smembers petitions_cache_key }
+
+          it { should include sent_petition.id.to_s }
+          it { should include signed_petition.id.to_s }
+          it { should_not include other_petition.id.to_s }
+        end
+      end
+
+      context "values are cached in Redis" do
+        before do
+          REDIS.should_receive(:exists).with(petitions_cache_key).and_return(true)
+          REDIS.should_receive(:smembers).with(petitions_cache_key).and_return([1, 2, 3])
+        end
+
+        subject { member.previous_petition_ids }
+
+        it { should == [1, 2, 3] }
+      end
+    end
+
+    describe "#add_petition_id" do
+      let(:member) { create(:member) }
+      specify { member.previous_petition_ids.should == [] }
+
+      context "after adding" do
+        before(:each) do
+          member.add_petition_id('1')
+        end
+
+        specify { member.previous_petition_ids.should == ['1'] }
+      end
+    end
   end
 
   describe 'class' do
@@ -176,6 +229,9 @@ describe Member do
       end
       
     end
+
+
+
   end
 
 end
