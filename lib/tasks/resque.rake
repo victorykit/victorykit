@@ -14,9 +14,9 @@ task 'resque:setup' => :environment do
   end
 
   Resque.after_fork do |job|
+    ActiveRecord::Base.establish_connection
     NewRelic::Agent.after_fork(:report_to_channel => job.object_id,
                                :report_instance_busy => false)
-    ActiveRecord::Base.establish_connection
   end
 
   if ENV['AIRBRAKE_API_KEY'] 

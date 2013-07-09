@@ -1,3 +1,5 @@
+require 'resque/server'
+
 Victorykit::Application.routes.draw do
   get "privacy/index"
 
@@ -59,6 +61,8 @@ Victorykit::Application.routes.draw do
     resources :on_demand_email
     resources :heartbeat
     resources :unsubscribes, only: [:index]
+
+    mount Resque::Server.new, at: '/resque'
   end
   root :to => "site#index"
 end
