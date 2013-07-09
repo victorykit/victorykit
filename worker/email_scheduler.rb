@@ -5,11 +5,6 @@ WEEK = 60*60*24*7
 BATCH_SIZE = 100
 
 class EmailScheduler
-  class << self
-     include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
-     add_transaction_tracer :schedule_email, :category => :task
-  end
-
   def self.schedule_email
     return if ENV['REALLY_SEND_REAL_EMAILS'] != "1"
 
@@ -39,6 +34,11 @@ class EmailScheduler
     ensure
       process.delete
     end
+  end
+
+  class << self
+    include ::NewRelic::Agent::Instrumentation::ControllerInstrumentation
+    add_transaction_tracer :schedule_email, :category => :task
   end
 end
 
