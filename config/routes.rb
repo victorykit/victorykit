@@ -30,7 +30,6 @@ Victorykit::Application.routes.draw do
   get 'subscribe', to: 'members#new', as: 'subscribe'
   get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
   get 'logout', to: 'sessions#destroy', as: 'logout'
-  get 'test_resque', to: 'signatures#test_resque', as:'test_resque'
   get 'contact', to: 'user_feedbacks#new', as: 'contact'
 
   namespace(:admin) do
