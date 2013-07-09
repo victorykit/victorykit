@@ -1,6 +1,8 @@
 %h1 Active Members (#{@members.count})
 %h2 Sorted by recent first
 
+= link_to 'Export CSV', admin_members_path(format: 'csv')
+
 .pagination_gem= will_paginate @members, :container => false
 
 %table.table.table-striped.table-condensed.sortable
