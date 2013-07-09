@@ -54,7 +54,7 @@ class Petition < ActiveRecord::Base
   end
   
   def self.emailable_petition_ids
-    select('id').where(to_send: true).map(&:id)
+    select('id').not_deleted.where(to_send: true).map(&:id)
   end
 
   def self.find_interesting_petitions_for(member)
