@@ -43,6 +43,14 @@ describe Petition do
     end
   end
 
+  describe '.emailable_petition_ids' do
+    let!(:featured_petition) { create(:petition, to_send: true, deleted: false) }
+    let!(:deleted_petition) { create(:petition, to_send: false, deleted: true) }
+    let!(:deleted_featured_petition) { create(:petition, to_send: true, deleted: true) }
+    subject { Petition.emailable_petition_ids }
+    it { should == [featured_petition.id] }
+  end
+
   describe '#image_urls' do
     let(:image) { build :petition_image, :url => 'www.img.com' }
     before { petition.petition_images << image }
