@@ -22,6 +22,7 @@
     - if is_admin
       %li= link_to('View all petitions', petitions_url)
       %li= link_to('Manage users', admin_users_url)
+      %li= link_to('Members', admin_members_url)
       %li= link_to('Dashboard', admin_dashboard_url)
     - if current_user
       %li
