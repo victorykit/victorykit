@@ -11,19 +11,13 @@ class Admin::MembersController < ApplicationController
       end
 
       format.csv do
+        export = Queries::MembersExport.new
+        filename = "#{export.name}-#{Time.now.strftime("%Y%m%d")}.csv"
+
         self.response.headers['Content-Type'] = 'text/csv'
         self.response.headers['Last-Modified'] = Time.now.ctime.to_s
-        self.response.headers['Content-Disposition'] = 
-          "attachment; active_members.csv"
-        self.response_body = Enumerator.new do |y|
-          i = 0
-          Member.active.find_each do |member|
-            y << member.csv_header.to_csv if i == 0
-            y << member.csv_values.to_csv
-            i += 1
-            GC.start if i%500==0
-          end
-        end
+        self.response.headers['Content-Disposition'] = "attachment; filename=#{filename}"
+        self.response_body = export.as_csv_stream
       end
     end
   end
