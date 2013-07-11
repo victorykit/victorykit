@@ -11,7 +11,10 @@ class Member < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
 
-  scope :active, -> { where('id not in (select member_id from unsubscribes)') }
+  scope :active, -> {
+    joins('LEFT JOIN unsubscribes ON unsubscribes.member_id = members.id').
+    where('unsubscribes.id IS NULL')
+  }
 
   CSV_COLUMNS = [:first_name, :last_name, :email, :state_code]
 
