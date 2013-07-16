@@ -16,218 +16,29 @@
  *= require_tree .
  */
 
-
-html, body {
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  word-wrap: break-word;
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
 }
-body {
-  border-top: 40px solid black;
+input {
+  height: 30px !important;
 }
-#content {
-  min-height: 100%;
-  margin: -40px auto 65px;
-  padding: 0 10px;
-  .page_content {
-    margin: 0 auto;
-    clear: both;
-  }
-}
-.hide { display: none; }
-
-blockquote p {
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin-bottom: inherit;
-}
-
-.flash_message {
-  clear: both;
-  .alert {
-    margin: 10px 0;
-  }
-}
-
-.footer {
-  position: relative;
-  bottom: 0;
-  width: 100%;
-  margin-top: 12px;
-  clear: both;
-  text-align: right;
-  background: #ddd;
-  color: #888;
-  .copyright {
-    padding: 4px 25px;
-    font-size: 12px;
-  }
-}
-
-
-h1 { margin-bottom: 10px; }
-
-a:hover {
-  text-decoration: none;
-}
-
-hr {
-  border-top: 1px dotted #999999;
-  clear: both;
-  margin: 10px 0;
-  width: 100%;
-}
-
-table {
-  border-bottom: 1px solid #DDDDDD;
-  margin: 10px 0;
-}
-
-form {
-  margin-bottom: 40px;
-  .control-group {
-    clear: both;
-  }
-  label {
-    float: left;
-    padding: 4px 10px 0 0;
-    text-align: right;
-  }
-  textarea {
-    resize: none;
-    min-height: 60px;
-    overflow-y: auto;
-  }
-  input.btn {
-    clear: both;
-  }
-  .help-inline {
-    margin-top: 5px;
-  }
-}
-
-input, textarea, .btn { border-radius: 0; }
-
-.privacypolicy {
-  color: #888;
-  font-size: 11px;
-}
-
-.navigation {
-  margin: -40px 0 20px;
-  *margin-top: 0;
-  height: 40px;
-  .row {
-    li { float: right; }
-  }
-  @media (min-width: 250px) and (max-width: 767px) {
-    height: 0;
-    width: 100%;
-    padding: 0;
-    margin-bottom: 0;
-    .nav {
-      margin: 18px 0;
-      display: none;
-      .row {
-        width: 100%;
-      }
-      li {
-        border-bottom: #aaa 1px solid;
-        background: #ccc;
-        width: 100%;
-        margin: 0;
-        &:hover {
-          background: #aaa;
-        }
-        a {
-          margin-left: 10px;
-          font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-          font-size: 14px;
-          text-transform: none;
-          color: #444;
-          text-shadow: none;
-          padding: 5px;
-          width: 100%;
-        }
-      }
-    }
-    .mobile_nav {
-      float: right;
-      margin: 8px 17px;
-    }
-    #nav_btn {
-      display: inline;
-      width: 100px;
-    }
-  }
-}
-.modal {
-  .modal-body {
-    background-color: white;
-  }
-  a.close { margin: -10px -5px 0 0; }
-
-}
-.blackout_modal {
-  .modal-backdrop, .modal-backdrop.fade.in {
-    opacity: 1;
-  }
-}
-th, td .numeric {
-  text-align:right;
-}
-
-@mixin button($color1, $color2) {
-  color: white;
-  font-weight: 400;
-  padding: 4px 10px;
-  background: $color1; /* Old browsers */
-  background: -moz-linear-gradient(1deg,  $color1 0%, $color2 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,$color1), color-stop(100%,$color2)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(90deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(1deg,  $color1 0%,$color2 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(1deg,  $color1 0%,$color2 100%); /* IE10+ */
-  background: linear-gradient(1deg,  $color1 0%,$color2 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
-  border: {
-    width: 1px;
-    style: solid;
-    color: #{$color1} #{$color1} darken($color1, 10%);
-  }
-  &:hover {
-    background: $color2; /* Old browsers */
-    background: -moz-linear-gradient(1deg,  $color2 0%, $color1 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, $color2), color-stop(100%,$color1)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(1deg,  $color1 0%,$color2 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(1deg,  $color2 0%,$color1 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(1deg,  $color2 0%,$color1 100%); /* IE10+ */
-    background: linear-gradient(1deg,  $color2 0%,$color1 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$color2}', endColorstr='#{$color1}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
-  }
+footer {
+  margin-top: 20px;
+  font-size: 12px;
+  text-align: center;
+  background: #efefef;
+  border-top: 1px solid #eee;
 }
 
 .progress_box {
-  padding: 5px 0;
+  padding: 10px;
   margin-bottom: 10px;
-  > div {
-    margin: 5px 15px;
-  }
   &.red-bordered, &.red-unbordered {
     background: #fdf6f6;
     &.red-bordered {
       border: 1px solid #fadada;
     }
-  }
-}
-.progress_text {
-  font-size: 15px;
-  font-weight: bold;
-  color: #615E3F;
-  &.plain {
-    font-size: 13px;
-    font-weight: normal;
   }
 }
 @mixin progressbar($fluid, $fluid_highlight) {
@@ -249,7 +60,7 @@ th, td .numeric {
     background: linear-gradient(1deg,  $fluid 0%,$fluid_highlight 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#{$fluid_highlight}', endColorstr='#{$fluid}',GradientType=0 ); /* IE6-8 fallback on horizontal gradient */
     width: 33%;
-    height: 92%;
+    height: 98%;
     border: 1px solid #{$fluid};
     -moz-box-shadow: inset 3px -4px 4px 1px $fluid;
     -webkit-box-shadow: inset 3px -4px 4px 1px $fluid;
@@ -257,46 +68,39 @@ th, td .numeric {
     border-radius: 11px;
   }
 }
-.bright_red {
-  .progressbar {
-    @include progressbar(#E3170D, #ff0000);
-  }
-  .button {
-    @include button(#E3170D, #ff0000);
-  }
-  .numbers .large_and_bold .signatures {
-    color: #E3170D;
-  }
+.progressbar {
+  @include progressbar(#8B1A1A, #CC1100);
 }
-.dull_red {
-  .progressbar {
-    @include progressbar(#C67171, #cd9b9b);
-  }
-  .button {
-    @include button(#C67171, #cd9b9b);
-  }
-  .numbers .large_and_bold .signatures {
-    color: #C67171;
-  }
+.numbers .large_and_bold .signatures {
+  color: #8B1A1A;
 }
-.dark_red {
-  .progressbar {
-    @include progressbar(#8B1A1A, #CC1100);
-  }
-  .button {
-    @include button(#8B1A1A, #CC1100);
-  }
-  .numbers .large_and_bold .signatures {
-    color: #8B1A1A;
+
+@mixin button($color0, $color1, $color2, $color3) {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: $color0;
+  background-image: -moz-linear-gradient(top, $color1, $color2);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from($color1), to($color2));
+  background-image: -webkit-linear-gradient(top, $color1, $color2);
+  background-image: -o-linear-gradient(top, $color1, $color2);
+  background-image: linear-gradient(to bottom, $color1, $color2);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0044cc', GradientType=0);
+  border-color: $color2 $color2 $color3;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) fadein(rgba(0, 0, 0, 0.1), 15%);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  &:hover, &:active, &.active, &:disabled, &.disabled {
+    background-color: $color3;
   }
 }
 
-@media (min-width: 250px) and (max-width: 767px) {
-  a.logo {
-    margin-top: 12px;
-  }
+.btn-primary {
+  @include button(#b31717, #cc1100, #8B1A1A, #721919);
 }
 
-.clearfix {
-  clear: both;
+input {
+  border-radius: 0 !important;
+}
+.navbar-inner {
+  border-radius: 0;
 }

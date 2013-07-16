@@ -23,15 +23,12 @@
   - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
     - admin_toggle = 'admin'
 
-  %body.classic{ :class => @petition_layout }
-    #left
-    #right
-    #top
-    #content
-      = render :partial =>  "shared/navigation"
+  %body
+    = render :partial =>  "shared/navigation"
+    .container
       .flash_message= render :partial => 'shared/flash_messages'
       = yield
-    = render :partial =>  "shared/footer"
-    = javascript_include_tag :application
-    %script{type: "text/javascript"}
-      = yield :javascripts
+  = render :partial =>  "shared/footer"
+  = javascript_include_tag :application
+  %script{type: "text/javascript"}
+    = yield :javascripts

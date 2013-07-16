@@ -1,16 +1,8 @@
-.fblike_progress
-  .clearfix
-  .social_icons
-    = fb_like petition_url(params[:id]), @signer_code.code
-  .progress_bar
-    .numbers
-      %div{ :class => x_of_y_styling }
-        %span.signatures
-          #{number_with_delimiter(@sigcount, delimiter: ",")}
-        #{"signature".pluralize(@sigcount)} of
-        %span.goal
-          #{number_with_delimiter(counter_size(@sigcount), delimiter: ",")}
-
-    .progressbar
-      .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }
-        .clearfix
+.fb_like
+  = fb_like petition_url(params[:id]), @signer_code.code
+.progress_bar
+  .numbers
+    %strong #{number_with_delimiter(@sigcount, delimiter: ",")}
+    #{"signature".pluralize(@sigcount)} of #{number_with_delimiter(counter_size(@sigcount), delimiter: ",")}
+  .progressbar
+    .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }

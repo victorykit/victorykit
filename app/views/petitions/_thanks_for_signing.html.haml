@@ -1,89 +1,11 @@
-- if after_share_view(@sigcount) == "button_is_going_to_get_us_to_10k"
-  - if @sigcount > 1000
-    .dark_red
-      .progressbar
-        .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/10000)}" }
-  .share
-    This button is
-    %br
-    going to get us to 10,000!
-    %br
-    %br
-    Only one thing left to do...
-  = render :partial => "button_link_toggle", locals: { who: who }
-
-
-- if after_share_view(@sigcount) == "button_is_most_effective_to_10k"
-  - if @sigcount > 1000
-    .dark_red
-      .progressbar
-        .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/10000)}" }
-  .share
-    This button is the most effective tool to get us to 10,000.
-    %br
-    %br
-    Only one thing left to do...
-  = render :partial => "button_link_toggle", locals: { who: who }
-
-- if after_share_view(@sigcount) == "can_you_help_us_reach_10k"
-  - if @sigcount > 1000
-    .dark_red
-      .progressbar
-        .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/10000)}" }
-  .share
-    Can you help us reach the 10,000 mark?
-    %br
-    %br
-    Sharing is the most effective way to get more signatures...
-  = render :partial => "button_link_toggle", locals: { who: who }
-
-- if after_share_view(@sigcount) == "help_us_reach_10k"
-  .progress_image
-    = image_tag("progress_bar.png")
-    .share
-      Help up reach the 10,000 mark!
-      %br
-      %br
-      You know what to do...
-    = render :partial => "button_link_toggle", locals: { who: who }
-
-
-- if after_share_view(@sigcount) == "button_is_most_effective_tool-progress_bar"
-  .progress_image
-    = image_tag("progress_bar.png")
-    .share.remixed
-      You're almost there!
-      %br
-      Only one thing left to do...
-  .remix.text
-    This button is the most effective tool
-    %br
-    to make change happen.
-  = render :partial => "button_link_toggle", locals: { who: who }
-
-- if after_share_view(@sigcount) == "almost_there_only_one_thing_left_to_do-bottom_arrow"
-  .progress_image
-    = image_tag("progress_bar_arrow_bottom.png")
-    .share
-      You're almost there!
-      %br
-      Only one thing left to do...
-    = render :partial => "button_link_toggle", locals: { who: who }
-
-- if after_share_view(@sigcount) == "almost_there_only_one_thing_left_to_do-85_bottom_arrow"
-  .progress_image
-    = image_tag("progress_bar_85_arrow_bottom.png")
-    .share
-      You're almost there!
-      %br
-      Only one thing left to do...
-    = render :partial => "button_link_toggle", locals: { who: who }
-
-- if after_share_view(@sigcount) == "almost_finished_only_one_thing_left_to_do"
-  .progress_image
-    = image_tag("progress_bar.png")
-    .share
-      You're almost finished!
-      %br
-      Only one thing left to do...
-    = render :partial => "button_link_toggle", locals: { who: who }
+.progress_image
+  = image_tag("progress_bar.png")
+  %br
+  You're almost there!
+  %br
+  Only one thing left to do...
+.message
+  This button is the most effective tool
+  %br
+  to make change happen.
+= render :partial => "button_link_toggle", locals: { who: who }

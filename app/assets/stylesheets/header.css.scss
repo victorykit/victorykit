@@ -1,106 +1,11 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
-*/
-
-@import "primary_secondary";
-
-.navigation {
-  margin: 0 auto;
-  *height: 50px;
-  *margin-top: 0;
-  li {
-    float: left;
-    margin-right: 10px;
-  }
-  #nav_btn {
-    display: none;
-  }
-  ul.nav {
-    @extend .primary;
-    a, div {
-      color: #999999;
-      float: none;
-      line-height: 19px;
-      padding: 9px 20px 11px 0;
-      text-decoration: none;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-    }
-    a:hover {
-      color: #efefef;
-      background: none;
-    }
-  }
-  .logo_box {
-    @extend .secondary;
-    .logo {
-      float: left;
-      font-family: "LeagueGothicRegular";
-      font-size: 3em;
-      color: white;
-      line-height: 30px;
-      height: 30px;
-      *line-height: 32px;
-      *height: 32px;
-      margin-top: 5px;
-      @media (min-width: 979px) {
-        width: 181px;
-      }
-      @media (max-width: 320px) {
-        margin: 6px 0 6px -5px;
-      }
-    }
-  }
-}
-/* dataTable */
-.dataTable {
-  border-top: 1px solid #eee
-}
-.dataTable th, .dataTable td {
-  border: 1px solid #eee;
-  text-align: left;
-}
-
-/* for ff on start a petition page */
-.current-font { color: #333; }
-
-@media (min-width: 250px) and (max-width: 767px) {
-  #content .navigation {
-    ul.nav {
-      width: 100%;
-      margin: 0 -20px;
-      padding: 0 10px;
-      li {
-        padding: 6px 0 4px;
-      }
-    }
-    .logo_box, ul.nav{
-      margin-bottom: 7px;
-    }
-  }
-}
-
-body.focused {
-  background: #555555;
-  border-color: transparent;
-  #content .navigation {
-    background: none;
-    .logo_box, .logo.brand {
-      color: #bbbbbb;
-      width: 100%;
-      max-width: 1200px;
-      text-align: center;
-      margin: 3px auto;
-    }
-    ul.nav, .mobile_nav {
-      display: none;
-    }
+.logo {
+  font-family: "LeagueGothicRegular";
+  font-size: 3em;
+  color: white;
+  float: left;
+  line-height: 40px;
+  &:hover {
+    color: #eee;
+    text-decoration: none;
   }
 }

@@ -66,10 +66,6 @@ module PetitionsHelper
     ]
   end
 
-  def under_10k_message
-    spin! 'under 10k messaging', :signature, ["10k_message", "default"]
-  end
-
   def learn_more_button_color
     spin! 'learn more button color', :signature, ["grey", "blue", "link"]
   end
@@ -77,14 +73,6 @@ module PetitionsHelper
   def accent_red
     measure!('toggle red for buttons and progress bar',
       :signature, ['bright_red', 'dull_red', 'dark_red'])
-  end
-
-  def x_of_y_styling
-    measure! 'styling of x signatures of y (measure)', :signature, [
-      'plain',
-      'bold',
-      'large_and_bold'
-    ]
   end
 
   def progress_box_border
@@ -112,11 +100,6 @@ module PetitionsHelper
   def privacy_policy_position_and_color
     return 'inside_aaa' if browser.mobile?
     spin! 'change privacy policy position relative to sign box and color on petition page', :signature, ['inside_ccc', 'inside_aaa', 'inside_888', 'outside_ccc', 'outside_aaa', 'outside_888']
-  end
-
-  def sign_petition_option
-    #spin! 'test different ways to sign and share', :share, ['just_sign', 'sign_and_share']
-    'just_sign'
   end
 
   private
