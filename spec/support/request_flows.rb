@@ -8,6 +8,7 @@ def signin email, pass
     click_button 'Sign Up'
   end
   yield
+  find('a.logged-in-menu').click
   click_link 'Log Out'
 end
 
@@ -20,6 +21,7 @@ def login email, pass
     click_button 'Log in'
   end
   val = yield
+  find('a.logged-in-menu').click
   click_link 'Log Out'
   val
 end

@@ -33,7 +33,7 @@
                 %li= link_to('Hottest List', admin_hottest_index_url)
           - if current_user
             %li.dropdown
-              %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
+              %a.logged-in-menu.dropdown-toggle{ 'data-toggle' => 'dropdown' }
                 Logged in as #{current_user.email}
                 %b.caret
               %ul.dropdown-menu
