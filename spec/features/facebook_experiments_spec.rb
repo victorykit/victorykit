@@ -1,7 +1,7 @@
 describe 'facebook experiments' do
   let(:user) { create :admin_user }
 
-  context 'image on opengraph metadata', js: true, driver: :webkit do
+  context 'image on opengraph metadata', js: true, driver: :selenium do
     let(:member) { create :member }
     let(:image ) { 'http://wow.com/image.png' }
     let(:petition) { create_petition(images: [image]) }
@@ -41,8 +41,8 @@ describe 'facebook experiments' do
           images: ['placekitten.com/g/200/200','placekitten.com/g/200/220']
         })
 
-        force_result({
-          'facebook sharing options' => 'facebook_popup',
+        force_result({ 
+          'facebook sharing options' => 'facebook_popup', 
           'after share view 2' => 'button_is_most_effective_tool'
         })
 
