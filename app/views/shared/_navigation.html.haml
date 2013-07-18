@@ -1,45 +1,35 @@
-.navbar.navbar-inverse
-  .navbar-inner
-    .container
-      %button.btn.btn-navbar{ 'data-toggle' => 'collapse', 'data-target' => '.nav-collapse' }
-        %span.icon-bar
-        %span.icon-bar
-        %span.icon-bar
+- if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
+  - class_toggle = 'admin'
 
-      = link_to 'WATCHDOG.NET', '/', class: 'logo'
-      .nav-collapse.in.collapse
-        %ul.nav.pull-right
-          - if should_spin_petition_options?
-            - if spin! "show start a petition link to non-admins on petition page", :signature
-              %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-          - else
-            %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-          - if is_admin
-            %li.dropdown
-              %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
-                Members
-                %b.caret
-              %ul.dropdown-menu
-                %li= link_to('Manage users', admin_users_url)
-                %li= link_to('Members', admin_members_url)
-            %li.dropdown
-              %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
-                Petitions
-                %b.caret
-              %ul.dropdown-menu
-                %li= link_to('View all petitions', petitions_url)
-                %li= link_to('Dashboard', admin_dashboard_url)
-                %li= link_to('Experiments', admin_experiments_url)
-                %li= link_to('Hottest List', admin_hottest_index_url)
-          - if current_user
-            %li.dropdown
-              %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
-                Logged in as #{current_user.email}
-                %b.caret
-              %ul.dropdown-menu
-                %li= link_to('Change Password', edit_user_path(current_user))
-                %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
-          - elsif controller_name == 'petitions' && action_name == 'show'
-            .nodivider
-          - else
-            %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')
+.navigation{class: [class_toggle]}
+  .logo_box
+    - if should_spin_petition_options?
+      - if measure! "have logo link to home for non-admins on petition page 2", :signature
+        = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
+      - else
+        .logo.brand WATCHDOG.NET
+    - else
+      = link_to('WATCHDOG.NET', '/', :class => 'logo brand')
+  .mobile_nav
+    .btn#nav_btn
+      %i.icon-plus
+  %ul.nav
+    - if should_spin_petition_options?
+      - if spin! "show start a petition link to non-admins on petition page", :signature
+        %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
+    - else
+      %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
+    - if is_admin
+      %li= link_to('View all petitions', petitions_url)
+      %li= link_to('Manage users', admin_users_url)
+      %li= link_to('Members', admin_members_url)
+      %li= link_to('Dashboard', admin_dashboard_url)
+    - if current_user
+      %li
+        %div Logged in as #{current_user.email}
+      %li= link_to('Change Password', edit_user_path(current_user))
+      %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
+    - elsif controller_name == 'petitions' && action_name == 'show'
+      .nodivider
+    - else
+      %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')

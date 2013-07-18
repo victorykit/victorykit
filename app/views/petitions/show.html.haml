@@ -1,29 +1,47 @@
 - content_for :title, @petition.title
 = render :partial => "javascript_content"
+
 .fb-root
 
+#mobile_thanks{class: @was_signed ? "was_signed" : "not_signed"}
+  .container
+    = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
 #petition_page.page_content{class: @was_signed ? "was_signed" : "not_signed"}
   - if @petition.has_edit_permissions(current_user)
+    %h1.petition_title.admin= @petition.title
     = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
+  - else
+    %h1.petition_title= @petition.title
 
-%h1.visible-phone= @petition.title
-
-.visible-phone#mobile_thanks{class: @was_signed ? "was_signed" : "not_signed"}
-  = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
-
-.row
-  .span3
+  .sidebar{ :class => accent_red }
     - if !@was_signed and !browser.mobile?
-      .progress_box{ :class => progress_box_border }
-        .progress_text.plain
-          Step 1 of 3 complete...
-        .progressbar
-          .fluid
-        .progress_text
-          You've made it this far.  Please sign!
-      .signature-form
-        %h3 Sign this petition!
+      - if (@sigcount < 10000)
+        - if under_10k_message == "10k_message"
+          .progress_box{ :class => progress_box_border }
+            .progress_text
+              We send every petition that gets 10,000 signatures or more.
+        - if under_10k_message == "default"
+          .progress_box{ :class => progress_box_border }
+            .progress_text.plain
+              Step 1 of 3 complete...
+            .progressbar
+              .fluid
+            .progress_text
+              You've made it this far.  Please sign!
+      - else
+        .progress_box{ :class => progress_box_border }
+          .progress_text.plain
+            Step 1 of 3 complete...
+          .progressbar
+            .fluid
+          .progress_text
+            You've made it this far.  Please sign!
+    .clearfix
+    .signature-form
+      .title
+        Sign this petition!
+      .through_site
         = form_tag [@petition, @signature] do |form|
           = simple_fields_for :signature, @signature do |f|
             = f.input :first_name, :hint => false, :autofocus => true
@@ -32,69 +50,86 @@
             = hidden_field_tag :referer_ref_code, @referer_ref_code
             = hidden_field_tag :referer_ref_type, @referer_ref_type
             = hidden_field_tag :signer_ref_code, @signer_code.code
-            = f.button :submit, :id => 'sign_petition', :class => "btn btn-primary", :value => 'Sign!'
-          .privacy_policy
+            #hint.alert.alert-error
+            - if sign_petition_option == 'sign_and_share'
+              = f.button :submit, :id => 'sign_petition_and_share', :class => "button", :value => 'Sign and Share'
+              = f.button :submit, :id => 'sign_petition', :class => 'btn no_share', :value => 'Sign'
+            - else
+              = f.button :submit, :id => 'sign_petition', :class => "button", :value => 'Sign!'
+        - if (privacy_policy_position_and_color == "inside_ccc" || privacy_policy_position_and_color == "inside_aaa" || privacy_policy_position_and_color == "inside_888")
+          .privacypolicy{ :class => privacy_policy_position_and_color }
             = render :partial => "privacy"
 
+    - if !@was_signed && (privacy_policy_position_and_color == "outside_ccc" || privacy_policy_position_and_color == "outside_aaa" || privacy_policy_position_and_color == "outside_888")
+      .privacypolicy{ :class => privacy_policy_position_and_color }
+        = render :partial => "privacy"
     - if !@was_signed
       = render :partial => "fblike_progress"
-      .visible-phone
-        = link_to('Sign this Petition!', '', :class => "btn btn-primary")
+    #thanks-for-signing-message
+      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
 
     - if @was_signed
-      #thanks-for-signing-message
-        = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-side' }
       = button_to 'Does someone else want to sign? Click here.', again_petition_path(@petition, @query), id: 'sign-again', method: :post
 
-  .span9
-    %h1.hidden-phone= @petition.title
-    .petition_body
-      %hr
-      - petitiontext = @petition.description_lsub
-      - if @petition.to_send != true
-        - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
-      - if @petition.petition_images.any?
-        = image_tag @petition.petition_images.first.public_url
-      .description= petitiontext.html_safe
-      .visible-phone= link_to('Sign this Petition!', '', :class => 'btn btn-primary', :style => ( @was_signed ? 'display:none' : ''))
+  .mobile_signup_button{ :class => accent_red }
+    = link_to('Sign this Petition!', '', :class => "button")
 
+  .petition_view_toggle
+    - if learn_more_button_color == "grey"
+      .btn Learn more
+    - if learn_more_button_color == "blue"
+      .btn.btn-primary Learn More
+    - if learn_more_button_color == "link"
+      .link Learn More
+  .petition_body
+    %hr
+    - petitiontext = @petition.description_lsub
+    - if @petition.to_send != true
+      - petitiontext = Sanitize.clean(petitiontext, Sanitize::Config::BASIC)
+    - if @petition.petition_images.any?
+      #image
+        %img{ src: @petition.petition_images.first.public_url }
+    .description= petitiontext.html_safe
+    .mobile_signup_button{ :class => accent_red }
+      = link_to('Sign this Petition!', '', :class => 'mobile_sign button', :style => ( @was_signed ? 'display:none' : ''))
+    .clearfix
 
-- content_for(:meta_tags) do
-  - open_graph_for(@petition, @referer_code || @signer_code).each do |key, value|
-    = tag 'meta', property:key, content:value.to_s
+  - content_for(:meta_tags) do
+    - open_graph_for(@petition, @referer_code || @signer_code).each do |key, value|
+      = tag 'meta', property:key, content:value.to_s
 
-= hidden_field_tag 'petitionId', @petition.id
+  = hidden_field_tag 'petitionId', @petition.id
 
-.modal.hide.fade#thanksModal
-  .modal-body
-    = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-    = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
+  .modal#thanksModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      = render :partial => "thanks_for_signing", locals: { who: 'the-one-in-the-modal' }
 
-.modal.hide.fade#facebookFriendsModal
-  .modal-body
-    = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-    = render :partial => "facebook_friend_widget"
-  .modal-footer
-    %a.btn.btn-success{:href => "#"} Send
+  .modal.hide#facebookFriendsModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      = render :partial => "facebook_friend_widget"
+    .modal-footer
+      %a.btn.btn-success{:href => "#"} Send
 
-.modal.hide.fade#thanksAfterSharingModal
-  .modal-body
-    = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-    - spin! "show donation modal", :donation
-    %h3
-      Thanks for sharing!
-    %p
-      Want to support our work?
-      = link_to('Donate $5', '#', :class => "donate_btn btn")
-    = link_to('Close', '#', :class => "close btn", :"data-dismiss" => 'modal')
+  .modal.hide#thanksAfterSharingModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      - spin! "show donation modal", :donation
+      %h3
+        Thanks for sharing!
+      %p
+        Want to support our work?
+        = link_to('Donate $5', '#', :class => "donate_btn btn")
+      = link_to('Close', '#', :class => "close btn", :"data-dismiss" => 'modal')
 
-.modal.hide.fade#abortSharingModal
-  .modal-body
-    = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
-    %h3
-      Hey &mdash; we need those permissions in order to share!
-    %h4
-      Sorry, but Facebook won't let us share this unless you grant us those permissions.  We promise we won't abuse them for anything else.
-    %p{ :class => accent_red }
-      %a.btn.btn-primary.button.btn-large.share#try-again
-        Try again!
+  .modal.hide#abortSharingModal
+    .modal-body
+      = link_to('x' , '#', :class => "close", :"data-dismiss" => 'modal')
+      %h3
+        Hey &mdash; we need those permissions in order to share!
+      %h4
+        Sorry, but Facebook won't let us share this unless you grant us those permissions.  We promise we won't abuse them for anything else.
+      %p{ :class => accent_red }
+        %a.btn.btn-primary.button.btn-large.share#try-again
+          Try again!

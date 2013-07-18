@@ -1,90 +1,197 @@
-.signature-form, #thanks-for-signing-message {
-  background: black;
-  color: white;
-  padding: 1px 10px;
-  * {
-    width: 100%;
-  }
-}
-.signature-form {
-  h3 {
-    text-align: center;
-  }
-  .btn {
-    width: 100%;
-  }
-}
-#thanks-for-signing-message {
-  font-size: 1.3em;
-  padding: 0;
-  text-align: center;
-  * {
-    padding: 10px;
-  }
-  .message {
-    background: #666;
-  }
-}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+*/
 
-.petition_body img {
-  width: 300px;
-  float: right;
-}
-.privacy_policy {
-  margin-top: 10px;
-  font-size: .8em;
-  line-height: 1.2em;
-  color: #888;
-}
-.fb_like {
-  margin: 10px 0;
-  padding: 10px 8px 5px;
-  background: #f7f7f7;
-  border: #ddd 1px solid;
-}
-#thanksModal {
-  text-align: center;
-  font-size: 1.4em;
-  line-height: 1.5em;
-  .modal-body {
-    padding: 20px 0 15px;
+@import "primary_secondary";
+
+.classic {
+  h1.petition_title, .petition_body, .header_progress {
+    @extend .primary;
   }
-  .close {
-    margin: -11px 13px 0 0;
+  h1.petition_title {
+    margin-top: 0;
+    font-size: 35px;
   }
-  .progress_image {
-    margin-bottom: 10px;
+  .sidebar {
+    @extend .secondary;
+    min-width: 287px;
+    .progress_box .progressbar {
+      margin: auto 13px;
+    }
+    .fblike_progress {
+      .social_icons {
+        margin-top: 7px;
+        background: #f8f8f8;
+        outline: 1px solid #efefef;
+        width: 100%;
+        .fb_edge_widget_with_comment {
+          margin: 6px 8px 3px;
+        }
+      }
+      .progress_bar {
+        width: 100%;
+        margin-top: 10px;
+        margin: inherit 13px;
+        float: left;
+        .progress {
+          width: 100%;
+        }
+        .numbers {
+          text-align: left;
+          color: black;
+          .bold, .large_and_bold {
+            .signatures, .goal {
+              font-weight: bold;
+            }
+          }
+          .large_and_bold {
+            .signatures {
+              font-size: 200%;
+              font-style: italic;
+            }
+          }
+        }
+      }
+      @media (min-width: 600px) and (max-width: 768px) {
+        .progress_bar, .social_icons {
+          clear: none;
+          width: 49%;
+        }
+        .progress_bar {
+          float: right !important;
+          margin-top: 4px;
+          .progressbar {
+            margin-top: -2px;
+          }
+        }
+      }
+    }
+  }
+  #mobile_thanks {
+    &.was_signed {
+      @media (max-width: 767px) {
+        display: block;
+      }
+    }
+    @media (max-width: 767px) {
+      background: #ddd;
+      width: 100%;
+      margin-bottom: 25px;
+    }
+    .container {
+      padding: 10px;
+    }
+  }
+  .petition_view_toggle {
+    display: none;
+  }
+  .page_content .signature-form {
+    .control-label {
+      *clear: both;
+      padding: 0;
+      border-bottom: none;
+      margin-top: 10px;
+      text-align: left;
+      width: 100%;
+      float: left;
+    }
+    .through_site .controls {
+      text-align: left;
+      width: 100%;
+    }
+    .through_site .controls, .through_site .controls input {
+      clear: both;
+      border: none;
+      border-radius: 0;
+      width: 100%;
+    }
+    .privacypolicy { margin: 0 10px 10px 0\9; clear: both\9; }
+    .control-group { *height: 4.5em; *width: 100%; }
+    @media (min-width: 470px) and (max-width: 768px) {
+      .control-label {
+        text-align: right;
+        margin: 3px 13px 0 0;
+        float: left;
+      }
+      .through_site .controls {
+        float: right;
+        clear: none;
+      }
+    }
+    @media (min-width: 670px) and (max-width: 768px) {
+      .control-label {
+        width: 13%;
+      }
+      .through_site .controls {
+        width: 84%;
+      }
+    }
+    @media (min-width: 470px) and (max-width: 669px) {
+      .control-label {
+        width: 18%;
+      }
+      .through_site .controls {
+        width: 77%;
+      }
+    }
+  }
+}
+.privacy_tooltip {
+  background: #F1F5FA;
+  border-radius: 5px;
+  padding: 7px 11px;
+  margin-top: 5px;
+  display: none;
+  &.centered {
     clear: both;
-  }
-}
-#thanksModal, #thanks-for-signing-message {
-  img {
-    margin-bottom: 5px;
-  }
-  .message {
-    padding: 10px;
-    margin: 15px 0;
-    background: #666;
-    color: white;
-  }
-  .button {
-    height: 63px;
-    width: 147px;
-    margin: 0 auto;
-    background: url("like_red_tall_no_f.png");
-    &:hover {
-      background: url("like_red_tall_no_f_hover.png");
-    }
-  }
-  .fb_toggle {
-    font-size: 12px;
-    cursor: pointer;
-    &:hover {
-      color: red;
+    text-align: center;
+    .toggle_tooltip a:hover {
+      color: #3299CC;
     }
   }
 }
-#sign-again {
+.signature-form .privacy_tooltip {
+  color: #666;
+}
+.petition_body {
+  .description {
+    line-height: 21px;
+    @media (max-width: 500px) {
+      line-height: 19px;
+      clear: both;
+    }
+  }
+  #image {
+    float: right;
+    margin-left: 10px;
+    max-width: 300px;
+    @media (max-width: 500px) {
+      margin: 0 auto 5px;
+      float: none;
+    }
+  }
+}
+.progress_bar {
+  float: right;
+  text-align: right;
+  .progress {
+    margin-bottom: 10px;
+    width: 300px;
+  }
+}
+.social_icons {
+  float: left;
+  margin: 33px 0 5px;
+}
+form #sign-again {
   white-space: normal;
   background: none;
   border: none;
@@ -92,5 +199,543 @@
   width: 100%;
   margin: 10px auto;
   color: #06c;
-  font-size: 12px;
+  &:hover {
+    color: #08c;
+  }
+}
+
+#thanksModal {
+  display: none;
+  border: none;
+  background: none;
+  box-shadow: none;
+  .modal-body {
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 6px 6px 6px 6px;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    min-height: 219px;
+    margin: 0 auto;
+    overflow: visible;
+    width: 400px;
+    .progressbar {
+      margin-top: 25px;
+    }
+  }
+  a {
+    clear: both;
+    font-weight: normal;
+  }
+}
+
+#thanksModal, #thanks-for-signing-message, #mobile_thanks {
+  .btn {
+    margin: 0 auto 10px;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+  }
+}
+
+#thanks-for-signing-message, #thanksModal {
+  padding: 10px;
+}
+
+.signature-form {
+  .title {
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    padding: 15px 15px 0;
+    line-height: 30px;
+  }
+  .privacypolicy {
+    color: #ccc;
+    padding: 0 10px 10px;
+    clear: both;
+    @media (max-width: 500px) {
+      line-height: 16px;
+    }
+  }
+  .through_site {
+    width: auto;
+    border-right: none;
+    form { padding: 10px; margin-bottom: 0; }
+    .control-group { *clear: both; *margin-right: 3px; }
+    label {
+      text-align: left;
+      abbr { border-bottom: none; }
+    }
+    input {
+      width: 100%;
+      padding: 5px 0;
+      margin-left: 0;
+      &.btn { width: 100%; text-align: center; *clear: left; *margin-top: 20px; }
+      &#sign_petition_and_share, &#sign_petition {
+        clear: none;
+      }
+      &#sign_petition.no_share {
+        width: 28%;
+      }
+      &#sign_petition_and_share {
+        width: 68%;
+        margin-right: 10px;
+      }
+    }
+    .help-inline {
+      padding: 5px 10px;
+      margin-top: 0;
+    }
+    #hint {
+      margin-bottom:7px;
+      clear: both;
+      text-align: center;
+      display: none;
+    }
+    .control-label {
+      width: 100%;
+    }
+  }
+}
+#thanks-for-signing-message, #thanksModal, #mobile_thanks {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  .remix {
+    font-size: 20px;
+    line-height: 25px;
+    padding: 15px;
+  }
+  .share {
+    clear: both;
+    font-size: 27px;
+    line-height: 30px;
+    margin: 15px 0 25px;
+    &.remixed {
+      font-size: 22px;
+    }
+    &.margin-bottom-ten {
+      margin-bottom: 10px;
+    }
+    &.fb_toggle {
+      color: blue;
+      font-size: 14px;
+      font-weight: normal;
+      cursor: pointer;
+      margin: -15px 0 0px;
+    }
+  }
+  .share_url {
+    margin-bottom: 25px;
+    width: 75%;
+  }
+}
+#thanksModal {
+  .remix {
+    padding: 15px;
+    margin: 0 0 15px -15px;
+    width: 100%;
+    background: none repeat scroll 0 0 #EEEEEE;
+  }
+}
+#thanks-for-signing-message, #mobile_thanks {
+  .remix {
+    background: none;
+    margin: 0 0 15px -10px;
+    width: 96%;
+    background: #444;
+  }
+}
+#mobile_thanks .remix.text {
+  color: white;
+}
+
+
+.numbers {
+  width: 300px;
+  font-size: 16px;
+  padding-bottom: 5px;
+}
+.highlight_text {
+  font-weight: bold;
+  display: inline;
+  &.break { display: block; }
+}
+
+
+#petition_page {
+  &.not_signed {
+    #thanks-for-signing-message { display: none; }
+    .signature-form, .privacypolicy { display: block; clear: both; }
+  }
+  &.was_signed {
+    #thanks-for-signing-message { display: block; }
+    .signature-form, .privacypolicy { display: none; }
+  }
+}
+
+@media (min-width: 769px) {
+  #sign_mobile, .mobile_signup_button {
+    display: none;
+  }
+}
+#sign_mobile {
+  display: none;
+  padding: 0;
+  width: 300px;
+  margin: 0 0 30px 0;
+  .help-inline {
+    font-size: 14px;
+    margin-bottom: 5px;
+    padding: 0px 5px;
+    float: left;
+  }
+}
+@media (max-width: 767px) {
+  .social_icons, .progress_bar, .mobile_signup_button {
+    float: left !important;
+    text-align: left !important;
+  }
+  .was_signed .mobile_signup_button {
+    display: none;
+  }
+  .container h1 { margin-left: 0; }
+  .petitionform {
+    width: 95%;
+    margin: 0 auto;
+    form { width: 100%; }
+    .control-group {
+      width: 99%;
+      label, .controls, .control-label {
+        clear: both;
+        float: left;
+        margin-left: 0px;
+        text-align: left;
+        max-width: 100% ;
+      }
+      iframe.wysihtml5-sandbox {
+        width: 100% !important;
+      }
+      .controls, iframe.wysihtml5-sandbox {
+        width: 100%;
+        input {
+          width: 100%;
+          margin: 0;
+        }
+      }
+      #petition_description-wysihtml5-toolbar {
+        width: 100%;
+      }
+    }
+    .control-group.boolean {
+      .control-label, .controls, label.checkbox {
+        float: left;
+        clear: none;
+      }
+      .controls {
+        width: 20px;
+        label.checkbox {
+          padding: 0;
+          margin: 2px 0 0 0px;
+          width: 20px;
+        }
+      }
+    }
+    .controls { margin-left: 0 !important; }
+    .controls.toggle {
+      margin: 5px auto;
+    }
+    .control-group.string .control-label {
+      margin-bottom: 8px;
+    }
+    .controls.submit { margin-left: 0px; width: 100%; }
+  }
+}
+@media (min-width: 381px) and (max-width: 789px)  {
+  .petitionform {
+    margin-left: 2%;
+    .additional_title input.with_icon { max-width: 89%; }
+    .control-group.boolean .controls label.checkbox { margin: 7px 0 0 -20px; }
+  }
+}
+@media (max-width: 321px) {
+  .petitionform {
+    margin-left: 1%;
+    .additional_title input.with_icon { max-width: 83%; }
+  }
+}
+
+.fb_share.btn {
+  margin-bottom: 10px;
+}
+
+.mobile_signup_button {
+  margin: 5px 0;
+  display: none \9;
+  *display: none;
+}
+
+.btn.fb_popup_btn, .btn.fb_dialog_btn, .btn.fb_widget_btn, .btn.fb_request_btn, .btn.fb_autofill_request_btn {
+  height: 39px;
+  margin: 10px;
+  padding: 0;
+  border: 1px solid #3B5998;
+  background: #3B5998;
+  &:hover {
+    background: #32539a;
+  }
+  div {
+    float: left;
+  }
+  .fb_icon {
+    background: url("fb-button-icon39.png");
+    height: 39px;
+    width: 39px;
+  }
+  .text {
+    padding:  10px;
+    font-size: 14px;
+  }
+}
+.sidebar .signature-form, .sidebar #thanks-for-signing-message {
+  background: black;
+  color: white;
+}
+.page_content .signature-form .control-label {
+  padding: 0;
+  margin-top: 10px;
+}
+
+#mobile_thanks {
+  display: none;
+}
+
+.progress_image {
+  margin-top: 15px;
+  .share {
+    line-height: 36px;
+    margin-bottom: 20px;
+    &.remixed { font-size: 20px; }
+  }
+}
+#mobile_thanks, #thanks-for-signing-message {
+  .share {
+    font-size: 22px;
+    &.fb_toggle {
+      font-size: 15px;
+      color: #007FFF;
+    }
+  }
+
+}
+#mobile_thanks .progress_image .share { font-size: 20px; }
+#facebookFriendsModal.modal {
+  margin-left: -281px;
+  .modal-body {
+    overflow-y: hidden;
+    background: #F5F5F5;
+    padding: 15px 15px 0;
+  }
+  h3 {
+    margin-top: 10px;
+    font-size: 23px;
+    color: #222;
+  }
+  #message_label {
+    margin-top: 15px;
+  }
+  #message-to-friends {
+    width: 520px;
+    margin: 5px 0 15px 0;
+  }
+  h4 {
+    font-size: 18px;
+    color: #222;
+    clear: both;
+    padding: 14px 0 6px 0;
+    font-weight: 500;
+  }
+  #other {
+    margin-top: 10px;
+  }
+  .friend_lists {
+    overflow-y: scroll;
+    background: white;
+    border: 1px solid #CCCCCC;
+    max-height: 285px;
+    margin-left: -15px;
+    overflow-y: auto;
+    padding: 0 20px;
+    width: 518px;
+  }
+  .friend {
+    padding: 5px;
+    width: 241px;
+    float: left;
+    .name {
+      display: inline;
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    input {
+      margin-top: -2px;
+    }
+  }
+}
+
+.privacypolicy {
+  &.inside_ccc, &.outside_ccc {
+    color: #ccc;
+  }
+  &.inside_aaa, &.outside_aaa {
+    color: #aaa;
+  }
+  &.inside_888, &.outside_888 {
+    color: #888;
+  }
+  &.outside_ccc, &.outside_aaa, &.outside_888 {
+    margin-top: 5px;
+  }
+}
+#abortSharingModal {
+  h3, h4 {
+    text-align: center;
+    margin: 20px;
+  }
+  h4 {
+    font-weight: normal;
+  }
+  .btn {
+    margin: 10px 40%;
+  }
+}
+#thanksAfterSharingModal {
+  p {
+    text-align: center;
+    .btn {
+      margin-left: 8px;
+    }
+  }
+  h3 {
+    text-align: center;
+    margin: 20px;
+  }
+  .btn.close {
+    margin: 10px 44%;
+    opacity: 1;
+  }
+}
+.focused {
+  background: black;
+  .logo.brand {
+    color: #444;
+  }
+  ul.nav, .mobile_nav {
+    display: none;
+  }
+  #petition_page {
+    background: white;
+    width: 70%;
+    @media (min-width: 500px) and (max-width: 1000px) {
+      width: 95%;
+    }
+    @media (max-width: 500px) {
+      width: 100%;
+    }
+    padding: 10px 0;
+    h1.petition_title {
+      margin: 20px auto;
+      width: 90%;
+      text-align: center;
+      @media (max-width: 1000px) {
+        line-height: 20px;
+        margin: 0px auto 6px;
+      }
+      @media (max-width: 500px) {
+        font-size: 16px;
+      }
+      @media (min-width: 501px) and (max-width: 1000px) {
+        font-size: 18px;
+      }
+    }
+    .progress_box, .fblike_progress {
+      display: none;
+    }
+    .sidebar {
+      margin: 0 auto;
+      width: 50%;
+      @media (min-width: 501px) and (max-width: 800px) {
+        width: 75%;
+      }
+      @media (max-width: 500px) {
+        width: 100%;
+      }
+      .signature-form {
+        width: 100%;
+        background: white;
+        color: black;
+        .title {
+          font-size: 22px;
+          color: #666;
+          padding: 15px 0 0;
+          @media (max-width: 1000px) {
+            font-size: 16px;
+            line-height: 16px;
+            padding: 5px 0 0;
+          }
+        }
+        label, input {
+          float: left;
+          @media (max-width: 1000px) {
+            margin-bottom: 3px !important;
+          }
+        }
+        label {
+          width: 85px;
+        }
+        input#sign_petition {
+          margin: 15px 0;
+          @media (max-width: 1000px) {
+            margin: 0 0 4px;
+          }
+        }
+        .control-label {
+          width: 30%;
+          margin-top:5px;
+          text-align: right;
+          font-weight: bold;
+        }
+        .through_site .controls {
+          width: 68%;
+          clear: none;
+        }
+        .through_site .controls, .through_site .controls input {
+          float: right;
+        }
+      }
+    }
+  }
+  .petition_view_toggle {
+    color: blue;
+    text-align: center;
+    margin: 20px 10px 10px;
+    @media (max-width: 1000px) {
+      margin: 3px 0 0;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
+  }
+  .petition_body {
+    display: none;
+    margin: 30px 20px 10px;
+    @media (max-width: 500px) {
+      margin: 10px;
+    }
+  }
+  .footer {
+    background: transparent;
+    color: #bbb;
+    text-align: center;
+  }
 }
