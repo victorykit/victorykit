@@ -1,0 +1,12 @@
+
+.row
+  .span2
+    = render partial: 'navigation'
+  .span10
+    %h2 Upload
+
+    Accepts a file with one email address per line to be unsubscribed from the list of active members.
+
+    = form_tag({action: :create}, multipart: true) do
+      = file_field_tag 'file'
+      = submit_tag 'Upload'

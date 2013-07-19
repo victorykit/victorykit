@@ -1,0 +1,11 @@
+.well
+  %ul.nav.nav-list
+    %li.nav-header
+      Unsubscribes
+    %li{class: controller.action_name == 'index' ? "active" : "" }
+      = link_to 'List', admin_unsubscribes_path
+    %li{class: controller.action_name == 'export' ? "active" : "" }
+      = link_to 'Export', export_admin_unsubscribes_path
+    %li{class: %w(new create).include?(controller.action_name) ? "active" : "" }
+      = link_to 'Upload', new_admin_unsubscribe_path
+

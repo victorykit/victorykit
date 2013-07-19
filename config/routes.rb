@@ -59,7 +59,11 @@ Victorykit::Application.routes.draw do
     resources :hottest
     resources :on_demand_email
     resources :heartbeat
-    resources :unsubscribes, only: [:index]
+    resources :unsubscribes, only: [:index, :new, :create] do
+      collection { post :export }
+      collection { get :export }
+    end
+
 
     mount Resque::Server.new, at: '/resque'
   end
