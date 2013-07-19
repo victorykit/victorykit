@@ -24,10 +24,6 @@ describe SignaturesController do
       end
 
       its('response.headers') { should include('Content-Type' => 'text/csv') }
-      its('response.headers') { should include('Content-Disposition' => "attachment; signatures-#{petition.id}.csv") }
-      # Could not find a decent way to test streaming yet, and Melanie needs this right away.
-      # Since this is low-risk (read-only, admin side), I'm commiting anyway.
-      # its('response_body') { should == first_signature.csv_header.to_csv + first_signature.csv_values.to_csv + second_signature.csv_values.to_csv }
     end
   end
 

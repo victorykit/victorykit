@@ -1,7 +1,4 @@
 class Signature < ActiveRecord::Base
-
-  CSV_COLUMNS = [:first_name, :last_name, :email, :city, :state_code, :country_code, :created_at]
-
   belongs_to :petition
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
@@ -123,11 +120,4 @@ class Signature < ActiveRecord::Base
     Referral.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
   end
 
-  def csv_header
-    CSV_COLUMNS.map { |c| c.to_s.titleize }
-  end
-
-  def csv_values
-    CSV_COLUMNS.map { |c| self.send(c) }
-  end
 end

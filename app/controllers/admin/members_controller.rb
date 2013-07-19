@@ -11,13 +11,7 @@ class Admin::MembersController < ApplicationController
       end
 
       format.csv do
-        export = Queries::MembersExport.new
-        filename = "#{export.name}-#{Time.now.strftime("%Y%m%d")}.csv"
-
-        self.response.headers['Content-Type'] = 'text/csv'
-        self.response.headers['Last-Modified'] = Time.now.ctime.to_s
-        self.response.headers['Content-Disposition'] = "attachment; filename=#{filename}"
-        self.response_body = export.as_csv_stream
+        streaming_csv_export Queries::MembersExport.new
       end
     end
   end

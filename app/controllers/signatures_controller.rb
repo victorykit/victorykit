@@ -5,19 +5,7 @@ class SignaturesController < ApplicationController
   def index
     respond_to do |format|
       format.csv {
-        self.response.headers["Content-Type"] = 'text/csv'
-        self.response.headers["Content-Disposition"] = "attachment; signatures-#{params[:petition_id]}.csv"
-        self.response.headers['Last-Modified'] = Time.now.ctime.to_s
-
-        self.response_body = Enumerator.new do |y|
-          i = 0
-          Signature.where(petition_id: params[:petition_id]).find_each do |signature|
-            y << signature.csv_header.to_csv if i == 0
-            y << signature.csv_values.to_csv
-            i += 1
-            GC.start if i%500==0
-          end
-        end
+        streaming_csv_export(Queries::SignaturesExport.new(petition_id: params[:petition_id]))
       }
     end
   end

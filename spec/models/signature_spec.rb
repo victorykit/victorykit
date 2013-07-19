@@ -149,12 +149,4 @@ describe Signature do
       expect { create(:signature, created_member: false) }.to_not change{ $statsd.value_of("members_joined.count") }
     end
   end
-
-  context "csv columns" do
-    let(:signature_time) { 2.days.ago }
-    subject { build(:signature, first_name: 'Banana', last_name: 'Bread', email: 'b@nana.com', city: 'New York', state_code: 'NY', country_code: 'US', created_at: signature_time) }
-
-    its(:csv_header) { should == ['First Name', 'Last Name', 'Email', 'City', 'State Code', 'Country Code', 'Created At'] }
-    its(:csv_values) { should == ['Banana', 'Bread', 'b@nana.com', 'New York', 'NY', 'US', signature_time] }
-  end
 end
