@@ -1,7 +1,7 @@
 class SignedPetitionEmailJob
-  @queue = :signed_petition_emails
+  include Sidekiq::Worker
 
-  def self.perform(signature_id)
+  def perform(signature_id)
     Notifications.signed_petition Signature.find(signature_id)
   end
 end
