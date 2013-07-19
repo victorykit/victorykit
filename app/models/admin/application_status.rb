@@ -66,7 +66,7 @@ class EmailStatus < ItemStatus
   def check
     @threshold = ENV['VK_HEARTBEAT_SENT_EMAIL'].try(:to_i) || 5
     @last_timestamp = @heartbeat.last_sent_email
-    @ok = @last_timestamp > @threshold.minutes.ago
+    @ok = @last_timestamp.blank? || @last_timestamp > @threshold.minutes.ago
     if not @working
       Rails.logger.error "Heartbeat: emails inactive since #{@last_timestamp}"
     end
@@ -102,15 +102,19 @@ class ResqueStatus < ItemStatus
 
   def initialize heartbeat, fails_app
     super heartbeat, fails_app
+    @stats = Sidekiq::Stats.new
+  end
+
+  def workers
+    Sidekiq::Workers.new.size
   end
 
   def check
-    @stats = Resque.info
-    @ok = @heartbeat.workers > 0 && max_q <= 100
+    @ok = max_q <= 100
   end
 
   def max_q
-    @heartbeat.emails_max_queue
+    @stats.enqueued
   end
 
 end

@@ -1,11 +1,11 @@
 class Admin::Heartbeat
 
   def last_sent_email
-    ScheduledEmail.last.created_at
+    ScheduledEmail.last.try :created_at
   end
 
   def last_signature
-    Signature.last.created_at  
+    Signature.last.try :created_at
   end
 
   def emails_sent_since date_time
@@ -18,14 +18,6 @@ class Admin::Heartbeat
   
   def new_members
     Signature.where(created_member: true).count - Unsubscribe.where("cause='unsubscribed'").count
-  end
-
-  def emails_in_queue
-    Resque.size("signed_petition_emails")
-  end
-
-  def emails_max_queue
-    Resque.queues.max_by { |queue| Resque.size(queue) } .to_i
   end
 
   def workers

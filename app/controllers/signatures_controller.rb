@@ -41,13 +41,7 @@ class SignaturesController < ApplicationController
         ref_code.petition_id = petition.id
         ref_code.save!
 
-        begin
-          Resque.enqueue(SignedPetitionEmailJob, signature.id)
-        rescue => ex
-          notify_airbrake(ex)
-          Rails.logger.error "Error queueing email on Resque: #{ex} #{ex.backtrace.join}"
-          Notifications.signed_petition Signature.find(signature.id)
-        end
+        SignedPetitionEmailJob.perform_async(signature.id)
 
         nps_win signature
         win! :signature

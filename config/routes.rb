@@ -1,6 +1,9 @@
-require 'resque/server'
+require 'sidekiq/web'
 
 Victorykit::Application.routes.draw do
+
+  mount Sidekiq::Web => '/admin/sidekiq', :constraints => lambda {|req| AdminConstraint.new.matches?(req) }
+
   get "privacy/index"
 
   get "sessions/new"
@@ -65,7 +68,6 @@ Victorykit::Application.routes.draw do
     end
 
 
-    mount Resque::Server.new, at: '/resque'
   end
   root :to => "site#index"
 end

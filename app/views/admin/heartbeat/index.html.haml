@@ -74,15 +74,15 @@
         %td
           #{@status[:resque].fails_app?}
         %td
-          #{@status[:resque].stats[:workers]}
+          #{@status[:resque].workers}
         %td
-          #{@status[:resque].stats[:pending]}
+          #{@status[:resque].stats.enqueued}
         %td
-          #{@status[:resque].stats[:processed]}
+          #{@status[:resque].stats.processed}
         %td
-          #{@status[:resque].stats[:working]}
+          #{@status[:resque].workers}
         %td
-          #{@status[:resque].stats[:failed]}
+          #{@status[:resque].stats.failed}
         %td
           #{@status[:resque].max_q}
 

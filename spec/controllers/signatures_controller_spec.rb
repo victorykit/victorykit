@@ -29,7 +29,7 @@ describe SignaturesController do
 
   describe 'POST create' do
     before do
-      Resque.stub(:enqueue)
+      SignedPetitionEmailJob.stub(:perform_async)
       request.stub(:referer).and_return http_referer
     end
 
@@ -253,14 +253,7 @@ describe SignaturesController do
       subject { petition.signatures.first }
 
       it "should send a confirmation email after signing" do
-        Resque.should_receive(:enqueue).with(SignedPetitionEmailJob, anything)
-        sign_petition
-      end
-
-      it "should fall back to direct email sending if Resque fails" do
-        #just being paranoid - remove this behaviour when we're happy that Resque is working well
-        Resque.should_receive(:enqueue).and_raise("bang!")
-        Notifications.should_receive(:signed_petition).with(an_instance_of(Signature))
+        SignedPetitionEmailJob.should_receive(:perform_async).with(anything)
         sign_petition
       end
     end
