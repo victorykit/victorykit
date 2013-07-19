@@ -69,6 +69,7 @@ gem 'airbrake'
 gem 'unicorn'
 gem 'foreman'
 gem 'resque'
+gem 'sidekiq'
 
 gem 'kaminari'
 gem 'redis-store'
