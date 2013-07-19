@@ -6,7 +6,7 @@ describe 'a user' do
     subject { page }
     
     it { should have_content 'Win your campaign for change' }
-    it { should have_link 'Click here to start a petition' }
+    it { should have_link 'Start a Petition' }
   end
 
   context 'joining the site' do
