@@ -9,6 +9,7 @@ require 'rspec/autorun'
 require 'rspec/mocks'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'sidekiq/testing'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
