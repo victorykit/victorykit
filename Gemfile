@@ -68,8 +68,6 @@ gem 'newrelic-redis'
 gem 'airbrake'
 gem 'unicorn'
 gem 'foreman'
-gem 'resque'
-gem 'sidekiq'
 
 gem 'kaminari'
 gem 'redis-store'
@@ -88,3 +86,8 @@ gem 'statsd-ruby', :require => 'statsd'
 gem 'bumbler'
 gem 'fb_graph'
 gem 'will_paginate'
+
+# Background workers
+gem 'slim', '>= 1.1.0'
+gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'sidekiq'

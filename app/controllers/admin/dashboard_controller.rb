@@ -30,7 +30,6 @@ class Admin::DashboardController < ApplicationController
     {
       last_email: @heartbeat.last_sent_email,
       last_signature: @heartbeat.last_signature,
-      emails_in_queue: @heartbeat.emails_in_queue,
       emails_sent_past_week: @heartbeat.emails_sent_since(1.week.ago),
       emailable_member_count: @heartbeat.emailable_members,
       new_members: @heartbeat.new_members
