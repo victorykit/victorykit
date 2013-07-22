@@ -79,12 +79,12 @@
         %td
           Last email:
         %td.numeric
-          = heartbeat[:last_email].blank? ? "None" : time_ago_in_words heartbeat[:last_email]
+          = heartbeat[:last_email].blank? ? "None" : time_ago_in_words(heartbeat[:last_email])
       %tr
         %td
           Last signature:
         %td.numeric
-          = heartbeat[:last_signature].blank? ? "None" : time_ago_in_words heartbeat[:last_signature]
+          = heartbeat[:last_signature].blank? ? "None" : time_ago_in_words(heartbeat[:last_signature])
       %tr
         %td
           Emails sent past week:
