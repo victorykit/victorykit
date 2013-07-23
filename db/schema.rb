@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130102220933) do
+ActiveRecord::Schema.define(:version => 20130722204142) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -356,6 +356,8 @@ ActiveRecord::Schema.define(:version => 20130102220933) do
     t.string   "user_agent"
     t.integer  "sent_email_id"
   end
+
+  add_index "unsubscribes", ["sent_email_id"], :name => "index_unsubscribes_on_sent_email_id"
 
   create_table "user_feedbacks", :force => true do |t|
     t.string   "name"

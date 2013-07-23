@@ -16,7 +16,7 @@ class Metrics::Nps
   def multiple petitions
     sent = ScheduledEmail.group(:petition_id).count
     subscribes = Signature.where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
-    unsubscribes = Unsubscribe.joins(:sent_email).group(:petition_id).count
+    unsubscribes = SentEmail.group(:petition_id).where(id: Unsubscribe.select("sent_email_id").where("sent_email_id IS NOT NULL")).count
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
 
@@ -24,7 +24,9 @@ class Metrics::Nps
     sent = ScheduledEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
     subscribes = Signature.where(created_at: range).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
     unsubscribes = SentEmail.group(:petition_id).where(id: Unsubscribe.select("sent_email_id").where("sent_email_id IS NOT NULL").where(created_at: range)).count
+
     petitions = sent.reject{ |k,v| v < sent_threshold }.keys
+
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
 
@@ -40,13 +42,22 @@ class Metrics::Nps
 
   def assemble petition_id, sent, subscribes, unsubscribes
     rates = calculate_rates(sent, subscribes, unsubscribes)
-    {petition_id: petition_id, sent: sent, subscribes: subscribes, unsubscribes: unsubscribes}.merge rates
+    {
+      petition_id: petition_id,
+      sent: sent,
+      subscribes: subscribes,
+      unsubscribes: unsubscribes
+    }.merge rates
   end
 
   def assemble_multiple petitions, sent, subscribes, unsubscribes
     sent.default, subscribes.default, unsubscribes.default = 0, 0, 0
-    #todo: why is unsubs ending up keyed with petition id as string?
-    petitions.map{ |p| as_id(p) }.map { |id| assemble(id, sent[id], subscribes[id], unsubscribes[id.to_s]) }
+
+    petitions.map do |p|
+      as_id(p)
+    end.map do |id|
+      assemble(id, sent[id], subscribes[id], unsubscribes[id])
+    end
   end
 
   def calculate_rates sent, subscribes, unsubscribes
@@ -54,7 +65,7 @@ class Metrics::Nps
     sps = subscribes.to_f / sent.to_f
     ups = unsubscribes.to_f / sent.to_f
     nps = sps - ups
-    {sps: sps, ups: ups, nps: nps, }
+    {sps: sps, ups: ups, nps: nps}
   end
 
   def as_id p
