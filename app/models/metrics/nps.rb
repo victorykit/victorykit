@@ -23,7 +23,7 @@ class Metrics::Nps
   def timespan range, sent_threshold=1000
     sent = ScheduledEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
     subscribes = Signature.where(created_at: range).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
-    unsubscribes = Unsubscribe.joins(:sent_email).where(created_at: range).group(:petition_id).count
+    unsubscribes = SentEmail.group(:petition_id).where(id: Unsubscribe.select("sent_email_id").where("sent_email_id IS NOT NULL").where(created_at: range)).count
     petitions = sent.reject{ |k,v| v < sent_threshold }.keys
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
