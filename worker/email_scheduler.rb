@@ -10,7 +10,7 @@ class EmailScheduler
 
     sleep_debt = 0
     max_emails_per_week = Member.count.to_f
-    
+
     process = MailerProcessTracker.new(is_locked: true)
     process.save!
 
@@ -22,6 +22,7 @@ class EmailScheduler
 
         sleep_debt += WEEK/((max_emails_per_week/MailerProcessTracker.count)/amount_sent) - (Time.now-last_email)
         puts "Sleep debt: " + sleep_debt.to_s
+        $statsd.gauge "email_sleep_debt", sleep_debt
 
         if sleep_debt > 0
           sleep(sleep_debt)

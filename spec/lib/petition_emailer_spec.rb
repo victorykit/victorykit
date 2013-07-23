@@ -27,7 +27,7 @@ describe PetitionEmailer do
   describe '#send_to' do
 
     context 'when there is no interesting petition' do
-      before do 
+      before do
         Petition.stub!(:find_interesting_petitions_for).
         with(member).and_return []
       end
@@ -41,31 +41,31 @@ describe PetitionEmailer do
     context 'when there are interesting petitions' do
       let(:petitions) { [create(:petition)] }
       let(:chosen) { petitions.first }
+      before { ScheduledPetitionEmailJob.jobs.clear }
 
-      before do 
+      before do
         Petition.stub!(:find_interesting_petitions_for).with(member).and_return petitions
         Petition.stub!(:find_by_id).with(chosen.id).and_return chosen
       end
 
       it 'should send an email to the member' do
-        PetitionEmailer.stub!(:spin_for).and_return chosen.id
-        ScheduledMailer.should_receive(:new_petition).with(chosen, member)
-        PetitionEmailer.send_to member
+        PetitionEmailer.send_to(member)
+        ScheduledPetitionEmailJob.jobs.size.should == 1
+        ScheduledPetitionEmailJob.jobs.first['args'].should == [member.id, [chosen.id]]
       end
 
       it 'should spin for a petition to send' do
-        ScheduledMailer.stub!(:new_petition)
+        # experiment = 'email_scheduler_nps'
+        # goal = :signatures_off_email
+        # options = [chosen.id.to_s]
+        # session = { session_id: member.id }
 
-        experiment = 'email_scheduler_nps'
-        goal = :signatures_off_email
-        options = [chosen.id.to_s]
-        session = { session_id: member.id }
-        
-        PetitionEmailer.should_receive(:spin!).
-        with(experiment, goal, options, session).
-        and_return chosen.id.to_i
-        
-        PetitionEmailer.send_to member
+
+        # # PetitionEmailer.should_receive(:spin_for).
+        # with(experiment, goal, options, session).
+        # and_return chosen.id.to_i
+
+        # PetitionEmailer.send_to member
       end
     end
   end
