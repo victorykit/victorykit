@@ -104,3 +104,8 @@ input {
 .navbar-inner {
   border-radius: 0;
 }
+
+abbr[title="required"] {
+  cursor: auto;
+  border-bottom: none;
+}
