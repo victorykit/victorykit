@@ -16,7 +16,7 @@ class ApplicationStatus
     @ok = @items.values.find_all { |status| status.fails_app? } .all? { |status| status.ok? }
   end
 
-  # ATTENTION: newrelic expects to see "Status: OK" on the page, otherwise it sends out alerts. 
+  # ATTENTION: newrelic expects to see "Status: OK" on the page, otherwise it sends out alerts.
   # So if you change this here, make sure you also update newrelic. Especially if you change it late at night :)
   def text
     ok? ? "OK" : "FAILING"
@@ -98,23 +98,22 @@ class SignatureStatus < ItemStatus
 end
 
 class ResqueStatus < ItemStatus
-  attr_accessor :ok, :stats, :max_q
-
-  def initialize heartbeat, fails_app
-    super heartbeat, fails_app
-    @stats = Sidekiq::Stats.new
-  end
+  attr_accessor :ok, :stats
 
   def workers
-    Sidekiq::Workers.new.size
+    @workers ||= Sidekiq::Workers.new.size
   end
 
   def check
     @ok = max_q <= 100
   end
 
+  def stats
+    @stats ||= Sidekiq::Stats.new
+  end
+
   def max_q
-    @stats.enqueued
+    self.stats.enqueued
   end
 
 end
