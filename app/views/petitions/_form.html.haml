@@ -21,7 +21,7 @@
           - @countries.each do |code, name|
             %option{ value: code }<= name
 
-    = f.input :location_details, as: :hidden, :id => 'location-details'
+    = f.input :location_details, as: :hidden
 
     = f.input :to_send, label: 'Feature this petition'
     - email_subject_title = PetitionTitle.full_name PetitionTitle::TitleType::EMAIL
