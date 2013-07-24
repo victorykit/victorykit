@@ -33,8 +33,8 @@ var geolocation = (function() {
 
   function updateLocationVisibility() {
     var val = $("#petition_location_type").val();
-    if      (val === 'us')     { showStates() }
-    else if (val === 'non-us') { showCountries() }
+    if      (val === 'us')     { showStates(); }
+    else if (val === 'non-us') { showCountries(); }
     else                       { hideAll(); }
   }
 
