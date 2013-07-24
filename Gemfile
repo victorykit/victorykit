@@ -67,7 +67,6 @@ gem 'newrelic_rpm'
 gem 'newrelic-redis'
 gem 'airbrake'
 gem 'unicorn'
-gem 'foreman'
 
 gem 'kaminari'
 gem 'redis-store'
