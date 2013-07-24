@@ -1,4 +1,3 @@
-
 .row
   .span2
     = render partial: 'navigation'
@@ -8,7 +7,7 @@
     %h4
       Upload Report
 
-    %table.table.table-striped.table-condensed.sortable
+    %table.table.table-striped.table-condensed.sortable.stats{data: { stats: stats_admin_unsubscribe_path(params[:id]) } }
       %thead
         %tr
           %th Stat
@@ -17,17 +16,19 @@
         %tr
           %td
             Lines Uploaded
+          %td#total
+
+        %tr
           %td
-            = @lines
+            Lines Processed
+          %td#seen
 
         %tr
           %td
             Members Found
-          %td
-            = @members_found
+          %td#members
 
         %tr
           %td
             Unusbscribes Created
-          %td
-            = @unsubscribes_created
+          %td#unsubscribes

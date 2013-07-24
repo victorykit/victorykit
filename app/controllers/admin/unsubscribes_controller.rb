@@ -12,25 +12,35 @@ class Admin::UnsubscribesController < ApplicationController
   end
 
   def create
-    @members_found = 0
-    @unsubscribes_created = 0
-    @lines = 0
 
     if params[:file].present?
-      upload = params[:file].read
-      lines = upload.split(/(\r)|(\n)/)
-      lines.each do | line |
-        if line.present?
-          @lines += 1
-          member = Member.first(:conditions => [ "lower(email) = ?", line.downcase ])
-          if member
-            @members_found += 1
-            u = Unsubscribe.new(email: line, member: member, cause: 'uploaded')
-            @unsubscribes_created += 1 if u.save
-          end
-        end
+      upload    = params[:file].read.force_encoding('UTF-8')
+      lines     = upload.split(/(\r)|(\n)/)
+      filename  = params[:file].original_filename.parameterize
+      timestamp = Time.now.to_i
+      id        = "#{filename}#{timestamp}"
+      batch_key = "unsubscribes.#{id}"
+
+      REDIS.mset("#{batch_key}.members", 0, "#{batch_key}.unsubscribes", 0, "#{batch_key}.seen_lines", 0, "#{batch_key}.total_lines", lines.size)
+
+      lines.each do |line|
+        UnsubscribesWorker.perform_async(line, batch_key)
       end
+
+      redirect_to admin_unsubscribe_path(id)
     end
+  end
+
+  def show
+  end
+
+  def stats
+    key = params[:id]
+    keys =  ['seen_lines', 'members', 'unsubscribes', 'total_lines'].map {|attr| "unsubscribes.#{key}.#{attr}"}
+
+    seen_lines, members, unsubscribes, total_lines = REDIS.mget *keys
+
+    render json: { total_lines: total_lines, seen_lines: seen_lines, members: members, unsubscribes: unsubscribes }
   end
 
   def export
