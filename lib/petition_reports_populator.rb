@@ -111,5 +111,3 @@ class PetitionReportsPopulator
     end
   end
 end
-
-PetitionReportsPopulator.populate

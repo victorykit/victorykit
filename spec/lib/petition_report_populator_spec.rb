@@ -1,5 +1,3 @@
-require Rails.root.join("worker/petition_reports_populator.rb")
-
 describe PetitionReportsPopulator do
   let(:petition) { create(:petition) }
 
