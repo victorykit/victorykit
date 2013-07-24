@@ -15,5 +15,5 @@ $(document).ready(function() {
 
     setInterval(loadData, 1000);
     loadData();
-  })      
+  });      
 });
