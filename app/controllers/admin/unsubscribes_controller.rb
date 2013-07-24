@@ -18,15 +18,15 @@ class Admin::UnsubscribesController < ApplicationController
 
     if params[:file].present?
       upload = params[:file].read
-      lines = upload.split("\n")
-      lines.each do |line|
+      lines = upload.split(/(\r)|(\n)/)
+      lines.each do | line |
         if line.present?
-          @lines = @lines +1
+          @lines += 1
           member = Member.first(:conditions => [ "lower(email) = ?", line.downcase ])
           if member
-            @members_found = @members_found + 1
+            @members_found += 1
             u = Unsubscribe.new(email: line, member: member, cause: 'uploaded')
-            @unsubscribes_created =  @unsubscribes_created + 1if u.save
+            @unsubscribes_created += 1 if u.save
           end
         end
       end
