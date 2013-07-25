@@ -48,8 +48,13 @@ after_fork do |server, worker|
   # server.listen(addr, :tries => -1, :delay => 5, :tcp_nopush => true)
 
   # the following is *required* for Rails + "preload_app true",
-  defined?(ActiveRecord::Base) and
-    ActiveRecord::Base.establish_connection
+  # recommended by Heroku (https://devcenter.heroku.com/articles/concurrency-and-database-connections)
+  if defined?(ActiveRecord::Base)
+    config = Rails.application.config.database_configuration[Rails.env]
+    config['reaping_frequency'] = ENV['DB_REAP_FREQ'] || 10 # seconds
+    config['pool']              = ENV['DB_POOL'] || 5
+    ActiveRecord::Base.establish_connection(config)
+  end
 
   # if preload_app is true, then you may also want to check and
   # restart any other shared sockets/descriptors such as Memcached,
