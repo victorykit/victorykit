@@ -1,23 +1,31 @@
-.page_content.signup_login
-  - if @user.errors.any?
-    .alert.alert-error
-      Form is invalid
-      %ul
-        - @user.errors.full_messages.each do |message|
-          %li= message
+.row
+  .span12
+    .signup_login
+      %h1.title Win your campaign for change.
 
-  .signup_login_form
-    .signup
-      %h1 Sign Up
-      = simple_form_for @user do |f|
-        = f.input :email, :error => false, :input_html => { :autocomplete => "off" }
-        = f.input :password, :error => false, :required => true, :input_html => { :autocomplete => "off" }
-        = f.input :password_confirmation, :error => false, :required => true, :input_html => { :autocomplete => "off" }
-        = f.button :submit, :class => 'btn btn-primary', :id => 'sign-up-submit', :value => 'Sign Up'
+      .row
+        / .span4.offset2
+        /   = simple_form_for @user do |f|
+        /     = f.input :email, :error => false, :input_html => { :autocomplete => "off", :class => "span4" }
+        /     = f.input :password, :error => false, :required => true, :input_html => { :autocomplete => "off", :class => "span4" }
+        /     = f.input :password_confirmation, :error => false, :required => true, :input_html => { :autocomplete => "off", :class => "span4" }
+        /     = f.button :submit, :class => 'btn btn-primary', :id => 'sign-up-submit', :value => 'Sign Up'
+        .span6.offset2
+          = form_tag sessions_path, :class => 'simple_form form-horizontal' do |f|
+            = simple_fields_for :new_session do |session_form|
+              = session_form.input :email, :autofocus => true, :input_html => { :class => "span4" }
+              = session_form.input :password, :input_html => { :class => "span4" }
+              .control-group
+                .controls
+                  = session_form.button :submit, :class => 'btn btn-primary', :id => 'login-submit', :value => 'Log in'
+                  %p.privacypolicy= t 'site.privacy_policy'
+                  %small.photo_credit
+                    Photo credit:
+                    %a{href: "http://www.flickr.com/photos/ramyraoof/5405707930"} RamyRaoof
 
-    = render :partial => 'shared/login_form'
+      .row
+        .span6.offset3
 
-  .privacypolicy
-    We don't share your email address without your permission. We will send you updates on important campaigns by email, but you can unsubscribe at any time.
+
 
 

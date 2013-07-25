@@ -23,12 +23,19 @@
   - if !current_user.nil? && (current_user.is_admin? || current_user.is_super_user?)
     - admin_toggle = 'admin'
 
-  %body
-    = render :partial =>  "shared/navigation"
-    .container
-      .flash_message= render :partial => 'shared/flash_messages'
-      = yield
-  = render :partial =>  "shared/footer"
+  %body{:class => "#{controller.controller_name} #{controller.action_name}"}
+    #wrap
+      = render :partial =>  "shared/navigation"
+      .container.main
+        .flash_message= render :partial => 'shared/flash_messages'
+        = yield
+      #push
+    %footer#footer
+      .container
+        .span12
+          .copyright
+            © 2012 Demand Progress (<a href="#{@contact_url}">contact us</a>)
+
   = javascript_include_tag :application
   %script{type: "text/javascript"}
     = yield :javascripts

@@ -1,198 +1,25 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
-*/
+body.users.new {
+  background-image: image-url('protests.jpg');
+  background-position: 0 0;
+  background-repeat: repeat-y;
+  background-size: 100% auto;
 
-.signup_login {
-  > div { clear: both; margin: 0 auto; }
-  .alert { margin-bottom: 5px; }
-  .signup_login_form {
-    padding: 10px;
-    min-height: 210px;
-    background: #eee;
-    width: 750px\9;
-    *width: 750px;
-    *height: 240px;
-    height: 240px\9;
-    .signup, .login {
-      width: 350px\9;
-      *width: 350px;
-      *float: left;
-      float: left\9;
-      *padding: 7px;
-      padding: 12px\9;
-      .control-group { *width: 100%; *float: right; }
-      label.control-label {
-        *width: 130px;
-        width: 130px\9;
-        *float: left;
-      }
-      .controls input {
-        *width: 200px !important;
-        *margin-left: 0;
-        *float: left;
-        width: 160px\9;
-      }
-    }
-    .signup {
-      *border-right: 1px solid black;
-      border-right: 1px solid black\9;
-    }
-    @media (min-width: 768px) and (max-width: 30000px) {
-      margin-top: 5%;
-      width: 730px;
-      .signup, .login {
-        padding: 12px 0;
-        width: 350px;
-        float: left;
-        label.control-label {
-          width: 150px;
-          width: 110px\9;
-        }
-        .controls{
-          width: 180px;
-          width: 150px\9;
-          input { width: 170px; margin: 0;}
-        }
-      }
-      .signup {
-        border-right: 1px solid #888;
-        padding-right: 17px;
-      }
-      .login {
-        padding-left: 10px;
-      }
-    }
-    @media (min-width: 250px) and (max-width: 767px) {
-      width: 240px;
-      label {
-        text-align: left;
-      }
-      input, .controls {
-        clear: both;
-        width: 230px;
-        margin: 0 10px 0 0;
-      }
-      .btn {
-        width: 240px;
-        margin: 0;
-      }
-      .signup {
-        border-right: none;
-        height: 280px;
-        h1 {
-          margin: -10px;
-          padding: 12px 20px 10px;
-          width: 85px;
-        }
-        form {
-          margin-top: 13px;
-        }
-      }
-      .login {
-        h1 {
-          float: right;
-          margin: -16px -10px 3px 0;
-          padding: 10px 30px;
-        }
-        form {
-          margin-top: -303px;
+  .signup_login {
+    background-color: rgba(150,150,150,0.4);
+    color: #eee;
+    border-radius: 4px;
+    padding: 30px 0;
 
-        }
-      }
-      .second_tab {
-        &.login {
-          h1 {
-            margin: -283px -10px 0 0;
-          }
-          form { margin-top: 0; }
-        }
-        h1 {
-          background: white;
-          &:hover {
-            cursor: pointer;
-          }
-        }
-        form {
-          display: none;
-        }
-      }
+    .title {
+      font-size: 72px;
+      line-height: 96px;
+      text-align: center;
+      font-weight: 100;
+      margin-bottom: 20px;
     }
-    .control-group {
-      float: right;
-    }
-    label, .controls {
-      float: left;
-    }
-    .btn {
-      float: right;
-    }
-  }
-  .privacypolicy {
-    *text-align: center;
-    text-align: center\9;
-    @media (min-width: 768px) and (max-width: 30000px) {
-      margin-top: 15px;
-      width: 500px;
-    }
-    @media (min-width: 250px) and (max-width: 767px) {
-      width: 240px;
-    }
-  padding: 10px 20px 30px;
 
-  }
-}
-.change_password {
-  min-height: 185px;
-  margin: 50px auto;
-  padding: 15px 35px 30px;
-  form {
-    margin-bottom: 0;
-  }
-  label {
-    width: 130px\9;
-  }
-  .controls {
-    float: left;
-    input {
-      width: 100%;
-    }
-  }
-  .help-inline {
-    margin: -5px 0 10px 0;
-    display: none;
-  }
-  .control-group, input.btn {
-    float: right;
-  }
-  input.btn {
-    margin-right: -10px;
-  }
-  .control-group {
-    *clear: right;
-  }
-}
-.signuplink {
-  clear: both;
-  text-align: center;
-  margin-top: 10px;
-  font-size: 15px;
-}
-
-.bootstrap .signup_login {
-  @media (min-width: 250px) and (max-width: 767px) {
-    h1 { font-size: 22px; }
-    .second_tab.login h1 {
-      margin: -280px -10px 0 0;
-      padding: 11px 30px;
+    .privacypolicy {
+      margin-top: 20px;
     }
   }
 }
-

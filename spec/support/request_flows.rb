@@ -13,8 +13,7 @@ def signin email, pass
 end
 
 def login email, pass
-  visit '/'
-  click_link 'Sign Up or Log In'
+  visit '/login'
   within 'form[action="/sessions"]' do
     fill_in 'Email', with: email
     fill_in 'Password', with: pass
@@ -27,7 +26,7 @@ def login email, pass
 end
 
 def sign petition, params=nil
-  path = params ? 
+  path = params ?
     petition_path(petition, params) :
     petition_path(petition)
   visit path
@@ -70,7 +69,7 @@ def fill_in_subjects subjects
   within '#email_subjects' do
     all('input[type="text"]').each_with_index do |e, i|
       e.set subjects[i]
-    end   
+    end
   end
 end
 
@@ -126,7 +125,7 @@ def experiment_results_for test_name, filter=nil
 
   all("#{selector} tbody tr").inject({}) do |out, e|
     out.merge e.find("td.name").text => {
-      spins: e.find("td.spins").text.to_i, 
+      spins: e.find("td.spins").text.to_i,
       wins:  e.find("td.wins").text.to_i
     }
   end

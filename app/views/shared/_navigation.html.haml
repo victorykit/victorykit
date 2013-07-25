@@ -1,4 +1,4 @@
-.navbar.navbar-inverse
+#header.navbar.navbar-inverse
   .navbar-inner
     .container
       %button.btn.btn-navbar{ 'data-toggle' => 'collapse', 'data-target' => '.nav-collapse' }
@@ -9,12 +9,12 @@
       = link_to 'WATCHDOG.NET', '/', class: 'logo'
       .nav-collapse.in.collapse
         %ul.nav.pull-right
-          - if should_spin_petition_options?
-            - if spin! "show start a petition link to non-admins on petition page", :signature
-              %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
-          - else
-            %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
           - if is_admin
+            - if should_spin_petition_options?
+              - if spin! "show start a petition link to non-admins on petition page", :signature
+                %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
+            - else
+              %li= link_to('Start a petition', new_petition_path, :class => 'start_petition')
             %li.dropdown
               %a.dropdown-toggle{ 'data-toggle' => 'dropdown' }
                 Members
@@ -34,7 +34,7 @@
                 %li= link_to('Hot', admin_hottest_index_url)
           - if current_user
             %li.dropdown
-              %a.logged-in-menu.dropdown-toggle{ 'data-toggle' => 'dropdown' }
+              %a.logged-in-menu.dropdown-toggle{ 'data-toggle' => 'dropdown', :href => "#" }
                 #{current_user.email}
                 %b.caret
               %ul.dropdown-menu
@@ -42,5 +42,3 @@
                 %li= link_to('Log Out', logout_path, :class => 'nodivider', :id => 'logout')
           - elsif controller_name == 'petitions' && action_name == 'show'
             .nodivider
-          - else
-            %li= link_to('Sign Up or Log In', login_path, :class => 'nodivider')

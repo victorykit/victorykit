@@ -20,11 +20,12 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
+
 input {
   height: 30px !important;
 }
-footer {
-  margin-top: 20px;
+
+#footer {
   font-size: 12px;
   text-align: center;
   background: #efefef;
@@ -41,6 +42,7 @@ footer {
     }
   }
 }
+
 @mixin progressbar($fluid, $fluid_highlight) {
   height: 20px;
   margin: 5px 0px 10px;
@@ -108,4 +110,52 @@ input {
 abbr[title="required"] {
   cursor: auto;
   border-bottom: none;
+}
+
+#header {
+  .logo {
+    font-family: "LeagueGothicRegular";
+    font-size: 3em;
+    color: white;
+    float: left;
+    line-height: 40px;
+    &:hover {
+      color: #eee;
+      text-decoration: none;
+    }
+  }
+
+  .navbar .nav > li > a {
+    cursor: pointer;
+  }
+}
+
+
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -60px;
+}
+
+#push,
+#footer {
+  height: 60px;
+}
+
+#footer {
+  background-color: #f5f5f5;
+}
+
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }

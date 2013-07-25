@@ -9,7 +9,7 @@ describe SessionsController do
       it "adds the user id to the session" do
         session[:user_id].should == @user.id
       end
-      it { should redirect_to root_path }
+      it { should redirect_to admin_dashboard_path }
     end
     context "user attempts to login with wrong password" do
       before(:each) do

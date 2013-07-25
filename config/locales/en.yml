@@ -5,6 +5,8 @@ en:
   petitions:
     location:
       refine: "Optionally, select a list of specific locations."
+  site:
+    privacy_policy: "We don't share your email address without your permission. We will send you updates on important campaigns by email, but you can unsubscribe at any time."
   activerecord:
     attributes:
       user:
