@@ -62,8 +62,8 @@ describe Member do
       end
 
       context 'when last signed from' do
-        subject { build :member, :country_code => country, :state_code => state } 
-        
+        subject { build :member, :country_code => country, :state_code => state }
+
         context 'us' do
           let(:country) { 'US' }
           let(:state) { 'NY' }
@@ -150,11 +150,11 @@ describe Member do
         before do
           Member.stub(:where).with(:id => id).and_return [member]
           MemberHasher.stub(:validate).with('foo').and_return 42
-        end  
+        end
 
         specify { subject.find_by_hash('foo').should eql member }
       end
-      
+
       context 'for nil hash' do
         let(:id) { nil }
 
@@ -164,7 +164,7 @@ describe Member do
         end
 
         specify { subject.find_by_hash(nil).should be_nil }
-      end  
+      end
     end
 
     describe '.random_and_not_recently_contacted' do
@@ -206,7 +206,7 @@ describe Member do
 
       context 'for members contacted more than a week ago' do
         before { create :scheduled_email, created_at: 8.days.ago, member: member }
-        
+
         context 'and never unsubscribed' do
           it_behaves_like 'finding them'
         end
@@ -217,17 +217,17 @@ describe Member do
 
         context 'and have unsubscribed again' do
           before do
-            Subscribe.stub_chain(:group, :maximum).
+            Subscribe.stub_chain(:group, :where, :maximum).
               and_return(member.id => 8.days.ago)
 
-            Unsubscribe.stub_chain(:group, :maximum).
+            Unsubscribe.stub_chain(:group, :where, :maximum).
               and_return(member.id => 3.days.ago)
           end
 
           it_behaves_like 'ignoring them'
         end
       end
-      
+
     end
 
 

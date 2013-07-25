@@ -19,10 +19,10 @@ class Member < ActiveRecord::Base
   def self.random_and_not_recently_contacted(n)
     query = <<-SQL
       SELECT members.id
-      FROM members 
+      FROM members
       WHERE members.id NOT IN (
-        SELECT member_id 
-        FROM sent_emails 
+        SELECT member_id
+        FROM sent_emails
         WHERE created_at > now() - interval '1 week'
       ) AND members.id NOT IN (
         SELECT member_id
@@ -32,17 +32,18 @@ class Member < ActiveRecord::Base
       ) ORDER BY random() LIMIT #{n}
     SQL
 
-    uncontacted_members = Member.connection.execute(query).to_a
-    subscribe_dates = Subscribe.group(:member_id).maximum(:created_at)
-    unsubscribe_dates = Unsubscribe.group(:member_id).maximum(:created_at)
-    receiver_ids = uncontacted_members.select do |m| 
-      active_subscription?(subscribe_dates[m['id'].to_i], unsubscribe_dates[m['id'].to_i])
+    uncontacted_members = Member.connection.execute(query).to_a.map {|m| m['id'].to_i}
+    subscribe_dates = Subscribe.group(:member_id).where(member_id: uncontacted_members).maximum(:created_at)
+    unsubscribe_dates = Unsubscribe.group(:member_id).where(member_id: uncontacted_members).maximum(:created_at)
+
+    receiver_ids = uncontacted_members.select do |id|
+      active_subscription?(subscribe_dates[id], unsubscribe_dates[id])
     end
 
     return [] if receiver_ids.empty?
-    Member.find_all_by_id(receiver_ids.sample(n).collect{|x| x['id']})
+    Member.where(id: receiver_ids.sample(n)).all
   end
-  
+
   def full_name
     [self.first_name,self.last_name].join " "
   end
@@ -65,7 +66,7 @@ class Member < ActiveRecord::Base
 
   def last_location
     return '' unless (c = country_code) && (s = state_code)
-    c == 'US' ? "us/#{s}" : "non-us/#{c}"  
+    c == 'US' ? "us/#{s}" : "non-us/#{c}"
   end
 
   def signature_for(petition)
