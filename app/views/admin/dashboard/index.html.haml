@@ -1,14 +1,15 @@
 %h1 Dashboard
 
-#dashboard
-  #sidebar_summary{style: "float:left;width:275px" }
-    = link_to("petitions", "petitions")
-    |
-    = link_to("experiments", "experiments")
-    |
-    = link_to("statistics", "stats")
-    |
-    = link_to("funnel", "funnel")
+.row
+  .span5
+    #sidebar_summary{style: "float:left;width:275px" }
+      = link_to("petitions", "petitions")
+      |
+      = link_to("experiments", "experiments")
+      |
+      = link_to("statistics", "stats")
+      |
+      = link_to("funnel", "funnel")
 
     - nps7d = nps_summary[:nps7d]
     - nps24h = nps_summary[:nps24h]
@@ -112,48 +113,6 @@
         %td
           = "$#{average_donations_per_day.round}"
 
-  #main_content{style: "margin-left:275px;padding-left:25px"}
-    #charts
-      %span
-        = link_to_self_with_param timeframe.key, timeframe.options, " | "
-        %span{style:"padding-left:350px"}
-          %span{style:"color:blue;font-weight:bold"}
-            &#x2015;
-          %span
-            current
-          %span{style:"color:#dddddd;font-weight:bold"}
-            &#x2015;
-          %span
-            prior
-      %br
-      = # match frame height to chart height in nps_chart
-      %table
-        %tr
-          %td
-            NPS
-            %br
-            %iframe{ src: nps_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Facebook Actions
-            %br
-            %iframe{ src: facebook_actions_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Facebook Referrals
-            %br
-            %iframe{ src: facebook_referrals_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Unsubscribed
-            %br
-            %iframe{ src: unsubscribes_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Sent
-            %br
-            %iframe{ src: emails_sent_chart, style: "border:none", height: "180px" }
-
     #extremes
       %table.table.table-condensed.bordered-table.table-striped
         %tr
@@ -170,10 +129,10 @@
         %tr
           %td
             Show
-            = link_to_self_with_param extremes_count.key, extremes_count.options, " | "
+            = link_to_self_with_param :x, Statistics::EXTREMES_COUNTS, " | "
           %td{style: "white-space:nowrap"}
             Min
-            = link_to_self_with_param extremes_threshold.key, extremes_threshold.options, " | "
+            = link_to_self_with_param :th, Statistics::EXTREMES_THRESHOLDS, " | "
           %td
           %td
           %td
@@ -190,9 +149,6 @@
               = p[1][:unsubscribes]
             %td.numeric
               = float_to_percentage p[1][:nps]
-        %tr
-          %td{colspan: 5}
-            %hr
 
         - petition_extremes[:worst].each do |p|
           %tr
@@ -206,6 +162,35 @@
               = p[1][:unsubscribes]
             %td.numeric
               = float_to_percentage p[1][:nps]
+
+
+  .span7
+    #charts
+      %span
+        = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
+        %span{style:"padding-left:350px"}
+          %span{style:"color:blue;font-weight:bold"}
+            &#x2015;
+          %span
+            current
+          %span{style:"color:#dddddd;font-weight:bold"}
+            &#x2015;
+          %span
+            prior
+      %h3 NPS
+      %iframe{ src: nps_chart, style: "border:none", height: "180px" }
+
+      %h3 Facebook Actions
+      %iframe{ src: facebook_actions_chart, style: "border:none", height: "180px" }
+
+      %h3 Facebook Referrals
+      %iframe{ src: facebook_referrals_chart, style: "border:none", height: "180px" }
+
+      %h3 Unsubscribed
+      %iframe{ src: unsubscribes_chart, style: "border:none", height: "180px" }
+
+      %h3 Sent
+      %iframe{ src: emails_sent_chart, style: "border:none", height: "180px" }
 
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$('#dashboard').load(window.location.href + ' #dashboard');}, 60000));

@@ -11,7 +11,7 @@
   #main_content{style: "margin-left:275px;padding-left:25px"}
     #charts
       %span
-        = link_to_self_with_param timeframe.key, timeframe.options, " | "
+        = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
         %span{style:"padding-left:350px"}
           %span{style:"color:blue;font-weight:bold"}
             &#x2015;
