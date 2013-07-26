@@ -111,6 +111,7 @@ GEM
     css_parser (1.2.6)
       addressable
       rdoc
+    dalli (2.6.4)
     debugger (1.2.3)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.1.1)
@@ -176,6 +177,7 @@ GEM
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
+    memcachier (0.0.2)
     metaclass (0.0.1)
     mime-types (1.21)
     mocha (0.10.5)
@@ -353,6 +355,7 @@ DEPENDENCIES
   capybara (>= 2.0.2)
   capybara-webkit
   carmen-rails
+  dalli
   debugger
   dkim
   factory_girl_rails (~> 3.0)
@@ -370,6 +373,8 @@ DEPENDENCIES
   jquery-ui-rails
   jslint_on_rails
   kaminari
+  kgio
+  memcachier
   memoist!
   mysql
   mysql2
