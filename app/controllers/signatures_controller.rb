@@ -17,11 +17,12 @@ class SignaturesController < ApplicationController
     params[:signature][:email] = params[:signature][:email].chomp(".") if params[:signature] and params[:signature][:email]
 
     signature = Signature.new(params[:signature])
+    signature.petition = petition
     signature.ip_address = connecting_ip
     signature.user_agent = browser.user_agent
     signature.browser_name = browser.id.to_s
     email = signature.email
-    member = Member.lookup(email).first
+    member = Member.lookup(email).first if email.present?
     signature.member = (member || Member.new).tap do |m|
       m.first_name = signature.first_name
       m.last_name = signature.last_name
@@ -33,8 +34,6 @@ class SignaturesController < ApplicationController
     ref_code = Referral.where(code: params[:signer_ref_code]).first || Referral.new(code: params[:signer_ref_code])
     if signature.valid?
       begin
-        petition.signatures.push signature
-        petition.save!
         signature.track_referrals(params)
         signature.save!
         ref_code.member_id = signature.member.id

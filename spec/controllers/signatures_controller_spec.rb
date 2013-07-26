@@ -260,7 +260,7 @@ describe SignaturesController do
 
     context 'when an error occurs while saving the signature' do
       before do
-        Signature.any_instance.stub(:save).and_raise 'bang!'
+        Signature.any_instance.stub(:save!).and_raise 'bang!'
         sign_petition
       end
 
