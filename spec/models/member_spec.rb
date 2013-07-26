@@ -25,6 +25,18 @@ describe Member do
       end
     end
 
+    context "with a member" do
+      let(:subject) { FactoryGirl.create(:member)}
+
+      it "should allow lookups" do
+        Member.lookup( subject.email ).first.should be_a(Member)
+      end
+
+      it 'should handle case' do
+        Member.lookup( subject.email.upcase ).first.should be_a(Member)
+      end
+    end
+
     describe '#to_hash' do
       let(:id) { subject.id }
       before { MemberHasher.stub(:generate).with(id).and_return 'foo' }
@@ -227,11 +239,6 @@ describe Member do
           it_behaves_like 'ignoring them'
         end
       end
-
     end
-
-
-
   end
-
 end

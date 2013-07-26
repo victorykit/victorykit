@@ -21,7 +21,7 @@ class SignaturesController < ApplicationController
     signature.user_agent = browser.user_agent
     signature.browser_name = browser.id.to_s
     email = signature.email
-    member = Member.find(:first, conditions: ["lower(email)=?", email.try(:downcase)])
+    member = Member.lookup(email).first
     signature.member = (member || Member.new).tap do |m|
       m.first_name = signature.first_name
       m.last_name = signature.last_name

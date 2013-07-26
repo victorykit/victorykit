@@ -11,6 +11,10 @@ class Member < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :first_name, :last_name, :presence => true
 
+  scope :lookup, lambda { |email|
+    where("LOWER(email) = ?", email.downcase)
+  }
+
   scope :active, -> {
     joins('LEFT JOIN unsubscribes ON unsubscribes.member_id = members.id').
     where('unsubscribes.id IS NULL')
