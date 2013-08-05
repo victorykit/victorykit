@@ -1,5 +1,4 @@
 class Admin::MembersController < ApplicationController
-  newrelic_ignore
   before_filter :require_admin
 
   def index

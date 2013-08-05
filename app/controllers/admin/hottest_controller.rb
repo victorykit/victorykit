@@ -1,5 +1,4 @@
 class Admin::HottestController < ApplicationController
-  newrelic_ignore
   before_filter :require_admin
 
   DEMAND_PROGRESS_REFERER_ID = 79459

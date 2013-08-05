@@ -1,8 +1,6 @@
 require 'admin/application_status'
 
 class Admin::HeartbeatController < ApplicationController
-
-  newrelic_ignore
   helper_method :display_content?
 
   def index

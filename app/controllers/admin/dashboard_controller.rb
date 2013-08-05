@@ -1,6 +1,5 @@
 class Admin::DashboardController < ApplicationController
   before_filter :require_admin
-  newrelic_ignore
 
   def index
     fetch_statistics

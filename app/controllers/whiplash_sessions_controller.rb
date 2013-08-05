@@ -1,7 +1,4 @@
 class WhiplashSessionsController < ApplicationController
-
-  newrelic_ignore
-
   helper_method :retrieve_http_referer
 
   def index

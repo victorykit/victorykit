@@ -1,6 +1,5 @@
 class Admin::StatsController < ApplicationController
   include ApplicationMetrics
-  newrelic_ignore
   before_filter :require_admin
 
   def browser_usage

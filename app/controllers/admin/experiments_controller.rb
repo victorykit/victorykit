@@ -1,6 +1,5 @@
 class Admin::ExperimentsController < ApplicationController
   include ApplicationMetrics
-  newrelic_ignore
   before_filter :require_admin
 
   def stats

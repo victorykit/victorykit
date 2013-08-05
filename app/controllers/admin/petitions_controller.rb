@@ -1,5 +1,4 @@
 class Admin::PetitionsController < ApplicationController
-  newrelic_ignore
   before_filter :require_admin
 
   def index

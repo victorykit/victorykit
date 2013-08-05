@@ -1,5 +1,4 @@
 class Admin::UnsubscribesController < ApplicationController
-  newrelic_ignore
   before_filter :require_admin
 
   def index
