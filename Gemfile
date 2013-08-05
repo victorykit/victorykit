@@ -44,6 +44,7 @@ end
 
 group :development do
   gem 'hitch'
+  gem 'foreman'
 end
 
 gem 'geocoder'
