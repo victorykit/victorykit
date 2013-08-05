@@ -87,7 +87,7 @@ describe Metrics::Nps do
   context "timespan" do
     
     it "should calculate nps per item over a month" do
-      nps = Metrics::Nps.new.timespan @month-1.second..Time.now, 0
+      nps = Metrics::Nps.new.timespan @month - 1.second, 0
       nps.count.should eq 2
 
       a = find_for @petition_a, nps
@@ -104,7 +104,7 @@ describe Metrics::Nps do
     end
 
     it "should calculate nps per item over a week" do
-      nps = Metrics::Nps.new.timespan @week-1.second..Time.now, 0
+      nps = Metrics::Nps.new.timespan @week - 1.second, 0
       nps.count.should eq 2
 
       a = find_for @petition_a, nps

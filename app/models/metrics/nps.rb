@@ -20,10 +20,10 @@ class Metrics::Nps
     assemble_multiple petitions, sent, subscribes, unsubscribes
   end
 
-  def timespan range, sent_threshold=1000
-    sent = ScheduledEmail.where(created_at: range).joins(:petition).where("petitions.to_send = ?", true).group(:petition_id).count
-    subscribes = Signature.where(created_at: range).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
-    unsubscribes = SentEmail.group(:petition_id).where(id: Unsubscribe.select("sent_email_id").where("sent_email_id IS NOT NULL").where(created_at: range)).count
+  def timespan time_ago, sent_threshold=1000
+    sent = ScheduledEmail.where("created_at > ?", time_ago).where(:petition_id => Petition.where(to_send: true)).group(:petition_id).count
+    subscribes = Signature.where("created_at > ?", time_ago).where(created_member: true).where(@signature_referer_filter).group(:petition_id).count
+    unsubscribes = SentEmail.group(:petition_id).where(id: Unsubscribe.select("sent_email_id").where("sent_email_id IS NOT NULL").where("created_at > ?", time_ago)).count
 
     petitions = sent.reject{ |k,v| v < sent_threshold }.keys
 

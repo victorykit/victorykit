@@ -162,7 +162,7 @@ u.strip
   end
 
   def fetch_petition_extremes count, threshold
-    timespan = 1.send(timeframe).ago..Time.now
+    timespan = 1.send(timeframe).ago
     threshold = extremes_threshold.to_i
     nps = Metrics::Nps.new.timespan(timespan, threshold).sort_by { |n| n[:nps] }.reverse
     best = nps.first(count)
