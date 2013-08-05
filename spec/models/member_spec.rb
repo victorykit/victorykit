@@ -109,18 +109,16 @@ describe Member do
 
         subject { member.previous_petition_ids }
 
-        it { should include sent_petition.id.to_s }
-        it { should include signed_petition.id.to_s }
-        it { should_not include other_petition.id.to_s }
+        it { should include sent_petition.id }
+        it { should include signed_petition.id }
+        it { should_not include other_petition.id }
 
         describe "cache values" do
           before(:each) { member.previous_petition_ids }
 
-          subject { REDIS.smembers petitions_cache_key }
-
-          it { should include sent_petition.id.to_s }
-          it { should include signed_petition.id.to_s }
-          it { should_not include other_petition.id.to_s }
+          it { should include sent_petition.id }
+          it { should include signed_petition.id }
+          it { should_not include other_petition.id }
         end
       end
 
@@ -142,10 +140,10 @@ describe Member do
 
       context "after adding" do
         before(:each) do
-          member.add_petition_id('1')
+          member.add_petition_id(1)
         end
 
-        specify { member.previous_petition_ids.should == ['1'] }
+        specify { member.previous_petition_ids.should == [1] }
       end
     end
   end

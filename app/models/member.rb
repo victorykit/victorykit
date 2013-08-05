@@ -79,14 +79,14 @@ class Member < ActiveRecord::Base
 
   def previous_petition_ids
     if REDIS.exists previous_petition_ids_key
-      previous_petition_ids = REDIS.smembers previous_petition_ids_key
+      REDIS.smembers(previous_petition_ids_key).map &:to_i
     else
-      signed = Signature.where(member_id: id).select(:petition_id).map(&:petition_id)
-      sent = ScheduledEmail.where(member_id: id).select(:petition_id).map(&:petition_id)
-      previous_petition_ids = signed + sent
-      REDIS.sadd previous_petition_ids_key, previous_petition_ids if previous_petition_ids.any?
+      signed = Signature.where(member_id: id).pluck(:petition_id)
+      sent   = ScheduledEmail.where(member_id: id).pluck(:petition_id)
+      ( signed + sent ).tap do |ids|
+        REDIS.sadd previous_petition_ids_key, ids if ids.any?
+      end
     end
-    previous_petition_ids
   end
 
   def add_petition_id(id)
