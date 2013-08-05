@@ -1,4 +1,4 @@
-worker_processes 1 # amount of unicorn workers to spin up
+worker_processes 2 # amount of unicorn workers to spin up
 timeout 120         # restarts workers that hang for 30 seconds
 
 # Enable streaming (for CSV downloads)

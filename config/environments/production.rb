@@ -67,6 +67,8 @@ Victorykit::Application.configure do
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
   config.action_mailer.delivery_method = :ses
+
+  config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
   
   config.action_mailer.default_url_options = {
     :host => 'act.watchdog.net',

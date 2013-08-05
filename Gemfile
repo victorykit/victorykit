@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.0.0'
 
 gem 'rack-cache'
 gem 'rails', '3.2.12'
@@ -30,14 +31,14 @@ group :test, :development do
   gem 'rspec-rails'
   gem 'factory_girl_rails', '~> 3.0'
   gem 'faker', '~> 1.0'
-  gem 'autotest'
   gem 'simplecov', :require => false
   gem 'selenium-webdriver'
   gem 'hirb'
   gem 'jslint_on_rails'
   gem 'capybara', '>= 2.0.2'
   gem 'capybara-webkit'
-  gem 'debugger'
+  gem 'pry'
+  gem 'pry-debugger'
   gem 'shoulda-matchers'
   gem 'nokogiri'
 end
