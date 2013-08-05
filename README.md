@@ -4,10 +4,7 @@ VictoryKit is a free and open source platform to run campaigns for social change
 
 On a Mac, you'll want to install:
 
-    $ brew install redis
-    $ brew install mysql
-    $ brew install chromedriver
-    $ brew install qt
+    $ brew install redis postgresql
 
 You may already have a version of Postgres installed, in which case [you'll need to remove it](https://gist.github.com/2471603) with:
 
@@ -16,7 +13,7 @@ You may already have a version of Postgres installed, in which case [you'll need
     $ brew update
     $ brew install postgresql
 
-To checkout the code:
+To check out the code:
 
     $ git clone git@github.com:victorykit/victorykit.git
 
