@@ -1,12 +1,12 @@
 describe Petition do
   subject(:petition) { build :petition }
- 
+
   it { should have_many :referrals }
   it { should validate_presence_of :title }
   it { should validate_presence_of :description }
   it { should validate_presence_of :owner_id }
   it { should allow_mass_assignment_of(:location).as(:admin) }
-  
+
   its(:title) { should_not start_or_end_with_whitespace }
   its(:experiments) { should_not be_nil }
 
@@ -64,7 +64,7 @@ describe Petition do
   end
 
   context 'descriptions' do
-    before { petition.description = descr } 
+    before { petition.description = descr }
 
     context 'with html' do
       let(:descr) { 'I<br>haz&nbsp;&quot;stuff&quot;' }
@@ -86,9 +86,9 @@ describe Petition do
 
     describe '#description_lsub' do
       context 'between br tags' do
-        let(:descr) { 'a<br><br>LINK<br><br>paragraph' } 
+        let(:descr) { 'a<br><br>LINK<br><br>paragraph' }
         specify do
-          petition.description_lsub('subs').should=='a<br><br>subs<br><br>paragraph' 
+          petition.description_lsub('subs').should=='a<br><br>subs<br><br>paragraph'
         end
         specify do
           petition.description_lsub('').should == 'a<br><br>paragraph'
@@ -96,8 +96,8 @@ describe Petition do
       end
 
       context 'inside p tag' do
-        let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' } 
-        specify { petition.description_lsub('subs').should == '<p>a</p><p>subs</p><p>paragraph</p>' } 
+        let(:descr) { '<p>a</p><p>LINK</p><p>paragraph</p>' }
+        specify { petition.description_lsub('subs').should == '<p>a</p><p>subs</p><p>paragraph</p>' }
         specify { petition.description_lsub('').should == '<p>a</p><p>paragraph</p>' }
       end
     end
@@ -130,7 +130,7 @@ describe Petition do
       its(:location_details) { should == '' }
 
       it { should cover newyorker }
-      it { should cover californian } 
+      it { should cover californian }
       it { should_not cover mexican }
       it { should_not cover canadian }
       it { should_not cover delocalized }
@@ -176,7 +176,7 @@ describe Petition do
       let(:location) { 'non-us/CA' }
       its(:location_type) { should == 'non-us' }
       its(:location_details) { should == 'CA' }
-    
+
       it { should cover canadian }
       it { should_not cover mexican }
       it { should_not cover newyorker }
@@ -196,7 +196,7 @@ describe Petition do
       it { should_not cover delocalized }
     end
   end
-  
+
   describe '.find_interesting_petitions_for' do
     subject { Petition }
 
@@ -210,12 +210,8 @@ describe Petition do
       nocoverage.stub(:cover?).with(member).and_return false
       interesting.stub(:cover?).with(member).and_return true
 
-      SentEmail.stub_chain(:where, :select).
-        and_return [stub(petition_id: sent.id)]
+      member.stub(:previous_petition_ids).and_return [sent.id, signed.id]
 
-      Signature.stub_chain(:where, :select).
-        and_return [stub(petition_id: signed.id)]
-      
       subject.stub(:emailable_petition_ids).
         and_return [sent, signed, nocoverage, interesting].map(&:id)
 
@@ -238,7 +234,7 @@ describe Petition do
 
       its(:sigcount) { should == 2 }
     end
-    
+
     context 'should count signatures with unique email addresses only' do
       let(:signature1) { create(:signature, petition: subject, email: "test@test.com") }
       let(:signature2) { create(:signature, petition: subject, email: "test@test.com") }
