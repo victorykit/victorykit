@@ -3,7 +3,7 @@ module PetitionsHelper
   def open_graph_for(petition, referral)
     {
       'og:title' => referral.title,
-      'og:type' => 'watchdognet:petition',
+      'og:type' => 'victorykit:petition',
       'og:description' => referral.facebook_description_for_sharing.html_safe,
       'og:image' => referral.image,
       'og:site_name' => social_media_config[:facebook][:site_name]

@@ -91,7 +91,7 @@ var facebook = (function() {
         return;
       }
       var petition = $('meta[property="og:url"]').attr('content');
-      FB.api('/me/watchdognet:sign', 'post', { petition: petition }, apiCallback);
+      FB.api('/me/victorykit:sign', 'post', { petition: petition }, apiCallback);
     }
 
     function apiCallback(res) {

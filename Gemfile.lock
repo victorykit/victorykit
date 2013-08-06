@@ -189,7 +189,6 @@ GEM
       metaclass (~> 0.0.1)
     multi_json (1.7.2)
     multi_xml (0.5.2)
-    mysql (2.9.0)
     mysql2 (0.3.11)
     newrelic-redis (1.4.0)
       newrelic_rpm (~> 3.0)
@@ -389,7 +388,6 @@ DEPENDENCIES
   kgio
   memcachier
   memoist!
-  mysql
   mysql2
   newrelic-redis
   newrelic_rpm

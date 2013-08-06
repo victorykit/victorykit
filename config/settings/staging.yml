@@ -12,8 +12,3 @@ google_analytics:
      client_secret: <%= ENV["OAUTH_CLIENT_SECRET"] %>
      token: <%= ENV["OAUTH_TOKEN"] %>
      secret: <%= ENV["OAUTH_SECRET"] %>
-dp_connection:
-   host: <%= ENV["AK_IMPORT_DB_HOST"] %>
-   username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
-   password: <%= ENV["AK_IMPORT_DB_PWD"] %>
-   database: <%= ENV["AK_IMPORT_DB"] %>

@@ -63,8 +63,7 @@ class ScheduledMailer < ActionMailer::Base
 
     mailbox, domain = Settings.site.list_unsubscribe.split("@")
     address = "mailto:#{mailbox}+#{email_hash}@#{domain}"
-
-    headers["List-Unsubscribe"] = "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
+    headers["List-Unsubscribe"] = address
 
     mail = mail(
       subject: email_experiment.subject,

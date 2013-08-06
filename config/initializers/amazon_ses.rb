@@ -3,7 +3,7 @@ ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
   :secret_access_key => Settings.aws.secret_access_key
 
 if ENV['DKIM_PRIVATE_KEY']
-  Dkim::domain      = 'watchdog.net'
+  Dkim::domain      = Settings.email.domain
   Dkim::selector    = 'mail'
   Dkim::private_key = ENV['DKIM_PRIVATE_KEY']
 

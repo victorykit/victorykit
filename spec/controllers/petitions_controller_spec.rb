@@ -171,7 +171,7 @@ describe PetitionsController do
         body.xpath('//meta[@property="og:title"]/@content').first.inner_html.should == "evil unsafe characters! \"&amp;'&lt;&gt;"
         body.xpath('//meta[@property="og:description"]/@content').first.inner_html.should == "\"&amp;'&lt;&gt;"
         body.xpath('//meta[@property="og:site_name"]/@content').first.value.should == 'Victory Kit'
-        body.xpath('//meta[@property="og:type"]/@content').first.value.should == 'watchdognet:petition'
+        body.xpath('//meta[@property="og:type"]/@content').first.value.should == 'victorykit:petition'
         # We want a value there, but it'll change with time.
         body.xpath('//meta[@property="og:image"]/@content').first.value.should_not be_empty
       end

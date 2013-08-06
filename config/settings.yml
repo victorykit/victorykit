@@ -9,11 +9,11 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: Melanie Jones <info@watchdog.net>
-dp_connection:
-  host: OVERRIDE_ME
-  username: OVERRIDE_ME
-  password: OVERRIDE_ME
-  database: OVERRIDE_ME
+action_kit:
+   host: <%= ENV["AK_IMPORT_DB_HOST"] %>
+   username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
+   password: <%= ENV["AK_IMPORT_DB_PWD"] %>
+   database: <%= ENV["AK_IMPORT_DB"] %>
 cloudmailin:
   token: <%= ENV["CLOUDMAILIN_TOKEN"] %>
 organization:
