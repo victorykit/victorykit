@@ -168,10 +168,11 @@ describe PetitionsController do
       it 'should include opengraph meta tags' do
         response = get :show, id: petition.id
         body = Nokogiri::HTML response.body
+        fb_settings = Rails.configuration.social_media[:facebook] # TODO Test in separate view helper.
         body.xpath('//meta[@property="og:title"]/@content').first.inner_html.should == "evil unsafe characters! \"&amp;'&lt;&gt;"
         body.xpath('//meta[@property="og:description"]/@content').first.inner_html.should == "\"&amp;'&lt;&gt;"
-        body.xpath('//meta[@property="og:site_name"]/@content').first.value.should == 'Victory Kit'
-        body.xpath('//meta[@property="og:type"]/@content').first.value.should == 'victorykit:petition'
+        body.xpath('//meta[@property="og:site_name"]/@content').first.value.should == fb_settings[:site_name]
+        body.xpath('//meta[@property="og:type"]/@content').first.value.should == "#{fb_settings[:namespace]}:petition"
         # We want a value there, but it'll change with time.
         body.xpath('//meta[@property="og:image"]/@content').first.value.should_not be_empty
       end

@@ -18,10 +18,10 @@ var socialTracking = (function() {
   }
 
   function trackStatus(status) {
-    sendRequest({ 
-      facebook_uid: FB.getUserID(), 
-      facebook_action: 'status', 
-      facebook_status: status 
+    sendRequest({
+      facebook_uid: FB.getUserID(),
+      facebook_action: 'status',
+      facebook_status: status
     });
   }
 
@@ -30,8 +30,8 @@ var socialTracking = (function() {
   }
 
   function createSharingData(action, actionId, requestId, friendIds) {
-    return { 
-      petition_id: VK.petition_id, 
+    return {
+      petition_id: VK.petition_id,
       facebook_action: action,
       action_id: actionId,
       request_id: requestId,
@@ -45,9 +45,9 @@ var socialTracking = (function() {
     $.ajax({ type: 'post', url: VK.social_tracking_url, data: data });
   }
 
-  return { 
-    init: init, 
-    trackStatus: trackStatus, 
+  return {
+    init: init,
+    trackStatus: trackStatus,
     trackSharing: trackSharing
   };
 })();
@@ -91,7 +91,7 @@ var facebook = (function() {
         return;
       }
       var petition = $('meta[property="og:url"]').attr('content');
-      FB.api('/me/victorykit:sign', 'post', { petition: petition }, apiCallback);
+      FB.api('/me/' + VK.facebook_namespace + ':sign', 'post', { petition: petition }, apiCallback);
     }
 
     function apiCallback(res) {
@@ -165,9 +165,9 @@ var facebook = (function() {
   }
 
   function setupRecommendation() {
-    recommendation.init(socialTracking); 
+    recommendation.init(socialTracking);
   }
- 
+
   return { init: init };
 })();
 

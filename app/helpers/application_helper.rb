@@ -55,4 +55,12 @@ module ApplicationHelper
     #current_page?(controller: 'petitions', action: 'show', id: params[:id])# && !( !current_user.nil? && ( current_user.is_admin? || current_user.is_super_user? ) )
     params[:controller] == 'petitions' && params[:action] == 'show' && !(!current_user.nil? && (current_user.is_admin? || current_user.is_super_user?))
   end
+
+  def social_media_config
+    Rails.configuration.social_media
+  end
+
+  def facebook_namespace
+    social_media_config[:facebook][:namespace]
+  end
 end

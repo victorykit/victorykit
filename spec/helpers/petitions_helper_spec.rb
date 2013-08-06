@@ -19,7 +19,7 @@ describe PetitionsHelper do
     end
 
     subject { helper.open_graph_for(petition, signer_code) }
-    it { should include('og:type' => 'victorykit:petition') }
+    it { should include('og:type' => "#{helper.facebook_namespace}:petition") }
     it { should include('og:title' => petition.title) }
     it { should include('og:description' => strip_tags(petition.description)) }
     it "should have an image drawn from the list of possible Facebook images" do

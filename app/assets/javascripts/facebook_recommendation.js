@@ -55,16 +55,16 @@ var recommendation = (function() {
     var url = [domain, '?recommend_ref=', referralCode].join('');
     var message = $('#message-to-friends').val();
 
-    var friends = 
+    var friends =
       $('.friend_lists input[type="checkbox"]')
         .filter(function() { return $(this).attr('checked'); })
         .map(function() { return $(this).val(); })
         .toArray().concat(['me']);
 
     (function send(i) {
-      if(!(uid = friends[i])) { return; } 
-      FB.api('/'+uid+'/feed', 'post', 
-        { link: url, message: message }, 
+      if(!(uid = friends[i])) { return; }
+      FB.api('/'+uid+'/feed', 'post',
+        { link: url, message: message },
         function(res){ send(i+1); }
       );
     })(0);
@@ -126,7 +126,7 @@ var recommendation = (function() {
             "(select post_id from stream where source_id = me() limit 200) limit 25",
       "friend_ids":"select uid2 from friend where uid1 = me()",
       "sympathetic":"select user_id from url_like where user_id in "+
-        "(select uid2 from #friend_ids) and strpos(url, \"watchdog.net\") > 0",
+        "(select uid2 from #friend_ids) and strpos(url, \"" + location.host + "\") > 0",
       "friends":"select name, uid from user where uid in (select uid2 from #friend_ids) "+
         "order by profile_update_time desc"
     };
@@ -173,7 +173,7 @@ var recommendation = (function() {
 
   function init(st) {
     socialTracking = st;
-    bind(); 
+    bind();
   }
 
   return { init: init };

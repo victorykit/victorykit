@@ -3,7 +3,7 @@ module PetitionsHelper
   def open_graph_for(petition, referral)
     {
       'og:title' => referral.title,
-      'og:type' => 'victorykit:petition',
+      'og:type' => "#{facebook_namespace}:petition",
       'og:description' => referral.facebook_description_for_sharing.html_safe,
       'og:image' => referral.image,
       'og:site_name' => social_media_config[:facebook][:site_name]
@@ -106,10 +106,6 @@ module PetitionsHelper
 
   def really_ie?
     browser.ie? && !(browser.user_agent =~ /chromeframe/)
-  end
-
-  def social_media_config
-    Rails.configuration.social_media
   end
 
 end

@@ -3,7 +3,8 @@ production: &default
     app_id: <%= ENV["FACEBOOK_APP_ID"] %>
     admins: 686554820
     secret: <%= ENV["FACEBOOK_SECRET"] %>
-    site_name: Victory Kit
+    site_name: Watchdog.net
+    namespace: watchdognet
     images:
       - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border_white-bg.png
       - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border.png
