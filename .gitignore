@@ -49,3 +49,7 @@ coverage
 # some ROF keys
 railsonfire-ssh-*
 bless.js
+
+.floo
+.flooignore
+.sublime-project
