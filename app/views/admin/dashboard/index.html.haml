@@ -166,31 +166,32 @@
 
   .span7
     #charts
-      %span
-        = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
-        %span{style:"padding-left:350px"}
-          %span{style:"color:blue;font-weight:bold"}
-            &#x2015;
-          %span
-            current
-          %span{style:"color:#dddddd;font-weight:bold"}
-            &#x2015;
-          %span
-            prior
-      %h3 NPS
-      %iframe{ src: nps_chart, style: "border:none", height: "180px" }
+      - unless Rails.env.test?
+        %span
+          = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
+          %span{style:"padding-left:350px"}
+            %span{style:"color:blue;font-weight:bold"}
+              &#x2015;
+            %span
+              current
+            %span{style:"color:#dddddd;font-weight:bold"}
+              &#x2015;
+            %span
+              prior
+        %h3 NPS
+        %iframe{ src: nps_chart, style: "border:none", height: "180px" }
 
-      %h3 Facebook Actions
-      %iframe{ src: facebook_actions_chart, style: "border:none", height: "180px" }
+        %h3 Facebook Actions
+        %iframe{ src: facebook_actions_chart, style: "border:none", height: "180px" }
 
-      %h3 Facebook Referrals
-      %iframe{ src: facebook_referrals_chart, style: "border:none", height: "180px" }
+        %h3 Facebook Referrals
+        %iframe{ src: facebook_referrals_chart, style: "border:none", height: "180px" }
 
-      %h3 Unsubscribed
-      %iframe{ src: unsubscribes_chart, style: "border:none", height: "180px" }
+        %h3 Unsubscribed
+        %iframe{ src: unsubscribes_chart, style: "border:none", height: "180px" }
 
-      %h3 Sent
-      %iframe{ src: emails_sent_chart, style: "border:none", height: "180px" }
+        %h3 Sent
+        %iframe{ src: emails_sent_chart, style: "border:none", height: "180px" }
 
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$('#dashboard').load(window.location.href + ' #dashboard');}, 60000));

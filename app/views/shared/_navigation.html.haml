@@ -6,7 +6,8 @@
         %span.icon-bar
         %span.icon-bar
 
-      = link_to 'WATCHDOG.NET', '/', class: 'logo'
+      = link_to root_path, class: 'logo' do
+        = image_tag Settings.organization.logo, style: "height: 40px; vertical-align: top"
       .nav-collapse.in.collapse
         %ul.nav.pull-right
           - if is_admin

@@ -8,7 +8,7 @@ describe UserFeedbackMailer do
   end
 
   it "sends feedback to aaron" do
-    mail.header[:to].to_s.should == "me+watchdog@aaronsw.com"
+    mail.header[:to].to_s.should == Settings.site.feedback_email
   end
 
   it "should include the user's email in the subject" do

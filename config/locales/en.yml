@@ -7,6 +7,7 @@ en:
       refine: "Optionally, select a list of specific locations."
   site:
     privacy_policy: "We don't share your email address without your permission. We will send you updates on important campaigns by email, but you can unsubscribe at any time."
+    email_signature: "-- The folks at Watchdog.net"
   activerecord:
     attributes:
       user:

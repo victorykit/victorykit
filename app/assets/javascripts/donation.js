@@ -1,7 +1,12 @@
 var donation = (function() {
-  function sendDonationTrackRequest(){
+  function sendDonationTrackRequest() {
+    var btn = $(this),
+        business = btn.data("business"),
+        item_name = btn.data("item-name");
+
+
     $.post(VK.donation_tracking_url, {
-      petition_id: VK.petition_id, 
+      petition_id: VK.petition_id,
       referral_code: VK.ref_code,
       signature_id: VK.signature_id
     }, function() {
@@ -12,10 +17,10 @@ var donation = (function() {
   function buildPaypalUrl() {
     var params = [
       'cmd=_donations',
-      'business=info@demandprogress.org',
+      'business=' + VK.contact_email,
+      'item_name=' + VK.support_email.replace(/@/, "%20"),
+      'item_number=' + $.cookie('member_id'),
       'lc=US',
-      'item_name=Support%20Watchdog.net',
-      'item_number='+$.cookie('member_id'),
       'no_note=1',
       'no_shipping=1',
       'currency_code=USD',

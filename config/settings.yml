@@ -16,3 +16,14 @@ dp_connection:
   database: OVERRIDE_ME
 cloudmailin:
   token: <%= ENV["CLOUDMAILIN_TOKEN"] %>
+organization:
+  name: "Demand Progress"
+  email: "info@demandprogress.org"
+  unsubscribe_url: "https://act.demandprogress.org/unsubscribe/unsubscribe?source=watchdog"
+  logo: 'logo.png'
+site:
+  name: "Watchdog.net"
+  email: "support@watchdog.net"
+  hostname: "act.watchdog.net"
+  feedback_email: info+watchdog@demandprogress.org
+  list_unsubscribe: "unsubscribe@appmail.watchdog.net"

@@ -12,7 +12,7 @@ Greetings VictoryKit team member. When you change this template, please test it 
               <table width="180"style="width:180px;max-width:180px;">
                 <tr>
                   <td style="font-weight:bold;margin-bottom:15px;">
-                    <%=@short_summary %>
+                    <%= @short_summary %>
                   </td>
                 </tr>
                 <tr>
@@ -56,21 +56,21 @@ Greetings VictoryKit team member. When you change this template, please test it 
     </tr>
   </table>
   <div>
-    <p>Dear <%=@member.full_name%>,</p>
+    <p>Dear <%= @member.full_name %>,</p>
 
     <p>
-    <%=sanitize(@petition.description_lsub("<b><a href='#{@petition_link}'>Click here to sign -- it just takes a second.</a></b>"))%>
+    <%= sanitize(@petition.description_lsub("<b><a href='#{@petition_link}'>Click here to sign -- it just takes a second.</a></b>")) %>
     </p>
-    <p><b><a style="font-size:125%" href="<%=@petition_link%>">Click here to sign -- it just takes a second.</a></b></p>
+    <p><b><a style="font-size:125%" href="<%= @petition_link %>">Click here to sign -- it just takes a second.</a></b></p>
     <p>Thanks,<br/>
-    -- The folks at Watchdog.net</p>
+    <%= t("site.email_signature") %></p>
 
-    <p>P.S. If the other links aren't working for you, please go here to sign: <a href="<%=@petition_link%>"><%=@petition_link%></a></p>
+    <p>P.S. If the other links aren't working for you, please go here to sign: <a href="<%= @petition_link %>"><%=@petition_link%></a></p>
   </div>
 </div>
 
 <hr style="clear:both;"/>
 
-<p style="font-size:50%">This email was sent by watchdog.net. To remove yourself from this list, <a href="<%=@unsubscribe_link%>">click here</a>.</p>
+<p style="font-size:50%">This email was sent by <%= Settings.site.name %>. To remove yourself from this list, <a href="<%= @unsubscribe_link %>">click here</a>.</p>
 
-<img src="<%=@tracking_url%>" />
+<img src="<%= @tracking_url %>" />

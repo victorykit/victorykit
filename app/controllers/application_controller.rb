@@ -2,7 +2,7 @@ class ApplicationController < ActionController::Base
   include Whiplash
   extend Memoist
   helper_method :win!, :spin!, :spin_if_cool_browser!, :measure!, :is_admin
-  
+
   protect_from_forgery
   before_filter :add_environment_to_title, :stash_http_referer, :add_contact_url_to_footer
 
@@ -15,10 +15,10 @@ class ApplicationController < ActionController::Base
   end
 
   def add_environment_to_title
-    @title = "Watchdog.net"
-    @title << " - #{Rails.env}" unless Rails.env.production? 
+    @title = Settings.site.name
+    @title << " - #{Rails.env}" unless Rails.env.production?
   end
-  
+
   def add_contact_url_to_footer
     @contact_url = contact_path
   end
@@ -51,14 +51,14 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
   end
   helper_method :current_user
-  
+
   def require_login
     if current_user.nil?
       session['redirect_url'] = request.url
       redirect_to login_path
     end
   end
-    
+
   def require_admin
     if current_user.nil? #@@ is there some way to DRY this with the function above?
       session['redirect_url'] = request.url
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
   def render_403
     render :file => "#{Rails.root}/public/403", :formats => [:html], :status => 403
   end
-  
+
   def is_admin
     current_user && (current_user.is_super_user || current_user.is_admin)
   end

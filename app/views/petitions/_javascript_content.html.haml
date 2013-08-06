@@ -1,16 +1,18 @@
 = javascript_include_tag "http://connect.facebook.net/en_US/all.js#xfbml=1"
 - content_for :javascripts do
   - @modal_coloring = spin! "modal coloring", :share, ["white-box-on-blackout", "white-box-on-dark"]
-  VK.modal_coloring = '#{@modal_coloring}';
-  VK.signing_from_email = '#{@signing_from_email}';
-  VK.petition_id = '#{@petition.id}';
-  VK.petition_title = '#{j @petition.title}';
-  VK.signature_id = '#{@signature.id}';
-  VK.social_tracking_url = '#{social_tracking_url}';
+  VK.modal_coloring        = '#{@modal_coloring}';
+  VK.signing_from_email    = '#{@signing_from_email}';
+  VK.petition_id           = '#{@petition.id}';
+  VK.petition_title        = '#{j @petition.title}';
+  VK.signature_id          = '#{@signature.id}';
+  VK.social_tracking_url   = '#{social_tracking_url}';
   VK.donation_tracking_url = '#{donation_tracking_url}';
   VK.facebook_sharing_type = '#{facebook_sharing_option}';
-  VK.facebook_friend_ids = '#{j @facebook_friend_ids}';
-  VK.ref_code = '#{j @signer_code.code}';
+  VK.facebook_friend_ids   = '#{j @facebook_friend_ids}';
+  VK.ref_code              = '#{j @signer_code.code}';
+  VK.admin_email           = '#{Settings.organization.email}';
+  VK.support_email         = '#{Settings.site.email}';
 
   -#We only want to run this experiment if we're using the recommendation dialog
   - if facebook_sharing_option == 'facebook_recommendation'

@@ -1,12 +1,12 @@
-Dear <%=@member.full_name%>,
+Dear <%= @member.full_name %>,
 
-<%=@petition.plain_text_description.html_safe%>
+<%= @petition.plain_text_description.html_safe %>
 
-Please, sign this petition at <%=@petition_link%>
+Please, sign this petition at <%= @petition_link %>
 
 Thanks,
- -- The folks at Watchdog.net
+ <%= t("site.email_signature") %>
 
 -----------------------------
 
-To stop receiving emails from us, go to: <%=@unsubscribe_link%>
+To stop receiving emails from us, go to: <%= @unsubscribe_link %>

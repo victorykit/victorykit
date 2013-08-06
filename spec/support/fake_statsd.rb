@@ -29,6 +29,14 @@ class FakeStatsd
     @data[stat]
   end
 
+  def hostname
+    "statsd.example.com"
+  end
+
+  def port
+    8125
+  end
+
   def time(stat, sample_rate=1)
     start = Time.now
     result = yield

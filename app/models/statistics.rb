@@ -142,8 +142,10 @@ class Statistics
     from = "1#{timeframe}"
     main = "movingAverage(#{gauge}, #{averaging_window})"
     timeshift = "timeShift(#{main}, '#{from}')"
+
+    baseUri = "http://#{$statsd.hostname}/render"
 u = <<-url
-http://graphite.watchdog.net/render?\
+#{baseUri}?\
 target=color(lineWidth(#{timeshift}, 2), 'dddddd')&\
 target=color(lineWidth(#{main}, 2), 'blue')&\
 #{thresholds.join('&')}&\

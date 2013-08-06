@@ -1,8 +1,0 @@
-#!/bin/sh
-heroku create --stack cedar --remote testserver
-git push testserver master
-heroku addons:add pgbackups --remote testserver
-heroku pgbackups:restore DATABASE `heroku pgbackups:url --app actwatchdog` --remote testserver
-heroku run rake db:migrate --remote testserver
-heroku addons:add redistogo:nano --remote testserver
-heroku open --remote testserver

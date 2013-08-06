@@ -45,9 +45,9 @@ class ScheduledMailer < ActionMailer::Base
     end
   end
 
-  def compose(petition, member, email, petition_link, raw_petition_link) 
+  def compose(petition, member, email, petition_link, raw_petition_link)
     #raw_petition_link is the url without the tracking param. There must be a nicer way to do this
-    
+
     email_hash = email.to_hash
     email_experiment = EmailExperiments.new(email)
 
@@ -60,6 +60,10 @@ class ScheduledMailer < ActionMailer::Base
     @fb_share_url = "https://www.facebook.com/sharer/sharer.php?u=#{raw_petition_link}?mail_share_ref=#{email_hash}"
     @image_url = email_experiment.image_url
     @short_summary = email_experiment.petition_short_summary
+
+    mailbox, domain = Settings.site.list_unsubscribe.split("@")
+    address = "mailto:#{mailbox}+#{email_hash}@#{domain}"
+
     headers["List-Unsubscribe"] = "mailto:unsubscribe+" + email_hash + "@appmail.watchdog.net"
 
     mail = mail(
