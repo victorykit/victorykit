@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130726021512) do
+ActiveRecord::Schema.define(:version => 20130807201238) do
 
   create_table "bounced_emails", :force => true do |t|
     t.text     "raw_content"
@@ -345,7 +345,7 @@ ActiveRecord::Schema.define(:version => 20130726021512) do
     t.integer  "petition_id"
     t.string   "goal"
     t.string   "key"
-    t.string   "choice"
+    t.text     "choice"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.string   "referral_code"
