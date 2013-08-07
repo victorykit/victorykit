@@ -143,7 +143,7 @@ class Statistics
     main = "movingAverage(#{gauge}, #{averaging_window})"
     timeshift = "timeShift(#{main}, '#{from}')"
 
-    baseUri = "http://#{$statsd.hostname}/render"
+    baseUri = "http://#{$statsd.host}/render"
 u = <<-url
 #{baseUri}?\
 target=color(lineWidth(#{timeshift}, 2), 'dddddd')&\

@@ -29,7 +29,7 @@ class FakeStatsd
     @data[stat]
   end
 
-  def hostname
+  def host
     "statsd.example.com"
   end
 
