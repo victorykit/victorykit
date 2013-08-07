@@ -20,9 +20,19 @@ class EmailScheduler
         amount_sent = PetitionEmailer.send(BATCH_SIZE).length
         process.touch
 
-        sleep_debt += WEEK/((max_emails_per_week/MailerProcessTracker.count)/amount_sent) - (Time.now-last_email)
-        puts "Sleep debt: " + sleep_debt.to_s
+        if amount_sent.zero?
+          sleep_debt = 30
+        else
+          sleep_debt += WEEK/((max_emails_per_week/MailerProcessTracker.count)/amount_sent) - (Time.now-last_email)
+        end
+
+        Rails.logger.info "Sleep debt: #{sleep_debt}, sent: #{amount_sent}"
+
         $statsd.gauge "email_sleep_debt", sleep_debt
+
+        if amount_sent == 0
+          sleep_debt = 30
+        end
 
         if sleep_debt > 0
           sleep(sleep_debt)
