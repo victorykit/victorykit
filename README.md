@@ -1,5 +1,8 @@
 VictoryKit is a free and open source platform to run campaigns for social change.
 
+![build status](https://semaphoreapp.com/api/v1/projects/bfa043263901870e821c1a460cfb2438a2bdf4c6/4199/badge.png)
+
+
 ## Installation
 
 On a Mac, you'll want to install:
