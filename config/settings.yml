@@ -9,6 +9,7 @@ google_analytics:
   analytics_id: UA-31572927-1
 email:
   from_address: Melanie Jones <info@watchdog.net>
+  domain: watchdog.net
 action_kit:
    host: <%= ENV["AK_IMPORT_DB_HOST"] %>
    username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
