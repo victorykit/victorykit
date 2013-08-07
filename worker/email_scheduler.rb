@@ -9,7 +9,7 @@ class EmailScheduler
     return if ENV['REALLY_SEND_REAL_EMAILS'] != "1"
 
     sleep_debt = 0
-    max_emails_per_week = Member.count.to_f
+    max_emails_per_week = Member.active.count.to_f
 
     process = MailerProcessTracker.new(is_locked: true)
     process.save!
