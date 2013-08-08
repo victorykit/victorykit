@@ -10,6 +10,9 @@ describe ScheduledMailer do
   end
 
   describe "sending an email" do
+    before { AppSettings["site.list_unsubscribe"] = "unsub@example.com" }
+    before { AppSettings["email.from_address"] = "from@example.com" }
+
     let(:member){ create(:member)}
     let(:petition){ create(:petition, description: "an<br>html&nbsp;&quot;body&quot;and more<br><br>LINK<br><br>and so on")}
     let(:petition_image) {create(:petition_image, petition: petition)}
@@ -36,7 +39,7 @@ describe ScheduledMailer do
     end
 
     it "includes the from" do
-      mail.from.should include "info@watchdog.net"
+      mail.from.should include "from@example.com"
     end
 
     it "uses the member's email address" do
@@ -60,7 +63,7 @@ describe ScheduledMailer do
     end
 
     it "adds an unsubscribe header" do
-      mail["List-Unsubscribe"].value.should eq "mailto:unsubscribe+" + sent_email.to_hash + "@appmail.watchdog.net"
+      mail["List-Unsubscribe"].value.should eq "mailto:unsub+" + sent_email.to_hash + "@example.com"
     end
 
     it "includes a plain text part" do

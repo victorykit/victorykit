@@ -1,5 +1,6 @@
 describe UserFeedbackMailer do
 
+  before { AppSettings['site.feedback_email'] = "feedback@example.com" }
   let(:feedback) {create :user_feedback}
   let(:mail) {UserFeedbackMailer.new_message(feedback)}
 
@@ -8,7 +9,7 @@ describe UserFeedbackMailer do
   end
 
   it "sends feedback to aaron" do
-    mail.header[:to].to_s.should == Settings.site.feedback_email
+    mail.header[:to].to_s.should == "feedback@example.com"
   end
 
   it "should include the user's email in the subject" do

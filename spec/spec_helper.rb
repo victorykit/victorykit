@@ -31,12 +31,12 @@ RSpec.configure do |config|
   # examples within a transaction, remove the following line or assign false
   # instead of true.
   config.use_transactional_fixtures = true
-  
+
   # If true, the base class of anonymous controllers will be inferred
   # automatically. This will be the default behavior in future versions of
   # rspec-rails.
   config.infer_base_class_for_anonymous_controllers = false
-  
+
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:each) do
@@ -54,6 +54,19 @@ RSpec.configure do |config|
     ])
 
     $statsd = FakeStatsd.new
+
+    AppSettings.merge(
+      "email.from_address"           => "victorykit+sender@example.com",
+      "site.name"                    => "example.com",
+      "site.email"                   => "victorykit@example.com",
+      "site.hostname"                => "example.com",
+      "site.feedback_email"          => "victorykit+feedback@example.com",
+      "site.list_unsubscribe"        => "victorykit+unsubscribe@example.com",
+      "organization.name"            => "VictoryKit",
+      "organization.email"           => "victorykit@example.com",
+      "organization.unsubscribe_url" => "",
+      "organization.logo"            => "logo.png"
+    )
   end
 
   config.after(:each) do
@@ -62,19 +75,19 @@ RSpec.configure do |config|
 end
 
 Capybara.default_wait_time = 5
-Capybara.register_driver :webkit do |app| 
-  Capybara::Webkit::Driver.new(app, :stdout => nil) 
-end 
+Capybara.register_driver :webkit do |app|
+  Capybara::Webkit::Driver.new(app, :stdout => nil)
+end
 
 class ActiveRecord::Base
   mattr_accessor :shared_connection
   @@shared_connection = nil
- 
+
   def self.connection
     @@shared_connection || retrieve_connection
   end
 end
- 
+
 # Forces all threads to share the same connection. This works on
 # Capybara because it starts the web server in a thread.
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

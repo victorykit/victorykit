@@ -12,8 +12,8 @@
   VK.facebook_friend_ids   = '#{j @facebook_friend_ids}';
   VK.facebook_namespace    = '#{facebook_namespace}';
   VK.ref_code              = '#{j @signer_code.code}';
-  VK.admin_email           = '#{Settings.organization.email}';
-  VK.support_email         = '#{Settings.site.email}';
+  VK.admin_email           = '#{AppSettings['organization.email']}';
+  VK.support_email         = '#{AppSettings['site.email']}';
 
   -#We only want to run this experiment if we're using the recommendation dialog
   - if facebook_sharing_option == 'facebook_recommendation'

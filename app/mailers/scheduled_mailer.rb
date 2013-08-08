@@ -61,13 +61,17 @@ class ScheduledMailer < ActionMailer::Base
     @image_url = email_experiment.image_url
     @short_summary = email_experiment.petition_short_summary
 
-    mailbox, domain = Settings.site.list_unsubscribe.split("@")
+    unsubscribe, from_address = AppSettings.require_keys!(
+      "site.list_unsubscribe", "email.from_address"
+    )
+
+    mailbox, domain = unsubscribe.split("@")
     address = "mailto:#{mailbox}+#{email_hash}@#{domain}"
     headers["List-Unsubscribe"] = address
 
     mail = mail(
       subject: email_experiment.subject,
-      from: Settings.email.from_address,
+      from: from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
   end

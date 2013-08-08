@@ -12,5 +12,6 @@
   &nbsp;
 
 %p
-  %a{href: Settings.organization.unsubscribe_url}
-    To unsubscribe from all emails from #{Settings.organization.name}, click here.
+  - unsubscribe_url, org_name = AppSettings.require_keys!('organization.unsubscribe_url', 'organization.name')
+  %a{href: unsubscribe_url}
+    To unsubscribe from all emails from #{org_name}, click here.

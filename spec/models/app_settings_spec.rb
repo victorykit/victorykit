@@ -9,12 +9,6 @@ describe AppSettings do
       before  { AppSettings.create }
       specify { expect { AppSettings.create }.to raise_error }
     end
-
-    it "creates an instance as necessary" do
-      expect(AppSettings.count).to eq(0)
-      AppSettings.instance
-      expect(AppSettings.count).to eq(1)
-    end
   end
 
   context "retrieving items from the singleton" do
@@ -25,6 +19,20 @@ describe AppSettings do
     context "retrieves the underlying value if it exists" do
       before  { instance.data["foo"] = "bar"; instance.save }
       specify { expect(AppSettings["foo"]).to eq("bar") }
+    end
+
+    context "when items are required but not available" do
+      specify { expect { AppSettings.require_keys!("womp") }.to raise_error }
+    end
+
+    context "when an item is required and available" do
+      before  { instance.data["foo"] = "bar"; instance.save }
+      specify { expect(AppSettings.require_keys!("foo")).to eq("bar") }
+    end
+
+    context "when multiple items are required and available" do
+      before  { instance.data["foo"] = "bar"; instance.data["baz"] = "qux"; instance.save }
+      specify { expect(AppSettings.require_keys!("foo", "baz")).to eq(%w{bar qux}) }
     end
   end
 

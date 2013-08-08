@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def add_environment_to_title
-    @title = Settings.site.name
+    @title = AppSettings.require_keys!("site.name")
     @title << " - #{Rails.env}" unless Rails.env.production?
   end
 
