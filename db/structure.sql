@@ -22,29 +22,21 @@ CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
+--
+-- Name: hstore; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION hstore; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION hstore IS 'data type for storing sets of (key, value) pairs';
+
+
 SET search_path = public, pg_catalog;
-
---
--- Name: bigint_to_inet(bigint); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION bigint_to_inet(bigint) RETURNS inet
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-SELECT (($1>>24&255)||'.'||($1>>16&255)||'.'||($1>>8&255)||'.'||($1>>0&255))::inet
-$_$;
-
-
---
--- Name: inet_to_bigint(inet); Type: FUNCTION; Schema: public; Owner: -
---
-
-CREATE FUNCTION inet_to_bigint(inet) RETURNS bigint
-    LANGUAGE sql IMMUTABLE STRICT
-    AS $_$
-SELECT $1 - inet '0.0.0.0'
-$_$;
-
 
 SET default_tablespace = '';
 
@@ -98,10 +90,10 @@ CREATE TABLE donations (
 
 
 --
--- Name: donation_clicks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: donations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE donation_clicks_id_seq
+CREATE SEQUENCE donations_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -110,10 +102,10 @@ CREATE SEQUENCE donation_clicks_id_seq
 
 
 --
--- Name: donation_clicks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: donations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE donation_clicks_id_seq OWNED BY donations.id;
+ALTER SEQUENCE donations_id_seq OWNED BY donations.id;
 
 
 --
@@ -199,6 +191,25 @@ CREATE TABLE facebook_actions (
 
 
 --
+-- Name: facebook_actions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE facebook_actions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: facebook_actions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE facebook_actions_id_seq OWNED BY facebook_actions.id;
+
+
+--
 -- Name: facebook_friends; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -271,11 +282,11 @@ ALTER SEQUENCE facebook_share_widget_shares_id_seq OWNED BY facebook_share_widge
 CREATE TABLE ip_locations (
     ip_from bigint,
     ip_to bigint,
-    country_code character(2),
+    country_code character varying(2),
     country_name text,
     region text,
     city text,
-    state_code character(2)
+    state_code character varying(2)
 );
 
 
@@ -308,25 +319,6 @@ CREATE SEQUENCE last_updated_unsubscribes_id_seq
 --
 
 ALTER SEQUENCE last_updated_unsubscribes_id_seq OWNED BY last_updated_unsubscribes.id;
-
-
---
--- Name: likes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE likes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: likes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE likes_id_seq OWNED BY facebook_actions.id;
 
 
 --
@@ -712,10 +704,10 @@ CREATE TABLE referrals (
 
 
 --
--- Name: referral_codes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: referrals_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE referral_codes_id_seq
+CREATE SEQUENCE referrals_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -724,10 +716,10 @@ CREATE SEQUENCE referral_codes_id_seq
 
 
 --
--- Name: referral_codes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: referrals_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE referral_codes_id_seq OWNED BY referrals.id;
+ALTER SEQUENCE referrals_id_seq OWNED BY referrals.id;
 
 
 --
@@ -774,6 +766,37 @@ CREATE SEQUENCE sent_emails_id_seq
 --
 
 ALTER SEQUENCE sent_emails_id_seq OWNED BY sent_emails.id;
+
+
+--
+-- Name: settings; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE settings (
+    id integer NOT NULL,
+    data hstore,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE settings_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: settings_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE settings_id_seq OWNED BY settings.id;
 
 
 --
@@ -843,10 +866,10 @@ CREATE TABLE social_media_trials (
 
 
 --
--- Name: social_media_experiments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: social_media_trials_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE social_media_experiments_id_seq
+CREATE SEQUENCE social_media_trials_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -855,10 +878,10 @@ CREATE SEQUENCE social_media_experiments_id_seq
 
 
 --
--- Name: social_media_experiments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: social_media_trials_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE social_media_experiments_id_seq OWNED BY social_media_trials.id;
+ALTER SEQUENCE social_media_trials_id_seq OWNED BY social_media_trials.id;
 
 
 --
@@ -1006,7 +1029,7 @@ ALTER TABLE ONLY bounced_emails ALTER COLUMN id SET DEFAULT nextval('bounced_ema
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY donations ALTER COLUMN id SET DEFAULT nextval('donation_clicks_id_seq'::regclass);
+ALTER TABLE ONLY donations ALTER COLUMN id SET DEFAULT nextval('donations_id_seq'::regclass);
 
 
 --
@@ -1027,7 +1050,7 @@ ALTER TABLE ONLY email_experiments ALTER COLUMN id SET DEFAULT nextval('email_ex
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY facebook_actions ALTER COLUMN id SET DEFAULT nextval('likes_id_seq'::regclass);
+ALTER TABLE ONLY facebook_actions ALTER COLUMN id SET DEFAULT nextval('facebook_actions_id_seq'::regclass);
 
 
 --
@@ -1118,7 +1141,7 @@ ALTER TABLE ONLY petitions ALTER COLUMN id SET DEFAULT nextval('petitions_id_seq
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY referrals ALTER COLUMN id SET DEFAULT nextval('referral_codes_id_seq'::regclass);
+ALTER TABLE ONLY referrals ALTER COLUMN id SET DEFAULT nextval('referrals_id_seq'::regclass);
 
 
 --
@@ -1132,6 +1155,13 @@ ALTER TABLE ONLY sent_emails ALTER COLUMN id SET DEFAULT nextval('sent_emails_id
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY settings ALTER COLUMN id SET DEFAULT nextval('settings_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY signatures ALTER COLUMN id SET DEFAULT nextval('signatures_id_seq'::regclass);
 
 
@@ -1139,7 +1169,7 @@ ALTER TABLE ONLY signatures ALTER COLUMN id SET DEFAULT nextval('signatures_id_s
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY social_media_trials ALTER COLUMN id SET DEFAULT nextval('social_media_experiments_id_seq'::regclass);
+ALTER TABLE ONLY social_media_trials ALTER COLUMN id SET DEFAULT nextval('social_media_trials_id_seq'::regclass);
 
 
 --
@@ -1179,11 +1209,11 @@ ALTER TABLE ONLY bounced_emails
 
 
 --
--- Name: donation_clicks_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY donations
-    ADD CONSTRAINT donation_clicks_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT donations_pkey PRIMARY KEY (id);
 
 
 --
@@ -1200,6 +1230,14 @@ ALTER TABLE ONLY email_errors
 
 ALTER TABLE ONLY email_experiments
     ADD CONSTRAINT email_experiments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: facebook_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY facebook_actions
+    ADD CONSTRAINT facebook_actions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1224,14 +1262,6 @@ ALTER TABLE ONLY facebook_share_widget_shares
 
 ALTER TABLE ONLY last_updated_unsubscribes
     ADD CONSTRAINT last_updated_unsubscribes_pkey PRIMARY KEY (id);
-
-
---
--- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY facebook_actions
-    ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1307,11 +1337,11 @@ ALTER TABLE ONLY petitions
 
 
 --
--- Name: referral_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: referrals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY referrals
-    ADD CONSTRAINT referral_codes_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
 
 
 --
@@ -1323,6 +1353,14 @@ ALTER TABLE ONLY sent_emails
 
 
 --
+-- Name: settings_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY settings
+    ADD CONSTRAINT settings_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: signatures_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1331,11 +1369,11 @@ ALTER TABLE ONLY signatures
 
 
 --
--- Name: social_media_experiments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: social_media_trials_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY social_media_trials
-    ADD CONSTRAINT social_media_experiments_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT social_media_trials_pkey PRIMARY KEY (id);
 
 
 --
@@ -1396,13 +1434,6 @@ CREATE INDEX index_likes_on_member_id ON facebook_actions USING btree (member_id
 --
 
 CREATE INDEX index_likes_on_petition_id ON facebook_actions USING btree (petition_id);
-
-
---
--- Name: index_lower_members_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_lower_members_on_email ON members USING btree (lower((email)::text));
 
 
 --
@@ -1784,13 +1815,6 @@ CREATE INDEX index_unsubscribes_on_sent_email_id ON unsubscribes USING btree (se
 
 
 --
--- Name: ip2location_range_gist; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX ip2location_range_gist ON ip_locations USING gist (box(point((ip_from)::double precision, (ip_from)::double precision), point((ip_to)::double precision, (ip_to)::double precision)));
-
-
---
 -- Name: sent_emails_created_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2085,8 +2109,6 @@ INSERT INTO schema_migrations (version) VALUES ('20120807021552');
 
 INSERT INTO schema_migrations (version) VALUES ('20120813135808');
 
-INSERT INTO schema_migrations (version) VALUES ('20120813182403');
-
 INSERT INTO schema_migrations (version) VALUES ('20120814144247');
 
 INSERT INTO schema_migrations (version) VALUES ('20120814205636');
@@ -2126,8 +2148,6 @@ INSERT INTO schema_migrations (version) VALUES ('20121002194102');
 INSERT INTO schema_migrations (version) VALUES ('20121002194512');
 
 INSERT INTO schema_migrations (version) VALUES ('20121003182142');
-
-INSERT INTO schema_migrations (version) VALUES ('20121004214008');
 
 INSERT INTO schema_migrations (version) VALUES ('20121022164546');
 
@@ -2194,3 +2214,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130722204142');
 INSERT INTO schema_migrations (version) VALUES ('20130726021512');
 
 INSERT INTO schema_migrations (version) VALUES ('20130807201238');
+
+INSERT INTO schema_migrations (version) VALUES ('20130807232909');

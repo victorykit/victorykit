@@ -57,6 +57,7 @@ gem 'aws-sdk'
 gem 'garb'
 gem 'oauth'
 gem 'rails_config'
+gem 'activerecord-postgres-hstore'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
