@@ -276,21 +276,6 @@ ALTER SEQUENCE facebook_share_widget_shares_id_seq OWNED BY facebook_share_widge
 
 
 --
--- Name: ip_locations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE ip_locations (
-    ip_from bigint,
-    ip_to bigint,
-    country_code character varying(2),
-    country_name text,
-    region text,
-    city text,
-    state_code character varying(2)
-);
-
-
---
 -- Name: last_updated_unsubscribes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -329,8 +314,7 @@ CREATE TABLE mailer_process_trackers (
     id integer NOT NULL,
     is_locked boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    uuid text
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -367,9 +351,6 @@ CREATE TABLE members (
     referral_code character varying(255),
     country_code character varying(255),
     state_code character varying(255),
-    null_last_name boolean,
-    blank_last_name boolean,
-    blank_first_name boolean,
     facebook_uid bigint
 );
 
@@ -743,8 +724,8 @@ CREATE TABLE sent_emails (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     signature_id integer,
-    clicked_at timestamp without time zone,
     opened_at timestamp without time zone,
+    clicked_at timestamp without time zone,
     type character varying(255) DEFAULT 'SentEmail'::character varying
 );
 
@@ -824,7 +805,7 @@ CREATE TABLE signatures (
     state character varying(255),
     state_code character varying(255),
     country_code character varying(255),
-    http_referer text
+    http_referer character varying(255)
 );
 
 
@@ -1209,11 +1190,11 @@ ALTER TABLE ONLY bounced_emails
 
 
 --
--- Name: donations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: donation_clicks_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY donations
-    ADD CONSTRAINT donations_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT donation_clicks_pkey PRIMARY KEY (id);
 
 
 --
@@ -1337,11 +1318,11 @@ ALTER TABLE ONLY petitions
 
 
 --
--- Name: referrals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: referral_codes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY referrals
-    ADD CONSTRAINT referrals_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT referral_codes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1413,13 +1394,6 @@ ALTER TABLE ONLY users
 --
 
 CREATE INDEX index_email_experiments_on_sent_email_id ON email_experiments USING btree (sent_email_id);
-
-
---
--- Name: index_facebook_actions_action_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_facebook_actions_action_id ON facebook_actions USING btree (action_id);
 
 
 --
@@ -1812,20 +1786,6 @@ CREATE INDEX index_unsubscribes_on_member_id_and_created_at ON unsubscribes USIN
 --
 
 CREATE INDEX index_unsubscribes_on_sent_email_id ON unsubscribes USING btree (sent_email_id);
-
-
---
--- Name: sent_emails_created_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX sent_emails_created_idx ON sent_emails USING btree (created_at);
-
-
---
--- Name: sent_emails_member_id_idx; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX sent_emails_member_id_idx ON sent_emails USING btree (member_id);
 
 
 --
