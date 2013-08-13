@@ -1,5 +1,5 @@
-worker_processes 2 # amount of unicorn workers to spin up
-timeout 120         # restarts workers that hang for 30 seconds
+worker_processes 4 # amount of unicorn workers to spin up
+timeout 120        # restarts workers that hang for 30 seconds
 
 # Enable streaming (for CSV downloads)
 port = ENV["PORT"].to_i
