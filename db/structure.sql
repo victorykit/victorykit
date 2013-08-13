@@ -375,6 +375,39 @@ ALTER SEQUENCE members_id_seq OWNED BY members.id;
 
 
 --
+-- Name: memberships; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE memberships (
+    id integer NOT NULL,
+    member_id integer,
+    last_signed_at timestamp without time zone,
+    last_emailed_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: memberships_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE memberships_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE memberships_id_seq OWNED BY memberships.id;
+
+
+--
 -- Name: petition_descriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1073,6 +1106,13 @@ ALTER TABLE ONLY members ALTER COLUMN id SET DEFAULT nextval('members_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY memberships ALTER COLUMN id SET DEFAULT nextval('memberships_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY petition_descriptions ALTER COLUMN id SET DEFAULT nextval('petition_descriptions_id_seq'::regclass);
 
 
@@ -1262,6 +1302,14 @@ ALTER TABLE ONLY members
 
 
 --
+-- Name: memberships_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY memberships
+    ADD CONSTRAINT memberships_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: petition_descriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1422,6 +1470,20 @@ CREATE UNIQUE INDEX index_members_on_email ON members USING btree (email);
 --
 
 CREATE INDEX index_members_on_referral_code ON members USING btree (referral_code);
+
+
+--
+-- Name: index_memberships_on_created_at_and_last_emailed_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_memberships_on_created_at_and_last_emailed_at ON memberships USING btree (created_at, last_emailed_at);
+
+
+--
+-- Name: index_memberships_on_member_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_memberships_on_member_id ON memberships USING btree (member_id);
 
 
 --
@@ -2192,3 +2254,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130807201238');
 INSERT INTO schema_migrations (version) VALUES ('20130807232909');
 
 INSERT INTO schema_migrations (version) VALUES ('20130813172552');
+
+INSERT INTO schema_migrations (version) VALUES ('20130813205234');

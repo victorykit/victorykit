@@ -9,6 +9,7 @@ describe Member do
     it { should validate_presence_of :first_name }
     it { should validate_presence_of :last_name }
     it { should validate_presence_of :email }
+    it_behaves_like 'email validator'
 
     describe '#has_signed?' do
       let(:petition) { stub(:id => 42) }
@@ -188,6 +189,8 @@ describe Member do
       end
 
       context 'for members who have previously signed a petition' do
+        let(:member) { create :member }
+
         context 'and joined that way less than a week ago' do
           before { create :signature, created_member: true, created_at: 6.days.ago, member: member }
           it_behaves_like 'ignoring them'
@@ -223,18 +226,6 @@ describe Member do
 
         context 'and have unsubscribed in the past' do
           it_behaves_like 'finding them'
-        end
-
-        context 'and have unsubscribed again' do
-          before do
-            Subscribe.stub_chain(:group, :where, :maximum).
-              and_return(member.id => 8.days.ago)
-
-            Unsubscribe.stub_chain(:group, :where, :maximum).
-              and_return(member.id => 3.days.ago)
-          end
-
-          it_behaves_like 'ignoring them'
         end
       end
     end

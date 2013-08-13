@@ -4,11 +4,12 @@ class Member < ActiveRecord::Base
   has_many :sent_emails
   has_many :signatures
   has_many :referrals, autosave: true
+  has_one  :membership
 
   attr_accessible :first_name, :last_name, :email
   attr_accessible :country_code, :state_code
 
-  validates :email, :presence => true, :uniqueness => true
+  validates :email, :presence => true, :uniqueness => true, :email => true
   validates :first_name, :last_name, :presence => true
 
   scope :lookup, lambda { |email|
@@ -33,19 +34,14 @@ class Member < ActiveRecord::Base
         FROM signatures
         WHERE created_at > now() - interval '1 week'
         AND created_member = 't'
+      ) AND members.id NOT IN (
+        SELECT DISTINCT member_id FROM unsubscribes
       ) ORDER BY random() LIMIT #{n}
     SQL
 
-    uncontacted_members = Member.connection.execute(query).to_a.map {|m| m['id'].to_i}
-    subscribe_dates = Subscribe.group(:member_id).where(member_id: uncontacted_members).maximum(:created_at)
-    unsubscribe_dates = Unsubscribe.group(:member_id).where(member_id: uncontacted_members).maximum(:created_at)
+    receiver_ids = Member.connection.execute(query).to_a.map {|m| m['id'].to_i}
 
-    receiver_ids = uncontacted_members.select do |id|
-      active_subscription?(subscribe_dates[id], unsubscribe_dates[id])
-    end
-
-    return [] if receiver_ids.empty?
-    Member.where(id: receiver_ids.sample(n)).all
+    Member.where(id: receiver_ids).all
   end
 
   def full_name
@@ -62,10 +58,6 @@ class Member < ActiveRecord::Base
 
   def self.find_by_hash(hash)
     where(:id => MemberHasher.validate(hash)).first
-  end
-
-  def latest_subscription
-    subscribes.order("created_at DESC").first
   end
 
   def last_location
@@ -91,6 +83,10 @@ class Member < ActiveRecord::Base
 
   def add_petition_id(id)
     REDIS.sadd previous_petition_ids_key, id
+  end
+
+  def touch_last_signed_at!
+    ( self.membership || self.build_membership ).touch(:last_signed_at)
   end
 
   private

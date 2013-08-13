@@ -1,13 +1,12 @@
-describe User do  
+describe User do
   subject { build :user }
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password}
   it { should validate_presence_of :password_confirmation}
   it { should_not validate_presence_of :old_password}
-
   it_behaves_like 'email validator'
-  
+
   it 'should not allow mass assignment of user roles by default' do
     expect { User.new(is_super_user: true, is_admin: true) }.
     to raise_error ActiveModel::MassAssignmentSecurity::Error
@@ -15,11 +14,11 @@ describe User do
 
   describe 'update' do
     subject { build :user }
-    
+
     it 'should not allow mass assignment of user roles by default' do
       expect {subject.update_attributes({:is_super_user => true, :is_admin => true})}.to raise_error ActiveModel::MassAssignmentSecurity::Error
     end
-    
+
     it 'should allow mass assignment of user roles to admins' do
       subject.update_attributes({:is_super_user => true, :is_admin => true}, {:as => :admin} ).should be_true
     end
@@ -38,24 +37,24 @@ describe User do
       subject.password_confirmation = nil
       subject.should_not be_valid
     end
-    
+
     it 'should validate the old password if the user is changing her password' do
       subject.password = 'banana'
       subject.password_confirmation = 'banana'
       subject.old_password = old_pass + 'cupcake'
       subject.should_not be_valid(:update)
     end
-    
+
     it 'should let the user change her password if she correctly gives the old password' do
       subject.password = 'banana'
       subject.password_confirmation = 'banana'
       subject.old_password = old_pass
-      subject.should be_valid(:update) 
+      subject.should be_valid(:update)
     end
   end
 
   describe '#remove_password_digest_errors' do
-    
+
     context 'when there is a password error' do
       before do
         subject.errors.add :password

@@ -15,9 +15,10 @@ describe Signature do
     it { should validate_presence_of :email }
     it { should validate_presence_of :first_name }
     it { should validate_presence_of :last_name }
+    it { should validate_presence_of :member_id }
 
     it { should ensure_inclusion_of(:reference_type).in_array(Signature::REFERENCE_TYPES) }
-    
+
     it_behaves_like 'email validator'
   end
 
@@ -37,16 +38,16 @@ describe Signature do
   end
 
   describe '#truncate_user_agent' do
-    before do 
+    before do
       subject.user_agent = agent
       subject.truncate_user_agent
     end
-    
+
     context 'for a long user agent' do
       let(:agent) { '0' * 512 }
       its(:user_agent) { should have(255).characters }
-    end  
-    
+    end
+
     context 'for no user agent' do
       let(:agent) { nil }
       its(:user_agent) { should eq 'not a browser' }
@@ -56,7 +57,7 @@ describe Signature do
 
   context 'before destroy' do
     let(:sent_email) { build :sent_email }
-    
+
     before { subject.sent_email = sent_email }
 
     it 'should remove its sent email' do
@@ -72,6 +73,13 @@ describe Signature do
     end
   end
 
+  context 'after create' do
+    it 'should create a membership' do
+      subject.member.should_receive :touch_last_signed_at!
+      subject.run_callbacks :create
+    end
+  end
+
   describe '#geolocate' do
     let(:ip) { '24.2.3.4' }
     let(:place) { stub(
@@ -81,14 +89,14 @@ describe Signature do
       state_code: 'MO',
       country_code: 'US'
     )}
-    
+
     before do
       subject.stub(:fetch_location).and_return place
       subject.ip_address = ip
       subject.member.should_receive :save
       subject.geolocate
     end
-    
+
     its(:city) { should eq 'Independence' }
     its(:metrocode) { should eq '616' }
     its(:state) { should eq 'Missouri' }

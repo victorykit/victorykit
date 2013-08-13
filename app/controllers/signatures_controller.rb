@@ -22,14 +22,21 @@ class SignaturesController < ApplicationController
     signature.user_agent = browser.user_agent
     signature.browser_name = browser.id.to_s
     email = signature.email
-    member = Member.lookup(email).first if email.present?
-    signature.member = (member || Member.new).tap do |m|
-      m.first_name = signature.first_name
-      m.last_name = signature.last_name
-      m.email = email unless m.email
+
+    if email.present?
+      member = Member.lookup(email).first || Member.new
+      signature.created_member = member.new_record?
+
+      member.tap do |m|
+        m.first_name = signature.first_name
+        m.last_name = signature.last_name
+        m.email = email unless m.email
+        m.save
+      end
+
+      signature.member_id = member.id
     end
-    signature.created_member = signature.member.new_record?
-    signature.member.save
+
     signature.http_referer = retrieve_http_referer
     ref_code = Referral.where(code: params[:signer_ref_code]).first || Referral.new(code: params[:signer_ref_code])
     if signature.valid?
@@ -56,14 +63,14 @@ class SignaturesController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { 
+      format.json {
         if signature.valid?
           render json: { signature_id: signature.id, url: petition_url(petition, l: ref_code.code), share_url: petition_url(petition, ls: ref_code.code), member: signature.member.attributes.slice(:first_name, :last_name, :email) }
         else
           render json: signature.errors, status: 400
         end
       }
-      format.html { 
+      format.html {
         flash[:invalid_signature] = signature unless signature.valid?
         redirect_to petition_url(petition, l: signature.valid? ? ref_code.code : nil)
       }
@@ -71,13 +78,13 @@ class SignaturesController < ApplicationController
   end
 
   private
-  
+
   def nps_win signature
     $statsd.increment "signatures_from_emails.count" if signature.reference_type == "email"
 
     return unless signature.created_member
     win_on_option!('email_scheduler_nps', signature.petition.id.to_s)
-  
+
     if FacebookSharingOptionsExperiment.applicable_to? signature
       FacebookSharingOptionsExperiment.new(self).win! signature
     end

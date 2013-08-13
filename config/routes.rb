@@ -9,7 +9,6 @@ Victorykit::Application.routes.draw do
   get "sessions/new"
 
   resources :users
-  resources :members
   resources :bounces
   resources :sessions
   resources :whiplash_sessions

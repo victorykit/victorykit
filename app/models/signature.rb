@@ -3,14 +3,15 @@ class Signature < ActiveRecord::Base
   belongs_to :member
   belongs_to :referer, :class_name => 'Member', :foreign_key => 'referer_id'
   has_one :sent_email
- 
+
   attr_accessible :email, :first_name, :last_name, :member
   attr_accessible :reference_type, :referer, :referring_url
   attr_accessible :http_referer, :browser_name
- 
-  validates_presence_of :first_name, :last_name
+
+  validates_presence_of :first_name, :last_name, :member_id
   validates :email, :presence => true, :email => true
- 
+
+  after_create :ensure_membership_updated
   before_save :truncate_user_agent
   before_save :geolocate
   after_save :clear_cache
@@ -32,16 +33,16 @@ class Signature < ActiveRecord::Base
     FORWARDED_NOTIFICATION = 'forwarded_notification'
   end
 
-  REFERENCE_TYPES = [ 
-    ReferenceType::TWITTER, 
-    ReferenceType::EMAIL, 
-    ReferenceType::FORWARDED_NOTIFICATION, 
+  REFERENCE_TYPES = [
+    ReferenceType::TWITTER,
+    ReferenceType::EMAIL,
+    ReferenceType::FORWARDED_NOTIFICATION,
     ReferenceType::SHARED_LINK,
     ReferenceType::SHARED_LINK_FROM_MODAL,
-    ReferenceType::FACEBOOK_LIKE, 
-    ReferenceType::FACEBOOK_SHARE, 
-    ReferenceType::FACEBOOK_SHARE_FROM_EMAIL, 
-    ReferenceType::FACEBOOK_POPUP, 
+    ReferenceType::FACEBOOK_LIKE,
+    ReferenceType::FACEBOOK_SHARE,
+    ReferenceType::FACEBOOK_SHARE_FROM_EMAIL,
+    ReferenceType::FACEBOOK_POPUP,
     ReferenceType::FACEBOOK_DIALOG,
     ReferenceType::FACEBOOK_REQUEST,
     ReferenceType::FACEBOOK_AUTOFILL_REQUEST,
@@ -49,7 +50,7 @@ class Signature < ActiveRecord::Base
     nil ]
 
   validates :reference_type, :inclusion => {
-    :in => REFERENCE_TYPES, 
+    :in => REFERENCE_TYPES,
     :message => "%{value} is not a valid reference_type"
   }
 
@@ -71,9 +72,9 @@ class Signature < ActiveRecord::Base
       s.email = member.try(:email)
     end
   end
-  
+
   def geolocate
-    return unless place = fetch_location 
+    return unless place = fetch_location
     self.city = place.city
     self.metrocode = place.metrocode
     self.state = place.state
@@ -85,19 +86,19 @@ class Signature < ActiveRecord::Base
   end
 
   # could the next two methods take part in a separated class?
-  
+
   def fetch_location
-    c = Signature.connection    
+    c = Signature.connection
     return Geocoder.search(ip_address).first unless c.table_exists? 'ip_locations'
     ip = c.quote ip2bigint
     q = <<-SQL
-      SELECT * 
-      FROM ip_locations 
+      SELECT *
+      FROM ip_locations
       WHERE box(
         point(ip_from, ip_from),
         point(ip_to, ip_to)
       ) @> box(
-        point(#{ip}, #{ip}), 
+        point(#{ip}, #{ip}),
         point(#{ip}, #{ip})
       )
     SQL
@@ -111,13 +112,19 @@ class Signature < ActiveRecord::Base
   def track_referrals(params = {})
     self.attributes = SignatureReferral.new(self.petition, self, params).referral
   end
-  
+
   def clear_cache
     Rails.cache.delete('signature_count_' + self.petition_id.to_s)
   end
 
   def referral
     Referral.where(:member_id => referer_id, :petition_id => petition_id).first if referer_id
+  end
+
+  private
+
+  def ensure_membership_updated
+    member.touch_last_signed_at!
   end
 
 end

@@ -52,10 +52,24 @@ shared_examples_for "a user with edit permissions resource page" do
 end
 
 shared_examples_for "email validator" do
-  it "should validate format of the email address" do
-    Signature.new(email: "asdsf", first_name: "Bob", last_name: "Loblaw").valid?.should == false
-    Signature.new(email: "asdsf@localhost", first_name: "Bob", last_name: "Loblaw").valid?.should == false
-    Signature.new(email: "asdsf@dfdf.net", first_name: "Bob", last_name: "Loblaw").valid?.should == true
+  before(:each) do
+    subject.email = email
+    subject.valid?
+  end
+
+  context 'with no domain' do
+    let(:email) { "asdsf" }
+    specify { expect(subject).to have(1).error_on :email }
+  end
+
+  context 'with a localhost domain' do
+    let(:email) { 'asdsf@localhost' }
+    specify { expect(subject).to have(1).error_on :email }
+  end
+
+  context 'properly formatted' do
+    let(:email) { 'asdsf@dfdf.net' }
+    specify { expect(subject).to have(0).errors_on :email }
   end
 end
 
