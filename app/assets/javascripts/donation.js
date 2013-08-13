@@ -17,7 +17,7 @@ var donation = (function() {
   function buildPaypalUrl() {
     var params = [
       'cmd=_donations',
-      'business=' + VK.contact_email,
+      'business=' + VK.admin_email,
       'item_name=' + VK.support_email.replace(/@/, "%20"),
       'item_number=' + $.cookie('member_id'),
       'lc=US',
