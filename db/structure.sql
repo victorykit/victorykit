@@ -1733,10 +1733,24 @@ CREATE INDEX index_sent_emails_on_signature_id ON sent_emails USING btree (signa
 
 
 --
+-- Name: index_sent_emails_on_type_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_sent_emails_on_type_and_created_at ON sent_emails USING btree (type, created_at);
+
+
+--
 -- Name: index_signatures_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_signatures_on_created_at ON signatures USING btree (created_at);
+
+
+--
+-- Name: index_signatures_on_created_member; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_signatures_on_created_member ON signatures USING btree (created_member);
 
 
 --
@@ -2176,3 +2190,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130726021512');
 INSERT INTO schema_migrations (version) VALUES ('20130807201238');
 
 INSERT INTO schema_migrations (version) VALUES ('20130807232909');
+
+INSERT INTO schema_migrations (version) VALUES ('20130813172552');
