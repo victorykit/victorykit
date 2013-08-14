@@ -74,7 +74,7 @@ describe Signature do
   end
 
   context 'after create' do
-    it 'should create a membership' do
+    it 'should update the membership stats' do
       subject.member.should_receive :touch_last_signed_at!
       subject.run_callbacks :create
     end

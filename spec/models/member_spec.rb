@@ -229,5 +229,24 @@ describe Member do
         end
       end
     end
+
+    describe "membership touches" do
+      subject { build(:member) }
+      let(:now) { Time.now.utc }
+      before { Time.stub_chain(:now, :utc).and_return now }
+      before { expect(subject.membership).to be_blank }
+
+      context 'last_signed_at' do
+        before { subject.touch_last_signed_at! }
+        specify { expect(subject.membership).to_not be_blank }
+        specify { expect(subject.membership.last_signed_at).to eq(now) }
+      end
+
+      context 'last_emailed_at' do
+        before { subject.touch_last_emailed_at! }
+        specify { expect(subject.membership).to_not be_blank }
+        specify { expect(subject.membership.last_emailed_at).to eq(now) }
+      end
+    end
   end
 end

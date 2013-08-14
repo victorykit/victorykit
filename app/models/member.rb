@@ -4,7 +4,7 @@ class Member < ActiveRecord::Base
   has_many :sent_emails
   has_many :signatures
   has_many :referrals, autosave: true
-  has_one  :membership
+  has_one  :membership, dependent: :destroy
 
   attr_accessible :first_name, :last_name, :email
   attr_accessible :country_code, :state_code
@@ -86,10 +86,18 @@ class Member < ActiveRecord::Base
   end
 
   def touch_last_signed_at!
-    ( self.membership || self.build_membership ).touch(:last_signed_at)
+    lazy_membership.touch(:last_signed_at)
+  end
+
+  def touch_last_emailed_at!
+    lazy_membership.touch(:last_emailed_at)
   end
 
   private
+
+  def lazy_membership
+    self.membership || self.build_membership
+  end
 
   def previous_petition_ids_key
     "member/#{id}/previous_petition_ids"

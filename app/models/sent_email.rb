@@ -4,7 +4,8 @@ class SentEmail < ActiveRecord::Base
   belongs_to :member
   has_many :email_experiments
   has_one :unsubscribe
-  
+  after_create :update_sent_email_timestamp
+
   def to_hash
     SentEmailHasher.generate self.id
   end
@@ -13,5 +14,11 @@ class SentEmail < ActiveRecord::Base
 
   def self.find_by_hash(hash)
     self.by_hash(hash).first
+  end
+
+  private
+
+  def update_sent_email_timestamp
+    member.touch_last_emailed_at!
   end
 end

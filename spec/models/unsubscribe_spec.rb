@@ -14,4 +14,10 @@ describe Unsubscribe do
       to change{ $statsd.value_of('unsubscribes.count') }.from(0).to(1)
     end
   end
+
+  context 'after create' do
+    let(:signature) { create :signature }
+    before  { Unsubscribe.unsubscribe_member(signature.member) }
+    specify { expect(signature.member.reload.membership).to be_blank }
+  end
 end
