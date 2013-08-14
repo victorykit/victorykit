@@ -25,10 +25,11 @@ class Admin::ExperimentsController < ApplicationController
   end
 
   VALID_FILTERS = ["experiments", "petitions", "both"]
+  DEFAULT_FILTER = "petitions"
 
   def index
     Rails.logger.info "[experiments] index"
-    @filter = params[:f] || "experiments"
+    @filter = params[:f] || DEFAULT_FILTER
     @options = VALID_FILTERS
     render text: "Filter not recognized: #{@filter}", status: :not_found unless VALID_FILTERS.include?(@filter)
 

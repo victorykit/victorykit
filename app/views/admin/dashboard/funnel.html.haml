@@ -1,55 +1,53 @@
-%h1 Funnel Stats
-#dashboard
-  #sidebar_summary{style: "float:left;width:275px" }
-    = link_to("petitions", "petitions")
-    |
-    = link_to("experiments", "experiments")
-    -#|
-    -#= link_to("statistics", "stats")
-    |
-    = link_to("dashboard", "dashboard")
-  #main_content{style: "margin-left:275px;padding-left:25px"}
-    #charts
-      %span
-        = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
-        %span{style:"padding-left:350px"}
-          %span{style:"color:blue;font-weight:bold"}
-            &#x2015;
-          %span
-            current
-          %span{style:"color:#dddddd;font-weight:bold"}
-            &#x2015;
-          %span
-            prior
-      %br
-      %table
-        %tr
-          %td
-            Email Opened Per Email Sent
-            %br
-            %iframe{ src: emails_opened_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Email Clicked Per Email Opened
-            %br
-            %iframe{ src: emails_clicked_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Signature From Email Per Email Clicked
-            %br
-            %iframe{ src: signatures_from_email_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Facebook Action Per Signature
-            %br
-            %iframe{ src: facebook_action_per_signature_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Petition Page Load Not Off Email
-            %br
-            %iframe{ src: petition_page_load_chart, style: "border:none", height: "180px" }
-        %tr
-          %td
-            Signature Per Petition Page Load Not Off Email
-            %br
-            %iframe{ src: signature_per_petition_page_load_chart, style: "border:none", height: "180px" }
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Funnels
+
+      %ul.nav.nav-pills.pill-block.no-trailing.pull-left
+        %li
+          %a{href: admin_dashboard_path}
+            %i.icon-dashboard
+            Dashboard
+        %li
+          %a{href: admin_experiments_path}
+            %i.icon-magic
+            Experiments
+        %li.active
+          %a{href: admin_funnel_path}
+            %i.icon-beaker
+            Funnels
+
+      %div.pull-right
+        %span.muted.nav-divider
+          %i.icon-calendar
+          show:
+        %ul.nav.nav-pills.pill-block.no-trailing
+          - Statistics::TIMEFRAMES.each do |frame|
+            %li{class: @statistics.timeframe == frame ? "active" : ""}
+              %a{href: url_for(params.merge(t: frame))}= frame
+
+      %div.clearfix
+
+%div#dashboard.row
+  %div.span12
+    = render partial: 'shared/chart_legend'
+
+  %div.span6
+    %h4 Email Opened Per Email Sent
+    %iframe.chart{ src: emails_opened_chart }
+
+    %h4 Email Clicked Per Email Opened
+    %iframe.chart{ src: emails_clicked_chart }
+
+    %h4 Signature From Email Per Email Clicked
+    %iframe.chart{ src: signatures_from_email_chart }
+
+  %div.span6
+    %h4 Facebook Action Per Signature
+    %iframe.chart{ src: facebook_action_per_signature_chart }
+
+    %h4 Petition Page Load Not Off Email
+    %iframe.chart{ src: petition_page_load_chart }
+
+    %h4 Signature Per Petition Page Load Not Off Email
+    %iframe.chart{ src: signature_per_petition_page_load_chart }

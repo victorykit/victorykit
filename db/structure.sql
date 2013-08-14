@@ -1445,6 +1445,13 @@ CREATE INDEX index_email_experiments_on_sent_email_id ON email_experiments USING
 
 
 --
+-- Name: index_facebook_actions_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_facebook_actions_on_created_at ON facebook_actions USING btree (created_at);
+
+
+--
 -- Name: index_likes_on_member_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -2256,3 +2263,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130807232909');
 INSERT INTO schema_migrations (version) VALUES ('20130813172552');
 
 INSERT INTO schema_migrations (version) VALUES ('20130813205234');
+
+INSERT INTO schema_migrations (version) VALUES ('20130815221806');

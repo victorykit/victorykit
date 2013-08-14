@@ -89,6 +89,7 @@ gem 'bumbler'
 gem 'fb_graph'
 gem 'will_paginate'
 gem 'active_attr'
+gem 'font-awesome-rails'
 
 # Background workers
 gem 'slim', '>= 1.1.0'

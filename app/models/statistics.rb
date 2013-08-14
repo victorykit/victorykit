@@ -36,25 +36,28 @@ class Statistics
     Donation.sum('amount')
   end
 
-  def nps_summary
-    @nps_summary ||= fetch_nps_summary
+  def nps_7d
+    @nps_7d ||= Metrics::Nps.email_aggregate(1.week.ago)
   end
 
-  def fetch_nps_summary
-    nps7d = Metrics::Nps.email_aggregate(1.week.ago)
-    nps24h = Metrics::Nps.email_aggregate(1.day.ago)
-    nps60m = Metrics::Nps.email_aggregate(1.hour.ago)
-    {
-      nps7d: nps7d.nps,
-      sps7d: nps7d.sps,
-      ups7d: nps7d.ups,
-      nps24h: nps24h.nps,
-      sps24h: nps24h.sps,
-      ups24h: nps24h.ups,
-      nps60m: nps60m.nps,
-      sps60m: nps60m.sps,
-      ups60m: nps60m.ups
-    }
+  def nps_24h
+    @nps_24h ||= Metrics::Nps.email_aggregate(1.day.ago)
+  end
+
+  def nps_60m
+    @nps_60m ||= Metrics::Nps.email_aggregate(1.hour.ago)
+  end
+
+  def npfs_7d
+    @npfs_7d ||= Metrics::Nps.facebook_aggregate(1.week.ago)
+  end
+
+  def npfs_24h
+    @npfs_24h ||= Metrics::Nps.facebook_aggregate(1.day.ago)
+  end
+
+  def npfs_60m
+    @npfs_60m ||= Metrics::Nps.facebook_aggregate(1.hour.ago)
   end
 
   def nps_chart
@@ -179,10 +182,6 @@ u.strip
     ids = stats.map &:id
     petitions = Petition.select("id, title").where("id in (?)", ids)
     stats.map {|s| [petitions.find {|p| p.id == s.id}, s]}
-  end
-
-  def map_to_threshold value, thresholds
-    thresholds.inject(thresholds[nil]){|result, pair| (pair[0] and value >= pair[0]) ? pair[1] : result  }
   end
 
   class ThresholdLine

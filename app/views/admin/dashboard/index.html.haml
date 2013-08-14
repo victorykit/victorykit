@@ -1,84 +1,101 @@
-%ul.nav.nav-pills
-  %li.active
-    %a{href: dashboard_path}
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Dashboard
 
-%h1 Dashboard
+      %ul.nav.nav-pills.pill-block.no-trailing.pull-left
+        %li.active
+          %a{href: admin_dashboard_path}
+            %i.icon-dashboard
+            Dashboard
+        %li
+          %a{href: admin_experiments_path}
+            %i.icon-magic
+            Experiments
+        %li
+          %a{href: admin_funnel_path}
+            %i.icon-beaker
+            Funnels
 
-.row
-  .span5
-    #sidebar_summary{style: "float:left;width:275px" }
-      = link_to("petitions", "petitions")
-      |
-      = link_to("experiments", "experiments")
-      -#|
-      -#= link_to("statistics", "stats")
-      |
-      = link_to("funnel", "funnel")
+      %div.pull-right
+        %span.muted.nav-divider
+          %i.icon-calendar
+          show:
+        %ul.nav.nav-pills.pill-block.no-trailing
+          - Statistics::TIMEFRAMES.each do |frame|
+            %li{class: @statistics.timeframe == frame ? "active" : ""}
+              %a{href: url_for(params.merge(t: frame))}= frame
 
-    - nps7d = nps_summary[:nps7d]
-    - nps24h = nps_summary[:nps24h]
-    - nps60m = nps_summary[:nps60m]
-    - nps_threshold_map = {nil => "red", 0.035 => "orange", 0.05 => "green"}
-    - nps_color7d = map_to_threshold(nps7d, nps_threshold_map)
-    - nps_color24h = map_to_threshold(nps24h, nps_threshold_map)
-    - nps_color60m = map_to_threshold(nps60m, nps_threshold_map)
+      %div.clearfix
 
-    - sps7d = nps_summary[:sps7d]
-    - sps24h = nps_summary[:sps24h]
-    - sps60m = nps_summary[:sps60m]
-    - sps_threshold_map = {nil => "red", 0.035 => "orange", 0.05 => "green"}
-    - sps_color7d = map_to_threshold(sps7d, sps_threshold_map)
-    - sps_color24h = map_to_threshold(sps24h, sps_threshold_map)
-    - sps_color60m = map_to_threshold(sps60m, sps_threshold_map)
-
-    - ups7d = nps_summary[:ups7d]
-    - ups24h = nps_summary[:ups24h]
-    - ups60m = nps_summary[:ups60m]
-    - ups_threshold_map = {nil => "green", 0.005 => "orange", 0.01 => "red"}
-    - ups_color7d = map_to_threshold(ups7d, ups_threshold_map)
-    - ups_color24h = map_to_threshold(ups24h, ups_threshold_map)
-    - ups_color60m = map_to_threshold(ups60m, ups_threshold_map)
-
+%div.row
+  %div.span6
     %table.table.table-condensed.bordered-table.table-striped
       %tr
         %td
-        %td
-          7 day
-        %td
-          24 hr
-        %td
-          60 min
-      %tr
+          %strong Email
+        %td 7 day
+        %td 24 hr
+        %td 60 min
+      %tr.colorize{data: { colors: "0.0,0.035,0.05" }}
         %td
           %h3 NPS
-        %td{style: "color:#{nps_color7d}"}
-          %h3
-            = float_to_percentage nps7d
-        %td{style: "color:#{nps_color24h}"}
-          %h3
-            = float_to_percentage nps24h
-        %td{style: "color:#{nps_color60m}"}
-          %h3
-            = float_to_percentage nps60m
-      %tr
-        %td
-          Sub
-        %td{style: "color:#{sps_color7d}"}
-          = float_to_percentage sps7d
-        %td{style: "color:#{sps_color24h}"}
-          = float_to_percentage sps24h
-        %td{style: "color:#{sps_color60m}"}
-          = float_to_percentage sps60m
-      %tr
-        %td
-          Unsub
-        %td{style: "color:#{ups_color7d}"}
-          = float_to_percentage ups7d
-        %td{style: "color:#{ups_color24h}"}
-          = float_to_percentage ups24h
-        %td{style: "color:#{ups_color60m}"}
-          = float_to_percentage ups60m
+        %td.point
+          %h3= float_to_percentage @statistics.nps_7d.nps
+        %td.point
+          %h3= float_to_percentage @statistics.nps_24h.nps
+        %td.point
+          %h3= float_to_percentage @statistics.nps_60m.nps
 
+      %tr.colorize{data: { colors: "0.0,0.035,0.05" }}
+        %td Sub
+        %td.point= float_to_percentage @statistics.nps_7d.sps
+        %td.point= float_to_percentage @statistics.nps_24h.sps
+        %td.point= float_to_percentage @statistics.nps_60m.sps
+
+      %tr.colorize{data: { colors: "0.01,0.005,0.0" }}
+        %td Unsub
+        %td.point= float_to_percentage @statistics.nps_7d.ups
+        %td.point= float_to_percentage @statistics.nps_24h.ups
+        %td.point= float_to_percentage @statistics.nps_60m.ups
+
+    %iframe.chart{src: nps_chart}
+
+  %div.span6
+    %table.table.table-condensed.bordered-table.table-striped
+      %tr
+        %td
+          %strong Facebook
+        %td 7 day
+        %td 24 hr
+        %td 60 min
+      %tr
+        %td
+          %h3 NPFS
+        %td.point
+          %h3= float_to_percentage @statistics.npfs_7d.nps
+        %td.point
+          %h3= float_to_percentage @statistics.npfs_24h.nps
+        %td.point
+          %h3= float_to_percentage @statistics.npfs_60m.nps
+
+      %tr
+        %td Sub
+        %td.point= float_to_percentage @statistics.npfs_7d.sps
+        %td.point= float_to_percentage @statistics.npfs_24h.sps
+        %td.point= float_to_percentage @statistics.npfs_60m.sps
+
+      %tr
+        %td Unsub
+        %td.point= float_to_percentage @statistics.npfs_7d.ups
+        %td.point= float_to_percentage @statistics.npfs_24h.ups
+        %td.point= float_to_percentage @statistics.npfs_60m.ups
+
+    %iframe.chart{ src: facebook_actions_chart }
+
+
+%div.row
+  %div.span12
     %table.table.table-condensed.bordered-table.table-striped
       %tr
         %td
@@ -168,34 +185,21 @@
               = float_to_percentage p[1][:nps]
 
 
-  .span7
-    #charts
-      - unless Rails.env.test?
-        %span
-          = link_to_self_with_param :t, Statistics::TIMEFRAMES, " | "
-          %span{style:"padding-left:350px"}
-            %span{style:"color:blue;font-weight:bold"}
-              &#x2015;
-            %span
-              current
-            %span{style:"color:#dddddd;font-weight:bold"}
-              &#x2015;
-            %span
-              prior
-        %h3 NPS
-        %iframe{ src: nps_chart, style: "border:none", height: "180px" }
+%div#charts.row
+  %div.span12
+    = render partial: 'shared/chart_legend'
 
-        %h3 Facebook Actions
-        %iframe{ src: facebook_actions_chart, style: "border:none", height: "180px" }
+  %div.span6
+    %h4 Unsubscribed
+    %iframe.chart{ src: unsubscribes_chart }
 
-        %h3 Facebook Referrals
-        %iframe{ src: facebook_referrals_chart, style: "border:none", height: "180px" }
+    %h4 Sent
+    %iframe.chart{ src: emails_sent_chart }
 
-        %h3 Unsubscribed
-        %iframe{ src: unsubscribes_chart, style: "border:none", height: "180px" }
+  %div.span6
+    %h4 Facebook Referrals
+    %iframe.chart{ src: facebook_referrals_chart }
 
-        %h3 Sent
-        %iframe{ src: emails_sent_chart, style: "border:none", height: "180px" }
 
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$('#dashboard').load(window.location.href + ' #dashboard');}, 60000));

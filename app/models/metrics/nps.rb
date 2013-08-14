@@ -60,6 +60,14 @@ class Metrics::Nps
       Metrics::Nps.new id: since, actions: actions, subscribes: subscribes, unsubscribes: unsubscribes
     end
 
+    def facebook_aggregate(since)
+      actions       = FacebookAction.where("created_at > ?", since).count
+      subscribes    = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
+      unsubscribes  = Unsubscribe.where("cause='unsubscribed' and created_at > ?", since).count
+
+      Metrics::Nps.new id: since, actions: actions, subscribes: subscribes, unsubscribes: unsubscribes
+    end
+
   end
 
 end

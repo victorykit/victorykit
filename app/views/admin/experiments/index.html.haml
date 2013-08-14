@@ -1,67 +1,90 @@
-.span12
-  %h1 Experiments
-  %p
-    %i
-      currently showing:
-    - @options.each do |x|
-      - if @filter == x
-        %b
-          = x
-      - else
-        = link_to x, params.merge(f: x)
-      &nbsp;&nbsp;
-  %p
-    Redis space used:
-    - used, used_ratio = @redis_used
-    = used_ratio > 0 ? float_to_percentage(used_ratio) : "#{used}. (Limit unknown: set MAX_REDIS_SPACE environment variable)"
-    - if used_ratio > 0.85
-      %b{style: "color: red"}
-        SPACE RUNNING LOW!!
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Experiments
 
-  - i = 0
-  - @stats.each do |test|
-    - i += 1
-    .experiment
-      .experiment-trash
-        .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
-          Trash
-        .btn{onclick: "$('\#test_#{i}').toggle()"}
-          Hide
-      .experiment-title
-        %span.experiment-name
-          = test[:name]
-        %span.experiment-details
-          (goal: #{test[:goal]}) #{test[:trials]} trials
-  
-      .experiment-trash-data{id: "trashinfo#{i}"}
-        - test[:arms].each do |arm|
-          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
-          REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
-        REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
-  
-  
-      %table.table.table-striped.table-condensed.experiment-table.sortable{"id" => "test_#{i}", "data-title" => "#{test[:name]}" }
-        %thead
-          %tr
-            %th
-            %th % Tried
-            %th.name Variable
-            %th Spins
-            %th Wins
-            %th % Success
-            %th
-        %tbody
+      %ul.nav.nav-pills.pill-block.no-trailing.pull-left
+        %li
+          %a{href: admin_dashboard_path}
+            %i.icon-dashboard
+            Dashboard
+        %li.active
+          %a{href: admin_experiments_path}
+            %i.icon-magic
+            Experiments
+        %li
+          %a{href: admin_funnel_path}
+            %i.icon-beaker
+            Funnels
+
+
+      %div.pull-right
+        %span.nav-divider.muted
+          %i.icon-list
+          show:
+        %ul.nav.nav-pills.pill-block.no-trailing
+          - @options.each do |opt|
+            %li{class: @filter == opt ? "active" : ""}
+              %a{href: url_for(f: opt)}= opt
+
+
+      %div.clearfix
+
+%div.row
+  %div.span12
+
+    %p
+      Redis space used:
+      - used, used_ratio = @redis_used
+      = used_ratio > 0 ? float_to_percentage(used_ratio) : "#{used}. (Limit unknown: set MAX_REDIS_SPACE environment variable)"
+      - if used_ratio > 0.85
+        %b{style: "color: red"}
+          SPACE RUNNING LOW!!
+
+    - i = 0
+    - @stats.each do |test|
+      - i += 1
+      .experiment
+        .experiment-trash
+          .btn{onclick: "document.getElementById('trashinfo#{i}').style.display='block'"}
+            Trash
+          .btn{onclick: "$('\#test_#{i}').toggle()"}
+            Hide
+        .experiment-title
+          %span.experiment-name
+            = test[:name]
+          %span.experiment-details
+            (goal: #{test[:goal]}) #{test[:trials]} trials
+
+        .experiment-trash-data{id: "trashinfo#{i}"}
           - test[:arms].each do |arm|
+            REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/spins")
+            REDIS.del("whiplash/#{test[:name]}/#{arm[:name]}/wins")
+          REDIS.srem("whiplash/goals/#{test[:goal]}", "#{test[:name]}")
+
+
+        %table.table.table-striped.table-condensed.experiment-table.sortable{"id" => "test_#{i}", "data-title" => "#{test[:name]}" }
+          %thead
             %tr
-              %td.progress-bar
-                .progress.progress-info
-                  .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
-              %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
-              %td.name= arm[:name]
-              %td.spins= arm[:spins]
-              %td.wins= arm[:wins]
-              %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
-              %td.progress-bar
-                .progress.progress-success
-                  .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
-  
+              %th
+              %th % Tried
+              %th.name Variable
+              %th Spins
+              %th Wins
+              %th % Success
+              %th
+          %tbody
+            - test[:arms].each do |arm|
+              %tr
+                %td.progress-bar
+                  .progress.progress-info
+                    .bar{ style: "width: #{float_to_percentage(arm[:spins]/test[:trials].to_f)}" }
+                %td.tried= float_to_percentage(arm[:spins]/test[:trials].to_f)
+                %td.name= arm[:name]
+                %td.spins= arm[:spins]
+                %td.wins= arm[:wins]
+                %td.success= float_to_percentage(arm[:wins]/arm[:spins].to_f)
+                %td.progress-bar
+                  .progress.progress-success
+                    .bar{ style: "width: #{float_to_percentage(arm[:wins]/arm[:spins].to_f)}" }
+
