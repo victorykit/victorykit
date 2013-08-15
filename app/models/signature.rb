@@ -17,6 +17,12 @@ class Signature < ActiveRecord::Base
   after_save :clear_cache
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
+  TEST_MEMBER = 79459 # (aaron)
+
+  def self.created
+    where(created_member: true).where("referer_id != ? or referer_id is null", TEST_MEMBER)
+  end
+
   module ReferenceType
     FACEBOOK_LIKE = 'facebook_like'
     FACEBOOK_SHARE = 'facebook_share'

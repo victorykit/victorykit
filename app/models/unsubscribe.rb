@@ -6,6 +6,7 @@ class Unsubscribe < ActiveRecord::Base
   after_create :destroy_membership
 
   scope :between, ->(from, to) { where(:created_at => from..to) }
+  scope :not_bounced, -> { where(cause: "unsubscribed") }
   delegate :full_name, to: :member
 
   def self.unsubscribe_member(member)

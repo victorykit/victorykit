@@ -1,129 +1,95 @@
 describe Metrics::Nps do
+  def create_petition(*args)
+    params  = args.last.is_a?(Hash) ? args.pop : {}
+    actions = args.flatten
+    created_at = params[:created_at] || Time.now
 
-  before(:each) do  
-    @month = 1.month.ago
-    @week = 1.week.ago
-    @day = 1.day.ago
-
-    @petition_a = create(:petition, to_send: true, created_at: @month)
-    @petition_b = create(:petition, to_send: true, created_at: @week)
-    @petition_c = create(:petition, to_send: true, created_at: @day)
-    @petition_unfeatured = create(:petition, to_send: false, created_at: @month)
-
-    @member_old = create(:member)
-    @member_x = create(:member)
-    @member_y = create(:member)
-    @member_z = create(:member)
-
-    # petition_a: send, sign, unsubscribe
-    @sent_aold = create(:scheduled_email, member: @member_old, petition: @petition_a, created_at: @month)
-    @sent_ax = create(:scheduled_email, petition: @petition_a, member: @member_x, created_at: @month)
-    @sent_ay = create(:scheduled_email, petition: @petition_a, member: @member_y, created_at: @month)
-    @sent_az = create(:scheduled_email, petition: @petition_a, member: @member_z, created_at: @week)
-
-    @signature_aold = create(:signature, petition: @petition_a, member: @member_old, created_member: false, created_at: @month)
-    @signature_ax = create(:signature, petition: @petition_a, member: @member_x, created_member: true, created_at: @month)
-    @signature_ay = create(:signature, petition: @petition_a, member: @member_y, created_member: true, created_at: @week)
-
-    @unsubscribe_az = create(:unsubscribe, member: @member_z, sent_email: @sent_az, created_at: @day, cause: "unsubscribed")
-
-    # petition_b: send, sign, unsubscribe
-    @sent_bx = create(:scheduled_email, petition: @petition_b, member: @member_x, created_at: @week)
-    @signature_bx = create(:signature, petition: @petition_b, member: @member_x, created_member: true, created_at: @day)
-
-    # petition_unfeatured: send, sign, unsubscribe
-    # petition could have been featured, then un-featured. 
-    # could have led to a new member signature, but should still be excluded from timeframe queries
-    @sent_unfeaturedold = create(:scheduled_email, petition: @petition_unfeatured, member: @member_old, created_at: @month)
-    @signature_unfeaturedold = create(:signature, petition: @petition_unfeatured, member: @member_old, created_member: true, created_at: @month)
-    
+    create(:petition, params.merge(to_send: true)).tap do |petition|
+      actions.each { |action| self.send "create_#{action}", petition, created_at }
+    end
   end
 
-  it "should calculate nps for a single petition" do
-    nps = Metrics::Nps.new.single @petition_a
-    nps[:sent].should eq 4
-    nps[:subscribes].should eq 2
-    nps[:unsubscribes].should eq 1
-    nps[:nps].should eq 0.25
+  def create_subscribe(petition, created_at=Time.now)
+    create :signature, created_member: true, petition: petition, created_at: created_at
   end
 
-  it "should calculate nps for each petition" do
-    nps = Metrics::Nps.new.multiple [@petition_a, @petition_b]
-    nps.count.should eq 2
-
-    nps_a = find_for @petition_a, nps
-    nps_a[:sent].should eq 4
-    nps_a[:subscribes].should eq 2
-    nps_a[:unsubscribes].should eq 1
-    nps_a[:nps].should eq 0.25
-
-    nps_b = find_for @petition_b, nps
-    nps_b[:sent].should eq 1
-    nps_b[:subscribes].should eq 1
-    nps_b[:unsubscribes].should eq 0
-    nps_b[:nps].should eq 1.0
+  def create_unsubscribe(petition, created_at=Time.now)
+    email = ScheduledEmail.where(petition_id: petition.id).last or raise "No email found"
+    create :unsubscribe, sent_email: email, cause: "unsubscribed", created_at: created_at
   end
 
-  context "aggregate" do
+  def create_email(petition, created_at=Time.now)
+    create :scheduled_email, petition: petition, created_at: created_at
+  end
 
-    it "should calculate nps in aggregate over a month" do
-      nps = Metrics::Nps.new.aggregate @month-1.second
-      nps[:sent].should eq 6
-      nps[:subscribes].should eq 4
-      nps[:unsubscribes].should eq 1
-      nps[:nps].should eq 0.5
+  context 'email_by_petition' do
+
+    context 'with a single petition' do
+      subject { Metrics::Nps.email_by_petition(petition.id) }
+
+      context 'and a signature' do
+        let(:petition) { create_petition :email, :subscribe }
+        specify { expect(subject.nps).to eq(1.0) }
+      end
+
+      context 'and a signature, and an unsubscribe' do
+        let(:petition) { create_petition :email, :subscribe, :unsubscribe }
+        specify { expect(subject.nps).to eq(0.0) }
+      end
+
+      context 'and multiple signatures and unsubscribes' do
+        let(:petition) {
+          create_petition :email, :email, :email, :email, :subscribe, :subscribe, :unsubscribe
+        }
+        specify { expect(subject.nps).to eq(0.25) }
+      end
     end
 
-    it "should calculate nps in aggregrate over a week" do
-      nps = Metrics::Nps.new.aggregate @week-1.second
-      nps[:sent].should eq 2
-      nps[:subscribes].should eq 2
-      nps[:unsubscribes].should eq 1
-      nps[:nps].should eq 0.5
-    end
 
+    context 'with multiple petitions' do
+      let(:first)  { create_petition :email, :subscribe }
+      let(:second) { create_petition :email, :subscribe, :unsubscribe }
+      let(:third)  { create_petition :email, :email, :email, :email, :subscribe, :subscribe, :unsubscribe }
+
+      subject { Metrics::Nps.email_by_petition([ first, second, third ].map(&:id)) }
+
+      specify {
+        expect(subject[0].nps).to eq(1.0)
+        expect(subject[1].nps).to eq(0.0)
+        expect(subject[2].nps).to eq(0.25)
+      }
+    end
   end
 
-  context "timespan" do
-    
-    it "should calculate nps per item over a month" do
-      nps = Metrics::Nps.new.timespan @month - 1.second, 0
-      nps.count.should eq 2
+  context 'email_by_timeframe' do
+    let(:relevant)  { create_petition :email, :email, :subscribe, created_at: 1.week.ago }
+    let(:ignored)   { create_petition :email, :subscribe,         created_at: 1.month.ago }
+    before { relevant; ignored }
+    subject { Metrics::Nps.email_by_timeframe(timeframe, sent_threshold: 0) }
 
-      a = find_for @petition_a, nps
-      a[:sent].should eq 4
-      a[:subscribes].should eq 2
-      a[:unsubscribes].should eq 1
-      a[:nps].should eq 0.25
-
-      b = find_for @petition_b, nps
-      b[:sent].should eq 1
-      b[:subscribes].should eq 1
-      b[:unsubscribes].should eq 0
-      b[:nps].should eq 1.0
+    context 'with a short timeframe' do
+      let(:timeframe) { 8.days.ago }
+      specify {
+        expect(subject.length).to eq(1)
+        expect(subject[0].nps).to eq(0.5)
+      }
     end
 
-    it "should calculate nps per item over a week" do
-      nps = Metrics::Nps.new.timespan @week - 1.second, 0
-      nps.count.should eq 2
-
-      a = find_for @petition_a, nps
-      a[:sent].should eq 1
-      a[:subscribes].should eq 1
-      a[:unsubscribes].should eq 1
-      a[:nps].should eq 0.0
-
-      b = find_for @petition_b, nps
-      b[:sent].should eq 1
-      b[:subscribes].should eq 1
-      b[:unsubscribes].should eq 0
-      b[:nps].should eq 1.0
+    context 'with a long timeframe' do
+      let(:timeframe) { 2.months.ago }
+      specify {
+        expect(subject.length).to eq(2)
+        expect(subject.map(&:nps)).to match_array([1.0, 0.5])
+      }
     end
-
   end
 
-  def find_for p, nps
-    nps.find{|n| n[:petition_id] == p.id}
+  context 'email_aggregate' do
+    let(:oldish) { create_petition :email, :email, :subscribe, :unsubscribe, created_at: 1.month.ago }
+    let(:newish) { create_petition :email, :email, :subscribe, :subscribe,   created_at: 1.week.ago }
+    let(:newest) { create_petition :email, :email, :subscribe,               created_at: 1.day.ago }
+    before { oldish; newish; newest }
+    subject { Metrics::Nps.email_aggregate(1.month.ago - 1.second) }
+    specify { expect(subject.nps).to eq(0.5) }
   end
-
 end

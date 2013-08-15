@@ -41,19 +41,19 @@ class Statistics
   end
 
   def fetch_nps_summary
-    nps7d = Metrics::Nps.new.aggregate(1.week.ago)
-    nps24h = Metrics::Nps.new.aggregate(1.day.ago)
-    nps60m = Metrics::Nps.new.aggregate(1.hour.ago)
+    nps7d = Metrics::Nps.email_aggregate(1.week.ago)
+    nps24h = Metrics::Nps.email_aggregate(1.day.ago)
+    nps60m = Metrics::Nps.email_aggregate(1.hour.ago)
     {
-      nps7d: nps7d[:nps],
-      sps7d: nps7d[:sps],
-      ups7d: nps7d[:ups],
-      nps24h: nps24h[:nps],
-      sps24h: nps24h[:sps],
-      ups24h: nps24h[:ups],
-      nps60m: nps60m[:nps],
-      sps60m: nps60m[:sps],
-      ups60m: nps60m[:ups]
+      nps7d: nps7d.nps,
+      sps7d: nps7d.sps,
+      ups7d: nps7d.ups,
+      nps24h: nps24h.nps,
+      sps24h: nps24h.sps,
+      ups24h: nps24h.ups,
+      nps60m: nps60m.nps,
+      sps60m: nps60m.sps,
+      ups60m: nps60m.ups
     }
   end
 
@@ -166,7 +166,7 @@ u.strip
   def fetch_petition_extremes count, threshold
     timespan = 1.send(timeframe).ago
     threshold = extremes_threshold.to_i
-    nps = Metrics::Nps.new.timespan(timespan, threshold).sort_by { |n| n[:nps] }.reverse
+    nps = Metrics::Nps.email_by_timeframe(timespan, sent_threshold: threshold).sort_by(&:nps).reverse
     best = nps.first(count)
     worst = nps.last(count) - best
     {
@@ -176,9 +176,9 @@ u.strip
   end
 
   def associate_petitions stats
-    ids = stats.map{ |n| n[:petition_id] }
+    ids = stats.map &:id
     petitions = Petition.select("id, title").where("id in (?)", ids)
-    stats.map {|s| [petitions.find {|p| p.id == s[:petition_id]}, s]}
+    stats.map {|s| [petitions.find {|p| p.id == s.id}, s]}
   end
 
   def map_to_threshold value, thresholds
