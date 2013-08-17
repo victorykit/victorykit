@@ -3,4 +3,8 @@
     %div.page-header
       %h1 Start a petition
 
+      = render partial: "admin/petitions/navigation", locals: { active: :new }
+
+      %div.clearfix
+
   = render choose_form_based_on_browser

@@ -1,0 +1,16 @@
+%ul.nav.nav-pills.pill-block
+  - total     = collection.total_pages
+  - current   = collection.current_page
+  - is_first  = current == 1
+  - is_last   = current == total
+  - first_url = is_first ? "#" : url_for(params.merge(page: current - 1))
+  - last_url  = is_last ? "#" : url_for(params.merge(page: current + 1))
+  %li{class: is_first ? "disabled" : ""}
+    %a{href: first_url, rel: "prev", title: "Previous page"}
+      %i.icon-caret-left
+  - 1.upto(total) do |page|
+    %li{class: current == page ? "active" : ""}
+      %a{href: url_for(params.merge(page: page))}= page
+  %li{class: is_last ? "disabled" : ""}
+    %a{href:  last_url, rel: "next", title: "Next page"}
+      %i.icon-caret-right

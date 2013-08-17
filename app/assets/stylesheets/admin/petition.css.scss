@@ -50,37 +50,6 @@
 
   }
 }
-.petitionlist {
-  .petition {
-    width: 80%;
-    min-height: 80px;
-    padding: 10px;
-    padding-bottom: 5em;
-    &:last-of-type {
-      border-bottom: none;
-    }
-    .about_petition {
-      padding-left: 20px;
-      float: left;
-      a.title {
-        font-size: 16px;
-        font-weight: bold;
-        color: navy;
-      }
-      .description {
-        word-wrap: break-word;
-        color: #666;
-      }
-    }
-    .feature {
-      margin-top: 10px;
-    }
-    .signature {
-      float: left;
-      margin: 10px 0;
-    }
-  }
-}
 
 /* for ff on start a petition page */
 .current-font { color: #333; }

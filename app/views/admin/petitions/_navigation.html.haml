@@ -1,0 +1,13 @@
+%ul.nav.nav-pills.pill-block.no-trailing.pull-left
+  %li{class: active == :new ? "active" : ""}
+    %a{href: new_petition_path}
+      %i.icon-plus
+      Start a Petition
+  %li{class: active == :index ? "active" : ""}
+    %a{href: petitions_path}
+      %i.icon-list
+      All Petitions
+  %li{class: active == :hottest ? "active" : ""}
+    %a{href: admin_hottest_index_path}
+      %i.icon-rocket
+      Hottest

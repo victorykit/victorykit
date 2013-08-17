@@ -1,43 +1,60 @@
-%h1
-  View petitions
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 All Petitions
 
-= link_to 'All', petitions_path
-|
-= link_to 'Recently featured', petitions_path(:featured => 'true')
-%br
-%br
-.pagination_gem= will_paginate @petitions, :container => false
-%br
-.petitionlist
-  - @petitions.each do |petition|
-    .petition
-      .about_petition.span6
-        = link_to(petition.title, petition, :class => 'title')
-        .description
-          = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
-        .feature
-          - if petition.to_send?
-            %i.icon-ok
-            - if petition.featured_on.present?
-              %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
-            - else
-              %b This petition is featured
+      = render partial: "admin/petitions/navigation", locals: { active: :index }
+
+      %div.pull-right
+        %span.muted.nav-divider
+          %i.icon-list
+          show:
+        %ul.nav.nav-pills.pill-block.no-trailing
+          %li{class: params[:featured] ? "" : "active"}
+            %a{href: petitions_path} All
+          %li{class: params[:featured] ? "active" : ""}
+            %a{href: petitions_path(:featured => 'true')} Recently featured
+
+      %div.clearfix
+
+%div.row
+  %div.span12
+    = render partial: "shared/pagination", locals: { collection: @petitions }
+
+- @petitions.each do |petition|
+  %div.row.petition
+    %div.about_petition.span6
+      %h4= link_to(petition.title, petition, :class => 'title')
+
+      %div.description
+        = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
+
+      %div.feature
+        - if petition.to_send?
+          %i.icon-ok
+          - if petition.featured_on.present?
+            %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
           - else
-            %i.icon-remove
-            This petition is not featured
-            = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
-              %i.icon-edit
-              Edit
-      .signature.span2
-        .btn-toolbar
-          .btn-group
-            = link_to(petition, title: 'View', class: 'btn') do
-              %i.icon-list-alt
-              View
-            = link_to(edit_petition_path(petition), title: 'Edit', class: 'btn') do
-              %i.icon-edit
-            = link_to(petition_signatures_path(petition, format: :csv), title: 'Export signatures', class: 'btn') do
-              %i.icon-download
-            = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
-              %i.icon-trash.icon-white
-.pagination_gem= will_paginate @petitions, :container => false
+            %b This petition is featured
+        - else
+          %i.icon-remove
+          This petition is not featured
+          = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
+            %i.icon-edit
+            Edit
+    %div.signature.pull-right
+      .btn-toolbar
+        .btn-group
+          = link_to(petition, title: 'View', class: 'btn') do
+            %i.icon-list-alt
+            View
+          = link_to(edit_petition_path(petition), title: 'Edit', class: 'btn') do
+            %i.icon-edit
+          = link_to(petition_signatures_path(petition, format: :csv), title: 'Export signatures', class: 'btn') do
+            %i.icon-download
+          = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
+            %i.icon-trash.icon-white
+
+%div.row
+  %div.span12
+    = render partial: "shared/pagination", locals: { collection: @petitions }

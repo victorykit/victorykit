@@ -1,0 +1,13 @@
+%ul.nav.nav-pills.pill-block.no-trailing.pull-left
+  %li{class: active == :dashboard ? "active" : ""}
+    %a{href: admin_dashboard_path}
+      %i.icon-dashboard
+      Dashboard
+  %li{class: active == :experiments ? "active" : ""}
+    %a{href: admin_experiments_path}
+      %i.icon-magic
+      Experiments
+  %li{class: active == :funnels ? "active" : ""}
+    %a{href: admin_funnel_path}
+      %i.icon-beaker
+      Funnels

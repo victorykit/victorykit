@@ -3,20 +3,7 @@
     %div.page-header
       %h1 Experiments
 
-      %ul.nav.nav-pills.pill-block.no-trailing.pull-left
-        %li
-          %a{href: admin_dashboard_path}
-            %i.icon-dashboard
-            Dashboard
-        %li.active
-          %a{href: admin_experiments_path}
-            %i.icon-magic
-            Experiments
-        %li
-          %a{href: admin_funnel_path}
-            %i.icon-beaker
-            Funnels
-
+      = render partial: "admin/dashboard/navigation", locals: { active: :experiments }
 
       %div.pull-right
         %span.nav-divider.muted

@@ -1,61 +1,56 @@
-.span12
-  %h1 Hottest Petitions
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Hottest Petitions
 
-  %p
-    %i
-      currently showing:
-    - @options.each do |x|
-      &nbsp;&nbsp;
-      - if @filter == x
-        %b
-          = x
-      - else
-        = link_to x, params.merge(w: x)
-    - if @filter == 'mine'
-      <br /><i>who: </i>
-      - @authors.each do |x|
-        &nbsp;&nbsp;
-        - if @myauthor == x.to_s
-          %b
-            = x
-        - else
-          = link_to x, params.merge(id: x)
+      = render partial: "admin/petitions/navigation", locals: { active: :hottest }
 
+      %div.pull-right
+        %span.muted.nav-divider
+          %i.icon-list
+          show:
+        %ul.nav.nav-pills.pill-block.no-trailing
+          - Admin::HottestController::VALID_FILTERS.each do |filter|
+            %li{class: @filter == filter ? "active" : ""}
+              %a{href: url_for(params.merge(w: filter))}= filter
 
+      %div.clearfix
 
-  %p
-    %i
-      average NPS: 
-    = @avg
-  
-  %table{class: ['bordered-table', 'table-striped', 'dataTable']}
-    %tr
-      - unless @unique
-        %th
-          \%
-      %th
-        Petition
-      %th
-        Sent
-      %th
-        New
-      %th
-        Unsub
-      %th
-        NPS
-    - @rows.each do |count, petition, data, nps|
+%div.row
+  %div.span12
+    %p
+      %i
+        average NPS:
+      = @avg
+
+    %table{class: ['bordered-table', 'table-striped', 'dataTable']}
       %tr
         - unless @unique
+          %th
+            \%
+        %th
+          Petition
+        %th
+          Sent
+        %th
+          New
+        %th
+          Unsub
+        %th
+          NPS
+      - @rows.each do |count, petition, data, nps|
+        %tr
+          - unless @unique
+            %td.data
+              = count/10.0
+          %td
+            %a{href: petition_url(petition)}
+              = petition.title
           %td.data
-            = count/10.0
-        %td
-          %a{href: petition_url(petition)}
-            = petition.title
-        %td.data
-          = data[0]
-        %td.data
-          = data[1]
-        %td.data
-          = data[2]
-        %td.data
-          = float_to_percentage nps
+            = data[0]
+          %td.data
+            = data[1]
+          %td.data
+            = data[2]
+          %td.data
+            = float_to_percentage nps

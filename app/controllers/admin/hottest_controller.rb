@@ -35,6 +35,9 @@ class Admin::HottestController < ApplicationController
     end
   end
 
+  VALID_FILTERS = ['sent', 'best', 'mine']
+  DEFAULT_FILTER = 'sent'
+
   def index
     hotlist = hot_petitions params[:w]
     db_data = get_db_data hotlist
@@ -49,9 +52,7 @@ class Admin::HottestController < ApplicationController
 
     @avg = acc/hotlist.length.to_f
     @unique = @rows.any? && @rows[0][0] == 1
-
-    @options = ['sent', 'best', 'mine']
-    @filter = params[:w] || 'sent'
+    @filter = params[:w] || DEFAULT_FILTER
 
     if @filter == 'mine'
       @authors = Petition.select(:owner_id).where(to_send: true).group(:owner_id).map{|x|x.owner_id}

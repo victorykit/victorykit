@@ -3,19 +3,7 @@
     %div.page-header
       %h1 Funnels
 
-      %ul.nav.nav-pills.pill-block.no-trailing.pull-left
-        %li
-          %a{href: admin_dashboard_path}
-            %i.icon-dashboard
-            Dashboard
-        %li
-          %a{href: admin_experiments_path}
-            %i.icon-magic
-            Experiments
-        %li.active
-          %a{href: admin_funnel_path}
-            %i.icon-beaker
-            Funnels
+      = render partial: "admin/dashboard/navigation", locals: { active: :funnels }
 
       %div.pull-right
         %span.muted.nav-divider
@@ -34,20 +22,20 @@
 
   %div.span6
     %h4 Email Opened Per Email Sent
-    %iframe.chart{ src: emails_opened_chart }
+    %iframe.chart.span6{ src: emails_opened_chart }
 
     %h4 Email Clicked Per Email Opened
-    %iframe.chart{ src: emails_clicked_chart }
+    %iframe.chart.span6{ src: emails_clicked_chart }
 
     %h4 Signature From Email Per Email Clicked
-    %iframe.chart{ src: signatures_from_email_chart }
+    %iframe.chart.span6{ src: signatures_from_email_chart }
 
   %div.span6
     %h4 Facebook Action Per Signature
-    %iframe.chart{ src: facebook_action_per_signature_chart }
+    %iframe.chart.span6{ src: facebook_action_per_signature_chart }
 
     %h4 Petition Page Load Not Off Email
-    %iframe.chart{ src: petition_page_load_chart }
+    %iframe.chart.span6{ src: petition_page_load_chart }
 
     %h4 Signature Per Petition Page Load Not Off Email
-    %iframe.chart{ src: signature_per_petition_page_load_chart }
+    %iframe.chart.span6{ src: signature_per_petition_page_load_chart }
