@@ -59,7 +59,7 @@
         %td.point= float_to_percentage @statistics.nps_24h.ups
         %td.point= float_to_percentage @statistics.nps_60m.ups
 
-    %iframe.chart{src: nps_chart}
+    %iframe.chart.span6{src: nps_chart}
 
   %div.span6
     %table.table.table-condensed.bordered-table.table-striped
@@ -91,7 +91,7 @@
         %td.point= float_to_percentage @statistics.npfs_24h.ups
         %td.point= float_to_percentage @statistics.npfs_60m.ups
 
-    %iframe.chart{ src: facebook_actions_chart }
+    %iframe.chart.span6{ src: facebook_actions_chart }
 
 
 %div.row
@@ -191,14 +191,14 @@
 
   %div.span6
     %h4 Unsubscribed
-    %iframe.chart{ src: unsubscribes_chart }
+    %iframe.chart.span6{ src: unsubscribes_chart }
 
     %h4 Sent
-    %iframe.chart{ src: emails_sent_chart }
+    %iframe.chart.span6{ src: emails_sent_chart }
 
   %div.span6
     %h4 Facebook Referrals
-    %iframe.chart{ src: facebook_referrals_chart }
+    %iframe.chart.span6{ src: facebook_referrals_chart }
 
 
 - content_for :javascripts do

@@ -33,11 +33,6 @@ input {
   margin-top: 20px
 }
 
-iframe.chart {
-  border: none;
-  height: 180px;
-}
-
 #footer {
   font-size: 12px;
   text-align: center;
@@ -199,4 +194,10 @@ i.icon-line:after { content: "―"; }
   display: inline-block;
   padding: 6px 16px;
   > span { margin-left: 16px; &:first-child { margin-left: 0; } }
+}
+
+iframe.chart {
+  border: none;
+  height: 180px;
+  &[class*="span"] { margin-left: 0; }
 }
