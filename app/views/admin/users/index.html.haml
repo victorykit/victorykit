@@ -1,28 +1,35 @@
-%h1 Manage users
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Manage Users
+      = render partial: "admin/members/navigation", locals: { active: :users }
+      %div.clearfix
 
-%table.table.table-striped.table-condensed.sortable
-  %tr
-    %th Username
-    %th Signed up on
-    - if current_user.is_super_user?
-      %th Admin
-      %th Super User
-    %th
-    %th
+%div.row
+  %div.span12
+    %table.table.table-striped.table-condensed.sortable
+      %tr
+        %th Username
+        %th Signed up on
+        - if current_user.is_super_user?
+          %th Admin
+          %th Super User
+        %th
+        %th
 
-  - @users.each do |user|
-    %tr
-      %td= user.email
-      %td= user.created_at
-      - if current_user.is_super_user?
-        - if user.is_admin
-          %td{:'sorttable_customkey' => '-1' }
-            %i.icon-ok
-        - else
-          %td
-        - if user.is_super_user
-          %td{:'sorttable_customkey' => '-1'}
-            %i.icon-ok
-        - else
-          %td
-      %td= link_to 'Edit', edit_admin_user_path(user)
+      - @users.each do |user|
+        %tr
+          %td= user.email
+          %td= user.created_at
+          - if current_user.is_super_user?
+            - if user.is_admin
+              %td{:'sorttable_customkey' => '-1' }
+                %i.icon-ok
+            - else
+              %td
+            - if user.is_super_user
+              %td{:'sorttable_customkey' => '-1'}
+                %i.icon-ok
+            - else
+              %td
+          %td= link_to 'Edit', edit_admin_user_path(user)

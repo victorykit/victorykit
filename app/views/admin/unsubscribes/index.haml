@@ -1,12 +1,16 @@
-/encoding: utf-8
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Unsubscribes
 
-.row
-  .span2
-    = render :partial => 'navigation'
+      = render partial: "admin/members/navigation", locals: { active: :unsubscribes }
+      = render partial: "admin/unsubscribes/subnav", locals: { active: nil }
 
-  .span10
-    %h2 Unsubscribes
-    .pagination_gem= will_paginate @unsubscribes, :container => false
+      %div.clearfix
+
+%div.row
+  %div.span12
+    = render partial: "shared/pagination", locals: { collection: @unsubscribes }
 
     %table.table.table-striped.table-condensed.sortable
       %thead
@@ -19,4 +23,4 @@
             %td #{unsubscribe.email}
             %td #{unsubscribe.created_at}
 
-    .pagination_gem= will_paginate @unsubscribes, :container => false
+    = render partial: "shared/pagination", locals: { collection: @unsubscribes }

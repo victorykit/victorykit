@@ -1,9 +1,15 @@
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Export Unsubscribes
 
-.row
-  .span2
-    = render partial: 'navigation'
-  .span10
-    %h2 Unsubscribes
+      = render partial: "admin/members/navigation", locals: { active: :unsubscribes }
+      = render partial: "admin/unsubscribes/subnav", locals: { active: :download }
+
+      %div.clearfix
+
+%div.row
+  %div.span12
     = form_tag(admin_unsubscribes_path(format: 'csv'), :method => 'get') do
       %p
         %label{:for => 'from'} From:
@@ -12,7 +18,7 @@
         %label{:for => 'from'} To:
         %input#to{:type => 'date', :name=>'to'}
       %p
-        = submit_tag 'Download CSV'
+        = submit_tag 'Download CSV', class: "btn"
 
 
 

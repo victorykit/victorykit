@@ -1,0 +1,14 @@
+%div.pull-right
+  %span.muted.nav-divider
+    %i.icon-list
+    actions:
+
+  %ul.nav.nav-pills.pill-block.no-trailing
+    %li{class: active == :download ? "active" : ""}
+      %a{rel: "download", href: export_admin_unsubscribes_path}
+        %i.icon-download
+        Export
+    %li{class: active == :upload ? "active" : ""}
+      %a{href: new_admin_unsubscribe_path}
+        %i.icon-upload
+        Import

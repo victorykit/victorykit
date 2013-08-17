@@ -1,12 +1,19 @@
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Export Unsubscribes
 
-.row
-  .span2
-    = render partial: 'navigation'
-  .span10
-    %h2 Upload
+      = render partial: "admin/members/navigation", locals: { active: :unsubscribes }
+      = render partial: "admin/unsubscribes/subnav", locals: { active: :upload }
 
-    Accepts a file with one email address per line to be unsubscribed from the list of active members.
+      %div.clearfix
+
+%div.row
+  %div.span12
+    %p
+      Accepts a file with one email address per line to be unsubscribed from the
+      list of active members.
 
     = form_tag({action: :create}, multipart: true) do
       = file_field_tag 'file'
-      = submit_tag 'Upload'
+      = submit_tag 'Upload', class: "btn"

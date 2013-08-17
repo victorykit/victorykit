@@ -1,21 +1,44 @@
-%h1 Active Members (#{@members.count})
-%h2 Sorted by recent first
+%div.row
+  %div.span12
+    %div.page-header
+      %h1
+        Active Members
+        %small.muted #{@members.count} total, recent first
 
-= link_to 'Export CSV', admin_members_path(format: 'csv')
+      = render partial: "admin/members/navigation", locals: { active: :members }
 
-.pagination_gem= will_paginate @members, :container => false
+      %div.pull-right
+        %span.muted.nav-divider
+          %i.icon-list
+          actions:
 
-%table.table.table-striped.table-condensed.sortable
-  %thead
-    %tr
-      %th Name
-      %th Email
-      %th State
-  %tbody
-    - @members.each do |member|
-      %tr
-        %td #{member.full_name}
-        %td #{member.email}
-        %td #{member.state_code}
+        %ul.nav.nav-pills.pill-block.no-trailing
+          %li
+            %a{rel: "download", href: admin_members_path(format: 'csv')}
+              %i.icon-download
+              Export CSV
 
-.pagination_gem= will_paginate @members, :container => false
+      %div.clearfix
+
+%div.row
+  %div.span12
+    = render partial: 'shared/pagination', locals: { collection: @members }
+
+%div.row
+  %div.span12
+    %table.table.table-striped.table-condensed.sortable
+      %thead
+        %tr
+          %th Name
+          %th Email
+          %th State
+      %tbody
+        - @members.each do |member|
+          %tr
+            %td #{member.full_name}
+            %td #{member.email}
+            %td #{member.state_code}
+
+%div.row
+  %div.span12
+    = render partial: 'shared/pagination', locals: { collection: @members }

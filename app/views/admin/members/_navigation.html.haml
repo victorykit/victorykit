@@ -1,0 +1,13 @@
+%ul.nav.nav-pills.pill-block.no-trailing.pull-left
+  %li{class: active == :members ? "active" : ""}
+    %a{href: admin_members_path}
+      %i.icon-user
+      Members
+  %li{class: active == :users ? "active" : ""}
+    %a{href: admin_users_path}
+      %i.icon-user-md
+      System Users
+  %li{class: active == :unsubscribes ? "active" : ""}
+    %a{href: admin_unsubscribes_path}
+      %i.icon-frown
+      Unsubscribes
