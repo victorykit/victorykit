@@ -1,104 +1,102 @@
 - if display_content?
-  .page_content
+  %h1 Application Health
 
-    %h1 Application Health
+  %h3{:class => @status.style} Application Status: #{@status.text}
 
-    %h3{:class => @status.style} Application Status: #{@status.text}
+  %table.table.table-condensed.bordered-table.table-striped
+    %thead
+      %th
+        Status
+      %th
+        Function
+      %th
+        Fails App
+      %th
+        Threshold (minutes)
+      %th
+        Last
+      %th{:colspan => 3}
+    %tr
+      %td{:class => @status[:email].style }
+        #{@status[:email].text }
+      %td
+        Sending emails
+      %td
+        #{@status[:email].fails_app?}
+      %td
+        #{@status[:email].threshold}
+      %td
+        #{@status[:email].last_timestamp}
+      %td{:colspan => 4}
+    %tr
+      %td{:class => @status[:signature].style }
+        #{@status[:signature].text}
+      %td
+        Collecting signatures
+      %td
+        #{@status[:signature].fails_app?}
+      %td
+        #{@status[:signature].threshold}
+      %td
+        #{@status[:signature].last_timestamp}
+      %td{:colspan => 4}
 
-    %table.table.table-condensed.bordered-table.table-striped
-      %thead
-        %th
-          Status
-        %th
-          Function
-        %th
-          Fails App
-        %th
-          Threshold (minutes)
-        %th
-          Last
-        %th{:colspan => 3}
-      %tr
-        %td{:class => @status[:email].style }
-          #{@status[:email].text }
-        %td
-          Sending emails
-        %td
-          #{@status[:email].fails_app?}
-        %td
-          #{@status[:email].threshold}
-        %td
-          #{@status[:email].last_timestamp}
-        %td{:colspan => 4}
-      %tr
-        %td{:class => @status[:signature].style }
-          #{@status[:signature].text}
-        %td
-          Collecting signatures
-        %td
-          #{@status[:signature].fails_app?}
-        %td
-          #{@status[:signature].threshold}
-        %td
-          #{@status[:signature].last_timestamp}
-        %td{:colspan => 4}
+    %tr
+      %td{:colspan => 8}
+        &nbsp;
 
-      %tr
-        %td{:colspan => 8}
-          &nbsp;
+    %thead
+      %th
+        Status
+      %th
+        Component
+      %th
+        Fails App
+      %th
+        Workers
+      %th
+        Pending
+      %th
+        Processed
+      %th
+        Working
+      %th
+        Failed
+      %th
+        Max Q
+    %tr
+      %td{:class => @status[:resque].style }
+        #{@status[:resque].text}
+      %td
+        Resque
+      %td
+        #{@status[:resque].fails_app?}
+      %td
+        #{@status[:resque].workers}
+      %td
+        #{@status[:resque].stats.enqueued}
+      %td
+        #{@status[:resque].stats.processed}
+      %td
+        #{@status[:resque].workers}
+      %td
+        #{@status[:resque].stats.failed}
+      %td
+        #{@status[:resque].max_q}
 
-      %thead
-        %th
-          Status
-        %th
-          Component
-        %th
-          Fails App
-        %th
-          Workers
-        %th
-          Pending
-        %th
-          Processed
-        %th
-          Working
-        %th
-          Failed
-        %th
-          Max Q
-      %tr
-        %td{:class => @status[:resque].style }
-          #{@status[:resque].text}
-        %td
-          Resque
-        %td
-          #{@status[:resque].fails_app?}
-        %td
-          #{@status[:resque].workers}
-        %td
-          #{@status[:resque].stats.enqueued}
-        %td
-          #{@status[:resque].stats.processed}
-        %td
-          #{@status[:resque].workers}
-        %td
-          #{@status[:resque].stats.failed}
-        %td
-          #{@status[:resque].max_q}
+  %h3 Statistics
 
-    %h3 Statistics
+  %table.table.table-condensed.bordered-table.table-striped
 
-    %table.table.table-condensed.bordered-table.table-striped
-
-      %tr
-        %td{:width => "220 px"}
-          Emails sent in the past week
-        %td
-          #{@emails_sent_past_week}
-        %td
-      %tr
-        %td
-          Number of emailable members
-        %td
-          #{@emailable_members}
-        %td
+    %tr
+      %td{:width => "220 px"}
+        Emails sent in the past week
+      %td
+        #{@emails_sent_past_week}
+      %td
+    %tr
+      %td
+        Number of emailable members
+      %td
+        #{@emailable_members}
+      %td

@@ -3,7 +3,7 @@
 .fb-root
 
 
-#petition_page.page_content{class: @was_signed ? "was_signed" : "not_signed"}
+#petition_page{class: @was_signed ? "was_signed" : "not_signed"}
   - if @petition.has_edit_permissions(current_user)
     = link_to_if current_user, 'Edit this Petition', edit_petition_path(@petition), class: "edit btn btn-primary"
 

@@ -1,44 +1,43 @@
-.page_content
-  %h1
-    View petitions
+%h1
+  View petitions
 
-  = link_to 'All', petitions_path
-  |
-  = link_to 'Recently featured', petitions_path(:featured => 'true')
-  %br
-  %br
-  .pagination_gem= will_paginate @petitions, :container => false
-  %br
-  .petitionlist
-    - @petitions.each do |petition|
-      .petition
-        .about_petition.span6
-          = link_to(petition.title, petition, :class => 'title')
-          .description
-            = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
-          .feature
-            - if petition.to_send?
-              %i.icon-ok
-              - if petition.featured_on.present?
-                %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
-              - else
-                %b This petition is featured
+= link_to 'All', petitions_path
+|
+= link_to 'Recently featured', petitions_path(:featured => 'true')
+%br
+%br
+.pagination_gem= will_paginate @petitions, :container => false
+%br
+.petitionlist
+  - @petitions.each do |petition|
+    .petition
+      .about_petition.span6
+        = link_to(petition.title, petition, :class => 'title')
+        .description
+          = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
+        .feature
+          - if petition.to_send?
+            %i.icon-ok
+            - if petition.featured_on.present?
+              %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
             - else
-              %i.icon-remove
-              This petition is not featured
-              = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
-                %i.icon-edit
-                Edit
-        .signature.span2
-          .btn-toolbar
-            .btn-group
-              = link_to(petition, title: 'View', class: 'btn') do
-                %i.icon-list-alt
-                View
-              = link_to(edit_petition_path(petition), title: 'Edit', class: 'btn') do
-                %i.icon-edit
-              = link_to(petition_signatures_path(petition, format: :csv), title: 'Export signatures', class: 'btn') do
-                %i.icon-download
-              = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
-                %i.icon-trash.icon-white
-  .pagination_gem= will_paginate @petitions, :container => false
+              %b This petition is featured
+          - else
+            %i.icon-remove
+            This petition is not featured
+            = link_to(edit_petition_path(petition), class: 'btn btn-mini') do
+              %i.icon-edit
+              Edit
+      .signature.span2
+        .btn-toolbar
+          .btn-group
+            = link_to(petition, title: 'View', class: 'btn') do
+              %i.icon-list-alt
+              View
+            = link_to(edit_petition_path(petition), title: 'Edit', class: 'btn') do
+              %i.icon-edit
+            = link_to(petition_signatures_path(petition, format: :csv), title: 'Export signatures', class: 'btn') do
+              %i.icon-download
+            = link_to(petition_path(petition), method: :delete, confirm: 'Are you sure?', title: 'Delete', class: 'btn btn-danger') do
+              %i.icon-trash.icon-white
+.pagination_gem= will_paginate @petitions, :container => false

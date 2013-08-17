@@ -1,6 +1,6 @@
-.petitionform.page_content
-
-  - if !browser.ie? || (browser.user_agent =~ /chromeframe/)
-    %h1 Start a petition
+%div.row.petitionform
+  %div.span12
+    %div.page-header
+      %h1 Start a petition
 
   = render choose_form_based_on_browser
