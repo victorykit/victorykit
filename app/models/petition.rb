@@ -3,12 +3,12 @@ class Petition < ActiveRecord::Base
   include HtmlToPlainText
 
   attr_accessible :description, :title, :petition_versions_attributes,
-    :petition_titles_attributes, :petition_images_attributes, 
+    :petition_titles_attributes, :petition_images_attributes,
     :petition_descriptions_attributes, :petition_summaries_attributes
 
   attr_accessible :description, :title, :petition_versions_attributes,
-    :petition_titles_attributes, :petition_images_attributes, 
-    :petition_descriptions_attributes, :petition_summaries_attributes, 
+    :petition_titles_attributes, :petition_images_attributes,
+    :petition_descriptions_attributes, :petition_summaries_attributes,
     :to_send, :location, :as => :admin
 
   has_many :petition_versions
@@ -20,39 +20,39 @@ class Petition < ActiveRecord::Base
   has_many :petition_summaries, :dependent => :destroy
   has_many :petition_descriptions, :dependent => :destroy
   belongs_to :owner, class_name:  "User"
-  
+
   before_validation :strip_whitespace
   validates_presence_of :title, :description, :owner_id
   validates_with PetitionTitlesValidator
- 
-  accepts_nested_attributes_for :petition_titles, 
-    :reject_if => lambda { |a| a[:title].blank? }, 
+
+  accepts_nested_attributes_for :petition_titles,
+    :reject_if => lambda { |a| a[:title].blank? },
     :allow_destroy => true
 
-  accepts_nested_attributes_for :petition_images, 
-    :reject_if => lambda { |a| a[:url].blank? }, 
+  accepts_nested_attributes_for :petition_images,
+    :reject_if => lambda { |a| a[:url].blank? },
     :allow_destroy => true
 
-  accepts_nested_attributes_for :petition_descriptions, 
-    :reject_if => lambda { |a| a[:facebook_description].blank? }, 
+  accepts_nested_attributes_for :petition_descriptions,
+    :reject_if => lambda { |a| a[:facebook_description].blank? },
     :allow_destroy => true
 
-  accepts_nested_attributes_for :petition_summaries, 
-    :reject_if => lambda { |a| a[:short_summary].blank? }, 
+  accepts_nested_attributes_for :petition_summaries,
+    :reject_if => lambda { |a| a[:short_summary].blank? },
     :allow_destroy => true
 
   scope :not_deleted, where('deleted is not true')
   scope :recently_featured, where('to_send and featured_on > ?', 3.days.ago)
 
-  def previously_not_featured
-    !to_send
-  end
+  def featured?; self.to_send; end
+
+  def previously_not_featured; !featured?; end
 
   def has_edit_permissions(current_user)
     return false if current_user.nil?
     owner.id == current_user.id || current_user.is_admin || current_user.is_super_user
   end
-  
+
   def self.emailable_petition_ids
     select('id').not_deleted.where(to_send: true).map(&:id)
   end
@@ -115,7 +115,7 @@ class Petition < ActiveRecord::Base
   def cover? member
     location_patterns.find { |p| member.last_location =~ p }
   end
-  
+
   def sigcount
     Rails.cache.fetch('signature_count_' + id.to_s) { signatures.count('email', :distinct => true) }
   end
@@ -131,7 +131,7 @@ class Petition < ActiveRecord::Base
   private
 
   def location_patterns
-    return [/.*/] if (type = location_type) == 'all' 
+    return [/.*/] if (type = location_type) == 'all'
     details = ['\w\w'] if (details = location_details.split(',')).empty?
     details.map { |d| Regexp.new("^#{type}/#{d}$") }
   end

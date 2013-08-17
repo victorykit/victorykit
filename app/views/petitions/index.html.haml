@@ -22,15 +22,16 @@
     = render partial: "shared/pagination", locals: { collection: @petitions }
 
 - @petitions.each do |petition|
-  %div.row.petition
+  %div.row.petition{class: petition.featured? ? "featured" : ""}
     %div.about_petition.span6
-      %h4= link_to(petition.title, petition, :class => 'title')
+      %h4
+        %a{href: petition_path(petition), class: 'title'}= petition.title
 
       %div.description
         = truncate_html(strip_tags_except_links(petition.description), :length => 180, :omission => '...')
 
       %div.feature
-        - if petition.to_send?
+        - if petition.featured?
           %i.icon-ok
           - if petition.featured_on.present?
             %b This petition has been featured for #{time_ago_in_words(petition.featured_on)}
