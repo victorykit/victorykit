@@ -42,8 +42,6 @@ To confirm you have the appropriate requirements:
 
     $ rake
 
-To get the smoke tests to pass, you'll need to have the right OAUTH variables, either by running `./script/gen_google_oauth` or getting the right variables from a friend and then setting them in your environment. You'll also need to be running the local server:
-
 * Make sure Redis is running
 
 Run the app locally
