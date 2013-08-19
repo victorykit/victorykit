@@ -179,9 +179,6 @@ GEM
       railties (>= 3.1.0)
     jslint_on_rails (1.1.1)
     json (1.7.7)
-    kaminari (0.14.1)
-      actionpack (>= 3.0.0)
-      activesupport (>= 3.0.0)
     kgio (2.7.4)
     mail (2.4.4)
       i18n (>= 0.4.0)
@@ -393,7 +390,6 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   jslint_on_rails
-  kaminari
   kgio
   memcachier
   memoist!

@@ -5,10 +5,15 @@
   - is_last   = current == total
   - first_url = is_first ? "#" : url_for(params.merge(page: current - 1))
   - last_url  = is_last ? "#" : url_for(params.merge(page: current + 1))
+  - first_few = 1..([total, 5].min)
+  - last_few  = ([1, total-4].max)..total
+  - window    = (first_few.to_a + last_few.to_a).uniq
+
+  / - window    = (((1..5).to_a) + ((total - 4)..total)).uniq
   %li{class: is_first ? "disabled" : ""}
     %a{href: first_url, rel: "prev", title: "Previous page"}
       %i.icon-caret-left
-  - 1.upto(total) do |page|
+  - window.each do |page|
     %li{class: current == page ? "active" : ""}
       %a{href: url_for(params.merge(page: page))}= page
   %li{class: is_last ? "disabled" : ""}

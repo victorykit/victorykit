@@ -71,7 +71,6 @@ gem 'newrelic-redis'
 gem 'airbrake'
 gem 'unicorn'
 
-gem 'kaminari'
 gem 'redis-store'
 gem 'redis-rails'
 
