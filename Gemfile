@@ -17,6 +17,7 @@ gem 'mysql2'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'uglifier', '>= 1.0.3'
+  gem 'therubyracer', :platforms => :ruby
   gem 'anjlab-bootstrap-rails', '>= 2.2', :require => 'bootstrap-rails'
   gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
   gem 'jquery-ui-rails'
