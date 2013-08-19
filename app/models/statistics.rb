@@ -29,7 +29,8 @@ class Statistics
   end
 
   def average_donations_per_day
-    Donation.where("created_at BETWEEN now() - interval'8 days' AND now() - interval'1 day'").group('DATE(created_at)').sum('amount').map { |d| d[1] }.inject(0.0) { |sum, n| sum + n } / 7
+    donations = Donation.recent.group('DATE(created_at)').sum('amount')
+    donations.map { |date, sum| sum }.sum / 7.0
   end
 
   def total_donations
@@ -162,26 +163,16 @@ url
 u.strip
   end
 
-  def petition_extremes
-    @extremes ||= fetch_petition_extremes(extremes_count.to_i, extremes_threshold.to_i)
+  def best_petitions
+    count    = self.extremes_count.to_i
+    best_nps = nps_by_timeframe.first(count)
+    Petition.where(id: best_nps.map(&:id)).zip best_nps
   end
 
-  def fetch_petition_extremes count, threshold
-    timespan = 1.send(timeframe).ago
-    threshold = extremes_threshold.to_i
-    nps = Metrics::Nps.email_by_timeframe(timespan, sent_threshold: threshold).sort_by(&:nps).reverse
-    best = nps.first(count)
-    worst = nps.last(count) - best
-    {
-      best: associate_petitions(best),
-      worst: associate_petitions(worst)
-    }
-  end
-
-  def associate_petitions stats
-    ids = stats.map &:id
-    petitions = Petition.select("id, title").where("id in (?)", ids)
-    stats.map {|s| [petitions.find {|p| p.id == s.id}, s]}
+  def worst_petitions
+    count     = self.extremes_count.to_i
+    worst_nps = nps_by_timeframe.last(count) - nps_by_timeframe.first(count)
+    Petition.where(id: worst_nps.map(&:id)).zip worst_nps
   end
 
   class ThresholdLine
@@ -201,4 +192,20 @@ u.strip
       "target=color(lineWidth(threshold(#{value}), 1), '#{color}')"
     end
   end
+
+  private
+
+  def nps_by_timeframe
+    unless defined?(@nps_by_timeframe)
+      timeframe = 1.send(self.timeframe).ago
+      threshold = self.extremes_threshold.to_i
+
+      @nps_by_timeframe = Metrics::Nps.email_by_timeframe(
+        timeframe, sent_threshold: threshold
+      ).sort_by(&:nps).reverse
+    end
+
+    @nps_by_timeframe
+  end
+
 end
