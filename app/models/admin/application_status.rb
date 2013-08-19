@@ -63,6 +63,10 @@ class EmailStatus < ItemStatus
     super heartbeat, fails_app, "INACTIVE"
   end
 
+  def gap
+    @last_timestamp.blank? ? 0 : Time.now.to_i - @last_timestamp.to_i
+  end
+
   def check
     @threshold = ENV['VK_HEARTBEAT_SENT_EMAIL'].try(:to_i) || 5
     @last_timestamp = @heartbeat.last_sent_email
@@ -80,6 +84,10 @@ class SignatureStatus < ItemStatus
 
   def initialize heartbeat, fails_app
     super heartbeat, fails_app, "INACTIVE"
+  end
+
+  def gap
+    @last_timestamp.blank? ? 0 : Time.now.to_i - @last_timestamp.to_i
   end
 
   def check
@@ -104,8 +112,12 @@ class ResqueStatus < ItemStatus
     @workers ||= Sidekiq::Workers.new.size
   end
 
+  def threshold
+    100
+  end
+
   def check
-    @ok = max_q <= 100
+    @ok = max_q <= threshold
   end
 
   def stats

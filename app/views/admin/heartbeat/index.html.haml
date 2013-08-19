@@ -4,99 +4,52 @@
   %h3{:class => @status.style} Application Status: #{@status.text}
 
   %table.table.table-condensed.bordered-table.table-striped
+    - email_seconds     = @status[:email].threshold.minutes.to_i
+    - signature_seconds = @status[:signature].threshold.minutes.to_i
     %thead
-      %th
-        Status
-      %th
-        Function
-      %th
-        Fails App
-      %th
-        Threshold (minutes)
-      %th
-        Last
-      %th{:colspan => 3}
-    %tr
-      %td{:class => @status[:email].style }
-        #{@status[:email].text }
-      %td
-        Sending emails
-      %td
-        #{@status[:email].fails_app?}
-      %td
-        #{@status[:email].threshold}
-      %td
-        #{@status[:email].last_timestamp}
-      %td{:colspan => 4}
-    %tr
-      %td{:class => @status[:signature].style }
-        #{@status[:signature].text}
-      %td
-        Collecting signatures
-      %td
-        #{@status[:signature].fails_app?}
-      %td
-        #{@status[:signature].threshold}
-      %td
-        #{@status[:signature].last_timestamp}
-      %td{:colspan => 4}
+      %th Status
+      %th Function
+      %th Fails App
+      %th Threshold
+      %th Value
+      %th Comments
 
-    %tr
-      %td{:colspan => 8}
-        &nbsp;
+    %tr.colorize{data: { colors: [ email_seconds, email_seconds / 3.0, 0 ].join(",") }}
+      %td{:class => @status[:email].style }= @status[:email].text
+      %td Last email sent
+      %td= @status[:email].fails_app?
+      %td No more than #{@status[:email].threshold} minutes ago
+      %td.point{data: { value: @status[:email].gap }}
+        = time_ago_in_words @status[:email].last_timestamp || Time.now
+      %td
 
-    %thead
-      %th
-        Status
-      %th
-        Component
-      %th
-        Fails App
-      %th
-        Workers
-      %th
-        Pending
-      %th
-        Processed
-      %th
-        Working
-      %th
-        Failed
-      %th
-        Max Q
-    %tr
-      %td{:class => @status[:resque].style }
-        #{@status[:resque].text}
+    %tr.colorize{data: { colors: [ signature_seconds, signature_seconds / 3.0, 0 ].join(",") }}
+      %td{:class => @status[:signature].style }= @status[:signature].text
+      %td Last signature created
+      %td= @status[:signature].fails_app?
+      %td No more than #{@status[:signature].threshold} minutes ago
+      %td.point{data: { value: Time.now.to_i - @status[:signature].last_timestamp.to_i }}
+        = time_ago_in_words @status[:signature].last_timestamp
       %td
-        Resque
+
+    %tr.colorize{data: { colors: "100,20,0" }}
+      %td{:class => @status[:resque].style}= @status[:resque].text
+      %td Total pending email jobs
+      %td= @status[:resque].fails_app?
+      %td No more than #{@status[:resque].threshold} pending jobs
+      %td.point= @status[:resque].max_q
       %td
-        #{@status[:resque].fails_app?}
-      %td
-        #{@status[:resque].workers}
-      %td
-        #{@status[:resque].stats.enqueued}
-      %td
-        #{@status[:resque].stats.processed}
-      %td
-        #{@status[:resque].workers}
-      %td
-        #{@status[:resque].stats.failed}
-      %td
-        #{@status[:resque].max_q}
+        %a{href: sidekiq_web_path} Worker status
 
   %h3 Statistics
 
   %table.table.table-condensed.bordered-table.table-striped
 
     %tr
-      %td{:width => "220 px"}
-        Emails sent in the past week
-      %td
-        #{@emails_sent_past_week}
+      %td{:width => "220 px"} Emails sent in the past week
+      %td= @emails_sent_past_week
       %td
     %tr
-      %td
-        Number of emailable members
-      %td
-        #{@emailable_members}
+      %td Number of emailable members
+      %td= @emailable_members
       %td

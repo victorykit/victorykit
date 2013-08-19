@@ -15,13 +15,9 @@ class Admin::Heartbeat
   def emailable_members
     Member.count - Unsubscribe.count
   end
-  
+
   def new_members
     Signature.where(created_member: true).count - Unsubscribe.where("cause='unsubscribed'").count
-  end
-
-  def workers
-    Resque.info[:workers]
   end
 
   def status
