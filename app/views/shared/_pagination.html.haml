@@ -9,7 +9,6 @@
   - last_few  = ([1, total-4].max)..total
   - window    = (first_few.to_a + last_few.to_a).uniq
 
-  / - window    = (((1..5).to_a) + ((total - 4)..total)).uniq
   %li{class: is_first ? "disabled" : ""}
     %a{href: first_url, rel: "prev", title: "Previous page"}
       %i.icon-caret-left
