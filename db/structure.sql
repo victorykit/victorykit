@@ -899,37 +899,6 @@ ALTER SEQUENCE social_media_trials_id_seq OWNED BY social_media_trials.id;
 
 
 --
--- Name: subscribes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE subscribes (
-    id integer NOT NULL,
-    member_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
-);
-
-
---
--- Name: subscribes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE subscribes_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: subscribes_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE subscribes_id_seq OWNED BY subscribes.id;
-
-
---
 -- Name: unsubscribes; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1197,13 +1166,6 @@ ALTER TABLE ONLY social_media_trials ALTER COLUMN id SET DEFAULT nextval('social
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY subscribes ALTER COLUMN id SET DEFAULT nextval('subscribes_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY unsubscribes ALTER COLUMN id SET DEFAULT nextval('unsubscribes_id_seq'::regclass);
 
 
@@ -1254,14 +1216,6 @@ ALTER TABLE ONLY email_experiments
 
 
 --
--- Name: facebook_actions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY facebook_actions
-    ADD CONSTRAINT facebook_actions_pkey PRIMARY KEY (id);
-
-
---
 -- Name: facebook_friends_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1283,6 +1237,14 @@ ALTER TABLE ONLY facebook_share_widget_shares
 
 ALTER TABLE ONLY last_updated_unsubscribes
     ADD CONSTRAINT last_updated_unsubscribes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: likes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY facebook_actions
+    ADD CONSTRAINT likes_pkey PRIMARY KEY (id);
 
 
 --
@@ -1398,19 +1360,11 @@ ALTER TABLE ONLY signatures
 
 
 --
--- Name: social_media_trials_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: social_media_experiments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY social_media_trials
-    ADD CONSTRAINT social_media_trials_pkey PRIMARY KEY (id);
-
-
---
--- Name: subscribes_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY subscribes
-    ADD CONSTRAINT subscribes_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT social_media_experiments_pkey PRIMARY KEY (id);
 
 
 --
@@ -1767,10 +1721,10 @@ CREATE INDEX index_sent_emails_on_clicked_at ON sent_emails USING btree (clicked
 
 
 --
--- Name: index_sent_emails_on_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_sent_emails_on_created_at_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_sent_emails_on_created_at ON sent_emails USING btree (created_at);
+CREATE INDEX index_sent_emails_on_created_at_and_type ON sent_emails USING btree (created_at, type);
 
 
 --
@@ -1799,13 +1753,6 @@ CREATE INDEX index_sent_emails_on_petition_id ON sent_emails USING btree (petiti
 --
 
 CREATE INDEX index_sent_emails_on_signature_id ON sent_emails USING btree (signature_id);
-
-
---
--- Name: index_sent_emails_on_type_and_created_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_sent_emails_on_type_and_created_at ON sent_emails USING btree (type, created_at);
 
 
 --
@@ -1848,13 +1795,6 @@ CREATE INDEX index_social_media_trials_on_referral_code ON social_media_trials U
 --
 
 CREATE INDEX index_social_media_trials_on_referral_code_id ON social_media_trials USING btree (referral_id);
-
-
---
--- Name: index_subscribes_on_member_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_subscribes_on_member_id ON subscribes USING btree (member_id);
 
 
 --
@@ -2002,14 +1942,6 @@ ALTER TABLE ONLY signatures
 
 ALTER TABLE ONLY signatures
     ADD CONSTRAINT signatures_petition_id_fk FOREIGN KEY (petition_id) REFERENCES petitions(id);
-
-
---
--- Name: subscribes_member_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY subscribes
-    ADD CONSTRAINT subscribes_member_id_fk FOREIGN KEY (member_id) REFERENCES members(id);
 
 
 --
@@ -2265,3 +2197,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130813172552');
 INSERT INTO schema_migrations (version) VALUES ('20130813205234');
 
 INSERT INTO schema_migrations (version) VALUES ('20130815221806');
+
+INSERT INTO schema_migrations (version) VALUES ('20130820193236');
