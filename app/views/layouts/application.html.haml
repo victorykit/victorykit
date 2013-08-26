@@ -7,7 +7,7 @@
     - if browser.ie?
       %link{:href => "/assets/application_ie.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
     - else
-      = stylesheet_link_tag :application
+      = stylesheet_link_tag :application, :debug => false
     %title= content_for?(:title) ? yield(:title) : @title
     = csrf_meta_tags
     = yield :meta_tags
@@ -37,6 +37,6 @@
             - org_name = AppSettings.require_keys!('organization.name')
             © 2013 #{org_name} (<a href="#{@contact_url}">contact us</a>)
 
-  = javascript_include_tag :application
+  = javascript_include_tag :application, :debug => false
   %script{type: "text/javascript"}
     = yield :javascripts

@@ -92,23 +92,31 @@ end
 # Capybara because it starts the web server in a thread.
 ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 
+def valid_session_for user
+  sign_in user
+  session[:user_id] = @user.id
+  nil
+end
+
 def valid_session
-  user = create(:user)
-  valid_session_for user
+  @user = create(:user)
+  session[:user_id] = @user.id
+  sign_in @user
+  nil
 end
 
 def valid_admin_session
-  user = create(:admin_user)
-  valid_session_for user
-end
-
-def valid_session_for user
-  {:user_id => user.id}
+  @user = create(:admin_user)
+  session[:user_id] = @user.id
+  sign_in @user
+  nil
 end
 
 def valid_super_user_session
-  user = create(:super_user)
-  valid_session_for user
+  @user = create(:super_user)
+  session[:user_id] = @user.id
+  sign_in @user
+  nil
 end
 
 # redefines a bandit instance to strip out randomness and redis

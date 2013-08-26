@@ -19,7 +19,8 @@ class UsersController < ApplicationController
   def update
     @user = current_user
     if @user.update_attributes(params[:user])
-      flash.notice = "Password was successfully updated"
+      flash.notice = "Password was successfully updated."
+      sign_in @user, :bypass => true
       redirect_to root_url
     else
       render action: "edit"

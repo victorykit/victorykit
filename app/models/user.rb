@@ -1,20 +1,40 @@
-require "old_password_validator"
-
 class User < ActiveRecord::Base
-  attr_accessor :old_password
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable #, :lockable
+
+  attr_accessor :current_password
   attr_accessor :skip_validation
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :current_password, :remember_me
+  attr_accessible :is_super_user, :is_admin, :as => :admin
+
   validates_presence_of :password, :unless => :skip_validation
   validates_presence_of :password_confirmation, :unless => :skip_validation
-  validates :old_password, :old_password => true, :presence => true,  :on => :update, :if => :password_digest_changed?
-  attr_accessible :email, :password, :old_password, :password_confirmation
-  attr_accessible :email,  :is_super_user, :is_admin, :as => :admin
+  validate :check_current_password, :on => :update, :if => :encrypted_password_changed?
+
+  after_validation :remove_encrypted_password_errors
   
-  has_secure_password
-  validates :email, :presence => true, :uniqueness => true , :email => true
-  
-  after_validation :remove_password_digest_errors
-  
-  def remove_password_digest_errors
-    errors.delete :password_digest if errors.include? :password
+  def remove_encrypted_password_errors
+    errors.delete :encrypted_password if errors.include? :password
   end
+
+  private
+
+  def check_current_password
+    # old_user = User.find(self.id)
+    if self.current_password.blank?
+      self.errors[:current_password] << " current password can not be blank"
+    else
+      u = User.find(self.id)
+      if ! u.valid_password? current_password
+        self.errors[:current_password] << " is not your previous password"
+      end
+    end
+  end
+
+
 end

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+
   include Whiplash
   extend Memoist
   helper_method :win!, :spin!, :spin_if_cool_browser!, :measure!, :is_admin
@@ -41,16 +42,20 @@ class ApplicationController < ActionController::Base
     self.response_body = export.as_csv_stream
   end
 
+  def after_sign_in_path_for(resource)
+    sign_in_url = url_for(:action => 'new', :controller => 'sessions', :only_path => false, :protocol => 'http')
+    if request.referer == sign_in_url
+      super
+    else
+      stored_location_for(resource) || root_path
+    end
+  end
+
   private
 
   def browser_is_cool?
     browser.firefox? || browser.chrome? || browser.safari?
   end
-
-  def current_user
-    @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id]
-  end
-  helper_method :current_user
 
   def require_login
     if current_user.nil?

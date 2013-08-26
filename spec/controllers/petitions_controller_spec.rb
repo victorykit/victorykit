@@ -235,6 +235,7 @@ describe PetitionsController do
     describe "with valid params" do
       before(:each) do
         @logged_in_user = create(:user)
+        sign_in @logged_in_user
         post :create, {petition: valid_attributes}, {user_id: @logged_in_user.id}
       end
       describe "the newly created petition" do
@@ -261,7 +262,10 @@ describe PetitionsController do
     end
 
     describe "with petition images" do
-      before { @logged_in_user = create(:user) }
+      before(:each) do
+        @logged_in_user = create(:user)
+        sign_in @logged_in_user
+      end
 
       it "persists images" do
         image_attributes = { "petition_images_attributes" => { "1354739331381" => {"url" => "image.jpg"} } }

@@ -4,7 +4,7 @@ describe User do
   it { should validate_presence_of :email }
   it { should validate_presence_of :password}
   it { should validate_presence_of :password_confirmation}
-  it { should_not validate_presence_of :old_password}
+  it { should_not validate_presence_of :current_password}
   it_behaves_like 'email validator'
 
   it 'should not allow mass assignment of user roles by default' do
@@ -39,16 +39,16 @@ describe User do
     end
 
     it 'should validate the old password if the user is changing her password' do
-      subject.password = 'banana'
-      subject.password_confirmation = 'banana'
-      subject.old_password = old_pass + 'cupcake'
+      subject.password = 'banana123'
+      subject.password_confirmation = 'banana123'
+      subject.current_password = old_pass + 'cupcake'
       subject.should_not be_valid(:update)
     end
 
     it 'should let the user change her password if she correctly gives the old password' do
-      subject.password = 'banana'
-      subject.password_confirmation = 'banana'
-      subject.old_password = old_pass
+      subject.password = 'banana123'
+      subject.password_confirmation = 'banana123'
+      subject.current_password = old_pass
       subject.should be_valid(:update)
     end
   end
@@ -58,13 +58,13 @@ describe User do
     context 'when there is a password error' do
       before do
         subject.errors.add :password
-        subject.remove_password_digest_errors
+        subject.remove_encrypted_password_errors
       end
-      its(:errors) { should_not include :password_digest }
+      its(:errors) { should_not include :encrypted_password }
     end
 
     context 'when there is no password error' do
-      before { subject.remove_password_digest_errors }
+      before { subject.remove_encrypted_password_errors }
       its(:errors) { should be_empty }
     end
   end

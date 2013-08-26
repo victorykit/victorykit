@@ -973,12 +973,23 @@ ALTER SEQUENCE user_feedbacks_id_seq OWNED BY user_feedbacks.id;
 
 CREATE TABLE users (
     id integer NOT NULL,
-    email character varying(255) NOT NULL,
-    password_digest character varying(255) NOT NULL,
+    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(255) DEFAULT ''::character varying NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     is_super_user boolean DEFAULT false NOT NULL,
-    is_admin boolean DEFAULT false NOT NULL
+    is_admin boolean DEFAULT false NOT NULL,
+    reset_password_token character varying(255),
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying(255),
+    last_sign_in_ip character varying(255),
+    failed_attempts integer DEFAULT 0,
+    unlock_token character varying(255),
+    locked_at timestamp without time zone
 );
 
 
@@ -1721,13 +1732,6 @@ CREATE INDEX index_sent_emails_on_clicked_at ON sent_emails USING btree (clicked
 
 
 --
--- Name: index_sent_emails_on_created_at_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_sent_emails_on_created_at_and_type ON sent_emails USING btree (created_at, type);
-
-
---
 -- Name: index_sent_emails_on_member_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1809,6 +1813,27 @@ CREATE INDEX index_unsubscribes_on_member_id_and_created_at ON unsubscribes USIN
 --
 
 CREATE INDEX index_unsubscribes_on_sent_email_id ON unsubscribes USING btree (sent_email_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON users USING btree (reset_password_token);
+
+
+--
+-- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE UNIQUE INDEX index_users_on_unlock_token ON users USING btree (unlock_token);
 
 
 --
@@ -2199,3 +2224,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130813205234');
 INSERT INTO schema_migrations (version) VALUES ('20130815221806');
 
 INSERT INTO schema_migrations (version) VALUES ('20130820193236');
+
+INSERT INTO schema_migrations (version) VALUES ('20130821005215');
