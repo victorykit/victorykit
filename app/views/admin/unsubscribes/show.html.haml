@@ -1,11 +1,17 @@
-.row
-  .span2
-    = render partial: 'navigation'
-  .span10
-    %h2 Unsubscribes
+%div.row
+  %div.span12
+    %div.page-header
+      %h1 Unsubscribes
 
-    %h4
-      Upload Report
+      = render partial: "admin/members/navigation", locals: { active: :unsubscribes }
+      = render partial: "admin/unsubscribes/subnav", locals: { active: :upload }
+
+      %div.clearfix
+
+
+%div.row
+  %div.span12
+    %h4 Upload Report
 
     %table.table.table-striped.table-condensed.sortable.stats{data: { stats: stats_admin_unsubscribe_path(params[:id]) } }
       %thead
