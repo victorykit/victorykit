@@ -19,7 +19,7 @@ describe UsersController do
     let(:user){ create(:user) }
     describe "with valid params" do
       before :each do
-        User.any_instance.stub(:update_attributes).and_return(true)
+        User.any_instance.stub(:update_with_password).and_return(true)
       end
       it "redirect to the root page" do
         put :update, {:id => user.to_param, :user => {'these' => 'params'}}, valid_session
@@ -28,7 +28,7 @@ describe UsersController do
     end
     describe "with invalid params" do
       before :each do
-        User.any_instance.stub(:update_attributes).and_return(false)
+        User.any_instance.stub(:update_with_password).and_return(false)
         put :update, {id: user.to_param, user: {bad: "params"}}, valid_session
       end
       it "should render the edit page" do
