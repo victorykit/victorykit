@@ -9,7 +9,9 @@ Victorykit::Application.routes.draw do
     delete "/logout" => "devise/sessions#destroy"
   end
 
-  mount Sidekiq::Web => '/admin/sidekiq', :constraints => lambda {|req| AdminConstraint.new.matches?(req) }
+  authenticate :user, lambda { |u| u.is_super_user || u.is_admin } do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
 
   get "privacy/index"
 
