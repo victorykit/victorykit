@@ -2,15 +2,21 @@ require 'sidekiq/web'
 
 Victorykit::Application.routes.draw do
 
-  mount Sidekiq::Web => '/admin/sidekiq', :constraints => lambda {|req| AdminConstraint.new.matches?(req) }
+  devise_for :users
+
+  devise_scope :user do
+    get    "/login" => "devise/sessions#new"
+    delete "/logout" => "devise/sessions#destroy"
+  end
+
+  authenticate :user, lambda { |u| u.is_super_user || u.is_admin } do
+    mount Sidekiq::Web => '/admin/sidekiq'
+  end
 
   get "privacy/index"
 
-  get "sessions/new"
-
   resources :users
   resources :bounces
-  resources :sessions
   resources :whiplash_sessions
   resources :unsubscribes
   resources :pixel_tracking
@@ -28,10 +34,6 @@ Victorykit::Application.routes.draw do
   post 'donation_tracking', to: 'donation_tracking#create', as: 'donation_tracking'
   post 'paypal', to: 'donation_tracking#paypal', as: 'paypal'
 
-  get 'login', to: 'users#new', as: 'login'
-  get 'subscribe', to: 'members#new', as: 'subscribe'
-  get 'unsubscribe', to: 'unsubscribes#new', as: 'subscribe'
-  get 'logout', to: 'sessions#destroy', as: 'logout'
   get 'contact', to: 'user_feedbacks#new', as: 'contact'
 
   namespace(:admin) do

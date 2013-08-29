@@ -1,0 +1,24 @@
+.row
+  .span12
+    .signup_login
+      %h1.title Win your campaign for change.
+      .row
+        .span6.offset2
+          = simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal'}) do |f|
+            .form-inputs
+              = f.input :email, :required => true, :autofocus => true, :input_html => { :class => "span4" }
+              = f.input :password, :required => true, :input_html => { :class => "span4" }
+              / = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
+              .control-group
+                .controls
+                  = f.button :submit, :class => 'btn btn-primary', :id => 'login-submit', :value => 'Log in'
+                  %br/
+                  %br/
+                  = render "devise/shared/links"
+                  %p.privacypolicy= t 'site.privacy_policy'
+                  %small.photo_credit
+                    Photo credit:
+                    %a{href: "http://www.flickr.com/photos/ramyraoof/5405707930"} RamyRaoof
+
+      .row
+        .span6.offset3

@@ -2,7 +2,7 @@
   %h1 Change Password
 
   = simple_form_for current_user do |f|
-    = f.input :old_password, :input_html => { :autocomplete => "off" }
+    = f.input :current_password, :input_html => { :autocomplete => "off" }
     = f.input :password, :input_html => { :autocomplete => "off" }
     = f.input :password_confirmation, :input_html => { :autocomplete => "off" }
     = f.button :submit, :class => 'btn btn-primary', :value => 'Update Password'

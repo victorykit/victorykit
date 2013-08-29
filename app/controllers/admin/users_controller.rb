@@ -15,7 +15,6 @@ class Admin::UsersController < ApplicationController
   
   def update
     @user = User.find(params[:id])
-    @user.skip_validation = true
     if @user.update_attributes(params[:user],{:as => :admin})
       redirect_to admin_users_url, notice: 'User was successfully updated.'
     else

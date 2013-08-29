@@ -14,7 +14,7 @@ end
 
 def login email, pass
   visit '/login'
-  within 'form[action="/sessions"]' do
+  within 'form[action="/users/sign_in"]' do
     fill_in 'Email', with: email
     fill_in 'Password', with: pass
     click_button 'Log in'
