@@ -1,20 +1,18 @@
-require "old_password_validator"
-
 class User < ActiveRecord::Base
-  attr_accessor :old_password
-  attr_accessor :skip_validation
-  validates_presence_of :password, :unless => :skip_validation
-  validates_presence_of :password_confirmation, :unless => :skip_validation
-  validates :old_password, :old_password => true, :presence => true,  :on => :update, :if => :password_digest_changed?
-  attr_accessible :email, :password, :old_password, :password_confirmation
-  attr_accessible :email,  :is_super_user, :is_admin, :as => :admin
+  # Include default devise modules. Others available are:
+  # :token_authenticatable, :confirmable,
+  # :lockable, :timeoutable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :trackable, :validatable, :lockable
+
+  # Setup accessible (or protected) attributes for your model
+  attr_accessible :email, :password, :password_confirmation, :remember_me
+  attr_accessible :is_super_user, :is_admin, :as => :admin
+
+  after_validation :remove_encrypted_password_errors
   
-  has_secure_password
-  validates :email, :presence => true, :uniqueness => true , :email => true
-  
-  after_validation :remove_password_digest_errors
-  
-  def remove_password_digest_errors
-    errors.delete :password_digest if errors.include? :password
+  def remove_encrypted_password_errors
+    errors.delete :encrypted_password if errors.include? :password
   end
+
 end

@@ -61,6 +61,7 @@ gem 'activerecord-postgres-hstore'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'devise'
 
 # for whiplash
 gem 'redis'
