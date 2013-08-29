@@ -1,12 +1,12 @@
 describe UsersController do
-  
-  # describe "GET new" do
-  #   it "assigns a new user" do
-  #     get :new
-  #     assigns(:user).should be_a_new(User)
-  #   end
-  # end
-  
+
+  describe "GET new" do
+    it "assigns a new user" do
+      get :new
+      assigns(:user).should be_a_new(User)
+    end
+  end
+
   describe "Sign up new user" do
     it "logs the user in after signing up" do
       post :create, {:user => {:email => "me@my.com", :password => "password", :password_confirmation => "password"}}
@@ -14,7 +14,7 @@ describe UsersController do
       session[:user_id].should eq new_user.id
     end
   end
-  
+
   describe "PUT update" do
     let(:user){ create(:user) }
     describe "with valid params" do

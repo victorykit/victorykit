@@ -240,7 +240,7 @@ describe PetitionsController do
       end
       describe "the newly created petition" do
         subject { assigns(:petition) }
-        it { response.inspect; should be_persisted }
+        it { should be_persisted }
         it { should be_a(Petition) }
         its(:owner) { should == @logged_in_user}
       end
