@@ -27,22 +27,22 @@ To confirm you have the appropriate requirements:
 
 ## Usage
 
-* Make sure gems are up to date:
+Make sure gems are up to date:
 
     $ bundle
 
-* Make sure Postgres is running
+Make sure Postgres is running
 
-* Make sure the database exists and is migrated
+Make sure the database exists and is migrated
 
     $ rake db:create
     $ rake db:migrate
-
-* Make sure the tests pass:
+    
+Make sure the tests pass:
 
     $ rake
 
-* Make sure Redis is running
+Make sure Redis is running
 
 Run the app locally
 
