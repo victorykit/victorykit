@@ -54,7 +54,7 @@ class Metrics::Nps
 
     def email_aggregate(since)
       actions       = ScheduledEmail.where("created_at > ?", since).count
-      subscribes    = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
+      subscribes    = Signature.created.where("created_at > ?", since).where(created_member: true).count
       unsubscribes  = Unsubscribe.where("cause='unsubscribed' and created_at > ?", since).count
 
       Metrics::Nps.new id: since, actions: actions, subscribes: subscribes, unsubscribes: unsubscribes
@@ -62,7 +62,7 @@ class Metrics::Nps
 
     def facebook_aggregate(since)
       actions       = FacebookAction.where("created_at > ?", since).count
-      subscribes    = Signature.where("created_at > ?", since).where(created_member: true).where(@signature_referer_filter).count
+      subscribes    = Signature.created.where("created_at > ?", since).where(created_member: true).count
       unsubscribes  = Unsubscribe.where("cause='unsubscribed' and created_at > ?", since).count
 
       Metrics::Nps.new id: since, actions: actions, subscribes: subscribes, unsubscribes: unsubscribes
