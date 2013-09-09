@@ -16,6 +16,10 @@ class Metrics::Nps
     unsubscribes.to_f / actions.to_f
   end
 
+  def net
+    subscribes - unsubscribes
+  end
+
   def nps
     sps - ups
   end

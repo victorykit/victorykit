@@ -16,10 +16,6 @@ class Admin::Heartbeat
     Member.count - Unsubscribe.count
   end
 
-  def new_members
-    Signature.where(created_member: true).count - Unsubscribe.where("cause='unsubscribed'").count
-  end
-
   def status
     status = ApplicationStatus.new.tap do |s|
       s[:email] = EmailStatus.new self, true

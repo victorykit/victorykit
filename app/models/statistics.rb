@@ -23,8 +23,7 @@ class Statistics
       last_email: @heartbeat.last_sent_email,
       last_signature: @heartbeat.last_signature,
       emails_sent_past_week: @heartbeat.emails_sent_since(1.week.ago),
-      emailable_member_count: @heartbeat.emailable_members,
-      new_members: @heartbeat.new_members
+      emailable_member_count: @heartbeat.emailable_members
     }
   end
 

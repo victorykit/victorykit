@@ -143,9 +143,9 @@
           = number_with_delimiter heartbeat[:emailable_member_count]
       %tr
         %td
-          Total net new members:
+          Net new members past week:
         %td.numeric
-          = number_with_delimiter heartbeat[:new_members]
+          = number_with_delimiter @statistics.nps_7d.net
     %table.table.table-condensed.bordered-table.table-striped
       %tr
         %td
