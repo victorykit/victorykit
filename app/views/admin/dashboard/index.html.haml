@@ -36,16 +36,34 @@
           %h3= float_to_percentage @statistics.nps_60m.nps
 
       %tr.colorize{data: { colors: "0.0,0.035,0.05" }}
-        %td Sub
+        %td Sub/email
         %td.point= float_to_percentage @statistics.nps_7d.sps
         %td.point= float_to_percentage @statistics.nps_24h.sps
         %td.point= float_to_percentage @statistics.nps_60m.sps
 
       %tr.colorize{data: { colors: "0.01,0.005,0.0" }}
-        %td Unsub
+        %td Unsub/email
         %td.point= float_to_percentage @statistics.nps_7d.ups
         %td.point= float_to_percentage @statistics.nps_24h.ups
         %td.point= float_to_percentage @statistics.nps_60m.ups
+
+      %tr
+        %td Total sub
+        %td.point= @statistics.nps_7d.subscribes
+        %td.point= @statistics.nps_24h.subscribes
+        %td.point= @statistics.nps_60m.subscribes
+
+      %tr
+        %td Total unsub
+        %td.point= @statistics.nps_7d.unsubscribes
+        %td.point= @statistics.nps_24h.unsubscribes
+        %td.point= @statistics.nps_60m.unsubscribes
+
+      %tr
+        %td Total emails
+        %td.point= @statistics.nps_7d.actions
+        %td.point= @statistics.nps_24h.actions
+        %td.point= @statistics.nps_60m.actions
 
     %iframe.chart.span6{src: nps_chart}
 
@@ -68,16 +86,34 @@
           %h3= float_to_percentage @statistics.npfs_60m.nps
 
       %tr
-        %td Sub
+        %td Sub/share
         %td.point= float_to_percentage @statistics.npfs_7d.sps
         %td.point= float_to_percentage @statistics.npfs_24h.sps
         %td.point= float_to_percentage @statistics.npfs_60m.sps
 
       %tr
-        %td Unsub
+        %td Unsub/share
         %td.point= float_to_percentage @statistics.npfs_7d.ups
         %td.point= float_to_percentage @statistics.npfs_24h.ups
         %td.point= float_to_percentage @statistics.npfs_60m.ups
+
+      %tr
+        %td Total sub
+        %td.point= @statistics.npfs_7d.subscribes
+        %td.point= @statistics.npfs_24h.subscribes
+        %td.point= @statistics.npfs_60m.subscribes
+
+      %tr
+        %td Total unsub
+        %td.point= @statistics.npfs_7d.unsubscribes
+        %td.point= @statistics.npfs_24h.unsubscribes
+        %td.point= @statistics.npfs_60m.unsubscribes
+
+      %tr
+        %td Total shares
+        %td.point= @statistics.npfs_7d.actions
+        %td.point= @statistics.npfs_24h.actions
+        %td.point= @statistics.npfs_60m.actions
 
     %iframe.chart.span6{ src: facebook_actions_chart }
 
