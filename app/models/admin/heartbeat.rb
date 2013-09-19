@@ -13,7 +13,7 @@ class Admin::Heartbeat
   end
 
   def emailable_members
-    Member.count - Unsubscribe.count
+    Member.active.count
   end
 
   def status
