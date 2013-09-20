@@ -14,7 +14,7 @@ class SignaturesController < ApplicationController
     petition = Petition.find(params[:petition_id])
 
     # trailing periods cause SES to reject emails
-    params[:signature][:email] = params[:signature][:email].chomp(".") if params[:signature] and params[:signature][:email]
+    params[:signature][:email] = params[:signature][:email].chomp(".").downcase if params[:signature] and params[:signature][:email]
 
     signature = Signature.new(params[:signature])
     signature.petition = petition
