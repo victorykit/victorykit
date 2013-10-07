@@ -138,6 +138,8 @@ class CRM::ActionKit
       raise "CRM::ActionKit.unsub_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
 
+    Rails.logger.debug "CRM::ActionKit.unsub_member: Sucess: #{vk_member.email}"
+
     return true
   end
 
@@ -165,6 +167,8 @@ class CRM::ActionKit
     if res.status != 201 ## CREATED
       raise "CRM::ActionKit.subscribe_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
+
+    Rails.logger.debug "CRM::ActionKit.subscribe_member: Success: #{vk_member.email}"
 
     return true
   end
