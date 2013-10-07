@@ -3,7 +3,7 @@ class Unsubscribe < ActiveRecord::Base
   belongs_to :member
   belongs_to :sent_email
   validates_presence_of :email
-  after_create :destroy_membership
+  after_create :membership_clean_up
 
   scope :between, ->(from, to) { where(:created_at => from..to) }
   scope :not_bounced, -> { where(cause: "unsubscribed") }
@@ -15,7 +15,8 @@ class Unsubscribe < ActiveRecord::Base
 
   private
 
-  def destroy_membership
+  def membership_clean_up
     member.membership.try(:destroy)
+    UnsubscribesWorker.perform_async(email, cause, batch_key)
   end
 end

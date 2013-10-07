@@ -23,7 +23,7 @@ class Admin::UnsubscribesController < ApplicationController
       REDIS.mset("#{batch_key}.members", 0, "#{batch_key}.unsubscribes", 0, "#{batch_key}.seen_lines", 0, "#{batch_key}.total_lines", lines.size)
 
       lines.each do |line|
-        UnsubscribesWorker.perform_async(line, batch_key)
+        UnsubscribesWorker.perform_async(line, 'uploaded', batch_key)
       end
 
       redirect_to admin_unsubscribe_path(id)
