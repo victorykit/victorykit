@@ -3,6 +3,16 @@ class PetitionImage < ActiveRecord::Base
   attr_accessible :url, :as => :admin
   belongs_to :petition
 
+  before_validation :strip_whitespace
+
+  private
+
+  def strip_whitespace
+    self.url.strip! unless self.url.nil?
+  end
+
+  public
+
   def s3_object_key
     hash = Digest::MD5.hexdigest("#{url}")
     extension = url.split('.').last
