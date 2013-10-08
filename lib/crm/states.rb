@@ -2,7 +2,7 @@ class CRM::States
 
   private 
 
-  @@Codes = {
+  CODES = {
     'AL' => 'Alabama',
     'AK' => 'Alaska',
     'AZ' => 'Arizona',
@@ -80,22 +80,17 @@ class CRM::States
     'SK' => 'Saskatchewan'
   }.freeze
 
-  @@States = nil
-
+  STATES = CODES.invert
 
   public
 
   def self.to_code(state)
-    if @@States.nil?
-      @@States = @@Codes.invert
-      @@States.freeze
-    end
-    @@States[state]
+    STATES[state]
 
   end
 
   def self.to_name(code = '')
-    @@Codes[code.upcase]
+    CODES[code.upcase]
   end
 
 end
