@@ -89,7 +89,7 @@ class CRM::ActionKit
       req.body = data.to_json
     end
 
-    if res.status != 201 ## CREATED
+    if res.status != 201 # CREATED
       raise "CRM::ActionKit.create_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
 
@@ -102,9 +102,9 @@ class CRM::ActionKit
     case ak_member
       when Hash
        return ak_member
-      when FalseClass    ## there was a problem...
+      when FalseClass    # there was an AK problem...
         return nil
-      when NilClass      ## AK has no record of the member
+      when NilClass      # AK has no record of the member
         return create_member(vk_member)
       else
         raise "CRM::ActionKit.find_of_create_member(): Bad return value: #{ak_member}"
@@ -134,7 +134,7 @@ class CRM::ActionKit
       req.body = data.to_json
     end
 
-    if res.status != 201 ## CREATED
+    if res.status != 201 # CREATED
       raise "CRM::ActionKit.unsub_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
 
@@ -164,7 +164,7 @@ class CRM::ActionKit
       req.body = data.to_json
     end
 
-    if res.status != 201 ## CREATED
+    if res.status != 201 # CREATED
       raise "CRM::ActionKit.subscribe_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
 
