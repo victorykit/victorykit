@@ -6,7 +6,7 @@ class SyncCrmToVkWorker
 
     if CrmState[:syncing]
       CrmState[:sync_locked_retries] = (CrmState[:sync_locked_retries] ? CrmState[:sync_locked_retries].to_i + 1 : 1)
-      Rails.logger.warn("SyncCrmToVkWorker: Skipping CRM sync: locked: #{CrmState[:syncing]} now: #{Time.now}")
+      Rails.logger.warn("SyncCrmToVkWorker: Skipping CRM sync: retries: #{CrmState[:sync_locked_retries]}  locked: #{CrmState[:syncing]}  now: #{Time.now}")
       return
     end
 
