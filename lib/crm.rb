@@ -129,19 +129,30 @@ class CRM
     Rails.logger.info "CRM.sync_new_crm_members(#{timestamp}): start= #{t1}"
 
     new_mbrs = 0
+    last_mbr_ts = timestamp
 
     crm_members = new_members_since(timestamp, list)
-
     crm_members.each do |crm_mbr|
-      vk_mbr = Member.lookup(crm_mbr.email).first
+      begin
 
-      if vk_mbr.nil?
-        vk_mbr = create_vk_member(crm_mbr)
-        new_mbrs += 1 if vk_mbr
+        vk_mbr = Member.lookup(crm_mbr.email).first
+
+        if vk_mbr.nil?
+          vk_mbr = create_vk_member(crm_mbr)
+          new_mbrs += 1 if vk_mbr
+        end
+        last_mbr_ts = crm_mbr.created_at
+
+      rescue => e
+        Rails.logger.error "CRM.sync_new_crm_members(): mbr sync failed"
+        Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
       end
+
     end
 
     Rails.logger.info "CRM.sync_new_crm_members(#{timestamp}): new= #{new_mbrs}  dur=#{Time.now - t1}  end= #{Time.now}"
+
+    last_mbr_ts
   end
 
 
@@ -150,6 +161,7 @@ class CRM
     Rails.logger.info "CRM.sync_crm_subscription_events(#{timestamp}): start= #{t1}"
 
     new_mbrs = subs = unsubs = 0
+    last_event_ts = timestamp
 
     events = subsciption_activity_since(timestamp, list)
     events.each do |e|
@@ -192,6 +204,8 @@ class CRM
 
         end # Member.transaction
 
+        last_event_ts = e[:created_at]
+
       rescue => e
         Rails.logger.error "CRM.sync_crm_subscription_events(): mbr sync failed"
         Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
@@ -200,6 +214,8 @@ class CRM
     end
 
     Rails.logger.info "CRM.sync_crm_subscription_events(#{timestamp}): mbrs= #{new_mbrs}   subs= +#{subs}/-#{unsubs}  dur=#{Time.now - t1}  end= #{Time.now}"
+
+    last_event_ts
   end
 
 end
