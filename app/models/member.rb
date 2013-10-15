@@ -12,6 +12,8 @@ class Member < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true, :email => true
   validates :first_name, :last_name, :presence => true
 
+  after_commit :sync_to_crm, :on => :create
+
   scope :lookup, lambda { |email|
     where("LOWER(email) = ?", email.downcase)
   }
@@ -20,6 +22,16 @@ class Member < ActiveRecord::Base
     joins('LEFT JOIN unsubscribes ON unsubscribes.member_id = members.id').
     where('unsubscribes.id IS NULL')
   }
+
+  @syncing_from_crm
+
+  def syncing_from_crm=(v)
+    @syncing_from_crm = v
+  end
+
+  def syncing_from_crm?
+    @syncing_from_crm
+  end
 
   def self.random_and_not_recently_contacted(n)
     query = <<-SQL
@@ -108,4 +120,14 @@ class Member < ActiveRecord::Base
     return false if subscribe_date.nil?
     return subscribe_date > unsubscribe_date
   end
+
+  def sync_to_crm
+    # Kind of kludgey, but want to avoid unneeded work.
+    # If member originates from the CRM then we
+    # do not need to tell the CRM about it...
+    unless self.syncing_from_crm?
+      SyncNewMemberToCrmWorker.perform_async(member_id)
+    end
+  end
+
 end
