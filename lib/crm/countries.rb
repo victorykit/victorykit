@@ -259,6 +259,7 @@ class CRM::Countries
   end
 
   def self.to_name(code = '')
+    code = code || ''
     CODES[code.upcase]
   end
 

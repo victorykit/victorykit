@@ -53,27 +53,32 @@ class CRM
     @@country_blacklist
   end
 
-  def self.unsub_member(member)
-    connection.unsub_member(member)
+  def self.unsub_member(vk_member)
+    connection.unsub_member(vk_member)
   end
 
-  def self.subscribe_member(member)
-    connection.subscribe_member(member)
-  end
-
-  # returns a CRM::Member
-  def self.create_member(member)
-    connection.create_member(member)
+  def self.subscribe_member(vk_member)
+    connection.subscribe_member(vk_member)
   end
 
   # returns a CRM::Member
-  def self.find_or_create_member(member)
-    connection.find_or_create_member(member)
+  def self.create_member(vk_member)
+    connection.create_member(vk_member)
   end
 
   # returns a CRM::Member
-  def self.find_member_by_email(email)
-    connection.fetch_member_by_email(email)
+  def self.find_or_create_member(vk_member)
+    connection.find_or_create_member(vk_member)
+  end
+
+  # returns a CRM::Member
+  def self.find_member_by_email(vk_email)
+    connection.fetch_member_by_email(vk_email)
+  end
+
+  # returns a CRM::Member
+  def self.find_member(s)
+    connection.fetch_member(s)
   end
 
   # returns an array of CRM::Member instances

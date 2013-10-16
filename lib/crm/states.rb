@@ -90,6 +90,7 @@ class CRM::States
   end
 
   def self.to_name(code = '')
+    code = code || ''
     CODES[code.upcase]
   end
 

@@ -1,9 +1,9 @@
-class SyncUnsubToCrmWorker
+class SyncNewMemberToCrmWorker
   include Sidekiq::Worker
 
   def perform(member_id)
     vk_member = Member.find_by_id(member_id)
-    CRM.unsub_member(vk_member) if vk_member
+    CRM.create_member(vk_member) if vk_member
   end
 
 end

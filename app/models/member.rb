@@ -126,7 +126,7 @@ class Member < ActiveRecord::Base
     # If member originates from the CRM then we
     # do not need to tell the CRM about it...
     unless self.syncing_from_crm?
-      SyncNewMemberToCrmWorker.perform_async(member_id)
+      SyncNewMemberToCrmWorker.perform_async(self.id)
     end
   end
 

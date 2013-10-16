@@ -76,7 +76,7 @@ class CRM::ActionKit
         return fetch_member_by_email(data.email)
       when String
         if data.include?('@')
-          res = fetch_member_by_email(data)
+          return fetch_member_by_email(data)
         else
           res = fetch_member_by_location(data)
         end
@@ -92,8 +92,7 @@ class CRM::ActionKit
       return false
     end
 
-    # res.body['objects'][0].symbolize_keys
-    CrmMember.new(res.body['objects'][0])
+    CrmMember.new(res.body)
   end
 
   def create_member(vk_member)
@@ -103,7 +102,10 @@ class CRM::ActionKit
     data[:email]       = vk_member.email
     data[:first_name]  = vk_member.first_name   if vk_member.first_name.present?
     data[:last_name]   = vk_member.last_name    if vk_member.last_name.present?
-    data[:city]        = vk_member.first_name   if vk_member.first_name.present?
+
+    # Grrr... VK doesn't capture city or zip code.
+    # data[:city]        = vk_member.city         if vk_member.city.present?
+
     data[:state]       = CRM::States.to_name(vk_member.state_code)      if CRM::States.to_name(vk_member.state_code)
     data[:country]     = CRM::Countries.to_name(vk_member.country_code) if CRM::Countries.to_name(vk_member.country_code)
 
@@ -113,19 +115,25 @@ class CRM::ActionKit
       req.body = data.to_json
     end
 
-    if res.status != 201 # CREATED
-      raise "CRM::ActionKit.create_member() ERROR: status code: #{res.status}: #{vk_member.email}"
+    case res.status
+      when 201 # Created
+        return fetch_member(res.headers['location'])
+      when 409 # Exists
+        return fetch_member(vk_member)
+      else
+        raise "CRM::ActionKit.create_member() ERROR: status code: #{res.status}: #{vk_member.email}"
     end
 
-   fetch_member(res.headers['location'])
   end
 
 
   def find_or_create_member(vk_member)
     ak_member = fetch_member(vk_member)
 
+    pp ak_member
+
     case ak_member
-      when Hash
+      when CrmMember
        return ak_member
       when FalseClass    # there was an AK problem...
         return nil
@@ -149,7 +157,7 @@ class CRM::ActionKit
     return false if ak_member == false
 
     data = {}
-    data[:page]             = 'rootstrikers_unsub'
+    data[:page]             = 'api_rootstrikers_unsub'
     data[:email]            = vk_member.email
     data[:have_unsub_lists] = 1
     data[:unsub_lists]      = AppSettings['crm.default_list']
@@ -181,7 +189,7 @@ class CRM::ActionKit
     return false if ak_member == false
 
     data = {}
-    data[:page]  = 'rootstrikers_signup' # The page determines the AK list
+    data[:page]  = 'api_rootstrikers_signup' # The page determines the AK list
     data[:email] = vk_member.email
 
     res = @conn.post do |req|
