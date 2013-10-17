@@ -157,7 +157,7 @@ class CRM::ActionKit
     return false if ak_member == false
 
     data = {}
-    data[:page]             = 'api_rootstrikers_unsub'
+    data[:page]             = AppSettings['ak_unsub_page']   # The page determines the AK list
     data[:email]            = vk_member.email
     data[:have_unsub_lists] = 1
     data[:unsub_lists]      = AppSettings['crm.default_list']
@@ -189,7 +189,7 @@ class CRM::ActionKit
     return false if ak_member == false
 
     data = {}
-    data[:page]  = 'api_rootstrikers_signup' # The page determines the AK list
+    data[:page]  = AppSettings['ak_signup_page']   # The page determines the AK list
     data[:email] = vk_member.email
 
     res = @conn.post do |req|

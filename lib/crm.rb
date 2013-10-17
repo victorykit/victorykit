@@ -8,13 +8,13 @@ class CRM
 
     if config.nil?
       config = Hash.new
-      config[:provider] = AppSettings['crm.provider'] 
-      config[:host]     = AppSettings['crm.host'] 
-      config[:user]     = AppSettings['crm.user'] 
-      config[:password] = AppSettings['crm.password'] 
+      config[:provider] = AppSettings['crm.provider']
+      config[:host]     = AppSettings['crm.host']
+      config[:user]     = AppSettings['crm.user']
+      config[:password] = AppSettings['crm.password']
     end
 
-    config = config.symbolize_keys
+    config.symbolize_keys!
 
     begin
       require "crm/#{config[:provider]}"
