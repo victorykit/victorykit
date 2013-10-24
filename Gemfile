@@ -95,3 +95,5 @@ gem 'font-awesome-rails'
 gem 'slim', '>= 1.1.0'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'sidekiq'
+gem 'faraday', :require => nil
+gem 'faraday_middleware', :require => nil

@@ -75,6 +75,39 @@ ALTER SEQUENCE bounced_emails_id_seq OWNED BY bounced_emails.id;
 
 
 --
+-- Name: crm_states; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE crm_states (
+    id integer NOT NULL,
+    state character varying(255),
+    value character varying(255),
+    ts_value timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: crm_states_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE crm_states_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: crm_states_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE crm_states_id_seq OWNED BY crm_states.id;
+
+
+--
 -- Name: donations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1023,6 +1056,13 @@ ALTER TABLE ONLY bounced_emails ALTER COLUMN id SET DEFAULT nextval('bounced_ema
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY crm_states ALTER COLUMN id SET DEFAULT nextval('crm_states_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY donations ALTER COLUMN id SET DEFAULT nextval('donations_id_seq'::regclass);
 
 
@@ -1200,6 +1240,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY bounced_emails
     ADD CONSTRAINT bounced_emails_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: crm_states_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY crm_states
+    ADD CONSTRAINT crm_states_pkey PRIMARY KEY (id);
 
 
 --
@@ -1400,6 +1448,13 @@ ALTER TABLE ONLY user_feedbacks
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_crm_states_on_state; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_crm_states_on_state ON crm_states USING btree (state);
 
 
 --
@@ -2226,3 +2281,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130815221806');
 INSERT INTO schema_migrations (version) VALUES ('20130820193236');
 
 INSERT INTO schema_migrations (version) VALUES ('20130821005215');
+
+INSERT INTO schema_migrations (version) VALUES ('20131015182534');
