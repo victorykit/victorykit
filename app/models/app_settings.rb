@@ -19,7 +19,7 @@ class AppSettings < ActiveRecord::Base
     alias_method_chain :create, :instance_checking
 
     def [](key)
-      self.instance.data[key.to_s]
+      self.instance.data[key.to_s] || ENV[key.to_s]
     end
 
     def []=(key, value)
