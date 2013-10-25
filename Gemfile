@@ -10,7 +10,7 @@ gem 'dalli'
 gem 'kgio'
 
 # just used for unsubscribes import
-gem 'mysql2'
+gem 'mysql2', :require => nil
 
 # Gems used only for assets and not required
 # in production environments by default.
