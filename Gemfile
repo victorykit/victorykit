@@ -71,6 +71,7 @@ gem 'newrelic_rpm'
 gem 'newrelic-redis'
 gem 'airbrake'
 gem 'unicorn'
+gem 'capistrano'
 
 gem 'redis-store'
 gem 'redis-rails'
