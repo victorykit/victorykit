@@ -9,6 +9,8 @@ end
 
 class CRM::ActionKit
 
+  require 'mysql2'
+
   private
 
   def initialize(config)
