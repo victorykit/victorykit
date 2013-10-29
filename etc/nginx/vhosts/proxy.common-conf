@@ -1,0 +1,13 @@
+#
+# Common proxy directives for VK vhosts
+#
+proxy_redirect off;
+proxy_max_temp_file_size 0;
+# needed to forward user's IP address to rails
+proxy_set_header  X-Real-IP         $remote_addr;
+proxy_set_header  X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header  Host              $http_host;
+#proxy_set_header  X-Forwarded-Proto $scheme;
+#proxy_set_header  X-Request-Start   't=$start_time';
+#proxy_set_header  X-Queue-Start     't=$start_time';
+#proxy_set_header X-GeoIP-Country-Code $geoip_country_code;

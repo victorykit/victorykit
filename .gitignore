@@ -6,7 +6,7 @@
 
 # Ignore bundler config
 /.bundle
-/bin
+#/bin
 /vendor/bundle
 /vendor/cache
 

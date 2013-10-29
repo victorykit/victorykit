@@ -71,7 +71,7 @@ gem 'newrelic_rpm'
 gem 'newrelic-redis'
 gem 'airbrake'
 gem 'unicorn'
-gem 'capistrano'
+gem 'capistrano', '~> 2.15', require: false, group: :development
 
 gem 'redis-store'
 gem 'redis-rails'
