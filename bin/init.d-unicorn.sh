@@ -1,6 +1,8 @@
 #!/bin/bash
 #
 
+application="vk"
+
 topdir="/home/admin"
 appdir="${topdir}/${application}"
 current_path="${appdir}/current"
@@ -8,7 +10,6 @@ shared_path="${appdir}/shared"
 
 . "${topdir}/vk/current/bin/vk_env.sh"
 
-application=vk
 
 if [ -z "$RBENV_INITED" ] ; then
   PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH:/usr/local/sbin:/usr/local/bin:$HOME/bin"; export PATH
