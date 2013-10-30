@@ -1,32 +1,18 @@
 #!/bin/bash
 #
 
-application=vk
+topdir="/home/admin"
 
-HOME=/home/admin; export HOME
+. "${topdir}/vk/current/bin/vk_env.sh"
+
+application=vk
 
 if [ -z "$RBENV_INITED" ] ; then
   PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH:/usr/local/sbin:/usr/local/bin:$HOME/bin"; export PATH
   eval "$(rbenv init -)"
 fi
 
-LANG="en_US.UTF-8"; export LANG
-LC_ALL="en_US.UTF-8"; export LC_ALL
-
-RUBY=`which ruby`; export RUBY
-
-RAILS_ENV=production; export RAILS_ENV
-RACK_ENV=production; export RACK_ENV
-
-# Settings for Ruby-1.9.3
-RUBY_HEAP_MIN_SLOTS=1000000
-RUBY_GC_MALLOC_LIMIT=60000000
-RUBY_FREE_MIN=4096
-export RUBY_HEAP_MIN_SLOTS RUBY_GC_MALLOC_LIMIT RUBY_FREE_MIN
-
-topdir="/home/admin"
 appdir="${topdir}/${application}"
-
 current_path="${appdir}/current"
 shared_path="${appdir}/shared"
 

@@ -8,8 +8,8 @@ hasher:
 google_analytics:
   analytics_id: UA-31572927-1
 email:
-  from_address: Melanie Jones <info@watchdog.net>
-  domain: watchdog.net
+  from_address: Szelena Gray <info@rootstriker.org>
+  domain: rootstrikers.org
 action_kit:
    host: <%= ENV["AK_IMPORT_DB_HOST"] %>
    username: <%= ENV["AK_IMPORT_DB_UNAME"] %>
@@ -18,13 +18,13 @@ action_kit:
 cloudmailin:
   token: <%= ENV["CLOUDMAILIN_TOKEN"] %>
 organization:
-  name: "Demand Progress"
-  email: "info@demandprogress.org"
+  name: "Root Strikers"
+  email: "info@rootstrikers.org"
   unsubscribe_url: "https://act.demandprogress.org/unsubscribe/unsubscribe?source=watchdog"
   logo: 'logo.png'
 site:
-  name: "Watchdog.net"
-  email: "support@watchdog.net"
-  hostname: "act.watchdog.net"
+  name: "Rootstrikers.org"
+  email: "support@rootstrikers.org"
+  hostname: "act.rootstrikers.org"
   feedback_email: info+watchdog@demandprogress.org
-  list_unsubscribe: "unsubscribe@appmail.watchdog.net"
+  list_unsubscribe: "unsubscribe@appmail.rootstrikers.org"
