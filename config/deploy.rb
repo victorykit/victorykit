@@ -53,12 +53,12 @@ end
 set :rails_env, "production"
 set :unicorn_binary, "#{shared_path}/bundle/ruby/2.0.0/bin/unicorn"
 set :unicorn_config, "#{current_path}/config/unicorn-prod.rb"
-set :unicorn_pid,    "#{current_path}/pids/vk_master.pid"
- 
+set :unicorn_pid,    "#{shared_path}/pids/vk_app_master.pid"
+
 namespace :deploy do
   desc "Start unicorn when its not running"
   task :start, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && #{current_path}/bin/fc_env_run.sh bundle exec #{unicorn_binary} -c #{unicorn_config} -E #{rails_env} -D"
+    run "cd #{current_path} && #{current_path}/bin/vk_run.sh bundle exec #{unicorn_binary} -c #{unicorn_config} -E #{rails_env} -D"
   end
   desc "Stops unicorn immediately w/o waiting for active requests to complete"
   task :hard_stop, :roles => :app, :except => { :no_release => true } do 

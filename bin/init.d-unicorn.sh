@@ -2,6 +2,9 @@
 #
 
 topdir="/home/admin"
+appdir="${topdir}/${application}"
+current_path="${appdir}/current"
+shared_path="${appdir}/shared"
 
 . "${topdir}/vk/current/bin/vk_env.sh"
 
@@ -12,9 +15,6 @@ if [ -z "$RBENV_INITED" ] ; then
   eval "$(rbenv init -)"
 fi
 
-appdir="${topdir}/${application}"
-current_path="${appdir}/current"
-shared_path="${appdir}/shared"
 
 #BUNDLE_GEMFILE="${current_path}/Gemfile"
 
