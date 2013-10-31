@@ -9,6 +9,21 @@ class Admin::DashboardController < ApplicationController
     fetch_statistics
   end
 
+  def show_config
+    # Stupid shenanigans to pretty print with newlines
+    io = PP.pp(Settings.to_hash, StringIO.new)
+    io.rewind
+    @settings_str = io.read
+
+    io = PP.pp(AppSettings.instance.data, StringIO.new)
+    io.rewind
+    @app_settings_str = io.read
+
+    io = PP.pp(ENV, StringIO.new)
+    io.rewind
+    @env_str = io.read
+  end
+
   private
 
   def fetch_statistics
