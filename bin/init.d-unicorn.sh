@@ -19,7 +19,7 @@ fi
 
 #BUNDLE_GEMFILE="${current_path}/Gemfile"
 
-pidfile="${appdir}/shared/pids/${application}_master.pid"
+pidfile="${appdir}/shared/pids/${application}_app_master.pid"
 old_pidfile="${pidfile}.old"
 
 UNICORN_CONF="${appdir}/current/config/unicorn-prod.rb"
