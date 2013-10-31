@@ -42,7 +42,7 @@ class SignatureReferral
       return default unless trackable?
       @referral_type == :regular ? track_regular_referral : track_facebook_referral
     rescue => ex
-      Rails.logger.warn "Error resolving referral: #{ex} #{ex.backtrace.join}"
+      Rails.logger.warn "Error resolving referral: #{ex} #{ex.backtrace.join("\n")}"
       return default
     end
   end
