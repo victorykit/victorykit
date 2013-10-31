@@ -50,7 +50,7 @@ class Admin::StatsController < ApplicationController
   def daily_facebook_insight
     social_media_config = Rails.configuration.social_media
     fb_app = FbGraph::Application.new(social_media_config[:facebook][:app_id], :secret => social_media_config[:facebook][:secret])
-    domain = FbGraph::Domain.search('act.watchdog.net').first
+    domain = FbGraph::Domain.search('vk.rootstrikers.org').first
     domain.access_token = fb_app.access_token
 
     metrics = params[:metrics].split(',')

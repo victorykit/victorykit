@@ -71,6 +71,6 @@ Victorykit::Application.configure do
   config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect'
   
   config.action_mailer.default_url_options = {
-    :host => 'act.watchdog.net',
+    :host => 'vk.rootstrikers.org',
   }
 end
