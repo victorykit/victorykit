@@ -1,15 +1,16 @@
 %div.row
-  %h3 Settings
-  %pre
-    = @settings_str
+  %div.span12
+    %h3 Settings
+    %pre
+      = @settings_str
 
-  %h3 AppSettings
-  %pre
-    = @app_settings_str
+    %h3 AppSettings
+    %pre
+      = @app_settings_str
 
-  %h3 Environment
-  %pre
-    = @env_str
+    %h3 Environment
+    %pre
+      = @env_str
 
 - content_for :javascripts do
   $(document).ready(setInterval(function(){$('#dashboard').load(window.location.href + ' #dashboard');}, 60000));
