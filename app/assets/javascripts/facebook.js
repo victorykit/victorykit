@@ -118,7 +118,7 @@ var facebook = (function() {
     });
 
     function openPopup() {
-      var sharer = 'https://www.facebook.com/sharer/sharer.php?u=';
+      var sharer = '//www.facebook.com/sharer/sharer.php?u=';
       var domain = location.href.replace(/\?.*/,"");
       var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
       var url = sharer + encodeURIComponent(domain + '?share_ref=' + referralCode);
@@ -137,13 +137,13 @@ var facebook = (function() {
       var domain = location.href.replace(/\?.*/,"");
       var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
       var link = [domain, '?fd=', referralCode].join('');
-      var dialog = "https://www.facebook.com/dialog/feed?" +
+      var dialog = "//www.facebook.com/dialog/feed?" +
         "app_id=" + getProperty('fb:app_id') + "&" +
         "link=" + encodeURIComponent(link) + "&" +
         "picture=" + getProperty('og:image') + "&" +
         "name=" + getProperty('og:title') + "&" +
         "description=" + getProperty('og:description') + "&" +
-        "redirect_uri=http://" + location.host + "/close.html&" +
+        "redirect_uri=//" + location.host + "/close.html&" +
         "display=popup";
       window.open(dialog , 'dialog', 'width=626,height=436');
     }
