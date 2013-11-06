@@ -1,5 +1,5 @@
 .fb_like
-  = fb_like petition_url(params[:id]), @signer_code.code
+  = fb_like petition_path(params[:id]), @signer_code.code
 .progress_bar
   .numbers
     %strong #{number_with_delimiter(@sigcount, delimiter: ",")}

@@ -5,7 +5,7 @@
 .share_link.hide
   .share
     Share this link:
-  %input{ value: petition_url(@petition, ls: @signer_code.code) }
+  %input{ value: petition_path(@petition, ls: @signer_code.code) }
   .fb_toggle
     Want Facebook?
 

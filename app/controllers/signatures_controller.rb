@@ -65,14 +65,19 @@ class SignaturesController < ApplicationController
     respond_to do |format|
       format.json {
         if signature.valid?
-          render json: { signature_id: signature.id, url: petition_url(petition, l: ref_code.code), share_url: petition_url(petition, ls: ref_code.code), member: signature.member.attributes.slice(:first_name, :last_name, :email) }
+          render json: {
+                          signature_id: signature.id,
+                          url: petition_path(petition, l: ref_code.code),
+                          share_url: petition_path(petition, ls: ref_code.code),
+                          member: signature.member.attributes.slice(:first_name, :last_name, :email)
+                        }
         else
           render json: signature.errors, status: 400
         end
       }
       format.html {
         flash[:invalid_signature] = signature unless signature.valid?
-        redirect_to petition_url(petition, l: signature.valid? ? ref_code.code : nil)
+        redirect_to petition_path(petition, l: signature.valid? ? ref_code.code : nil)
       }
     end
   end

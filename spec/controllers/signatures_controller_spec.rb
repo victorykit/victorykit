@@ -56,7 +56,7 @@ describe SignaturesController do
       end
 
       it 'should redirect to the petition page' do
-        should redirect_to petition_url(petition, l: code)
+        should redirect_to petition_path(petition, l: code)
       end
 
       context 'new member' do
@@ -242,7 +242,7 @@ describe SignaturesController do
     context 'when the user leaves a field blank' do 
       before { sign_without_name_or_email } 
 
-      it { should redirect_to petition_url(petition) }
+      it { should redirect_to petition_path(petition) }
 
       it 'should not add to cookies' do
         response.cookies['member_id'].should be_nil
