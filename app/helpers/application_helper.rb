@@ -16,10 +16,8 @@ module ApplicationHelper
 
   def configure_google_analytics
     analytics_id = Settings.google_analytics.analytics_id
-    domain       = Settings.google_analytics.domain || request.env['HTTP_HOST']
     javascript_tag "var _gaq = _gaq || [];
       _gaq.push(['_setAccount', '#{analytics_id}']);
-      _gaq.push(['_setDomainName', '#{domain}']);
       _gaq.push(['_trackPageview']);
       (function() {
         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
