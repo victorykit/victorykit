@@ -8,7 +8,7 @@ describe "petitions/show.html.haml" do
   
   before do
     view.stub(:current_user) { user }
-    view.stub(:petition_path) { "url_to_the_petition" }
+    view.stub(:petition_url) { "url_to_the_petition" }
     social_media_config[:facebook][:app_id] = 321
 
     assign :petition, petition
