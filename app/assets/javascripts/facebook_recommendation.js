@@ -69,6 +69,7 @@ var recommendation = (function() {
       );
     })(0);
 
+    console.log("postToMeAndFriends(): before: $('#facebookFriendsModal').modal('toggle')");
     $('#facebookFriendsModal').modal('toggle');
     $('#thanksAfterSharingModal').modal('toggle');
   }

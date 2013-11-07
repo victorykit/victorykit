@@ -1,6 +1,7 @@
 function closeThanksModal(toggleAfterShareModal) {
   $("#thanksModal").modal('hide');
   if (toggleAfterShareModal == true) {
+    console.log("closeThanksModal(" + toggleAfterShareModal + "): before: $('#facebookFriendsModal').modal('toggle')");
     $('#thanksAfterSharingModal').modal('toggle');
   }
 }
