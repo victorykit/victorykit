@@ -1,27 +1,27 @@
 production: &default
   facebook:
     app_id: <%= ENV["FACEBOOK_APP_ID"] %>
-    admins: 686554820
+    admins: 1221648
     secret: <%= ENV["FACEBOOK_SECRET"] %>
-    site_name: Watchdog.net
-    namespace: watchdognet
+    site_name: vk.rootstrikers.org
+    namespace: rootstrikers
     images:
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border_white-bg.png
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_border.png
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button_white-bg.png
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_fb-button.png
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_join-the-fight_border.png
-      - http://act.watchdog.net/images/fbpic_almost-there_progress_join-the-fight.png
-      - http://act.watchdog.net/images/fbpic_facebook-esque_button.png
-      - http://act.watchdog.net/images/fbpic_megaphone_fb-button.png
-      - http://act.watchdog.net/images/fbpic_red-megaphone_fb-button_border.png
-      - http://act.watchdog.net/images/fbpic_megaphone.png
-      - http://act.watchdog.net/images/fbpic_progress_bar_red_border_white-bg.png
-      - http://act.watchdog.net/images/fbpic_progress_bar_red_border.png
-      - http://act.watchdog.net/images/fbpic_progress_bar_white-bg.png
-      - http://act.watchdog.net/images/fbpic_progress_bar.png
-      - http://act.watchdog.net/images/fbpic_top-megaphone_fb-button.png
-      - http://act.watchdog.net/images/fbpic_top-megaphone_red-button.png
+      - /images/fbpic_almost-there_progress_fb-button_border_white-bg.png
+      - /images/fbpic_almost-there_progress_fb-button_border.png
+      - /images/fbpic_almost-there_progress_fb-button_white-bg.png
+      - /images/fbpic_almost-there_progress_fb-button.png
+      - /images/fbpic_almost-there_progress_join-the-fight_border.png
+      - /images/fbpic_almost-there_progress_join-the-fight.png
+      - /images/fbpic_facebook-esque_button.png
+      - /images/fbpic_megaphone_fb-button.png
+      - /images/fbpic_red-megaphone_fb-button_border.png
+      - /images/fbpic_megaphone.png
+      - /images/fbpic_progress_bar_red_border_white-bg.png
+      - /images/fbpic_progress_bar_red_border.png
+      - /images/fbpic_progress_bar_white-bg.png
+      - /images/fbpic_progress_bar.png
+      - /images/fbpic_top-megaphone_fb-button.png
+      - /images/fbpic_top-megaphone_red-button.png
 
 staging: *default
 
