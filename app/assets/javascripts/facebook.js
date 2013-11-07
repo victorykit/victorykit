@@ -114,7 +114,7 @@ var facebook = (function() {
     $('.fb_popup_btn').click(function() {
       openPopup();
       socialTracking.trackSharing('popup');
-      closeThanksModal();
+      closeThanksModal(true);
     });
 
     function openPopup() {
@@ -130,7 +130,7 @@ var facebook = (function() {
     $('.fb_dialog_btn').click(function() {
       openDialog();
       socialTracking.trackSharing('dialog');
-      closeThanksModal();
+      closeThanksModal(true);
     });
 
     function openDialog() {
@@ -160,7 +160,7 @@ var facebook = (function() {
           socialTracking.trackSharing('request', '', res.request, res.to);
         }
       });
-      closeThanksModal();
+      closeThanksModal(true);
     });
   }
 

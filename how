@@ -1,0 +1,172 @@
+                          new_user_session GET    /users/sign_in(.:format)                              devise/sessions#new
+                              user_session POST   /users/sign_in(.:format)                              devise/sessions#create
+                      destroy_user_session DELETE /users/sign_out(.:format)                             devise/sessions#destroy
+                             user_password POST   /users/password(.:format)                             devise/passwords#create
+                         new_user_password GET    /users/password/new(.:format)                         devise/passwords#new
+                        edit_user_password GET    /users/password/edit(.:format)                        devise/passwords#edit
+                                           PUT    /users/password(.:format)                             devise/passwords#update
+                  cancel_user_registration GET    /users/cancel(.:format)                               devise/registrations#cancel
+                         user_registration POST   /users(.:format)                                      devise/registrations#create
+                     new_user_registration GET    /users/sign_up(.:format)                              devise/registrations#new
+                    edit_user_registration GET    /users/edit(.:format)                                 devise/registrations#edit
+                                           PUT    /users(.:format)                                      devise/registrations#update
+                                           DELETE /users(.:format)                                      devise/registrations#destroy
+                               user_unlock POST   /users/unlock(.:format)                               devise/unlocks#create
+                           new_user_unlock GET    /users/unlock/new(.:format)                           devise/unlocks#new
+                                           GET    /users/unlock(.:format)                               devise/unlocks#show
+                                     login GET    /login(.:format)                                      devise/sessions#new
+                                    logout DELETE /logout(.:format)                                     devise/sessions#destroy
+                               sidekiq_web        /admin/sidekiq                                        Sidekiq::Web
+                             privacy_index GET    /privacy/index(.:format)                              privacy#index
+                                     users GET    /users(.:format)                                      users#index
+                                           POST   /users(.:format)                                      users#create
+                                  new_user GET    /users/new(.:format)                                  users#new
+                                 edit_user GET    /users/:id/edit(.:format)                             users#edit
+                                      user GET    /users/:id(.:format)                                  users#show
+                                           PUT    /users/:id(.:format)                                  users#update
+                                           DELETE /users/:id(.:format)                                  users#destroy
+                                   bounces GET    /bounces(.:format)                                    bounces#index
+                                           POST   /bounces(.:format)                                    bounces#create
+                                new_bounce GET    /bounces/new(.:format)                                bounces#new
+                               edit_bounce GET    /bounces/:id/edit(.:format)                           bounces#edit
+                                    bounce GET    /bounces/:id(.:format)                                bounces#show
+                                           PUT    /bounces/:id(.:format)                                bounces#update
+                                           DELETE /bounces/:id(.:format)                                bounces#destroy
+                         whiplash_sessions GET    /whiplash_sessions(.:format)                          whiplash_sessions#index
+                                           POST   /whiplash_sessions(.:format)                          whiplash_sessions#create
+                      new_whiplash_session GET    /whiplash_sessions/new(.:format)                      whiplash_sessions#new
+                     edit_whiplash_session GET    /whiplash_sessions/:id/edit(.:format)                 whiplash_sessions#edit
+                          whiplash_session GET    /whiplash_sessions/:id(.:format)                      whiplash_sessions#show
+                                           PUT    /whiplash_sessions/:id(.:format)                      whiplash_sessions#update
+                                           DELETE /whiplash_sessions/:id(.:format)                      whiplash_sessions#destroy
+                              unsubscribes GET    /unsubscribes(.:format)                               unsubscribes#index
+                                           POST   /unsubscribes(.:format)                               unsubscribes#create
+                           new_unsubscribe GET    /unsubscribes/new(.:format)                           unsubscribes#new
+                          edit_unsubscribe GET    /unsubscribes/:id/edit(.:format)                      unsubscribes#edit
+                               unsubscribe GET    /unsubscribes/:id(.:format)                           unsubscribes#show
+                                           PUT    /unsubscribes/:id(.:format)                           unsubscribes#update
+                                           DELETE /unsubscribes/:id(.:format)                           unsubscribes#destroy
+                      pixel_tracking_index GET    /pixel_tracking(.:format)                             pixel_tracking#index
+                                           POST   /pixel_tracking(.:format)                             pixel_tracking#create
+                        new_pixel_tracking GET    /pixel_tracking/new(.:format)                         pixel_tracking#new
+                       edit_pixel_tracking GET    /pixel_tracking/:id/edit(.:format)                    pixel_tracking#edit
+                            pixel_tracking GET    /pixel_tracking/:id(.:format)                         pixel_tracking#show
+                                           PUT    /pixel_tracking/:id(.:format)                         pixel_tracking#update
+                                           DELETE /pixel_tracking/:id(.:format)                         pixel_tracking#destroy
+                            incoming_mails GET    /incoming_mails(.:format)                             incoming_mails#index
+                                           POST   /incoming_mails(.:format)                             incoming_mails#create
+                         new_incoming_mail GET    /incoming_mails/new(.:format)                         incoming_mails#new
+                        edit_incoming_mail GET    /incoming_mails/:id/edit(.:format)                    incoming_mails#edit
+                             incoming_mail GET    /incoming_mails/:id(.:format)                         incoming_mails#show
+                                           PUT    /incoming_mails/:id(.:format)                         incoming_mails#update
+                                           DELETE /incoming_mails/:id(.:format)                         incoming_mails#destroy
+                            user_feedbacks GET    /user_feedbacks(.:format)                             user_feedbacks#index
+                                           POST   /user_feedbacks(.:format)                             user_feedbacks#create
+                         new_user_feedback GET    /user_feedbacks/new(.:format)                         user_feedbacks#new
+                        edit_user_feedback GET    /user_feedbacks/:id/edit(.:format)                    user_feedbacks#edit
+                             user_feedback GET    /user_feedbacks/:id(.:format)                         user_feedbacks#show
+                                           PUT    /user_feedbacks/:id(.:format)                         user_feedbacks#update
+                                           DELETE /user_feedbacks/:id(.:format)                         user_feedbacks#destroy
+                       petition_signatures GET    /petitions/:petition_id/signatures(.:format)          signatures#index
+                                           POST   /petitions/:petition_id/signatures(.:format)          signatures#create
+                    new_petition_signature GET    /petitions/:petition_id/signatures/new(.:format)      signatures#new
+                   edit_petition_signature GET    /petitions/:petition_id/signatures/:id/edit(.:format) signatures#edit
+                        petition_signature GET    /petitions/:petition_id/signatures/:id(.:format)      signatures#show
+                                           PUT    /petitions/:petition_id/signatures/:id(.:format)      signatures#update
+                                           DELETE /petitions/:petition_id/signatures/:id(.:format)      signatures#destroy
+                            again_petition POST   /petitions/:id/again(.:format)                        petitions#again
+               send_email_preview_petition PUT    /petitions/:id/send_email_preview(.:format)           petitions#send_email_preview
+              send_email_preview_petitions POST   /petitions/send_email_preview(.:format)               petitions#send_email_preview
+                                 petitions GET    /petitions(.:format)                                  petitions#index
+                                           POST   /petitions(.:format)                                  petitions#create
+                              new_petition GET    /petitions/new(.:format)                              petitions#new
+                             edit_petition GET    /petitions/:id/edit(.:format)                         petitions#edit
+                                  petition GET    /petitions/:id(.:format)                              petitions#show
+                                           PUT    /petitions/:id(.:format)                              petitions#update
+                                           DELETE /petitions/:id(.:format)                              petitions#destroy
+                                           GET    /privacy(.:format)                                    privacy#index
+                                           POST   /privacy(.:format)                                    privacy#create
+                               new_privacy GET    /privacy/new(.:format)                                privacy#new
+                              edit_privacy GET    /privacy/:id/edit(.:format)                           privacy#edit
+                                   privacy GET    /privacy/:id(.:format)                                privacy#show
+                                           PUT    /privacy/:id(.:format)                                privacy#update
+                                           DELETE /privacy/:id(.:format)                                privacy#destroy
+               facebook_landing_page_index GET    /facebook_landing_page(.:format)                      facebook_landing_page#index
+                                           POST   /facebook_landing_page(.:format)                      facebook_landing_page#create
+                 new_facebook_landing_page GET    /facebook_landing_page/new(.:format)                  facebook_landing_page#new
+                edit_facebook_landing_page GET    /facebook_landing_page/:id/edit(.:format)             facebook_landing_page#edit
+                     facebook_landing_page GET    /facebook_landing_page/:id(.:format)                  facebook_landing_page#show
+                                           PUT    /facebook_landing_page/:id(.:format)                  facebook_landing_page#update
+                                           DELETE /facebook_landing_page/:id(.:format)                  facebook_landing_page#destroy
+                           social_tracking POST   /social_tracking(.:format)                            social_tracking#create
+                         donation_tracking POST   /donation_tracking(.:format)                          donation_tracking#create
+                                    paypal POST   /paypal(.:format)                                     donation_tracking#paypal
+                                   contact GET    /contact(.:format)                                    user_feedbacks#new
+                           admin_petitions GET    /admin/petitions(.:format)                            admin/petitions#index
+                                           POST   /admin/petitions(.:format)                            admin/petitions#create
+                        new_admin_petition GET    /admin/petitions/new(.:format)                        admin/petitions#new
+                       edit_admin_petition GET    /admin/petitions/:id/edit(.:format)                   admin/petitions#edit
+                            admin_petition GET    /admin/petitions/:id(.:format)                        admin/petitions#show
+                                           PUT    /admin/petitions/:id(.:format)                        admin/petitions#update
+                                           DELETE /admin/petitions/:id(.:format)                        admin/petitions#destroy
+                               admin_users GET    /admin/users(.:format)                                admin/users#index
+                                           POST   /admin/users(.:format)                                admin/users#create
+                            new_admin_user GET    /admin/users/new(.:format)                            admin/users#new
+                           edit_admin_user GET    /admin/users/:id/edit(.:format)                       admin/users#edit
+                                admin_user GET    /admin/users/:id(.:format)                            admin/users#show
+                                           PUT    /admin/users/:id(.:format)                            admin/users#update
+                                           DELETE /admin/users/:id(.:format)                            admin/users#destroy
+                             admin_members GET    /admin/members(.:format)                              admin/members#index
+                       metrics_admin_stats GET    /admin/stats/metrics(.:format)                        admin/stats#metrics
+                 browser_usage_admin_stats GET    /admin/stats/browser_usage(.:format)                  admin/stats#browser_usage
+                      facebook_admin_stats GET    /admin/stats/facebook(.:format)                       admin/stats#facebook
+                        emails_admin_stats GET    /admin/stats/emails(.:format)                         admin/stats#emails
+                               admin_stats GET    /admin/stats(.:format)                                admin/stats#metrics
+      data_daily_browser_usage_admin_stats GET    /admin/stats/data/daily_browser_usage(.:format)       admin/stats#daily_browser_usage
+   data_daily_facebook_insight_admin_stats GET    /admin/stats/data/daily_facebook_insight(.:format)    admin/stats#daily_facebook_insight
+data_daily_facebook_conversion_admin_stats GET    /admin/stats/data/daily_facebook_conversion(.:format) admin/stats#daily_facebook_conversion
+      data_email_response_rate_admin_stats GET    /admin/stats/data/email_response_rate(.:format)       admin/stats#email_response_rate
+       data_signature_activity_admin_stats GET    /admin/stats/data/signature_activity(.:format)        admin/stats#signature_activity
+            data_opened_emails_admin_stats GET    /admin/stats/data/opened_emails(.:format)             admin/stats#opened_emails
+           data_clicked_emails_admin_stats GET    /admin/stats/data/clicked_emails(.:format)            admin/stats#clicked_emails
+               data_nps_by_day_admin_stats GET    /admin/stats/data/nps_by_day(.:format)                admin/stats#nps_by_day
+     data_email_by_time_of_day_admin_stats GET    /admin/stats/data/email_by_time_of_day(.:format)      admin/stats#email_by_time_of_day
+                                           POST   /admin/stats(.:format)                                admin/stats#create
+                           new_admin_stats GET    /admin/stats/new(.:format)                            admin/stats#new
+                          edit_admin_stats GET    /admin/stats/edit(.:format)                           admin/stats#edit
+                                           GET    /admin/stats(.:format)                                admin/stats#show
+                                           PUT    /admin/stats(.:format)                                admin/stats#update
+                                           DELETE /admin/stats(.:format)                                admin/stats#destroy
+                           admin_dashboard GET    /admin/dashboard(.:format)                            admin/dashboard#index
+                              admin_funnel GET    /admin/funnel(.:format)                               admin/dashboard#funnel
+                         admin_show_config GET    /admin/show_config(.:format)                          admin/dashboard#show_config
+                         admin_experiments GET    /admin/experiments(.:format)                          admin/experiments#index
+                       admin_hottest_index GET    /admin/hottest(.:format)                              admin/hottest#index
+                                           POST   /admin/hottest(.:format)                              admin/hottest#create
+                         new_admin_hottest GET    /admin/hottest/new(.:format)                          admin/hottest#new
+                        edit_admin_hottest GET    /admin/hottest/:id/edit(.:format)                     admin/hottest#edit
+                             admin_hottest GET    /admin/hottest/:id(.:format)                          admin/hottest#show
+                                           PUT    /admin/hottest/:id(.:format)                          admin/hottest#update
+                                           DELETE /admin/hottest/:id(.:format)                          admin/hottest#destroy
+               admin_on_demand_email_index GET    /admin/on_demand_email(.:format)                      admin/on_demand_email#index
+                                           POST   /admin/on_demand_email(.:format)                      admin/on_demand_email#create
+                 new_admin_on_demand_email GET    /admin/on_demand_email/new(.:format)                  admin/on_demand_email#new
+                edit_admin_on_demand_email GET    /admin/on_demand_email/:id/edit(.:format)             admin/on_demand_email#edit
+                     admin_on_demand_email GET    /admin/on_demand_email/:id(.:format)                  admin/on_demand_email#show
+                                           PUT    /admin/on_demand_email/:id(.:format)                  admin/on_demand_email#update
+                                           DELETE /admin/on_demand_email/:id(.:format)                  admin/on_demand_email#destroy
+                     admin_heartbeat_index GET    /admin/heartbeat(.:format)                            admin/heartbeat#index
+                                           POST   /admin/heartbeat(.:format)                            admin/heartbeat#create
+                       new_admin_heartbeat GET    /admin/heartbeat/new(.:format)                        admin/heartbeat#new
+                      edit_admin_heartbeat GET    /admin/heartbeat/:id/edit(.:format)                   admin/heartbeat#edit
+                           admin_heartbeat GET    /admin/heartbeat/:id(.:format)                        admin/heartbeat#show
+                                           PUT    /admin/heartbeat/:id(.:format)                        admin/heartbeat#update
+                                           DELETE /admin/heartbeat/:id(.:format)                        admin/heartbeat#destroy
+                   stats_admin_unsubscribe GET    /admin/unsubscribes/:id/stats(.:format)               admin/unsubscribes#stats
+                 export_admin_unsubscribes POST   /admin/unsubscribes/export(.:format)                  admin/unsubscribes#export
+                                           GET    /admin/unsubscribes/export(.:format)                  admin/unsubscribes#export
+                        admin_unsubscribes GET    /admin/unsubscribes(.:format)                         admin/unsubscribes#index
+                                           POST   /admin/unsubscribes(.:format)                         admin/unsubscribes#create
+                     new_admin_unsubscribe GET    /admin/unsubscribes/new(.:format)                     admin/unsubscribes#new
+                         admin_unsubscribe GET    /admin/unsubscribes/:id(.:format)                     admin/unsubscribes#show
+                                      root        /                                                     site#index
