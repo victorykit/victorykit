@@ -160,7 +160,11 @@ var facebook = (function() {
           socialTracking.trackSharing('request', '', res.request, res.to);
         }
       });
+      var x = new Date().getTime();
       closeThanksModal(true);
+      var y = new Date().getTime();
+      var z = y - x;
+      console.log(z);
     });
   }
 
