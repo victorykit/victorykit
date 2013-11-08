@@ -145,7 +145,7 @@ var facebook = (function() {
         "description=" + getProperty('og:description') + "&" +
         "redirect_uri=//" + location.host + "/close.html&" +
         "display=popup";
-      console.log(dialog);
+      console.log("facebook.js:openDialog(): url= " + dialog);
       window.open(dialog , 'dialog', 'width=626,height=436');
     }
 
