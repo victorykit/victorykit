@@ -139,11 +139,11 @@ var facebook = (function() {
       var link = [domain, '?fd=', referralCode].join('');
       var dialog = "https://www.facebook.com/dialog/feed?" +
         "app_id=" + getProperty('fb:app_id') + "&" +
-        "link=" + encodeURIComponent(link) + "&" +
+        "link=" + link + "&" +
         "picture=" + getProperty('og:image') + "&" +
         "name=" + getProperty('og:title') + "&" +
         "description=" + getProperty('og:description') + "&" +
-        "redirect_uri=//" + location.host + "/close.html&" +
+        "redirect_uri=" + location.protocol + "//" + location.host + "/close.html&" +
         "display=popup";
       console.log("facebook.js:openDialog(): url= " + dialog);
       window.open(dialog , 'dialog', 'width=626,height=436');
