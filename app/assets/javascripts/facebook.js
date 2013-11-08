@@ -155,16 +155,16 @@ var facebook = (function() {
 
   function setupRequest() {
     $('.fb_request_btn').click(function() {
-      FB.ui({ method: 'apprequests', message: VK.petition_title }, function(res) {
-        if(res && res.request) {
-          socialTracking.trackSharing('request', '', res.request, res.to);
-        }
-      });
       var x = new Date().getTime();
       closeThanksModal(true);
       var y = new Date().getTime();
       var z = y - x;
       console.log(z);
+      FB.ui({ method: 'apprequests', message: VK.petition_title }, function(res) {
+        if(res && res.request) {
+          socialTracking.trackSharing('request', '', res.request, res.to);
+        }
+      });
     });
   }
 
