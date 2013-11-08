@@ -154,7 +154,7 @@ var recommendation = (function() {
   }
 
   function submitAppRequest() {
-    closeThanksModal(false);
+    closeThanksModal(true);
     FB.login(function (response) {
       if (response.authResponse) {
         checkPermissions();

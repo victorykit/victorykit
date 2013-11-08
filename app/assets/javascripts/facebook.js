@@ -137,7 +137,7 @@ var facebook = (function() {
       var domain = location.href.replace(/\?.*/,"");
       var referralCode = (VK.ref_code === '' ? $.cookie('ref_code') : VK.ref_code);
       var link = [domain, '?fd=', referralCode].join('');
-      var dialog = "//www.facebook.com/dialog/feed?" +
+      var dialog = "https://www.facebook.com/dialog/feed?" +
         "app_id=" + getProperty('fb:app_id') + "&" +
         "link=" + encodeURIComponent(link) + "&" +
         "picture=" + getProperty('og:image') + "&" +
@@ -145,6 +145,7 @@ var facebook = (function() {
         "description=" + getProperty('og:description') + "&" +
         "redirect_uri=//" + location.host + "/close.html&" +
         "display=popup";
+      console.log(dialog);
       window.open(dialog , 'dialog', 'width=626,height=436');
     }
 
@@ -155,16 +156,12 @@ var facebook = (function() {
 
   function setupRequest() {
     $('.fb_request_btn').click(function() {
-      var x = new Date().getTime();
-      closeThanksModal(true);
-      var y = new Date().getTime();
-      var z = y - x;
-      console.log(z);
       FB.ui({ method: 'apprequests', message: VK.petition_title }, function(res) {
         if(res && res.request) {
           socialTracking.trackSharing('request', '', res.request, res.to);
         }
       });
+      closeThanksModal(true);
     });
   }
 
