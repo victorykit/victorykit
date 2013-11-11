@@ -18,9 +18,16 @@ class Member < ActiveRecord::Base
     where("LOWER(email) = ?", email.downcase)
   }
 
-  scope :active, -> {
+  scope :inactive, -> {
     joins('LEFT JOIN unsubscribes ON unsubscribes.member_id = members.id').
-    where('unsubscribes.id IS NULL')
+    joins('LEFT JOIN memberships ON memberships.member_id = members.id').
+    where('unsubscribes.id IS NOT NULL').
+    where('memberships.id IS NULL')
+  }
+
+  scope :active, -> {
+    joins('LEFT JOIN memberships ON memberships.member_id = members.id').
+    where('memberships.id IS NOT NULL')
   }
 
   @syncing_from_crm
