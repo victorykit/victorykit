@@ -11,7 +11,7 @@ class Notifications < ActionMailer::Base
     petition = signature.petition
     @signature = signature
     @petition_link = petition_url(petition, r: signature.member.to_hash)
-    @unsubscribe_link = URI.join(root_url, 'unsubscribe')
+    @unsubscribe_link = new_unsubscribe_url(Unsubscribe.new)
     email = SignatureEmail.create!(email: signature.member.email, member: signature.member, petition: signature.petition)
     experiments = EmailExperiments.new(email)
     @image_url = experiments.best_image(petition)
