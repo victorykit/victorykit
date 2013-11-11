@@ -132,8 +132,6 @@ class CRM::ActionKit
   def find_or_create_member(vk_member)
     ak_member = fetch_member(vk_member)
 
-    pp ak_member
-
     case ak_member
       when CrmMember
        return ak_member
