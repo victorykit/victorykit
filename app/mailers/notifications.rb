@@ -22,7 +22,6 @@ class Notifications < ActionMailer::Base
       mail({
         subject: "Thanks for signing '#{signature.petition.title}'", 
         to: signature.email
-        from: AppSettings.require_keys!("email.from_address")
       }).deliver
 
     rescue AWS::SES::ResponseError => e
