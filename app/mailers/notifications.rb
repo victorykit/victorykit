@@ -1,7 +1,7 @@
 class Notifications < ActionMailer::Base
   require 'uri'
 
-  default from: Settings.email.from_address
+  default from: AppSettings.require_keys!("email.from_address")
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
@@ -22,6 +22,7 @@ class Notifications < ActionMailer::Base
       mail({
         subject: "Thanks for signing '#{signature.petition.title}'", 
         to: signature.email
+        from: AppSettings.require_keys!("email.from_address")
       }).deliver
 
     rescue AWS::SES::ResponseError => e
