@@ -1,3 +1,5 @@
+require 'crm'
+
 class SyncSubscriptionToCrmWorker
   include Sidekiq::Worker
 

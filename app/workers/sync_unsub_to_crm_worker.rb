@@ -1,3 +1,5 @@
+require 'crm'
+
 class SyncUnsubToCrmWorker
   include Sidekiq::Worker
 

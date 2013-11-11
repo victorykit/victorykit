@@ -1,3 +1,5 @@
+require 'crm'
+
 class SyncNewMemberToCrmWorker
   include Sidekiq::Worker
 
