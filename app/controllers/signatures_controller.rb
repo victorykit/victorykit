@@ -38,29 +38,29 @@ class SignaturesController < ApplicationController
     signature.http_referer = retrieve_http_referer
     ref_code = Referral.where(code: params[:signer_ref_code]).first || Referral.new(code: params[:signer_ref_code])
 
-    Signature.transaction do
-      if signature.valid?
-        begin
+    if signature.valid?
+      begin
+        Signature.transaction do
           signature.track_referrals(params)
           signature.save!
           member.save!
           ref_code.member_id = signature.member.id
           ref_code.petition_id = petition.id
           ref_code.save!
-
-          SignedPetitionEmailJob.perform_async(signature.id)
-
-          nps_win signature
-          win! :signature
-          cookies[:member_id] = { :value => signature.member.to_hash, :expires => 100.years.from_now }
-          cookies[:ref_code] = { :value => ref_code.code, :expires => 100.years.from_now }
-
-          flash[:signature_id] = signature.id
-        rescue => ex
-          notify_airbrake(ex)
-          Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join("\n")}"
-          flash.notice = ex.message
         end
+
+        SignedPetitionEmailJob.perform_async(signature.id)
+
+        nps_win signature
+        win! :signature
+        cookies[:member_id] = { :value => signature.member.to_hash, :expires => 100.years.from_now }
+        cookies[:ref_code] = { :value => ref_code.code, :expires => 100.years.from_now }
+
+        flash[:signature_id] = signature.id
+      rescue => ex
+        notify_airbrake(ex)
+        Rails.logger.error "Error saving signature: #{ex} #{ex.backtrace.join("\n")}"
+        flash.notice = ex.message
       end
     end
 
