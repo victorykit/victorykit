@@ -3,7 +3,7 @@
 Sidekiq.configure_server do |config|
   database_url = ENV['DATABASE_URL']
   if database_url
-    pool_size = ENV['DB_POOL'] || 5
+    pool_size = ENV['DB_POOL'] || 25
     ENV['DATABASE_URL'] = "#{database_url}?pool=#{pool_size}"
     ActiveRecord::Base.establish_connection
   end
