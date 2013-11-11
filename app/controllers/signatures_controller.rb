@@ -27,17 +27,10 @@ class SignaturesController < ApplicationController
       member = Member.lookup(email).first || Member.new
       signature.created_member = member.new_record?
 
-member.tap do |m|
-  m.first_name = signature.first_name
-  m.last_name = signature.last_name
-  m.email = email unless m.email
-  m.save
-end
-
-member.first_name = signature.first_name
-member.last_name = signature.last_name
-member.email = email unless member.email
-member.save
+      member.first_name = signature.first_name
+      member.last_name = signature.last_name
+      member.email = email unless member.email
+      member.save
 
       signature.member = member
     end
