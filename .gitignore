@@ -10,6 +10,9 @@
 /vendor/bundle
 /vendor/cache
 
+# Ignore the (private) ssl csr files
+/etc/nginx/certs/*.csr
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 
