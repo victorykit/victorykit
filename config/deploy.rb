@@ -33,11 +33,12 @@ role :app, "vk.rootstrikers.org"
 role :db,  "vk.rootstrikers.org", :primary => true
 
 # Sidekiq
-set(:sidekiq_cmd) { "#{bundle_cmd} exec sidekiq" }
-set(:sidekiqctl_cmd) { "#{bundle_cmd} exec sidekiqctl" }
+set(:sidekiq_cmd) { "#{current_path}/bin/vk_run.sh sidekiq" }
+set(:sidekiqctl_cmd) { "#{current_path}/bin/vk_run.sh sidekiqctl" }
 set(:sidekiq_timeout) { 10 }
 set(:sidekiq_role) { :app }
 set(:sidekiq_pid) { "#{current_path}/pids/vk_sidekiq.pid" }
+set(:sidekiq_log) { "#{current_path}/log/vk_sidekiq.log" }
 set(:sidekiq_processes) { 1 }
 
 
