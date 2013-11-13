@@ -11,5 +11,5 @@ shared_path="${appdir}/shared"
 
 cd "${appdir}/current"
 
-echo $@
-exec $@
+echo bundle exec $@
+exec bundle exec $@

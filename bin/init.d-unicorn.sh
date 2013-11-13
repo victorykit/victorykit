@@ -11,7 +11,7 @@ shared_path="${appdir}/shared"
 . "${topdir}/vk/current/bin/vk_env.sh"
 
 
-if [ -z "$RBENV_INITED" ] ; then
+if [ -z "$RBENV_SHELL" ] ; then
   PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH:/usr/local/sbin:/usr/local/bin:$HOME/bin"; export PATH
   eval "$(rbenv init -)"
 fi

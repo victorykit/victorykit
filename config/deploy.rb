@@ -11,6 +11,7 @@ set :default_environment, {
 set :default_shell, "bash -l"
 
 require "bundler/capistrano"
+require 'sidekiq/capistrano'
 load 'deploy/assets'
 
 set :application, "vk"
@@ -30,6 +31,15 @@ set :deploy_to, "/home/admin/vk"
 role :web, "vk.rootstrikers.org"
 role :app, "vk.rootstrikers.org"
 role :db,  "vk.rootstrikers.org", :primary => true
+
+# Sidekiq
+set(:sidekiq_cmd) { "#{bundle_cmd} exec sidekiq" }
+set(:sidekiqctl_cmd) { "#{bundle_cmd} exec sidekiqctl" }
+set(:sidekiq_timeout) { 10 }
+set(:sidekiq_role) { :app }
+set(:sidekiq_pid) { "#{current_path}/pids/vk_sidekiq.pid" }
+set(:sidekiq_processes) { 1 }
+
 
 namespace :symlinks do
   desc "[internal] Updates the symlinks to config files (for the just deployed release)."

@@ -10,7 +10,6 @@ HOME="/home/admin"; export HOME
 LANG="en_US.UTF-8"; export LANG
 LC_ALL="en_US.UTF-8"; export LC_ALL
 
-
 RUBY=`which ruby`; export RUBY
 
 RAILS_ENV=production
