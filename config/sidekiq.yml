@@ -1,0 +1,9 @@
+# Options here can still be overridden by cmd line args.
+#   sidekiq -C config.yml  
+---
+:verbose: false
+:namespace: vk
+:logfile: log/vk_sidekiq.log
+:concurrency:  25
+:strict: false
+:pidfile: pids/vk_sidekiq.pid
