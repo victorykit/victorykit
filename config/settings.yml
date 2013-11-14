@@ -18,7 +18,7 @@ action_kit:
 cloudmailin:
   token: <%= ENV["CLOUDMAILIN_TOKEN"] %>
 organization:
-  name: "Root Strikers"
+  name: "Rootstrikers"
   email: "info@rootstrikers.org"
   unsubscribe_url: "https://act.demandprogress.org/unsubscribe/unsubscribe?source=watchdog"
   logo: 'logo.png'

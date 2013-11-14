@@ -29,6 +29,7 @@
 .petition_body img {
   width: 300px;
   float: right;
+  margin-left: 20px;
 }
 .privacy_policy {
   margin-top: 10px;
@@ -93,4 +94,12 @@
   margin: 10px auto;
   color: #06c;
   font-size: 12px;
+}
+
+@media (min-width: 1200px) {
+  .petition_body img {
+    width: 300px;
+    float: right;
+    margin-left: 30px;
+  }
 }
