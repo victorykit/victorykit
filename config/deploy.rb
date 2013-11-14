@@ -96,3 +96,14 @@ namespace :deploy do
   end
 end
 
+
+#
+# Might be needed at some point if we get dup
+# sidekiq processes on restart...
+#
+# namespace :sidekiq do
+#   desc "Restart sidekiq"
+#   task :restart, :roles => :app, :on_no_matching_servers => :continue do
+#     run "sudo /usr/bin/monit restart sidekiq"
+#   end
+# end
