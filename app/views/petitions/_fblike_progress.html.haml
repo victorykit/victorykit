@@ -4,5 +4,5 @@
   .numbers
     %strong #{number_with_delimiter(@sigcount, delimiter: ",")}
     #{"signature".pluralize(@sigcount)} of #{number_with_delimiter(counter_size(@sigcount), delimiter: ",")}
-  .progressbar
+  .progressbar{:class => @progressbar_color}
     .fluid{ style: "width: #{float_to_percentage(@sigcount.to_f/counter_size(@sigcount))}" }

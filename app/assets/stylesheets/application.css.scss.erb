@@ -81,6 +81,13 @@ input {
 .progressbar {
   @include progressbar(#8B1A1A, #CC1100);
 }
+.progressbar.red {
+  @include progressbar(#8B1A1A, #CC1100);
+}
+.progressbar.blue {
+  @include progressbar(#0058E5, #0099ff);
+}
+
 .numbers .large_and_bold .signatures {
   color: #8B1A1A;
 }
@@ -101,12 +108,21 @@ input {
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   &:hover, &:active, &.active, &:disabled, &.disabled {
     background-color: $color3;
+    background-image: linear-gradient(to bottom, $color0, $color3);
+    background-repeat: repeat-x;
   }
 }
 
 .btn-primary {
   @include button(#b31717, #cc1100, #8B1A1A, #721919);
 }
+.btn-primary.red {
+  @include button(#b31717, #cc1100, #8B1A1A, #721919);
+}
+.btn-primary.blue {
+  @include button(#0058E5, #4190E5, #0099ff, #0058E5);
+}
+
 
 input {
   border-radius: 0 !important;

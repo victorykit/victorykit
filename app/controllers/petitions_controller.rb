@@ -44,6 +44,7 @@ class PetitionsController < ApplicationController
     @facebook_friend_ids = facebook_friends @member
     @query = request.query_parameters
     track_petition_page_load
+    @progressbar_color, @button_color = progressbar_and_btn_color
   end
 
   def again
@@ -167,4 +168,26 @@ class PetitionsController < ApplicationController
       $statsd.increment "petition_page_load_non_email.count"
     end
   end
+
+  def progressbar_and_btn_color
+    result = measure!('progressbar_and_btn_color',
+                      :signature,
+                      ['red_progressbars_red_btns',
+                       'red_progressbars_blue_btns',
+                       'blue_progressbars_blue_btns',
+                       'blue_progressbars_red_btns'])
+    case result
+      when 'red_progressbars_red_btns'
+        ['red', 'red']
+      when 'red_progressbars_blue_btns'
+        ['red', 'blue']
+      when 'blue_progressbars_blue_btns'
+        ['blue', 'blue']
+      when 'blue_progressbars_red_btns'
+        ['blue', 'red']
+      else
+        ['blue', 'red']
+    end
+  end
+
 end

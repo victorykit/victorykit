@@ -18,7 +18,7 @@
       .progress_box{ :class => progress_box_border }
         .progress_text.plain
           Step 1 of 3 complete...
-        .progressbar
+        .progressbar{:class => @progressbar_color}
           .fluid
         .progress_text
           You've made it this far.  Please sign!
@@ -32,14 +32,14 @@
             = hidden_field_tag :referer_ref_code, @referer_ref_code
             = hidden_field_tag :referer_ref_type, @referer_ref_type
             = hidden_field_tag :signer_ref_code, @signer_code.code
-            = f.button :submit, :id => 'sign_petition', :class => "btn btn-primary", :value => 'Sign!'
+            = f.button :submit, :id => 'sign_petition', :class => "btn-primary #{@button_color}", :value => 'Sign!'
           .privacy_policy
             = render :partial => "privacy"
 
     - if !@was_signed
       = render :partial => "fblike_progress"
       .visible-phone
-        = link_to('Sign this Petition!', '', :class => "btn btn-primary")
+        = link_to('Sign this Petition!', '', :class => "btn btn-primary #{@button_color}")
 
     - if @was_signed
       #thanks-for-signing-message
@@ -56,7 +56,7 @@
       - if @petition.petition_images.any?
         = image_tag @petition.petition_images.first.public_url
       .description= petitiontext.html_safe
-      .visible-phone= link_to('Sign this Petition!', '', :class => 'btn btn-primary', :style => ( @was_signed ? 'display:none' : ''))
+      .visible-phone= link_to('Sign this Petition!', '', :class => "btn btn-primary #{@button_color}", :style => ( @was_signed ? 'display:none' : ''))
 
 
 - content_for(:meta_tags) do
