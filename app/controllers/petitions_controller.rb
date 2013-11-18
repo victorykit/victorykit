@@ -170,7 +170,7 @@ class PetitionsController < ApplicationController
   end
 
   def progressbar_and_btn_color
-    result = measure!('progressbar_and_btn_color',
+    result = spin!('progressbar_and_btn_color',
                       :signature,
                       ['red_progressbars_red_btns',
                        'red_progressbars_blue_btns',
