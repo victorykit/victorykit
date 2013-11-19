@@ -29,6 +29,11 @@ class EmailExperiments
     end
   end
 
+  def button_color
+    colors = ['#770000', '#990000', '#bb0000', '#0099ff', '#0077ff', '#0055ff']
+    color = spin!('email button color', :signature, colors)
+  end
+
   def best_summary petition
     options = short_summary_options
     winning_option(summary_experiment_key, options) unless options.empty? 
