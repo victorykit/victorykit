@@ -66,6 +66,12 @@ class ScheduledMailer < ActionMailer::Base
       "site.list_unsubscribe", "email.from_address"
     )
 
+    if @petition.owner.fullname.present?
+      from_address = "\"#{@petition.owner.fullname}\" <#{from_address}>"
+    else
+      from_address = "\"Rootstrikers\" <#{from_address}>"
+    end
+
     mailbox, domain = unsubscribe.split("@")
     address = "mailto:#{mailbox}+#{email_hash}@#{domain}"
     headers["List-Unsubscribe"] = address
