@@ -80,7 +80,7 @@ ALTER SEQUENCE bounced_emails_id_seq OWNED BY bounced_emails.id;
 
 CREATE TABLE crm_states (
     id integer NOT NULL,
-    state character varying(255),
+    key character varying(255),
     value character varying(255),
     ts_value timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
@@ -1022,7 +1022,8 @@ CREATE TABLE users (
     last_sign_in_ip character varying(255),
     failed_attempts integer DEFAULT 0,
     unlock_token character varying(255),
-    locked_at timestamp without time zone
+    locked_at timestamp without time zone,
+    fullname character varying(255)
 );
 
 
@@ -1454,7 +1455,7 @@ ALTER TABLE ONLY users
 -- Name: index_crm_states_on_state; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
-CREATE INDEX index_crm_states_on_state ON crm_states USING btree (state);
+CREATE INDEX index_crm_states_on_state ON crm_states USING btree (key);
 
 
 --
@@ -2283,3 +2284,5 @@ INSERT INTO schema_migrations (version) VALUES ('20130820193236');
 INSERT INTO schema_migrations (version) VALUES ('20130821005215');
 
 INSERT INTO schema_migrations (version) VALUES ('20131015182534');
+
+INSERT INTO schema_migrations (version) VALUES ('20131120221256');
