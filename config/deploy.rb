@@ -19,6 +19,9 @@ set :application, "vk"
 set :use_sudo, false
 default_run_options[:pty] = true
 
+set :keep_releases, 10
+after "deploy:update", "deploy:cleanup"
+
 # Repo info
 set :repository, "git@github.com:victorykit/victorykit.git"
 set :scm, "git"
