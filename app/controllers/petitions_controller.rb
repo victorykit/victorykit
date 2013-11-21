@@ -26,10 +26,10 @@ class PetitionsController < ApplicationController
     @was_signed = member_from_cookies.present? && member_from_cookies.has_signed?(@petition)
 
     @referer_code = Referral.where(code: @referer_ref_code).first if @referer_ref_code.present?
-    @signer_code = if @member.present?
-      @member.referrals.where(petition_id: @petition.id).first || @member.referrals.build(petition_id: @petition.id)
+    if @member.present?
+      @signer_code = @member.referrals.where(petition_id: @petition.id).first || @member.referrals.build(petition_id: @petition.id)
     else
-      Referral.new(petition_id: @petition.id)
+      @signer_code = Referral.new(petition_id: @petition.id)
     end
 
     @signature = flash[:invalid_signature] || @petition.signatures.build
