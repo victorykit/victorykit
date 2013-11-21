@@ -10,8 +10,3 @@
     = hidden_field_tag :email_hash, @email_hash
 %p
   &nbsp;
-
-%p
-  - unsubscribe_url, org_name = AppSettings.require_keys!('organization.unsubscribe_url', 'organization.name')
-  %a{href: unsubscribe_url}
-    To unsubscribe from all emails from #{org_name}, click here.
