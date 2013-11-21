@@ -29,15 +29,11 @@ class Referral < ActiveRecord::Base
   def image
     defaults = Rails.configuration.social_media[:facebook][:images]
 
-    if member_id.blank?
-      defaults.first
-    else
-      petition_images = petition.petition_images.map(&:url)
-      images_to_use = petition_images.any? ? petition_images : defaults
+    petition_images = petition.petition_images.map(&:url)
+    images_to_use = petition_images.any? ? petition_images : defaults
 
-      url = spin!(test_names[:image], :signature, images_to_use)
-      PetitionImage.find_by_url(url).public_url rescue url
-    end
+    url = spin!(test_names[:image], :signature, images_to_use)
+    PetitionImage.find_by_url(url).public_url rescue url
   end
 
   def prefer_commenters_to_likers
