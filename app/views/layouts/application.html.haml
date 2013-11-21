@@ -4,7 +4,7 @@
     %meta{:charset => "utf-8"}
     %meta{"http-equiv" => "X-UA-Compatible", :content => "IE=edge,chrome=1"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-    =favicon_link_tag '/images/favicon.png',  type: 'image/png'
+    =favicon_link_tag 'favicon.png',  type: 'image/png'
     - if browser.ie?
       %link{:href => "/assets/application_ie.css", :media => "screen", :rel => "stylesheet", :type => "text/css"}
     - else
