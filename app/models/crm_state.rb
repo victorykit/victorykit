@@ -17,7 +17,7 @@ class CrmState < ActiveRecord::Base
         cs = CrmState.new
         cs.key = key
       end
-      if [Time, ActiveSupport::TimeWithZone].include?(value.class)
+      if [Date, DateTime, Time, ActiveSupport::TimeWithZone].include?(value.class)
         cs.ts_value = value
         cs.value    = nil
       else

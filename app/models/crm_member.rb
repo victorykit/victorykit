@@ -1,6 +1,7 @@
 class CrmMember
   include ActiveAttr::Model
 
+  attribute :id
   attribute :email
   attribute :prefix
   attribute :first_name

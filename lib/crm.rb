@@ -82,16 +82,16 @@ class CRM
   end
 
   # returns an array of CRM::Member instances
-  def self.new_members_since(timestamp, list)
-    connection.new_members_since(timestamp, list)
+  def self.new_members_since(list, last_id)
+    connection.new_members_since(list, last_id)
   end
 
   # Returns and array of hashes. Each element is the
   # most recent subscription event per member and
   # contains {:email, :action, :timestamp}
   # where action is 'subscribe' or 'unsubscribe'
-  def self.subsciption_activity_since(timestamp, list)
-    connection.subsciption_activity_since(timestamp, list)
+  def self.subsciption_activity_since(list, last_id)
+    connection.subsciption_activity_since(list, last_id)
   end
 
 
@@ -118,6 +118,8 @@ class CRM
         vk_mbr.syncing_from_crm = true
 
         vk_mbr.save!
+      else
+        Rails.logger.error "CRM.create_vk_member(): missing data: skipping e:#{crm_mbr.email} f:#{crm_mbr.first_name} l:#{crm_mbr.last_name}"
       end
 
     rescue => e
@@ -129,52 +131,65 @@ class CRM
   end
 
 
-  def self.sync_new_crm_members(timestamp, list)
+  def self.sync_new_crm_members(list, last_id = nil)
     t1 = Time.now
-    Rails.logger.info "CRM.sync_new_crm_members(#{timestamp}): start= #{t1}"
+    Rails.logger.info "CRM.sync_new_crm_members(#{list}, #{last_id}): start= #{t1}"
 
-    new_mbrs = 0
-    last_mbr_ts = timestamp
+    new_mbrs = skipped = 0
+    max_id = last_id = last_id.to_i
 
-    crm_members = new_members_since(timestamp, list)
+    crm_members = new_members_since(list, last_id)
+
     crm_members.each do |crm_mbr|
       begin
+        max_id = (crm_mbr.id.to_i > max_id ? crm_mbr.id.to_i : max_id)
 
         vk_mbr = Member.lookup(crm_mbr.email).first
 
         if vk_mbr.nil?
           vk_mbr = create_vk_member(crm_mbr)
-          new_mbrs += 1 if vk_mbr
+          if vk_mbr
+            new_mbrs += 1
+          else
+            skipped += 1
+          end
         end
-        last_mbr_ts = crm_mbr.created_at
 
       rescue => e
-        Rails.logger.error "CRM.sync_new_crm_members(): mbr sync failed"
+        Rails.logger.error "CRM.sync_new_crm_members(#{list}, #{last_id}): mbr sync failed"
         Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
       end
 
     end
 
-    Rails.logger.info "CRM.sync_new_crm_members(#{timestamp}): new= #{new_mbrs}  dur=#{Time.now - t1}  end= #{Time.now}"
+    Rails.logger.info "CRM.sync_new_crm_members(#{list}, #{last_id}): new= #{new_mbrs}  skipped= #{skipped}  end= #{Time.now}  dur=#{Time.now - t1}"
 
-    last_mbr_ts
+    max_id
   end
 
 
-  def self.sync_crm_subscription_events(timestamp, list)
+  def self.sync_crm_subscription_events(list, last_id = nil)
     t1 = Time.now
-    Rails.logger.info "CRM.sync_crm_subscription_events(#{timestamp}): start= #{t1}"
+    Rails.logger.info "CRM.sync_crm_subscription_events(#{list}, #{last_id}): start= #{t1}"
 
     new_mbrs = subs = unsubs = 0
-    last_event_ts = timestamp
+    max_id = last_id = last_id.to_i
 
-    events = subsciption_activity_since(timestamp, list)
+    events = subsciption_activity_since(list, last_id)
     events.each do |e|
       begin
         Member.transaction do
+          max_id = (e[:id].to_i > max_id ? e[:id].to_i : max_id)
+
           vk_mbr = Member.lookup(e[:email]).first
 
           if vk_mbr.nil?
+            # skip creating a VK member if the AK member is missing required data
+            if e[:first_name].blank? || e[:last_name].blank?
+              Rails.logger.error "CRM.sync_crm_subscription_events(#{list}, #{last_id}): missing data: skipping e:#{e[:email]} f:#{e[:first_name]} l:#{e[:last_name]}"
+              next
+            end
+
             crm_mbr = find_member_by_email(e[:email])
             vk_mbr = create_vk_member(crm_mbr) if crm_mbr
             new_mbrs += 1 if vk_mbr
@@ -188,7 +203,7 @@ class CRM
           case e[:action]
             when 'subscribe'
               if vk_mbr.membership.nil?
-                Rails.logger.info "CRM.sync_crm_subscription_events(): subscribe: #{e[:email]}"
+                Rails.logger.info "CRM.sync_crm_subscription_events(#{list}, #{last_id}): subscribe: #{e[:email]}"
                 ms = Membership.new()
                 ms.member = vk_mbr
                 ms.created_at = e[:created_at]
@@ -198,7 +213,7 @@ class CRM
 
             when 'unsubscribe'
               if vk_mbr.membership
-                Rails.logger.info "CRM.sync_crm_subscription_events(): unsubscribe: #{e[:email]}"
+                Rails.logger.info "CRM.sync_crm_subscription_events(#{list}, #{last_id}): unsubscribe: #{e[:email]}"
                 vk_mbr.membership.destroy
                 unsubs += 1
               end
@@ -209,18 +224,16 @@ class CRM
 
         end # Member.transaction
 
-        last_event_ts = e[:created_at]
-
       rescue => e
-        Rails.logger.error "CRM.sync_crm_subscription_events(): mbr sync failed"
+        Rails.logger.error "CRM.sync_crm_subscription_events(#{list}, #{last_id}): mbr sync failed"
         Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
       end
 
     end
 
-    Rails.logger.info "CRM.sync_crm_subscription_events(#{timestamp}): mbrs= #{new_mbrs}   subs= +#{subs}/-#{unsubs}  dur=#{Time.now - t1}  end= #{Time.now}"
+    Rails.logger.info "CRM.sync_crm_subscription_events(#{list}, #{last_id}): mbrs= #{new_mbrs}   subs= +#{subs}/-#{unsubs}  end= #{Time.now}  dur=#{Time.now - t1}"
 
-    last_event_ts
+    max_id
   end
 
 end

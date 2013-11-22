@@ -12,8 +12,20 @@ class SyncCrmToVkWorker
 
     begin
       CrmState[:syncing] = Time.now
-      CrmState[:last_member_created_at] = CRM.sync_new_crm_members(CrmState[:last_member_created_at], AppSettings['crm.default_list'])
-      CrmState[:last_sub_event_ts] = CRM.sync_crm_subscription_events(CrmState[:last_sub_event_ts],   AppSettings['crm.default_list'])
+
+      # members
+      last_id = CrmState[:last_member_id]
+      while true do
+        CrmState[:last_member_id] = CRM.sync_new_crm_members(AppSettings['crm.default_list'], CrmState[:last_member_id])
+        break if last_id.to_i == CrmState[:last_member_id].to_i
+      end
+
+      # subscription events (subs, unsubs)
+      last_id = CrmState[:last_sub_event_id]
+      while true do
+        CrmState[:last_sub_event_id] = CRM.sync_crm_subscription_events(AppSettings['crm.default_list'], CrmState[:last_sub_event_id])
+        break if last_id.to_i == CrmState[:last_sub_event_id].to_i
+      end
 
     rescue => error
       # Airbrake.notify(error)

@@ -208,14 +208,14 @@ class CRM::ActionKit
   end
 
 
-  def new_members_since(timestamp, list)
-    Rails.logger.debug "CRM::ActionKit.new_members_since: #{timestamp}"
+  def new_members_since(list, last_id)
+    Rails.logger.debug "CRM::ActionKit.new_members_since(): list= #{list}  last_id= #{last_id}"
 
     begin
       sql = <<-SQL
         SELECT cu.*
           FROM core_user cu, core_subscription cs
-         WHERE cu.created_at > '#{ak_db_conn.escape(timestamp.to_s)}'
+         WHERE cu.id > #{last_id}
            AND cu.id = cs.user_id
            AND cs.list_id IN (#{list})
          ORDER BY cu.id
@@ -228,6 +228,7 @@ class CRM::ActionKit
 
       results.each do |r|
         data = {}
+        data[:id]          = r['id'].to_i
         data[:email]       = r['email']
         data[:created_at]  = r['created_at']
         data[:first_name]  = r['first_name']
@@ -270,23 +271,24 @@ class CRM::ActionKit
       end
 
     rescue => e
-      Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
+      Rails.logger.error e.message + "\n\tlist= #{list}  last_id= #{last_id}\n" + e.backtrace.join("\n")
     end
 
-    Rails.logger.debug "CRM::ActionKit.new_members_since: Success: #{timestamp}"
+    Rails.logger.debug "CRM::ActionKit.new_members_since: Success: list= #{list}  last_id= #{last_id}"
 
     crm_members
   end
 
 
-  def subsciption_activity_since(timestamp, list)
-    Rails.logger.debug "CRM::ActionKit.subsciption_activity_since: #{timestamp}, #{list}"
+  def subsciption_activity_since(list, last_id)
+    Rails.logger.debug "CRM::ActionKit.subsciption_activity_since(): list= #{list}  last_id= #{last_id}"
 
     begin
-      # For subscription events since the timestamp,
+      # For subscription events since the last_id,
       # retrieve the most recent event for each user.
       sql = <<-SQL
-        SELECT cu.email, csh.created_at,
+        SELECT csh.id, csh.created_at,
+               cu.email, cu.first_name, cu.last_name,
                CASE WHEN LOCATE('unsubscribe', cshct.name) = 1 THEN 'unsubscribe' ELSE 'subscribe' END AS action
           FROM core_user cu,
                core_subscriptionchangetype cshct,
@@ -295,13 +297,14 @@ class CRM::ActionKit
                (
                  SELECT MAX(id) max_id, user_id
                    FROM core_subscriptionhistory cshx2
-                  WHERE cshx2.created_at > '#{ak_db_conn.escape(timestamp.to_s)}'
+                  WHERE cshx2.id > #{last_id}
                   GROUP by cshx2.user_id
                ) AS users ON csh.id = users.max_id
          WHERE csh.user_id = cu.id
            AND csh.change_id = cshct.id
            AND csh.list_id IN (#{list})
-           AND csh.created_at > '#{ak_db_conn.escape(timestamp.to_s)}'
+           AND csh.id > #{last_id}
+           AND (cu.first_name IS NOT NULL AND length(cu.first_name) > 0 AND cu.last_name is NOT NULL AND length(cu.last_name) > 0)
          ORDER BY csh.id
          LIMIT 5000
       SQL
@@ -309,10 +312,10 @@ class CRM::ActionKit
       results = ak_db_conn.query(sql, :symbolize_keys => true)
 
     rescue => e
-      Rails.logger.error e.messgae + "\n\tts= #{timestamp}  list= #{list}\n" + e.backtrace.join("\n")
+      Rails.logger.error e.message + "\n\tlist= #{list}  last_id= #{last_id}\n" + e.backtrace.join("\n")
     end
 
-    Rails.logger.debug "CRM::ActionKit.subsciption_activity_since: Success: #{timestamp}, #{list}"
+    Rails.logger.debug "CRM::ActionKit.subsciption_activity_since(): Success: list= #{list}  last_id= #{last_id}"
 
     results.to_a
   end
