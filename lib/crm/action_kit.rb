@@ -240,7 +240,7 @@ class CRM::ActionKit
         # Some of the data in ActionKit is dodgy including many
         # instances of country being "'United" (note the leading
         # single-quote) when 'United States" was intended.
-        if r['country'].index('United') == 1 && (CRM.States.to_code(r['state']) || CRM.States.to_name(r['state']))
+        if r['country'].index('United') == 1 && (CRM::States.to_code(r['state']) || CRM::States.to_name(r['state']))
           r['country'] = 'United States'
         end
 
