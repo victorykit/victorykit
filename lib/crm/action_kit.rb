@@ -13,6 +13,8 @@ class CRM::ActionKit
 
   private
 
+  MAX_RECORDS = 500
+
   def initialize(config)
     @conn = Faraday.new(:url => "https://#{config[:host]}/rest/v1/") do |builder|
       builder.request  :multipart
@@ -218,8 +220,9 @@ class CRM::ActionKit
          WHERE cu.id > #{last_id}
            AND cu.id = cs.user_id
            AND cs.list_id IN (#{list})
+#           AND (cu.first_name IS NOT NULL AND length(cu.first_name) > 0 AND cu.last_name is NOT NULL AND length(cu.last_name) > 0)
          ORDER BY cu.id
-         LIMIT 5000
+         LIMIT #{MAX_RECORDS}
       SQL
 
       crm_members = []
@@ -306,7 +309,7 @@ class CRM::ActionKit
            AND csh.id > #{last_id}
            AND (cu.first_name IS NOT NULL AND length(cu.first_name) > 0 AND cu.last_name is NOT NULL AND length(cu.last_name) > 0)
          ORDER BY csh.id
-         LIMIT 5000
+         LIMIT #{MAX_RECORDS}
       SQL
 
       results = ak_db_conn.query(sql, :symbolize_keys => true)
