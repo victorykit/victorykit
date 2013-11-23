@@ -14,17 +14,19 @@ class SyncCrmToVkWorker
       CrmState[:syncing] = Time.now
 
       # members
-      last_id = CrmState[:last_member_id]
+      last_id = CrmState[:last_member_id].to_i
       while true do
         CrmState[:last_member_id] = CRM.sync_new_crm_members(AppSettings['crm.default_list'], CrmState[:last_member_id])
-        break if last_id.to_i == CrmState[:last_member_id].to_i
+        break if last_id == CrmState[:last_member_id].to_i
+        last_id = CrmState[:last_member_id].to_i
       end
 
       # subscription events (subs, unsubs)
-      last_id = CrmState[:last_sub_event_id]
+      last_id = CrmState[:last_sub_event_id].to_i
       while true do
         CrmState[:last_sub_event_id] = CRM.sync_crm_subscription_events(AppSettings['crm.default_list'], CrmState[:last_sub_event_id])
-        break if last_id.to_i == CrmState[:last_sub_event_id].to_i
+        break if last_id == CrmState[:last_sub_event_id].to_i
+        last_id = CrmState[:last_sub_event_id].to_i
       end
 
     rescue => error
