@@ -66,7 +66,7 @@ class ScheduledMailer < ActionMailer::Base
       "site.list_unsubscribe", "email.from_address"
     )
 
-    if @petition.owner.fullname.present?
+    if @petition.owner && @petition.owner.fullname.present?
       from_address = "\"#{@petition.owner.fullname}\" <#{from_address}>"
     else
       from_address = "\"Rootstrikers\" <#{from_address}>"
@@ -79,6 +79,7 @@ class ScheduledMailer < ActionMailer::Base
     mail = mail(
       subject: email_experiment.subject,
       from: from_address,
+      return_path: from_address,
       to: "\"#{member.full_name}\" <#{member.email}>",
       template_name: 'new_petition')
   end
