@@ -1,11 +1,19 @@
-#Finds a random member and chooses a petition to email them
+# Finds a random member and chooses a petition to email them
 class PetitionEmailer
   def self.send(n)
-    Member.random_and_not_recently_contacted(n).select do |member|
+    potential_targets = Member.random_and_not_recently_contacted(n)
+
+    sendable_targets = potential_targets.select do |member|
       unlocked? member
-    end.each do |member|
-      self.send_to member if member
     end
+
+    cnt = 0
+    sendable_targets.each do |member|
+      self.send_to member if member
+      cnt += 1
+      sleep 1 if (cnt % 3) == 0
+    end
+
   end
 
   def self.send_to member
