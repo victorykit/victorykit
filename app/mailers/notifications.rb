@@ -45,7 +45,8 @@ class Notifications < ActionMailer::Base
     @signup_link = URI.join(root_url, 'subscribe')
     mail({
       subject:"You've successfully unsubscribed",
-      to: unsubscription.email
+      to: unsubscription.email,
+      from: "\"Rootstrikers\" <#{ AppSettings.require_keys!("email.from_address") }>"
     }).deliver
   end
 end
