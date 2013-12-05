@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def retrieve_http_referer
-    session['http_referer'] == "none" ? nil : session['http_referer']
+    session['http_referer'] == "none" ? nil : session['http_referer'][0..254]
   end
 
   def add_environment_to_title
