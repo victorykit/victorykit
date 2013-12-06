@@ -85,7 +85,7 @@ class ScheduledMailer < ActionMailer::Base
   end
 
   def handle_aws_ses_error member, exception
-    if exception.message.match /(MessageRejected - Address blacklisted|InvalidParameterValue)/
+    if exception.message.match(/(MessageRejected - Address blacklisted|InvalidParameterValue)/)
       u = Unsubscribe.unsubscribe_member(member)
       u.cause = "#{exception.class}: #{exception.message}"
       u.save!
