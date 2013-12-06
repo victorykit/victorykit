@@ -67,9 +67,9 @@ class ScheduledMailer < ActionMailer::Base
     )
 
     if @petition.owner && @petition.owner.fullname.present?
-      from_address = "\"#{@petition.owner.fullname}\" <#{from_address}>"
+      from_address = "#{@petition.owner.fullname} <#{from_address}>"
     else
-      from_address = "\"Rootstrikers\" <#{from_address}>"
+      from_address = "Rootstrikers <#{from_address}>"
     end
 
     mailbox, domain = unsubscribe.split("@")
@@ -80,7 +80,7 @@ class ScheduledMailer < ActionMailer::Base
       subject: email_experiment.subject,
       from: from_address,
       return_path: from_address,
-      to: "\"#{member.full_name}\" <#{member.email}>",
+      to: "#{member.full_name} <#{member.email}>",
       template_name: 'new_petition')
   end
 
