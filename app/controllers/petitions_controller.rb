@@ -2,8 +2,8 @@ class PetitionsController < ApplicationController
   include Carmen
 
   before_filter :require_login, except: [:show, :again]
-  before_filter :track_visit, only: :show
   before_filter :require_admin, only: [:index, :destroy]
+  after_filter :track_visit, only: :show
 
   def index
     @petitions = Petition.not_deleted.paginate(:page => params[:page], :per_page => 50).order('created_at DESC')
@@ -33,7 +33,9 @@ class PetitionsController < ApplicationController
     end
 
     @signature = flash[:invalid_signature] || @petition.signatures.build
-    @signature.prepopulate(@member) if @member.present? && !@member.has_signed?(@petition)
+    if @member.present? && !@member.has_signed?(@petition) && sent_email.present? && sent_email.clicked_at.blank?
+      @signature.prepopulate(@member)
+    end
 
     # TODO Remove this - this is not the right way to propagate member information to the SocialTracking controller.
     @signature.id = Signature.where(member_id: @member.try(:id), petition_id: @petition.id).first.try(:id)
