@@ -35,7 +35,7 @@ class Metrics::Nps
       unsubscribes = Unsubscribe.not_bounced.joins(:sent_email).where(sent_emails: { petition_id: petition_ids }).group("sent_emails.petition_id").count
 
       results = petition_ids.map do |id|
-        Metrics::Nps.new id: id, actions: actions[id], subscribes: subscribes[id], unsubscribes: unsubscribes[id.to_s]
+        Metrics::Nps.new id: id, actions: actions[id], subscribes: subscribes[id], unsubscribes: unsubscribes[id]
       end
 
       # Return a single NPS object if a single petition ID given.
@@ -52,7 +52,7 @@ class Metrics::Nps
       petition_ids = actions.reject{ |k,v| v < sent_threshold }.keys
 
       petition_ids.map do |id|
-        Metrics::Nps.new id: id, actions: actions[id], subscribes: subscribes[id], unsubscribes: unsubscribes[id.to_s]
+        Metrics::Nps.new id: id, actions: actions[id], subscribes: subscribes[id], unsubscribes: unsubscribes[id]
       end
     end
 
