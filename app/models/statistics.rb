@@ -165,13 +165,19 @@ u.strip
   def best_petitions
     count    = self.extremes_count.to_i
     best_nps = nps_by_timeframe.first(count)
-    Petition.where(id: best_nps.map(&:id)).zip best_nps
+    petitions = Petition.where(id: best_nps.map(&:id))
+
+    phash = petitions.to_a.reduce({}){|h,p| h[p.id] = p; h}
+    best_nps.map{|nps| [phash[nps.id], nps]}
   end
 
   def worst_petitions
     count     = self.extremes_count.to_i
     worst_nps = nps_by_timeframe.last(count) - nps_by_timeframe.first(count)
-    Petition.where(id: worst_nps.map(&:id)).zip worst_nps
+    petitions = Petition.where(id: worst_nps.map(&:id))
+
+    phash = petitions.to_a.reduce({}){|h,p| h[p.id] = p; h}
+    worst_nps.map{|nps| [phash[nps.id], nps]}
   end
 
   class ThresholdLine
