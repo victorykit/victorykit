@@ -201,7 +201,7 @@ class CRM::ActionKit
     end
 
     if res.status != 201 # CREATED
-      raise "CRM::ActionKit.subscribe_member() ERROR: status code: #{res.status}: #{vk_member.email}"
+      raise "CRM::ActionKit.subscribe_member() ERROR: status code: #{res.status}: #{vk_member.email}\n#{res.body}"
     end
 
     Rails.logger.debug "CRM::ActionKit.subscribe_member: Success: #{vk_member.email}"
