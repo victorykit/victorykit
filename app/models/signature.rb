@@ -13,7 +13,7 @@ class Signature < ActiveRecord::Base
 
   after_create :ensure_membership_updated
   before_save :truncate_user_agent
-  before_save :geolocate
+  after_commit :geolocate, :on => :create
   after_save :clear_cache
   before_destroy { |record| record.sent_email.destroy if record.sent_email }
 
@@ -80,39 +80,7 @@ class Signature < ActiveRecord::Base
   end
 
   def geolocate
-    return unless place = fetch_location
-    self.city = place.city
-    self.metrocode = place.metrocode
-    self.state = place.state
-    self.state_code = place.state_code
-    self.country_code = place.country_code
-    self.member.country_code = place.country_code
-    self.member.state_code = place.state_code
-    self.member.save
-  end
-
-  # could the next two methods take part in a separated class?
-
-  def fetch_location
-    c = Signature.connection
-    return Geocoder.search(ip_address).first unless c.table_exists? 'ip_locations'
-    ip = c.quote ip2bigint
-    q = <<-SQL
-      SELECT *
-      FROM ip_locations
-      WHERE box(
-        point(ip_from, ip_from),
-        point(ip_to, ip_to)
-      ) @> box(
-        point(#{ip}, #{ip}),
-        point(#{ip}, #{ip})
-      )
-    SQL
-    OpenStruct.new(c.execute(q).first).tap{|o|o.state=o.region}
-  end
-
-  def ip2bigint
-    ip_address.split('.').map(&:to_i).each_with_index.map{|e,i|e*256**(3-i)}.reduce(&:+)
+    GeoLocateSignatureJob.perform_async(self.id)
   end
 
   def track_referrals(params = {})
