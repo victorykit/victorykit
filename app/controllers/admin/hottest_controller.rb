@@ -27,7 +27,26 @@ class Admin::HottestController < ApplicationController
       when 'chosen'
         (1..100).map { best_guess(get_db_data) }
       when 'best'
-        get_db_data.sort_by { |x| (x[1][1]-x[1][2]).to_f / x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
+        #
+        # The following (commented out) code was occasionally causing "ArgumentError: comparison of Float with..."
+        # which would occur when x contained something like [11, [0, 0, 0]].
+        # Eliminating the error required unpacking the one-liner and then checking for NaN.
+        #
+        # The old (commented out) code is retained as a cautionary tale... 
+        #
+        #   get_db_data.sort_by { |x| (x[1][1]-x[1][2]).to_f / x[1][0].to_f }.reverse.first(1000).map { |x| x[0] }
+        #
+        data = get_db_data()
+        data = data.sort_by{ |x|
+          z = (x[1][1].to_f - x[1][2].to_f) / x[1][0].to_f
+          if z.nan?
+            0
+          else
+            z
+          end
+        }
+        data.reverse.first(1000).map { |x| x[0] }
+
       when 'mine'
         Petition.select(:id).where(owner_id: params[:id] || current_user.id).order("created_at desc").limit(50).map{|x| x.id }
       else
