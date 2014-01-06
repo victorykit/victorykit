@@ -9,6 +9,8 @@ class GeoLocateSignatureJob
 
       loc = Geocoder.search(sig.ip_address).first 
 
+      return if loc.nil?
+
       sig.city         = loc.city         if loc.city.present?
       sig.metrocode    = loc.metrocode    if loc.metrocode.present?
       sig.state        = loc.state        if loc.state.present?
