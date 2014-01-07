@@ -16,7 +16,7 @@ cmd = ARGV[0] || 'start'
 
 options = {
   :app_name   => "email_scheduler",
-  :ARGV       => [cmd, '--', 'rails', 'runner', 'worker/test.rb'],
+  :ARGV       => [cmd, '--', 'rails', 'runner', 'worker/email_scheduler.rb'],
   :dir_mode   => :script,
   :dir        => '../pids/',
   :multiple   => false,
