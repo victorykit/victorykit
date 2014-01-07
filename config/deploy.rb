@@ -103,22 +103,22 @@ namespace :deploy do
   namespace :emailer do
     desc "Start emailer (when they're not running)"
     task :start, :roles => :app, :except => { :no_release => true } do 
-      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb start"
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/vk_emailer.rb start"
     end
 
     desc "Stops emailer immediately w/o waiting for active requests to complete"
     task :hard_stop, :roles => :app, :except => { :no_release => true } do 
-      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb stop"
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/vk_emailer.rb stop"
     end
 
     desc "Gracefully stops emailer"
     task :stop, :roles => :app, :except => { :no_release => true } do
-      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb stop"
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/vk_emailer.rb stop"
     end
 
     desc "Gracefully restarts emailer"
     task :restart, :roles => :app, :except => { :no_release => true } do
-      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb restart"
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/vk_emailer.rb restart"
     end
 
     desc "Performs a 'hard_stop' followed by a 'start'"
@@ -129,7 +129,7 @@ namespace :deploy do
 
     desc "Retrive emailer staus"
     task :status, :roles => :app, :except => { :no_release => true } do
-      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb status"
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/vk_emailer.rb status"
     end
   end
 
