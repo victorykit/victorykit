@@ -69,31 +69,103 @@ set :unicorn_binary, "#{shared_path}/bundle/ruby/2.0.0/bin/unicorn"
 set :unicorn_config, "#{current_path}/config/unicorn-prod.rb"
 set :unicorn_pid,    "#{shared_path}/pids/vk_app_master.pid"
 
+
 namespace :deploy do
-  desc "Start unicorn when its not running"
+
+  namespace :unicorn do
+    desc "Start unicorn (when they're not running)"
+    task :start, :roles => :app, :except => { :no_release => true } do 
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh #{unicorn_binary} -c #{unicorn_config} -E #{rails_env} -D"
+    end
+
+    desc "Stops unicorn immediately w/o waiting for active requests to complete"
+    task :hard_stop, :roles => :app, :except => { :no_release => true } do 
+      run "#{try_sudo} kill `cat #{unicorn_pid}`"
+    end
+
+    desc "Gracefully stops unicorn"
+    task :stop, :roles => :app, :except => { :no_release => true } do
+      run "#{try_sudo} kill -s QUIT `cat #{unicorn_pid}`"
+    end
+
+    desc "Gracefully restarts unicorn"
+    task :restart, :roles => :app, :except => { :no_release => true } do
+      run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
+    end
+
+    desc "Performs a 'hard_stop' followed by a 'start'"
+    task :hard_restart, :roles => :app, :except => { :no_release => true } do
+      hard_stop
+      start
+    end
+  end
+
+  namespace :emailer do
+    desc "Start emailer (when they're not running)"
+    task :start, :roles => :app, :except => { :no_release => true } do 
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb start"
+    end
+
+    desc "Stops emailer immediately w/o waiting for active requests to complete"
+    task :hard_stop, :roles => :app, :except => { :no_release => true } do 
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb stop"
+    end
+
+    desc "Gracefully stops emailer"
+    task :stop, :roles => :app, :except => { :no_release => true } do
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb stop"
+    end
+
+    desc "Gracefully restarts emailer"
+    task :restart, :roles => :app, :except => { :no_release => true } do
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb restart"
+    end
+
+    desc "Performs a 'hard_stop' followed by a 'start'"
+    task :hard_restart, :roles => :app, :except => { :no_release => true } do
+      hard_stop
+      start
+    end
+
+    desc "Retrive emailer staus"
+    task :status, :roles => :app, :except => { :no_release => true } do
+      run "cd #{current_path} && #{current_path}/bin/vk_run.sh script/email_scheduler_daemon.rb status"
+    end
+  end
+
+
+  desc "Start services (when they're not running)"
   task :start, :roles => :app, :except => { :no_release => true } do 
-    run "cd #{current_path} && #{current_path}/bin/vk_run.sh bundle exec #{unicorn_binary} -c #{unicorn_config} -E #{rails_env} -D"
+    unicorn.start
+    emailer.start
   end
-  desc "Stops unicorn immediately w/o waiting for active requests to complete"
+
+  desc "Stops services immediately w/o waiting for active requests to complete"
   task :hard_stop, :roles => :app, :except => { :no_release => true } do 
-    run "#{try_sudo} kill `cat #{unicorn_pid}`"
+    unicorn.hard_stop
+    emailer.hard_stop
   end
-  desc "Gracefully stops unicorn"
+
+  desc "Gracefully stops services"
   task :stop, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} kill -s QUIT `cat #{unicorn_pid}`"
+    unicorn.stop
+    emailer.stop
   end
-  desc "Gracefully restarts unicorn"
+
+  desc "Gracefully restarts services"
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
-  end
-  desc "Performs a 'hard_stop' followed by a 'start'"
+    unicorn.restart
+    emailer.restart
+end
+
+  desc "Performs a 'hard_stop' followed by a 'start' for all services"
   task :hard_restart, :roles => :app, :except => { :no_release => true } do
-    hard_stop
-    start
+    unicorn.hard_stop
+    unicorn.start
+    emailer.hard_stop
+    emailer.start
   end
-  task :echo_env do
-    run "env | sort"
-  end
+
   task :echo_env do
     run "#{current_path}/bin/vk_env_run.sh env | sort"
   end

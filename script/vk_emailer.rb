@@ -1,8 +1,16 @@
 #!/usr/bin/env ruby
 
+#
+# This is a rather hackish solution inorder to
+# daemonize the email_scheduler, but it works
+# with no changes to the emailer related code. 
+# Caveat emptor...
+#
+
 require 'rubygems'
-require 'daemons'
 require 'bundler/setup'
+require 'daemons'
+
 
 cmd = ARGV[0] || 'start'
 
@@ -10,14 +18,21 @@ options = {
   :app_name   => "email_scheduler",
   :ARGV       => [cmd, '--', 'rails', 'runner', 'worker/test.rb'],
   :dir_mode   => :script,
-  :dir        => '../pids',
+  :dir        => '../pids/',
   :multiple   => false,
-  :ontop      => true,
+  :ontop      => false,
   :mode       => :exec,
-  :log        => '../log',
   :log_output => true,
   :backtrace  => false,
-  :monitor    => false
+  :monitor    => true
+
+# The log output is lost if this option is specified.
+# Not specifying the log_dir means the log files
+# are written to the pids directory. Sigh...
+#
+#  :log_dir    => '../log/',
+#
+
 }
 
 Daemons.run('bin/vk_run.sh', options)
