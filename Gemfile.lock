@@ -122,6 +122,7 @@ GEM
     css_parser (1.2.6)
       addressable
       rdoc
+    daemons (1.1.9)
     dalli (2.6.4)
     debugger (1.6.1)
       columnize (>= 0.3.1)
@@ -399,6 +400,7 @@ DEPENDENCIES
   capybara (>= 2.0.2)
   capybara-webkit
   carmen-rails
+  daemons
   dalli
   devise
   dkim
