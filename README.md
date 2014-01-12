@@ -11,9 +11,7 @@ On a Mac, you'll want to install:
 
 You may already have a version of Postgres installed, in which case [you'll need to remove it](https://gist.github.com/2471603) with:
 
-    $ mkdir /tmp/postg
-    $ sudo mv /usr/include/pg* /tmp/postg
-    $ brew update
+    $ brew unlink postgresql
     $ brew install postgresql
 
 To check out the code:
