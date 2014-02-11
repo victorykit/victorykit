@@ -3,6 +3,7 @@
 --
 
 SET statement_timeout = 0;
+SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
@@ -1729,6 +1730,13 @@ CREATE INDEX index_referral_codes_on_member_id ON referrals USING btree (member_
 --
 
 CREATE INDEX index_sent_emails_on_clicked_at ON sent_emails USING btree (clicked_at);
+
+
+--
+-- Name: index_sent_emails_on_created_at_and_type; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_sent_emails_on_created_at_and_type ON sent_emails USING btree (created_at, type);
 
 
 --
