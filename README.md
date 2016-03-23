@@ -1,3 +1,5 @@
+Archived: This project is no longer being actively maintained or (to the maintainer's knowledge) being used by anyone in production. Contact [@bguthrie](https://github.com/bguthrie) or [@woodhull](https://github.com/woodhull) if you have plans to adopt this application or would like to help maintain it. 
+
 VictoryKit is a free and open source platform to run campaigns for social change.
 
 ![build status](https://semaphoreapp.com/api/v1/projects/bfa043263901870e821c1a460cfb2438a2bdf4c6/4199/badge.png)
